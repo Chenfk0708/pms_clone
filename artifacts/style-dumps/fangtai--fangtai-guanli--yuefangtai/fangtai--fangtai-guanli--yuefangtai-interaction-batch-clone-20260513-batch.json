@@ -1,0 +1,24 @@
+{
+  "toolbar": {
+    "display": "flex",
+    "gap": "10px",
+    "padding": "6px 8px 6px 12px",
+    "border": "1px solid rgb(183, 196, 255)",
+    "borderRadius": "8px",
+    "backgroundColor": "rgb(247, 249, 255)",
+    "color": "rgb(83, 98, 124)",
+    "outline": "rgb(83, 98, 124) none 3px",
+    "outlineOffset": "0px"
+  },
+  "selectedCell": {
+    "display": "grid",
+    "gap": "4px",
+    "padding": "16px 12px 8px",
+    "border": "",
+    "borderRadius": "0px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(85, 85, 85)",
+    "outline": "rgba(70, 100, 244, 0.65) solid 3px",
+    "outlineOffset": "-3px"
+  }
+}

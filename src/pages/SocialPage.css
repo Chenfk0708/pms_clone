@@ -1,0 +1,359 @@
+.page-content:has(.social-channel-page) {
+  padding: 8px 8px 0 12px;
+  background: #f2f2f2;
+}
+
+.page-content:has(.social-channel-page) > .page-header {
+  display: none;
+}
+
+.social-channel-page {
+  color: #333;
+}
+
+.social-channel-surface,
+.social-detail-surface {
+  min-height: calc(100vh - 60px);
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.social-channel-section {
+  padding: 16px 8px 6px;
+}
+
+.social-channel-section + .social-channel-section {
+  padding-top: 12px;
+}
+
+.social-channel-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  border-bottom: 1px solid #e9ebf2;
+}
+
+.social-channel-section__title span {
+  width: 4px;
+  height: 16px;
+  border-radius: 3px;
+  background: #4d65f6;
+}
+
+.social-channel-section__title h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.social-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 244px);
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.social-channel-grid--single {
+  grid-template-columns: 244px;
+}
+
+.social-channel-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 68px;
+  min-height: 140px;
+  padding: 16px 14px;
+  border-radius: 6px;
+  background: #f1f3f8;
+  border: 1px solid transparent;
+}
+
+.social-channel-card--connected {
+  background: #f3f7ff;
+  border-color: #b9cbff;
+}
+
+.social-channel-card__meta {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.social-channel-card__meta strong {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #333;
+}
+
+.social-channel-card__meta span {
+  font-size: 12px;
+  line-height: 18px;
+  color: #999;
+}
+
+.social-channel-card__actions {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+}
+
+.social-channel-card__actions button {
+  min-width: 68px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 4px;
+  border: 1px solid #4d65f6;
+  background: transparent;
+  color: #4d65f6;
+  font-size: 12px;
+  line-height: 26px;
+}
+
+.social-channel-card--pending .social-channel-card__actions button {
+  background: #4d65f6;
+  color: #fff;
+}
+
+.social-channel-card__logo {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  justify-self: end;
+  border-radius: 8px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(22, 27, 40, 0.06);
+}
+
+.social-channel-card__logo--blue,
+.social-channel-card__logo--orange {
+  background: #130417;
+  color: #fff;
+  font-size: 46px;
+  text-shadow:
+    3px 0 #00f2ea,
+    -3px 0 #ff0050;
+}
+
+.social-channel-card__logo--red {
+  background: #ff1414;
+  color: #fff;
+  font-size: 16px;
+}
+
+.social-channel-card__logo--green {
+  background: #fff;
+  color: #5f646b;
+  border: 1px solid #e5e8ef;
+  font-size: 14px;
+}
+
+.social-detail-surface {
+  padding: 14px 16px;
+}
+
+.social-detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: #5f6b7a;
+}
+
+.social-detail-breadcrumb strong {
+  color: #222;
+  font-weight: 500;
+}
+
+.social-detail-card {
+  background: #fff;
+  border: 1px solid #eef0f5;
+  border-radius: 6px;
+  min-height: 500px;
+}
+
+.social-detail-card__head {
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.social-detail-card__head h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.social-detail-card__head p {
+  margin: 0;
+  font-size: 13px;
+  color: #757f91;
+}
+
+.social-detail-tabs {
+  display: flex;
+  height: 44px;
+  padding: 0 20px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.social-detail-tabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  padding: 0 18px;
+  color: #4b5565;
+  font-size: 14px;
+}
+
+.social-detail-tabs button.is-active {
+  color: #4d65f6;
+  font-weight: 500;
+}
+
+.social-detail-tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 2px;
+  background: #4d65f6;
+}
+
+.social-detail-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+}
+
+.social-detail-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+}
+
+.social-detail-toolbar select,
+.social-detail-toolbar input {
+  height: 32px;
+  min-width: 160px;
+  border: 1px solid #d8dde8;
+  border-radius: 4px;
+  background: #fff;
+  padding: 0 10px;
+}
+
+.social-detail-toolbar button {
+  height: 32px;
+  border: 1px solid #d8dde8;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+}
+
+.social-detail-toolbar__primary {
+  margin-right: auto;
+  border-color: #4d65f6 !important;
+  background: #4d65f6 !important;
+  color: #fff !important;
+}
+
+.social-detail-table-wrap {
+  padding: 0 20px 12px;
+  overflow-x: auto;
+}
+
+.social-detail-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+  color: #333;
+}
+
+.social-detail-table th,
+.social-detail-table td {
+  border-bottom: 1px solid #edf0f6;
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.social-detail-table th {
+  background: #f7f8fb;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.social-detail-table td span {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.social-detail-status {
+  color: #2ca05a;
+}
+
+.social-detail-status--reviewing {
+  color: #d98300;
+}
+
+.social-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.social-detail-actions button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #4d65f6;
+  font-size: 13px;
+}
+
+.social-detail-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px 18px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.social-detail-pagination button {
+  min-width: 28px;
+  height: 28px;
+  border: 1px solid #d8dde8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.social-detail-pagination button.is-active {
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
+@media (max-width: 900px) {
+  .social-channel-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .social-channel-grid--single {
+    grid-template-columns: minmax(220px, 1fr);
+  }
+}

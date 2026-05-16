@@ -1,0 +1,125 @@
+.page-content:has(.wechat-service-page) {
+  padding: 8px;
+  background: #f5f7fb;
+}
+
+.page-content:has(.wechat-service-page) > .page-header {
+  display: none;
+}
+
+.wechat-service-page {
+  min-height: calc(100vh - 74px);
+  color: #1f2633;
+}
+
+.wechat-service-panel {
+  min-height: 100%;
+  padding: 8px 8px 32px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.wechat-service-hero {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 106px;
+  padding: 15px 32px 16px 24px;
+  border-bottom: 1px solid #e5e8ef;
+}
+
+.wechat-service-hero__logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.wechat-service-hero__copy h2,
+.wechat-service-detail h2 {
+  margin: 0;
+  color: #1f2633;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+.wechat-service-hero__copy p {
+  margin: 4px 0 0;
+  color: #1f2633;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.wechat-service-hero__action {
+  position: relative;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.wechat-service-hero__action button {
+  min-width: 88px;
+  height: 29px;
+  border: 0;
+  border-radius: 4px;
+  background: #5166f4;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.wechat-service-hero__action span {
+  position: absolute;
+  right: -31px;
+  top: -10px;
+  min-width: 62px;
+  height: 21px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ff8d2c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 21px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.wechat-service-detail {
+  padding: 25px 24px 0;
+}
+
+.wechat-service-detail h2 {
+  margin-bottom: 18px;
+  font-size: 16px;
+}
+
+.wechat-service-visual {
+  display: grid;
+  gap: 20px;
+}
+
+.wechat-service-visual img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1136 / 588;
+  object-fit: cover;
+  background: #eef5ff;
+}
+
+@media (max-width: 900px) {
+  .wechat-service-hero {
+    grid-template-columns: 48px 1fr;
+    padding-right: 20px;
+  }
+
+  .wechat-service-hero__action {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .wechat-service-hero__action span {
+    right: auto;
+    left: 58px;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514103534",
+  "url": "http://127.0.0.1:43276/psb/list",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43276/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43276/assets/index-DubyYf04.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43276/assets/index-B2pYuwNH.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43276/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

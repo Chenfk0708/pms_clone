@@ -1,0 +1,98 @@
+[
+  {
+    "selector": ".status-log-query",
+    "box": {
+      "x": 169,
+      "y": 165,
+      "width": 1258,
+      "height": 101
+    },
+    "display": "flex",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(36, 50, 74)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "fontSize": "16px",
+    "padding": "8px 10px"
+  },
+  {
+    "selector": ".status-log-query__advanced",
+    "box": {
+      "x": 179,
+      "y": 221,
+      "width": 1238,
+      "height": 37
+    },
+    "display": "flex",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgb(36, 50, 74)",
+    "border": "",
+    "borderRadius": "0px",
+    "fontSize": "16px",
+    "padding": "6px 0px 0px"
+  },
+  {
+    "selector": ".status-log-query select",
+    "box": {
+      "x": 571,
+      "y": 174,
+      "width": 220,
+      "height": 30
+    },
+    "display": "block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(77, 91, 115)",
+    "border": "1px solid rgb(217, 221, 232)",
+    "borderRadius": "4px",
+    "fontSize": "13px",
+    "padding": "0px 34px 0px 12px"
+  },
+  {
+    "selector": ".status-log-query input",
+    "box": {
+      "x": 271,
+      "y": 174,
+      "width": 206,
+      "height": 30
+    },
+    "display": "block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(77, 91, 115)",
+    "border": "1px solid rgb(217, 221, 232)",
+    "borderRadius": "4px",
+    "fontSize": "13px",
+    "padding": "0px 12px"
+  },
+  {
+    "selector": ".status-log-table__head",
+    "box": {
+      "x": 169,
+      "y": 266,
+      "width": 1258,
+      "height": 36
+    },
+    "display": "grid",
+    "backgroundColor": "rgb(241, 245, 251)",
+    "color": "rgb(31, 42, 68)",
+    "border": "0px none rgb(31, 42, 68)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "selector": ".status-log-empty",
+    "box": {
+      "x": 169,
+      "y": 302,
+      "width": 1258,
+      "height": 156
+    },
+    "display": "grid",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgb(182, 191, 206)",
+    "border": "",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  }
+]

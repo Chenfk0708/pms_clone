@@ -1,0 +1,33 @@
+{
+  "capturedAt": "20260513T130331",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4198/order/house-longRental-order/list",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4198/assets/index-C2xkzw7S.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4198/assets/index-BiC8aU67.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4198/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

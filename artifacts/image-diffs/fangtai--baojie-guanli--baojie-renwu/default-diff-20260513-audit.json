@@ -1,0 +1,23 @@
+{
+  "kind": "side-by-side-visual-diff",
+  "targetScreenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renwu\\default-target-20260513-112806.png",
+  "cloneScreenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renwu\\default-clone-20260513-audit.png",
+  "diffScreenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--baojie-guanli--baojie-renwu\\default-diff-20260513-audit.png",
+  "targetCoverage": [
+    "default viewport",
+    "filter bar",
+    "disabled batch notify",
+    "unpaid smart-cleaning subscription mask"
+  ],
+  "cloneAssertions": {
+    "hasSubscriptionMask": true,
+    "hasCreateTaskButton": true,
+    "hasFakeTaskRow": false,
+    "batchNotifyDisabled": true
+  },
+  "acceptedDifferences": [
+    "The local global AppShell still differs from the production AntD header/sidebar assets; this is a shared shell difference and is not expanded in this page task.",
+    "The target account is in the unpaid smart-cleaning state, so no real clean-task rows are available for evidence; the clone does not fabricate task-list rows.",
+    "The local subscription purchase flow is represented as a modal, while the target opens the subscription center; price and agreement cues remain visible."
+  ]
+}

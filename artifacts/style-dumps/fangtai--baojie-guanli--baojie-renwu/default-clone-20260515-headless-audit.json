@@ -1,0 +1,160 @@
+{
+  "mode": "clone",
+  "url": "http://127.0.0.1:4173/cleanManage/cleanTask",
+  "currentUrl": "http://127.0.0.1:4173/cleanManage/cleanTask",
+  "styleDump": {
+    ".clean-task-page": {
+      "rect": {
+        "x": 172,
+        "y": 68,
+        "width": 1252,
+        "height": 886
+      },
+      "display": "grid",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "8px",
+      "fontSize": "16px"
+    },
+    ".clean-task-panel": {
+      "rect": {
+        "x": 172,
+        "y": 68,
+        "width": 1252,
+        "height": 118
+      },
+      "display": "grid",
+      "position": "relative",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "1px solid rgb(229, 233, 241)",
+      "borderRadius": "8px",
+      "padding": "8px",
+      "gap": "8px",
+      "fontSize": "16px"
+    },
+    ".clean-store-tabs": {
+      "rect": {
+        "x": 181,
+        "y": 77,
+        "width": 349.359375,
+        "height": 28
+      },
+      "display": "flex",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "8px",
+      "fontSize": "16px"
+    },
+    ".clean-date": {
+      "rect": {
+        "x": 786.609375,
+        "y": 77,
+        "width": 314,
+        "height": 28
+      },
+      "display": "flex",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "6px",
+      "fontSize": "16px"
+    },
+    ".clean-filter-wrap": {
+      "rect": {
+        "x": 181,
+        "y": 131,
+        "width": 912,
+        "height": 28
+      },
+      "display": "flex",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "8px",
+      "fontSize": "16px"
+    },
+    ".clean-actions": {
+      "rect": {
+        "x": 1215,
+        "y": 113,
+        "width": 200,
+        "height": 64
+      },
+      "display": "grid",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "8px",
+      "fontSize": "16px"
+    },
+    ".clean-list-card": {
+      "rect": {
+        "x": 172,
+        "y": 194,
+        "width": 1252,
+        "height": 760
+      },
+      "display": "block",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "1px solid rgb(229, 233, 241)",
+      "borderRadius": "8px",
+      "padding": "0px",
+      "gap": "normal",
+      "fontSize": "16px"
+    },
+    ".clean-unpaid": {
+      "rect": {
+        "x": 173,
+        "y": 195,
+        "width": 1250,
+        "height": 758
+      },
+      "display": "grid",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "background": "linear-gradient(90deg, rgba(55, 82, 238, 0.96), rgba(95, 128, 255, 0.82)) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/KEEPCLEANTASKUNPAIDBG.png\") repeat scroll 50% 50% / cover padding-box border-box",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px 24px 38px",
+      "gap": "normal",
+      "fontSize": "16px"
+    },
+    ".clean-unpaid__copy": {
+      "rect": {
+        "x": 197,
+        "y": 797,
+        "width": 1202,
+        "height": 118
+      },
+      "display": "grid",
+      "position": "static",
+      "color": "rgb(255, 255, 255)",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(255, 255, 255)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "gap": "8px",
+      "fontSize": "16px"
+    }
+  }
+}

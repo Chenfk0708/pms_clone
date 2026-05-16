@@ -1,0 +1,30 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:4186/mallManagement/orderManagement",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4186/mallManagement/orderManagement",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4186/assets/index-DRKklE3P.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4186/assets/index-Bk8WHhls.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4186/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

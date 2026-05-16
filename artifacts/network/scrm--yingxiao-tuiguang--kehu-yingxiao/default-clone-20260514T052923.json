@@ -1,0 +1,61 @@
+{
+  "capturedAt": "20260514T052923",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/scrm/marketing/customer",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BYuTefpV.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DVE6Fh9-.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/scrm-customer-marketing/customer-marketing-hero.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/scrm-customer-marketing/scrm-advisor-qrcode.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

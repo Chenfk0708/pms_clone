@@ -1,0 +1,281 @@
+.app-shell:has(.presale-sales-report-page) .page-content {
+  padding: 8px 8px 0;
+  background: #f0f2f5;
+}
+
+.app-shell:has(.presale-sales-report-page) .page-header {
+  display: none;
+}
+
+.presale-sales-report-page {
+  min-height: 845px;
+  padding: 0 8px 64px;
+  overflow: auto;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.presale-sales-section {
+  background: #fff;
+}
+
+.presale-sales-section__header,
+.presale-sales-chart-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 45px;
+}
+
+.presale-sales-section__header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.presale-sales-section__header h1,
+.presale-sales-chart-header h2 {
+  margin: 0;
+  padding-left: 10px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.presale-sales-section__header h1::before,
+.presale-sales-chart-header h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background: #315cff;
+}
+
+.presale-sales-link {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #315cff;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+.presale-sales-link:hover {
+  color: #1f47db;
+}
+
+.presale-sales-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 0 20px;
+}
+
+.presale-sales-metric {
+  min-height: 126px;
+  border-radius: 8px;
+  background: #f7f7f7;
+  padding: 16px 12px 12px;
+}
+
+.presale-sales-metric > span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgb(0 0 0 / 85%);
+  line-height: 20px;
+}
+
+.presale-sales-metric strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #111;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.presale-sales-metric dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 8px;
+  margin: 0;
+}
+
+.presale-sales-metric div {
+  min-width: 0;
+}
+
+.presale-sales-metric dt {
+  margin: 0 0 4px;
+  color: rgb(0 0 0 / 45%);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.presale-sales-metric dd {
+  margin: 0;
+  color: rgb(0 0 0 / 65%);
+  font-size: 13px;
+}
+
+.presale-sales-analysis-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 60%) minmax(360px, 1fr);
+  min-height: 506px;
+}
+
+.presale-sales-trend {
+  border-right: 1px solid #e5e7ef;
+  padding-right: 16px;
+}
+
+.presale-sales-source {
+  padding-left: 16px;
+}
+
+.presale-sales-chart-header {
+  align-items: flex-end;
+  flex-wrap: wrap;
+  min-height: 58px;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.presale-sales-chart-header h2 {
+  width: 100%;
+  font-size: 16px;
+}
+
+.presale-sales-tabs {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  border: 1px solid #315cff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.presale-sales-tabs button {
+  min-width: 72px;
+  height: 30px;
+  border: 0;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.presale-sales-tabs button.is-active {
+  color: #315cff;
+}
+
+.presale-sales-tabs button + button {
+  border-left: 1px solid #315cff;
+}
+
+.presale-sales-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 30px;
+  color: rgb(0 0 0 / 65%);
+  font-size: 12px;
+}
+
+.presale-sales-legend span {
+  position: relative;
+  padding-left: 16px;
+  white-space: nowrap;
+}
+
+.presale-sales-legend span::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 12px;
+  height: 5px;
+  border-radius: 999px;
+  background: #2486ff;
+}
+
+.presale-sales-legend .is-violet::before {
+  background: #8d7cf7;
+}
+
+.presale-sales-legend .is-green::before {
+  background: #2fc388;
+}
+
+.presale-sales-legend .is-pink::before {
+  background: #eb4f9d;
+}
+
+.presale-sales-legend .is-purple::before {
+  background: #9b51e0;
+}
+
+.presale-sales-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 405px;
+  color: rgb(0 0 0 / 85%);
+}
+
+.presale-sales-empty span {
+  position: relative;
+  display: block;
+  width: 156px;
+  height: 120px;
+  margin-bottom: 8px;
+}
+
+.presale-sales-empty span::before {
+  content: '';
+  position: absolute;
+  left: 48px;
+  top: 18px;
+  width: 64px;
+  height: 80px;
+  border-radius: 6px 6px 42px 42px;
+  background: #d9dde4;
+  transform: rotate(21deg);
+  opacity: 0.9;
+}
+
+.presale-sales-empty span::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  bottom: 4px;
+  width: 128px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(229 232 238 / 0%) 0%, #edf0f5 100%);
+}
+
+.presale-sales-empty strong {
+  font-weight: 400;
+}
+
+@media (max-width: 1320px) {
+  .presale-sales-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .presale-sales-analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .presale-sales-trend {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .presale-sales-source {
+    padding-left: 0;
+  }
+}

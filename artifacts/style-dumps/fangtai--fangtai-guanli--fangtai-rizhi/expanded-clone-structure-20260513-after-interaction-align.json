@@ -1,0 +1,302 @@
+{
+  "url": "http://127.0.0.1:4183/houseManage/logs/status",
+  "bodySnippet": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表PMS Clone Prototype房态日志采集基线：Chrome 1440x900 / 账号已授权登录日志关键词调整方式手动调整系统调整操作渠道请选择自来客路客云聚合美团民宿美团酒店携程途家途家直连爱彼迎飞猪淘酒店飞猪民宿直连飞猪酒店直连房态日期-操作日期-操作人重 置查 询收起⌃房型房间房态调整日期操作内容调整方式同步渠道渠道库存变更操作人操作时间暂无数据全部会话收起咨携程民宿-[M566…咨询中客: 您这房间跟价位完全匹配…54分4秒前咨携程民宿-[_WEC…咨询中总裁套间（桑拿浴缸露台电竞麻将）54分4秒前咨CqBv9667咨询中房: 不客气哈~54分4秒前",
+  "collapseText": [
+    "收起⌃",
+    "收起"
+  ],
+  "visibleFieldTexts": [
+    "日志关键词",
+    "调整方式",
+    "操作渠道",
+    "房态日期",
+    "操作日期",
+    "操作人"
+  ],
+  "labels": [
+    {
+      "text": "日志关键词",
+      "aria": null,
+      "visible": true,
+      "rect": {
+        "x": 176,
+        "y": 164,
+        "width": 299,
+        "height": 32
+      }
+    },
+    {
+      "text": "调整方式",
+      "aria": null,
+      "visible": true,
+      "rect": {
+        "x": 491,
+        "y": 164,
+        "width": 299,
+        "height": 32
+      }
+    },
+    {
+      "text": "操作渠道",
+      "aria": null,
+      "visible": true,
+      "rect": {
+        "x": 806,
+        "y": 164,
+        "width": 299,
+        "height": 32
+      }
+    },
+    {
+      "text": "操作人",
+      "aria": null,
+      "visible": true,
+      "rect": {
+        "x": 491,
+        "y": 204,
+        "width": 299,
+        "height": 32
+      }
+    }
+  ],
+  "groups": [
+    {
+      "text": "房态日期",
+      "aria": "房态日期",
+      "visible": true,
+      "rect": {
+        "x": 1121,
+        "y": 164,
+        "width": 299,
+        "height": 32
+      }
+    },
+    {
+      "text": "操作日期",
+      "aria": "操作日期",
+      "visible": true,
+      "rect": {
+        "x": 176,
+        "y": 204,
+        "width": 299,
+        "height": 32
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "aria": "日志关键词",
+      "placeholder": "搜索房型名称/房间号/渠道房源名称",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 272,
+        "y": 166,
+        "width": 203,
+        "height": 28
+      }
+    },
+    {
+      "tag": "select",
+      "aria": "调整方式",
+      "placeholder": "",
+      "value": "手动调整",
+      "visible": true,
+      "rect": {
+        "x": 587,
+        "y": 166,
+        "width": 203,
+        "height": 28
+      }
+    },
+    {
+      "tag": "select",
+      "aria": "操作渠道",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 902,
+        "y": 166,
+        "width": 203,
+        "height": 28
+      }
+    },
+    {
+      "tag": "input",
+      "aria": "房态日期开始",
+      "placeholder": "请选择",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 1218,
+        "y": 167,
+        "width": 73,
+        "height": 26
+      }
+    },
+    {
+      "tag": "input",
+      "aria": "房态日期结束",
+      "placeholder": "请选择",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 1307,
+        "y": 167,
+        "width": 73,
+        "height": 26
+      }
+    },
+    {
+      "tag": "input",
+      "aria": "操作日期开始",
+      "placeholder": "请选择",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 273,
+        "y": 207,
+        "width": 73,
+        "height": 26
+      }
+    },
+    {
+      "tag": "input",
+      "aria": "操作日期结束",
+      "placeholder": "请选择",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 362,
+        "y": 207,
+        "width": 73,
+        "height": 26
+      }
+    },
+    {
+      "tag": "input",
+      "aria": "",
+      "placeholder": "搜索操作人名称/手机号",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 587,
+        "y": 206,
+        "width": 203,
+        "height": 28
+      }
+    }
+  ],
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "className": "",
+      "visible": true,
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      }
+    },
+    {
+      "text": "消息",
+      "className": "",
+      "visible": true,
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "用户",
+      "className": "",
+      "visible": true,
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "重 置",
+      "className": "",
+      "visible": true,
+      "rect": {
+        "x": 1218,
+        "y": 204,
+        "width": 64,
+        "height": 32
+      }
+    },
+    {
+      "text": "查 询",
+      "className": "is-primary",
+      "visible": true,
+      "rect": {
+        "x": 1290,
+        "y": 204,
+        "width": 64,
+        "height": 32
+      }
+    },
+    {
+      "text": "收起⌃",
+      "className": "is-link",
+      "visible": true,
+      "rect": {
+        "x": 1362,
+        "y": 204,
+        "width": 58,
+        "height": 32
+      }
+    },
+    {
+      "text": "收起",
+      "className": "",
+      "visible": true,
+      "rect": {
+        "x": 1363,
+        "y": 448,
+        "width": 48,
+        "height": 30
+      }
+    }
+  ],
+  "tableHeaders": [
+    "房型",
+    "房间",
+    "房态调整日期",
+    "操作内容",
+    "调整方式",
+    "同步渠道",
+    "渠道库存变更",
+    "操作人",
+    "操作时间"
+  ],
+  "rects": {
+    "page": {
+      "x": 168,
+      "y": 164,
+      "width": 1260,
+      "height": 639
+    },
+    "form": {
+      "x": 168,
+      "y": 164,
+      "width": 1260,
+      "height": 72
+    },
+    "table": {
+      "x": 168,
+      "y": 244,
+      "width": 1260,
+      "height": 189
+    }
+  }
+}

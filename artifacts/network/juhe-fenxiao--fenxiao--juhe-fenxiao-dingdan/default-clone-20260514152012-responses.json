@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514152012",
+  "url": "http://127.0.0.1:4332/channels/distribution/distributionOrderSettlement",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4332/channels/distribution/distributionOrderSettlement",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4332/assets/index-DxckYmKF.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4332/assets/index-DMeYwbKZ.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4332/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

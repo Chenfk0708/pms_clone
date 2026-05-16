@@ -1,0 +1,2653 @@
+{
+  "title": "pms_clone",
+  "location": "http://127.0.0.1:4173/houseManage/otherPrice",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n\nPMS Clone Prototype\n\n其他价格\n采集基线：Chrome 1440x900 / 账号已授权登录\n杂费设置\n活动设置\n渠道\n⌄\n房型\n⌄\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n总裁套间（桑拿浴缸露台电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n天落大床电竞套间\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n观影大床房\n途家\n设置\n设置\n设置\n设置\n设置\n美团民宿\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n全部会话\n收起\n咨\n携程民宿-[M566…\n咨询中\n\n客: 您这房间跟价位完全匹配…\n\n54分4秒前\n咨\n携程民宿-[_WEC…\n咨询中\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n54分4秒前\n咨\nCqBv9667\n咨询中\n\n房: 不客气哈~\n\n54分4秒前",
+  "checks": {
+    "roomGroupCount": 4,
+    "tabCount": 2,
+    "feeSettingButtonCount": 0,
+    "hasActivityTable": false
+  },
+  "samples": [
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "text": "应用订阅",
+      "box": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "height": "66px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "text": "消息",
+      "box": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "height": "66px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "text": "用户",
+      "box": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "height": "66px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-active",
+      "role": "tab",
+      "text": "杂费设置",
+      "box": {
+        "x": 177,
+        "y": 77,
+        "width": 82,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(70, 100, 244)",
+        "border": "1px solid rgb(70, 100, 244)",
+        "borderRadius": "4px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "tab",
+      "text": "活动设置",
+      "box": {
+        "x": 267,
+        "y": 77,
+        "width": 82,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(86, 102, 128)",
+        "background": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "4px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "text": "渠道⌄",
+      "box": {
+        "x": 177,
+        "y": 119,
+        "width": 146,
+        "height": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(138, 151, 173)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(216, 222, 233)",
+        "borderRadius": "4px",
+        "fontSize": "16px",
+        "height": "28px",
+        "padding": "0px 10px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "text": "房型⌄",
+      "box": {
+        "x": 331,
+        "y": 119,
+        "width": 146,
+        "height": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(138, 151, 173)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(216, 222, 233)",
+        "borderRadius": "4px",
+        "fontSize": "16px",
+        "height": "28px",
+        "padding": "0px 10px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-table",
+      "role": "",
+      "text": "押金可加客人数加人费(每人)餐食数量佣金率(%)顶层套房（浴缸巨幕电竞麻将）途家设置设置设置设置设置途家设置设置设置设置设置小猪设置设置设置设置设置小猪设置设置设置设置设置携程设置设置设置设置12美团酒店设置设置设置设置15飞猪淘酒店设置设",
+      "box": {
+        "x": 177,
+        "y": 153,
+        "width": 1242,
+        "height": 1840
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "1px solid rgb(227, 232, 243)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "height": "1840px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-room",
+      "role": "",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "box": {
+        "x": 178,
+        "y": 204,
+        "width": 1240,
+        "height": 35
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 91, 115)",
+        "background": "rgb(243, 246, 251)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "13px",
+        "height": "34.5px",
+        "padding": "7px 12px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "途家设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 239,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 247,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 247,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 247,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 247,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 247,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "途家设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 289,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 297,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 297,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 297,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 297,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 297,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "小猪设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 339,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 347,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 347,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 347,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 347,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 347,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "小猪设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 389,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 397,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 397,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 397,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 397,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 397,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "携程设置设置设置设置12",
+      "box": {
+        "x": 178,
+        "y": 439,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 447,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 447,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 447,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 447,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "美团酒店设置设置设置设置15",
+      "box": {
+        "x": 178,
+        "y": 489,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 497,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 497,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 497,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 497,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "飞猪淘酒店设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 539,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 547,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 547,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 547,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 547,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 547,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "路客云聚合设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 589,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 597,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 597,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 597,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 597,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 597,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "路客云聚合设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 639,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 647,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 647,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 647,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 647,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 647,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "木鸟设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 689,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 697,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 697,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 697,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 697,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 697,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-room",
+      "role": "",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "box": {
+        "x": 178,
+        "y": 739,
+        "width": 1240,
+        "height": 35
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 91, 115)",
+        "background": "rgb(243, 246, 251)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "13px",
+        "height": "34.5px",
+        "padding": "7px 12px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "途家设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 773,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 782,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 782,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 782,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 782,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 782,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "小猪设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 823,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 832,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 832,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 832,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 832,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 832,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "携程设置设置设置设置12",
+      "box": {
+        "x": 178,
+        "y": 873,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 882,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 882,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 882,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 882,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "美团酒店设置设置设置设置15",
+      "box": {
+        "x": 178,
+        "y": 923,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 932,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 932,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 932,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 932,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "飞猪淘酒店设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 973,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 982,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 982,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 982,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 982,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 982,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "路客云聚合设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 1023,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 1032,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 1032,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 1032,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 1032,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 1032,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "路客云聚合设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 1073,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 1082,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 1082,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 1082,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 1082,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 1082,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "木鸟设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 1123,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 1132,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 1132,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 1132,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 1132,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 1194,
+        "y": 1132,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-room",
+      "role": "",
+      "text": "天落大床电竞套间",
+      "box": {
+        "x": 178,
+        "y": 1173,
+        "width": 1240,
+        "height": 35
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 91, 115)",
+        "background": "rgb(243, 246, 251)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "13px",
+        "height": "34.5px",
+        "padding": "7px 12px"
+      }
+    },
+    {
+      "tag": "DIV",
+      "className": "other-price-row",
+      "role": "",
+      "text": "小猪设置设置设置设置设置",
+      "box": {
+        "x": 178,
+        "y": 1208,
+        "width": 1240,
+        "height": 50
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "50px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 394,
+        "y": 1216,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 594,
+        "y": 1216,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 794,
+        "y": 1216,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "other-price-link",
+      "role": "",
+      "text": "设置",
+      "box": {
+        "x": 994,
+        "y": 1216,
+        "width": 48,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(49, 82, 183)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(49, 82, 183)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "height": "32px",
+        "padding": "4px 8px"
+      }
+    }
+  ]
+}

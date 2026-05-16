@@ -1,0 +1,460 @@
+{
+  "side": "clone",
+  "state": "sync-auth",
+  "stamp": "20260514-1648",
+  "finalUrl": "http://127.0.0.1:43275/customer/tag",
+  "facts": {
+    "url": "http://127.0.0.1:43275/customer/tag",
+    "title": "pms_clone",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "dpr": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n客户标签\n标签组:\n查 询\n重 置\n同步企微标签\n新建标签组\n标签组\n标签名称\n创建人\n创建时间\n操作\n\n暂无数据\n\n!\n\n请先前往授权企微再操作\n\n我知道了\n前往授权\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "dialog": [
+      {
+        "tag": "section",
+        "className": "customer-tag-auth-modal",
+        "role": "dialog",
+        "ariaLabel": "企微授权提示",
+        "text": "! 请先前往授权企微再操作 我知道了 前往授权",
+        "rect": {
+          "x": 512,
+          "y": 100,
+          "width": 416,
+          "height": 130
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "416px",
+          "height": "130px",
+          "padding": "32px 48px 24px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "7px",
+          "boxShadow": "rgba(15, 23, 42, 0.22) 0px 12px 32px 0px",
+          "overflow": "visible"
+        }
+      }
+    ],
+    "buttons": [
+      "应用订阅",
+      "消息",
+      "用户",
+      "查 询",
+      "重 置",
+      "同步企微标签",
+      "新建标签组",
+      "我知道了",
+      "前往授权",
+      "↻",
+      "收起",
+      "收起"
+    ],
+    "controls": [
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 89,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "89px",
+          "height": "66px",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "消息",
+        "rect": {
+          "x": 1301,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "57.5px",
+          "height": "66px",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "用户",
+        "rect": {
+          "x": 1367,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "57.5px",
+          "height": "66px",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": "标签组",
+        "text": "",
+        "rect": {
+          "x": 228,
+          "y": 72,
+          "width": 234,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "234px",
+          "height": "28px",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "text": "查 询",
+        "rect": {
+          "x": 1296,
+          "y": 72,
+          "width": 64,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "64.1562px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "重 置",
+        "rect": {
+          "x": 1368,
+          "y": 72,
+          "width": 64,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "64.1562px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "text": "同步企微标签",
+        "rect": {
+          "x": 1206,
+          "y": 114,
+          "width": 116,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "116px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "text": "新建标签组",
+        "rect": {
+          "x": 1330,
+          "y": 114,
+          "width": 102,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "102px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "我知道了",
+        "rect": {
+          "x": 696,
+          "y": 178,
+          "width": 88,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "88px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "text": "前往授权",
+        "rect": {
+          "x": 792,
+          "y": 178,
+          "width": 88,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "88px",
+          "height": "28px",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "刷新会话",
+        "text": "↻",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "22px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "收起会话",
+        "text": "收起",
+        "rect": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "22px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock__collapse",
+        "role": null,
+        "ariaLabel": null,
+        "text": "收起",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "width": "80px",
+          "height": "32px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      }
+    ]
+  },
+  "artifacts": {
+    "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\sync-auth-clone-20260514-1648.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--kehu-guanli--kehu-biaoqian\\sync-auth-clone-20260514-1648.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--kehu-guanli--kehu-biaoqian\\sync-auth-clone-20260514-1648.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--kehu-guanli--kehu-biaoqian\\sync-auth-clone-20260514-1648.json"
+  }
+}

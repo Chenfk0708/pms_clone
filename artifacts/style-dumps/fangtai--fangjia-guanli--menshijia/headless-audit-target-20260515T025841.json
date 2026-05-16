@@ -1,0 +1,388 @@
+{
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "url": "https://minsubao.localhome.cn/houseManage/retailPrice",
+  "isLoginBlocked": false,
+  "textSample": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置\n全部会话\n携程民宿-【M335275070】\n咨询中\n途家 \n顶层套房（浴缸巨幕电竞麻将）\n房:加了\n携程民宿-【M566739056】\n咨询中\n途家 \n总裁套间（桑拿浴缸露台电竞麻将）\n房:已办理退房\n- 我是有底线的路客云 -\n收 起",
+  "facts": {
+    "visibleMarkers": {
+      "hasRetailPrice": true,
+      "hasSetupRequired": true,
+      "hasRetailSetting": true,
+      "hasPricePlan": true,
+      "hasBatchPrice": true,
+      "hasHourRoomSetting": true
+    },
+    "buttons": [
+      {
+        "text": "",
+        "tag": "button",
+        "className": "ant-modal-close",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.45)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.45)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "发 送",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary sendButton___2H8-Q",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "钟点房设置",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary",
+        "rect": {
+          "x": 1014,
+          "y": 70,
+          "width": 102,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "门市价设置",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary",
+        "rect": {
+          "x": 1126,
+          "y": 70,
+          "width": 102,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "价格规划",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary",
+        "rect": {
+          "x": 1238,
+          "y": 70,
+          "width": 88,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "批量改价",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary",
+        "rect": {
+          "x": 1336,
+          "y": 70,
+          "width": 88,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "",
+        "tag": "button",
+        "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+        "rect": {
+          "x": 676,
+          "y": 107,
+          "width": 26,
+          "height": 26
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.45)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(255, 255, 255)",
+        "borderRadius": "0px 4px 4px 0px"
+      },
+      {
+        "text": "去设置",
+        "tag": "button",
+        "className": "ant-btn ant-btn-default",
+        "rect": {
+          "x": 761,
+          "y": 535,
+          "width": 74,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "下一步",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary ant-btn-sm",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "下一步",
+        "tag": "button",
+        "className": "ant-btn ant-btn-default ant-btn-sm guideStepNext___jPySR nextButton___2Ra9v",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(255, 255, 255)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "确 定",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary footerButton___3DUd4",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "",
+        "tag": "button",
+        "className": "ant-modal-close",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.45)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.45)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "提 交",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      },
+      {
+        "text": "登 录",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(125, 143, 247)",
+        "border": "1px solid rgb(125, 143, 247)",
+        "borderRadius": "8px"
+      },
+      {
+        "text": "收 起",
+        "tag": "button",
+        "className": "ant-btn ant-btn-primary button___2agYD",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "font": "",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 102, 246)",
+        "border": "1px solid rgb(77, 102, 246)",
+        "borderRadius": "4px"
+      }
+    ],
+    "panels": [
+      {
+        "text": "路客云6TS5的店铺首页房态房价订单售卖/产品OTA社媒私域聚合分销SCRMAI全域雷达智慧酒店报表设置应用订阅限时试用您的浏览器不支持audio标签您的浏览器不支持audio标签您的浏览器不支持audio标签邀请成员加入店铺扫描二维码 下",
+        "tag": "section",
+        "className": "ant-layout pageContainer___2x_Lm",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 905
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgb(242, 242, 242)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志版本号：v4.10.7门市价钟点房设置门市价设置价格规划批量改价全部门店天落会宿公寓(前海壹",
+        "tag": "section",
+        "className": "ant-layout ant-layout-has-sider",
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 1440,
+          "height": 853
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgb(240, 242, 245)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "门市价钟点房设置门市价设置价格规划批量改价全部门店天落会宿公寓(前海壹方城宝安中心店) 房型 房型标签请先完成门市价设置去设置此处可设置渠道实际卖价和划线价的关系，设置好了之后将可以在路客云同时查看划线价和实际卖价。1/5下一步竞争圈设置点",
+        "tag": "main",
+        "className": "ant-layout-content content___2QN8t",
+        "rect": {
+          "x": 164,
+          "y": 60,
+          "width": 1268,
+          "height": 845
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "8px 8px 0px 0px"
+      },
+      {
+        "text": "价格规划",
+        "tag": "div",
+        "className": "pricePlanButton___2UPee",
+        "rect": {
+          "x": 1238,
+          "y": 70,
+          "width": 88,
+          "height": 28
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "请先完成门市价设置去设置",
+        "tag": "section",
+        "className": "DefaultPage___yy0lY",
+        "rect": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 600
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "此处可设置渠道实际卖价和划线价的关系，设置好了之后将可以在路客云同时查看划线价和实际卖价。1/5下一步",
+        "tag": "div",
+        "className": "priceGuideModal___c7Ot0",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px"
+      },
+      {
+        "text": "",
+        "tag": "main",
+        "className": "main___3koZ3 avatar___3sqEo",
+        "rect": {
+          "x": 1113,
+          "y": 491,
+          "width": 36,
+          "height": 36
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "100%"
+      },
+      {
+        "text": "",
+        "tag": "main",
+        "className": "main___3koZ3 avatar___3sqEo",
+        "rect": {
+          "x": 1113,
+          "y": 590,
+          "width": 36,
+          "height": 36
+        },
+        "font": "",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "100%"
+      }
+    ]
+  }
+}

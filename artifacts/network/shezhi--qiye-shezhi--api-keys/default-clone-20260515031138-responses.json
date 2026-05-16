@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260515031138",
+  "url": "http://127.0.0.1:4173/CompanySetting/Apikeys",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/CompanySetting/Apikeys",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BE0D5la7.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-Bd2QB1TC.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

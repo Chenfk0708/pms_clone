@@ -1,0 +1,36 @@
+{
+  "side": "clone",
+  "title": "pms_clone",
+  "url": "http://127.0.0.1:4173/houseManage/houseCale",
+  "isLoginBlocked": false,
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/houseManage/houseCale",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BgW-Ps7V.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-5GT9W7PU.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

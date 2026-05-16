@@ -1,0 +1,235 @@
+{
+  "labels": [
+    {
+      "text": "日志关键词",
+      "rect": {
+        "x": 180,
+        "y": 68,
+        "width": 83,
+        "height": 32
+      }
+    },
+    {
+      "text": "调整方式",
+      "rect": {
+        "x": 493,
+        "y": 68,
+        "width": 69,
+        "height": 32
+      }
+    },
+    {
+      "text": "渠道",
+      "rect": {
+        "x": 806,
+        "y": 68,
+        "width": 41,
+        "height": 32
+      }
+    },
+    {
+      "text": "调整时间",
+      "rect": {
+        "x": 1119,
+        "y": 68,
+        "width": 69,
+        "height": 32
+      }
+    },
+    {
+      "text": "操作日期",
+      "rect": {
+        "x": 180,
+        "y": 108,
+        "width": 69,
+        "height": 32
+      }
+    },
+    {
+      "text": "操作人姓名",
+      "rect": {
+        "x": 493,
+        "y": 108,
+        "width": 83,
+        "height": 32
+      }
+    },
+    {
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "text": "类型",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "text": "支付方式",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "text": "日期",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "text": "金额(¥)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "text": "备注",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "keyword",
+      "placeholder": "搜索房型名称/房间号/渠道房源名称",
+      "rect": {
+        "x": 283,
+        "y": 71,
+        "width": 166,
+        "height": 26
+      }
+    },
+    {
+      "id": "adjustType",
+      "placeholder": null,
+      "rect": {
+        "x": 582,
+        "y": 71,
+        "width": 182,
+        "height": 28
+      }
+    },
+    {
+      "id": "channelIds",
+      "placeholder": null,
+      "rect": {
+        "x": 867,
+        "y": 74,
+        "width": 4,
+        "height": 24
+      }
+    },
+    {
+      "id": "productPriceDate",
+      "placeholder": "请选择",
+      "rect": {
+        "x": 1208,
+        "y": 75,
+        "width": 73,
+        "height": 19
+      }
+    },
+    {
+      "id": null,
+      "placeholder": "请选择",
+      "rect": {
+        "x": 1313,
+        "y": 75,
+        "width": 73,
+        "height": 19
+      }
+    },
+    {
+      "id": "operationDate",
+      "placeholder": "请选择",
+      "rect": {
+        "x": 269,
+        "y": 115,
+        "width": 73,
+        "height": 19
+      }
+    },
+    {
+      "id": null,
+      "placeholder": "请选择",
+      "rect": {
+        "x": 374,
+        "y": 115,
+        "width": 73,
+        "height": 19
+      }
+    },
+    {
+      "id": "userKeyword",
+      "placeholder": "搜索操作人名称/手机号",
+      "rect": {
+        "x": 596,
+        "y": 111,
+        "width": 166,
+        "height": 26
+      }
+    }
+  ],
+  "buttons": [
+    {
+      "text": "重 置",
+      "rect": {
+        "x": 1352,
+        "y": 110,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "查 询",
+      "rect": {
+        "x": 1280,
+        "y": 110,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "收起",
+      "rect": {
+        "x": 1215,
+        "y": 114,
+        "width": 49,
+        "height": 20
+      }
+    }
+  ],
+  "queryRect": {
+    "x": 172,
+    "y": 68,
+    "width": 1252,
+    "height": 72
+  },
+  "tableRect": {
+    "x": 172,
+    "y": 148,
+    "width": 1252,
+    "height": 193
+  }
+}

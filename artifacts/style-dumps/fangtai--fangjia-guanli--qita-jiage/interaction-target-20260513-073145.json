@@ -1,0 +1,469 @@
+{
+  "stamp": "20260513-073145",
+  "targetUrl": "https://minsubao.localhome.cn/houseManage/otherPrice",
+  "states": {
+    "interaction-default-target": {
+      "url": "https://minsubao.localhome.cn/houseManage/otherPrice",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n杂费设置\n活动设置\n渠道\n房型\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n总裁套间（桑拿浴缸露台电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n天落大床电竞套间\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n观影大床房\n途家\n设置\n设置\n设置\n设置\n设置\n美团民宿\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "渠道",
+          "className": "ant-select order___1vKZK ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 172,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        },
+        {
+          "index": 1,
+          "text": "房型",
+          "className": "ant-select house___1Ia1G ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+          "box": {
+            "x": 325,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [],
+      "dropdowns": [],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-channel-dropdown-target": {
+      "url": "https://minsubao.localhome.cn/houseManage/otherPrice",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n杂费设置\n活动设置\n渠道\n房型\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n总裁套间（桑拿浴缸露台电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n天落大床电竞套间\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n观影大床房\n途家\n设置\n设置\n设置\n设置\n设置\n美团民宿\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n0\n5\n全部平台\n携程\n美团酒店\n飞猪淘酒店\n美团民宿\n途家\n木鸟\n小猪\n路客云聚合",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "渠道",
+          "className": "ant-select order___1vKZK ant-select-focused ant-select-single ant-select-show-arrow ant-select-open",
+          "box": {
+            "x": 172,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        },
+        {
+          "index": 1,
+          "text": "房型",
+          "className": "ant-select house___1Ia1G ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+          "box": {
+            "x": 325,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [],
+      "dropdowns": [
+        {
+          "text": "05全部平台携程美团酒店飞猪淘酒店美团民宿途家木鸟小猪路客云聚合",
+          "options": [
+            "全部平台",
+            "携程",
+            "美团酒店",
+            "飞猪淘酒店",
+            "美团民宿",
+            "途家",
+            "木鸟",
+            "小猪",
+            "路客云聚合"
+          ],
+          "box": {
+            "x": 172,
+            "y": 142,
+            "width": 145,
+            "height": 264
+          },
+          "className": "ant-select-dropdown ant-select-dropdown-placement-bottomLeft "
+        }
+      ],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-channel-ctrip-target": {
+      "url": "https://minsubao.localhome.cn/houseManage/otherPrice",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n杂费设置\n活动设置\n携程\n携程\n房型\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n携程\n设置\n设置\n设置\n设置\n12\n总裁套间（桑拿浴缸露台电竞麻将）\n携程\n设置\n设置\n设置\n设置\n12\n天落大床电竞套间\n携程\n设置\n设置\n设置\n设置\n12\n观影大床房\n携程\n设置\n设置\n设置\n设置\n12",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "携程携程",
+          "className": "ant-select order___1vKZK ant-select-focused ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 172,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        },
+        {
+          "index": 1,
+          "text": "房型",
+          "className": "ant-select house___1Ia1G ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+          "box": {
+            "x": 325,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [],
+      "dropdowns": [],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-room-dropdown-target": {
+      "url": "https://minsubao.localhome.cn/houseManage/otherPrice",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n杂费设置\n活动设置\n携程\n房型\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n携程\n设置\n设置\n设置\n设置\n12\n总裁套间（桑拿浴缸露台电竞麻将）\n携程\n设置\n设置\n设置\n设置\n12\n天落大床电竞套间\n携程\n设置\n设置\n设置\n设置\n12\n观影大床房\n携程\n设置\n设置\n设置\n设置\n12\n1796425099729092609\n1796425099485822977\n顶层套房（浴缸巨幕电竞麻将）\n总裁套间（桑拿浴缸露台电竞麻将）\n天落大床电竞套间\n观影大床房",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "携程",
+          "className": "ant-select order___1vKZK ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 172,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        },
+        {
+          "index": 1,
+          "text": "房型",
+          "className": "ant-select house___1Ia1G ant-select-focused ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-open ant-select-show-search",
+          "box": {
+            "x": 325,
+            "y": 110,
+            "width": 145,
+            "height": 28
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [],
+      "dropdowns": [
+        {
+          "text": "17964250997290926091796425099485822977顶层套房（浴缸巨幕电竞麻将）总裁套间（桑拿浴缸露台电竞麻将）天落大床电竞套间观影大床房",
+          "options": [
+            "顶层套房（浴缸巨幕电竞麻将）",
+            "总裁套间（桑拿浴缸露台电竞麻将）",
+            "天落大床电竞套间",
+            "观影大床房"
+          ],
+          "box": {
+            "x": 325,
+            "y": 142,
+            "width": 145,
+            "height": 136
+          },
+          "className": "ant-select-dropdown ant-select-dropdown-placement-bottomLeft "
+        }
+      ],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-fee-drawer-target": {
+      "url": "https://minsubao.localhome.cn/InformationMaintenance/informationOverview",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n\n信息概览\n\n门店信息\n\n房型信息\n\n图片视频\n\n企业设置\n\n企业信息\n\n权限设置\n\n成员设置\n\n企业资质\n\nAPI keys\n\n通用设置\n\n会话设置\n\n自定义渠道\n\n支付方式设置\n\n收入/支出设置\n\n记一笔设置\n\n排序设置\n\n通知设置\n\n短信设置\n\n财务设置\n\n自动策略设置\n\n交接班设置\n\n打印设置\n\n版本号：v4.10.7\n门店：\n天落会宿公寓(前海壹方城宝安中心店)\n数字化能力\n中等\n超越73%的同行\n已上架\n|\n修改 >\n地址：深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n联系电话：+86-18123941382\n门店信息\n信息完善度\n中等\n门店信息\n房型信息\n房型设施\n资质信息\n图片视频\n\n建议：\n\n1. 建议补齐资质信息，全渠道通用，并可快捷提交路客云进行一键开户；去完善\n\n2. 完善门店详细介绍有利于用户深度了解门店服务能力；去完善\n\n一键导入\n门店流量\n流量获取能力\n较好\nOTA流量（7/7）\n社媒流量（0/3）\n私域流量（1/1）\n\n建议：\n\n1. 小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单；\n\n一键新增\n\n数字化门店\n\n输入关键词搜索\n全国\n周三入住\n09月14日\n共1晚\n周四退房\n09月15日\n搜索\n\n热门套餐\n\n查看更多 >\n\n品牌门店\n\n查看更多 >\n深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n天落会宿公寓(前海壹方城宝安中心店)\n￥9999/晚起\n查看详情\n\n精选房源\n\n查看更多 >\n2房1厅·可住5人·3床\n顶层套房（浴缸巨幕电竞麻将）\n¥9999/晚起\n立即预订\n2房1厅·可住5人·3床\n总裁套间（桑拿浴缸露台电竞麻将）\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n天落大床电竞套间\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n观影大床房\n¥9999/晚起\n立即预订",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "天落会宿公寓(前海壹方城宝安中心店)",
+          "className": "ant-select ant-select-sm ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 214,
+            "y": 68,
+            "width": 200,
+            "height": 24
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [
+        {
+          "text": "一键导入",
+          "role": "",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 138,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        },
+        {
+          "text": "一键新增",
+          "role": "",
+          "className": "ant-btn ant-btn-primary baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 511,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        }
+      ],
+      "dropdowns": [],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-after-fee-cancel-target": {
+      "url": "https://minsubao.localhome.cn/InformationMaintenance/informationOverview",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n\n信息概览\n\n门店信息\n\n房型信息\n\n图片视频\n\n企业设置\n\n企业信息\n\n权限设置\n\n成员设置\n\n企业资质\n\nAPI keys\n\n通用设置\n\n会话设置\n\n自定义渠道\n\n支付方式设置\n\n收入/支出设置\n\n记一笔设置\n\n排序设置\n\n通知设置\n\n短信设置\n\n财务设置\n\n自动策略设置\n\n交接班设置\n\n打印设置\n\n版本号：v4.10.7\n门店：\n天落会宿公寓(前海壹方城宝安中心店)\n数字化能力\n中等\n超越73%的同行\n已上架\n|\n修改 >\n地址：深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n联系电话：+86-18123941382\n门店信息\n信息完善度\n中等\n门店信息\n房型信息\n房型设施\n资质信息\n图片视频\n\n建议：\n\n1. 建议补齐资质信息，全渠道通用，并可快捷提交路客云进行一键开户；去完善\n\n2. 完善门店详细介绍有利于用户深度了解门店服务能力；去完善\n\n一键导入\n门店流量\n流量获取能力\n较好\nOTA流量（7/7）\n社媒流量（0/3）\n私域流量（1/1）\n\n建议：\n\n1. 小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单；\n\n一键新增\n\n数字化门店\n\n输入关键词搜索\n全国\n周三入住\n09月14日\n共1晚\n周四退房\n09月15日\n搜索\n\n热门套餐\n\n查看更多 >\n\n品牌门店\n\n查看更多 >\n深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n天落会宿公寓(前海壹方城宝安中心店)\n￥9999/晚起\n查看详情\n\n精选房源\n\n查看更多 >\n2房1厅·可住5人·3床\n顶层套房（浴缸巨幕电竞麻将）\n¥9999/晚起\n立即预订\n2房1厅·可住5人·3床\n总裁套间（桑拿浴缸露台电竞麻将）\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n天落大床电竞套间\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n观影大床房\n¥9999/晚起\n立即预订",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "天落会宿公寓(前海壹方城宝安中心店)",
+          "className": "ant-select ant-select-sm ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 214,
+            "y": 68,
+            "width": 200,
+            "height": 24
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [
+        {
+          "text": "一键导入",
+          "role": "",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 138,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        },
+        {
+          "text": "一键新增",
+          "role": "",
+          "className": "ant-btn ant-btn-primary baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 511,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        }
+      ],
+      "dropdowns": [],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    },
+    "interaction-activity-setting-target": {
+      "url": "https://minsubao.localhome.cn/InformationMaintenance/informationOverview",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "bodyPreview": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n\n信息概览\n\n门店信息\n\n房型信息\n\n图片视频\n\n企业设置\n\n企业信息\n\n权限设置\n\n成员设置\n\n企业资质\n\nAPI keys\n\n通用设置\n\n会话设置\n\n自定义渠道\n\n支付方式设置\n\n收入/支出设置\n\n记一笔设置\n\n排序设置\n\n通知设置\n\n短信设置\n\n财务设置\n\n自动策略设置\n\n交接班设置\n\n打印设置\n\n版本号：v4.10.7\n门店：\n天落会宿公寓(前海壹方城宝安中心店)\n数字化能力\n中等\n超越73%的同行\n已上架\n|\n修改 >\n地址：深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n联系电话：+86-18123941382\n门店信息\n信息完善度\n中等\n门店信息\n房型信息\n房型设施\n资质信息\n图片视频\n\n建议：\n\n1. 建议补齐资质信息，全渠道通用，并可快捷提交路客云进行一键开户；去完善\n\n2. 完善门店详细介绍有利于用户深度了解门店服务能力；去完善\n\n一键导入\n门店流量\n流量获取能力\n较好\nOTA流量（7/7）\n社媒流量（0/3）\n私域流量（1/1）\n\n建议：\n\n1. 小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单；\n\n一键新增\n\n数字化门店\n\n输入关键词搜索\n全国\n周三入住\n09月14日\n共1晚\n周四退房\n09月15日\n搜索\n\n热门套餐\n\n查看更多 >\n\n品牌门店\n\n查看更多 >\n深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n天落会宿公寓(前海壹方城宝安中心店)\n￥9999/晚起\n查看详情\n\n精选房源\n\n查看更多 >\n2房1厅·可住5人·3床\n顶层套房（浴缸巨幕电竞麻将）\n¥9999/晚起\n立即预订\n2房1厅·可住5人·3床\n总裁套间（桑拿浴缸露台电竞麻将）\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n天落大床电竞套间\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n观影大床房\n¥9999/晚起\n立即预订",
+      "hasLoginRoute": false,
+      "activeTabs": [],
+      "selects": [
+        {
+          "index": 0,
+          "text": "天落会宿公寓(前海壹方城宝安中心店)",
+          "className": "ant-select ant-select-sm ant-select-single ant-select-show-arrow",
+          "box": {
+            "x": 214,
+            "y": 68,
+            "width": 200,
+            "height": 24
+          }
+        }
+      ],
+      "tableHeaders": [],
+      "buttons": [
+        {
+          "text": "一键导入",
+          "role": "",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 138,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        },
+        {
+          "text": "一键新增",
+          "role": "",
+          "className": "ant-btn ant-btn-primary baseButton___17qEp",
+          "box": {
+            "x": 941,
+            "y": 511,
+            "width": 88,
+            "height": 28
+          },
+          "style": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "fontSize": "14px",
+            "height": "28px"
+          }
+        }
+      ],
+      "dropdowns": [],
+      "dialogs": [],
+      "rows": [],
+      "metrics": {
+        "bodyWidth": 1440,
+        "bodyHeight": 905,
+        "viewportWidth": 1440,
+        "viewportHeight": 900
+      }
+    }
+  },
+  "artifacts": {
+    "interaction-default-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-default-target-20260513-073145.png",
+    "interaction-channel-dropdown-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-channel-dropdown-target-20260513-073145.png",
+    "interaction-channel-ctrip-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-channel-ctrip-target-20260513-073145.png",
+    "interaction-room-dropdown-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-room-dropdown-target-20260513-073145.png",
+    "interaction-fee-drawer-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-fee-drawer-target-20260513-073145.png",
+    "interaction-after-fee-cancel-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-after-fee-cancel-target-20260513-073145.png",
+    "interaction-activity-setting-target": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-activity-setting-target-20260513-073145.png",
+    "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--qita-jiage\\interaction-target-20260513-073145.html"
+  },
+  "steps": [
+    {
+      "name": "open channel dropdown",
+      "ok": true
+    },
+    {
+      "name": "select ctrip channel",
+      "ok": true
+    },
+    {
+      "name": "open room dropdown",
+      "ok": true
+    },
+    {
+      "name": "open fee drawer and cancel",
+      "ok": true
+    },
+    {
+      "name": "switch activity tab",
+      "ok": false,
+      "error": "locator.click: Timeout 5000ms exceeded."
+    },
+    {
+      "name": "open activity add",
+      "ok": false,
+      "error": "activity add button not found"
+    },
+    {
+      "name": "open activity setting",
+      "ok": true
+    }
+  ],
+  "errors": [
+    "switch activity tab: locator.click: Timeout 5000ms exceeded.",
+    "open activity add: activity add button not found"
+  ]
+}

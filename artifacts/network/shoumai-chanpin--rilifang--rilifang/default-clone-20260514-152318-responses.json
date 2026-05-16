@@ -1,0 +1,37 @@
+{
+  "taskId": "shoumai-chanpin--rilifang--rilifang",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514-152318",
+  "url": "http://127.0.0.1:43273/setting/localRoomTypeProductionSetting",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43273/setting/localRoomTypeProductionSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43273/assets/index-DxckYmKF.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43273/assets/index-DMeYwbKZ.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43273/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

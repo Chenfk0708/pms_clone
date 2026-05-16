@@ -1,0 +1,392 @@
+{
+  "url": "https://minsubao.localhome.cn/cleanManage/cleanStatistics",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "hasBusinessText": false,
+  "visibleText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 统计汇总 统计明细 全部门店 天落会宿公寓(前海壹方城宝安中心店) 日期： 本 月 上 月 至 导 出 房型房间： 请选择房间 保洁员： 请选择保洁员 重 置 查 询 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通",
+  "visibleDropdowns": [],
+  "visibleMessages": [],
+  "visibleDialogs": [],
+  "buttons": [
+    {
+      "text": "",
+      "disabled": false,
+      "className": "ant-modal-close"
+    },
+    {
+      "text": "发 送",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary sendButton___2H8-Q"
+    },
+    {
+      "text": "本 月",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary ant-btn-sm monthButton___3v8_C"
+    },
+    {
+      "text": "上 月",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default ant-btn-sm monthButton___3v8_C"
+    },
+    {
+      "text": "导 出",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default actionBtn___2uS2U"
+    },
+    {
+      "text": "重 置",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default actionBtn___2uS2U"
+    },
+    {
+      "text": "查 询",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary actionBtn___2uS2U"
+    },
+    {
+      "text": "订阅开通",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary purchaseBtn___25W65"
+    },
+    {
+      "text": "",
+      "disabled": false,
+      "className": "ant-modal-close"
+    },
+    {
+      "text": "提 交",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary"
+    },
+    {
+      "text": "登 录",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "radio",
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-radio-button-input"
+    },
+    {
+      "type": "radio",
+      "placeholder": "",
+      "value": "1796425098638573570",
+      "disabled": false,
+      "className": "ant-radio-button-input"
+    },
+    {
+      "type": "text",
+      "placeholder": "开始日期",
+      "value": "2026-05-01",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "type": "text",
+      "placeholder": "结束日期",
+      "value": "2026-05-13",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "type": "search",
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "type": "search",
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "type": "search",
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "type": "search",
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "type": "text",
+      "placeholder": "请选择日期",
+      "value": "",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "type": "text",
+      "placeholder": "请输入金额",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input-number-input"
+    },
+    {
+      "type": "number",
+      "placeholder": "手机号码",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input"
+    },
+    {
+      "type": "password",
+      "placeholder": "请输入密码",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input"
+    }
+  ],
+  "styles": [
+    {
+      "selector": ".ant-radio-button-wrapper",
+      "text": "全部门店",
+      "rect": {
+        "x": 172,
+        "y": 108,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgb(77, 101, 246)",
+      "border": "",
+      "borderRadius": "4px 0px 0px 4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-radio-button-wrapper",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "rect": {
+        "x": 267,
+        "y": 108,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-select-selector",
+      "text": "请选择房间",
+      "rect": {
+        "x": 250,
+        "y": 144,
+        "width": 200,
+        "height": 28
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-select-selector",
+      "text": "请选择保洁员",
+      "rect": {
+        "x": 522,
+        "y": 144,
+        "width": 160,
+        "height": 28
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-select-selector",
+      "text": "请选择类型",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-select-selector",
+      "text": "请选择支付方式",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-picker",
+      "text": "至",
+      "rect": {
+        "x": 595.28125,
+        "y": 108,
+        "width": 250,
+        "height": 28
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-picker",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "flex",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".unpaidMaskWrap___2mnYk",
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 172,
+        "y": 188,
+        "width": 1252,
+        "height": 712.71875
+      },
+      "display": "flex",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".unpaidInner___1vVtK",
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 172,
+        "y": 695,
+        "width": 1256,
+        "height": 187
+      },
+      "display": "flex",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".purchaseBtn___25W65",
+      "text": "订阅开通",
+      "rect": {
+        "x": 196,
+        "y": 816,
+        "width": 94,
+        "height": 42
+      },
+      "display": "block",
+      "backgroundColor": "rgb(77, 101, 246)",
+      "color": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(77, 101, 246)",
+      "borderRadius": "8px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-modal",
+      "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "none",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-modal",
+      "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "none",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    },
+    {
+      "selector": ".ant-modal",
+      "text": "账号登录+86 请按住滑块，拖动到最右边 登 录其他登录方式新用户立即体验新用户忘记密码",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "none",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400"
+    }
+  ]
+}

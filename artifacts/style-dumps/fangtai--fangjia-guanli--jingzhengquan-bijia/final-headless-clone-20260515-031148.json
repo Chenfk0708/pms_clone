@@ -1,0 +1,24 @@
+{
+  "label": "clone",
+  "startUrl": "http://127.0.0.1:54807/houseManage/priceComparison",
+  "defaultUrl": "http://127.0.0.1:54807/houseManage/priceComparison",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "defaultText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n\nPMS Clone Prototype\n\n竞争圈比价\n采集基线：Chrome 1440x900 / 账号已授权登录\n中央价\n渠道RP价\n竞争圈比价\n同步价格批量改价操作日志\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n渠道\n房型\n房型标签\n开通【智能调价】应用，使用【竞争圈比价】功能\n\n可设置门店的竞争圈酒店和比价时间，我们将为您自动生成竞争圈价格对比结果，帮助您快速确定价格优势，高效调价\n\n立即开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "interaction": {
+    "beforeUrl": "http://127.0.0.1:54807/houseManage/priceComparison",
+    "afterOpenUrl": "http://127.0.0.1:54807/version/applicationPayment/detail?app=smartPricing",
+    "urlChanged": true,
+    "hasSubscriptionSidebar": true,
+    "hasSmartPricing": true,
+    "hasProductDetail": true,
+    "hasPurchaseInfo": true,
+    "hasAgreement": true,
+    "purchaseText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n\nPMS Clone Prototype\n\n智能调价\n采集基线：Chrome 1440x900 / 账号已授权登录\n订阅中心\n我的权益\n置换权益\n版本订阅\n应用订阅\n路客商城\n版本号：v4.10.7\n价\n智能调价\n\n1. 定时获取竞争圈酒店的房价，与各门店的房价对比后得出比价参考，并提供改价建议 2. 设置中央价动态调价策略，实时根据入住率和可售数提醒客户执行调价策略\n\n商品详情\n智能调价\n竞争圈比价、入住率监测、动态调价提醒与中央价策略联动。\n购买信息\n商品价格\n¥1,503\n¥2,605.2/年\n购买时长\n跟随版本\n2027-09-28到期\n订单金额\n¥1,503\n明细\n我已阅读并同意《路客云产品服务购买协议》\n立即购买\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起"
+  },
+  "artifacts": {
+    "defaultShot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--jingzhengquan-bijia\\final-headless-clone-default-20260515-031148.png",
+    "fullShot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--jingzhengquan-bijia\\final-headless-clone-full-20260515-031148.png",
+    "purchaseShot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--jingzhengquan-bijia\\final-headless-clone-purchase-20260515-031148.png"
+  }
+}

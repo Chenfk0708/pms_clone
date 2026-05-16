@@ -1,0 +1,2788 @@
+{
+  "name": "clone",
+  "url": "http://127.0.0.1:4173/houseManage/houseCale",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "hasCentralPrice": false,
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n\nPMS Clone Prototype\n\n中央价\n采集基线：Chrome 1440x900 / 账号已授权登录\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n同步至渠道价格设置价格规划批量改价智能调价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n渠道\n房型\n房型标签\n上一周\n2026.05.13 起\n下一周\n今日\n全部收起\n点击价格单元格可打开改价弹层\n渠道\n系数\n底价\n今日\n三\n05.14\n四\n05.15\n五\n05.16\n六\n05.17\n日\n05.18\n一\n05.19\n二\n05.20\n三\n05.21\n四\n05.22\n五\n05.23\n六\n05.24\n日\n05.25\n一\n05.26\n二\n05.27\n三\n05.28\n四\n05.29\n五\n05.30\n六\n05.31\n日\n06.01\n一\n06.02\n二\n06.03\n三\n06.04\n四\n06.05\n五\n06.06\n六\n06.07\n日\n06.08\n一\n06.09\n二\n06.10\n三\n06.11\n四\n顶层套房（浴缸巨幕电竞麻将）\n关联渠道价行：途家、小猪、携程、飞猪淘酒店、木鸟\n途家\n-\n730\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n930\n978.94\n930\n978.94\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n930\n978.94\n930\n978.94\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n930\n978.94\n930\n978.94\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n730\n768.42\n930\n978.94\n930\n978.94\n小猪\n-\n730\n730\n730\n730\n730\n730\n730\n730\n730\n930\n930\n930\n930\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n930\n930\n930\n930\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n930\n930\n930\n930\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n730\n930\n930\n930\n930\n携程\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n飞猪淘酒店\n-\n730\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n930\n418.2\n930\n418.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n930\n418.2\n930\n418.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n930\n418.2\n930\n418.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n730\n376.2\n930\n418.2\n930\n418.2\n木鸟\n-\n730\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n930\n1033.33\n930\n1033.33\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n930\n1033.33\n930\n1033.33\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n930\n1033.33\n930\n1033.33\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n730\n811.11\n930\n1033.33\n930\n1033.33\n全部会话\n收起\n咨\n携程民宿-[M566…\n咨询中\n\n客: 您这房间跟价位完全匹配…\n\n54分4秒前\n咨\n携程民宿-[_WEC…\n咨询中\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n54分4秒前\n咨\nCqBv9667\n咨询中\n\n房: 不客气哈~\n\n54分4秒前",
+  "samples": [
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "应用订阅",
+      "box": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "消息",
+      "box": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "用户",
+      "box": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "section",
+      "role": "",
+      "ariaLabel": "",
+      "className": "toolbar-card",
+      "text": "中央价渠道RP价竞争圈比价门市价其他价格电子房价牌同步至渠道价格设置价格规划批量改价智能调价全部门店天落会宿公寓(前海壹方城宝安中心店)渠道房型房型标签",
+      "box": {
+        "x": 168,
+        "y": 164,
+        "width": 1260,
+        "height": 170
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "10px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "is-active",
+      "text": "中央价",
+      "box": {
+        "x": 181,
+        "y": 175,
+        "width": 74,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(70, 100, 244)",
+        "border": "1px solid rgb(70, 100, 244)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "RP价页签",
+      "className": "",
+      "text": "渠道RP价",
+      "box": {
+        "x": 261,
+        "y": 175,
+        "width": 94,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "竞争圈比价",
+      "box": {
+        "x": 361,
+        "y": 175,
+        "width": 106,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "门市价",
+      "box": {
+        "x": 473,
+        "y": 175,
+        "width": 74,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "其他价格",
+      "box": {
+        "x": 553,
+        "y": 175,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "电子房价牌",
+      "box": {
+        "x": 649,
+        "y": 175,
+        "width": 106,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(246, 248, 252)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "同步至渠道",
+      "box": {
+        "x": 949,
+        "y": 175,
+        "width": 106,
+        "height": 42
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "价格设置",
+      "box": {
+        "x": 1055,
+        "y": 175,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "价格规划",
+      "box": {
+        "x": 1145,
+        "y": 175,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "批量改价",
+      "box": {
+        "x": 1235,
+        "y": 175,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "智能调价",
+      "box": {
+        "x": 1325,
+        "y": 175,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "chip is-active",
+      "text": "全部门店",
+      "box": {
+        "x": 181,
+        "y": 229,
+        "width": 78,
+        "height": 38
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(70, 100, 244)",
+        "backgroundColor": "rgb(238, 241, 255)",
+        "border": "1px solid rgb(70, 100, 244)",
+        "borderRadius": "8px",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "chip",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "box": {
+        "x": 442,
+        "y": 229,
+        "width": 243,
+        "height": 38
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(83, 98, 124)",
+        "backgroundColor": "rgb(248, 250, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "chip",
+      "text": "渠道",
+      "box": {
+        "x": 867,
+        "y": 229,
+        "width": 52,
+        "height": 38
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(83, 98, 124)",
+        "backgroundColor": "rgb(248, 250, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "chip",
+      "text": "房型",
+      "box": {
+        "x": 1102,
+        "y": 229,
+        "width": 52,
+        "height": 38
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(83, 98, 124)",
+        "backgroundColor": "rgb(248, 250, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "chip",
+      "text": "房型标签",
+      "box": {
+        "x": 1337,
+        "y": 229,
+        "width": 78,
+        "height": 38
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(83, 98, 124)",
+        "backgroundColor": "rgb(248, 250, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "input",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "房型名称 / 渠道名称",
+      "box": {
+        "x": 181,
+        "y": 276,
+        "width": 1234,
+        "height": 46
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "10px 12px"
+      }
+    },
+    {
+      "tag": "section",
+      "role": "",
+      "ariaLabel": "",
+      "className": "table-card",
+      "text": "上一周2026.05.13 起下一周今日全部收起点击价格单元格可打开改价弹层渠道系数底价今日三05.14四05.15五05.16六05.17日05.18一05.19二05.20三05.21四05.22五05.23六05.24日05.25一05.26二05.27三05.28四05.",
+      "box": {
+        "x": 168,
+        "y": 345,
+        "width": 1260,
+        "height": 505
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "10px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "上一周",
+      "box": {
+        "x": 181,
+        "y": 356,
+        "width": 74,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "下一周",
+      "box": {
+        "x": 403,
+        "y": 356,
+        "width": 74,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "今日",
+      "box": {
+        "x": 485,
+        "y": 356,
+        "width": 58,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "",
+      "className": "",
+      "text": "全部收起",
+      "box": {
+        "x": 551,
+        "y": 356,
+        "width": 90,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "div",
+      "role": "",
+      "ariaLabel": "",
+      "className": "price-grid",
+      "text": "渠道系数底价今日三05.14四05.15五05.16六05.17日05.18一05.19二05.20三05.21四05.22五05.23六05.24日05.25一05.26二05.27三05.28四05.29五05.30六05.31日06.01一06.02二06.03三06.04",
+      "box": {
+        "x": 181,
+        "y": 408,
+        "width": 1234,
+        "height": 431
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.13",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 503,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.14",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 591,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.15",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 679,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.16",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 767,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.17",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 855,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.18",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 943,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.19",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1031,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.20",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1119,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.21",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1207,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.22",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1295,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.23",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1383,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.24",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1471,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.25",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 1559,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.26",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 1647,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.27",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1735,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.28",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1823,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.29",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1911,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.30",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 1999,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.31",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2087,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.01",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2175,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.02",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 2263,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.03",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 2351,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.04",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2439,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.05",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2527,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.06",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2615,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.07",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2703,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.08",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2791,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.09",
+      "className": "price-cell price-cell-button ",
+      "text": "730768.42",
+      "box": {
+        "x": 2879,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.10",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 2967,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.11",
+      "className": "price-cell price-cell-button ",
+      "text": "930978.94",
+      "box": {
+        "x": 3055,
+        "y": 519,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.13",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 503,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.14",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 591,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.15",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 679,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.16",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 767,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.17",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 855,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.18",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 943,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.19",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1031,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.20",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1119,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.21",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1207,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.22",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1295,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.23",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1383,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.24",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1471,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.25",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 1559,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 05.26",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 1647,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.27",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1735,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.28",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1823,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.29",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1911,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.30",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 1999,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.31",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2087,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.01",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2175,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.02",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 2263,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.03",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 2351,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.04",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2439,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.05",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2527,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.06",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2615,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.07",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2703,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.08",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2791,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 06.09",
+      "className": "price-cell price-cell-button ",
+      "text": "730730",
+      "box": {
+        "x": 2879,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.10",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 2967,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "930 06.11",
+      "className": "price-cell price-cell-button ",
+      "text": "930930",
+      "box": {
+        "x": 3055,
+        "y": 583,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.13",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 503,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.14",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 591,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.15",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 679,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.16",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 767,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.17",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 855,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.18",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 943,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.19",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1031,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.20",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1119,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.21",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1207,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.22",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1295,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.23",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1383,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.24",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1471,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.25",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1559,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.26",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1647,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.27",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1735,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.28",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1823,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.29",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1911,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.30",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 1999,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 05.31",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2087,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.01",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2175,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.02",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2263,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.03",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2351,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.04",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2439,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.05",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2527,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.06",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2615,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.07",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2703,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.08",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2791,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.09",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2879,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.10",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 2967,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "- 06.11",
+      "className": "price-cell price-cell-button ",
+      "text": "--",
+      "box": {
+        "x": 3055,
+        "y": 647,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.13",
+      "className": "price-cell price-cell-button ",
+      "text": "730376.2",
+      "box": {
+        "x": 503,
+        "y": 711,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.14",
+      "className": "price-cell price-cell-button ",
+      "text": "730376.2",
+      "box": {
+        "x": 591,
+        "y": 711,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "ariaLabel": "730 05.15",
+      "className": "price-cell price-cell-button ",
+      "text": "730376.2",
+      "box": {
+        "x": 679,
+        "y": 711,
+        "width": 88,
+        "height": 64
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "1px 6px"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "label": "????",
+      "found": false
+    },
+    {
+      "label": "????",
+      "found": false
+    },
+    {
+      "label": "??",
+      "found": false
+    },
+    {
+      "label": "????",
+      "found": false
+    }
+  ]
+}

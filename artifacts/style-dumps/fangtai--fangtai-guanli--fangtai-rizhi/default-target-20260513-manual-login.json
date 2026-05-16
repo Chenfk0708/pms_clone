@@ -1,0 +1,578 @@
+[
+  {
+    "tag": "button",
+    "className": "ant-modal-close",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.45)",
+    "border": "0px none rgba(0, 0, 0, 0.45)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-primary sendButton___2H8-Q",
+    "text": "发 送",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgb(77, 101, 246)",
+    "color": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(77, 101, 246)",
+    "borderRadius": "4px",
+    "fontSize": "13px",
+    "padding": "0px 10px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "none",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-input",
+    "text": "",
+    "box": {
+      "x": 283,
+      "y": 71,
+      "width": 166,
+      "height": 26
+    },
+    "display": "block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "4px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-select ant-select-in-form-item ant-pro-filed-search-select ant-select-single ant-select-allow-clear ant-select-show-arrow",
+    "text": "手动调整",
+    "box": {
+      "x": 570,
+      "y": 70,
+      "width": 220,
+      "height": 28
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-select-selection-search-input",
+    "text": "",
+    "box": {
+      "x": 582,
+      "y": 71,
+      "width": 182,
+      "height": 28
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-select ant-select-in-form-item ant-pro-filed-search-select ant-select-multiple ant-select-allow-clear ant-select-show-search",
+    "text": "请选择",
+    "box": {
+      "x": 883,
+      "y": 70,
+      "width": 220,
+      "height": 28
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-select-selection-search-input",
+    "text": "",
+    "box": {
+      "x": 895,
+      "y": 74,
+      "width": 4,
+      "height": 24
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-picker ant-picker-range",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "flex",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "1px solid rgb(217, 217, 217)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "4px 11px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-picker ant-picker-range",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "flex",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "1px solid rgb(217, 217, 217)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "4px 11px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "4px",
+    "fontSize": "12px",
+    "padding": "0px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-default",
+    "text": "重 置",
+    "box": {
+      "x": 1352,
+      "y": 70,
+      "width": 64,
+      "height": 28
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(77, 101, 246)",
+    "border": "1px solid rgb(77, 101, 246)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "0px 15px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-primary",
+    "text": "查 询",
+    "box": {
+      "x": 1280,
+      "y": 70,
+      "width": 64,
+      "height": 28
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgb(77, 101, 246)",
+    "color": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(77, 101, 246)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "0px 15px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-table ant-table-middle ant-table-bordered ant-table-empty ant-table-ping-right ant-table-fixed-header ant-table-scroll-horizontal",
+    "text": "房型房间房态调整日期操作内容调整方式同步渠道渠道库存变更操作人操作时间         暂无数据",
+    "box": {
+      "x": 172,
+      "y": 108,
+      "width": 1252,
+      "height": 193
+    },
+    "display": "block",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "thead",
+    "className": "ant-table-thead",
+    "text": "房型房间房态调整日期操作内容调整方式同步渠道渠道库存变更操作人操作时间",
+    "box": {
+      "x": 173,
+      "y": 108,
+      "width": 1280,
+      "height": 36
+    },
+    "display": "table-header-group",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-modal-close",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.45)",
+    "border": "0px none rgba(0, 0, 0, 0.45)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+    "text": "请选择类型",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-select-selection-search-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+    "text": "请选择支付方式",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-select-selection-search-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "0px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "div",
+    "className": "ant-picker",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "flex",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "1px solid rgb(217, 217, 217)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "4px 11px"
+  },
+  {
+    "tag": "input",
+    "className": "",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "14px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-input-number-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "inline-block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "2px",
+    "fontSize": "14px",
+    "padding": "0px 11px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-primary",
+    "text": "提 交",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgb(77, 101, 246)",
+    "color": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(77, 101, 246)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "0px 15px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "4px",
+    "fontSize": "11.2px",
+    "padding": "0px"
+  },
+  {
+    "tag": "input",
+    "className": "ant-input",
+    "text": "",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "border": "0px none rgba(0, 0, 0, 0.85)",
+    "borderRadius": "4px",
+    "fontSize": "11.2px",
+    "padding": "0px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+    "text": "登 录",
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "display": "block",
+    "backgroundColor": "rgb(125, 143, 247)",
+    "color": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(125, 143, 247)",
+    "borderRadius": "8px",
+    "fontSize": "12.8px",
+    "padding": "0px 15px"
+  },
+  {
+    "tag": "button",
+    "className": "ant-btn ant-btn-primary button___2agYD",
+    "text": "收 起",
+    "box": {
+      "x": 1350,
+      "y": 858,
+      "width": 80,
+      "height": 32
+    },
+    "display": "flex",
+    "backgroundColor": "rgb(77, 102, 246)",
+    "color": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(77, 102, 246)",
+    "borderRadius": "4px",
+    "fontSize": "14px",
+    "padding": "0px 15px"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "capturedAt": "20260515T051023",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43091/version/myBenefit",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43091/assets/index-DM9hICCn.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43091/assets/index-C8k52vCq.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43091/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+.page-content:has(.workspace-home),
+.app-shell:has(.workspace-home) .page-content,
+.page-content:has(.workspace-grid.workspace-home),
+.page-content:has(.month-status-page),
+.page-content:has(.day-status-page),
+.page-content:has(.price-page),
+.page-content:has(.price-comparison-page),
+.page-content:has(.price-board-page),
+.page-content:has(.price-board-detail-page),
+.page-content:has(.retail-price-page),
+.page-content:has(.retail-hour-page),
+.page-content:has(.other-price-page),
+.page-content:has(.order-page),
+.page-content:has(.calendar-room-page),
+.page-content:has(.calendar-room-edit-page),
+.page-content:has(.ota-page),
+.page-content:has(.social-channel-page),
+.page-content:has(.private-channel-page),
+.page-content:has(.distribution-list-page),
+.app-shell:has(.distribution-list-page) .page-content,
+.page-content:has(.scrm-page--general),
+.page-content:has(.radar-page),
+.page-content:has(.smart-checkin-page),
+.page-content:has(.statistics-report-page),
+.page-content:has(.information-overview-page) {
+  padding: var(--app-content-padding-y) var(--app-content-padding-x) 0;
+  background: var(--app-content-bg);
+}
+
+.page-content:has(.scrm-page--general) .scrm-page--general {
+  padding: 0;
+  background: transparent;
+}
+
+.page-content:has(.radar-page) .radar-tabs {
+  margin: 0 0 14px;
+}
+
+.page-content:has(.radar-page) .radar-banner {
+  margin-left: 0;
+}
+
+.page-content:has(.smart-checkin-page) .smart-checkin-page {
+  padding: 0 330px 32px 0;
+  background: transparent;
+}

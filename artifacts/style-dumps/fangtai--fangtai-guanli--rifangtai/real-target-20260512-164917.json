@@ -1,0 +1,3185 @@
+{
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "url": "https://minsubao.localhome.cn/houseManage/days",
+  "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 月房态 日房态 读 卡 房价管理 更多设置 全部门店 天落会宿公寓(前海壹方城宝安中心店) 批量设脏/净 批量开/关房 顶层套房（浴缸巨幕电竞麻将） 房间1 顶层套房（浴缸巨幕电竞麻将） 总裁套间（桑拿浴缸露台电竞麻将） 房间1 总裁套间（桑拿浴缸露台电竞麻将） 刘翻红 携程 ¥285.44 天落大床电竞套间 1 天落大床电竞套间 张勇 飞猪淘酒店 ¥164.46 观影大床房 房间1 观影大床房 张张 携程 ¥163.94 按房型按房间号按楼层 入离 预抵 1 预离 2 在住 2 重单 0 房态 空净 2 空脏 0 住净 1 住脏 1 关房 0 保洁状态 未开始 0 进行中 0 已完成 0 已过期 0 其他标签 钟点房 0 长租房 0 欠费 0 续住 0 备注 2 渠道 渠道 房型 房型 标签 房型标签",
+  "buttons": [
+    {
+      "tag": "button",
+      "className": "ant-modal-close",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.45)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary sendButton___2H8-Q",
+      "text": "发 送",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "13px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+      "text": "",
+      "rect": {
+        "x": 1129,
+        "y": 71,
+        "w": 32,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px 4px 4px 0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary",
+      "text": "读 卡",
+      "rect": {
+        "x": 1174,
+        "y": 70,
+        "w": 68,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary",
+      "text": "房价管理",
+      "rect": {
+        "x": 1250,
+        "y": 70,
+        "w": 74,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary ant-dropdown-trigger",
+      "text": "更多设置",
+      "rect": {
+        "x": 1332,
+        "y": 70,
+        "w": 92,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+      "text": "批量设脏/净",
+      "rect": {
+        "x": 1156,
+        "y": 108,
+        "w": 94,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+      "text": "批量开/关房",
+      "rect": {
+        "x": 1258,
+        "y": 108,
+        "w": 94,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary activeSingleDataStatusTab___2oKXw",
+      "text": "按房型",
+      "rect": {
+        "x": 1179,
+        "y": 152,
+        "w": 68,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-default singleDataStatusTab___1Yka0",
+      "text": "按房间号",
+      "rect": {
+        "x": 1255,
+        "y": 152,
+        "w": 68,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(102, 102, 102)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(237, 237, 237)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-default singleDataStatusTab___1Yka0",
+      "text": "按楼层",
+      "rect": {
+        "x": 1331,
+        "y": 152,
+        "w": 68,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(102, 102, 102)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(237, 237, 237)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-modal-close",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.45)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary",
+      "text": "提 交",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "button",
+      "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+      "text": "登 录",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(125, 143, 247)",
+        "border": "1px solid rgb(125, 143, 247)",
+        "radius": "8px",
+        "font": "12.8px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "className": "ant-input",
+      "text": "",
+      "rect": {
+        "x": 770,
+        "y": 71,
+        "w": 360,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "4px 0px 0px 4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-radio-button-input",
+      "text": "",
+      "rect": {
+        "x": 220,
+        "y": 121,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(77, 101, 246)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(77, 101, 246)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-radio-button-input",
+      "text": "",
+      "rect": {
+        "x": 315,
+        "y": 121,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(102, 102, 102)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(102, 102, 102)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 231,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 231,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 267,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 267,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 348,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 348,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 384,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 384,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 420,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 501,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 501,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 537,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 537,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 618,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 618,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 654,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1396,
+        "y": 654,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-checkbox-input",
+      "text": "",
+      "rect": {
+        "x": 1273,
+        "y": 690,
+        "w": 16,
+        "h": 16
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 766,
+        "w": 162,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 842,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 915,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "2px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-input-number-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "2px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "4px",
+        "font": "11.2px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "4px",
+        "font": "11.2px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    }
+  ],
+  "tables": [],
+  "controls": [
+    {
+      "tag": "img",
+      "className": "select___2zr3a",
+      "text": "",
+      "rect": {
+        "x": 171,
+        "y": 20,
+        "w": 12,
+        "h": 12
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "img",
+      "className": "select___2zr3a",
+      "text": "",
+      "rect": {
+        "x": 1420,
+        "y": 19,
+        "w": 12,
+        "h": 13
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "secondMenuItemName___s658i selectItem___1q8om",
+      "text": "房态管理",
+      "rect": {
+        "x": 0,
+        "y": 52,
+        "w": 156,
+        "h": 44
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(77, 101, 246)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(77, 101, 246)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "bottom___3N_vt Bottonselected___v7D8F",
+      "text": "日房态",
+      "rect": {
+        "x": 240,
+        "y": 70,
+        "w": 66,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(77, 101, 246)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "am-flexbox statusBtns___30uWs am-flexbox-align-center",
+      "text": "读 卡房价管理更多设置",
+      "rect": {
+        "x": 758,
+        "y": 70,
+        "w": 666,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select ant-select-borderless ant-select-auto-complete searchOrderInput___3B-s_ ant-select-single ant-select-customize-input ant-select-show-search",
+      "text": "",
+      "rect": {
+        "x": 766,
+        "y": 70,
+        "w": 400,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(241, 243, 248)",
+        "border": "1px solid rgb(241, 243, 248)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "",
+      "rect": {
+        "x": 770,
+        "y": 71,
+        "w": 392,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 770,
+        "y": 71,
+        "w": 392,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-input-group-wrapper ant-input-search ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 770,
+        "y": 71,
+        "w": 392,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "",
+      "rect": {
+        "x": 767,
+        "y": 71,
+        "w": 398,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "selectPoi___2TGzx",
+      "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)",
+      "rect": {
+        "x": 172,
+        "y": 108,
+        "w": 223,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(77, 101, 246)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(77, 101, 246)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "undefined calendarStatusContentDays___2_P4K",
+      "text": "顶层套房（浴缸巨幕电竞麻将）房间1顶层套房（浴缸巨幕电竞麻将）总裁套间（桑拿浴缸露台电竞麻将）房间1总裁套间（桑拿浴缸露台电竞麻将）刘翻红携程¥285.44天落大床电竞套间1天落大床电竞套间张勇飞猪淘酒店¥164.46观影大床房房间1观影大床房张张携程¥163.94按房型按房间号按楼层入离预抵1预离2在住2重单0房态空净2空脏0住净1住脏1关房0保洁状态未开",
+      "rect": {
+        "x": 172,
+        "y": 144,
+        "w": 1252,
+        "h": 753
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomItem___2rhNA",
+      "text": "顶层套房（浴缸巨幕电竞麻将）房间1顶层套房（浴缸巨幕电竞麻将）",
+      "rect": {
+        "x": 172,
+        "y": 152,
+        "w": 998,
+        "h": 149
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "room___2FcQV undefined",
+      "text": "房间1顶层套房（浴缸巨幕电竞麻将）",
+      "rect": {
+        "x": 172,
+        "y": 173,
+        "w": 120,
+        "h": 120
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "1px solid rgb(237, 237, 237)",
+        "radius": "8px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomName___2QtP4",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 182,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomNameTip___A882w",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 182,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomCategoryName___3YngX",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "rect": {
+        "x": 181,
+        "y": 203,
+        "w": 102,
+        "h": 18
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomItem___2rhNA",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）房间1总裁套间（桑拿浴缸露台电竞麻将）刘翻红携程¥285.44",
+      "rect": {
+        "x": 172,
+        "y": 301,
+        "w": 998,
+        "h": 149
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "room___2FcQV earlyArrival___391gj",
+      "text": "房间1总裁套间（桑拿浴缸露台电竞麻将）刘翻红携程¥285.44",
+      "rect": {
+        "x": 172,
+        "y": 322,
+        "w": 120,
+        "h": 120
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(69, 133, 233)",
+        "border": "1px solid rgb(69, 133, 233)",
+        "radius": "8px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomName___2QtP4",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 331,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomNameTip___A882w",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 331,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomCategoryName___3YngX",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "rect": {
+        "x": 181,
+        "y": 352,
+        "w": 102,
+        "h": 18
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomItem___2rhNA",
+      "text": "天落大床电竞套间1天落大床电竞套间张勇飞猪淘酒店¥164.46",
+      "rect": {
+        "x": 172,
+        "y": 450,
+        "w": 998,
+        "h": 149
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "room___2FcQV preLeave___1p-zz",
+      "text": "1天落大床电竞套间张勇飞猪淘酒店¥164.46",
+      "rect": {
+        "x": 172,
+        "y": 471,
+        "w": 120,
+        "h": 120
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(255, 161, 50)",
+        "border": "1px solid rgb(255, 161, 50)",
+        "radius": "8px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomName___2QtP4",
+      "text": "1",
+      "rect": {
+        "x": 181,
+        "y": 480,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomNameTip___A882w",
+      "text": "1",
+      "rect": {
+        "x": 181,
+        "y": 480,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomCategoryName___3YngX",
+      "text": "天落大床电竞套间",
+      "rect": {
+        "x": 181,
+        "y": 501,
+        "w": 102,
+        "h": 18
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomItem___2rhNA",
+      "text": "观影大床房房间1观影大床房张张携程¥163.94",
+      "rect": {
+        "x": 172,
+        "y": 599,
+        "w": 998,
+        "h": 149
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "room___2FcQV preLeave___1p-zz",
+      "text": "房间1观影大床房张张携程¥163.94",
+      "rect": {
+        "x": 172,
+        "y": 620,
+        "w": 120,
+        "h": 120
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(255, 161, 50)",
+        "border": "1px solid rgb(255, 161, 50)",
+        "radius": "8px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomName___2QtP4",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 629,
+        "w": 102,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomNameTip___A882w",
+      "text": "房间1",
+      "rect": {
+        "x": 181,
+        "y": 629,
+        "w": 84,
+        "h": 21
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "roomCategoryName___3YngX",
+      "text": "观影大床房",
+      "rect": {
+        "x": 181,
+        "y": 650,
+        "w": 102,
+        "h": 18
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(255, 255, 255)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterDrawer___2PY-z",
+      "text": "按房型按房间号按楼层入离预抵1预离2在住2重单0房态空净2空脏0住净1住脏1关房0保洁状态未开始0进行中0已完成0已过期0其他标签钟点房0长租房0欠费0续住0备注2渠道渠道房型 房型标签 房型标签",
+      "rect": {
+        "x": 1170,
+        "y": 152,
+        "w": 254,
+        "h": 745
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "按房型按房间号按楼层",
+      "rect": {
+        "x": 1179,
+        "y": 152,
+        "w": 245,
+        "h": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "入离预抵1预离2在住2重单0",
+      "rect": {
+        "x": 1179,
+        "y": 196,
+        "w": 245,
+        "h": 101
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItems___2jAGe",
+      "text": "预抵1预离2在住2重单0",
+      "rect": {
+        "x": 1179,
+        "y": 225,
+        "w": 245,
+        "h": 72
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItem___3hHI- filterItemOrderTags___3rj-m",
+      "text": "预抵1",
+      "rect": {
+        "x": 1179,
+        "y": 225,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "预抵",
+      "rect": {
+        "x": 1184,
+        "y": 230,
+        "w": 46,
+        "h": 18
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "1",
+      "rect": {
+        "x": 1263,
+        "y": 229,
+        "w": 26,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItem___3hHI- filterItemOrderTags___3rj-m",
+      "text": "预离2",
+      "rect": {
+        "x": 1302,
+        "y": 225,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "预离",
+      "rect": {
+        "x": 1307,
+        "y": 230,
+        "w": 46,
+        "h": 18
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "2",
+      "rect": {
+        "x": 1385,
+        "y": 229,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItem___3hHI- filterItemOrderTags___3rj-m",
+      "text": "在住2",
+      "rect": {
+        "x": 1179,
+        "y": 261,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "在住",
+      "rect": {
+        "x": 1184,
+        "y": 266,
+        "w": 46,
+        "h": 18
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "2",
+      "rect": {
+        "x": 1262,
+        "y": 265,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItem___3hHI- filterItemOrderTags___3rj-m",
+      "text": "重单0",
+      "rect": {
+        "x": 1302,
+        "y": 261,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "重单",
+      "rect": {
+        "x": 1307,
+        "y": 266,
+        "w": 46,
+        "h": 18
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemOrderTagsItem___2RrCG",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 265,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "房态空净2空脏0住净1住脏1关房0",
+      "rect": {
+        "x": 1179,
+        "y": 313,
+        "w": 245,
+        "h": 137
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItems___2jAGe",
+      "text": "空净2空脏0住净1住脏1关房0",
+      "rect": {
+        "x": 1179,
+        "y": 342,
+        "w": 245,
+        "h": 108
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "空净2",
+      "rect": {
+        "x": 1179,
+        "y": 342,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "2",
+      "rect": {
+        "x": 1262,
+        "y": 346,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "空脏0",
+      "rect": {
+        "x": 1302,
+        "y": 342,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 346,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "住净1",
+      "rect": {
+        "x": 1179,
+        "y": 378,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "1",
+      "rect": {
+        "x": 1263,
+        "y": 382,
+        "w": 26,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "住脏1",
+      "rect": {
+        "x": 1302,
+        "y": 378,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "1",
+      "rect": {
+        "x": 1386,
+        "y": 382,
+        "w": 26,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "关房0",
+      "rect": {
+        "x": 1179,
+        "y": 414,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1262,
+        "y": 418,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "保洁状态未开始0进行中0已完成0已过期0",
+      "rect": {
+        "x": 1179,
+        "y": 466,
+        "w": 245,
+        "h": 101
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItems___2jAGe",
+      "text": "未开始0进行中0已完成0已过期0",
+      "rect": {
+        "x": 1179,
+        "y": 495,
+        "w": 245,
+        "h": 72
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "未开始0",
+      "rect": {
+        "x": 1179,
+        "y": 495,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1262,
+        "y": 499,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "进行中0",
+      "rect": {
+        "x": 1302,
+        "y": 495,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 499,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "已完成0",
+      "rect": {
+        "x": 1179,
+        "y": 531,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1262,
+        "y": 535,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "已过期0",
+      "rect": {
+        "x": 1302,
+        "y": 531,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 535,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "其他标签钟点房0长租房0欠费0续住0备注2",
+      "rect": {
+        "x": 1179,
+        "y": 583,
+        "w": 245,
+        "h": 137
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItems___2jAGe",
+      "text": "钟点房0长租房0欠费0续住0备注2",
+      "rect": {
+        "x": 1179,
+        "y": 612,
+        "w": 245,
+        "h": 108
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "钟点房0",
+      "rect": {
+        "x": 1179,
+        "y": 612,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1262,
+        "y": 616,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "长租房0",
+      "rect": {
+        "x": 1302,
+        "y": 612,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 616,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "欠费0",
+      "rect": {
+        "x": 1179,
+        "y": 648,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1262,
+        "y": 652,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "续住0",
+      "rect": {
+        "x": 1302,
+        "y": 648,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "0",
+      "rect": {
+        "x": 1385,
+        "y": 652,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemEnd___21lte",
+      "text": "备注2",
+      "rect": {
+        "x": 1179,
+        "y": 684,
+        "w": 115,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgb(241, 243, 248)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "4px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemCheck___12sue",
+      "text": "2",
+      "rect": {
+        "x": 1262,
+        "y": 688,
+        "w": 27,
+        "h": 21
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgb(51, 51, 51)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(51, 51, 51)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "渠道渠道",
+      "rect": {
+        "x": 1179,
+        "y": 736,
+        "w": 245,
+        "h": 57
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select order___zaFM9 ant-select-single ant-select-show-arrow",
+      "text": "渠道",
+      "rect": {
+        "x": 1179,
+        "y": 765,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "渠道",
+      "rect": {
+        "x": 1179,
+        "y": 765,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(227, 227, 227)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 766,
+        "w": 162,
+        "h": 26
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 766,
+        "w": 162,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "渠道",
+      "rect": {
+        "x": 1191,
+        "y": 766,
+        "w": 176,
+        "h": 26
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-arrow",
+      "text": "",
+      "rect": {
+        "x": 1361,
+        "y": 774,
+        "w": 10,
+        "h": 10
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "房型 房型",
+      "rect": {
+        "x": 1179,
+        "y": 809,
+        "w": 245,
+        "h": 57
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+      "text": "房型",
+      "rect": {
+        "x": 1179,
+        "y": 838,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "房型",
+      "rect": {
+        "x": 1179,
+        "y": 838,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(227, 227, 227)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-overflow",
+      "text": "",
+      "rect": {
+        "x": 1184,
+        "y": 842,
+        "w": 170,
+        "h": 24
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix",
+      "text": "",
+      "rect": {
+        "x": 1184,
+        "y": 842,
+        "w": 11,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 842,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 842,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search-mirror",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 842,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "房型",
+      "rect": {
+        "x": 1191,
+        "y": 839,
+        "w": 176,
+        "h": 26
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-arrow",
+      "text": "",
+      "rect": {
+        "x": 1361,
+        "y": 847,
+        "w": 10,
+        "h": 10
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "filterItemsWrapper___WCzbl",
+      "text": "标签 房型标签",
+      "rect": {
+        "x": 1179,
+        "y": 882,
+        "w": 245,
+        "h": 57
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+      "text": "房型标签",
+      "rect": {
+        "x": 1179,
+        "y": 911,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "房型标签",
+      "rect": {
+        "x": 1179,
+        "y": 911,
+        "w": 200,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(227, 227, 227)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-overflow",
+      "text": "",
+      "rect": {
+        "x": 1184,
+        "y": 915,
+        "w": 170,
+        "h": 24
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix",
+      "text": "",
+      "rect": {
+        "x": 1184,
+        "y": 915,
+        "w": 11,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 915,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 915,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search-mirror",
+      "text": "",
+      "rect": {
+        "x": 1191,
+        "y": 915,
+        "w": 4,
+        "h": 24
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "房型标签",
+      "rect": {
+        "x": 1191,
+        "y": 912,
+        "w": 176,
+        "h": 26
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-arrow",
+      "text": "",
+      "rect": {
+        "x": 1361,
+        "y": 920,
+        "w": 10,
+        "h": 10
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "text": "请选择类型",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "请选择类型",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(217, 217, 217)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "请选择类型",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-arrow",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "anticon anticon-down ant-select-suffix",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "text": "请选择支付方式",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "div",
+      "className": "ant-select-selector",
+      "text": "请选择支付方式",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(217, 217, 217)",
+        "radius": "4px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-search",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "input",
+      "className": "ant-select-selection-search-input",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "inline-block",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-selection-placeholder",
+      "text": "请选择支付方式",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(153, 153, 153)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(153, 153, 153)",
+        "radius": "0px",
+        "font": "14px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "ant-select-arrow",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "flex",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    },
+    {
+      "tag": "span",
+      "className": "anticon anticon-down ant-select-suffix",
+      "text": "",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgba(0, 0, 0, 0.25)",
+        "radius": "0px",
+        "font": "12px \"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,2507 @@
+{
+  "stamp": "20260516-95-real-loop",
+  "targetUrl": "https://minsubao.localhome.cn/order/house-order/list",
+  "capturedAt": "2026-05-16T06:30:09.154Z",
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "pathname": "/camps/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {},
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "camps"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "pathname": "/user/own/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {},
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "userId",
+          "mobile",
+          "email",
+          "headImages",
+          "nickName",
+          "areaCode",
+          "area",
+          "inviter",
+          "isBindingMp",
+          "mpQrUrl",
+          "isLoginBindMp",
+          "roles",
+          "userIpv4"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "pathname": "/camp/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "campId",
+          "name",
+          "type",
+          "isModifyConsoleLogo",
+          "networkNum",
+          "nationId",
+          "nationName",
+          "provinceId",
+          "provinceName",
+          "cityId",
+          "cityName",
+          "countyId",
+          "countyName",
+          "address",
+          "qrUrl",
+          "logoPhotoMediaId",
+          "logoPhotoMediaUrl",
+          "consoleLogoPhotoMediaId",
+          "consoleLogoPhotoMediaUrl",
+          "contactNumber",
+          "description",
+          "bizLicenceMediaId",
+          "bizLicenceMediaUrl",
+          "industryLicenseMediaId",
+          "industryLicenseMediaUrl",
+          "hasAuditQualification",
+          "scaleType",
+          "accounts",
+          "accountCamps",
+          "isComplete"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "141",
+        "param": {
+          "campId": "1796067693589061634",
+          "host": "minsubao.localhome.cn"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "pathname": "/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "editionId",
+          "editionName",
+          "editionType",
+          "editionLevel",
+          "isOwner",
+          "currentVersion",
+          "paymentInfo",
+          "isEditionLongTerm",
+          "isEditionTrial",
+          "contractStartDate",
+          "contractEndDate",
+          "expireDay",
+          "storeNum",
+          "storeQuotaNum",
+          "isStoreOverLimit",
+          "poiNum",
+          "poiQuotaNum",
+          "isPoiOverLimit",
+          "inventory",
+          "roomNum",
+          "roomQuotaNum",
+          "isRoomOverLimit",
+          "userRoleNum",
+          "employeeNum",
+          "employeeQuotaNum",
+          "isEmployeeOverLimit",
+          "isEditionReplace",
+          "appVersionInfoViews",
+          "applyGoodsViews",
+          "applyRoomCategoryViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "pathname": "/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "traces": [
+          {
+            "pageName": "/order/house-order/list",
+            "extraInfo": "",
+            "actionTime": 1778912989849,
+            "sessionSeq": 1,
+            "sessionId": "1577a598-3cb7-4674-8a84-0a7bc40f6109",
+            "pageContextId": "6c36fb3e-9f90-48ca-824e-81f5ddec3721",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          }
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "pathname": "/menus/project/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "projectMenuId": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "pathname": "/channels/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "hasAllChannel": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "channels"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "pathname": "/edition/daily/remind/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "platform": 2
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "isRemind",
+          "remindContent",
+          "remindType",
+          "editionDailyRemindDataList"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "pathname": "/systemConfigs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "systemConfigs"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "pathname": "/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 47,
+        "param": {}
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "pathname": "/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 48,
+        "param": {}
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "pathname": "/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "editionId",
+          "editionName",
+          "editionType",
+          "editionLevel",
+          "isOwner",
+          "currentVersion",
+          "paymentInfo",
+          "isEditionLongTerm",
+          "isEditionTrial",
+          "contractStartDate",
+          "contractEndDate",
+          "expireDay",
+          "storeNum",
+          "storeQuotaNum",
+          "isStoreOverLimit",
+          "poiNum",
+          "poiQuotaNum",
+          "isPoiOverLimit",
+          "inventory",
+          "roomNum",
+          "roomQuotaNum",
+          "isRoomOverLimit",
+          "userRoleNum",
+          "employeeNum",
+          "employeeQuotaNum",
+          "isEmployeeOverLimit",
+          "isEditionReplace",
+          "appVersionInfoViews",
+          "applyGoodsViews",
+          "applyRoomCategoryViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "pathname": "/roomStatusesToday/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1778860800000,
+        "queryCode": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "basic",
+          "roomCategories",
+          "roomViews",
+          "floorViews",
+          "isInitFloor"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "134",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "isPaid",
+          "isEffectiveEdition"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "pathname": "/systemMessage/unReadCount/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "count",
+          "countDetail"
+        ],
+        "total": 0,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "param": {
+          "campId": "1796067693589061634"
+        },
+        "action": "168"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "isNeedInit"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "159",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "hasCardDevice",
+          "cardDeviceSystem"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "pathname": "/qr",
+      "method": "GET",
+      "resourceType": "image",
+      "status": 200,
+      "requestBody": null,
+      "responseSummary": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "pathname": "/edition/resource/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "editionId",
+          "editionName",
+          "editionType",
+          "resourceGetViews",
+          "valueAddServices"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "overview",
+          "todayNewOrder",
+          "todayCheckOut",
+          "todayCheckIn",
+          "todayPredictCheckIn",
+          "todayPredictCheckOut",
+          "staying",
+          "tomorrowCheckIn",
+          "tomorrowCheckOut",
+          "pending",
+          "refunding",
+          "exception",
+          "orderBox",
+          "arrangeSameRoom",
+          "unArrangeRoom",
+          "arrangeRoom",
+          "unOccupation",
+          "unStatistics",
+          "expiredNotCheckIn",
+          "expiredNotCheckOut"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "pathname": "/imYunxinUser/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "appKey",
+          "accid",
+          "token"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 21,
+        "listLength": 20,
+        "firstItemKeys": [
+          "campId",
+          "channelRoomCategoryId",
+          "channelRoomCategoryName",
+          "parentRoomCategoryId",
+          "mainPhotoMediaId",
+          "mainPhotoMediaUrl",
+          "mainPhoto",
+          "bedroomNum",
+          "ableArea",
+          "hallNum",
+          "personCapacity",
+          "bedNum",
+          "bedMetas",
+          "lowestSellingPrice",
+          "lowestSettlementPrice",
+          "lowestOriginalPrice",
+          "reducePrice",
+          "isCanBooking",
+          "totalStock",
+          "roomCategoryType",
+          "goodsType",
+          "isLongTermEffective",
+          "effectiveStartTime",
+          "effectiveEndTime",
+          "poiType",
+          "parentPoiId",
+          "poiTags",
+          "channelPoiId",
+          "promotionDirectRatio",
+          "editionId",
+          "editionLevel",
+          "editionUpgradeType",
+          "isTransitionEdition",
+          "isFreeEdition",
+          "giftType",
+          "outRuleJson",
+          "channelOutRuleJson",
+          "applyId",
+          "isAvailability",
+          "description",
+          "attIds",
+          "contractAgreementUrl",
+          "bindRoomCategoryViews",
+          "bindServiceViews",
+          "roomCategoryProductGetViews"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "pathname": "/paymentTypes/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "paymentTypes"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "1848317056370487297"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "pathname": "/select/poi/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 1,
+        "listLength": 1,
+        "firstItemKeys": [
+          "poiId",
+          "poiName"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "pathname": "/poi/digitization/process/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "hasDigitalProcess",
+          "isComplete",
+          "state",
+          "failReason",
+          "currentProgress",
+          "estimatedTime",
+          "isHandleRoomCategory",
+          "ydPoiId",
+          "channelId"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "pathname": "/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": "183",
+        "param": {
+          "campId": "1796067693589061634",
+          "type": "门店"
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "2000745252682776577"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "pathname": "/orders/strongReminder/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 0,
+        "listLength": 0,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "pathname": "/commons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "code": "hudson.im.picture.support.channels"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "commons"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "pathname": "/roomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 4,
+        "listLength": 4,
+        "firstItemKeys": [
+          "roomCategoryId",
+          "campId",
+          "saleCampId",
+          "upstreamCampId",
+          "downstreamCampId",
+          "fromType",
+          "channelId",
+          "parentId",
+          "mainPhotoMediaId",
+          "mainPhotoMediaUrl",
+          "mainPhoto",
+          "inventory",
+          "checkinGuestCount",
+          "roomCategoryTransferId",
+          "checkinGuideId",
+          "isCampHasMultiInventoryRoomCategory",
+          "isTransfer",
+          "priority",
+          "basePrice",
+          "weekendPrice",
+          "holidayPrice",
+          "channelOrderTotalNum",
+          "expectedChannelOrderTotalNum",
+          "roomViews",
+          "isAvailability",
+          "auditStatus",
+          "failReason",
+          "depositPrice",
+          "fullAddress",
+          "waitMappingChannelNum",
+          "poiView",
+          "icsInfoViews",
+          "roomCategoryProductInfoViews",
+          "roomCategorySystemConfigInfos",
+          "isSupportHotelProduct",
+          "isCanDelete",
+          "deleteMessage",
+          "name",
+          "linkRcs",
+          "byLinkRcs",
+          "channels",
+          "channelInfos",
+          "channelProductInfos",
+          "roomCategoryGroupInfos"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "pathname": "/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          3
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "paymentGroups"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "pathname": "/roomCategoryFlow/closeRoomCategoryRemind",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "isNormalOperation": 0
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "title",
+          "content",
+          "operationResult"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "pathname": "/select/poi/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 9999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 1,
+        "listLength": 1,
+        "firstItemKeys": [
+          "poiId",
+          "poiName"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryGroups/get",
+      "pathname": "/roomCategoryGroups/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "roomCategoryGroups"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/orderFilter/get",
+      "pathname": "/systemConfigs/user/orderFilter/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "userId": "1796067693261905922"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "userOrderFilters"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/calChannel4Order/get",
+      "pathname": "/select/calChannel4Order/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "select"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "pathname": "/orders/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "orderType": "",
+        "isLt": 0
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 1693,
+        "listLength": 20,
+        "firstItemKeys": [
+          "orderId",
+          "outOrderId",
+          "channelId",
+          "priceMode",
+          "orderChannelId",
+          "guestName",
+          "guestMobile",
+          "orderExpectedPrice",
+          "orderTotalIncomePrice",
+          "invoicePrice",
+          "includeCommissionRoomPrice",
+          "platformServicePrice",
+          "totalRoomPrice",
+          "otherPrice",
+          "totalReducePrice",
+          "orderTotalPrice",
+          "sumAdditionPrice",
+          "totalPayPrice",
+          "depositPrice",
+          "debtPrice",
+          "bookedTime",
+          "createTime",
+          "orderState",
+          "ticketState",
+          "type",
+          "isLt",
+          "isOta",
+          "refundOrderId",
+          "refundDisplayState",
+          "refundOrder",
+          "payWayName",
+          "orderTagValues",
+          "remark",
+          "ltTotalRentPrice",
+          "ltOtherPrice",
+          "ltDepositPrice",
+          "ltGrossRevenuePrice",
+          "ltGrossProceedPrice",
+          "ltPaymentCycle",
+          "ltTermOfContract",
+          "ltRentStartDate",
+          "ltRentEndDate",
+          "ltRuleJson",
+          "ltPeriodOfContract",
+          "paymentTime",
+          "ltPaymentCycleName",
+          "ltPaymentReminderMonth",
+          "ltPaymentReminderDay",
+          "depositGetView",
+          "paymentOrderTradeTime",
+          "paymentOrderTradeTimeStr",
+          "orderPaymentId",
+          "paymentOrders",
+          "orderDetailViews"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "pathname": "/rooms/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "roomCategoryRooms"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "pathname": "/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          2
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "paymentGroups"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "1754323708553199617"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "pathname": "/orders/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "orderType": "",
+        "isLt": 0
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 1693,
+        "listLength": 20,
+        "firstItemKeys": [
+          "orderId",
+          "outOrderId",
+          "channelId",
+          "priceMode",
+          "orderChannelId",
+          "guestName",
+          "guestMobile",
+          "orderExpectedPrice",
+          "orderTotalIncomePrice",
+          "invoicePrice",
+          "includeCommissionRoomPrice",
+          "platformServicePrice",
+          "totalRoomPrice",
+          "otherPrice",
+          "totalReducePrice",
+          "orderTotalPrice",
+          "sumAdditionPrice",
+          "totalPayPrice",
+          "depositPrice",
+          "debtPrice",
+          "bookedTime",
+          "createTime",
+          "orderState",
+          "ticketState",
+          "type",
+          "isLt",
+          "isOta",
+          "refundOrderId",
+          "refundDisplayState",
+          "refundOrder",
+          "payWayName",
+          "orderTagValues",
+          "remark",
+          "ltTotalRentPrice",
+          "ltOtherPrice",
+          "ltDepositPrice",
+          "ltGrossRevenuePrice",
+          "ltGrossProceedPrice",
+          "ltPaymentCycle",
+          "ltTermOfContract",
+          "ltRentStartDate",
+          "ltRentEndDate",
+          "ltRuleJson",
+          "ltPeriodOfContract",
+          "paymentTime",
+          "ltPaymentCycleName",
+          "ltPaymentReminderMonth",
+          "ltPaymentReminderDay",
+          "depositGetView",
+          "paymentOrderTradeTime",
+          "paymentOrderTradeTimeStr",
+          "orderPaymentId",
+          "paymentOrders",
+          "orderDetailViews"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "1876219663445012481"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 21,
+        "listLength": 20,
+        "firstItemKeys": [
+          "campId",
+          "channelRoomCategoryId",
+          "channelRoomCategoryName",
+          "parentRoomCategoryId",
+          "mainPhotoMediaId",
+          "mainPhotoMediaUrl",
+          "mainPhoto",
+          "bedroomNum",
+          "ableArea",
+          "hallNum",
+          "personCapacity",
+          "bedNum",
+          "bedMetas",
+          "lowestSellingPrice",
+          "lowestSettlementPrice",
+          "lowestOriginalPrice",
+          "reducePrice",
+          "isCanBooking",
+          "totalStock",
+          "roomCategoryType",
+          "goodsType",
+          "isLongTermEffective",
+          "effectiveStartTime",
+          "effectiveEndTime",
+          "poiType",
+          "parentPoiId",
+          "poiTags",
+          "channelPoiId",
+          "promotionDirectRatio",
+          "editionId",
+          "editionLevel",
+          "editionUpgradeType",
+          "isTransitionEdition",
+          "isFreeEdition",
+          "giftType",
+          "outRuleJson",
+          "channelOutRuleJson",
+          "applyId",
+          "isAvailability",
+          "description",
+          "attIds",
+          "contractAgreementUrl",
+          "bindRoomCategoryViews",
+          "bindServiceViews",
+          "roomCategoryProductGetViews"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "total",
+          "size",
+          "current",
+          "extraInfo",
+          "pageNum",
+          "hasNextPage",
+          "pages",
+          "list"
+        ],
+        "total": 21,
+        "listLength": 20,
+        "firstItemKeys": [
+          "campId",
+          "channelRoomCategoryId",
+          "channelRoomCategoryName",
+          "parentRoomCategoryId",
+          "mainPhotoMediaId",
+          "mainPhotoMediaUrl",
+          "mainPhoto",
+          "bedroomNum",
+          "ableArea",
+          "hallNum",
+          "personCapacity",
+          "bedNum",
+          "bedMetas",
+          "lowestSellingPrice",
+          "lowestSettlementPrice",
+          "lowestOriginalPrice",
+          "reducePrice",
+          "isCanBooking",
+          "totalStock",
+          "roomCategoryType",
+          "goodsType",
+          "isLongTermEffective",
+          "effectiveStartTime",
+          "effectiveEndTime",
+          "poiType",
+          "parentPoiId",
+          "poiTags",
+          "channelPoiId",
+          "promotionDirectRatio",
+          "editionId",
+          "editionLevel",
+          "editionUpgradeType",
+          "isTransitionEdition",
+          "isFreeEdition",
+          "giftType",
+          "outRuleJson",
+          "channelOutRuleJson",
+          "applyId",
+          "isAvailability",
+          "description",
+          "attIds",
+          "contractAgreementUrl",
+          "bindRoomCategoryViews",
+          "bindServiceViews",
+          "roomCategoryProductGetViews"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 64,
+        "param": {
+          "campId": "1796067693589061634",
+          "paymentGoodsId": 1
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "refundApplyOrderCount"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "overview",
+          "todayNewOrder",
+          "todayCheckOut",
+          "todayCheckIn",
+          "todayPredictCheckIn",
+          "todayPredictCheckOut",
+          "staying",
+          "tomorrowCheckIn",
+          "tomorrowCheckOut",
+          "pending",
+          "refunding",
+          "exception",
+          "orderBox",
+          "arrangeSameRoom",
+          "unArrangeRoom",
+          "arrangeRoom",
+          "unOccupation",
+          "unStatistics",
+          "expiredNotCheckIn",
+          "expiredNotCheckOut"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "pathname": "/paymentWays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "paymentWays"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "pathname": "/holidays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {},
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "holidayInfos"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "pathname": "/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "campId",
+          "expectedChannelOrderTotalNum",
+          "isOpenFlow",
+          "orderMobile",
+          "isStopFlow",
+          "stopType",
+          "channelInfos",
+          "isEnableEbk"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "pathname": "/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 64,
+        "param": {
+          "campId": "1796067693589061634",
+          "paymentGoodsId": 1
+        }
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "refundApplyOrderCount"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "pathname": "/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "campId",
+          "expectedChannelOrderTotalNum",
+          "isOpenFlow",
+          "orderMobile",
+          "isStopFlow",
+          "stopType",
+          "channelInfos",
+          "isEnableEbk"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "1947569513926946818"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "overview",
+          "todayNewOrder",
+          "todayCheckOut",
+          "todayCheckIn",
+          "todayPredictCheckIn",
+          "todayPredictCheckOut",
+          "staying",
+          "tomorrowCheckIn",
+          "tomorrowCheckOut",
+          "pending",
+          "refunding",
+          "exception",
+          "orderBox",
+          "arrangeSameRoom",
+          "unArrangeRoom",
+          "arrangeRoom",
+          "unOccupation",
+          "unStatistics",
+          "expiredNotCheckIn",
+          "expiredNotCheckOut"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "pathname": "/exchangeRate/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "isSupport": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "pathname": "/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "menuIds": [
+          "1953303333244473346"
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "optionJsonViews"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "pathname": "/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 47,
+        "param": {}
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "pathname": "/systemConfigs/user/shortcut/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "userId": "1796067693261905922"
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "userShortcuts"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "pathname": "/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "action": 48,
+        "param": {}
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29"
+        ],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "pathname": "/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "traces": [
+          {
+            "pageName": "/order/house-order/list",
+            "extraInfo": "",
+            "actionCode": "modal_strongReminder",
+            "actionTime": 1778912994044,
+            "sessionSeq": 2,
+            "sessionId": "1577a598-3cb7-4674-8a84-0a7bc40f6109",
+            "pageContextId": "6c36fb3e-9f90-48ca-824e-81f5ddec3721",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/order/house-order/list",
+            "extraInfo": "",
+            "actionCode": "workspace_ad_show",
+            "actionTime": 1778912994729,
+            "sessionSeq": 3,
+            "sessionId": "1577a598-3cb7-4674-8a84-0a7bc40f6109",
+            "pageContextId": "6c36fb3e-9f90-48ca-824e-81f5ddec3721",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/order/house-order/list",
+            "extraInfo": "\"orderType\"",
+            "actionCode": "houseOrder_search",
+            "actionTime": 1778912995787,
+            "sessionSeq": 4,
+            "sessionId": "1577a598-3cb7-4674-8a84-0a7bc40f6109",
+            "pageContextId": "6c36fb3e-9f90-48ca-824e-81f5ddec3721",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/order/house-order/list",
+            "extraInfo": "12449.59999999404",
+            "actionCode": "global-init-speed",
+            "actionTime": 1778913000382,
+            "sessionSeq": 5,
+            "sessionId": "1577a598-3cb7-4674-8a84-0a7bc40f6109",
+            "pageContextId": "6c36fb3e-9f90-48ca-824e-81f5ddec3721",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          }
+        ]
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "errorMsg": null,
+        "dataKeys": [],
+        "total": null,
+        "listLength": null,
+        "firstItemKeys": []
+      }
+    }
+  ]
+}

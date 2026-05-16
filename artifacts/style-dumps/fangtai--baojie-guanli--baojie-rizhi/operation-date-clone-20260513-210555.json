@@ -1,0 +1,29 @@
+{
+  "side": "clone",
+  "action": {
+    "slug": "operation-date",
+    "label": "开始日期"
+  },
+  "before": {
+    "url": "http://127.0.0.1:4196/cleanManage/cleanLog",
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n→\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\n操作人\n操作类型\n操作内容\n暂无数据",
+    "dialogs": [],
+    "dropdowns": [],
+    "selectedText": [
+      "房态",
+      "保洁日志",
+      "全部门店"
+    ]
+  },
+  "after": {
+    "url": "http://127.0.0.1:4196/cleanManage/cleanLog",
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n→\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\n操作人\n操作类型\n操作内容\n暂无数据",
+    "dialogs": [],
+    "dropdowns": [],
+    "selectedText": [
+      "房态",
+      "保洁日志",
+      "全部门店"
+    ]
+  }
+}

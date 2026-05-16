@@ -1,0 +1,295 @@
+.page-content:has(.price-log-page) {
+  padding: 10px 16px 12px;
+  background: #fff;
+}
+
+.page-content:has(.price-log-page) > .page-header {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.price-log-page {
+  display: grid;
+  gap: 0;
+  padding-right: 0;
+}
+
+.price-log-panel {
+  min-height: 233px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.price-log-query {
+  display: grid;
+  grid-template-columns: repeat(3, 297px) 1fr;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 8px;
+  min-height: 32px;
+  padding: 0 8px;
+  background: #fff;
+}
+
+.price-log-field,
+.price-log-field--date {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  color: #1f2a44;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.price-log-field > span {
+  flex: 0 0 auto;
+}
+
+.price-log-field--keyword > span,
+.price-log-field--operator > span {
+  width: 95px;
+}
+
+.price-log-field--adjustment > span {
+  width: 69px;
+}
+
+.price-log-field--channel > span {
+  width: 41px;
+}
+
+.price-log-field--date > span {
+  width: 73px;
+}
+
+.price-log-field--keyword input {
+  width: 166px;
+}
+
+.price-log-field--channel .price-log-select > button {
+  min-width: 248px;
+  width: 248px;
+}
+
+.price-log-field--adjustment .price-log-select > button {
+  min-width: 220px;
+  width: 220px;
+}
+
+.price-log-field--adjust-time {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.price-log-field--operation-date {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.price-log-field--operator {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.price-log-field--operator input {
+  width: 166px;
+}
+
+.price-log-query input,
+.price-log-select > button {
+  height: 28px;
+  border: 1px solid #d9dde8;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d5b73;
+  font-size: 13px;
+}
+
+.price-log-query input {
+  padding: 0 12px;
+}
+
+.price-log-select {
+  position: relative;
+}
+
+.price-log-select > button {
+  min-width: 220px;
+  padding: 0 34px 0 12px;
+  text-align: left;
+}
+
+.price-log-select > button::after {
+  content: '⌄';
+  position: absolute;
+  right: 12px;
+  color: #9aa6ba;
+}
+
+.price-log-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  width: 220px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid #dfe5f1;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(30, 42, 68, 0.14);
+}
+
+.price-log-options--channel {
+  width: 248px;
+}
+
+.price-log-options button {
+  min-height: 30px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0 10px;
+  color: #31415d;
+  text-align: left;
+}
+
+.price-log-options button:hover,
+.price-log-options button[aria-selected='true'] {
+  background: #eef2ff;
+  color: var(--blue);
+}
+
+.price-log-query__actions {
+  grid-column: 4;
+  grid-row: 1;
+  justify-self: end;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-log-query.is-expanded .price-log-query__actions {
+  grid-row: 2;
+}
+
+.price-log-query__actions button {
+  height: 28px;
+  min-width: 64px;
+  padding: 0 16px;
+  border: 1px solid #d5dcf0;
+  border-radius: 4px;
+  background: #fff;
+  color: #4664f4;
+  font-size: 14px;
+}
+
+.price-log-query__actions .is-primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.price-log-query__actions .is-link {
+  min-width: 49px;
+  padding: 0 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--blue);
+}
+
+.price-log-date-range {
+  display: inline-flex;
+  align-items: center;
+  width: 220px;
+  height: 28px;
+  border: 1px solid #d9dde8;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d5b73;
+}
+
+.price-log-date-range input {
+  width: 78px;
+  height: 24px;
+  border: 0;
+  padding: 0 8px;
+}
+
+.price-log-date-range input:focus {
+  outline: none;
+}
+
+.price-log-date-range span {
+  color: #9aa6ba;
+}
+
+.price-log-table {
+  overflow: auto;
+  margin-top: 8px;
+}
+
+.price-log-table__head {
+  display: grid;
+  grid-template-columns: repeat(4, 130px) 300px 200px 100px 130px;
+  min-width: 1250px;
+  height: 36px;
+  background: #f1f5fb;
+  color: #1f2a44;
+  font-size: 14px;
+}
+
+.price-log-table__head > div {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-right: 1px solid #e7ecf4;
+}
+
+.price-log-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-width: 1250px;
+  min-height: 156px;
+  border-top: 1px solid #eef1f6;
+  color: #b6bfce;
+  font-size: 14px;
+}
+
+.price-log-empty__icon {
+  position: relative;
+  width: 42px;
+  height: 34px;
+  border: 1px solid #dfe3eb;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fbfcfe, #f5f7fb);
+}
+
+.price-log-empty__icon::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: -8px;
+  width: 24px;
+  height: 14px;
+  border: 1px solid #dfe3eb;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #fbfcfe;
+}
+
+@media (max-width: 1480px) {
+  .price-log-query__actions {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "url": "https://minsubao.localhome.cn/houseManage/retailPrice/hourSetting",
+  "visibleText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 门市价/ 钟点房设置 选择房型 +房型 产品名称 入住时长限制 限制 不限制 入住时长 3 小时 可入住时段 全天 自定义 10 点 到 22 点 确 定",
+  "buttons": [
+    {
+      "text": "+房型",
+      "id": "room",
+      "rect": {
+        "x": 344,
+        "y": 118,
+        "width": 68,
+        "height": 28
+      }
+    },
+    {
+      "text": "确 定",
+      "id": "",
+      "rect": {
+        "x": 192,
+        "y": 326,
+        "width": 63,
+        "height": 28
+      }
+    }
+  ],
+  "fields": [
+    {
+      "tag": "input",
+      "type": "text",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 344,
+        "y": 161,
+        "width": 300,
+        "height": 26
+      }
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "value": "1",
+      "checked": true,
+      "rect": {
+        "x": 344,
+        "y": 209,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "value": "0",
+      "checked": false,
+      "rect": {
+        "x": 431,
+        "y": 209,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 356,
+        "y": 245,
+        "width": 137,
+        "height": 28
+      }
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "value": "1",
+      "checked": true,
+      "rect": {
+        "x": 344,
+        "y": 293,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "value": "2",
+      "checked": false,
+      "rect": {
+        "x": 431,
+        "y": 293,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 513,
+        "y": 289,
+        "width": 63,
+        "height": 22
+      }
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 647,
+        "y": 289,
+        "width": 63,
+        "height": 22
+      }
+    }
+  ],
+  "panels": []
+}

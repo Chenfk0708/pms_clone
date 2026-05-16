@@ -1,0 +1,441 @@
+{
+  "url": "https://minsubao.localhome.cn/houseManage/otherPrice",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n杂费设置\n活动设置\n渠道\n房型\n押金\n可加客人数\n加人费(每人)\n餐食数量\n佣金率(%)\n顶层套房（浴缸巨幕电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n总裁套间（桑拿浴缸露台电竞麻将）\n途家\n设置\n设置\n设置\n设置\n设置\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n天落大床电竞套间\n小猪\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n观影大床房\n途家\n设置\n设置\n设置\n设置\n设置\n美团民宿\n设置\n设置\n设置\n设置\n设置\n携程\n设置\n设置\n设置\n设置\n12\n美团酒店\n设置\n设置\n设置\n设置\n15\n飞猪淘酒店\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n路客云聚合\n设置\n设置\n设置\n设置\n设置\n木鸟\n设置\n设置\n设置\n设置\n设置\n改价\n一键改价\n￥\n保 存\n取 消",
+  "dialogs": [
+    {
+      "cls": "ant-modal",
+      "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-modal",
+      "text": "您在正式使用路客云中央价高效控价之前，请先选择您期望的改价模式售卖价模式通过实际售卖价/用户支付价来进行价格管控推荐划线价模式通过划线价来进行价格管控确 定",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-modal",
+      "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-modal",
+      "text": "账号登录+86                                                      请按住滑块，拖动到最右边                                  \n        登 录其他登录方式新用户立即体验新用户忘记密码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-drawer ant-drawer-right no-mask customDrawer___2zjEn ant-drawer-open",
+      "text": "改价一键改价￥保 存取 消",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 900
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-drawer-content",
+      "text": "改价一键改价￥保 存取 消",
+      "box": {
+        "x": 960,
+        "y": 50,
+        "w": 480,
+        "h": 850
+      },
+      "display": "block",
+      "visibility": "visible"
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "BUTTON",
+      "cls": "ant-modal-close",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary sendButton___2H8-Q",
+      "role": null,
+      "text": "发 送",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select order___1vKZK ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "渠道",
+      "placeholder": null,
+      "box": {
+        "x": 172,
+        "y": 110,
+        "w": 145,
+        "h": 28
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 184,
+        "y": 111,
+        "w": 107,
+        "h": 28
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select house___1Ia1G ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+      "role": null,
+      "text": "房型",
+      "placeholder": null,
+      "box": {
+        "x": 325,
+        "y": 110,
+        "w": 145,
+        "h": 28
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 337,
+        "y": 114,
+        "w": 4.09375,
+        "h": 24
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary ant-btn-sm",
+      "role": null,
+      "text": "下一步",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-default ant-btn-sm guideStepNext___jPySR nextButton___2Ra9v",
+      "role": null,
+      "text": "下一步",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary footerButton___3DUd4",
+      "role": null,
+      "text": "确 定",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-modal-close",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "请选择类型",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "请选择支付方式",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-picker",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "flex",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": null,
+      "role": null,
+      "text": "请选择日期",
+      "placeholder": "请选择日期",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input-number-input",
+      "role": "spinbutton",
+      "text": "请输入金额",
+      "placeholder": "请输入金额",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary",
+      "role": null,
+      "text": "提 交",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input",
+      "role": null,
+      "text": "手机号码",
+      "placeholder": "手机号码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input",
+      "role": null,
+      "text": "请输入密码",
+      "placeholder": "请输入密码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+      "role": null,
+      "text": "登 录",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input",
+      "role": null,
+      "text": "请输入价格",
+      "placeholder": "请输入价格",
+      "box": {
+        "x": 1072,
+        "y": 102,
+        "w": 340,
+        "h": 26
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary",
+      "role": null,
+      "text": "保 存",
+      "placeholder": null,
+      "box": {
+        "x": 1040,
+        "y": 862,
+        "w": 96,
+        "h": 28
+      },
+      "display": "flex",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-default",
+      "role": null,
+      "text": "取 消",
+      "placeholder": null,
+      "box": {
+        "x": 1264,
+        "y": 862,
+        "w": 96,
+        "h": 28
+      },
+      "display": "flex",
+      "visibility": "visible"
+    }
+  ]
+}

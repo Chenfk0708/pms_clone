@@ -1,0 +1,1663 @@
+{
+  "side": "clone",
+  "mode": "clone",
+  "stamp": "20260514-1516",
+  "finalUrl": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+  "states": {
+    "default": {
+      "url": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n权益列表\n\n可以在此处配置所需的会员权益\n\n添 加\n排 序\n展示名称\t权益图标\t权益简介\t操作\n\n暂无数据\n全部会话\n收 起\n咨\n携程民宿-【M335275070】\n咨询中\n\n途家\n\n顶层套房（浴缸巨幕电竞麻将）\n\n房:加了\n\n咨\n携程民宿-【M566739056】\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:已办理退房\n\n咨\nCqBv9667\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:不客气哈~",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "添 加",
+          "rect": {
+            "x": 1290,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "排 序",
+          "rect": {
+            "x": 1364,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收 起",
+          "rect": {
+            "x": 1358,
+            "y": 337,
+            "width": 53,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "52.7656px",
+            "height": "30px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(240, 240, 240)",
+            "border": "2px outset rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "添 加",
+        "排 序",
+        "收 起"
+      ],
+      "tableHeaders": [
+        "展示名称",
+        "权益图标",
+        "权益简介",
+        "操作"
+      ],
+      "tableTexts": [
+        {
+          "tag": "table",
+          "className": "member-equity-table",
+          "role": null,
+          "ariaLabel": "会员权益列表",
+          "placeholder": null,
+          "text": "展示名称 权益图标 权益简介 操作 暂无数据",
+          "rect": {
+            "x": 168,
+            "y": 131,
+            "width": 1260,
+            "height": 191
+          },
+          "styles": {
+            "display": "table",
+            "position": "static",
+            "width": "1260px",
+            "height": "191px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(128, 128, 128)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "权益列表 可以在此处配置所需的会员权益 添 加 排 序 展示名称 权益图标 权益简介 操作 暂无数据 全部会话 收 起 咨 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 咨 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 咨 CqBv9667 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:不客气哈~",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "0px 12px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(243, 246, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ]
+    },
+    "afterClick:添 加": {
+      "url": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n权益列表\n\n可以在此处配置所需的会员权益\n\n添 加\n排 序\n展示名称\t权益图标\t权益简介\t操作\n\n暂无数据\n全部会话\n收 起\n咨\n携程民宿-【M335275070】\n咨询中\n\n途家\n\n顶层套房（浴缸巨幕电竞麻将）\n\n房:加了\n\n咨\n携程民宿-【M566739056】\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:已办理退房\n\n咨\nCqBv9667\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:不客气哈~\n\n新增权益\n×\n权益名称\n权益图标\n+ 添加图标\n权益简介\n取 消\n提 交",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "添 加",
+          "rect": {
+            "x": 1290,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "排 序",
+          "rect": {
+            "x": 1364,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收 起",
+          "rect": {
+            "x": 1358,
+            "y": 337,
+            "width": 53,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "52.7656px",
+            "height": "30px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(240, 240, 240)",
+            "border": "2px outset rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "Close",
+          "placeholder": null,
+          "text": "×",
+          "rect": {
+            "x": 869,
+            "y": 116,
+            "width": 27,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "26.8438px",
+            "height": "22px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "20px",
+            "fontWeight": "400",
+            "lineHeight": "20px",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.45)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "请输入权益名称",
+          "text": "",
+          "rect": {
+            "x": 544,
+            "y": 206,
+            "width": 352,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "352px",
+            "height": "32px",
+            "padding": "4px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-upload",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "+ 添加图标",
+          "rect": {
+            "x": 544,
+            "y": 289,
+            "width": 104,
+            "height": 104
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "104px",
+            "height": "104px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgba(0, 0, 0, 0.65)",
+            "backgroundColor": "rgb(250, 250, 250)",
+            "border": "1px dashed rgb(217, 217, 217)",
+            "borderRadius": "2px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "textarea",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "请输入权益简介",
+          "text": "",
+          "rect": {
+            "x": 544,
+            "y": 444,
+            "width": 352,
+            "height": 72
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "352px",
+            "height": "72px",
+            "padding": "8px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "normal",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "auto",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "取 消",
+          "rect": {
+            "x": 752,
+            "y": 538,
+            "width": 68,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "68px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "提 交",
+          "rect": {
+            "x": 828,
+            "y": 538,
+            "width": 68,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "68px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": "text",
+          "placeholder": "请输入权益名称",
+          "ariaLabel": null,
+          "value": ""
+        },
+        {
+          "type": null,
+          "placeholder": "请输入权益简介",
+          "ariaLabel": null,
+          "value": ""
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "添 加",
+        "排 序",
+        "收 起",
+        "×",
+        "+ 添加图标",
+        "取 消",
+        "提 交"
+      ],
+      "tableHeaders": [
+        "展示名称",
+        "权益图标",
+        "权益简介",
+        "操作"
+      ],
+      "tableTexts": [
+        {
+          "tag": "table",
+          "className": "member-equity-table",
+          "role": null,
+          "ariaLabel": "会员权益列表",
+          "placeholder": null,
+          "text": "展示名称 权益图标 权益简介 操作 暂无数据",
+          "rect": {
+            "x": 168,
+            "y": 131,
+            "width": 1260,
+            "height": 191
+          },
+          "styles": {
+            "display": "table",
+            "position": "static",
+            "width": "1260px",
+            "height": "191px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(128, 128, 128)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "权益列表 可以在此处配置所需的会员权益 添 加 排 序 展示名称 权益图标 权益简介 操作 暂无数据 全部会话 收 起 咨 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 咨 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 咨 CqBv9667 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:不客气哈~ 新增权益 × 权益名称 权益图标 + 添加图标 权益简介 取 消 提 交",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "0px 12px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(243, 246, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\添加-clone-20260514-1516.png"
+    },
+    "afterClick:排 序": {
+      "url": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n权益列表\n\n可以在此处配置所需的会员权益\n\n添 加\n保存排序\n拖动列表项排序\n展示名称\t权益图标\t权益简介\t操作\n\n暂无数据\n全部会话\n收 起\n咨\n携程民宿-【M335275070】\n咨询中\n\n途家\n\n顶层套房（浴缸巨幕电竞麻将）\n\n房:加了\n\n咨\n携程民宿-【M566739056】\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:已办理退房\n\n咨\nCqBv9667\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:不客气哈~",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "添 加",
+          "rect": {
+            "x": 1266,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "保存排序",
+          "rect": {
+            "x": 1340,
+            "y": 76,
+            "width": 88,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "88px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(64, 88, 232)",
+            "border": "1px solid rgb(64, 88, 232)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收 起",
+          "rect": {
+            "x": 1358,
+            "y": 366,
+            "width": 53,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "52.7656px",
+            "height": "30px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(240, 240, 240)",
+            "border": "2px outset rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "添 加",
+        "保存排序",
+        "收 起"
+      ],
+      "tableHeaders": [
+        "展示名称",
+        "权益图标",
+        "权益简介",
+        "操作"
+      ],
+      "tableTexts": [
+        {
+          "tag": "table",
+          "className": "member-equity-table",
+          "role": null,
+          "ariaLabel": "会员权益列表",
+          "placeholder": null,
+          "text": "展示名称 权益图标 权益简介 操作 暂无数据",
+          "rect": {
+            "x": 168,
+            "y": 160,
+            "width": 1260,
+            "height": 191
+          },
+          "styles": {
+            "display": "table",
+            "position": "static",
+            "width": "1260px",
+            "height": "191px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(128, 128, 128)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "权益列表 可以在此处配置所需的会员权益 添 加 保存排序 拖动列表项排序 展示名称 权益图标 权益简介 操作 暂无数据 全部会话 收 起 咨 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 咨 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 咨 CqBv9667 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:不客气哈~",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "0px 12px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(243, 246, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\排序-clone-20260514-1516.png"
+    },
+    "afterClick:排序": {
+      "url": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n权益列表\n\n可以在此处配置所需的会员权益\n\n添 加\n保存排序\n拖动列表项排序\nmemberBenefitSeqs:不能为空\n展示名称\t权益图标\t权益简介\t操作\n\n暂无数据\n全部会话\n收 起\n咨\n携程民宿-【M335275070】\n咨询中\n\n途家\n\n顶层套房（浴缸巨幕电竞麻将）\n\n房:加了\n\n咨\n携程民宿-【M566739056】\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:已办理退房\n\n咨\nCqBv9667\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:不客气哈~",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "添 加",
+          "rect": {
+            "x": 1266,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "保存排序",
+          "rect": {
+            "x": 1340,
+            "y": 76,
+            "width": 88,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "88px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(64, 88, 232)",
+            "border": "1px solid rgb(64, 88, 232)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收 起",
+          "rect": {
+            "x": 1358,
+            "y": 393,
+            "width": 53,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "52.7656px",
+            "height": "30px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(240, 240, 240)",
+            "border": "2px outset rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "添 加",
+        "保存排序",
+        "收 起"
+      ],
+      "tableHeaders": [
+        "展示名称",
+        "权益图标",
+        "权益简介",
+        "操作"
+      ],
+      "tableTexts": [
+        {
+          "tag": "table",
+          "className": "member-equity-table",
+          "role": null,
+          "ariaLabel": "会员权益列表",
+          "placeholder": null,
+          "text": "展示名称 权益图标 权益简介 操作 暂无数据",
+          "rect": {
+            "x": 168,
+            "y": 187,
+            "width": 1260,
+            "height": 191
+          },
+          "styles": {
+            "display": "table",
+            "position": "static",
+            "width": "1260px",
+            "height": "191px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(128, 128, 128)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "权益列表 可以在此处配置所需的会员权益 添 加 保存排序 拖动列表项排序 memberBenefitSeqs:不能为空 展示名称 权益图标 权益简介 操作 暂无数据 全部会话 收 起 咨 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 咨 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 咨 CqBv9667 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:不客气哈~",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "0px 12px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(243, 246, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\排序-clone-20260514-1516.png"
+    },
+    "afterClick:会员权益": {
+      "url": "http://127.0.0.1:4173/scrm/memberCenter/equity",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n权益列表\n\n可以在此处配置所需的会员权益\n\n添 加\n保存排序\n拖动列表项排序\nmemberBenefitSeqs:不能为空\n展示名称\t权益图标\t权益简介\t操作\n\n暂无数据\n全部会话\n收 起\n咨\n携程民宿-【M335275070】\n咨询中\n\n途家\n\n顶层套房（浴缸巨幕电竞麻将）\n\n房:加了\n\n咨\n携程民宿-【M566739056】\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:已办理退房\n\n咨\nCqBv9667\n咨询中\n\n途家\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n房:不客气哈~",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "添 加",
+          "rect": {
+            "x": 1266,
+            "y": 76,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "member-equity-button is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "保存排序",
+          "rect": {
+            "x": 1340,
+            "y": 76,
+            "width": 88,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "88px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收 起",
+          "rect": {
+            "x": 1358,
+            "y": 393,
+            "width": 53,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "52.7656px",
+            "height": "30px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(240, 240, 240)",
+            "border": "2px outset rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "添 加",
+        "保存排序",
+        "收 起"
+      ],
+      "tableHeaders": [
+        "展示名称",
+        "权益图标",
+        "权益简介",
+        "操作"
+      ],
+      "tableTexts": [
+        {
+          "tag": "table",
+          "className": "member-equity-table",
+          "role": null,
+          "ariaLabel": "会员权益列表",
+          "placeholder": null,
+          "text": "展示名称 权益图标 权益简介 操作 暂无数据",
+          "rect": {
+            "x": 168,
+            "y": 187,
+            "width": 1260,
+            "height": 191
+          },
+          "styles": {
+            "display": "table",
+            "position": "static",
+            "width": "1260px",
+            "height": "191px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(128, 128, 128)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "权益列表 可以在此处配置所需的会员权益 添 加 保存排序 拖动列表项排序 memberBenefitSeqs:不能为空 展示名称 权益图标 权益简介 操作 暂无数据 全部会话 收 起 咨 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 咨 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 咨 CqBv9667 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:不客气哈~",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "0px 12px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(243, 246, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\会员权益-clone-20260514-1516.png"
+    }
+  },
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\default-clone-20260514-1516.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\full-clone-20260514-1516.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\default-clone-20260514-1516.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\default-clone-20260514-1516.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--huiyuan-zhongxin--huiyuan-quanyi\\default-clone-20260514-1516.json"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "add-item",
+  "stamp": "20260515131500",
+  "url": "http://127.0.0.1:54589/setting/shiftSetting",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:54589/setting/shiftSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:54589/assets/index-BmWb6h9W.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:54589/assets/index-Cthb3Xvw.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:54589/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

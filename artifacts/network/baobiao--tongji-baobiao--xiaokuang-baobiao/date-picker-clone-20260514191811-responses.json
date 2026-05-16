@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "date-picker",
+  "stamp": "20260514191811",
+  "url": "http://127.0.0.1:43282/statistics/sale",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43282/statistics/sale",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:43282/assets/index-BjbgFAj1.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:43282/assets/index-BTEzWcTA.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:43282/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

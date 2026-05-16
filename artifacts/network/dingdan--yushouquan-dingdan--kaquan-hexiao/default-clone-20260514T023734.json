@@ -1,0 +1,33 @@
+{
+  "capturedAt": "20260514T023734",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4209/mallManagement/verificationManagement",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4209/assets/index-B1BdTqJS.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4209/assets/index-CxqIRLbf.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4209/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

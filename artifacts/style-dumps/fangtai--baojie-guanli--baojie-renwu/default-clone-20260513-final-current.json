@@ -1,0 +1,461 @@
+{
+  "title": "pms_clone",
+  "location": "http://127.0.0.1:4173/cleanManage/cleanTask",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁任务\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n保洁日期：\n‹\n›\n导 出\n房型房间：\n请选择房型房间\n保洁类型：\n请选择保洁类型\n保洁状态：\n请选择保洁状态\n保洁员：\n请选择保洁员\n重 置\n查 询\n批量通知\n创建保洁任务\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通",
+  "hasSubscriptionMask": false,
+  "hasFakeTaskRow": false,
+  "batchNotifyDisabled": false,
+  "subscribeButtonNavigatesTo": "/version/applicationPayment/detail",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "应用订阅",
+      "disabled": false,
+      "box": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "消息",
+      "disabled": false,
+      "box": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "用户",
+      "disabled": false,
+      "box": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部门店",
+      "disabled": false,
+      "box": {
+        "x": 181,
+        "y": 77,
+        "width": 82,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px 0px 0px 4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "22px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "disabled": false,
+      "box": {
+        "x": 271,
+        "y": 77,
+        "width": 259,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px 4px 4px 0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "22px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "前一天",
+      "text": "‹",
+      "disabled": false,
+      "box": {
+        "x": 873,
+        "y": 77,
+        "width": 28,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "INPUT",
+      "className": "",
+      "role": "",
+      "ariaLabel": "保洁日期",
+      "text": "",
+      "disabled": false,
+      "box": {
+        "x": 907,
+        "y": 77,
+        "width": 160,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "后一天",
+      "text": "›",
+      "disabled": false,
+      "box": {
+        "x": 1073,
+        "y": 77,
+        "width": 28,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "clean-export",
+      "role": "",
+      "ariaLabel": "",
+      "text": "导 出",
+      "disabled": false,
+      "box": {
+        "x": 1357,
+        "y": 77,
+        "width": 58,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "请选择房型房间",
+      "disabled": false,
+      "box": {
+        "x": 267,
+        "y": 131,
+        "width": 140,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(104, 119, 153)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "请选择保洁类型",
+      "disabled": false,
+      "box": {
+        "x": 501,
+        "y": 131,
+        "width": 140,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(104, 119, 153)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "请选择保洁状态",
+      "disabled": false,
+      "box": {
+        "x": 735,
+        "y": 131,
+        "width": 140,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(104, 119, 153)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "请选择保洁员",
+      "disabled": false,
+      "box": {
+        "x": 953,
+        "y": 131,
+        "width": 140,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(104, 119, 153)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "重 置",
+      "disabled": false,
+      "box": {
+        "x": 1291,
+        "y": 113,
+        "width": 58,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "查 询",
+      "disabled": false,
+      "box": {
+        "x": 1357,
+        "y": 113,
+        "width": 58,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "批量通知",
+      "disabled": true,
+      "box": {
+        "x": 1215,
+        "y": 149,
+        "width": 82,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "backgroundColor": "rgb(245, 245, 245)",
+        "border": "1px solid rgb(217, 217, 217)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "创建保洁任务",
+      "disabled": false,
+      "box": {
+        "x": 1305,
+        "y": 149,
+        "width": 110,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "订阅开通",
+      "disabled": false,
+      "box": {
+        "x": 197,
+        "y": 873,
+        "width": 100,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "0px none rgb(255, 255, 255)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "0px 18px"
+      }
+    }
+  ]
+}

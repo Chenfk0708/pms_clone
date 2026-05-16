@@ -1,0 +1,372 @@
+{
+  "url": "http://127.0.0.1:4173/cleanManage/cleanSetting",
+  "text": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n\nPMS Clone Prototype\n\n保洁设置\n采集基线：Chrome 1440x900 / 账号已授权登录\n基础设置\n价格设置\n创建保洁任务策略\n自动创建保洁任务：\n如需设置房间自动脏净，请前往自动策略设置进行设置\n自动创建退房日任务\n“退房保洁”任务\n自动创建入住中每日任务\n“续住保洁”“退房保洁”任务\n入住中换房后自动创建任务\n入住中”的订单换房后，原房间生成“退房保洁”任务\n自入住中订单取消或提前退房时自动创建任务\n“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务\n自动延期当天未完成的任务\n已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务\n设置保洁时段\n默认保洁时段：\n设置保洁时段：\n12:00\n→\n14:00\n设置密码权限\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n···",
+  "styles": [
+    {
+      "selector": "body",
+      "found": true,
+      "tag": "BODY",
+      "className": "",
+      "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志PMS Clone Prototype保洁设置采集基线：Chrome 1440x900 / 账号已授权登录基础设置价格设置创建保洁任务策略自动创建保洁任务：如需设置房间自动脏净，请前往自动策略设置进行设置自动创建退房日任务“退房保洁”任务自动创建入住中每日任务“续住保洁”“退房保洁”任务入住中换房后自动创建任务入住中”的订单换房后，原房间生成“退房保洁”任务自入住中订单取消或提前退房时自动创建任务“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务自动延期当天未完成的任务已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务设置保洁时段默认保洁时段：设置保洁时段：12:00→14:00设置密码权限限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(237, 242, 248)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "0px",
+        "margin": "0px",
+        "width": "1440px",
+        "height": "1061px",
+        "minHeight": "900px",
+        "gap": "normal",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": "#root",
+      "found": true,
+      "tag": "DIV",
+      "className": "",
+      "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志PMS Clone Prototype保洁设置采集基线：Chrome 1440x900 / 账号已授权登录基础设置价格设置创建保洁任务策略自动创建保洁任务：如需设置房间自动脏净，请前往自动策略设置进行设置自动创建退房日任务“退房保洁”任务自动创建入住中每日任务“续住保洁”“退房保洁”任务入住中换房后自动创建任务入住中”的订单换房后，原房间生成“退房保洁”任务自入住中订单取消或提前退房时自动创建任务“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务自动延期当天未完成的任务已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务设置保洁时段默认保洁时段：设置保洁时段：12:00→14:00设置密码权限限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "0px",
+        "margin": "0px",
+        "width": "1440px",
+        "height": "1061px",
+        "minHeight": "900px",
+        "gap": "normal",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": ".ant-layout",
+      "found": false
+    },
+    {
+      "selector": ".page-content",
+      "found": true,
+      "tag": "MAIN",
+      "className": "page-content",
+      "text": "PMS Clone Prototype保洁设置采集基线：Chrome 1440x900 / 账号已授权登录基础设置价格设置创建保洁任务策略自动创建保洁任务：如需设置房间自动脏净，请前往自动策略设置进行设置自动创建退房日任务“退房保洁”任务自动创建入住中每日任务“续住保洁”“退房保洁”任务入住中换房后自动创建任务入住中”的订单换房后，原房间生成“退房保洁”任务自入住中订单取消或提前退房时自动创建任务“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务自动延期当天未完成的任务已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务设置保洁时段默认保洁时段：设置保洁时段：12:00→14:00设置密码权限限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通···",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "12px",
+        "margin": "0px",
+        "width": "1284px",
+        "height": "1003px",
+        "minHeight": "auto",
+        "gap": "normal",
+        "overflow": "hidden"
+      }
+    },
+    {
+      "selector": ".clean-setting-page",
+      "found": true,
+      "tag": "DIV",
+      "className": "clean-setting-page",
+      "text": "基础设置价格设置创建保洁任务策略自动创建保洁任务：如需设置房间自动脏净，请前往自动策略设置进行设置自动创建退房日任务“退房保洁”任务自动创建入住中每日任务“续住保洁”“退房保洁”任务入住中换房后自动创建任务入住中”的订单换房后，原房间生成“退房保洁”任务自入住中订单取消或提前退房时自动创建任务“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务自动延期当天未完成的任务已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务设置保洁时段默认保洁时段：设置保洁时段：12:00→14:00设置密码权限限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通···",
+      "style": {
+        "display": "grid",
+        "position": "relative",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "0px",
+        "margin": "0px",
+        "width": "1260px",
+        "height": "885.5px",
+        "minHeight": "0px",
+        "gap": "12px",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": ".clean-setting-tabs",
+      "found": true,
+      "tag": "DIV",
+      "className": "clean-setting-tabs",
+      "text": "基础设置价格设置",
+      "style": {
+        "display": "inline-flex",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "0px",
+        "margin": "0px 0px 10px",
+        "width": "187px",
+        "height": "32px",
+        "minHeight": "0px",
+        "gap": "0px",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": ".clean-section",
+      "found": true,
+      "tag": "SECTION",
+      "className": "clean-section",
+      "text": "创建保洁任务策略自动创建保洁任务：如需设置房间自动脏净，请前往自动策略设置进行设置自动创建退房日任务“退房保洁”任务自动创建入住中每日任务“续住保洁”“退房保洁”任务入住中换房后自动创建任务入住中”的订单换房后，原房间生成“退房保洁”任务自入住中订单取消或提前退房时自动创建任务“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务自动延期当天未完成的任务已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "10px 0px 28px",
+        "margin": "0px",
+        "width": "1242px",
+        "height": "385.5px",
+        "minHeight": "0px",
+        "gap": "normal",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": ".clean-promo",
+      "found": true,
+      "tag": "DIV",
+      "className": "clean-promo",
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "style": {
+        "display": "flex",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "1px solid rgb(217, 231, 255)",
+        "borderRadius": "8px",
+        "boxShadow": "none",
+        "padding": "28px 24px",
+        "margin": "0px",
+        "width": "1242px",
+        "height": "186px",
+        "minHeight": "186px",
+        "gap": "normal",
+        "overflow": "hidden"
+      }
+    },
+    {
+      "selector": "button",
+      "found": true,
+      "tag": "BUTTON",
+      "className": "",
+      "text": "应用订阅",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "24px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "boxShadow": "none",
+        "padding": "8px 12px",
+        "margin": "0px",
+        "width": "89px",
+        "height": "66px",
+        "minHeight": "auto",
+        "gap": "normal",
+        "overflow": "visible"
+      }
+    },
+    {
+      "selector": "input",
+      "found": true,
+      "tag": "INPUT",
+      "className": "",
+      "text": "",
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "14px",
+        "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "lineHeight": "21px",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(0, 0, 0)",
+        "borderRadius": "0px",
+        "boxShadow": "none",
+        "padding": "0px",
+        "margin": "2px 3px 3px 4px",
+        "width": "16px",
+        "height": "16px",
+        "minHeight": "auto",
+        "gap": "normal",
+        "overflow": "visible"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "应用订阅",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "消息",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "用户",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": "tab",
+      "text": "基础设置",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": "is-active"
+    },
+    {
+      "tag": "BUTTON",
+      "role": "tab",
+      "text": "价格设置",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "text": "",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "text": "",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "text": "",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "text": "",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "text": "",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "12:00",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "14:00",
+      "aria": null,
+      "placeholder": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "订阅开通",
+      "aria": null,
+      "placeholder": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "text": "···",
+      "aria": "在线咨询",
+      "placeholder": null,
+      "disabled": false,
+      "className": "clean-float-chat"
+    }
+  ]
+}

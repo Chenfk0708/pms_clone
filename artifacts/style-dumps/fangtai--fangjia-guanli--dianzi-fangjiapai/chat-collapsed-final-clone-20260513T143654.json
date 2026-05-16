@@ -1,0 +1,160 @@
+[
+  {
+    "selector": ".page-content",
+    "present": true,
+    "rect": {
+      "x": 156,
+      "y": 58,
+      "width": 1284,
+      "height": 966.796875,
+      "bottom": 1024.796875
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "hidden",
+      "width": "1284px",
+      "height": "966.797px",
+      "maxWidth": "none",
+      "padding": "12px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  },
+  {
+    "selector": ".price-board-page",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 163.5,
+      "width": 1260,
+      "height": 849.296875,
+      "bottom": 1012.796875
+    },
+    "styles": {
+      "display": "grid",
+      "position": "relative",
+      "overflow": "visible",
+      "width": "1260px",
+      "height": "849.297px",
+      "maxWidth": "none",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  },
+  {
+    "selector": ".price-board-product-card",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 163.5,
+      "width": 1260,
+      "height": 116,
+      "bottom": 279.5
+    },
+    "styles": {
+      "display": "grid",
+      "position": "static",
+      "overflow": "visible",
+      "width": "1260px",
+      "height": "116px",
+      "maxWidth": "none",
+      "padding": "18px 24px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-promo-frame img",
+    "present": true,
+    "rect": {
+      "x": 193,
+      "y": 363.5,
+      "width": 1210,
+      "height": 626.296875,
+      "bottom": 989.796875
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "clip",
+      "width": "1210px",
+      "height": "626.297px",
+      "maxWidth": "none",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    "image": {
+      "complete": true,
+      "naturalWidth": 1136,
+      "naturalHeight": 588,
+      "currentSrc": "http://127.0.0.1:4173/price-board-assets/brand-promotion-price-card.png"
+    }
+  },
+  {
+    "selector": ".price-board-detail-main",
+    "present": false
+  },
+  {
+    "selector": ".price-board-detail-card",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 291.5,
+      "width": 1260,
+      "height": 721.296875,
+      "bottom": 1012.796875
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "visible",
+      "width": "1260px",
+      "height": "721.297px",
+      "maxWidth": "none",
+      "padding": "18px 24px 22px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-detail-image",
+    "present": false
+  },
+  {
+    "selector": ".price-board-purchase-panel",
+    "present": false
+  },
+  {
+    "selector": ".price-board-buy-button",
+    "present": false
+  },
+  {
+    "selector": ".chat-dock",
+    "present": true,
+    "rect": {
+      "x": 1104,
+      "y": 834,
+      "width": 326,
+      "height": 56,
+      "bottom": 890
+    },
+    "styles": {
+      "display": "block",
+      "position": "fixed",
+      "overflow": "hidden",
+      "width": "326px",
+      "height": "56px",
+      "maxWidth": "none",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgba(255, 255, 255, 0.99)"
+    }
+  },
+  {
+    "selector": ".chat-dock__list",
+    "present": false
+  }
+]

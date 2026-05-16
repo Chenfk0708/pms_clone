@@ -1,0 +1,106 @@
+{
+  "url": "http://127.0.0.1:4186/mallManagement/orderManagement",
+  "bodyTextSample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 住宿订单 住宿订单 长租订单 预售券订单 预售券订单 卡券核销 酒店套餐订单 预售券订单 订单状态 全部 商品类型 请选择商品类型 订单来源 请选择订单来源 商品类目 请选择商品类目 支付方式 请选择支付方式 下单时间 → 搜索 售后状态 请选择售后状态 重 置 搜 索 导出明细 商品 商品类型(商品类目) 单价(元)/数量 商品总价(元) 实付金额(元) 买家/联系人 订单状态 售后状态 操作 暂无数据",
+  "isLoginBlocked": false,
+  "hasBusinessText": false,
+  "tableHeaders": [
+    "商品",
+    "商品类型(商品类目)",
+    "单价(元)/数量",
+    "商品总价(元)",
+    "实付金额(元)",
+    "买家/联系人",
+    "订单状态",
+    "售后状态",
+    "操作"
+  ],
+  "controls": [
+    {
+      "text": "应用订阅",
+      "ariaLabel": null,
+      "placeholder": null
+    },
+    {
+      "text": "消息",
+      "ariaLabel": null,
+      "placeholder": null
+    },
+    {
+      "text": "用户",
+      "ariaLabel": null,
+      "placeholder": null
+    },
+    {
+      "text": "全部",
+      "ariaLabel": "订单状态",
+      "placeholder": null
+    },
+    {
+      "text": "请选择商品类型",
+      "ariaLabel": "商品类型 请选择商品类型",
+      "placeholder": null
+    },
+    {
+      "text": "请选择订单来源",
+      "ariaLabel": "订单来源 请选择订单来源",
+      "placeholder": null
+    },
+    {
+      "text": "请选择商品类目",
+      "ariaLabel": "商品类目 请选择商品类目",
+      "placeholder": null
+    },
+    {
+      "text": "请选择支付方式",
+      "ariaLabel": "支付方式 请选择支付方式",
+      "placeholder": null
+    },
+    {
+      "text": "下单时间→",
+      "ariaLabel": "下单时间",
+      "placeholder": null
+    },
+    {
+      "text": "",
+      "ariaLabel": "下单开始日期",
+      "placeholder": "开始日期"
+    },
+    {
+      "text": "",
+      "ariaLabel": "下单结束日期",
+      "placeholder": "结束日期"
+    },
+    {
+      "text": "",
+      "ariaLabel": null,
+      "placeholder": "请输入订单编号/买家联系方式"
+    },
+    {
+      "text": "请选择售后状态",
+      "ariaLabel": "售后状态 请选择售后状态",
+      "placeholder": null
+    },
+    {
+      "text": "重 置",
+      "ariaLabel": null,
+      "placeholder": null
+    },
+    {
+      "text": "搜 索",
+      "ariaLabel": null,
+      "placeholder": null
+    },
+    {
+      "text": "导出明细",
+      "ariaLabel": null,
+      "placeholder": null
+    }
+  ],
+  "dropdownText": [],
+  "visibleOptions": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "devicePixelRatio": 1
+  }
+}

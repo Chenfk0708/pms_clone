@@ -1,0 +1,371 @@
+{
+  "url": "http://127.0.0.1:5173/workspace",
+  "title": "pms_clone",
+  "headings": [
+    {
+      "tag": "h1",
+      "className": "",
+      "text": "首页工作台",
+      "rect": {
+        "x": 12,
+        "y": 115.5,
+        "width": 133.0625,
+        "height": 36
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "24px",
+        "fontWeight": "700",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    }
+  ],
+  "metricCards": [
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "预抵0",
+      "rect": {
+        "x": 12,
+        "y": 163.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "在住3",
+      "rect": {
+        "x": 255.25,
+        "y": 163.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "预离0",
+      "rect": {
+        "x": 12,
+        "y": 274.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "可售0",
+      "rect": {
+        "x": 255.25,
+        "y": 274.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "维修房0",
+      "rect": {
+        "x": 12,
+        "y": 385.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-blue",
+      "text": "脏房1",
+      "rect": {
+        "x": 255.25,
+        "y": 385.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-rose",
+      "text": "异常920",
+      "rect": {
+        "x": 12,
+        "y": 496.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "article",
+      "className": "metric-card metric-orange",
+      "text": "总营业收入¥1,103.04",
+      "rect": {
+        "x": 255.25,
+        "y": 496.5,
+        "width": 235.25,
+        "height": 103
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "18px 14px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    }
+  ],
+  "panels": [
+    {
+      "tag": "section",
+      "className": "workspace-panel workspace-revenue",
+      "text": "昨日本月查看详情营业收入¥396预计总收入 ¥0记一笔 / 其他收入支出 ¥0入住率OCC50%已售房间数 2总房数 4平均客房收益RevPAR¥99全日房 ¥396钟点房 ¥0平均房费ADR¥198入住率OCC 50%平均房费ADR ¥198",
+      "rect": {
+        "x": 12,
+        "y": 611.5,
+        "width": 478.5,
+        "height": 387
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "10px 12px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel chart-panel",
+      "text": "本周上周查看详情营业收入入住率OCC平均房费ADR平均客房收益RevPAR已售房间数1200900600300005/1105/1105/1205/1305/1405/1505/16携程50.00%途家25.00%飞猪淘酒店25.00%",
+      "rect": {
+        "x": 502.5,
+        "y": 611.5,
+        "width": 609,
+        "height": 359.5
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "10px 12px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel empty-panel",
+      "text": "预抵在住预离查看全部订单请输入姓名/手机号暂无数据",
+      "rect": {
+        "x": 1123.5,
+        "y": 611.5,
+        "width": 304.5,
+        "height": 267.5
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "10px 12px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel empty-panel",
+      "text": "待办事项产品动态暂无数据",
+      "rect": {
+        "x": 12,
+        "y": 1010.5,
+        "width": 478.5,
+        "height": 240
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "10px 12px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel memo-panel",
+      "text": "待处理已处理暂无数据提交",
+      "rect": {
+        "x": 1123.5,
+        "y": 1010.5,
+        "width": 304.5,
+        "height": 320
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "14px",
+        "padding": "10px 12px",
+        "gap": "normal",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "tag": "aside",
+      "className": "chat-dock",
+      "text": "全部会话收起咨携程民宿-[M566…咨询中客: 您这房间跟价位完全匹配…54分4秒前咨携程民宿-[_WEC…咨询中总裁套间（桑拿浴缸露台电竞麻将）54分4秒前咨CqBv9667咨询中房: 不客气哈~54分4秒前",
+      "rect": {
+        "x": 12,
+        "y": 1342.5,
+        "width": 478.5,
+        "height": 364
+      },
+      "style": {
+        "display": "block",
+        "gridTemplateColumns": "none",
+        "background": "rgba(255, 255, 255, 0.98) none repeat scroll 0% 0% / auto padding-box border-box",
+        "color": "rgb(36, 50, 74)",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "16px",
+        "padding": "0px",
+        "gap": "normal",
+        "boxShadow": "rgba(31, 42, 68, 0.12) 0px 18px 36px 0px"
+      }
+    }
+  ],
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n\nPMS Clone Prototype\n\n首页工作台\n采集基线：Chrome 1440x900 / 账号已授权登录\n预抵\n0\n在住\n3\n预离\n0\n可售\n0\n维修房\n0\n脏房\n1\n异常\n920\n总营业收入\n¥1,103.04\n昨日\n本月\n查看详情\n营业收入\n¥396\n预计总收入 ¥0\n记一笔 / 其他收入支出 ¥0\n入住率OCC\n50%\n已售房间数 2\n总房数 4\n平均客房收益RevPAR\n¥99\n全日房 ¥396\n钟点房 ¥0\n平均房费ADR\n¥198\n入住率OCC 50%\n平均房费ADR ¥198\n本周\n上周\n查看详情\n营业收入\n入住率OCC\n平均房费ADR\n平均客房收益RevPAR\n已售房间数\n1200\n900\n600\n300\n0\n05/11\n05/11\n05/12\n05/13\n05/14\n05/15\n05/16\n携程\n50.00%\n途家\n25.00%\n飞猪淘酒店\n25.00%\n预抵\n在住\n预离\n查看全部订单\n请输入姓名/手机号\n暂无数据\n待办事项\n产品动态\n暂无数据\n待处理\n已处理\n暂无数据\n提交\n全部会话\n收起\n咨\n携程民宿-[M566…\n咨询中\n\n客: 您这房间跟价位完全匹配…\n\n54分4秒前\n咨\n携程民宿-[_WEC…\n咨询中\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n54分4秒前\n咨\nCqBv9667\n咨询中\n\n房: 不客气哈~\n\n54分4秒前"
+}

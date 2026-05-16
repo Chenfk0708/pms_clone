@@ -1,0 +1,36 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:4197/cleanManage/cleanSetting",
+  "finalUrl": "http://127.0.0.1:4197/cleanManage/cleanSetting",
+  "isLoginBlocked": false,
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4197/cleanManage/cleanSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4197/assets/index-DNH7gb4i.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4197/assets/index-BUBsb8Ux.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4197/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

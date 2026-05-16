@@ -1,0 +1,62 @@
+[
+  {
+    "selector": ".month-toolbar",
+    "display": "grid",
+    "gridTemplateColumns": "1236px",
+    "padding": "20px 16px 16px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "8px 8px 0px 0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "overflow": "visible"
+  },
+  {
+    "selector": ".month-toolbar__filters",
+    "display": "flex",
+    "gridTemplateColumns": "none",
+    "padding": "0px",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "overflow": "visible"
+  },
+  {
+    "selector": ".month-board__head",
+    "display": "grid",
+    "gridTemplateColumns": "176px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px",
+    "padding": "0px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "overflow": "visible"
+  },
+  {
+    "selector": ".month-board__row",
+    "display": "grid",
+    "gridTemplateColumns": "176px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px",
+    "padding": "0px",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "overflow": "visible"
+  },
+  {
+    "selector": ".month-cell",
+    "display": "grid",
+    "gridTemplateColumns": "67px",
+    "padding": "16px 12px 8px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "",
+    "borderRadius": "0px",
+    "color": "rgb(85, 85, 85)",
+    "fontSize": "16px",
+    "overflow": "visible"
+  }
+]

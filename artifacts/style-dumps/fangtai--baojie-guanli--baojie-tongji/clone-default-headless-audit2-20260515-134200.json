@@ -1,0 +1,608 @@
+{
+  "requestedUrl": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+  "url": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+  "title": "pms_clone",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "isLoginBlocked": false,
+  "hasBusinessText": false,
+  "hasSubscribeDetail": false,
+  "textSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁统计\n统计汇总\n统计明细\n?\n全部门店\n天落会宿…\n⚙\n日期：\n本 月\n上 月\n至\n导 出\n房型房间：\n请选择房间\n保洁员：\n请选择保洁员\n重 置\n查 询\n扫尘保洁\n续住保洁\n退房保洁\n深度保洁\n合计\n保洁日期\n数量\n费用\n数量\n费用\n数量\n费用\n数量\n费用\n数量\n费用\n合计\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-15\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-14\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-13\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-12\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-11\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-10\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-09\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-08\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-09\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n2025-12-10\n5\n1890.88\n3\n880.88\n4\n880.88\n4\n880.88\n16\n18980.88\n限时钜惠！智能保洁6折开通\n\n自动派单 ｜实时提醒 ｜ 报表清晰\n\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      }
+    },
+    {
+      "text": "消息",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "用户",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "统计汇总",
+      "rect": {
+        "x": 180,
+        "y": 80,
+        "width": 82,
+        "height": 28
+      }
+    },
+    {
+      "text": "统计明细",
+      "rect": {
+        "x": 266,
+        "y": 80,
+        "width": 82,
+        "height": 28
+      }
+    },
+    {
+      "text": "?",
+      "rect": {
+        "x": 352,
+        "y": 80,
+        "width": 26,
+        "height": 28
+      }
+    },
+    {
+      "text": "全部门店",
+      "rect": {
+        "x": 180,
+        "y": 118,
+        "width": 88,
+        "height": 28
+      }
+    },
+    {
+      "text": "天落会宿…",
+      "rect": {
+        "x": 267,
+        "y": 118,
+        "width": 99,
+        "height": 28
+      }
+    },
+    {
+      "text": "⚙",
+      "rect": {
+        "x": 365,
+        "y": 118,
+        "width": 34,
+        "height": 28
+      }
+    },
+    {
+      "text": "本 月",
+      "rect": {
+        "x": 457,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "上 月",
+      "rect": {
+        "x": 530,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "导 出",
+      "rect": {
+        "x": 1352,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "请选择房间",
+      "rect": {
+        "x": 256,
+        "y": 154,
+        "width": 160,
+        "height": 28
+      }
+    },
+    {
+      "text": "请选择保洁员",
+      "rect": {
+        "x": 486,
+        "y": 154,
+        "width": 160,
+        "height": 28
+      }
+    },
+    {
+      "text": "重 置",
+      "rect": {
+        "x": 1276,
+        "y": 154,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "查 询",
+      "rect": {
+        "x": 1352,
+        "y": 154,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "text": "订阅开通",
+      "rect": {
+        "x": 205,
+        "y": 801,
+        "width": 100,
+        "height": 42
+      }
+    },
+    {
+      "text": "↻",
+      "rect": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "text": "收起",
+      "rect": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "text": "收起",
+      "rect": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      }
+    }
+  ],
+  "fields": [
+    {
+      "placeholder": null,
+      "value": "2026-05-01",
+      "type": null
+    },
+    {
+      "placeholder": null,
+      "value": "2026-05-13",
+      "type": null
+    }
+  ],
+  "cards": [
+    {
+      "tag": "button",
+      "className": "",
+      "text": "应用订阅",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "消息",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "用户",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "is-active",
+      "text": "统计汇总",
+      "rect": {
+        "x": 180,
+        "y": 80,
+        "width": 82,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "统计明细",
+      "rect": {
+        "x": 266,
+        "y": 80,
+        "width": 82,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(79, 91, 117)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(219, 226, 255)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-help",
+      "text": "?",
+      "rect": {
+        "x": 352,
+        "y": 80,
+        "width": 26,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(140, 148, 168)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(215, 220, 232)",
+        "borderRadius": "50%"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "is-active",
+      "text": "全部门店",
+      "rect": {
+        "x": 180,
+        "y": 118,
+        "width": 88,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px 0px 0px 4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "天落会宿…",
+      "rect": {
+        "x": 267,
+        "y": 118,
+        "width": 99,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-gear",
+      "text": "⚙",
+      "rect": {
+        "x": 365,
+        "y": 118,
+        "width": 34,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(123, 132, 153)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(215, 220, 232)",
+        "borderRadius": "0px 4px 4px 0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-month is-active",
+      "text": "本 月",
+      "rect": {
+        "x": 457,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-month",
+      "text": "上 月",
+      "rect": {
+        "x": 530,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-export",
+      "text": "导 出",
+      "rect": {
+        "x": 1352,
+        "y": 118,
+        "width": 64,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-select",
+      "text": "请选择房间",
+      "rect": {
+        "x": 256,
+        "y": 154,
+        "width": 160,
+        "height": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "fontSize": "16px",
+        "color": "rgb(142, 150, 167)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(217, 223, 233)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "clean-stat-select",
+      "text": "请选择保洁员",
+      "rect": {
+        "x": 486,
+        "y": 154,
+        "width": 160,
+        "height": 28
+      },
+      "style": {
+        "display": "inline-block",
+        "fontSize": "16px",
+        "color": "rgb(142, 150, 167)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(217, 223, 233)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "重 置",
+      "rect": {
+        "x": 1276,
+        "y": 154,
+        "width": 64,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "is-primary",
+      "text": "查 询",
+      "rect": {
+        "x": 1352,
+        "y": 154,
+        "width": 64,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "1px solid rgb(77, 101, 246)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "clean-stat-promo",
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 180,
+        "y": 672,
+        "width": 1236,
+        "height": 198
+      },
+      "style": {
+        "display": "flex",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "1px solid rgb(215, 232, 255)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "订阅开通",
+      "rect": {
+        "x": 205,
+        "y": 801,
+        "width": 100,
+        "height": 42
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "0px none rgb(255, 255, 255)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "↻",
+      "rect": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(75, 85, 99)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(75, 85, 99)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "收起",
+      "rect": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(75, 85, 99)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(75, 85, 99)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "chat-dock__collapse",
+      "text": "收起",
+      "rect": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "0px none rgb(255, 255, 255)",
+        "borderRadius": "4px 4px 0px 0px"
+      }
+    }
+  ]
+}

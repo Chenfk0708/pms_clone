@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "search",
+  "stamp": "20260514-1608",
+  "url": "http://127.0.0.1:43274/mallManagement/goodsManagement",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43274/mallManagement/goodsManagement",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:43274/assets/index-D7v8aKFW.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:43274/assets/index-DmNZJ-Sh.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:43274/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "selector": ".toolbar-card",
+    "display": "grid",
+    "gridTemplateColumns": "1234px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(36, 50, 74)",
+    "border": "1px solid rgb(223, 229, 241)",
+    "borderRadius": "14px",
+    "fontSize": "16px",
+    "width": 1260,
+    "height": 267.5
+  },
+  {
+    "selector": ".timeline-board",
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(36, 50, 74)",
+    "border": "1px solid rgb(223, 229, 241)",
+    "borderRadius": "14px",
+    "fontSize": "16px",
+    "width": 1260,
+    "height": 445
+  },
+  {
+    "selector": ".timeline-head",
+    "display": "grid",
+    "gridTemplateColumns": "180px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgb(36, 50, 74)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "fontSize": "16px",
+    "width": 1258,
+    "height": 74
+  },
+  {
+    "selector": ".timeline-row",
+    "display": "grid",
+    "gridTemplateColumns": "180px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px 134.75px",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "color": "rgb(36, 50, 74)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "fontSize": "16px",
+    "width": 1258,
+    "height": 95
+  },
+  {
+    "selector": ".timeline-cell",
+    "display": "grid",
+    "gridTemplateColumns": "113.75px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "color": "rgb(80, 97, 123)",
+    "border": "",
+    "borderRadius": "0px",
+    "fontSize": "13px",
+    "width": 134.75,
+    "height": 95
+  },
+  {
+    "selector": ".chat-dock",
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "backgroundColor": "rgba(255, 255, 255, 0.98)",
+    "color": "rgb(36, 50, 74)",
+    "border": "1px solid rgb(223, 229, 241)",
+    "borderRadius": "16px",
+    "fontSize": "16px",
+    "width": 1260,
+    "height": 364
+  }
+]

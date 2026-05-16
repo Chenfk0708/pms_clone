@@ -1,0 +1,37 @@
+{
+  "taskId": "shezhi--qiye-shezhi--qiye-zizhi",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260515-111444",
+  "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:54576/assets/index-DPqxN4BL.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:54576/assets/index-Bey5nrxN.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:54576/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

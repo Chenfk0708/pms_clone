@@ -1,0 +1,134 @@
+{
+  "url": "http://127.0.0.1:4173/cleanManage/cleanTask",
+  "visibleFacts": {
+    "hasCleanTask": true,
+    "hasAllStores": true,
+    "hasSubscriptionMask": true,
+    "hasBatchNotify": true,
+    "hasCreateTask": true,
+    "hasFakeTaskRow": false
+  },
+  "buttons": [
+    {
+      "tag": "BUTTON",
+      "text": "导 出",
+      "cls": "clean-export",
+      "disabled": false,
+      "rect": {
+        "x": 1361,
+        "y": 173,
+        "w": 58,
+        "h": 28
+      },
+      "style": {
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(217, 221, 232)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "height": "28px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "text": "重 置",
+      "cls": "",
+      "disabled": false,
+      "rect": {
+        "x": 1091,
+        "y": 209,
+        "w": 58,
+        "h": 28
+      },
+      "style": {
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(217, 221, 232)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "height": "28px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "text": "查 询",
+      "cls": "is-primary",
+      "disabled": false,
+      "rect": {
+        "x": 1157,
+        "y": 209,
+        "w": 58,
+        "h": 28
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "borderColor": "rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "height": "28px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "text": "批量通知",
+      "cls": "",
+      "disabled": true,
+      "rect": {
+        "x": 1223,
+        "y": 209,
+        "w": 82,
+        "h": 28
+      },
+      "style": {
+        "color": "rgb(168, 178, 195)",
+        "backgroundColor": "rgb(245, 246, 249)",
+        "borderColor": "rgb(217, 221, 232)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "height": "28px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "text": "创建保洁任务",
+      "cls": "is-primary",
+      "disabled": false,
+      "rect": {
+        "x": 1091,
+        "y": 245,
+        "w": 110,
+        "h": 28
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "borderColor": "rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "height": "28px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "text": "订阅开通",
+      "cls": "",
+      "disabled": false,
+      "rect": {
+        "x": 193,
+        "y": 851,
+        "w": 100,
+        "h": 42
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "borderColor": "rgb(255, 255, 255)",
+        "borderRadius": "4px",
+        "fontSize": "16px",
+        "height": "42px"
+      }
+    }
+  ],
+  "bodyTextSample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 PMS Clone Prototype 保洁任务 采集基线：Chrome 1440x900 / 账号已授权登录 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： ‹ › 导 出 房型房间： 请选择房型房间 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+}

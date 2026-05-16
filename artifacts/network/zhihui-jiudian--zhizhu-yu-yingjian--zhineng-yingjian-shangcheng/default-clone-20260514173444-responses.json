@@ -1,0 +1,99 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514173444",
+  "url": "http://127.0.0.1:4173/smartHotel/smartHardware/mall",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/smartHotel/smartHardware/mall",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-yyyArRE4.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-C7uUizxd.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/banner-decoration.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/door-card-system.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/cpe-p5.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/cpe-s1.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/box-s2.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/uifi-u1.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/smart-lock.webp",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/webp"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/d12-lock.webp",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/webp"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/smart-hardware-mall/banner-bg.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

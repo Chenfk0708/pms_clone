@@ -1,0 +1,296 @@
+.page-content:has(.smart-checkin-page) {
+  padding: 0;
+  background: #f0f2f5;
+}
+
+.page-content:has(.smart-checkin-page) > .page-header {
+  display: none;
+}
+
+.smart-checkin-page {
+  position: relative;
+  min-height: calc(100vh - 58px);
+  padding: 16px 346px 32px 16px;
+  background: #f0f2f5;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.smart-checkin-panel,
+.smart-checkin-card {
+  background: #fff;
+  border: 1px solid #e8ecf4;
+  border-radius: 4px;
+}
+
+.smart-checkin-panel {
+  padding: 24px 28px 26px;
+}
+
+.smart-checkin-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.smart-checkin-head h1 {
+  margin: 0 0 8px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+.smart-checkin-head p,
+.smart-checkin-plan p,
+.smart-checkin-card p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 22px;
+}
+
+.smart-checkin-switch {
+  position: relative;
+  width: 44px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #d9d9d9;
+  padding: 0;
+  transition: background 0.18s ease-out;
+}
+
+.smart-checkin-switch span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transition: transform 0.18s ease-out;
+}
+
+.smart-checkin-switch.is-on {
+  background: #4d65f6;
+}
+
+.smart-checkin-switch.is-on span {
+  transform: translateX(22px);
+}
+
+.smart-checkin-plans {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.smart-checkin-plan {
+  min-height: 166px;
+  padding: 18px 20px 16px;
+  border: 1px solid #edf0f6;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.smart-checkin-plan header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+  margin-bottom: 10px;
+}
+
+.smart-checkin-plan h2,
+.smart-checkin-flow h2,
+.smart-checkin-card h2,
+.smart-checkin-modal h2 {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.smart-checkin-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  border-radius: 3px;
+  padding: 0 7px;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.smart-checkin-badge.is-recommended {
+  background: #fff7e8;
+  color: #fa8c16;
+}
+
+.smart-checkin-badge.is-locked {
+  border: 1px solid #ffb8a8;
+  background: #fff2ef;
+  color: #f05a3c;
+}
+
+.smart-checkin-message {
+  min-height: 54px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: #f7f9fc;
+  color: rgba(0, 0, 0, 0.66);
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.smart-checkin-flow {
+  margin-top: 26px;
+}
+
+.smart-checkin-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.smart-checkin-section-head button,
+.smart-checkin-card button,
+.smart-checkin-modal footer button {
+  height: 32px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.smart-checkin-flow__steps {
+  display: grid;
+  grid-template-columns: 130px minmax(60px, 1fr) 150px;
+  align-items: center;
+  max-width: 430px;
+}
+
+.smart-checkin-step {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.smart-checkin-step strong {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #4d65f6;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.smart-checkin-step span {
+  color: rgba(0, 0, 0, 0.66);
+}
+
+.smart-checkin-flow__line {
+  height: 1px;
+  background: #d9dfe9;
+}
+
+.smart-checkin-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 118px;
+  margin-top: 16px;
+  padding: 24px 28px;
+}
+
+.smart-checkin-card h2 {
+  margin-bottom: 8px;
+}
+
+.smart-checkin-card button {
+  min-width: 112px;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.smart-checkin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(18, 27, 44, 0.28);
+}
+
+.smart-checkin-modal {
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(18, 27, 44, 0.18);
+}
+
+.smart-checkin-modal header {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 18px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.smart-checkin-modal header h2 {
+  flex: 1;
+}
+
+.smart-checkin-modal header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.45);
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.smart-checkin-modal__body {
+  min-height: 82px;
+  padding: 26px 24px;
+  color: rgba(0, 0, 0, 0.78);
+}
+
+.smart-checkin-modal footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px 16px;
+}
+
+.smart-checkin-modal footer .is-primary {
+  background: #4d65f6;
+  color: #fff;
+}
+
+@media (max-width: 1280px) {
+  .smart-checkin-page {
+    padding-right: 16px;
+  }
+
+  .smart-checkin-plans {
+    grid-template-columns: 1fr;
+  }
+}

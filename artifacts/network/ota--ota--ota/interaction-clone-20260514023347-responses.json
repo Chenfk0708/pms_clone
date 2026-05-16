@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260514023347",
+  "url": "http://127.0.0.1:4207/channels/ota/log",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4207/channels/ota/log",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/index-BFrgXw_J.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/index-DoHoMeJ-.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4207/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

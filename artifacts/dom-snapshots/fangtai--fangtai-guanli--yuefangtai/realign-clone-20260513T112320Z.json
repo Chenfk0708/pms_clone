@@ -1,0 +1,6253 @@
+{
+  "url": "http://127.0.0.1:4173/houseManage/months",
+  "title": "pms_clone",
+  "bodySample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 月房态 月房态 日房态 读 卡 房价管理 更多设置 全部门店 天落会宿公寓(前海壹方城宝安中心店) 渠道 房型 房型标签 批量设脏/净 批量开/关房 导 刷 同 2026.05.13 三 全部收起 05.10 日 余2间 05.11 一 余1间 05.12 二 余0间 今 05.13 三 余0间 05.14 四 余3间 05.15 五 余4间 05.16 六 余4间 05.17 日 余3间 05.18 一 余3间 05.19 二 余3间 05.20 三 余4间 05.21 四 余4间 05.22 五 余4间 05.23 六 余4间 05.24 日 余4间 05.25 一 余4间 05.26 二 余4间 05.27 三 余4间 05.28 四 余4间 05.29 五 余4间 05.30 六 余4间 05.31 日 余4间 06.01 一 余4间 06.02 二 余4间 06.03 三 余4间 06.04 四 余4间 06.05 五 余4间 06.06 六 余4间 06.07 日 余4间 06.08 一 余4间 06.09 二 余4间 06.10 三 余4间 06.11 四 余4间 顶层套房（浴缸巨幕电竞麻将） 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 总裁套间（桑拿浴缸露台电竞麻将） 余1 余1 售罄 售罄 余1 余1 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 天落大床电竞套间 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 观影大床房 售罄 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 房间1 停用 停用 停用 房间1 曾观强 携程 ¥169.3 刘翻红 携程 ¥285.44 备 陈家辉 飞猪淘酒店 ¥896.4 房间1 王永祥 携程 ¥138.65 备 停用 张勇 飞猪淘酒店 ¥164.46 陈崇科 路客云聚合 ¥369.75 房间1 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 樊润虎 美团酒店 ¥229.18 备",
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "cls": "",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "w": 89,
+        "h": 66
+      }
+    },
+    {
+      "text": "消息",
+      "cls": "",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "w": 58,
+        "h": 66
+      }
+    },
+    {
+      "text": "用户",
+      "cls": "",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "w": 58,
+        "h": 66
+      }
+    },
+    {
+      "text": "月房态",
+      "cls": "is-active",
+      "rect": {
+        "x": 176,
+        "y": 80,
+        "w": 70,
+        "h": 28
+      }
+    },
+    {
+      "text": "日房态",
+      "cls": "",
+      "rect": {
+        "x": 252,
+        "y": 80,
+        "w": 70,
+        "h": 28
+      }
+    },
+    {
+      "text": "读 卡",
+      "cls": "",
+      "rect": {
+        "x": 1200,
+        "y": 80,
+        "w": 68,
+        "h": 28
+      }
+    },
+    {
+      "text": "房价管理",
+      "cls": "",
+      "rect": {
+        "x": 1276,
+        "y": 80,
+        "w": 70,
+        "h": 28
+      }
+    },
+    {
+      "text": "更多设置",
+      "cls": "",
+      "rect": {
+        "x": 1354,
+        "y": 80,
+        "w": 70,
+        "h": 28
+      }
+    },
+    {
+      "text": "全部门店",
+      "cls": "chip month-store-chip",
+      "rect": {
+        "x": 172,
+        "y": 120,
+        "w": 100,
+        "h": 28
+      }
+    },
+    {
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "cls": "chip",
+      "rect": {
+        "x": 280,
+        "y": 120,
+        "w": 267,
+        "h": 28
+      }
+    },
+    {
+      "text": "渠道",
+      "cls": "chip",
+      "rect": {
+        "x": 555,
+        "y": 120,
+        "w": 100,
+        "h": 28
+      }
+    },
+    {
+      "text": "房型",
+      "cls": "chip",
+      "rect": {
+        "x": 663,
+        "y": 120,
+        "w": 100,
+        "h": 28
+      }
+    },
+    {
+      "text": "房型标签",
+      "cls": "chip",
+      "rect": {
+        "x": 771,
+        "y": 120,
+        "w": 100,
+        "h": 28
+      }
+    },
+    {
+      "text": "批量设脏/净",
+      "cls": "month-outline-action",
+      "rect": {
+        "x": 1063,
+        "y": 120,
+        "w": 94,
+        "h": 28
+      }
+    },
+    {
+      "text": "批量开/关房",
+      "cls": "month-outline-action",
+      "rect": {
+        "x": 1165,
+        "y": 120,
+        "w": 94,
+        "h": 28
+      }
+    },
+    {
+      "text": "导",
+      "cls": "month-icon-button",
+      "rect": {
+        "x": 1267,
+        "y": 120,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "刷",
+      "cls": "month-icon-button",
+      "rect": {
+        "x": 1303,
+        "y": 120,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "同",
+      "cls": "month-icon-button",
+      "rect": {
+        "x": 1339,
+        "y": 120,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "全部收起",
+      "cls": "",
+      "rect": {
+        "x": 219,
+        "y": 216,
+        "w": 68,
+        "h": 23
+      }
+    },
+    {
+      "text": "05.10 日 余2间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 341,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.11 一 余1间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 433,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.12 二 余0间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 525,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "今 05.13 三 余0间",
+      "cls": "timeline-date is-highlight",
+      "rect": {
+        "x": 617,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.14 四 余3间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 709,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.15 五 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 801,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.16 六 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 893,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.17 日 余3间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 985,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.18 一 余3间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1077,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.19 二 余3间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1169,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.20 三 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1261,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.21 四 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1353,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.22 五 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 1445,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.23 六 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 1537,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.24 日 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1629,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.25 一 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1721,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.26 二 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1813,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.27 三 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1905,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.28 四 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 1997,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.29 五 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 2089,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.30 六 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 2181,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "05.31 日 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2273,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.01 一 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2365,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.02 二 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2457,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.03 三 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2549,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.04 四 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2641,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.05 五 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 2733,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.06 六 余4间",
+      "cls": "timeline-date is-hot",
+      "rect": {
+        "x": 2825,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.07 日 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 2917,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.08 一 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 3009,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.09 二 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 3101,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.10 三 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 3193,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "06.11 四 余4间",
+      "cls": "timeline-date",
+      "rect": {
+        "x": 3285,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 341,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "rect": {
+        "x": 433,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "rect": {
+        "x": 525,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "rect": {
+        "x": 617,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 709,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 801,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 893,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 985,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1077,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1169,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1261,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1353,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1445,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1537,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1629,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1721,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1813,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1905,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 1997,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2089,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2181,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2273,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2365,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2457,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2549,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2641,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2733,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "rect": {
+        "x": 2825,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      }
+    }
+  ],
+  "leftColumn": [
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-toolbar__filters",
+      "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店) 渠道 房型 房型标签 批量设脏/净 批量开/关房 导 刷 同",
+      "x": 172,
+      "y": 120,
+      "w": 1252,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip month-store-chip",
+      "text": "全部门店",
+      "x": 172,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "x": 280,
+      "y": 120,
+      "w": 267,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__head",
+      "text": "2026.05.13 三 全部收起 05.10 日 余2间 05.11 一 余1间 05.12 二 余0间 今 05.13 三 余0间 05.14 四 余3间 05.15 五 余4间 05.16 六 余4间 05.17 日 余3间 05.18 一 余3间 05.19 二 余3间 05.20 三 余4间 05.21 四 余4间 05.22 五 余4间 05.2",
+      "x": 165,
+      "y": 165,
+      "w": 3212,
+      "h": 97
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-calendar-title",
+      "text": "2026.05.13 三 全部收起",
+      "x": 165,
+      "y": 165,
+      "w": 176,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "2026.05.13",
+      "x": 211,
+      "y": 188,
+      "w": 83,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 286,
+      "y": 173,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "",
+      "text": "全部收起",
+      "x": 219,
+      "y": 216,
+      "w": 68,
+      "h": 23
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.10 日 余2间",
+      "x": 341,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.10",
+      "x": 367,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 382,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余2间",
+      "x": 372,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "顶层套房（浴缸巨幕电竞麻将） 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 262,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "x": 165,
+      "y": 262,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "x": 179,
+      "y": 265,
+      "w": 147,
+      "h": 38
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 341,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 351,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将） 余1 余1 售罄 售罄 余1 余1 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 306,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "x": 165,
+      "y": 306,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "x": 179,
+      "y": 309,
+      "w": 147,
+      "h": 38
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 341,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 351,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "天落大床电竞套间 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 350,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "天落大床电竞套间",
+      "x": 165,
+      "y": 350,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "天落大床电竞套间",
+      "x": 179,
+      "y": 362,
+      "w": 112,
+      "h": 19
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 341,
+      "y": 350,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 351,
+      "y": 360,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "观影大床房 售罄 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 394,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "观影大床房",
+      "x": 165,
+      "y": 394,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "观影大床房",
+      "x": 179,
+      "y": 406,
+      "w": 70,
+      "h": 19
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 341,
+      "y": 394,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 351,
+      "y": 404,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-room",
+      "text": "房间1 停用 停用 停用",
+      "x": 165,
+      "y": 438,
+      "w": 3212,
+      "h": 72
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "房间1",
+      "x": 165,
+      "y": 438,
+      "w": 176,
+      "h": 72
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "房间1",
+      "x": 179,
+      "y": 464,
+      "w": 36,
+      "h": 19
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-room",
+      "text": "房间1 曾观强 携程 ¥169.3 刘翻红 携程 ¥285.44 备 陈家辉 飞猪淘酒店 ¥896.4",
+      "x": 165,
+      "y": 510,
+      "w": 3212,
+      "h": 80
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "房间1",
+      "x": 165,
+      "y": 510,
+      "w": 176,
+      "h": 80
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "房间1",
+      "x": 179,
+      "y": 539,
+      "w": 36,
+      "h": 19
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-room",
+      "text": "房间1 王永祥 携程 ¥138.65 备 停用 张勇 飞猪淘酒店 ¥164.46 陈崇科 路客云聚合 ¥369.75",
+      "x": 165,
+      "y": 589,
+      "w": 3212,
+      "h": 80
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "房间1",
+      "x": 165,
+      "y": 589,
+      "w": 176,
+      "h": 80
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "房间1",
+      "x": 179,
+      "y": 619,
+      "w": 36,
+      "h": 19
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-room",
+      "text": "房间1 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 张张 携程 ¥163.94 备 樊润虎 美团酒店 ¥229.18 备",
+      "x": 165,
+      "y": 669,
+      "w": 3212,
+      "h": 80
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "房间1",
+      "x": 165,
+      "y": 669,
+      "w": 176,
+      "h": 80
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "房间1",
+      "x": 179,
+      "y": 698,
+      "w": 36,
+      "h": 19
+    }
+  ],
+  "calendarArea": [
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-toolbar__filters",
+      "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店) 渠道 房型 房型标签 批量设脏/净 批量开/关房 导 刷 同",
+      "x": 172,
+      "y": 120,
+      "w": 1252,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip month-store-chip",
+      "text": "全部门店",
+      "x": 172,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "x": 280,
+      "y": 120,
+      "w": 267,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip",
+      "text": "渠道",
+      "x": 555,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-filter-menu",
+      "text": "房型",
+      "x": 663,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip",
+      "text": "房型",
+      "x": 663,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-filter-menu",
+      "text": "房型标签",
+      "x": 771,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "chip",
+      "text": "房型标签",
+      "x": 771,
+      "y": 120,
+      "w": 100,
+      "h": 28
+    },
+    {
+      "tag": "input",
+      "role": null,
+      "cls": "",
+      "text": "房源编码/简称/标题",
+      "x": 879,
+      "y": 120,
+      "w": 176,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-batch-action",
+      "text": "批量设脏/净",
+      "x": 1063,
+      "y": 120,
+      "w": 94,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-outline-action",
+      "text": "批量设脏/净",
+      "x": 1063,
+      "y": 120,
+      "w": 94,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-batch-action",
+      "text": "批量开/关房",
+      "x": 1165,
+      "y": 120,
+      "w": 94,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-outline-action",
+      "text": "批量开/关房",
+      "x": 1165,
+      "y": 120,
+      "w": 94,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-icon-button",
+      "text": "导",
+      "x": 1267,
+      "y": 120,
+      "w": 28,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-icon-button",
+      "text": "刷",
+      "x": 1303,
+      "y": 120,
+      "w": 28,
+      "h": 28
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-icon-button",
+      "text": "同",
+      "x": 1339,
+      "y": 120,
+      "w": 28,
+      "h": 28
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__head",
+      "text": "2026.05.13 三 全部收起 05.10 日 余2间 05.11 一 余1间 05.12 二 余0间 今 05.13 三 余0间 05.14 四 余3间 05.15 五 余4间 05.16 六 余4间 05.17 日 余3间 05.18 一 余3间 05.19 二 余3间 05.20 三 余4间 05.21 四 余4间 05.22 五 余4间 05.2",
+      "x": 165,
+      "y": 165,
+      "w": 3212,
+      "h": 97
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-calendar-title",
+      "text": "2026.05.13 三 全部收起",
+      "x": 165,
+      "y": 165,
+      "w": 176,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "2026.05.13",
+      "x": 211,
+      "y": 188,
+      "w": 83,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 286,
+      "y": 173,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "",
+      "text": "全部收起",
+      "x": 219,
+      "y": 216,
+      "w": 68,
+      "h": 23
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.10 日 余2间",
+      "x": 341,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.10",
+      "x": 367,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 382,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余2间",
+      "x": 372,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.11 一 余1间",
+      "x": 433,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.11",
+      "x": 459,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "一",
+      "x": 474,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余1间",
+      "x": 464,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.12 二 余0间",
+      "x": 525,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.12",
+      "x": 551,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "二",
+      "x": 566,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余0间",
+      "x": 556,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-highlight",
+      "text": "今 05.13 三 余0间",
+      "x": 617,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.13",
+      "x": 643,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 658,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余0间",
+      "x": 648,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.14 四 余3间",
+      "x": 709,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.14",
+      "x": 735,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "四",
+      "x": 750,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余3间",
+      "x": 740,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.15 五 余4间",
+      "x": 801,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.15",
+      "x": 827,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "五",
+      "x": 842,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 832,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.16 六 余4间",
+      "x": 893,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.16",
+      "x": 919,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "六",
+      "x": 934,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 924,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.17 日 余3间",
+      "x": 985,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.17",
+      "x": 1011,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 1026,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余3间",
+      "x": 1016,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.18 一 余3间",
+      "x": 1077,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.18",
+      "x": 1103,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "一",
+      "x": 1118,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余3间",
+      "x": 1108,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.19 二 余3间",
+      "x": 1169,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.19",
+      "x": 1195,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "二",
+      "x": 1210,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余3间",
+      "x": 1200,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.20 三 余4间",
+      "x": 1261,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.20",
+      "x": 1287,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 1302,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1292,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.21 四 余4间",
+      "x": 1353,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.21",
+      "x": 1379,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "四",
+      "x": 1394,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1384,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.22 五 余4间",
+      "x": 1445,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.22",
+      "x": 1471,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "五",
+      "x": 1486,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1476,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.23 六 余4间",
+      "x": 1537,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.23",
+      "x": 1563,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "六",
+      "x": 1578,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1568,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.24 日 余4间",
+      "x": 1629,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.24",
+      "x": 1655,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 1670,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1660,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.25 一 余4间",
+      "x": 1721,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.25",
+      "x": 1747,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "一",
+      "x": 1762,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1752,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.26 二 余4间",
+      "x": 1813,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.26",
+      "x": 1839,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "二",
+      "x": 1854,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1844,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.27 三 余4间",
+      "x": 1905,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.27",
+      "x": 1931,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 1946,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 1936,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.28 四 余4间",
+      "x": 1997,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.28",
+      "x": 2023,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "四",
+      "x": 2038,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2028,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.29 五 余4间",
+      "x": 2089,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.29",
+      "x": 2115,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "五",
+      "x": 2130,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2120,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "05.30 六 余4间",
+      "x": 2181,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.30",
+      "x": 2207,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "六",
+      "x": 2222,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2212,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "05.31 日 余4间",
+      "x": 2273,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "05.31",
+      "x": 2299,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 2314,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2304,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.01 一 余4间",
+      "x": 2365,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.01",
+      "x": 2391,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "一",
+      "x": 2406,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2396,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.02 二 余4间",
+      "x": 2457,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.02",
+      "x": 2483,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "二",
+      "x": 2498,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2488,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.03 三 余4间",
+      "x": 2549,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.03",
+      "x": 2575,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 2590,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2580,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.04 四 余4间",
+      "x": 2641,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.04",
+      "x": 2667,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "四",
+      "x": 2682,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2672,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "06.05 五 余4间",
+      "x": 2733,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.05",
+      "x": 2759,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "五",
+      "x": 2774,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2764,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date is-hot",
+      "text": "06.06 六 余4间",
+      "x": 2825,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.06",
+      "x": 2851,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "六",
+      "x": 2866,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2856,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.07 日 余4间",
+      "x": 2917,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.07",
+      "x": 2943,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "日",
+      "x": 2958,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 2948,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.08 一 余4间",
+      "x": 3009,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.08",
+      "x": 3035,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "一",
+      "x": 3050,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 3040,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.09 二 余4间",
+      "x": 3101,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.09",
+      "x": 3127,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "二",
+      "x": 3142,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 3132,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.10 三 余4间",
+      "x": 3193,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.10",
+      "x": 3219,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "三",
+      "x": 3234,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 3224,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "timeline-date",
+      "text": "06.11 四 余4间",
+      "x": 3285,
+      "y": 165,
+      "w": 92,
+      "h": 97
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "06.11",
+      "x": 3311,
+      "y": 177,
+      "w": 41,
+      "h": 24
+    },
+    {
+      "tag": "span",
+      "role": null,
+      "cls": "",
+      "text": "四",
+      "x": 3326,
+      "y": 204,
+      "w": 12,
+      "h": 18
+    },
+    {
+      "tag": "em",
+      "role": null,
+      "cls": "",
+      "text": "余4间",
+      "x": 3316,
+      "y": 231,
+      "w": 31,
+      "h": 18
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "顶层套房（浴缸巨幕电竞麻将） 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 262,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "x": 165,
+      "y": 262,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "x": 179,
+      "y": 265,
+      "w": 147,
+      "h": 38
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 341,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 351,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 433,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 443,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 525,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 535,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 617,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 627,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 709,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 719,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 801,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 811,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 893,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 903,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 985,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 995,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1077,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1087,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1169,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1179,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1261,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1271,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1353,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1363,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1445,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1455,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1537,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1547,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1629,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1639,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1721,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1731,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1813,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1823,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1905,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1915,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1997,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2007,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2089,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2099,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2181,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2191,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2273,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2283,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2365,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2375,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2457,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2467,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2549,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2559,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2641,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2651,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2733,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2743,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2825,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2835,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 2917,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 2927,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 3009,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 3019,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 3101,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 3111,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 3193,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 3203,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 3285,
+      "y": 262,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 3295,
+      "y": 272,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "month-grid-row month-board__row is-type",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将） 余1 余1 售罄 售罄 余1 余1 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1",
+      "x": 165,
+      "y": 306,
+      "w": 3212,
+      "h": 44
+    },
+    {
+      "tag": "div",
+      "role": null,
+      "cls": "timeline-room month-board__room",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "x": 165,
+      "y": 306,
+      "w": 176,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "x": 179,
+      "y": 309,
+      "w": 147,
+      "h": 38
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 341,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 351,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 433,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 443,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 525,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 535,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 617,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 627,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 709,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 719,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 801,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 811,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 893,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 903,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 985,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 995,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 1077,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 1087,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-sold",
+      "text": "售罄",
+      "x": 1169,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "售罄",
+      "x": 1179,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1261,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1271,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1353,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1363,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1445,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1455,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1537,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1547,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1629,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1639,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1721,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1731,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1813,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    },
+    {
+      "tag": "strong",
+      "role": null,
+      "cls": "",
+      "text": "余1",
+      "x": 1823,
+      "y": 316,
+      "w": 73,
+      "h": 20
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "cls": "month-cell tone-free",
+      "text": "余1",
+      "x": 1905,
+      "y": 306,
+      "w": 92,
+      "h": 44
+    }
+  ],
+  "colors": [
+    {
+      "text": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT ",
+      "cls": "",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 918,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT ",
+      "cls": "app-shell",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 918,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "LOCALS 路客云 6TS5 的店铺 畅享版",
+      "cls": "brand-block",
+      "x": 8,
+      "y": 16,
+      "w": 260,
+      "h": 34,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "LOCALS",
+      "cls": "brand-mark",
+      "x": 8,
+      "y": 16,
+      "w": 55,
+      "h": 34,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgb(255, 255, 255)",
+      "radius": "8px"
+    },
+    {
+      "text": "路客云 6TS5 的店铺 畅享版",
+      "cls": "brand-store",
+      "x": 75,
+      "y": 20,
+      "w": 193,
+      "h": 26,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "应用订阅 消息 用户",
+      "cls": "topbar-actions",
+      "x": 1204,
+      "y": 0,
+      "w": 220,
+      "h": 66,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "应用订阅",
+      "cls": "",
+      "x": 1204,
+      "y": 0,
+      "w": 89,
+      "h": 66,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(47, 58, 81)",
+      "border": "rgb(223, 229, 241)",
+      "radius": "8px"
+    },
+    {
+      "text": "消息",
+      "cls": "",
+      "x": 1301,
+      "y": 0,
+      "w": 58,
+      "h": 66,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(47, 58, 81)",
+      "border": "rgb(223, 229, 241)",
+      "radius": "8px"
+    },
+    {
+      "text": "用户",
+      "cls": "",
+      "x": 1367,
+      "y": 0,
+      "w": 58,
+      "h": 66,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(47, 58, 81)",
+      "border": "rgb(223, 229, 241)",
+      "radius": "8px"
+    },
+    {
+      "text": "房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房",
+      "cls": "page-body",
+      "x": 0,
+      "y": 58,
+      "w": 1440,
+      "h": 860,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "月房态 日房态 房态日志",
+      "cls": "sidebar-items",
+      "x": 0,
+      "y": 101,
+      "w": 155,
+      "h": 128,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志",
+      "cls": "sidebar-items",
+      "x": 0,
+      "y": 270,
+      "w": 155,
+      "h": 298,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "房情表",
+      "cls": "sidebar-items",
+      "x": 0,
+      "y": 608,
+      "w": 155,
+      "h": 43,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "保洁任务 保洁统计 保洁人员 保洁设置 保洁日志",
+      "cls": "sidebar-items",
+      "x": 0,
+      "y": 692,
+      "w": 155,
+      "h": 213,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "月房态 月房态 日房态 读 卡 房价管理 更多设置 全部门店 天落会宿公寓(前海壹方城宝安中心店) 渠道 房型 房型标签",
+      "cls": "page-stack month-status-page",
+      "x": 164,
+      "y": 66,
+      "w": 1268,
+      "h": 683,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "月房态 日房态 读 卡 房价管理 更多设置",
+      "cls": "month-toolbar__primary",
+      "x": 172,
+      "y": 76,
+      "w": 1252,
+      "h": 36,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "月房态 日房态",
+      "cls": "segmented",
+      "x": 172,
+      "y": 76,
+      "w": 154,
+      "h": 36,
+      "bg": "rgb(241, 243, 248)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "8px"
+    },
+    {
+      "text": "月房态",
+      "cls": "is-active",
+      "x": 176,
+      "y": 80,
+      "w": 70,
+      "h": 28,
+      "bg": "rgb(70, 100, 244)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgb(255, 255, 255)",
+      "radius": "6px"
+    },
+    {
+      "text": "日房态",
+      "cls": "",
+      "x": 252,
+      "y": 80,
+      "w": 70,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(85, 85, 85)",
+      "radius": "6px"
+    },
+    {
+      "text": "读 卡 房价管理 更多设置",
+      "cls": "month-toolbar__actions",
+      "x": 792,
+      "y": 80,
+      "w": 632,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "读 卡",
+      "cls": "",
+      "x": 1200,
+      "y": 80,
+      "w": 68,
+      "h": 28,
+      "bg": "rgb(70, 100, 244)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "4px"
+    },
+    {
+      "text": "房价管理",
+      "cls": "",
+      "x": 1276,
+      "y": 80,
+      "w": 70,
+      "h": 28,
+      "bg": "rgb(70, 100, 244)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "4px"
+    },
+    {
+      "text": "更多设置",
+      "cls": "month-settings",
+      "x": 1354,
+      "y": 80,
+      "w": 70,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "更多设置",
+      "cls": "",
+      "x": 1354,
+      "y": 80,
+      "w": 70,
+      "h": 28,
+      "bg": "rgb(70, 100, 244)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "4px"
+    },
+    {
+      "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店) 渠道 房型 房型标签 批量设脏/净 批量开/关房 导 刷 同",
+      "cls": "month-toolbar__filters",
+      "x": 172,
+      "y": 120,
+      "w": 1252,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "全部门店",
+      "cls": "chip month-store-chip",
+      "x": 172,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(136, 136, 136)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "cls": "chip",
+      "x": 280,
+      "y": 120,
+      "w": 267,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(136, 136, 136)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "渠道",
+      "cls": "chip",
+      "x": 555,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(136, 136, 136)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "房型",
+      "cls": "month-filter-menu",
+      "x": 663,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "房型",
+      "cls": "chip",
+      "x": 663,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(136, 136, 136)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "房型标签",
+      "cls": "month-filter-menu",
+      "x": 771,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "房型标签",
+      "cls": "chip",
+      "x": 771,
+      "y": 120,
+      "w": 100,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(136, 136, 136)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "批量设脏/净",
+      "cls": "month-batch-action",
+      "x": 1063,
+      "y": 120,
+      "w": 94,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "批量设脏/净",
+      "cls": "month-outline-action",
+      "x": 1063,
+      "y": 120,
+      "w": 94,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(70, 100, 244)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "4px"
+    },
+    {
+      "text": "批量开/关房",
+      "cls": "month-batch-action",
+      "x": 1165,
+      "y": 120,
+      "w": 94,
+      "h": 28,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "批量开/关房",
+      "cls": "month-outline-action",
+      "x": 1165,
+      "y": 120,
+      "w": 94,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(70, 100, 244)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "4px"
+    },
+    {
+      "text": "导",
+      "cls": "month-icon-button",
+      "x": 1267,
+      "y": 120,
+      "w": 28,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 119)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "刷",
+      "cls": "month-icon-button",
+      "x": 1303,
+      "y": 120,
+      "w": 28,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 119)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "同",
+      "cls": "month-icon-button",
+      "x": 1339,
+      "y": 120,
+      "w": 28,
+      "h": 28,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 119)",
+      "border": "rgb(216, 216, 216)",
+      "radius": "4px"
+    },
+    {
+      "text": "2026.05.13 三 全部收起 05.10 日 余2间 05.11 一 余1间 05.12 二 余0间 今 05.1",
+      "cls": "month-grid-row month-board__head",
+      "x": 165,
+      "y": 165,
+      "w": 3212,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "2026.05.13 三 全部收起",
+      "cls": "month-calendar-title",
+      "x": 165,
+      "y": 165,
+      "w": 176,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74) rgb(228, 228, 228) rgb(228, 228, 228) rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "全部收起",
+      "cls": "",
+      "x": 219,
+      "y": 216,
+      "w": 68,
+      "h": 23,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(70, 100, 244)",
+      "border": "rgb(70, 100, 244)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.10 日 余2间",
+      "cls": "timeline-date",
+      "x": 341,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.11 一 余1间",
+      "cls": "timeline-date",
+      "x": 433,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.12 二 余0间",
+      "cls": "timeline-date",
+      "x": 525,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "今 05.13 三 余0间",
+      "cls": "timeline-date is-highlight",
+      "x": 617,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(246, 248, 255)",
+      "color": "rgb(70, 100, 244)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.14 四 余3间",
+      "cls": "timeline-date",
+      "x": 709,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.15 五 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 801,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.16 六 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 893,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.17 日 余3间",
+      "cls": "timeline-date",
+      "x": 985,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.18 一 余3间",
+      "cls": "timeline-date",
+      "x": 1077,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.19 二 余3间",
+      "cls": "timeline-date",
+      "x": 1169,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.20 三 余4间",
+      "cls": "timeline-date",
+      "x": 1261,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.21 四 余4间",
+      "cls": "timeline-date",
+      "x": 1353,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.22 五 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 1445,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.23 六 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 1537,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.24 日 余4间",
+      "cls": "timeline-date",
+      "x": 1629,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.25 一 余4间",
+      "cls": "timeline-date",
+      "x": 1721,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.26 二 余4间",
+      "cls": "timeline-date",
+      "x": 1813,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.27 三 余4间",
+      "cls": "timeline-date",
+      "x": 1905,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.28 四 余4间",
+      "cls": "timeline-date",
+      "x": 1997,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.29 五 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 2089,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.30 六 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 2181,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "05.31 日 余4间",
+      "cls": "timeline-date",
+      "x": 2273,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.01 一 余4间",
+      "cls": "timeline-date",
+      "x": 2365,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.02 二 余4间",
+      "cls": "timeline-date",
+      "x": 2457,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.03 三 余4间",
+      "cls": "timeline-date",
+      "x": 2549,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.04 四 余4间",
+      "cls": "timeline-date",
+      "x": 2641,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.05 五 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 2733,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.06 六 余4间",
+      "cls": "timeline-date is-hot",
+      "x": 2825,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.07 日 余4间",
+      "cls": "timeline-date",
+      "x": 2917,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.08 一 余4间",
+      "cls": "timeline-date",
+      "x": 3009,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.09 二 余4间",
+      "cls": "timeline-date",
+      "x": 3101,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.10 三 余4间",
+      "cls": "timeline-date",
+      "x": 3193,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "06.11 四 余4间",
+      "cls": "timeline-date",
+      "x": 3285,
+      "y": 165,
+      "w": 92,
+      "h": 97,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "顶层套房（浴缸巨幕电竞麻将） 余1 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 ",
+      "cls": "month-grid-row month-board__row is-type",
+      "x": 165,
+      "y": 262,
+      "w": 3212,
+      "h": 44,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "cls": "timeline-room month-board__room",
+      "x": 165,
+      "y": 262,
+      "w": 176,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74) rgb(228, 228, 228) rgb(228, 228, 228) rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 341,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 433,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 525,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 617,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 709,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 801,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 893,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 985,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1077,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1169,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1261,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1353,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1445,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1537,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1629,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1721,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1813,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1905,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1997,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2089,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2181,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2273,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2365,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2457,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2549,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2641,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2733,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2825,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2917,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3009,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3101,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3193,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3285,
+      "y": 262,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "总裁套间（桑拿浴缸露台电竞麻将） 余1 余1 售罄 售罄 余1 余1 余1 售罄 售罄 售罄 余1 余1 余1 余1 余",
+      "cls": "month-grid-row month-board__row is-type",
+      "x": 165,
+      "y": 306,
+      "w": 3212,
+      "h": 44,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "cls": "timeline-room month-board__room",
+      "x": 165,
+      "y": 306,
+      "w": 176,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74) rgb(228, 228, 228) rgb(228, 228, 228) rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 341,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 433,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 525,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 617,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 709,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 801,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 893,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 985,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 1077,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 1169,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1261,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1353,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1445,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1537,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1629,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1721,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1813,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1905,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1997,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2089,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2181,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2273,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2365,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2457,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2549,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2641,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2733,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2825,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2917,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3009,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3101,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3193,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3285,
+      "y": 306,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "天落大床电竞套间 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 ",
+      "cls": "month-grid-row month-board__row is-type",
+      "x": 165,
+      "y": 350,
+      "w": 3212,
+      "h": 44,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "天落大床电竞套间",
+      "cls": "timeline-room month-board__room",
+      "x": 165,
+      "y": 350,
+      "w": 176,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74) rgb(228, 228, 228) rgb(228, 228, 228) rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 341,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 433,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 525,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 617,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 709,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 801,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 893,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 985,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1077,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1169,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1261,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1353,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1445,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1537,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1629,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1721,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1813,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1905,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1997,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2089,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2181,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2273,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2365,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2457,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2549,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2641,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2733,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2825,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 2917,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3009,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3101,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3193,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 3285,
+      "y": 350,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "观影大床房 售罄 售罄 售罄 售罄 售罄 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 余1 ",
+      "cls": "month-grid-row month-board__row is-type",
+      "x": 165,
+      "y": 394,
+      "w": 3212,
+      "h": 44,
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "观影大床房",
+      "cls": "timeline-room month-board__room",
+      "x": 165,
+      "y": 394,
+      "w": 176,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(36, 50, 74)",
+      "border": "rgb(36, 50, 74) rgb(228, 228, 228) rgb(228, 228, 228) rgb(36, 50, 74)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 341,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 433,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 525,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 617,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "售罄",
+      "cls": "month-cell tone-sold",
+      "x": 709,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(216, 219, 225)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 801,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 893,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 985,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1077,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1169,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1261,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1353,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1445,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1537,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1629,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1721,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1813,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    },
+    {
+      "text": "余1",
+      "cls": "month-cell tone-free",
+      "x": 1905,
+      "y": 394,
+      "w": 92,
+      "h": 44,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(85, 85, 85)",
+      "border": "rgb(0, 0, 0) rgb(228, 228, 228) rgb(228, 228, 228) rgb(0, 0, 0)",
+      "radius": "0px"
+    }
+  ]
+}

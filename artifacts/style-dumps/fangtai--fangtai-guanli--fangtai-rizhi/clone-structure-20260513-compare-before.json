@@ -1,0 +1,134 @@
+{
+  "labels": [
+    {
+      "text": "日志关键词：",
+      "visible": true
+    },
+    {
+      "text": "调整方式：手动调整系统调整",
+      "visible": true
+    },
+    {
+      "text": "操作渠道：请选择自来客路客云聚合美团民宿美团酒店携程途家途家直连爱彼迎飞猪淘酒店飞猪民宿直连飞猪酒店直连",
+      "visible": true
+    },
+    {
+      "text": "操作人：",
+      "visible": true
+    },
+    {
+      "text": "房态调整日期：",
+      "visible": true
+    },
+    {
+      "text": "渠道库存变更：",
+      "visible": true
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "label": "",
+      "placeholder": "搜索房型名称/房间号/渠道房源名称",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 271,
+        "y": 174,
+        "width": 206,
+        "height": 30
+      }
+    },
+    {
+      "tag": "select",
+      "label": "调整方式",
+      "placeholder": "",
+      "value": "手动调整",
+      "visible": true,
+      "rect": {
+        "x": 571,
+        "y": 174,
+        "width": 220,
+        "height": 30
+      }
+    },
+    {
+      "tag": "select",
+      "label": "操作渠道",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 885,
+        "y": 174,
+        "width": 220,
+        "height": 30
+      }
+    },
+    {
+      "tag": "input",
+      "label": "",
+      "placeholder": "搜索操作人名称/手机号",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 243,
+        "y": 228,
+        "width": 180,
+        "height": 30
+      }
+    },
+    {
+      "tag": "input",
+      "label": "",
+      "placeholder": "请选择日期",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 545,
+        "y": 228,
+        "width": 180,
+        "height": 30
+      }
+    },
+    {
+      "tag": "input",
+      "label": "",
+      "placeholder": "请输入金额",
+      "value": "",
+      "visible": true,
+      "rect": {
+        "x": 847,
+        "y": 228,
+        "width": 180,
+        "height": 30
+      }
+    }
+  ],
+  "tableHeaders": [
+    "房型",
+    "房间",
+    "房态调整日期",
+    "操作内容",
+    "调整方式",
+    "同步渠道",
+    "渠道库存变更",
+    "操作人",
+    "操作时间"
+  ],
+  "rects": {
+    "form": {
+      "x": 169,
+      "y": 165,
+      "width": 1258,
+      "height": 101
+    },
+    "table": {
+      "x": 169,
+      "y": 266,
+      "width": 1258,
+      "height": 192
+    }
+  },
+  "bodySnippet": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 PMS Clone Prototype 房态日志 采集基线：Chrome 1440x900 / 账号已授权登录 日志关键词： 调整方式： 手动调整 系统调整 操作渠道： 请选择 自来客 路客云聚合 美团民宿 美团酒店 携程 途家 途家直连 爱彼迎 飞猪淘酒店 飞猪民宿直连 飞猪酒店直连 重 置 查 询 收起⌃ 操作人： 房态调整日期： 渠道库存变更： 房型 房间 房态调整日期 操作内容 调整方式 同步渠道 渠道库存变更 操作人 操作时间 暂无数据 全部会话 收起 咨 携程民宿-[M566… 咨询中 客: 您这房间跟价位完全匹配… 54分4秒前 咨 携程民宿-[_WEC… 咨询中 总裁套间（桑拿浴缸露台电竞麻将） 54分4秒前 咨 CqBv9667 咨询中 房: 不客气哈~ 54分4秒前"
+}

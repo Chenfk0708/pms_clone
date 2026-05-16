@@ -1,0 +1,22 @@
+﻿{
+    "target":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-target-20260513-audit.png",
+    "clone":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-20260513-audit.png",
+    "diff":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--baojie-guanli--baojie-shezhi\\default-diff-20260513-audit.png",
+    "targetSize":  {
+                       "height":  905,
+                       "width":  1440
+                   },
+    "cloneSize":  {
+                      "height":  1061,
+                      "width":  1440
+                  },
+    "comparedSize":  {
+                         "height":  905,
+                         "width":  1440
+                     },
+    "tolerance":  8,
+    "diffPixels":  578849,
+    "comparedPixels":  1303200,
+    "diffRatio":  0.444175,
+    "note":  "Pixel diff includes known global shell/header/sidebar/chat/login-overlay differences; use with DOM/style evidence and interaction tests."
+}

@@ -1,0 +1,196 @@
+{
+  "url": "http://127.0.0.1:4197/cleanManage/cleanSetting",
+  "title": "pms_clone",
+  "bodyText": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 PMS Clone Prototype 保洁设置 采集基线：Chrome 1440x900 / 账号已授权登录 基础设置 价格设置 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通 ···",
+  "has": {
+    "basic": true,
+    "price": true,
+    "promo": true,
+    "sub": true,
+    "strategy": false,
+    "time": false,
+    "product": true,
+    "buy": false
+  },
+  "tabs": [
+    {
+      "text": "基础设置",
+      "role": "tab",
+      "ariaSelected": "false",
+      "className": "",
+      "rect": {
+        "x": 168,
+        "y": 164,
+        "width": 86,
+        "height": 32
+      },
+      "style": {
+        "color": "rgb(68, 81, 107)",
+        "backgroundColor": "rgb(247, 248, 251)",
+        "borderColor": "rgb(217, 223, 233)",
+        "fontSize": "14px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "价格设置",
+      "role": "tab",
+      "ariaSelected": "true",
+      "className": "is-active",
+      "rect": {
+        "x": 253,
+        "y": 164,
+        "width": 86,
+        "height": 32
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "borderColor": "rgb(50, 107, 255)",
+        "fontSize": "14px",
+        "fontWeight": "500"
+      }
+    }
+  ],
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "消息",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "用户",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "基础设置",
+      "role": "tab",
+      "ariaSelected": "false",
+      "className": "",
+      "rect": {
+        "x": 168,
+        "y": 164,
+        "width": 86,
+        "height": 32
+      },
+      "style": {
+        "color": "rgb(68, 81, 107)",
+        "backgroundColor": "rgb(247, 248, 251)",
+        "borderColor": "rgb(217, 223, 233)",
+        "fontSize": "14px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "价格设置",
+      "role": "tab",
+      "ariaSelected": "true",
+      "className": "is-active",
+      "rect": {
+        "x": 253,
+        "y": 164,
+        "width": 86,
+        "height": 32
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "borderColor": "rgb(50, 107, 255)",
+        "fontSize": "14px",
+        "fontWeight": "500"
+      }
+    },
+    {
+      "text": "订阅开通",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 212,
+        "y": 411,
+        "width": 94,
+        "height": 34
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "borderColor": "rgb(50, 107, 255)",
+        "fontSize": "14px",
+        "fontWeight": "500"
+      }
+    },
+    {
+      "text": "···",
+      "role": "",
+      "ariaSelected": null,
+      "className": "clean-float-chat",
+      "rect": {
+        "x": 1376,
+        "y": 820,
+        "width": 46,
+        "height": 46
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "borderColor": "rgb(251, 253, 255)",
+        "fontSize": "20px",
+        "fontWeight": "800"
+      }
+    }
+  ],
+  "panelBox": {
+    "x": 168,
+    "y": 164,
+    "width": 1260,
+    "height": 768
+  }
+}

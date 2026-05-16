@@ -1,0 +1,4562 @@
+{
+  "taskId": "shezhi--qiye-shezhi--qiye-zizhi",
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260515-111534",
+  "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+  "isLoginBlocked": false,
+  "interactions": [
+    {
+      "slug": "business-license-tab",
+      "labels": [
+        "营业资质"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "营业资质",
+        "text": "营业资质",
+        "box": {
+          "x": 266,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n营业资质\n1\n营业执照\n查看示例\n上传文件\n小于4MB，最多上传1张，支持jpeg、jpg、png格式\n2\n商铺行业资质（涉及餐饮相关内容的商家请上传《食品经营许可证》）\n公共场所许可证查看示例\n特种行业许可证查看示例\n食品经营许可证查看示例\n上传文件\n小于4MB，支持jpeg、jpg、png格式\n3\n补充资质 (如商铺行业资质信息不全时，需要上传补充资质)\n查看示例\n行业补充资质说明\n上传文件\n小于4MB，最多上传4张，支持jpeg、jpg、png格式\n4\n商家授权承诺函（开通抖音必传）\n查看示例\n下载授权承诺函模板\n上传文件\n小于4MB，仅支持PDF格式\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "营业资质"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-business-license-tab.png"
+    },
+    {
+      "slug": "legal-id-tab",
+      "labels": [
+        "法人证件"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "法人证件",
+        "text": "法人证件",
+        "box": {
+          "x": 348,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n法人证件\n证件类型：\n居民身份证\n证件号码：\n证件人像面照片\n上传\n证件国徽面照片\n上传\n法人手持证件照\n上传\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "法人证件"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-legal-id-tab.png"
+    },
+    {
+      "slug": "company-info-tab",
+      "labels": [
+        "企业信息"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "企业信息",
+        "text": "企业信息",
+        "box": {
+          "x": 184,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-company-info-tab.png"
+    },
+    {
+      "slug": "edit-company-info",
+      "labels": [
+        "编 辑",
+        "编辑",
+        "修改"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "编 辑",
+        "text": "编 辑",
+        "box": {
+          "x": 1329,
+          "y": 139,
+          "width": 74,
+          "height": 32
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n取 消\n保 存\n企业名称\n企业类型\n联系电话\n所在城市\n请选择所在城市\n详细地址\n图片\n上传\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-edit-company-info.png"
+    },
+    {
+      "slug": "primary",
+      "labels": [
+        "新增",
+        "添加",
+        "立即认证",
+        "去认证",
+        "完善资质",
+        "去完善"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "新增",
+          "添加",
+          "立即认证",
+          "去认证",
+          "完善资质",
+          "去完善"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-primary.png"
+    },
+    {
+      "slug": "upload",
+      "labels": [
+        "上传",
+        "点击上传",
+        "重新上传",
+        "营业执照"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "上传",
+          "点击上传",
+          "重新上传",
+          "营业执照"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-upload.png"
+    },
+    {
+      "slug": "submit",
+      "labels": [
+        "提交",
+        "保存",
+        "确定"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "提交",
+          "保存",
+          "确定"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-submit.png"
+    },
+    {
+      "slug": "cancel",
+      "labels": [
+        "取消",
+        "关闭"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "取消",
+          "关闭"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业资质",
+          "企业信息"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--qiye-zizhi\\interaction-clone-20260515-111534-cancel.png"
+    }
+  ],
+  "facts": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:54576/InformationMaintenance/qualification",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n信息维护\n信息概览\n门店信息\n房型信息\n图片视频\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n企业信息\n营业资质\n法人证件\n企业信息\n编 辑\n企业名称：\n路客云6TS5的店铺\n企业类型：\n民宿\n联系电话：\n暂无联系电话\n所在城市：\n暂无所在城市\n详细地址：\n暂无详细地址\n图片：\n暂无图片数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "buttons": [
+      "首页",
+      "房态",
+      "房价",
+      "订单",
+      "售卖/产品",
+      "OTA",
+      "社媒",
+      "私域",
+      "聚合分销HOT",
+      "SCRM",
+      "AI全域雷达",
+      "智慧酒店",
+      "报表",
+      "设置",
+      "应用订阅",
+      "消息",
+      "用户",
+      "信息概览",
+      "门店信息",
+      "房型信息",
+      "图片视频",
+      "企业信息",
+      "权限设置",
+      "成员设置",
+      "企业资质",
+      "API keys",
+      "会话设置",
+      "自定义渠道",
+      "支付方式设置",
+      "收入/支出设置",
+      "记一笔设置",
+      "排序设置",
+      "通知设置",
+      "短信设置",
+      "财务设置",
+      "自动策略设置",
+      "交接班设置",
+      "打印设置",
+      "企业信息",
+      "营业资质",
+      "法人证件",
+      "编 辑",
+      "↻",
+      "收起",
+      "收起"
+    ],
+    "inputs": [],
+    "selects": [],
+    "tableHeaders": [],
+    "panels": [
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护信息概览门店信息房型信息图片视频",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 199
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置企业信息权限设置成员设置企业资质API keys",
+        "rect": {
+          "x": 0,
+          "y": 283,
+          "width": 155,
+          "height": 242
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置",
+        "rect": {
+          "x": 0,
+          "y": 537,
+          "width": 155,
+          "height": 539
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "qualification-card",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 168,
+          "y": 118,
+          "width": 1260,
+          "height": 640
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "18px 24px 32px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ],
+    "elementSamples": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户信息维护信息概览门店信息房型信息图片视频企业设置企业信息权限设置成员设置企业资质API keys通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置PMS Clone Prototype企业资质采集基线：Chrome 1440x900 / 账号已授权登录企业信息营业资质法人证件企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 1090
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户信息维护信息概览门店信息房型信息图片视频企业设置企业信息权限设置成员设置企业资质API keys通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置PMS Clone Prototype企业资质采集基线：Chrome 1440x900 / 账号已授权登录企业信息营业资质法人证件企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 1090
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 58
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "padding": "0px 16px 0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "260px 904px 220px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-block",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 260,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-mark",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 55,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 75,
+          "y": 20,
+          "width": 193,
+          "height": 26
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺",
+        "rect": {
+          "x": 75,
+          "y": 23,
+          "width": 127,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "畅享版",
+        "rect": {
+          "x": 212,
+          "y": 20,
+          "width": 56,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "4px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(68, 105, 228)",
+          "backgroundColor": "rgb(232, 241, 255)",
+          "border": "0px none rgb(68, 105, 228)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "role": null,
+        "ariaLabel": "顶部导航",
+        "placeholder": null,
+        "text": "首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 904,
+          "height": 56
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "首页",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房态",
+        "rect": {
+          "x": 332,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房价",
+        "rect": {
+          "x": 380,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单",
+        "rect": {
+          "x": 428,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "售卖/产品",
+        "rect": {
+          "x": 476,
+          "y": 5,
+          "width": 66,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "OTA",
+        "rect": {
+          "x": 560,
+          "y": 5,
+          "width": 29,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "社媒",
+        "rect": {
+          "x": 608,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "私域",
+        "rect": {
+          "x": 656,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 704,
+          "y": 5,
+          "width": 95,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "HOT",
+        "rect": {
+          "x": 768,
+          "y": 28,
+          "width": 31,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 0px 0px 4px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 92, 82)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "SCRM",
+        "rect": {
+          "x": 817,
+          "y": 5,
+          "width": 43,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 878,
+          "y": 5,
+          "width": 75,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智慧酒店",
+        "rect": {
+          "x": 971,
+          "y": 5,
+          "width": 60,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "报表",
+        "rect": {
+          "x": 1049,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "设置",
+        "rect": {
+          "x": 1097,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "700",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅消息用户",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 220,
+          "height": 66
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 89,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "消息",
+        "rect": {
+          "x": 1301,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "用户",
+        "rect": {
+          "x": 1367,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护信息概览门店信息房型信息图片视频企业设置企业信息权限设置成员设置企业资质API keys通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置PMS Clone Prototype企业资质采集基线：Chrome 1440x900 / 账号已授权登录企业信息营业资质法人证件企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 1440,
+          "height": 1032
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "156px 1284px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "role": null,
+        "ariaLabel": "企业资质侧边导航",
+        "placeholder": null,
+        "text": "信息维护信息概览门店信息房型信息图片视频企业设置企业信息权限设置成员设置企业资质API keys通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 156,
+          "height": 1032
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "14px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护信息概览门店信息房型信息图片视频",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 199
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息概览门店信息房型信息图片视频",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 170
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息概览",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "门店信息",
+        "rect": {
+          "x": 0,
+          "y": 144,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房型信息",
+        "rect": {
+          "x": 0,
+          "y": 186,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "图片视频",
+        "rect": {
+          "x": 0,
+          "y": 229,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置企业信息权限设置成员设置企业资质API keys",
+        "rect": {
+          "x": 0,
+          "y": 283,
+          "width": 155,
+          "height": 242
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置",
+        "rect": {
+          "x": 0,
+          "y": 283,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息权限设置成员设置企业资质API keys",
+        "rect": {
+          "x": 0,
+          "y": 312,
+          "width": 155,
+          "height": 213
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息",
+        "rect": {
+          "x": 0,
+          "y": 312,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "权限设置",
+        "rect": {
+          "x": 0,
+          "y": 355,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "成员设置",
+        "rect": {
+          "x": 0,
+          "y": 397,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业资质",
+        "rect": {
+          "x": 0,
+          "y": 440,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "API keys",
+        "rect": {
+          "x": 0,
+          "y": 482,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置",
+        "rect": {
+          "x": 0,
+          "y": 537,
+          "width": 155,
+          "height": 539
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置",
+        "rect": {
+          "x": 0,
+          "y": 537,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "会话设置自定义渠道支付方式设置收入/支出设置记一笔设置排序设置通知设置短信设置财务设置自动策略设置交接班设置打印设置",
+        "rect": {
+          "x": 0,
+          "y": 566,
+          "width": 155,
+          "height": 510
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "会话设置",
+        "rect": {
+          "x": 0,
+          "y": 566,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自定义渠道",
+        "rect": {
+          "x": 0,
+          "y": 608,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "支付方式设置",
+        "rect": {
+          "x": 0,
+          "y": 651,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "收入/支出设置",
+        "rect": {
+          "x": 0,
+          "y": 693,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "记一笔设置",
+        "rect": {
+          "x": 0,
+          "y": 736,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "排序设置",
+        "rect": {
+          "x": 0,
+          "y": 778,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通知设置",
+        "rect": {
+          "x": 0,
+          "y": 821,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "短信设置",
+        "rect": {
+          "x": 0,
+          "y": 863,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "财务设置",
+        "rect": {
+          "x": 0,
+          "y": 906,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自动策略设置",
+        "rect": {
+          "x": 0,
+          "y": 948,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "交接班设置",
+        "rect": {
+          "x": 0,
+          "y": 991,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "打印设置",
+        "rect": {
+          "x": 0,
+          "y": 1033,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PMS Clone Prototype企业资质采集基线：Chrome 1440x900 / 账号已授权登录企业信息营业资质法人证件企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 1032
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(244, 246, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-qualification-page",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息营业资质法人证件企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 12px 24px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(244, 246, 251)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "qualification-tabs",
+        "role": null,
+        "ariaLabel": "企业资质页签",
+        "placeholder": null,
+        "text": "企业信息营业资质法人证件",
+        "rect": {
+          "x": 168,
+          "y": 58,
+          "width": 1260,
+          "height": 48
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 16px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息",
+        "rect": {
+          "x": 184,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(49, 92, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(49, 92, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "营业资质",
+        "rect": {
+          "x": 266,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(76, 90, 112)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(76, 90, 112)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "法人证件",
+        "rect": {
+          "x": 348,
+          "y": 58,
+          "width": 82,
+          "height": 48
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(76, 90, 112)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(76, 90, 112)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "qualification-card",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息编 辑企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 168,
+          "y": 118,
+          "width": 1260,
+          "height": 640
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "18px 24px 32px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "qualification-heading",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息编 辑",
+        "rect": {
+          "x": 193,
+          "y": 137,
+          "width": 1210,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 18px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息",
+        "rect": {
+          "x": 193,
+          "y": 143,
+          "width": 64,
+          "height": 24
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "qualification-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "编 辑",
+        "rect": {
+          "x": 1329,
+          "y": 139,
+          "width": 74,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "qualification-button qualification-button--primary",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "编 辑",
+        "rect": {
+          "x": 1329,
+          "y": 139,
+          "width": 74,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 14px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(49, 92, 246)",
+          "border": "1px solid rgb(49, 92, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dl",
+        "className": "company-info-list",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业名称：路客云6TS5的店铺企业类型：民宿联系电话：暂无联系电话所在城市：暂无所在城市详细地址：暂无详细地址图片：暂无图片数据",
+        "rect": {
+          "x": 193,
+          "y": 191,
+          "width": 1210,
+          "height": 220
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "4px 0px 0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "1210px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业名称：路客云6TS5的店铺",
+        "rect": {
+          "x": 193,
+          "y": 195,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业名称：",
+        "rect": {
+          "x": 193,
+          "y": 195,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云6TS5的店铺",
+        "rect": {
+          "x": 283,
+          "y": 195,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业类型：民宿",
+        "rect": {
+          "x": 193,
+          "y": 234,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业类型：",
+        "rect": {
+          "x": 193,
+          "y": 234,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "民宿",
+        "rect": {
+          "x": 283,
+          "y": 234,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "联系电话：暂无联系电话",
+        "rect": {
+          "x": 193,
+          "y": 273,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "联系电话：",
+        "rect": {
+          "x": 193,
+          "y": 273,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无联系电话",
+        "rect": {
+          "x": 283,
+          "y": 273,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "所在城市：暂无所在城市",
+        "rect": {
+          "x": 193,
+          "y": 312,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "所在城市：",
+        "rect": {
+          "x": 193,
+          "y": 312,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无所在城市",
+        "rect": {
+          "x": 283,
+          "y": 312,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "详细地址：暂无详细地址",
+        "rect": {
+          "x": 193,
+          "y": 351,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "详细地址：",
+        "rect": {
+          "x": 193,
+          "y": 351,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无详细地址",
+        "rect": {
+          "x": 283,
+          "y": 351,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "company-info-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "图片：暂无图片数据",
+        "rect": {
+          "x": 193,
+          "y": 390,
+          "width": 1210,
+          "height": 21
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "90px 1120px"
+        }
+      },
+      {
+        "tag": "dt",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "图片：",
+        "rect": {
+          "x": 193,
+          "y": 390,
+          "width": 90,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "dd",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无图片数据",
+        "rect": {
+          "x": 283,
+          "y": 390,
+          "width": 1120,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "chat-dock",
+        "role": null,
+        "ariaLabel": "全部会话",
+        "placeholder": null,
+        "text": "全部会话↻收起携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...收起",
+        "rect": {
+          "x": 1104,
+          "y": 440,
+          "width": 326,
+          "height": 410
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(229, 231, 239)",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(15, 23, 42, 0.08) 0px 4px 14px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "chat-dock__header",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部会话↻收起",
+        "rect": {
+          "x": 1105,
+          "y": 441,
+          "width": 324,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部会话",
+        "rect": {
+          "x": 1115,
+          "y": 451,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-dock__actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "↻收起",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 48,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "刷新会话",
+        "placeholder": null,
+        "text": "↻",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "收起会话",
+        "placeholder": null,
+        "text": "收起",
+        "rect": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-dock__list",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1105,
+          "y": 483,
+          "width": 324,
+          "height": 366
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了",
+        "rect": {
+          "x": 1105,
+          "y": 483,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar ",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 494,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(108, 167, 255)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 495,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家顶层套房（淞缇巨幕电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 519,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 521,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 加了",
+        "rect": {
+          "x": 1165,
+          "y": 542,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房",
+        "rect": {
+          "x": 1105,
+          "y": 579,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-sky",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 590,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(128, 184, 232)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 591,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家总裁套间（桦拿淞缇露台电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 615,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 617,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 已办理退房",
+        "rect": {
+          "x": 1165,
+          "y": 638,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的",
+        "rect": {
+          "x": 1105,
+          "y": 675,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 322.891px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-amber",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 686,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(242, 193, 78)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 323,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 323,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 160,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1439,
+          "y": 687,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 711,
+          "width": 323,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家 02.19-02.21（2晚）",
+        "rect": {
+          "x": 1165,
+          "y": 713,
+          "width": 125,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 人 有的",
+        "rect": {
+          "x": 1165,
+          "y": 734,
+          "width": 323,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1105,
+          "y": 771,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-pink",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 782,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(243, 182, 202)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 783,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家顶层套房（淞缇巨幕电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 807,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 809,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1165,
+          "y": 830,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock__collapse",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "收起",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ]
+  }
+}

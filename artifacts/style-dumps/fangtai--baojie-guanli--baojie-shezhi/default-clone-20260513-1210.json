@@ -1,0 +1,109 @@
+{
+  "url": "http://127.0.0.1:4173/cleanManage/cleanSetting",
+  "text": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n\nPMS Clone Prototype\n\n保洁设置\n采集基线：Chrome 1440x900 / 账号已授权登录\n基础设置\n价格设置\n创建保洁任务策略\n自动创建保洁任务：\n如需设置房间自动脏净，请前往自动策略设置进行设置\n自动创建退房日任务\n“退房保洁”任务\n自动创建入住中每日任务\n“续住保洁”“退房保洁”任务\n入住中换房后自动创建任务\n入住中”的订单换房后，原房间生成“退房保洁”任务\n自入住中订单取消或提前退房时自动创建任务\n“入住中”的订单，取消订单或提前退房时，当日生成“退房保洁”任务\n自动延期当天未完成的任务\n已过期的保洁任务，在次日00:01生成相同房间、保洁时间、保洁类型的保洁任务\n设置保洁时段\n默认保洁时段：\n设置保洁时段：\n12:00\n→\n14:00\n设置密码权限\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n收起\n咨\n携程民宿-[M566…\n咨询中\n\n客: 您这房间跟价位完全匹配…\n\n54分4秒前\n咨\n携程民宿-[_WEC…\n咨询中\n\n总裁套间（桑拿浴缸露台电竞麻将）\n\n54分4秒前\n咨\nCqBv9667\n咨询中\n\n房: 不客气哈~\n\n54分4秒前",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "text": "应用订阅",
+      "role": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "消息",
+      "role": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "用户",
+      "role": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "基础设置",
+      "role": "tab",
+      "disabled": false,
+      "className": "is-active"
+    },
+    {
+      "tag": "BUTTON",
+      "text": "价格设置",
+      "role": "tab",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "role": null,
+      "checked": true,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "role": null,
+      "checked": false,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "role": null,
+      "checked": false,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "role": null,
+      "checked": false,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "role": null,
+      "checked": false,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "12:00",
+      "role": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "14:00",
+      "role": null,
+      "disabled": true,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "订阅开通",
+      "role": null,
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "tag": "BUTTON",
+      "text": "收起",
+      "role": null,
+      "disabled": false,
+      "className": ""
+    }
+  ]
+}

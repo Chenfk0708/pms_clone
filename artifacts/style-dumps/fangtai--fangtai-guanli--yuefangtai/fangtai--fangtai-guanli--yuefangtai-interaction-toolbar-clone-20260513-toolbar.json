@@ -1,0 +1,36 @@
+[
+  null,
+  {
+    "selector": ".month-status-toast",
+    "display": "block",
+    "padding": "6px 12px",
+    "backgroundColor": "rgb(243, 246, 255)",
+    "border": "1px solid rgb(183, 196, 255)",
+    "borderRadius": "6px",
+    "color": "rgb(70, 100, 244)",
+    "fontSize": "13px",
+    "zIndex": "auto"
+  },
+  {
+    "selector": ".timeline-date.is-highlight",
+    "display": "grid",
+    "padding": "10px 10px 12px",
+    "backgroundColor": "rgb(246, 248, 255)",
+    "border": "",
+    "borderRadius": "0px",
+    "color": "rgb(70, 100, 244)",
+    "fontSize": "16px",
+    "zIndex": "auto"
+  },
+  {
+    "selector": ".month-calendar-title",
+    "display": "grid",
+    "padding": "10px 10px 12px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "",
+    "borderRadius": "0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "zIndex": "4"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "add-dialog",
+  "stamp": "20260514172100",
+  "url": "http://127.0.0.1:56619/smartHotel/smartHardware/smartLook",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:56619/smartHotel/smartHardware/smartLook",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:56619/assets/index-1v6zyjgV.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:56619/assets/index-fEWicHbV.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56619/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

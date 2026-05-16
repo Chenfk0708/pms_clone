@@ -1,0 +1,44 @@
+{
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260514124000",
+  "url": "http://127.0.0.1:43248/channels/globalRadar/globalData",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43248/channels/globalRadar/globalSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:43248/assets/index-ZnfbXGMF.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:43248/assets/index-B25MgZB6.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:43248/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/globalRadargoToPurchaseBg.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "url": "http://127.0.0.1:43248/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

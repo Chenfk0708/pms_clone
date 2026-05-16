@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "mode-room-type",
+  "stamp": "20260514101156",
+  "url": "http://127.0.0.1:4173/statistics/stay",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/statistics/stay",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BSBXuxa5.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DkWVwS9x.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

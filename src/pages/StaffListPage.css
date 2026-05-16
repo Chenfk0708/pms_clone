@@ -1,0 +1,290 @@
+.page-content:has(.staff-list-page) {
+  padding: 8px 8px 0;
+  background: #f4f7fb;
+}
+
+.page-content:has(.staff-list-page) > .page-header {
+  display: none;
+}
+
+.staff-list-page {
+  position: relative;
+  display: grid;
+  min-height: calc(100vh - 60px);
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.staff-subscription-card {
+  overflow: hidden auto;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+}
+
+.staff-subscription-hero {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 116px;
+  margin: 0 8px;
+  padding: 26px 24px 22px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.staff-subscription-hero img,
+.staff-purchase-header img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.staff-subscription-hero h1,
+.staff-purchase-header h1 {
+  margin: 0 0 6px;
+  color: #1f2a44;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.staff-subscription-hero p,
+.staff-purchase-header p {
+  margin: 0;
+  color: #25324b;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.staff-subscription-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-right: 40px;
+}
+
+.staff-subscription-action button,
+.staff-purchase-submit {
+  height: 28px;
+  border: 0;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 18px;
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.staff-subscription-action span {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  min-width: 58px;
+  height: 22px;
+  border-radius: 11px 11px 11px 2px;
+  background: #ff8a1f;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+}
+
+.staff-product-detail {
+  padding: 26px 32px 48px;
+}
+
+.staff-product-detail h2 {
+  margin: 0 0 20px;
+  color: #1f2a44;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.staff-product-images {
+  display: grid;
+  gap: 20px;
+  max-width: 1204px;
+}
+
+.staff-product-images img {
+  display: block;
+  width: 100%;
+  max-height: 623px;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.staff-list-page--purchase {
+  grid-template-columns: minmax(0, 1fr) 342px;
+  gap: 0;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+}
+
+.staff-purchase-main {
+  min-width: 0;
+  overflow: hidden auto;
+  padding: 16px 16px 44px;
+}
+
+.staff-purchase-header {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 112px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.staff-purchase-header img {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #e4e8f2;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.staff-purchase-header h1 {
+  font-size: 24px;
+}
+
+.staff-purchase-header p {
+  max-width: 760px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.staff-purchase-header button {
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 14px;
+}
+
+.staff-product-detail--purchase {
+  padding: 16px 0 0;
+}
+
+.staff-product-detail--purchase h2 {
+  position: relative;
+  padding-left: 10px;
+}
+
+.staff-product-detail--purchase h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background: #4d65f6;
+}
+
+.staff-purchase-sidebar {
+  min-height: calc(100vh - 60px);
+  padding: 28px 16px;
+  border-left: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.staff-purchase-sidebar h2 {
+  margin: 0 0 22px;
+  color: #1f2a44;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.staff-purchase-sidebar dl {
+  display: grid;
+  gap: 22px;
+  margin: 0;
+}
+
+.staff-purchase-sidebar dl > div {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.staff-purchase-sidebar dt {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.staff-purchase-sidebar dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+}
+
+.staff-purchase-sidebar strong {
+  color: #1f2a44;
+  font-size: 18px;
+}
+
+.staff-purchase-sidebar dd > span {
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 25px;
+  text-decoration: line-through;
+}
+
+.staff-purchase-sidebar dd > button {
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #eef2ff;
+  color: #4d65f6;
+  padding: 0 10px;
+}
+
+.staff-purchase-sidebar .staff-purchase-price {
+  color: #f5222d;
+  font-weight: 500;
+}
+
+.staff-purchase-agreement {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  color: #1f2a44;
+  font-size: 12px;
+}
+
+.staff-purchase-agreement input {
+  accent-color: #4d65f6;
+}
+
+.staff-purchase-submit {
+  width: 100%;
+  height: 32px;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+@media (max-width: 1180px) {
+  .staff-list-page--purchase {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-purchase-sidebar {
+    min-height: auto;
+    border-left: 0;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .staff-subscription-hero {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .staff-subscription-action {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

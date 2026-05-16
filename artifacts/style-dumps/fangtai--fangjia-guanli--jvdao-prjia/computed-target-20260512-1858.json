@@ -1,0 +1,182 @@
+[
+  {
+    "selector": "body",
+    "sample": {
+      "tag": "BODY",
+      "className": "",
+      "text": "路客云6TS5的店铺首页房态房价订单售卖/产品OTA社媒私域聚合分销SCRMAI全域雷达智慧酒店报表设置应用订阅限时试用您的浏览器不支持audio标签您的浏览器不支持audio标签您的浏览器不支持audio标签邀请成员加入店铺扫描二维码 下",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "display": "block",
+      "gridTemplateColumns": "none",
+      "background": "rgb(245, 245, 249)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": ".ant-layout",
+    "sample": {
+      "tag": "SECTION",
+      "className": "ant-layout pageContainer___2x_Lm",
+      "text": "路客云6TS5的店铺首页房态房价订单售卖/产品OTA社媒私域聚合分销SCRMAI全域雷达智慧酒店报表设置应用订阅限时试用您的浏览器不支持audio标签您的浏览器不支持audio标签您的浏览器不支持audio标签邀请成员加入店铺扫描二维码 下",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 905
+      },
+      "display": "flex",
+      "gridTemplateColumns": "none",
+      "background": "rgb(242, 242, 242)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": ".ant-table",
+    "sample": null
+  },
+  {
+    "selector": ".ant-tabs",
+    "sample": null
+  },
+  {
+    "selector": ".ant-btn",
+    "sample": {
+      "tag": "BUTTON",
+      "className": "ant-btn ant-btn-primary sendButton___2H8-Q",
+      "text": "发 送",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "display": "block",
+      "gridTemplateColumns": "none",
+      "background": "rgb(77, 101, 246)",
+      "color": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(77, 101, 246)",
+      "borderRadius": "4px",
+      "fontSize": "13px",
+      "fontWeight": "400",
+      "padding": "0px 10px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": ".ant-select",
+    "sample": {
+      "tag": "DIV",
+      "className": "ant-select order___3us5U ant-select-single ant-select-show-arrow",
+      "text": "渠道",
+      "rect": {
+        "x": 371,
+        "y": 142,
+        "width": 90,
+        "height": 28
+      },
+      "display": "block",
+      "gridTemplateColumns": "none",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(77, 101, 246)",
+      "border": "0px none rgb(77, 101, 246)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": ".ant-picker",
+    "sample": {
+      "tag": "DIV",
+      "className": "ant-picker ant-picker-borderless",
+      "text": "",
+      "rect": {
+        "x": 194.5,
+        "y": 182,
+        "width": 94,
+        "height": 28
+      },
+      "display": "flex",
+      "gridTemplateColumns": "none",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "1px solid rgba(0, 0, 0, 0)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": "table",
+    "sample": null
+  },
+  {
+    "selector": "[class*=price]",
+    "sample": {
+      "tag": "DIV",
+      "className": "pricePlanButton___2UPee",
+      "text": "价格规划",
+      "rect": {
+        "x": 2352,
+        "y": 106,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block",
+      "gridTemplateColumns": "none",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "0px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  },
+  {
+    "selector": "[class*=channel]",
+    "sample": {
+      "tag": "IMG",
+      "className": "channelIcon___1IWmd",
+      "text": "",
+      "rect": {
+        "x": 181,
+        "y": 298.5,
+        "width": 20,
+        "height": 20
+      },
+      "display": "block",
+      "gridTemplateColumns": "none",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "border": "0px none rgba(0, 0, 0, 0.85)",
+      "borderRadius": "4px",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "padding": "0px",
+      "boxShadow": "none"
+    }
+  }
+]

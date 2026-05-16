@@ -1,0 +1,156 @@
+{
+  "stamp": "20260513T100045Z",
+  "side": "clone",
+  "styles": [
+    {
+      "selector": ".month-toolbar",
+      "found": true,
+      "box": {
+        "x": 164,
+        "y": 66,
+        "w": 1268,
+        "h": 90
+      },
+      "style": {
+        "display": "grid",
+        "position": "static",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "8px 8px 0px 0px",
+        "padding": "10px 8px 8px",
+        "gap": "8px",
+        "gridTemplateColumns": "1252px",
+        "minHeight": "auto"
+      }
+    },
+    {
+      "selector": ".month-toolbar__filters",
+      "found": true,
+      "box": {
+        "x": 172,
+        "y": 120,
+        "w": 1252,
+        "h": 28
+      },
+      "style": {
+        "display": "flex",
+        "position": "static",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "gap": "8px",
+        "gridTemplateColumns": "none",
+        "minHeight": "auto"
+      }
+    },
+    {
+      "selector": ".month-board",
+      "found": true,
+      "box": {
+        "x": 164,
+        "y": 164,
+        "w": 1268,
+        "h": 585
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(216, 216, 216)",
+        "borderRadius": "8px 8px 0px 0px",
+        "padding": "0px",
+        "gap": "normal",
+        "gridTemplateColumns": "none",
+        "minHeight": "auto"
+      }
+    },
+    {
+      "selector": ".month-grid-row",
+      "found": true,
+      "box": {
+        "x": 165,
+        "y": 165,
+        "w": 3212,
+        "h": 97
+      },
+      "style": {
+        "display": "grid",
+        "position": "sticky",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "gap": "normal",
+        "gridTemplateColumns": "176px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px 92px",
+        "minHeight": "0px"
+      }
+    },
+    {
+      "selector": ".timeline-date",
+      "found": true,
+      "box": {
+        "x": 341,
+        "y": 165,
+        "w": 92,
+        "h": 97
+      },
+      "style": {
+        "display": "grid",
+        "position": "relative",
+        "fontSize": "16px",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "padding": "10px 10px 12px",
+        "gap": "3px",
+        "gridTemplateColumns": "69px",
+        "minHeight": "56px"
+      }
+    },
+    {
+      "selector": ".month-cell",
+      "found": true,
+      "box": {
+        "x": 341,
+        "y": 262,
+        "w": 92,
+        "h": 44
+      },
+      "style": {
+        "display": "grid",
+        "position": "relative",
+        "fontSize": "13px",
+        "color": "rgb(85, 85, 85)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "",
+        "borderRadius": "0px",
+        "padding": "8px 8px 6px",
+        "gap": "2px",
+        "gridTemplateColumns": "73px",
+        "minHeight": "44px"
+      }
+    },
+    {
+      "selector": ".month-settings__menu",
+      "found": false
+    },
+    {
+      "selector": ".month-batch-menu",
+      "found": false
+    },
+    {
+      "selector": ".month-dialog",
+      "found": false
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "url": "https://minsubao.localhome.cn/houseManage/retailPrice",
+  "visibleText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 门市价 钟点房设置 门市价设置 价格规划 批量改价 全部门店 天落会宿公寓(前海壹方城宝安中心店) 房型 房型标签 请先完成门市价设置 去设置",
+  "buttons": [
+    {
+      "text": "钟点房设置",
+      "id": "hourSetting",
+      "rect": {
+        "x": 1014,
+        "y": 70,
+        "width": 102,
+        "height": 28
+      }
+    },
+    {
+      "text": "门市价设置",
+      "id": "retailSetting",
+      "rect": {
+        "x": 1126,
+        "y": 70,
+        "width": 102,
+        "height": 28
+      }
+    },
+    {
+      "text": "价格规划",
+      "id": "pricePlanButton",
+      "rect": {
+        "x": 1238,
+        "y": 70,
+        "width": 88,
+        "height": 28
+      }
+    },
+    {
+      "text": "批量改价",
+      "id": "",
+      "rect": {
+        "x": 1336,
+        "y": 70,
+        "width": 88,
+        "height": 28
+      }
+    },
+    {
+      "text": "",
+      "id": "",
+      "rect": {
+        "x": 676,
+        "y": 107,
+        "width": 26,
+        "height": 26
+      }
+    },
+    {
+      "text": "去设置",
+      "id": "",
+      "rect": {
+        "x": 761,
+        "y": 535,
+        "width": 74,
+        "height": 28
+      }
+    }
+  ],
+  "fields": [
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 383,
+        "y": 110,
+        "width": 4,
+        "height": 24
+      }
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 491,
+        "y": 110,
+        "width": 4,
+        "height": 24
+      }
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "placeholder": "房源编码/简称/标题",
+      "value": "",
+      "checked": false,
+      "rect": {
+        "x": 593,
+        "y": 107,
+        "width": 78,
+        "height": 26
+      }
+    }
+  ],
+  "panels": []
+}

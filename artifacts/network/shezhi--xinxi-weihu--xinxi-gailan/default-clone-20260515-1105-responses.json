@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260515-1105",
+  "url": "http://127.0.0.1:4173/InformationMaintenance/informationOverview",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/InformationMaintenance/informationOverview",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-D3Goiwox.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-B8E2-cO-.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

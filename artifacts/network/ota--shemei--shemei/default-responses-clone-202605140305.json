@@ -1,0 +1,31 @@
+{
+  "stamp": "202605140305",
+  "state": "default",
+  "url": "http://127.0.0.1:4173/channels/social",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/channels/social",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CtENro_m.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CT3XHRve.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

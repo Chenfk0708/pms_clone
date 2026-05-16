@@ -1,0 +1,138 @@
+{
+  "url": "http://127.0.0.1:4197/version/applicationPayment/detail",
+  "title": "pms_clone",
+  "bodyText": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 PMS Clone Prototype 智能保洁 采集基线：Chrome 1440x900 / 账号已授权登录 净 智能保洁 适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。 商品详情 智能保洁 自动派单 ｜实时提醒 ｜ 报表清晰 购买信息 商品价格 ¥1,237.38 ¥2,203.14 / 年 购买时长 跟随版本 2027-09-28 到期 订单金额 ¥1,237.38 明细 我已阅读并同意《路客云产品服务购买协议》 返回 立即购买 ···",
+  "has": {
+    "basic": false,
+    "price": false,
+    "promo": false,
+    "sub": false,
+    "strategy": false,
+    "time": false,
+    "product": true,
+    "buy": true
+  },
+  "tabs": [],
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "消息",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "用户",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(223, 229, 241)",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "返回",
+      "role": "",
+      "ariaSelected": null,
+      "className": "",
+      "rect": {
+        "x": 559,
+        "y": 772,
+        "width": 66,
+        "height": 34
+      },
+      "style": {
+        "color": "rgb(52, 71, 101)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "borderColor": "rgb(215, 222, 234)",
+        "fontSize": "14px",
+        "fontWeight": "500"
+      }
+    },
+    {
+      "text": "立即购买",
+      "role": "",
+      "ariaSelected": null,
+      "className": "is-primary",
+      "rect": {
+        "x": 635,
+        "y": 772,
+        "width": 94,
+        "height": 34
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(216, 222, 234)",
+        "borderColor": "rgb(207, 214, 227)",
+        "fontSize": "14px",
+        "fontWeight": "500"
+      }
+    },
+    {
+      "text": "···",
+      "role": "",
+      "ariaSelected": null,
+      "className": "clean-float-chat",
+      "rect": {
+        "x": 1376,
+        "y": 820,
+        "width": 46,
+        "height": 46
+      },
+      "style": {
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "borderColor": "rgb(251, 253, 255)",
+        "fontSize": "20px",
+        "fontWeight": "800"
+      }
+    }
+  ],
+  "panelBox": {
+    "x": 12,
+    "y": 164,
+    "width": 738,
+    "height": 661
+  }
+}

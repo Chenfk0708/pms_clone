@@ -1,0 +1,157 @@
+.page-content:has(.clean-staff-page) {
+  padding: 8px;
+  background: #fff;
+  overflow: auto;
+}
+
+.page-content:has(.clean-staff-page) > .page-header {
+  display: none;
+}
+
+.clean-staff-page {
+  position: relative;
+  min-height: 720px;
+}
+
+.clean-staff-card {
+  position: relative;
+  min-height: 845px;
+  overflow: hidden;
+  border-radius: 0;
+  background: #fff;
+}
+
+.clean-staff-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 8px 0;
+}
+
+.clean-staff-toolbar__top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.clean-store-tabs {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.clean-store-tabs button {
+  height: 28px;
+  border: 1px solid #d9dce7;
+  border-right: 0;
+  border-radius: 0;
+  background: #fff;
+  color: #30384a;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.clean-store-tabs button:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.clean-store-tabs button:last-child {
+  border-right: 1px solid #d9dce7;
+  border-radius: 0 4px 4px 0;
+}
+
+.clean-store-tabs button.is-active {
+  border-color: #4d65f6;
+  background: #fff;
+  color: #4d65f6;
+}
+
+.clean-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #172033;
+  font-size: 14px;
+}
+
+.clean-search input {
+  width: 200px;
+  height: 26px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0 7px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 22px;
+  outline: none;
+}
+
+.clean-search input:focus {
+  border-color: #4d65f6;
+  box-shadow: 0 0 0 2px rgba(77, 101, 246, 0.12);
+}
+
+.clean-primary {
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.clean-add-member {
+  width: 88px;
+  height: 28px;
+  margin-top: 34px;
+}
+
+.clean-unpaid-state {
+  position: relative;
+  margin: 8px 8px 0;
+  min-height: 718px;
+  overflow: hidden;
+}
+
+.clean-unpaid-bg {
+  display: block;
+  width: 100%;
+  height: 718px;
+  object-fit: cover;
+  object-position: top center;
+  user-select: none;
+}
+
+.clean-subscribe-mask {
+  position: absolute;
+  left: 24px;
+  bottom: 48px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #23405f;
+}
+
+.clean-subscribe-mask strong {
+  color: #24406e;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.clean-subscribe-mask span {
+  margin: 18px 0 28px;
+  color: #23405f;
+  font-size: 14px;
+}
+
+.clean-subscribe-button {
+  width: 94px;
+  height: 42px;
+  border-radius: 8px;
+}

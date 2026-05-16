@@ -1,0 +1,322 @@
+.page-content:has(.smart-lock-page) {
+  padding: 0;
+  background: #f0f2f5;
+}
+
+.page-content:has(.smart-lock-page) > .page-header {
+  display: none;
+}
+
+.smart-lock-page {
+  min-height: calc(100vh - 58px);
+  background: #f0f2f5;
+  color: #333;
+  font-size: 14px;
+}
+
+.smart-lock-version {
+  position: fixed;
+  left: 0;
+  bottom: 2px;
+  z-index: 1;
+  width: 156px;
+  padding: 4px 0;
+  color: #a9a9a9;
+  font-size: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.smart-lock-surface {
+  min-height: calc(100vh - 74px);
+  margin: 8px 8px 0;
+  padding: 8px 12px 40px;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+}
+
+.smart-lock-tabs {
+  display: inline-flex;
+  height: 32px;
+  margin-bottom: 10px;
+}
+
+.smart-lock-tabs button {
+  min-width: 80px;
+  height: 32px;
+  border: 1px solid #4d65f6;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.smart-lock-tabs button:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.smart-lock-tabs button:last-child {
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.smart-lock-tabs button.is-active {
+  background: #4d65f6;
+  color: #fff;
+  font-weight: 500;
+}
+
+.smart-lock-lead {
+  margin: 0 0 6px;
+  color: #333;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.smart-lock-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 240px);
+  gap: 11px 12px;
+  align-items: start;
+}
+
+.smart-lock-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  width: 240px;
+  height: 111px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e9e9e9;
+}
+
+.smart-lock-brand {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  min-width: 62px;
+  border: 0;
+  background: transparent;
+  color: #333;
+  padding: 0;
+  cursor: pointer;
+}
+
+.smart-lock-brand strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.smart-lock-brand:hover strong {
+  color: #4d65f6;
+}
+
+.smart-lock-logo {
+  display: grid;
+  place-items: center;
+  width: 47px;
+  height: 47px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.smart-lock-logo--blue {
+  background: linear-gradient(135deg, #1f86ff, #00b1ff);
+}
+
+.smart-lock-logo--cyan {
+  background: linear-gradient(135deg, #05a5ff, #18d6e6);
+}
+
+.smart-lock-logo--black {
+  background: #202326;
+}
+
+.smart-lock-logo--dark {
+  background: #202020;
+  font-size: 14px;
+}
+
+.smart-lock-logo--sky {
+  background: #0aa6f5;
+}
+
+.smart-lock-logo--red {
+  background: #fff;
+  color: #d82032;
+  box-shadow: inset 0 0 0 1px rgba(220, 220, 220, 0.8);
+}
+
+.smart-lock-card--mall {
+  display: grid;
+  grid-template-rows: 68px 43px;
+  gap: 0;
+  border: 1px solid #4d65f6;
+  background: #fff;
+}
+
+.smart-lock-mall-logo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 68px;
+  background: #4d65f6;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.smart-lock-card--mall button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 43px;
+  border: 0;
+  background: #fff;
+  color: #4d65f6;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.smart-lock-card--mall button:hover {
+  background: #f4f6ff;
+}
+
+.smart-lock-status {
+  position: fixed;
+  right: 70px;
+  bottom: 38px;
+  z-index: 35;
+  min-width: 1px;
+  min-height: 1px;
+  pointer-events: none;
+}
+
+.smart-lock-status:not(:empty) {
+  max-width: 320px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  background: rgba(31, 41, 55, 0.92);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(31, 42, 68, 0.18);
+}
+
+.smart-lock-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.36);
+}
+
+.smart-lock-modal {
+  width: 468px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 12px 36px rgba(31, 42, 68, 0.24);
+}
+
+.smart-lock-modal header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 18px 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.smart-lock-modal h2 {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.smart-lock-modal header button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.smart-lock-modal__body {
+  display: grid;
+  gap: 18px;
+  padding: 24px 38px 18px;
+}
+
+.smart-lock-modal__body label {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.smart-lock-modal__body span {
+  color: rgba(0, 0, 0, 0.78);
+  text-align: right;
+}
+
+.smart-lock-modal__body input {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.smart-lock-modal__body input::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.smart-lock-modal footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 24px 20px;
+}
+
+.smart-lock-modal footer button {
+  min-width: 64px;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.85);
+  padding: 0 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.smart-lock-modal footer button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+@media (max-width: 1180px) {
+  .smart-lock-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .smart-lock-card {
+    width: 100%;
+  }
+}

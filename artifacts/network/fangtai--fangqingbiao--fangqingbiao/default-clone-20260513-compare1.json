@@ -1,0 +1,272 @@
+[
+  {
+    "url": "http://127.0.0.1:5173/statistics/roomSituation",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "document"
+  },
+  {
+    "url": "http://127.0.0.1:5173/@vite/client",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/main.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/@react-refresh",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/App.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/index.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/components/AppShell.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/OtaPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanStaffPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/HouseDaysPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/HouseStatusLogsPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/InformationOverviewPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/OrdersPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/PrivatePage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/PricePage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/ReportPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/RoomSituationPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/ScrmGeneralPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/SocialPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/AiRadarPage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/WorkspacePage.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/data/discovery.ts",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/data/mock.ts",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanStaffPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/components/ChatDock.tsx",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/PricePage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/src/pages/WorkspacePage.css",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "script"
+  },
+  {
+    "url": "http://127.0.0.1:5173/favicon.svg",
+    "method": "GET",
+    "status": 200,
+    "resourceType": "other"
+  }
+]

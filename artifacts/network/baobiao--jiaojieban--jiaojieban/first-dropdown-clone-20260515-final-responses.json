@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "first-dropdown",
+  "stamp": "20260515-final",
+  "url": "http://127.0.0.1:4173/statistics/shift/record",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/statistics/shift/record",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-D3Goiwox.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-B8E2-cO-.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

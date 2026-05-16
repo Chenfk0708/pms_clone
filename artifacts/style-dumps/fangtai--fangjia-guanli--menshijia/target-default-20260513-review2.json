@@ -1,0 +1,276 @@
+{
+  "url": "https://minsubao.localhome.cn/houseManage/retailPrice",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "visibleText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 门市价 钟点房设置 门市价设置 价格规划 批量改价 全部门店 天落会宿公寓(前海壹方城宝安中心店) 房型 房型标签 请先完成门市价设置 去设置",
+  "buttonTexts": [
+    "Close",
+    "发 送",
+    "钟点房设置",
+    "门市价设置",
+    "价格规划",
+    "批量改价",
+    "去设置",
+    "下一步",
+    "下一步",
+    "确 定",
+    "Close",
+    "提 交",
+    "登 录"
+  ],
+  "inputs": [
+    {
+      "tag": "textarea",
+      "type": null,
+      "placeholder": "请输入您的问题",
+      "ariaLabel": null,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": true,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "radio",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": "1796425098638573570"
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "placeholder": "房源编码/简称/标题",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": null,
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": null,
+      "placeholder": "请选择日期",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": null,
+      "placeholder": "请输入金额",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "textarea",
+      "type": null,
+      "placeholder": "请输入备注",
+      "ariaLabel": null,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "placeholder": "手机号码",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "password",
+      "placeholder": "请输入密码",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    },
+    {
+      "tag": "textarea",
+      "type": null,
+      "placeholder": null,
+      "ariaLabel": null,
+      "value": " "
+    }
+  ],
+  "boxes": [
+    {
+      "selector": ".ant-form",
+      "text": "类型请选择类型支付方式请选择支付方式日期金额(¥)备注",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".ant-form",
+      "text": "+86 请按住滑块，拖动到最右边",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "padding": "8px 19.2px 0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".ant-radio-group",
+      "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)",
+      "rect": {
+        "x": 172,
+        "y": 106,
+        "width": 159,
+        "height": 28
+      },
+      "style": {
+        "display": "flex",
+        "position": "static",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px",
+        "fontSize": "0px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".ant-modal-content",
+      "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "10px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".ant-modal-content",
+      "text": "您在正式使用路客云中央价高效控价之前，请先选择您期望的改价模式售卖价模式通过实际售卖价/用户支付价来进行价格管控推荐划线价模式通过划线价来进行价格管控确 定",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "8px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".ant-modal-content",
+      "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "border": "0px none rgba(0, 0, 0, 0.85)",
+        "borderRadius": "8px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    }
+  ]
+}

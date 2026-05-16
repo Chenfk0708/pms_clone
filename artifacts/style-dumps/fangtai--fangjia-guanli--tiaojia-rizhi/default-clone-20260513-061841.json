@@ -1,0 +1,188 @@
+{
+  "url": "http://127.0.0.1:4173/houseManage/logs/price",
+  "title": "pms_clone",
+  "text": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n\nPMS Clone Prototype\n\n调价日志\n采集基线：Chrome 1440x900 / 账号已授权登录\n日志关键词\n调整方式\n调整方式 手动调整\n渠道\n渠道 请选择\n重 置\n查 询\n展开\n房型\n价格日期\n操作内容\n调整方式\n同步渠道\n渠道价格\n操作人\n操作时间\n暂无数据",
+  "columns": [
+    "房型",
+    "价格日期",
+    "操作内容",
+    "调整方式",
+    "同步渠道",
+    "渠道价格",
+    "操作人",
+    "操作时间"
+  ],
+  "controls": [
+    {
+      "index": 0,
+      "tag": "BUTTON",
+      "text": "应用订阅",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "color": "rgb(47, 58, 81)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(223, 229, 241)"
+    },
+    {
+      "index": 1,
+      "tag": "BUTTON",
+      "text": "消息",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 57.5,
+        "height": 66
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "color": "rgb(47, 58, 81)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(223, 229, 241)"
+    },
+    {
+      "index": 2,
+      "tag": "BUTTON",
+      "text": "用户",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 1366.5,
+        "y": 0,
+        "width": 57.5,
+        "height": 66
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "color": "rgb(47, 58, 81)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(223, 229, 241)"
+    },
+    {
+      "index": 3,
+      "tag": "INPUT",
+      "text": "搜索房型名称/房间号/渠道房源名称",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 257,
+        "y": 173.5,
+        "width": 206,
+        "height": 30
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "13px",
+      "color": "rgb(77, 91, 115)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(217, 221, 232)"
+    },
+    {
+      "index": 4,
+      "tag": "BUTTON",
+      "text": "调整方式 手动调整",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 543,
+        "y": 173.5,
+        "width": 220,
+        "height": 30
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "13px",
+      "color": "rgb(77, 91, 115)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(217, 221, 232)"
+    },
+    {
+      "index": 5,
+      "tag": "BUTTON",
+      "text": "渠道 请选择",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 815,
+        "y": 173.5,
+        "width": 220,
+        "height": 30
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "13px",
+      "color": "rgb(77, 91, 115)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(217, 221, 232)"
+    },
+    {
+      "index": 6,
+      "tag": "BUTTON",
+      "text": "重 置",
+      "role": null,
+      "ariaLabel": null,
+      "className": "",
+      "rect": {
+        "x": 1051,
+        "y": 172.5,
+        "width": 66.15625,
+        "height": 32
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "14px",
+      "color": "rgb(70, 100, 244)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderColor": "rgb(213, 220, 240)"
+    },
+    {
+      "index": 7,
+      "tag": "BUTTON",
+      "text": "查 询",
+      "role": null,
+      "ariaLabel": null,
+      "className": "is-primary",
+      "rect": {
+        "x": 1125.15625,
+        "y": 172.5,
+        "width": 66.15625,
+        "height": 32
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "14px",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(70, 100, 244)",
+      "borderColor": "rgb(70, 100, 244)"
+    },
+    {
+      "index": 8,
+      "tag": "BUTTON",
+      "text": "展开",
+      "role": null,
+      "ariaLabel": null,
+      "className": "is-link",
+      "rect": {
+        "x": 1199.3125,
+        "y": 172.5,
+        "width": 62,
+        "height": 32
+      },
+      "font": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "14px",
+      "color": "rgb(70, 100, 244)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderColor": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "dropdown",
+  "stamp": "20260514-1400",
+  "url": "http://127.0.0.1:4197/mallManagement/hotelPackageOrder",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4197/mallManagement/hotelPackageOrder",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4197/assets/index-SVuJZSh5.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4197/assets/index-COnjvRVY.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4197/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

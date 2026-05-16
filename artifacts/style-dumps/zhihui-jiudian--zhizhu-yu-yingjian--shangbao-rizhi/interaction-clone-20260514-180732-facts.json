@@ -1,0 +1,3738 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi",
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260514-180732",
+  "url": "http://127.0.0.1:43280/psb/log",
+  "isLoginBlocked": false,
+  "interactions": [
+    {
+      "slug": "expanded-filters",
+      "labels": [
+        "展开",
+        "更多筛选",
+        "高级筛选"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "展开",
+          "更多筛选",
+          "高级筛选"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-expanded-filters.png"
+    },
+    {
+      "slug": "log-type-dropdown",
+      "labels": [
+        "上报类型",
+        "日志类型",
+        "上报状态",
+        "状态"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "上报类型",
+        "text": "ant-select[0]",
+        "box": {
+          "x": 875,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n入住\n续住\n换房\n退房\n未知\n删除入住登记\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [
+          "入住续住换房退房未知删除入住登记"
+        ],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-log-type-dropdown.png"
+    },
+    {
+      "slug": "date-picker",
+      "labels": [
+        "上报时间",
+        "创建时间",
+        "时间"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "上报时间",
+        "text": "ant-picker[0]",
+        "box": {
+          "x": 561,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n‹\n2026年5月\n›\n一\n二\n三\n四\n五\n六\n日\n27\n28\n29\n30\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n1\n2\n3\n4\n5\n6\n7\n‹\n2026年6月\n›\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n1\n2\n3\n4\n5\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [
+          "‹2026年5月›一二三四五六日27282930123456789101112131415161718192021222324252627282930311234567‹2026年6月›一二三四五六日12345678910111213141516171819202122232425262728293012345"
+        ],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店",
+          "14"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-date-picker.png"
+    },
+    {
+      "slug": "query-action",
+      "labels": [
+        "查 询",
+        "查询",
+        "搜 索"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "查 询",
+        "text": "查 询",
+        "box": {
+          "x": 1504,
+          "y": 121,
+          "width": 64,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-query-action.png"
+    },
+    {
+      "slug": "reset-action",
+      "labels": [
+        "重 置",
+        "重置"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "重 置",
+        "text": "重 置",
+        "box": {
+          "x": 1432,
+          "y": 121,
+          "width": 64,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-reset-action.png"
+    },
+    {
+      "slug": "table-action",
+      "labels": [
+        "查看",
+        "详情",
+        "重试",
+        "重新上报"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "上报状态",
+        "text": "ant-select[1]",
+        "box": {
+          "x": 1187,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n失败\n成功\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [
+          "失败成功"
+        ],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-table-action.png"
+    },
+    {
+      "slug": "chat-collapse",
+      "labels": [
+        "收 起",
+        "收起"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "收起",
+        "text": "收起",
+        "box": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:43280/psb/log",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260514-180732-chat-collapse.png"
+    }
+  ],
+  "facts": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:43280/psb/log",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n搜索：\n上报时间:\n上报时间\n请选择\n请选择\n▣\n上报类型:\n上报类型\n请选择\n上报状态:\n上报状态\n请选择\n重 置\n查 询\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n路客云订单号\n上报时间\n上报类型\n上报状态\n备注\n暂无数据",
+    "isLoginBlocked": false,
+    "buttons": [
+      "首页",
+      "房态",
+      "房价",
+      "订单",
+      "售卖/产品",
+      "OTA",
+      "社媒",
+      "私域",
+      "聚合分销HOT",
+      "SCRM",
+      "AI全域雷达",
+      "智慧酒店",
+      "报表",
+      "设置",
+      "应用订阅",
+      "消息",
+      "用户",
+      "自助入住",
+      "全局设置",
+      "智住小程序",
+      "智能硬件商城",
+      "智能门锁",
+      "身份证读卡器",
+      "PSB公安对接",
+      "上报日志",
+      "⚙",
+      "上报时间请选择请选择▣",
+      "上报类型请选择",
+      "上报状态请选择",
+      "重 置",
+      "查 询",
+      "打开全部会话"
+    ],
+    "headings": [
+      "智住管理",
+      "智能硬件",
+      "公安对接",
+      "上报日志"
+    ],
+    "inputs": [
+      {
+        "type": "radio",
+        "placeholder": null,
+        "ariaLabel": null,
+        "value": "on",
+        "rect": {
+          "x": 190,
+          "y": 86,
+          "width": 13,
+          "height": 13
+        }
+      },
+      {
+        "type": "radio",
+        "placeholder": null,
+        "ariaLabel": null,
+        "value": "1796425098638573570",
+        "rect": {
+          "x": 285,
+          "y": 86,
+          "width": 13,
+          "height": 13
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入订单号/手机号/房号",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 222,
+          "y": 121,
+          "width": 248,
+          "height": 28
+        }
+      }
+    ],
+    "selects": [
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型:上报类型请选择",
+        "rect": {
+          "x": 808,
+          "y": 121,
+          "width": 294,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-select-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型请选择",
+        "rect": {
+          "x": 875,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 31px 0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态:上报状态请选择",
+        "rect": {
+          "x": 1120,
+          "y": 121,
+          "width": 294,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-select-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态请选择",
+        "rect": {
+          "x": 1187,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 31px 0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ],
+    "tableHeaders": [
+      "姓名",
+      "手机号",
+      "证件号码",
+      "房间号",
+      "订单来源",
+      "订单号",
+      "路客云订单号",
+      "上报时间",
+      "上报类型",
+      "上报状态",
+      "备注"
+    ],
+    "rows": [
+      "姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注"
+    ],
+    "elementSamples": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype上报日志采集基线：Chrome 1440x900 / 账号已授权登录上报日志版本号：v4.10.7全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 940
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype上报日志采集基线：Chrome 1440x900 / 账号已授权登录上报日志版本号：v4.10.7全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 940
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 58
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "padding": "0px 16px 0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "260px 904px 220px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-block",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 260,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-mark",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 55,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 75,
+          "y": 20,
+          "width": 193,
+          "height": 26
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺",
+        "rect": {
+          "x": 75,
+          "y": 23,
+          "width": 127,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "畅享版",
+        "rect": {
+          "x": 212,
+          "y": 20,
+          "width": 56,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "4px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(68, 105, 228)",
+          "backgroundColor": "rgb(232, 241, 255)",
+          "border": "0px none rgb(68, 105, 228)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "role": null,
+        "ariaLabel": "顶部导航",
+        "placeholder": null,
+        "text": "首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 904,
+          "height": 56
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "首页",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房态",
+        "rect": {
+          "x": 332,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房价",
+        "rect": {
+          "x": 380,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单",
+        "rect": {
+          "x": 428,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "售卖/产品",
+        "rect": {
+          "x": 476,
+          "y": 5,
+          "width": 66,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "OTA",
+        "rect": {
+          "x": 560,
+          "y": 5,
+          "width": 29,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "社媒",
+        "rect": {
+          "x": 608,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "私域",
+        "rect": {
+          "x": 656,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 704,
+          "y": 5,
+          "width": 95,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "HOT",
+        "rect": {
+          "x": 768,
+          "y": 28,
+          "width": 31,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 0px 0px 4px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 92, 82)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "SCRM",
+        "rect": {
+          "x": 817,
+          "y": 5,
+          "width": 43,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 878,
+          "y": 5,
+          "width": 75,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智慧酒店",
+        "rect": {
+          "x": 971,
+          "y": 5,
+          "width": 60,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "700",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "报表",
+        "rect": {
+          "x": 1049,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "设置",
+        "rect": {
+          "x": 1097,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅消息用户",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 220,
+          "height": 66
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 89,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "消息",
+        "rect": {
+          "x": 1301,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "用户",
+        "rect": {
+          "x": 1367,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype上报日志采集基线：Chrome 1440x900 / 账号已授权登录上报日志版本号：v4.10.7全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注暂无数据",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 1440,
+          "height": 882
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "156px 1284px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "role": null,
+        "ariaLabel": "上报日志侧边导航",
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 156,
+          "height": 882
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "14px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 157
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自助入住全局设置智住小程序",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 128
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自助入住",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全局设置",
+        "rect": {
+          "x": 0,
+          "y": 144,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住小程序",
+        "rect": {
+          "x": 0,
+          "y": 186,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件智能硬件商城智能门锁身份证读卡器",
+        "rect": {
+          "x": 0,
+          "y": 241,
+          "width": 155,
+          "height": 157
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件",
+        "rect": {
+          "x": 0,
+          "y": 241,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件商城智能门锁身份证读卡器",
+        "rect": {
+          "x": 0,
+          "y": 270,
+          "width": 155,
+          "height": 128
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件商城",
+        "rect": {
+          "x": 0,
+          "y": 270,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能门锁",
+        "rect": {
+          "x": 0,
+          "y": 312,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "身份证读卡器",
+        "rect": {
+          "x": 0,
+          "y": 355,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 409,
+          "width": 155,
+          "height": 114
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "12px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接",
+        "rect": {
+          "x": 0,
+          "y": 409,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 438,
+          "width": 155,
+          "height": 85
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PSB公安对接",
+        "rect": {
+          "x": 0,
+          "y": 438,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志",
+        "rect": {
+          "x": 0,
+          "y": 481,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PMS Clone Prototype上报日志采集基线：Chrome 1440x900 / 账号已授权登录上报日志版本号：v4.10.7全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注暂无数据",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 882
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-page",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志版本号：v4.10.7全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注暂无数据",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 882
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "8px 8px 32px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h1",
+        "className": "psb-log-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志",
+        "rect": {
+          "x": 164,
+          "y": 66,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "28px",
+          "fontWeight": "700",
+          "lineHeight": "42px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-version",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "版本号：v4.10.7",
+        "rect": {
+          "x": 0,
+          "y": 880,
+          "width": 156,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(156, 163, 175)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(156, 163, 175)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "psb-log-panel",
+        "role": null,
+        "ariaLabel": "上报日志",
+        "placeholder": null,
+        "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)⚙搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注暂无数据",
+        "rect": {
+          "x": 164,
+          "y": 66,
+          "width": 1268,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 8px 20px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "8px 8px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-store-row",
+        "role": "radiogroup",
+        "ariaLabel": "门店范围",
+        "placeholder": null,
+        "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)⚙",
+        "rect": {
+          "x": 172,
+          "y": 76,
+          "width": 1252,
+          "height": 30
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 10px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-store is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部门店",
+        "rect": {
+          "x": 172,
+          "y": 77,
+          "width": 95,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 190,
+          "y": 86,
+          "width": 13,
+          "height": 13
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "3px 3px 0px 5px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部门店",
+        "rect": {
+          "x": 185,
+          "y": 81,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "天落会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 267,
+          "y": 77,
+          "width": 152,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 285,
+          "y": 86,
+          "width": 13,
+          "height": 13
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "3px 3px 0px 5px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "天落会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 280,
+          "y": 81,
+          "width": 126,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-gear",
+        "role": null,
+        "ariaLabel": "门店设置",
+        "placeholder": null,
+        "text": "⚙",
+        "rect": {
+          "x": 419,
+          "y": 77,
+          "width": 28,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(140, 140, 140)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "14px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-toolbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索：上报时间:上报时间请选择请选择▣上报类型:上报类型请选择上报状态:上报状态请选择重 置查 询",
+        "rect": {
+          "x": 172,
+          "y": 116,
+          "width": 1252,
+          "height": 38
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 39px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "304px 296px 294px 294px 136px"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-field psb-log-field--keyword",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索：",
+        "rect": {
+          "x": 172,
+          "y": 121,
+          "width": 304,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索：",
+        "rect": {
+          "x": 172,
+          "y": 125,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入订单号/手机号/房号",
+        "text": "",
+        "rect": {
+          "x": 222,
+          "y": 121,
+          "width": 248,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--date",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间:上报时间请选择请选择▣",
+        "rect": {
+          "x": 494,
+          "y": 121,
+          "width": 296,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间:",
+        "rect": {
+          "x": 494,
+          "y": 125,
+          "width": 59,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-date-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间请选择请选择▣",
+        "rect": {
+          "x": 561,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 31px 0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间",
+        "rect": {
+          "x": 573,
+          "y": 135,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 573,
+          "y": 125,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 625,
+          "y": 135,
+          "width": 22,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(191, 191, 191)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 657,
+          "y": 125,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "b",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "▣",
+        "rect": {
+          "x": 758,
+          "y": 126,
+          "width": 12,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "700",
+          "lineHeight": "18px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(191, 191, 191)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型:上报类型请选择",
+        "rect": {
+          "x": 808,
+          "y": 121,
+          "width": 294,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型:",
+        "rect": {
+          "x": 808,
+          "y": 125,
+          "width": 59,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-select-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型请选择",
+        "rect": {
+          "x": 875,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 31px 0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型",
+        "rect": {
+          "x": 887,
+          "y": 135,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 887,
+          "y": 125,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1076,
+          "y": 129,
+          "width": 10,
+          "height": 10
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态:上报状态请选择",
+        "rect": {
+          "x": 1120,
+          "y": 121,
+          "width": 294,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态:",
+        "rect": {
+          "x": 1120,
+          "y": 125,
+          "width": 59,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-select-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态请选择",
+        "rect": {
+          "x": 1187,
+          "y": 121,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 31px 0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态",
+        "rect": {
+          "x": 1199,
+          "y": 135,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 1199,
+          "y": 125,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.35)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.35)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1388,
+          "y": 129,
+          "width": 10,
+          "height": 10
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "重 置查 询",
+        "rect": {
+          "x": 1432,
+          "y": 121,
+          "width": 136,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-button is-ghost",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "重 置",
+        "rect": {
+          "x": 1432,
+          "y": 121,
+          "width": 64,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-button is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "查 询",
+        "rect": {
+          "x": 1504,
+          "y": 121,
+          "width": 64,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table",
+        "role": "table",
+        "ariaLabel": "上报日志列表",
+        "placeholder": null,
+        "text": "姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注暂无数据",
+        "rect": {
+          "x": 172,
+          "y": 193,
+          "width": 1252,
+          "height": 194
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(240, 240, 240)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__head",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "姓名手机号证件号码房间号订单来源订单号路客云订单号上报时间上报类型上报状态备注",
+        "rect": {
+          "x": 173,
+          "y": 194,
+          "width": 1670,
+          "height": 36
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "80px 120px 150px 200px 80px 200px 200px 190px 150px 150px 150px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "姓名",
+        "rect": {
+          "x": 173,
+          "y": 194,
+          "width": 80,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "手机号",
+        "rect": {
+          "x": 253,
+          "y": 194,
+          "width": 120,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "证件号码",
+        "rect": {
+          "x": 373,
+          "y": 194,
+          "width": 150,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房间号",
+        "rect": {
+          "x": 523,
+          "y": 194,
+          "width": 200,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单来源",
+        "rect": {
+          "x": 723,
+          "y": 194,
+          "width": 80,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单号",
+        "rect": {
+          "x": 803,
+          "y": 194,
+          "width": 200,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云订单号",
+        "rect": {
+          "x": 1003,
+          "y": 194,
+          "width": 200,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间",
+        "rect": {
+          "x": 1203,
+          "y": 194,
+          "width": 190,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型",
+        "rect": {
+          "x": 1393,
+          "y": 194,
+          "width": 150,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态",
+        "rect": {
+          "x": 1543,
+          "y": 194,
+          "width": 150,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "备注",
+        "rect": {
+          "x": 1693,
+          "y": 194,
+          "width": 150,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__empty",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无数据",
+        "rect": {
+          "x": 173,
+          "y": 230,
+          "width": 1250,
+          "height": 156
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(191, 191, 191)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "1250px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无数据",
+        "rect": {
+          "x": 770,
+          "y": 275,
+          "width": 56,
+          "height": 67
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(191, 191, 191)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "56px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-empty-icon",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 771,
+          "y": 275,
+          "width": 54,
+          "height": 38
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgb(250, 250, 250)",
+          "border": "1px solid rgb(229, 229, 229)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "暂无数据",
+        "rect": {
+          "x": 770,
+          "y": 321,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(191, 191, 191)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(191, 191, 191)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock-launcher",
+        "role": null,
+        "ariaLabel": "打开全部会话",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1377,
+          "y": 822,
+          "width": 46,
+          "height": 46
+        },
+        "styles": {
+          "display": "grid",
+          "position": "fixed",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "50%",
+          "boxShadow": "rgba(77, 101, 246, 0.28) 0px 4px 12px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "34px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1389,
+          "y": 836,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "2px solid rgb(255, 255, 255)",
+          "borderRadius": "6px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ]
+  }
+}

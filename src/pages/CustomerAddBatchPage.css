@@ -1,0 +1,146 @@
+.page-content:has(.customer-add-batch-page) {
+  padding: 8px;
+  background: #f5f7fb;
+}
+
+.page-content:has(.customer-add-batch-page) > .page-header {
+  display: none;
+}
+
+.customer-add-batch-page {
+  position: relative;
+  min-height: calc(100vh - 68px);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.customer-add-batch-shell {
+  min-height: calc(100vh - 68px);
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.customer-add-batch-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 116px;
+  margin: 0 8px;
+  padding: 32px 32px 22px 24px;
+  border-bottom: 1px solid #e5e8ef;
+  background: #ffffff;
+}
+
+.customer-add-batch-intro {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.customer-add-batch-intro img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.customer-add-batch-intro h1 {
+  margin: 0 0 7px;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.customer-add-batch-intro p {
+  max-width: 860px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.customer-add-batch-actions {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 1px;
+}
+
+.customer-add-batch-actions span {
+  position: absolute;
+  right: -30px;
+  top: -10px;
+  z-index: 1;
+  min-width: 62px;
+  height: 22px;
+  border-radius: 12px;
+  background: #ff8f1f;
+  color: #ffffff;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.customer-add-batch-actions button {
+  width: 88px;
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.customer-add-batch-detail {
+  padding: 23px 32px 30px;
+}
+
+.customer-add-batch-detail h2 {
+  margin: 0 0 20px;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.customer-add-batch-images {
+  display: grid;
+  gap: 20px;
+}
+
+.customer-add-batch-images img {
+  display: block;
+  width: 100%;
+  min-height: 240px;
+  object-fit: cover;
+  object-position: center top;
+  background: #eef6ff;
+}
+
+@media (max-width: 900px) {
+  .customer-add-batch-hero {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 22px 18px;
+  }
+
+  .customer-add-batch-actions {
+    align-self: flex-start;
+  }
+
+  .customer-add-batch-actions span {
+    right: -42px;
+  }
+
+  .customer-add-batch-detail {
+    padding: 18px;
+  }
+}

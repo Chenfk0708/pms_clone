@@ -1,0 +1,2766 @@
+{
+  "url": "https://minsubao.localhome.cn/statistics/roomSituation",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "bodySample": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 单日房情表 远期房情表 全部门店 天落会宿公寓(前海壹方城宝安中心店) 指标说明 房型名称 总房间数 已售房间数 剩余可售数 总关房数 停用房 保留房 维修房 联动关房 总可用房数 预抵 在住 预离 净房 脏房 合计 4 3 0 1 1 0 0 0 0 0 3 0 3 1 顶层套房（浴缸巨幕电竞麻将） 1 0 0 1 1 0 0 0 0 0 0 0 1 0 总裁套间（桑拿浴缸露台电竞麻将） 1 1 0 0 0 0 0 0 0 0 1 0 1 0 天落大床电竞套间 1 1 0 0 0 0 0 0 0 0 1 0 1 0 观影大床房 1 1 0 0 0 0 0 0 0 0 1 0 0 1 第 1-5 条/总共 5 条 1 20 条/页",
+  "buttons": [
+    {
+      "tag": "button",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "ant-btn ant-btn-primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "指标说明",
+      "rect": {
+        "x": 1336,
+        "y": 104,
+        "width": 88,
+        "height": 28
+      },
+      "style": {
+        "display": "block",
+        "position": "relative",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "borderColor": "rgb(77, 101, 246)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "22.001px",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "button",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "ant-pagination-item-link",
+      "role": "",
+      "ariaLabel": "",
+      "text": "",
+      "rect": {
+        "x": 1261,
+        "y": 437,
+        "width": 24,
+        "height": 24
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "2px",
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "a",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1286,
+        "y": 438,
+        "width": 22,
+        "height": 22
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "color": "rgb(77, 101, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(77, 101, 246)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "22px",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "button",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "ant-pagination-item-link",
+      "role": "",
+      "ariaLabel": "",
+      "text": "",
+      "rect": {
+        "x": 1309,
+        "y": 437,
+        "width": 24,
+        "height": 24
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "2px",
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "div",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "ant-select-selector",
+      "role": "",
+      "ariaLabel": "",
+      "text": "20 条/页",
+      "rect": {
+        "x": 1335,
+        "y": 437,
+        "width": 89,
+        "height": 24
+      },
+      "style": {
+        "display": "flex",
+        "position": "relative",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(217, 217, 217)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "input",
+      "selector": "button, [role=\"button\"], .ant-select-selector, .ant-tabs-tab, input, [role=\"option\"], a",
+      "className": "ant-select-selection-search-input",
+      "role": "combobox",
+      "ariaLabel": "页码",
+      "text": "",
+      "rect": {
+        "x": 1343,
+        "y": 439,
+        "width": 52,
+        "height": 22
+      },
+      "style": {
+        "display": "inline-block",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0.85)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    }
+  ],
+  "table": [
+    {
+      "tag": "table",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型名称 总房间数 已售房间数 剩余可售数 总关房数 停用房 保留房 维修房 联动关房 总可用房数 预抵 在住 预离 净房 脏房",
+      "rect": {
+        "x": 173,
+        "y": 140,
+        "width": 1251,
+        "height": 56
+      },
+      "style": {
+        "display": "table",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0.85) rgb(128, 128, 128) rgb(128, 128, 128)",
+        "borderRadius": "8px 8px 0px 0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "thead",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-thead",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型名称 总房间数 已售房间数 剩余可售数 总关房数 停用房 保留房 维修房 联动关房 总可用房数 预抵 在住 预离 净房 脏房",
+      "rect": {
+        "x": 173,
+        "y": 140,
+        "width": 1251,
+        "height": 56
+      },
+      "style": {
+        "display": "table-header-group",
+        "position": "sticky",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0.85) rgb(128, 128, 128) rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "10"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型名称 总房间数 已售房间数 剩余可售数 总关房数 停用房 保留房 维修房 联动关房 总可用房数 预抵 在住 预离 净房 脏房",
+      "rect": {
+        "x": 173,
+        "y": 140,
+        "width": 1251,
+        "height": 56
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(0, 0, 0, 0.85) rgb(128, 128, 128) rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型名称",
+      "rect": {
+        "x": 173,
+        "y": 140,
+        "width": 150,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "8px 0px 0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "总房间数",
+      "rect": {
+        "x": 323,
+        "y": 140,
+        "width": 100,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "已售房间数",
+      "rect": {
+        "x": 423,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "剩余可售数",
+      "rect": {
+        "x": 496,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "总关房数",
+      "rect": {
+        "x": 570,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "停用房",
+      "rect": {
+        "x": 643,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "保留房",
+      "rect": {
+        "x": 717,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "维修房",
+      "rect": {
+        "x": 790,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "联动关房",
+      "rect": {
+        "x": 863,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "总可用房数",
+      "rect": {
+        "x": 937,
+        "y": 140,
+        "width": 120,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "预抵",
+      "rect": {
+        "x": 1057,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "在住",
+      "rect": {
+        "x": 1130,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "预离",
+      "rect": {
+        "x": 1204,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "净房",
+      "rect": {
+        "x": 1277,
+        "y": 140,
+        "width": 73,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(240, 240, 240) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "th",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "脏房",
+      "rect": {
+        "x": 1350,
+        "y": 140,
+        "width": 74,
+        "height": 56
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(102, 102, 102)",
+        "backgroundColor": "rgb(243, 248, 255)",
+        "borderColor": "rgb(243, 248, 255) rgb(102, 102, 102) rgb(102, 102, 102) rgb(243, 248, 255)",
+        "borderRadius": "0px 8px 0px 0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "table",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "合计 4 3 0 1 1 0 0 0 0 0 3 0 3 1 顶层套房（浴缸巨幕电竞麻将） 1 0 0 1 1 0 0 0 0 0 0 0 1 0 总裁套间（桑拿浴缸露台电竞麻将） 1 1 0 0 0 0 0 0 0 0 1 0 1 0 天落大床电竞套间 1 1 0 0 0 0 0 0 0 0 1 0 1 0 观影大床",
+      "rect": {
+        "x": 173,
+        "y": 196,
+        "width": 1251,
+        "height": 225
+      },
+      "style": {
+        "display": "table",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "8px 8px 0px 0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tbody",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-tbody",
+      "role": "",
+      "ariaLabel": "",
+      "text": "合计 4 3 0 1 1 0 0 0 0 0 3 0 3 1 顶层套房（浴缸巨幕电竞麻将） 1 0 0 1 1 0 0 0 0 0 0 0 1 0 总裁套间（桑拿浴缸露台电竞麻将） 1 1 0 0 0 0 0 0 0 0 1 0 1 0 天落大床电竞套间 1 1 0 0 0 0 0 0 0 0 1 0 1 0 观影大床",
+      "rect": {
+        "x": 173,
+        "y": 196,
+        "width": 1251,
+        "height": 225
+      },
+      "style": {
+        "display": "table-row-group",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-row ant-table-row-level-0",
+      "role": "",
+      "ariaLabel": "",
+      "text": "合计 4 3 0 1 1 0 0 0 0 0 3 0 3 1",
+      "rect": {
+        "x": 173,
+        "y": 196,
+        "width": 1251,
+        "height": 37
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "合计",
+      "rect": {
+        "x": 173,
+        "y": 196,
+        "width": 150,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "4",
+      "rect": {
+        "x": 323,
+        "y": 196,
+        "width": 100,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "3",
+      "rect": {
+        "x": 423,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 496,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 570,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 643,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 717,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 790,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 863,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 937,
+        "y": 196,
+        "width": 120,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1057,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "3",
+      "rect": {
+        "x": 1130,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1204,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "3",
+      "rect": {
+        "x": 1277,
+        "y": 196,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1350,
+        "y": 196,
+        "width": 74,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-row ant-table-row-level-0",
+      "role": "",
+      "ariaLabel": "",
+      "text": "顶层套房（浴缸巨幕电竞麻将） 1 0 0 1 1 0 0 0 0 0 0 0 1 0",
+      "rect": {
+        "x": 173,
+        "y": 233,
+        "width": 1251,
+        "height": 57
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "顶层套房（浴缸巨幕电竞麻将）",
+      "rect": {
+        "x": 173,
+        "y": 233,
+        "width": 150,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 323,
+        "y": 233,
+        "width": 100,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 423,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 496,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 570,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 643,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 717,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 790,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 863,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 937,
+        "y": 233,
+        "width": 120,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1057,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1130,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1204,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1277,
+        "y": 233,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1350,
+        "y": 233,
+        "width": 74,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-row ant-table-row-level-0",
+      "role": "",
+      "ariaLabel": "",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将） 1 1 0 0 0 0 0 0 0 0 1 0 1 0",
+      "rect": {
+        "x": 173,
+        "y": 290,
+        "width": 1251,
+        "height": 57
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "总裁套间（桑拿浴缸露台电竞麻将）",
+      "rect": {
+        "x": 173,
+        "y": 290,
+        "width": 150,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 323,
+        "y": 290,
+        "width": 100,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 423,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 496,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 570,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 643,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 717,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 790,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 863,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 937,
+        "y": 290,
+        "width": 120,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1057,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1130,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1204,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1277,
+        "y": 290,
+        "width": 73,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1350,
+        "y": 290,
+        "width": 74,
+        "height": 57
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-row ant-table-row-level-0",
+      "role": "",
+      "ariaLabel": "",
+      "text": "天落大床电竞套间 1 1 0 0 0 0 0 0 0 0 1 0 1 0",
+      "rect": {
+        "x": 173,
+        "y": 347,
+        "width": 1251,
+        "height": 37
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "天落大床电竞套间",
+      "rect": {
+        "x": 173,
+        "y": 347,
+        "width": 150,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 323,
+        "y": 347,
+        "width": 100,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 423,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 496,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 570,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 643,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 717,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 790,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 863,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 937,
+        "y": 347,
+        "width": 120,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1057,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1130,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1204,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1277,
+        "y": 347,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1350,
+        "y": 347,
+        "width": 74,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "tr",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-row ant-table-row-level-0",
+      "role": "",
+      "ariaLabel": "",
+      "text": "观影大床房 1 1 0 0 0 0 0 0 0 0 1 0 0 1",
+      "rect": {
+        "x": 173,
+        "y": 384,
+        "width": 1251,
+        "height": 37
+      },
+      "style": {
+        "display": "table-row",
+        "position": "static",
+        "color": "rgba(0, 0, 0, 0.85)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(128, 128, 128)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last",
+      "role": "",
+      "ariaLabel": "",
+      "text": "观影大床房",
+      "rect": {
+        "x": 173,
+        "y": 384,
+        "width": 150,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "sticky",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "2"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 323,
+        "y": 384,
+        "width": 100,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 423,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 496,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 570,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 643,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 717,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 790,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 863,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 937,
+        "y": 384,
+        "width": 120,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1057,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1130,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1204,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "0",
+      "rect": {
+        "x": 1277,
+        "y": 384,
+        "width": 73,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    },
+    {
+      "tag": "td",
+      "selector": "table, thead, tbody, tr, th, td",
+      "className": "ant-table-cell",
+      "role": "",
+      "ariaLabel": "",
+      "text": "1",
+      "rect": {
+        "x": 1350,
+        "y": 384,
+        "width": 74,
+        "height": 37
+      },
+      "style": {
+        "display": "table-cell",
+        "position": "relative",
+        "color": "rgb(51, 51, 51)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(237, 237, 237)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "normal",
+        "zIndex": "auto"
+      }
+    }
+  ],
+  "overlays": []
+}

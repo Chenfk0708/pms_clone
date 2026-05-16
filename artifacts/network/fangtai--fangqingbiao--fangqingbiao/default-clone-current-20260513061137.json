@@ -1,0 +1,386 @@
+{
+  "label": "default-clone-current",
+  "finalUrl": "http://127.0.0.1:5173/statistics/roomSituation",
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/statistics/roomSituation",
+      "resourceType": "document"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1778652570436",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/index.css?t=1778650395038",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1778652570436",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/components/AppShell.tsx?t=1778645579498",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.tsx?t=1778645602662",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/HouseDaysPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.tsx?t=1778652439155",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/HouseStatusLogsPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/InformationOverviewPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/OtaPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/OrdersPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/PrivatePage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/PricePage.tsx?t=1778652570436",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/ReportPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/RoomSituationPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/ScrmGeneralPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/SocialPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/WorkspacePage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/AiRadarPage.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.css?t=1778645602662",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.css",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/data/discovery.ts",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/data/mock.ts",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.css",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.css",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/components/ChatDock.tsx",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/PricePage.css?t=1778645961476",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.css",
+      "resourceType": "script"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5173/favicon.svg",
+      "resourceType": "other"
+    }
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/statistics/roomSituation"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1778652570436"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/@vite/client"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/@react-refresh"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/index.css?t=1778650395038"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1778652570436"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.tsx?t=1778645602662"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=fb86fc63"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/components/AppShell.tsx?t=1778645579498"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/HouseDaysPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.tsx?t=1778652439155"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/HouseStatusLogsPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/InformationOverviewPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/OtaPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/OrdersPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/PricePage.tsx?t=1778652570436"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/ScrmGeneralPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/RoomSituationPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/PrivatePage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/ReportPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/WorkspacePage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/AiRadarPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/SocialPage.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanSettingPage.css?t=1778645602662"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanTaskPage.css"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/data/discovery.ts"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/components/ChatDock.tsx"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/HouseMonthsPage.css"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/CleanStatisticsPage.css"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/data/mock.ts"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/PriceLogPage.css"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/src/pages/PricePage.css?t=1778645961476"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5173/favicon.svg"
+    }
+  ]
+}

@@ -1,0 +1,880 @@
+{
+  "side": "clone",
+  "title": "pms_clone",
+  "url": "http://127.0.0.1:4173/version/applicationPayment/detail",
+  "isLoginBlocked": false,
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "defaultState": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "应用订阅",
+        "placeholder": "",
+        "box": {
+          "x": 1204,
+          "y": 0,
+          "width": 89,
+          "height": 66
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "8px 12px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "消息",
+        "placeholder": "",
+        "box": {
+          "x": 1301,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "8px 12px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "用户",
+        "placeholder": "",
+        "box": {
+          "x": 1367,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "8px 12px"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "className": "clean-staff-card",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)搜索：添加成员限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+        "placeholder": "",
+        "box": {
+          "x": 164,
+          "y": 66,
+          "width": 1268,
+          "height": 845
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "is-active",
+        "role": "",
+        "ariaPressed": "true",
+        "ariaLabel": "",
+        "text": "全部门店",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 76,
+          "width": 82,
+          "height": 28
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px 0px 0px 4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "padding": "0px 12px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "false",
+        "ariaLabel": "",
+        "text": "天落会宿公寓(前海壹方城宝安中心店)",
+        "placeholder": "",
+        "box": {
+          "x": 262,
+          "y": 76,
+          "width": 259,
+          "height": 28
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px 4px 4px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "padding": "0px 12px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "姓名/手机号",
+        "box": {
+          "x": 589,
+          "y": 77,
+          "width": 200,
+          "height": 26
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "padding": "0px 7px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "clean-primary clean-add-member",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "添加成员",
+        "placeholder": "",
+        "box": {
+          "x": 1336,
+          "y": 110,
+          "width": 88,
+          "height": 28
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "padding": "1px 6px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "clean-unpaid-state",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 146,
+          "width": 1252,
+          "height": 718
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "IMG",
+        "className": "clean-unpaid-bg",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 146,
+          "width": 1252,
+          "height": 718
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "clean-subscribe-mask",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+        "placeholder": "",
+        "box": {
+          "x": 196,
+          "y": 675,
+          "width": 303,
+          "height": 141
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(35, 64, 95)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(35, 64, 95)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "clean-primary clean-subscribe-button",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "订阅开通",
+        "placeholder": "",
+        "box": {
+          "x": 196,
+          "y": 774,
+          "width": 94,
+          "height": 42
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "padding": "1px 6px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "刷新会话",
+        "text": "↻",
+        "placeholder": "",
+        "box": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "收起会话",
+        "text": "收起",
+        "placeholder": "",
+        "box": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "chat-dock__collapse",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "收起",
+        "placeholder": "",
+        "box": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "padding": "1px 6px"
+        }
+      }
+    ],
+    "headings": [
+      {
+        "tag": "H2",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "房态管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 21
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "padding": "0px 18px"
+        }
+      },
+      {
+        "tag": "H2",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "房价管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 241,
+          "width": 155,
+          "height": 21
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "padding": "0px 18px"
+        }
+      },
+      {
+        "tag": "H2",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "房情表",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 579,
+          "width": 155,
+          "height": 21
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "padding": "0px 18px"
+        }
+      },
+      {
+        "tag": "H2",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "保洁管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 663,
+          "width": 155,
+          "height": 21
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "padding": "0px 18px"
+        }
+      },
+      {
+        "tag": "H1",
+        "className": "",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "保洁人员",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "24px",
+          "fontWeight": "700",
+          "lineHeight": "36px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "H1",
+        "className": "sr-only-heading",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "保洁人员",
+        "placeholder": "",
+        "box": {
+          "x": 163,
+          "y": 65,
+          "width": 1,
+          "height": 1
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "32px",
+          "fontWeight": "700",
+          "lineHeight": "48px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "chat-item__title",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "携程民宿-【M335275070】咨询中",
+        "placeholder": "",
+        "box": {
+          "x": 1165,
+          "y": 494,
+          "width": 254,
+          "height": 21
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "chat-item__title",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "携程民宿-【M566739056】咨询中",
+        "placeholder": "",
+        "box": {
+          "x": 1165,
+          "y": 590,
+          "width": 254,
+          "height": 21
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "chat-item__title",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "去哪民宿-【去哪儿用户】咨询中",
+        "placeholder": "",
+        "box": {
+          "x": 1165,
+          "y": 686,
+          "width": 323,
+          "height": 21
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "chat-item__title",
+        "role": "",
+        "ariaPressed": "",
+        "ariaLabel": "",
+        "text": "携程民宿-【M614718025】咨询中",
+        "placeholder": "",
+        "box": {
+          "x": 1165,
+          "y": 782,
+          "width": 254,
+          "height": 21
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      }
+    ]
+  },
+  "interactions": [
+    {
+      "slug": "store-tab",
+      "label": "门店切换",
+      "textChanged": false,
+      "urlChanged": false,
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "天落会宿公寓",
+        "text": "天落会宿公寓(前海壹方城宝安中心店)",
+        "box": {
+          "x": 262,
+          "y": 76,
+          "width": 259,
+          "height": 28
+        }
+      },
+      "before": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "天落会宿公寓(前海壹方城宝安中心店)"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renyuan\\store-tab-clone-headless-audit-20260515-1335.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-renyuan\\store-tab-clone-headless-audit-20260515-1335.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-renyuan\\store-tab-clone-headless-audit-20260515-1335.json"
+    },
+    {
+      "slug": "keyword-search",
+      "label": "搜索输入",
+      "textChanged": false,
+      "urlChanged": false,
+      "result": {
+        "found": true,
+        "typed": true,
+        "value": "185"
+      },
+      "before": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": "185"
+          }
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renyuan\\keyword-search-clone-headless-audit-20260515-1335.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-renyuan\\keyword-search-clone-headless-audit-20260515-1335.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-renyuan\\keyword-search-clone-headless-audit-20260515-1335.json"
+    },
+    {
+      "slug": "add-member",
+      "label": "添加成员",
+      "textChanged": false,
+      "urlChanged": false,
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "添加成员",
+        "text": "添加成员",
+        "box": {
+          "x": 1336,
+          "y": 110,
+          "width": 88,
+          "height": 28
+        }
+      },
+      "before": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renyuan\\add-member-clone-headless-audit-20260515-1335.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-renyuan\\add-member-clone-headless-audit-20260515-1335.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-renyuan\\add-member-clone-headless-audit-20260515-1335.json"
+    },
+    {
+      "slug": "subscribe-click",
+      "label": "订阅开通",
+      "textChanged": true,
+      "urlChanged": true,
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "订阅开通",
+        "text": "订阅开通",
+        "box": {
+          "x": 196,
+          "y": 774,
+          "width": 94,
+          "height": 42
+        }
+      },
+      "before": {
+        "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁人员\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n搜索：\n添加成员\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [
+          "全部门店"
+        ],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "姓名/手机号",
+            "value": ""
+          }
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/version/applicationPayment/detail",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n\nPMS Clone Prototype\n\n智能保洁\n采集基线：Chrome 1440x900 / 账号已授权登录\n净\n智能保洁\n\n适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。\n\n商品详情\n智能保洁\n自动派单 ｜实时提醒 ｜ 报表清晰\n购买信息\n商品价格\n¥1,237.38\n¥2,203.14 / 年\n购买时长\n跟随版本\n2027-09-28 到期\n订单金额\n¥1,237.38\n明细\n我已阅读并同意《路客云产品服务购买协议》\n返回\n立即购买\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "activeButtons": [],
+        "dialogs": [],
+        "inputs": [
+          {
+            "placeholder": "",
+            "value": "on"
+          }
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renyuan\\subscribe-click-clone-headless-audit-20260515-1335.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-renyuan\\subscribe-click-clone-headless-audit-20260515-1335.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-renyuan\\subscribe-click-clone-headless-audit-20260515-1335.json"
+    }
+  ]
+}

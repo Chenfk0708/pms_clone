@@ -1,0 +1,301 @@
+{
+  "requestedUrl": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+  "url": "http://127.0.0.1:4173/version/applicationPayment/detail",
+  "title": "pms_clone",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "isLoginBlocked": false,
+  "hasBusinessText": false,
+  "hasSubscribeDetail": true,
+  "textSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n\nPMS Clone Prototype\n\n智能保洁\n采集基线：Chrome 1440x900 / 账号已授权登录\n净\n智能保洁\n\n适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。\n\n商品详情\n智能保洁\n自动派单 ｜实时提醒 ｜ 报表清晰\n购买信息\n商品价格\n¥1,237.38\n¥2,203.14 / 年\n购买时长\n跟随版本\n2027-09-28 到期\n订单金额\n¥1,237.38\n明细\n我已阅读并同意《路客云产品服务购买协议》\n返回\n立即购买\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "buttons": [
+    {
+      "text": "应用订阅",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      }
+    },
+    {
+      "text": "消息",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "用户",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      }
+    },
+    {
+      "text": "返回",
+      "rect": {
+        "x": 559,
+        "y": 772,
+        "width": 66,
+        "height": 34
+      }
+    },
+    {
+      "text": "立即购买",
+      "rect": {
+        "x": 635,
+        "y": 772,
+        "width": 94,
+        "height": 34
+      }
+    },
+    {
+      "text": "↻",
+      "rect": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "text": "收起",
+      "rect": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "text": "收起",
+      "rect": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      }
+    }
+  ],
+  "cards": [
+    {
+      "tag": "button",
+      "className": "",
+      "text": "应用订阅",
+      "rect": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "消息",
+      "rect": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "用户",
+      "rect": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "clean-subscribe-hero",
+      "text": "净智能保洁适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。",
+      "rect": {
+        "x": 12,
+        "y": 164,
+        "width": 738,
+        "height": 104
+      },
+      "style": {
+        "display": "grid",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "border": "1px solid rgb(228, 233, 242)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "clean-subscribe-card",
+      "text": "商品详情智能保洁自动派单 ｜实时提醒 ｜ 报表清晰",
+      "rect": {
+        "x": 12,
+        "y": 280,
+        "width": 738,
+        "height": 250
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "border": "1px solid rgb(228, 233, 242)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "section",
+      "className": "clean-subscribe-card",
+      "text": "购买信息商品价格¥1,237.38¥2,203.14 / 年购买时长跟随版本2027-09-28 到期订单金额¥1,237.38明细我已阅读并同意《路客云产品服务购买协议》返回立即购买",
+      "rect": {
+        "x": 12,
+        "y": 542,
+        "width": 738,
+        "height": 283
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(36, 50, 74)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "border": "1px solid rgb(228, 233, 242)",
+        "borderRadius": "8px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "返回",
+      "rect": {
+        "x": 559,
+        "y": 772,
+        "width": 66,
+        "height": 34
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(52, 71, 101)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "border": "1px solid rgb(215, 222, 234)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "is-primary",
+      "text": "立即购买",
+      "rect": {
+        "x": 635,
+        "y": 772,
+        "width": 94,
+        "height": 34
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(216, 222, 234)",
+        "border": "1px solid rgb(207, 214, 227)",
+        "borderRadius": "4px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "↻",
+      "rect": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(75, 85, 99)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(75, 85, 99)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "",
+      "text": "收起",
+      "rect": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "16px",
+        "color": "rgb(75, 85, 99)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(75, 85, 99)",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "tag": "button",
+      "className": "chat-dock__collapse",
+      "text": "收起",
+      "rect": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      },
+      "style": {
+        "display": "block",
+        "fontSize": "14px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(77, 101, 246)",
+        "border": "0px none rgb(255, 255, 255)",
+        "borderRadius": "4px 4px 0px 0px"
+      }
+    }
+  ],
+  "clickedSubscribe": true,
+  "subscribeLocator": "button text",
+  "afterSubscribeUrl": "http://127.0.0.1:4173/version/applicationPayment/detail"
+}

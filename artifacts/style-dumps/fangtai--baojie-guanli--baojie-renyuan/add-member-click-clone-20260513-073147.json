@@ -1,0 +1,169 @@
+{
+  "url": "http://127.0.0.1:4174/cleanManage/cleanStaff",
+  "bodyTextHead": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 PMS Clone Prototype 保洁人员 采集基线：Chrome 1440x900 / 账号已授权登录 全部门店 天落会宿公寓(前海壹方城宝安中心店) 搜索： 添加成员 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通",
+  "tableCount": 0,
+  "dialogCount": 0,
+  "keyStyles": {
+    "card": {
+      "tag": "section",
+      "className": "clean-staff-card",
+      "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店) 搜索： 添加成员 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通",
+      "rect": {
+        "x": 168,
+        "y": 164,
+        "width": 1260,
+        "height": 798
+      },
+      "display": "block",
+      "position": "relative",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "8px",
+      "padding": "0px",
+      "margin": "0px",
+      "boxShadow": "rgba(26, 39, 68, 0.04) 0px 1px 2px 0px"
+    },
+    "tabs": {
+      "tag": "div",
+      "className": "clean-store-tabs",
+      "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店)",
+      "rect": {
+        "x": 176,
+        "y": 174,
+        "width": 349,
+        "height": 28
+      },
+      "display": "flex",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "margin": "0px",
+      "boxShadow": "none"
+    },
+    "searchInput": {
+      "tag": "input",
+      "className": "",
+      "text": "",
+      "rect": {
+        "x": 593,
+        "y": 175,
+        "width": 200,
+        "height": 26
+      },
+      "display": "block",
+      "position": "static",
+      "color": "rgba(0, 0, 0, 0.85)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "22px",
+      "border": "1px solid rgb(217, 217, 217)",
+      "borderRadius": "4px",
+      "padding": "0px 7px",
+      "margin": "0px",
+      "boxShadow": "none"
+    },
+    "addButton": {
+      "tag": "button",
+      "className": "clean-primary clean-add-member",
+      "text": "添加成员",
+      "rect": {
+        "x": 1332,
+        "y": 208,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block",
+      "position": "static",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(77, 101, 246)",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "22px",
+      "border": "1px solid rgb(77, 101, 246)",
+      "borderRadius": "4px",
+      "padding": "1px 6px",
+      "margin": "34px 0px 0px",
+      "boxShadow": "none"
+    },
+    "unpaidImage": {
+      "tag": "img",
+      "className": "clean-unpaid-bg",
+      "text": "",
+      "rect": {
+        "x": 168,
+        "y": 244,
+        "width": 1260,
+        "height": 718
+      },
+      "display": "block",
+      "position": "static",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "margin": "0px",
+      "boxShadow": "none"
+    },
+    "subscription": {
+      "tag": "div",
+      "className": "clean-subscribe-mask",
+      "text": "限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通",
+      "rect": {
+        "x": 192,
+        "y": 772,
+        "width": 303,
+        "height": 141
+      },
+      "display": "flex",
+      "position": "absolute",
+      "color": "rgb(35, 64, 95)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "border": "0px none rgb(35, 64, 95)",
+      "borderRadius": "0px",
+      "padding": "0px",
+      "margin": "0px",
+      "boxShadow": "none"
+    },
+    "subscribeButton": {
+      "tag": "button",
+      "className": "clean-primary clean-subscribe-button",
+      "text": "订阅开通",
+      "rect": {
+        "x": 192,
+        "y": 871,
+        "width": 94,
+        "height": 42
+      },
+      "display": "block",
+      "position": "static",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(77, 101, 246)",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "22px",
+      "border": "1px solid rgb(77, 101, 246)",
+      "borderRadius": "8px",
+      "padding": "1px 6px",
+      "margin": "0px",
+      "boxShadow": "none"
+    }
+  }
+}

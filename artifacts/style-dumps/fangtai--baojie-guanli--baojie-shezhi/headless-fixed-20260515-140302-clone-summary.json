@@ -1,0 +1,110 @@
+{
+  "taskId": "fangtai--baojie-guanli--baojie-shezhi",
+  "stamp": "20260515-140302",
+  "chromeExecutablePath": "C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe",
+  "localUrl": "http://127.0.0.1:54624/cleanManage/cleanSetting",
+  "results": [
+    {
+      "state": "default",
+      "url": "http://127.0.0.1:54624/cleanManage/cleanSetting",
+      "isLoginBlocked": false,
+      "hasBusinessText": true,
+      "has": {
+        "basic": true,
+        "price": true,
+        "promo": true,
+        "subscribeEntry": true,
+        "product": true,
+        "productDetail": false,
+        "buyInfo": false,
+        "priceAmount": false,
+        "oldPriceAmount": false,
+        "annualPrice": false,
+        "buyButton": false,
+        "legacyStrategy": false
+      },
+      "interactions": [],
+      "viewportPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-viewport.png",
+      "fullPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-full.png",
+      "component": {
+        "selector": ".clean-setting-panel",
+        "output": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-component.png"
+      },
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-page.html",
+      "factsPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-facts.json",
+      "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-headless-fixed-20260515-140302-responses.json"
+    },
+    {
+      "state": "price",
+      "url": "http://127.0.0.1:54624/cleanManage/cleanSetting",
+      "isLoginBlocked": false,
+      "hasBusinessText": true,
+      "has": {
+        "basic": true,
+        "price": true,
+        "promo": true,
+        "subscribeEntry": true,
+        "product": true,
+        "productDetail": false,
+        "buyInfo": false,
+        "priceAmount": false,
+        "oldPriceAmount": false,
+        "annualPrice": false,
+        "buyButton": false,
+        "legacyStrategy": false
+      },
+      "interactions": [
+        {
+          "action": "click-price-tab",
+          "clicked": true,
+          "url": "http://127.0.0.1:54624/cleanManage/cleanSetting"
+        }
+      ],
+      "viewportPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-viewport.png",
+      "fullPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-full.png",
+      "component": {
+        "selector": ".clean-setting-panel",
+        "output": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-component.png"
+      },
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-page.html",
+      "factsPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-facts.json",
+      "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\fangtai--baojie-guanli--baojie-shezhi\\price-clone-headless-fixed-20260515-140302-responses.json"
+    },
+    {
+      "state": "subscribe",
+      "url": "http://127.0.0.1:54624/version/applicationPayment/detail",
+      "isLoginBlocked": false,
+      "hasBusinessText": true,
+      "has": {
+        "basic": false,
+        "price": false,
+        "promo": false,
+        "subscribeEntry": false,
+        "product": true,
+        "productDetail": true,
+        "buyInfo": true,
+        "priceAmount": true,
+        "oldPriceAmount": false,
+        "annualPrice": true,
+        "buyButton": true,
+        "legacyStrategy": false
+      },
+      "interactions": [
+        {
+          "action": "click-subscribe",
+          "clicked": true,
+          "url": "http://127.0.0.1:54624/version/applicationPayment/detail"
+        }
+      ],
+      "viewportPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-viewport.png",
+      "fullPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-full.png",
+      "component": {
+        "selector": ".clean-subscribe-card",
+        "output": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-component.png"
+      },
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-page.html",
+      "factsPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-facts.json",
+      "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\fangtai--baojie-guanli--baojie-shezhi\\subscribe-clone-headless-fixed-20260515-140302-responses.json"
+    }
+  ]
+}

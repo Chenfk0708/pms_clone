@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260515050737",
+  "url": "http://127.0.0.1:4173/version/displacementBenefit",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/version/displacementBenefit",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DM9hICCn.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-C8k52vCq.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

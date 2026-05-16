@@ -1,0 +1,37 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514-180422",
+  "url": "http://127.0.0.1:43280/psb/log",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43280/psb/log",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43280/assets/index-BSBXuxa5.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43280/assets/index-63pmpN2j.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43280/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

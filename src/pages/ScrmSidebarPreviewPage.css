@@ -1,0 +1,132 @@
+.page-content:has(.scrm-sidebar-page) {
+  overflow: auto;
+  padding: 8px;
+  background: #f2f4f8;
+}
+
+.page-content:has(.scrm-sidebar-page) > .page-header {
+  display: none;
+}
+
+.scrm-sidebar-page {
+  min-height: calc(100vh - 74px);
+  color: #333333;
+  font-size: 14px;
+}
+
+.scrm-sidebar-card {
+  min-height: 2128px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.scrm-sidebar-card__intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 116px;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.scrm-sidebar-card__copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 930px;
+}
+
+.scrm-sidebar-card__copy img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.scrm-sidebar-card__copy h1 {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.scrm-sidebar-card__copy p {
+  margin: 0;
+  color: #333333;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.scrm-sidebar-card__action {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0 40px 0 18px;
+  padding-top: 0;
+}
+
+.scrm-sidebar-card__action button {
+  width: 88px;
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.scrm-sidebar-card__action span {
+  position: absolute;
+  top: -11px;
+  left: 56px;
+  min-width: 64px;
+  padding: 2px 8px;
+  border-radius: 16px;
+  background: #f59a23;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.scrm-sidebar-card__content {
+  padding: 24px;
+}
+
+.scrm-sidebar-card__content h2 {
+  margin: 0 0 20px;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.scrm-sidebar-card__images {
+  display: grid;
+  gap: 20px;
+}
+
+.scrm-sidebar-card__images img {
+  display: block;
+  width: 100%;
+  max-width: 1204px;
+  height: auto;
+  object-fit: contain;
+  background: #eef5ff;
+}
+
+
+@media (max-width: 1100px) {
+  .scrm-sidebar-card__intro {
+    gap: 16px;
+  }
+
+  .scrm-sidebar-card__copy {
+    max-width: none;
+  }
+
+  .scrm-sidebar-card__action {
+    margin-right: 16px;
+  }
+}

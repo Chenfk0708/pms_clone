@@ -1,0 +1,124 @@
+{
+  "location": "http://127.0.0.1:4173/workspace",
+  "title": "pms_clone",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "devicePixelRatio": 1
+  },
+  "bodyTextSample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 PMS Clone Prototype 首页工作台 采集基线：Chrome 1440x900 / 账号已授权登录 首页工作台 预抵3在住0预离0可售0维修房0脏房1异常920总营业收入￥1,011 交接班查看 夜审立即开启夜审 房情表查看 收入报表查看 利润报表查看 营业收入 今日 本月 ￥626.07 客房收入 ￥528.00，杂费收入 ￥98.07 出租率 57.69% 可售房间 26，已出租 15 经营趋势 本周 上周 05/11 05/12 05/13 05/14 05/15 05/16 05/17 预抵订单 全部 陈崇科观影大床房 房间1今日 14:00 预抵 张张观影大床房 房间2今日 14:00 预抵 刘翻红观影大床房 房间3今日 14:00 预抵 待办提醒 待办 产品动态 今日有 3 条预抵订单待确认。 门店流量获取能力 详情 一键上渠道 OTA流量社媒流量私域流量",
+  "items": [
+    {
+      "tag": "div",
+      "className": "workspace-home",
+      "text": "首页工作台预抵3在住0预离0可售0维修房0脏房1异常920总营业收入￥1,011交接班查看夜审立即开启夜审房情表查看收入报表查看利润报表查看营业收入今日本月￥626.07客房收入 ￥528.00，杂费收入 ￥98.07出租率57.69%可售房间 26，已出租 15经营趋势本周上周05/1105/1205/1305/14",
+      "rect": {
+        "x": 12,
+        "y": 173,
+        "width": 597,
+        "height": 1376
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel",
+      "text": "营业收入今日本月￥626.07客房收入 ￥528.00，杂费收入 ￥98.07",
+      "rect": {
+        "x": 12,
+        "y": 398,
+        "width": 597,
+        "height": 190
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel",
+      "text": "出租率57.69%可售房间 26，已出租 15",
+      "rect": {
+        "x": 12,
+        "y": 588,
+        "width": 597,
+        "height": 326
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel workspace-home__chart",
+      "text": "经营趋势本周上周05/1105/1205/1305/1405/1505/1605/17",
+      "rect": {
+        "x": 12,
+        "y": 914,
+        "width": 597,
+        "height": 135
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel",
+      "text": "预抵订单全部陈崇科观影大床房 房间1今日 14:00 预抵张张观影大床房 房间2今日 14:00 预抵刘翻红观影大床房 房间3今日 14:00 预抵",
+      "rect": {
+        "x": 12,
+        "y": 1049,
+        "width": 597,
+        "height": 182
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel",
+      "text": "待办提醒待办产品动态今日有 3 条预抵订单待确认。",
+      "rect": {
+        "x": 12,
+        "y": 1231,
+        "width": 597,
+        "height": 154
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    {
+      "tag": "section",
+      "className": "workspace-panel workspace-home__traffic",
+      "text": "门店流量获取能力详情一键上渠道OTA流量社媒流量私域流量",
+      "rect": {
+        "x": 12,
+        "y": 1385,
+        "width": 597,
+        "height": 164
+      },
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(223, 229, 241)",
+      "borderRadius": "14px",
+      "font": "16px / 24px \"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+    }
+  ]
+}

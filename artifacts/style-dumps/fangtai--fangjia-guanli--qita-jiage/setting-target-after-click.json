@@ -1,0 +1,315 @@
+{
+  "url": "https://minsubao.localhome.cn/InformationMaintenance/informationOverview",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n\n信息概览\n\n门店信息\n\n房型信息\n\n图片视频\n\n企业设置\n\n企业信息\n\n权限设置\n\n成员设置\n\n企业资质\n\nAPI keys\n\n通用设置\n\n会话设置\n\n自定义渠道\n\n支付方式设置\n\n收入/支出设置\n\n记一笔设置\n\n排序设置\n\n通知设置\n\n短信设置\n\n财务设置\n\n自动策略设置\n\n交接班设置\n\n打印设置\n\n版本号：v4.10.7\n门店：\n天落会宿公寓(前海壹方城宝安中心店)\n数字化能力\n中等\n超越73%的同行\n已上架\n|\n修改 >\n地址：深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n联系电话：+86-18123941382\n门店信息\n信息完善度\n中等\n门店信息\n房型信息\n房型设施\n资质信息\n图片视频\n\n建议：\n\n1. 建议补齐资质信息，全渠道通用，并可快捷提交路客云进行一键开户；去完善\n\n2. 完善门店详细介绍有利于用户深度了解门店服务能力；去完善\n\n一键导入\n门店流量\n流量获取能力\n较好\nOTA流量（7/7）\n社媒流量（0/3）\n私域流量（1/1）\n\n建议：\n\n1. 小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单；\n\n一键新增\n\n数字化门店\n\n输入关键词搜索\n全国\n周三入住\n09月14日\n共1晚\n周四退房\n09月15日\n搜索\n\n热门套餐\n\n查看更多 >\n\n品牌门店\n\n查看更多 >\n深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\n天落会宿公寓(前海壹方城宝安中心店)\n￥9999/晚起\n查看详情\n\n精选房源\n\n查看更多 >\n2房1厅·可住5人·3床\n顶层套房（浴缸巨幕电竞麻将）\n¥9999/晚起\n立即预订\n2房1厅·可住5人·3床\n总裁套间（桑拿浴缸露台电竞麻将）\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n天落大床电竞套间\n¥9999/晚起\n立即预订\n1房1厅·可住2人·1床\n观影大床房\n¥9999/晚起\n立即预订",
+  "dialogs": [
+    {
+      "cls": "ant-modal",
+      "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-modal",
+      "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "cls": "ant-modal",
+      "text": "账号登录+86                                                      请按住滑块，拖动到最右边                                  \n        登 录其他登录方式新用户立即体验新用户忘记密码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "none",
+      "visibility": "visible"
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "BUTTON",
+      "cls": "ant-modal-close",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary sendButton___2H8-Q",
+      "role": null,
+      "text": "发 送",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select ant-select-sm ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "placeholder": null,
+      "box": {
+        "x": 214,
+        "y": 68,
+        "w": 200,
+        "h": 24
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 222,
+        "y": 69.203125,
+        "w": 163,
+        "h": 22
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary ant-dropdown-trigger baseButton___17qEp",
+      "role": null,
+      "text": "一键导入",
+      "placeholder": null,
+      "box": {
+        "x": 941,
+        "y": 138,
+        "w": 88,
+        "h": 28
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary baseButton___17qEp",
+      "role": null,
+      "text": "一键新增",
+      "placeholder": null,
+      "box": {
+        "x": 941,
+        "y": 511,
+        "w": 88,
+        "h": 28
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-modal-close",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "请选择类型",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+      "role": null,
+      "text": "请选择支付方式",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-select-selection-search-input",
+      "role": "combobox",
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "DIV",
+      "cls": "ant-picker",
+      "role": null,
+      "text": "",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "flex",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": null,
+      "role": null,
+      "text": "请选择日期",
+      "placeholder": "请选择日期",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input-number-input",
+      "role": "spinbutton",
+      "text": "请输入金额",
+      "placeholder": "请输入金额",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "inline-block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary",
+      "role": null,
+      "text": "提 交",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input",
+      "role": null,
+      "text": "手机号码",
+      "placeholder": "手机号码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "INPUT",
+      "cls": "ant-input",
+      "role": null,
+      "text": "请输入密码",
+      "placeholder": "请输入密码",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+      "role": null,
+      "text": "登 录",
+      "placeholder": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "display": "block",
+      "visibility": "visible"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "stamp": "202605140252",
+  "state": "default",
+  "info": {
+    "url": "http://127.0.0.1:4173/channels/social",
+    "title": "pms_clone",
+    "bodyLength": 206,
+    "bodySample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\nOTA\nOTA\n社媒\n社媒\n私域\n私域渠道\n品牌官网\n社媒\n已直连渠道\n抖音来客\n关联房型0/0\n支持：日历房、预售券\n♪\n管理渠道\n未直连渠道\n小红书\n小红书\n订阅开通\n视频号\n视频号\n订阅开通\n抖音特价酒店\n♪\n订阅开通",
+    "cards": [
+      {
+        "tag": "article",
+        "ariaLabel": "抖音来客",
+        "text": "抖音来客 关联房型0/0 支持：日历房、预售券 ♪ 管理渠道",
+        "rect": {
+          "x": 176,
+          "y": 122,
+          "width": 244,
+          "height": 140
+        },
+        "styles": {
+          "display": "grid",
+          "fontSize": "16px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(243, 247, 255)",
+          "border": "1px solid rgb(185, 203, 255)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "ariaLabel": "小红书",
+        "text": "小红书 小红书 订阅开通",
+        "rect": {
+          "x": 176,
+          "y": 320,
+          "width": 244,
+          "height": 140
+        },
+        "styles": {
+          "display": "grid",
+          "fontSize": "16px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "ariaLabel": "视频号",
+        "text": "视频号 视频号 订阅开通",
+        "rect": {
+          "x": 428,
+          "y": 320,
+          "width": 244,
+          "height": 140
+        },
+        "styles": {
+          "display": "grid",
+          "fontSize": "16px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "ariaLabel": "抖音特价酒店",
+        "text": "抖音特价酒店 ♪ 订阅开通",
+        "rect": {
+          "x": 680,
+          "y": 320,
+          "width": 244,
+          "height": 140
+        },
+        "styles": {
+          "display": "grid",
+          "fontSize": "16px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      }
+    ],
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    }
+  }
+}

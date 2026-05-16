@@ -1,0 +1,1154 @@
+{
+  "stamp": "20260513T071356Z",
+  "states": [
+    {
+      "label": "default",
+      "elements": [
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": "输入客户姓名/手机/房间/渠道单/备注",
+          "disabled": false,
+          "box": {
+            "x": 770,
+            "y": 71,
+            "w": 360,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "4px 11px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1129,
+            "y": 71,
+            "w": 32,
+            "h": 28
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "读 卡",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1174,
+            "y": 70,
+            "w": 68,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "房价管理",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1250,
+            "y": 70,
+            "w": 74,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "更多设置",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1332,
+            "y": 70,
+            "w": 92,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 415,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 523,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input ant-input-borderless",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "房源编码/简称/标题",
+          "disabled": false,
+          "box": {
+            "x": 625,
+            "y": 109,
+            "w": 118,
+            "h": 26
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 748,
+            "y": 109,
+            "w": 26,
+            "h": 26
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(255, 255, 255)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量设脏/净",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1156,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量开/关房",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1258,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "请选择日期",
+          "disabled": false,
+          "box": {
+            "x": 214,
+            "y": 148,
+            "w": 78,
+            "h": 22
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "500",
+            "color": "rgb(102, 102, 102)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(102, 102, 102)",
+            "borderRadius": "2px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "div",
+          "text": "",
+          "className": "backBtn___2zn8V",
+          "role": "button",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 441,
+            "y": 145,
+            "w": 14,
+            "h": 14
+          },
+          "style": {
+            "display": "flex",
+            "position": "absolute",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        }
+      ]
+    },
+    {
+      "label": "batch-dirty",
+      "elements": [
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": "输入客户姓名/手机/房间/渠道单/备注",
+          "disabled": false,
+          "box": {
+            "x": 770,
+            "y": 71,
+            "w": 360,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "4px 11px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1129,
+            "y": 71,
+            "w": 32,
+            "h": 28
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "读 卡",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1174,
+            "y": 70,
+            "w": 68,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "房价管理",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1250,
+            "y": 70,
+            "w": 74,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "更多设置",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1332,
+            "y": 70,
+            "w": 92,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 415,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 523,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input ant-input-borderless",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "房源编码/简称/标题",
+          "disabled": false,
+          "box": {
+            "x": 625,
+            "y": 109,
+            "w": 118,
+            "h": 26
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 748,
+            "y": 109,
+            "w": 26,
+            "h": 26
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(255, 255, 255)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量设脏/净",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger ant-dropdown-open",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1156,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量开/关房",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1258,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "请选择日期",
+          "disabled": false,
+          "box": {
+            "x": 214,
+            "y": 148,
+            "w": 78,
+            "h": 22
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "500",
+            "color": "rgb(102, 102, 102)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(102, 102, 102)",
+            "borderRadius": "2px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "div",
+          "text": "",
+          "className": "backBtn___2zn8V",
+          "role": "button",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 441,
+            "y": 145,
+            "w": 14,
+            "h": 14
+          },
+          "style": {
+            "display": "flex",
+            "position": "absolute",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "div",
+          "text": "批量设脏批量设净",
+          "className": "ant-dropdown ant-dropdown-placement-bottom  ant-slide-up-appear ant-slide-up-appear-active ant-slide-up",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1155,
+            "y": 140,
+            "w": 94,
+            "h": 70
+          },
+          "style": {
+            "display": "block",
+            "position": "absolute",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "ul",
+          "text": "批量设脏批量设净",
+          "className": "ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light",
+          "role": "menu",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1155,
+            "y": 140,
+            "w": 94,
+            "h": 70
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "2px",
+            "boxShadow": "rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px",
+            "padding": "4px 0px"
+          }
+        }
+      ]
+    },
+    {
+      "label": "booking-hover-liu",
+      "elements": [
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": "输入客户姓名/手机/房间/渠道单/备注",
+          "disabled": false,
+          "box": {
+            "x": 770,
+            "y": 71,
+            "w": 360,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "4px 11px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1129,
+            "y": 71,
+            "w": 32,
+            "h": 28
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(153, 153, 153)",
+            "backgroundColor": "rgb(241, 243, 248)",
+            "border": "0px none rgb(153, 153, 153)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "读 卡",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1174,
+            "y": 70,
+            "w": 68,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "房价管理",
+          "className": "ant-btn ant-btn-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1250,
+            "y": 70,
+            "w": 74,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "更多设置",
+          "className": "ant-btn ant-btn-primary ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1332,
+            "y": 70,
+            "w": 92,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 415,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-select-selection-search-input",
+          "role": "combobox",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 523,
+            "y": 112,
+            "w": 4,
+            "h": 24
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "static",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "ant-input ant-input-borderless",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "房源编码/简称/标题",
+          "disabled": false,
+          "box": {
+            "x": 625,
+            "y": 109,
+            "w": 118,
+            "h": 26
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "4px 0px 0px 4px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 748,
+            "y": 109,
+            "w": 26,
+            "h": 26
+          },
+          "style": {
+            "display": "inline-block",
+            "position": "relative",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(255, 255, 255)",
+            "borderRadius": "0px 4px 4px 0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量设脏/净",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1156,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "button",
+          "text": "批量开/关房",
+          "className": "ant-btn ant-btn-default ant-dropdown-trigger",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 1258,
+            "y": 108,
+            "w": 94,
+            "h": 28
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "padding": "0px 8px"
+          }
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": "请选择日期",
+          "disabled": false,
+          "box": {
+            "x": 214,
+            "y": 148,
+            "w": 78,
+            "h": 22
+          },
+          "style": {
+            "display": "block",
+            "position": "relative",
+            "fontSize": "14px",
+            "fontWeight": "500",
+            "color": "rgb(102, 102, 102)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(102, 102, 102)",
+            "borderRadius": "2px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "div",
+          "text": "",
+          "className": "backBtn___2zn8V",
+          "role": "button",
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 441,
+            "y": 145,
+            "w": 14,
+            "h": 14
+          },
+          "style": {
+            "display": "flex",
+            "position": "absolute",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px"
+          }
+        },
+        {
+          "tag": "div",
+          "text": "总裁套间（桑拿浴缸露台电竞麻将）-房间1预订人: 刘翻红手机号: -入离时间: 2026.05.13-05.14渠道来源: 携程房费(减佣):¥285.44订单总收入:¥365备注: 联系客人请拨打：0512-86660341，根据提示音输",
+          "className": "ant-popover orderPopover___2YnIl ant-popover-placement-right ",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "disabled": false,
+          "box": {
+            "x": 536,
+            "y": 232,
+            "w": 315,
+            "h": 311
+          },
+          "style": {
+            "display": "block",
+            "position": "absolute",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "padding": "0px 0px 0px 15.3137px"
+          }
+        }
+      ]
+    }
+  ]
+}

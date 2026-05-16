@@ -1,0 +1,397 @@
+{
+  "before": "展开",
+  "collapseCount": 1,
+  "state": {
+    "collapseText": [
+      "收起"
+    ],
+    "bodySnippet": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 日志关键词 调整方式 手动调整 操作渠道 请选择 房态日期 操作日期 操作人 重 置 查 询 收起 房型 房间 房态调整日期 操作内容 调整方式 同步渠道 渠道库存变更 操作人 操作时间 暂无数据",
+    "labels": [
+      {
+        "text": "日志关键词",
+        "forAttr": "keyword",
+        "visible": true
+      },
+      {
+        "text": "调整方式",
+        "forAttr": "adjustType",
+        "visible": true
+      },
+      {
+        "text": "操作渠道",
+        "forAttr": "channelIds",
+        "visible": true
+      },
+      {
+        "text": "房态日期",
+        "forAttr": "roomStatusDate",
+        "visible": true
+      },
+      {
+        "text": "操作日期",
+        "forAttr": "operationDate",
+        "visible": true
+      },
+      {
+        "text": "操作人",
+        "forAttr": "userKeyword",
+        "visible": true
+      },
+      {
+        "text": "类型",
+        "forAttr": "payRecordType",
+        "visible": false
+      },
+      {
+        "text": "支付方式",
+        "forAttr": "paymentWayId",
+        "visible": false
+      },
+      {
+        "text": "日期",
+        "forAttr": "_date",
+        "visible": false
+      },
+      {
+        "text": "金额(¥)",
+        "forAttr": "_price",
+        "visible": false
+      },
+      {
+        "text": "备注",
+        "forAttr": "remark",
+        "visible": false
+      }
+    ],
+    "inputs": [
+      {
+        "id": "",
+        "placeholder": "",
+        "type": "text",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "keyword",
+        "placeholder": "搜索房型名称/房间号/渠道房源名称",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 283,
+          "y": 71,
+          "width": 166,
+          "height": 26
+        }
+      },
+      {
+        "id": "adjustType",
+        "placeholder": "",
+        "type": "search",
+        "visible": true,
+        "rect": {
+          "x": 582,
+          "y": 71,
+          "width": 182,
+          "height": 28
+        }
+      },
+      {
+        "id": "channelIds",
+        "placeholder": "",
+        "type": "search",
+        "visible": true,
+        "rect": {
+          "x": 895,
+          "y": 74,
+          "width": 4,
+          "height": 24
+        }
+      },
+      {
+        "id": "roomStatusDate",
+        "placeholder": "请选择",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 1208,
+          "y": 75,
+          "width": 73,
+          "height": 19
+        }
+      },
+      {
+        "id": "",
+        "placeholder": "请选择",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 1313,
+          "y": 75,
+          "width": 73,
+          "height": 19
+        }
+      },
+      {
+        "id": "operationDate",
+        "placeholder": "请选择",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 269,
+          "y": 115,
+          "width": 73,
+          "height": 19
+        }
+      },
+      {
+        "id": "",
+        "placeholder": "请选择",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 374,
+          "y": 115,
+          "width": 73,
+          "height": 19
+        }
+      },
+      {
+        "id": "userKeyword",
+        "placeholder": "搜索操作人名称/手机号",
+        "type": "text",
+        "visible": true,
+        "rect": {
+          "x": 568,
+          "y": 111,
+          "width": 194,
+          "height": 26
+        }
+      },
+      {
+        "id": "payRecordType",
+        "placeholder": "",
+        "type": "search",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "paymentWayId",
+        "placeholder": "",
+        "type": "search",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "_date",
+        "placeholder": "请选择日期",
+        "type": "text",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "_price",
+        "placeholder": "请输入金额",
+        "type": "text",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "mobile",
+        "placeholder": "手机号码",
+        "type": "number",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "password",
+        "placeholder": "请输入密码",
+        "type": "password",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      }
+    ],
+    "formItems": [
+      {
+        "text": "日志关键词",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 180,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整方式手动调整",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 493,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "操作渠道 请选择",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 806,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "房态日期",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 1119,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "操作日期",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 180,
+          "y": 108,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "操作人",
+        "cls": "ant-form-item",
+        "visible": true,
+        "rect": {
+          "x": 493,
+          "y": 108,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "重 置查 询收起",
+        "cls": "ant-form-item ant-pro-query-filter-actions css-17w5757",
+        "visible": true,
+        "rect": {
+          "x": 1119,
+          "y": 108,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "类型请选择类型",
+        "cls": "ant-form-item formItem___ujeRa",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "支付方式请选择支付方式",
+        "cls": "ant-form-item formItem___ujeRa",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "日期",
+        "cls": "ant-form-item formItem___ujeRa",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "金额(¥)",
+        "cls": "ant-form-item formItem___ujeRa",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "备注",
+        "cls": "ant-form-item formItem___ujeRa",
+        "visible": false,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      }
+    ],
+    "rects": {
+      "form": {
+        "x": 172,
+        "y": 68,
+        "width": 1252,
+        "height": 72
+      },
+      "table": {
+        "x": 172,
+        "y": 148,
+        "width": 1252,
+        "height": 193
+      }
+    }
+  }
+}

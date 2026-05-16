@@ -1,0 +1,262 @@
+.page-content:has(.presale-order-page) {
+  padding: 10px 16px 12px;
+  background: #fff;
+}
+
+.page-content:has(.presale-order-page) > .page-header {
+  display: none;
+}
+
+.presale-order-page {
+  display: grid;
+  gap: 8px;
+  color: #1f2a44;
+}
+
+.presale-order-query,
+.presale-order-table {
+  border: 1px solid #e5e9f1;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.presale-order-query {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  min-height: 128px;
+  padding: 8px 0 8px 0;
+}
+
+.presale-order-query__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(210px, 1fr));
+  gap: 8px 16px;
+  align-items: center;
+  padding: 0 0 0 0;
+}
+
+.presale-order-field {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.presale-order-field > span {
+  padding-right: 8px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.presale-order-select,
+.presale-order-keyword input,
+.presale-order-date__range {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px;
+}
+
+.presale-order-select {
+  position: relative;
+  overflow: hidden;
+  padding: 0 28px 0 11px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presale-order-select::after {
+  content: '⌄';
+  position: absolute;
+  right: 9px;
+  top: 3px;
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 14px;
+}
+
+.presale-order-select.is-fixed::after {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.presale-order-keyword input {
+  padding: 0 11px;
+}
+
+.presale-order-date__range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: center;
+  padding: 0 8px;
+}
+
+.presale-order-date__range input {
+  width: 100%;
+  height: 24px;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px;
+}
+
+.presale-order-date__range em {
+  color: rgba(0, 0, 0, 0.25);
+  font-style: normal;
+  text-align: center;
+}
+
+.presale-order-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-right: 0;
+  padding-bottom: 8px;
+}
+
+.presale-order-actions button,
+.presale-order-export button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.presale-order-actions .is-primary,
+.presale-order-export button {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.presale-order-export {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.presale-order-options {
+  position: absolute;
+  left: 390px;
+  top: 38px;
+  z-index: 20;
+  display: grid;
+  min-width: 218px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid #dce2ef;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(31, 42, 68, 0.14);
+}
+
+.presale-order-options button {
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  padding: 8px 10px;
+  color: #31415d;
+  text-align: left;
+}
+
+.presale-order-options button:hover,
+.presale-order-options [aria-selected='true'] {
+  background: #eef2ff;
+  color: #4d65f6;
+}
+
+.presale-order-notice {
+  justify-self: end;
+  border: 1px solid #b9e5cb;
+  border-radius: 4px;
+  background: #f0fff6;
+  color: #1f8b55;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.presale-order-table {
+  overflow: hidden;
+}
+
+.presale-order-table__head {
+  display: grid;
+  grid-template-columns: 150px 1.25fr 0.85fr 0.72fr 0.72fr 1.05fr 0.72fr 0.72fr 0.82fr;
+  min-width: 1244px;
+  height: 58px;
+  background: #fafafa;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.presale-order-table__head > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 8px;
+  border-bottom: 1px solid #f0f0f0;
+  overflow-wrap: anywhere;
+}
+
+.presale-order-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-width: 1244px;
+  min-height: 154px;
+  border-top: 1px solid #f0f0f0;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+}
+
+.presale-order-empty strong {
+  font-weight: 400;
+}
+
+.presale-order-empty__icon {
+  position: relative;
+  width: 42px;
+  height: 34px;
+  border: 1px solid #dfe3eb;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fbfcfe, #f5f7fb);
+}
+
+.presale-order-empty__icon::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: -8px;
+  width: 24px;
+  height: 14px;
+  border: 1px solid #dfe3eb;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #fbfcfe;
+}
+
+@media (max-width: 1280px) {
+  .presale-order-query {
+    grid-template-columns: 1fr;
+  }
+
+  .presale-order-query__grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .presale-order-actions {
+    padding-right: 0;
+  }
+}

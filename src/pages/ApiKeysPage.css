@@ -1,0 +1,144 @@
+.page-content:has(.api-keys-page) {
+  padding: 8px;
+  background: #f4f6fa;
+}
+
+.page-content:has(.api-keys-page) > .page-header {
+  display: none;
+}
+
+.api-keys-page {
+  min-height: calc(100vh - 88px);
+  padding-right: 284px;
+}
+
+.api-keys-card {
+  min-height: 560px;
+  background: #fdfefe;
+  border: 0;
+  border-radius: 0;
+  padding: 12px 8px 32px;
+  color: #1f2937;
+  box-shadow: none;
+}
+
+.api-keys-card h1 {
+  position: relative;
+  margin: 0 0 28px;
+  padding-left: 12px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.api-keys-card h1::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background: #4d65f6;
+}
+
+.api-keys-desc,
+.api-keys-warning {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: #4b5563;
+}
+
+.api-keys-desc {
+  display: inline;
+}
+
+.api-keys-warning {
+  display: inline;
+  color: #ef7c12;
+}
+
+.api-keys-empty {
+  min-height: 0;
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  text-align: left;
+}
+
+.api-keys-empty__icon {
+  display: none;
+}
+
+.api-keys-empty__icon::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 54px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #edf4ff 0%, #dfeaff 100%);
+  border: 1px solid #c9d9f4;
+}
+
+.api-keys-empty__icon span {
+  position: absolute;
+  left: 33px;
+  top: 0;
+  width: 46px;
+  height: 38px;
+  border: 8px solid #d6e2f7;
+  border-bottom: 0;
+  border-radius: 24px 24px 0 0;
+}
+
+.api-keys-empty__icon i {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 12px;
+  height: 20px;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  background: #8aa9da;
+}
+
+.api-keys-empty p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.api-keys-primary {
+  height: 28px;
+  padding: 0 15px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 26px;
+  cursor: pointer;
+}
+
+.api-keys-primary:hover {
+  background: #4096ff;
+  border-color: #4096ff;
+}
+
+.api-keys-status {
+  width: fit-content;
+  margin: 16px 0 0;
+  padding: 7px 12px;
+  border: 1px solid #b7d3ff;
+  border-radius: 4px;
+  background: #edf5ff;
+  color: #1f5fbf;
+  font-size: 13px;
+}

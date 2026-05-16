@@ -1,0 +1,350 @@
+{
+  "url": "https://minsubao.localhome.cn/cleanManage/cleanStatistics",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "text": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n统计汇总\n统计明细\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n日期：\n本 月\n上 月\n至\n导 出\n房型房间：\n请选择房间\n保洁员：\n请选择保洁员\n重 置\n查 询\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通",
+  "styles": [
+    {
+      "selector": ".ant-tabs",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-tabs-tab-active",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-picker",
+      "count": 2,
+      "samples": [
+        {
+          "text": "至",
+          "rect": {
+            "x": 595.28125,
+            "y": 108,
+            "width": 250,
+            "height": 28
+          },
+          "display": "flex",
+          "background": "rgb(255, 255, 255)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "flex",
+          "background": "rgb(255, 255, 255)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        }
+      ]
+    },
+    {
+      "selector": ".ant-select",
+      "count": 4,
+      "samples": [
+        {
+          "text": "请选择房间",
+          "rect": {
+            "x": 250,
+            "y": 144,
+            "width": 200,
+            "height": 28
+          },
+          "display": "block",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "请选择保洁员",
+          "rect": {
+            "x": 522,
+            "y": 144,
+            "width": 160,
+            "height": 28
+          },
+          "display": "block",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "请选择类型",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "block",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "请选择支付方式",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "block",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        }
+      ]
+    },
+    {
+      "selector": ".ant-select-dropdown",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-table",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-table-tbody",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-modal",
+      "count": 3,
+      "samples": [
+        {
+          "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "none",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "none",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        },
+        {
+          "text": "账号登录+86                                                      请按住滑块，拖动到最右边                                  \n        登 录其",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "display": "none",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "zIndex": "auto"
+        }
+      ]
+    },
+    {
+      "selector": ".ant-message",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-tooltip",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".clean-stat-shell",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".clean-stat-table",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".clean-detail-table",
+      "count": 0,
+      "samples": []
+    }
+  ],
+  "buttons": [
+    {
+      "text": "",
+      "disabled": false,
+      "className": "ant-modal-close"
+    },
+    {
+      "text": "发 送",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary sendButton___2H8-Q"
+    },
+    {
+      "text": "本 月",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary ant-btn-sm monthButton___3v8_C"
+    },
+    {
+      "text": "上 月",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default ant-btn-sm monthButton___3v8_C"
+    },
+    {
+      "text": "导 出",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default actionBtn___2uS2U"
+    },
+    {
+      "text": "重 置",
+      "disabled": false,
+      "className": "ant-btn ant-btn-default actionBtn___2uS2U"
+    },
+    {
+      "text": "查 询",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary actionBtn___2uS2U"
+    },
+    {
+      "text": "订阅开通",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary purchaseBtn___25W65"
+    },
+    {
+      "text": "",
+      "disabled": false,
+      "className": "ant-modal-close"
+    },
+    {
+      "text": "提 交",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary"
+    },
+    {
+      "text": "登 录",
+      "disabled": false,
+      "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait"
+    }
+  ],
+  "inputs": [
+    {
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-radio-button-input"
+    },
+    {
+      "placeholder": "",
+      "value": "1796425098638573570",
+      "disabled": false,
+      "className": "ant-radio-button-input"
+    },
+    {
+      "placeholder": "开始日期",
+      "value": "2026-05-01",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "placeholder": "结束日期",
+      "value": "2026-05-13",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "placeholder": "",
+      "value": "",
+      "disabled": false,
+      "className": "ant-select-selection-search-input"
+    },
+    {
+      "placeholder": "请选择日期",
+      "value": "",
+      "disabled": false,
+      "className": ""
+    },
+    {
+      "placeholder": "请输入金额",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input-number-input"
+    },
+    {
+      "placeholder": "手机号码",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input"
+    },
+    {
+      "placeholder": "请输入密码",
+      "value": "",
+      "disabled": false,
+      "className": "ant-input"
+    }
+  ]
+}

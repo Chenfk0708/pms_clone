@@ -1,0 +1,212 @@
+.app-shell:has(.statement-order-page) .page-content {
+  padding: 8px 8px 0 12px;
+  background: #f0f2f5;
+}
+
+.app-shell:has(.statement-order-page) .page-content > .page-header {
+  display: none;
+}
+
+.statement-order-page {
+  position: relative;
+  min-height: 845px;
+  padding: 0 8px 72px;
+  overflow: auto;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.statement-order-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  min-height: 82px;
+  padding-top: 10px;
+  background: #fff;
+}
+
+.statement-order-store {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  max-width: 560px;
+  overflow: hidden;
+}
+
+.statement-order-store button {
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 26px;
+  white-space: nowrap;
+}
+
+.statement-order-store button:first-child {
+  min-width: 96px;
+  border-color: #4d65f6;
+  border-radius: 4px 0 0 4px;
+  color: #4d65f6;
+}
+
+.statement-order-store button + button {
+  max-width: 360px;
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statement-order-store .is-active {
+  color: #4d65f6;
+}
+
+.statement-order-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-right: 0;
+}
+
+.statement-order-actions button {
+  height: 28px;
+  min-width: 64px;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.statement-order-actions .is-outline {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: #4d65f6;
+}
+
+.statement-order-actions .is-primary {
+  border: 1px solid #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.statement-order-notice {
+  position: fixed;
+  top: 68px;
+  right: 356px;
+  z-index: 36;
+  padding: 8px 14px;
+  border: 1px solid #dce5ff;
+  border-radius: 6px;
+  background: #f4f7ff;
+  color: #4d65f6;
+  box-shadow: 0 8px 24px rgb(31 42 68 / 12%);
+}
+
+.statement-order-table-shell {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.statement-order-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.statement-order-table {
+  width: max-content;
+  min-width: 1252px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.statement-order-table th,
+.statement-order-table td {
+  height: 36px;
+  padding: 8px 10px;
+  border-right: 1px solid #eef1f6;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.statement-order-table th {
+  background: #f3f8ff;
+  color: #333;
+  font-weight: 400;
+}
+
+.statement-order-table th:nth-child(1) {
+  width: 220px;
+}
+
+.statement-order-table th:nth-child(2),
+.statement-order-table th:nth-child(4) {
+  width: 168px;
+}
+
+.statement-order-table th:nth-child(3),
+.statement-order-table th:nth-child(5),
+.statement-order-table th:nth-child(13),
+.statement-order-table th:nth-child(15) {
+  width: 132px;
+}
+
+.statement-order-table th:nth-child(6),
+.statement-order-table th:nth-child(7),
+.statement-order-table th:nth-child(8),
+.statement-order-table th:nth-child(9),
+.statement-order-table th:nth-child(10),
+.statement-order-table th:nth-child(11),
+.statement-order-table th:nth-child(12),
+.statement-order-table th:nth-child(14) {
+  width: 118px;
+}
+
+.statement-order-empty-row td {
+  height: 124px;
+  padding: 0;
+  text-align: center;
+}
+
+.statement-order-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 124px;
+  color: rgb(0 0 0 / 45%);
+}
+
+.statement-order-empty span {
+  width: 64px;
+  height: 46px;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, #f6f8fb 0 42%, #eef2f7 42% 100%),
+    #f6f8fb;
+  box-shadow: inset 0 -12px 0 rgb(220 226 238 / 60%);
+}
+
+.statement-order-empty p {
+  margin: 0;
+}
+
+@media (max-width: 1280px) {
+  .statement-order-toolbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .statement-order-actions {
+    justify-content: flex-start;
+  }
+}

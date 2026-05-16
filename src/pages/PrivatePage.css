@@ -1,0 +1,336 @@
+.page-content:has(.private-channel-page) > .page-header {
+  display: none;
+}
+
+.private-channel-page {
+  position: relative;
+  min-height: calc(100vh - 58px);
+  padding: 0;
+  background: #fff;
+  color: #1f2937;
+}
+
+.private-channel-panel,
+.private-detail-panel {
+  min-height: calc(100vh - 58px);
+  padding: 12px 8px 24px;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+}
+
+.private-section-title {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  border-bottom: 1px solid #eef0f5;
+}
+
+.private-section-title h2 {
+  position: relative;
+  margin: 0;
+  padding-left: 12px;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.private-section-title h2::before {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: 4px;
+  border-radius: 999px;
+  background: #4d65f6;
+  content: '';
+}
+
+.private-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 244px);
+  gap: 8px;
+  padding-top: 9px;
+}
+
+.private-card {
+  display: flex;
+  justify-content: space-between;
+  min-height: 140px;
+  padding: 17px 16px 14px;
+  border-radius: 8px;
+  background: #f4f6fb;
+}
+
+.private-card h3 {
+  margin: 0 0 55px;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.private-button {
+  min-width: 68px;
+  height: 28px;
+  border: 1px solid #d9dde8;
+  border-radius: 5px;
+  background: #fff;
+  color: #1f2937;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 26px;
+}
+
+.private-button--primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.private-logo {
+  position: relative;
+  display: grid;
+  width: 66px;
+  height: 66px;
+  flex: 0 0 66px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.private-logo--wecom span {
+  width: 48px;
+  height: 40px;
+  border: 5px solid #1688ec;
+  border-radius: 50%;
+}
+
+.private-logo--wecom i,
+.private-logo--wecom b {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+  content: '';
+}
+
+.private-logo--wecom i {
+  right: 11px;
+  bottom: 18px;
+  width: 20px;
+  height: 20px;
+  background: #15ba7a;
+}
+
+.private-logo--wecom b {
+  right: 6px;
+  bottom: 8px;
+  width: 22px;
+  height: 14px;
+  background: #f5a200;
+  transform: rotate(-35deg);
+}
+
+.private-logo--official span,
+.private-logo--official i {
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  content: '';
+}
+
+.private-logo--official span {
+  border: 11px solid #14bd70;
+  border-top-color: transparent;
+  transform: rotate(35deg);
+}
+
+.private-logo--official i {
+  border: 11px solid #14bd70;
+  border-bottom-color: transparent;
+  opacity: 0.9;
+  transform: rotate(35deg);
+}
+
+.private-official-options .is-muted .private-logo--official span,
+.private-official-options .is-muted .private-logo--official i {
+  border-left-color: #c9cbd0;
+  border-right-color: #c9cbd0;
+}
+
+.private-official-options .is-muted .private-logo--official span {
+  border-bottom-color: #c9cbd0;
+}
+
+.private-official-options .is-muted .private-logo--official i {
+  border-top-color: #c9cbd0;
+}
+
+.private-logo--program {
+  background: #12c83d;
+  color: #fff;
+  font-size: 34px;
+}
+
+.private-logo--program strong {
+  font-weight: 700;
+}
+
+.private-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  border-bottom: 1px solid #eef0f5;
+  color: #8a94a6;
+  font-size: 14px;
+}
+
+.private-breadcrumb strong {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.private-enterprise-head {
+  display: grid;
+  grid-template-columns: 112px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 124px;
+}
+
+.private-enterprise-head .private-logo {
+  width: 96px;
+  height: 96px;
+}
+
+.private-enterprise-head h2 {
+  display: inline-block;
+  margin: 0 12px 0 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.private-enterprise-head span {
+  display: inline-flex;
+  padding: 6px 13px;
+  border-radius: 8px;
+  background: #dcfacf;
+  color: #35a13a;
+  font-size: 14px;
+}
+
+.private-enterprise-head em {
+  display: block;
+  margin-top: 20px;
+  color: #ff1200;
+  font-style: normal;
+}
+
+.private-detail-copy h3,
+.private-official-copy h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.private-detail-copy p,
+.private-official-copy p {
+  max-width: 780px;
+  margin: 0 0 10px;
+  color: #8a94a6;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.private-detail-copy ol {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  margin: 14px 0 28px;
+  padding: 0 0 0 26px;
+  list-style: none;
+}
+
+.private-detail-copy ol::before {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 4px;
+  border-left: 2px dotted #ff1f1f;
+  content: '';
+}
+
+.private-detail-copy li {
+  position: relative;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.private-detail-copy li::before {
+  position: absolute;
+  left: -26px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff1414;
+  content: '';
+}
+
+.private-detail-copy a {
+  color: #267aff;
+}
+
+.private-official-copy {
+  padding-top: 8px;
+}
+
+.private-official-copy p {
+  max-width: 920px;
+  margin-bottom: 0;
+  color: #1f2937;
+  line-height: 1.65;
+}
+
+.private-official-copy p:last-child {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.private-official-options {
+  display: grid;
+  grid-template-columns: minmax(260px, 326px) minmax(260px, 326px);
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 10px;
+  padding-right: 0;
+}
+
+.private-official-options article {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+
+.private-official-options .private-logo {
+  width: 100%;
+  height: 140px;
+  border: 1px solid #d9dde8;
+  border-radius: 5px;
+}
+
+.private-official-options .private-logo::after {
+  margin-left: 60px;
+  color: #3f4248;
+  font-size: 42px;
+  font-weight: 500;
+  content: '公众号';
+}
+
+@media (max-width: 1100px) {
+  .private-card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}

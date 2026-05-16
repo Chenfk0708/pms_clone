@@ -1,0 +1,124 @@
+{
+  "url": "http://127.0.0.1:4173/houseManage/retailPrice",
+  "title": "pms_clone",
+  "visibleText": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 消息 用户 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 房情表 PMS Clone Prototype 门市价 采集基线：Chrome 1440x900 / 账号已授权登录 门市价 钟点房设置 门市价设置 价格规划 批量改价 全部门店 天落会宿公寓(前海壹方城宝安中心店) ⚙ 房型 ⌄ 房型标签 ⌄ ⌕ 请先完成门市价设置 去设置 ▣",
+  "buttonTexts": [
+    "应用订阅",
+    "消息",
+    "用户",
+    "门市价",
+    "钟点房设置",
+    "门市价设置",
+    "价格规划",
+    "批量改价",
+    "全部门店",
+    "天落会宿公寓(前海壹方城宝安中心店)",
+    "⚙",
+    "房型 ⌄",
+    "房型标签 ⌄",
+    "⌕",
+    "去设置",
+    "▣"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "search",
+      "placeholder": "房源编码/简称/标题",
+      "ariaLabel": null,
+      "checked": false,
+      "disabled": false,
+      "value": ""
+    }
+  ],
+  "boxes": [
+    {
+      "selector": ".retail-main-panel",
+      "text": "门市价钟点房设置门市价设置价格规划批量改价全部门店天落会宿公寓(前海壹方城宝安中心店)⚙房型⌄房型标签⌄⌕请先完成门市价设置去设置",
+      "rect": {
+        "x": 168,
+        "y": 164,
+        "width": 1260,
+        "height": 768
+      },
+      "style": {
+        "display": "block",
+        "position": "static",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgb(36, 50, 74)",
+        "border": "1px solid rgb(237, 241, 247)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "10px 8px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".retail-toolbar",
+      "text": "门市价钟点房设置门市价设置价格规划批量改价",
+      "rect": {
+        "x": 177,
+        "y": 175,
+        "width": 1242,
+        "height": 34
+      },
+      "style": {
+        "display": "flex",
+        "position": "static",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(36, 50, 74)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    },
+    {
+      "selector": ".retail-filter-row",
+      "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)⚙房型⌄房型标签⌄⌕",
+      "rect": {
+        "x": 177,
+        "y": 217,
+        "width": 1242,
+        "height": 28
+      },
+      "style": {
+        "display": "flex",
+        "position": "relative",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(36, 50, 74)",
+        "border": "0px none rgb(36, 50, 74)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "8px 0px 0px"
+      }
+    },
+    {
+      "selector": ".retail-empty-state",
+      "text": "请先完成门市价设置去设置",
+      "rect": {
+        "x": 177,
+        "y": 245,
+        "width": 1242,
+        "height": 660
+      },
+      "style": {
+        "display": "grid",
+        "position": "static",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(154, 167, 187)",
+        "border": "0px none rgb(154, 167, 187)",
+        "borderRadius": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "padding": "0px",
+        "margin": "0px"
+      }
+    }
+  ]
+}

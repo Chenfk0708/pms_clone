@@ -1,0 +1,29 @@
+{
+  "url": "http://127.0.0.1:4199/channels/private",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4199/channels/private",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4199/assets/index-CtENro_m.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4199/assets/index-CT3XHRve.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4199/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

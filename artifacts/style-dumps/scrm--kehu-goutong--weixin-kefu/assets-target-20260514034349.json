@@ -1,0 +1,1025 @@
+{
+  "stamp": "20260514034349",
+  "assets": {
+    "url": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+    "images": [
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/advancedLogov2.png",
+        "alt": "",
+        "naturalWidth": 130,
+        "naturalHeight": 44,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/jhot.png",
+        "alt": "",
+        "naturalWidth": 128,
+        "naturalHeight": 128,
+        "className": "hot___3NZoE",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+        "alt": "",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250320makeCardContainer.png",
+        "alt": "",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "icon___3xGqu",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+        "alt": "",
+        "naturalWidth": 120,
+        "naturalHeight": 120,
+        "className": "avatar___3Z8Mu",
+        "visible": true
+      },
+      {
+        "src": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+        "alt": "",
+        "naturalWidth": 300,
+        "naturalHeight": 300,
+        "className": "img___3iOZV",
+        "visible": false
+      },
+      {
+        "src": "https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng",
+        "alt": "AI",
+        "naturalWidth": 120,
+        "naturalHeight": 120,
+        "className": "",
+        "visible": false
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_client_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_manage_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_member_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_Acquisition_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_popularize_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_communicate_current%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_employee_hover%402x.png",
+        "alt": "menuIcon",
+        "naturalWidth": 48,
+        "naturalHeight": 48,
+        "className": "menuIcon___2XbgW",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/brandScrmLogo.png",
+        "alt": "",
+        "naturalWidth": 126,
+        "naturalHeight": 131,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/brandPromotionScrm1136.png",
+        "alt": "",
+        "naturalWidth": 1136,
+        "naturalHeight": 588,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/brandPromotionScrm1136-2.png",
+        "alt": "",
+        "naturalWidth": 1136,
+        "naturalHeight": 588,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/brandPromotionScrm1136-3.png",
+        "alt": "",
+        "naturalWidth": 1136,
+        "naturalHeight": 588,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_qrcode.png",
+        "alt": "",
+        "naturalWidth": 150,
+        "naturalHeight": 118,
+        "className": "weappFormImg",
+        "visible": false
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_wechat.png",
+        "alt": "",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "otherIcon",
+        "visible": false
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_message.png",
+        "alt": "",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "otherIcon",
+        "visible": false
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/oneClickReading.png",
+        "alt": "",
+        "naturalWidth": 32,
+        "naturalHeight": 32,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imScaleSetting.png",
+        "alt": "",
+        "naturalWidth": 32,
+        "naturalHeight": 32,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imEnlarge.png",
+        "alt": "",
+        "naturalWidth": 32,
+        "naturalHeight": 32,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://dimg04.c-ctrip.com/images/27c0812000na9jbqk7A54_R_640_428_Q50.jpg",
+        "alt": "",
+        "naturalWidth": 400,
+        "naturalHeight": 400,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://dimg04.c-ctrip.com/images/27c2f12000na9jaezFEED_R_640_428_Q50.jpg",
+        "alt": "",
+        "naturalWidth": 400,
+        "naturalHeight": 400,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://dimg04.c-ctrip.com/images/27c2m12000na9j4bl5392_R_640_428_Q50.jpg",
+        "alt": "",
+        "naturalWidth": 400,
+        "naturalHeight": 400,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://pic.tujia.com/upload/festatic/crn/defaultAvatarM_s.png",
+        "alt": "",
+        "naturalWidth": 128,
+        "naturalHeight": 128,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+        "alt": "渠道",
+        "naturalWidth": 80,
+        "naturalHeight": 80,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      },
+      {
+        "src": "https://minsubao.localhome.cn/scrm/wechatService/manage",
+        "alt": "",
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "className": "mainImage___1WW0z",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+        "alt": "渠道",
+        "naturalWidth": 60,
+        "naturalHeight": 60,
+        "className": "",
+        "visible": true
+      },
+      {
+        "src": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+        "alt": "",
+        "naturalWidth": 154,
+        "naturalHeight": 60,
+        "className": "lose___PGbAQ",
+        "visible": true
+      }
+    ],
+    "backgrounds": [
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down2.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "url(\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png\")",
+        "tag": "div",
+        "className": "openIcon___37gtf",
+        "text": ""
+      },
+      {
+        "backgroundImage": "-webkit-gradient(linear, 0% 0%, 100% 0%, from(rgb(179, 179, 179)), color-stop(0.4, rgb(179, 179, 179)), color-stop(0.5, rgb(255, 255, 255)), color-stop(0.6, rgb(179, 179, 179)), to(rgb(179, 179, 179)))",
+        "tag": "span",
+        "className": "aliyunCaptcha-sliding-text",
+        "text": "请按住滑块，拖动到最右边"
+      },
+      {
+        "backgroundImage": "linear-gradient(90deg, rgb(238, 165, 0), rgb(255, 89, 0))",
+        "tag": "div",
+        "className": "newTag",
+        "text": "新用户"
+      }
+    ],
+    "fonts": [
+      "\"Source Han Sans CN Regular\", Helvetica, Tahoma, Arial, \"Microsoft YaHei\", \"WenQuanYi Micro Hei\"",
+      "\"Alibaba PuHuiTi\"",
+      "aliyun-captcha-iconfont",
+      "\"PingFang SC\""
+    ],
+    "svgCount": 11
+  }
+}

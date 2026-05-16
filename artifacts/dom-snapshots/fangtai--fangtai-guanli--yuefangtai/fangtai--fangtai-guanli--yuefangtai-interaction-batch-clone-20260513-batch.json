@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:4173/houseManage/months",
+  "title": "pms_clone",
+  "toolbar": "<div class=\"month-batch-toolbar\" role=\"toolbar\" aria-label=\"批量操作\"><strong>批量设脏/净</strong><span>已选 2 间夜</span><button type=\"button\">设为脏房</button><button type=\"button\">取消</button></div>",
+  "selectedCells": [
+    "<article class=\"timeline-cell month-cell tone-free is-selected\" data-testid=\"month-selectable-cell\" aria-selected=\"true\"><strong>余1</strong></article>",
+    "<article class=\"timeline-cell month-cell tone-sold is-selected\" data-testid=\"month-selectable-cell\" aria-selected=\"true\"><strong>售罄</strong></article>"
+  ],
+  "status": "已进入批量设脏/净模式"
+}

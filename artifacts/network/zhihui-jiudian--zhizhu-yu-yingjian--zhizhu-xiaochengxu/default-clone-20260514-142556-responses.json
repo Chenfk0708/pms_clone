@@ -1,0 +1,37 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514-142556",
+  "url": "http://127.0.0.1:4187/smartHotel/smartSettings",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4187/smartHotel/smartSettings",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4187/assets/index-CbdQLY6U.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4187/assets/index-5PQf5q3Q.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4187/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

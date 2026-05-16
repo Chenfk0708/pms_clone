@@ -1,0 +1,13 @@
+﻿{
+    "taskId":  "fangtai--fangjia-guanli--jingzhengquan-bijia",
+    "target":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--jingzhengquan-bijia\\default-target-20260512-1900.png",
+    "clone":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--jingzhengquan-bijia\\default-clone-20260513-audit-viewport.png",
+    "diff":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--fangjia-guanli--jingzhengquan-bijia\\default-diff-20260513-audit.png",
+    "width":  1440,
+    "height":  900,
+    "threshold":  45,
+    "differentPixels":  579393,
+    "totalPixels":  1296000,
+    "differentRatio":  0.447062,
+    "note":  "Pixel diff artifact for audit; target contains live production shell/data, clone is local reproduction, remaining differences are documented in workspace records."
+}

@@ -1,0 +1,196 @@
+[
+  {
+    "selector": ".page-content",
+    "present": true,
+    "rect": {
+      "x": 156,
+      "y": 58,
+      "width": 1284,
+      "height": 923.5,
+      "bottom": 981.5
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "hidden",
+      "width": "1284px",
+      "height": "923.5px",
+      "maxWidth": "none",
+      "padding": "12px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  },
+  {
+    "selector": ".price-board-page",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 163.5,
+      "width": 1260,
+      "height": 806,
+      "bottom": 969.5
+    },
+    "styles": {
+      "display": "grid",
+      "position": "relative",
+      "overflow": "visible",
+      "width": "1260px",
+      "height": "806px",
+      "maxWidth": "none",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  },
+  {
+    "selector": ".price-board-product-card",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 163.5,
+      "width": 918,
+      "height": 129,
+      "bottom": 292.5
+    },
+    "styles": {
+      "display": "grid",
+      "position": "static",
+      "overflow": "visible",
+      "width": "918px",
+      "height": "129px",
+      "maxWidth": "none",
+      "padding": "16px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-promo-frame img",
+    "present": false
+  },
+  {
+    "selector": ".price-board-detail-main",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 163.5,
+      "width": 918,
+      "height": 599.953125,
+      "bottom": 763.453125
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "hidden",
+      "width": "918px",
+      "height": "599.953px",
+      "maxWidth": "none",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-detail-card",
+    "present": true,
+    "rect": {
+      "x": 168,
+      "y": 292.5,
+      "width": 918,
+      "height": 470.953125,
+      "bottom": 763.453125
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "visible",
+      "width": "918px",
+      "height": "470.953px",
+      "maxWidth": "none",
+      "padding": "16px 16px 24px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-detail-image",
+    "present": true,
+    "rect": {
+      "x": 184,
+      "y": 349.5,
+      "width": 886,
+      "height": 389.953125,
+      "bottom": 739.453125
+    },
+    "styles": {
+      "display": "block",
+      "position": "static",
+      "overflow": "clip",
+      "width": "886px",
+      "height": "389.953px",
+      "maxWidth": "893px",
+      "padding": "0px",
+      "margin": "0px",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    "image": {
+      "complete": true,
+      "naturalWidth": 2272,
+      "naturalHeight": 1000,
+      "currentSrc": "http://127.0.0.1:4173/price-board-assets/brand-promotion-price-card-4.png"
+    }
+  },
+  {
+    "selector": ".price-board-purchase-panel",
+    "present": true,
+    "rect": {
+      "x": 1102,
+      "y": 163.5,
+      "width": 326,
+      "height": 806,
+      "bottom": 969.5
+    },
+    "styles": {
+      "display": "block",
+      "position": "sticky",
+      "overflow": "visible",
+      "width": "326px",
+      "height": "806px",
+      "maxWidth": "none",
+      "padding": "18px 16px",
+      "margin": "0px",
+      "backgroundColor": "rgb(255, 255, 255)"
+    }
+  },
+  {
+    "selector": ".price-board-buy-button",
+    "present": true,
+    "rect": {
+      "x": 1118,
+      "y": 504.5,
+      "width": 294,
+      "height": 32,
+      "bottom": 536.5
+    },
+    "styles": {
+      "display": "inline-block",
+      "position": "static",
+      "overflow": "visible",
+      "width": "294px",
+      "height": "32px",
+      "maxWidth": "none",
+      "padding": "8px 20px",
+      "margin": "0px",
+      "backgroundColor": "rgb(75, 95, 246)"
+    }
+  },
+  {
+    "selector": ".chat-dock",
+    "present": false
+  },
+  {
+    "selector": ".chat-dock__list",
+    "present": false
+  }
+]

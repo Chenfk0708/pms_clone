@@ -1,0 +1,343 @@
+.page-content:has(.expend-setting-page) {
+  padding: 8px 8px 0;
+  background: #f0f2f5;
+  overflow: auto;
+}
+
+.page-content:has(.expend-setting-page) > .page-header {
+  display: none;
+}
+
+.expend-setting-page {
+  min-height: calc(100vh - 58px);
+  color: #1f2430;
+}
+
+.expend-setting-card {
+  min-height: 838px;
+  padding: 12px 14px 24px;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+}
+
+.expend-setting-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 36px;
+}
+
+.expend-setting-toolbar p {
+  margin: 0;
+  color: #5f6879;
+  font-size: 14px;
+}
+
+.expend-setting-primary {
+  min-width: 72px;
+  height: 32px;
+  border: 1px solid #4157f6;
+  border-radius: 4px;
+  background: #4157f6;
+  color: #fff;
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.expend-setting-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  height: 48px;
+  border-bottom: 1px solid #e5e8ef;
+}
+
+.expend-setting-tabs button {
+  position: relative;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4a5568;
+  font-size: 15px;
+}
+
+.expend-setting-tabs button.is-active {
+  color: #4058f6;
+  font-weight: 500;
+}
+
+.expend-setting-tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #4058f6;
+}
+
+.expend-setting-groups {
+  padding-top: 16px;
+}
+
+.expend-setting-group {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: start;
+  min-height: 48px;
+  margin-bottom: 12px;
+}
+
+.expend-setting-group h2,
+.expend-setting-disabled h2 {
+  margin: 0;
+  color: #202634;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 36px;
+}
+
+.expend-setting-item-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  padding: 0 0 4px;
+}
+
+.expend-setting-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(82px, 1fr) 18px;
+  align-items: center;
+  width: 176px;
+  min-height: 38px;
+  padding: 0 8px;
+  border: 1px solid #dfe3ed;
+  border-radius: 4px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+}
+
+.expend-setting-drag {
+  color: #c0c6d4;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.expend-setting-item-name {
+  overflow: hidden;
+  padding-right: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.expend-setting-lock {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #c9ced8;
+  border-radius: 2px;
+  background: linear-gradient(#f4f6fa 0 0) center 6px / 8px 1px no-repeat;
+}
+
+.expend-setting-lock::before {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 5px;
+  margin: -5px auto 0;
+  border: 1px solid #c9ced8;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #fff;
+}
+
+.expend-setting-default-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  min-width: 32px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 0 4px 0 6px;
+  background: #edf0ff;
+  color: #5265ff;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.expend-setting-empty-box {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px dashed #e1e5ef;
+  border-radius: 4px;
+  background: #fbfcff;
+  color: #8b94a7;
+  font-size: 14px;
+}
+
+.expend-setting-empty-box p {
+  margin: 0;
+}
+
+.expend-setting-empty-box button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4058f6;
+  font-size: 14px;
+}
+
+.expend-setting-divider {
+  height: 1px;
+  margin: 20px 0 6px;
+  background: #e5e8ef;
+}
+
+.expend-setting-disabled {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: start;
+  min-height: 42px;
+}
+
+.expend-setting-disabled > div {
+  min-height: 36px;
+}
+
+.expend-setting-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgb(15 23 42 / 34%);
+}
+
+.expend-setting-modal {
+  width: 520px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 20%);
+}
+
+.expend-setting-modal header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 0 20px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.expend-setting-modal h2 {
+  margin: 0;
+  color: #151b28;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.expend-setting-modal header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #8b94a7;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.expend-setting-modal form {
+  display: grid;
+  gap: 12px;
+  padding: 20px 24px 12px;
+}
+
+.expend-setting-form-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.expend-setting-form-row > span {
+  justify-self: end;
+}
+
+.expend-setting-form-row em {
+  margin-right: 2px;
+  color: #ff4d4f;
+  font-style: normal;
+}
+
+.expend-setting-select,
+.expend-setting-form-row input {
+  width: 100%;
+  height: 34px;
+  border: 1px solid #d7dce7;
+  border-radius: 4px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.expend-setting-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.expend-setting-select i {
+  color: #8b94a7;
+  font-style: normal;
+}
+
+.expend-setting-form-row input {
+  padding: 0 10px;
+}
+
+.expend-setting-modal footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px 16px;
+}
+
+.expend-setting-modal footer button {
+  min-width: 72px;
+  height: 32px;
+  border: 1px solid #d7dce7;
+  border-radius: 4px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.expend-setting-modal footer .expend-setting-primary {
+  border-color: #4157f6;
+  background: #4157f6;
+  color: #fff;
+}
+
+@media (max-width: 1180px) {
+  .expend-setting-item {
+    width: 158px;
+  }
+
+  .expend-setting-group,
+  .expend-setting-disabled {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+}

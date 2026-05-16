@@ -1,0 +1,185 @@
+{
+  "title": "pms_clone",
+  "location": "http://127.0.0.1:4173/version/applicationPayment/detail",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n\nPMS Clone Prototype\n\n智能保洁\n采集基线：Chrome 1440x900 / 账号已授权登录\n净\n智能保洁\n\n适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。\n\n商品详情\n智能保洁\n自动派单 ｜实时提醒 ｜ 报表清晰\n购买信息\n商品价格\n¥1,237.38\n¥2,203.14 / 年\n购买时长\n跟随版本\n2027-09-28 到期\n订单金额\n¥1,237.38\n明细\n我已阅读并同意《路客云产品服务购买协议》\n返回\n立即购买\n···",
+  "hasSubscriptionMask": false,
+  "hasFakeTaskRow": false,
+  "batchNotifyDisabled": false,
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "应用订阅",
+      "disabled": false,
+      "box": {
+        "x": 1204,
+        "y": 0,
+        "width": 89,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "消息",
+      "disabled": false,
+      "box": {
+        "x": 1301,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "用户",
+      "disabled": false,
+      "box": {
+        "x": 1367,
+        "y": 0,
+        "width": 58,
+        "height": 66
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(47, 58, 81)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "border": "1px solid rgb(223, 229, 241)",
+        "borderRadius": "8px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "padding": "8px 12px"
+      }
+    },
+    {
+      "tag": "INPUT",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "",
+      "disabled": false,
+      "box": {
+        "x": 37,
+        "y": 738,
+        "width": 15,
+        "height": 15
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(0, 0, 0)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "border": "0px none rgb(0, 0, 0)",
+        "borderRadius": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "21px",
+        "padding": "0px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "返回",
+      "disabled": false,
+      "box": {
+        "x": 559,
+        "y": 772,
+        "width": 66,
+        "height": 34
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(52, 71, 101)",
+        "backgroundColor": "rgb(251, 253, 255)",
+        "border": "1px solid rgb(215, 222, 234)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "21px",
+        "padding": "0px 18px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "立即购买",
+      "disabled": true,
+      "box": {
+        "x": 635,
+        "y": 772,
+        "width": 94,
+        "height": 34
+      },
+      "style": {
+        "display": "block",
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(216, 222, 234)",
+        "border": "1px solid rgb(207, 214, 227)",
+        "borderRadius": "4px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "21px",
+        "padding": "0px 18px"
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "className": "clean-float-chat",
+      "role": "",
+      "ariaLabel": "在线咨询",
+      "text": "···",
+      "disabled": false,
+      "box": {
+        "x": 1376,
+        "y": 820,
+        "width": 46,
+        "height": 46
+      },
+      "style": {
+        "display": "grid",
+        "color": "rgb(251, 253, 255)",
+        "backgroundColor": "rgb(50, 107, 255)",
+        "border": "0px none rgb(251, 253, 255)",
+        "borderRadius": "999px",
+        "fontSize": "20px",
+        "fontWeight": "800",
+        "lineHeight": "20px",
+        "padding": "1px 6px"
+      }
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "label": "default-target-current",
+  "url": "https://minsubao.localhome.cn/statistics/roomSituation",
+  "finalUrl": "https://minsubao.localhome.cn/statistics/roomSituation",
+  "title": "路客云PMS_免费酒店公寓民宿管理系统_官网",
+  "capturedAt": "2026-05-13T06:11:42.690Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 1,
+    "locale": "zh-CN",
+    "timezone": "Asia/Shanghai"
+  },
+  "isBusinessRoomSituation": false,
+  "textSample": "",
+  "styles": [
+    {
+      "selector": "body",
+      "count": 1,
+      "samples": [
+        {
+          "tag": "body",
+          "className": "",
+          "text": " (function (b, a, e, h, f, c, g, s) { b[h] = b[h] || function () { (b[h].c = b[h].c || []).push(arguments); }; b[h].s = !!c; g = a.getElementsByTagName(e)[0]; s = a.createElement(e); s.src = \"//s.union.360.cn/\" + f + \".js\"; s.defer = !0; s.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "top": 0,
+            "right": 1440,
+            "bottom": 900,
+            "left": 0
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1440px",
+            "height": "900px",
+            "padding": "0px",
+            "margin": "0px",
+            "backgroundColor": "rgb(245, 245, 249)",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "fontSize": "14px",
+            "lineHeight": "22.001px",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "overflow": "auto hidden"
+          }
+        }
+      ]
+    },
+    {
+      "selector": ".page-body",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".sidebar",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".page-content",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".roomSituation___3v1gK",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".roomSituationContent___3KsUL",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".ant-table",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".room-situation-toolbar",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".room-situation-board",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".room-situation-table",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".room-situation-table-scroll",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".room-situation-pagination",
+      "count": 0,
+      "samples": []
+    },
+    {
+      "selector": ".chat-dock",
+      "count": 0,
+      "samples": []
+    }
+  ]
+}

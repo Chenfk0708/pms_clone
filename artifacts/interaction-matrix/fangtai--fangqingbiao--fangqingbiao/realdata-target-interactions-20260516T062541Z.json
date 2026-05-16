@@ -1,0 +1,26 @@
+[
+  {
+    "name": "???????",
+    "ok": false,
+    "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('?????').first()\u001b[22m\n",
+    "newRequests": []
+  },
+  {
+    "name": "??????",
+    "ok": false,
+    "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('????').first()\u001b[22m\n",
+    "newRequests": []
+  },
+  {
+    "name": "??????",
+    "ok": false,
+    "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText(/20\\s*?\\s*\\/\\s*?/).first()\u001b[22m\n",
+    "newRequests": []
+  },
+  {
+    "name": "??????",
+    "ok": false,
+    "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('????').first()\u001b[22m\n",
+    "newRequests": []
+  }
+]

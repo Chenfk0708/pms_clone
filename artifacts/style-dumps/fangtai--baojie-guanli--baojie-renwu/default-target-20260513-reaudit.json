@@ -1,0 +1,189 @@
+{
+  "summary": {
+    "url": "https://minsubao.localhome.cn/cleanManage/cleanTask",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "isLoginBlocked": false,
+    "visibleFacts": {
+      "hasCleanTask": true,
+      "hasAllStores": true,
+      "hasSubscriptionMask": true,
+      "hasBatchNotify": true,
+      "hasCreateTask": true,
+      "hasFakeTaskRow": false
+    },
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "导 出",
+        "cls": "ant-btn ant-btn-default actionBtn___3JOeb",
+        "disabled": false,
+        "rect": {
+          "x": 1361,
+          "y": 68,
+          "w": 63,
+          "h": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "borderColor": "rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "height": "28px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "text": "重 置",
+        "cls": "ant-btn ant-btn-default actionBtn___3JOeb",
+        "disabled": false,
+        "rect": {
+          "x": 1290,
+          "y": 108,
+          "w": 63,
+          "h": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "borderColor": "rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "height": "28px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "text": "查 询",
+        "cls": "ant-btn ant-btn-primary actionBtn___3JOeb",
+        "disabled": false,
+        "rect": {
+          "x": 1361,
+          "y": 108,
+          "w": 63,
+          "h": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "borderColor": "rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "height": "28px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "text": "批量通知",
+        "cls": "ant-btn ant-btn-default actionBtn___3JOeb",
+        "disabled": true,
+        "rect": {
+          "x": 1212,
+          "y": 144,
+          "w": 88,
+          "h": 28
+        },
+        "style": {
+          "color": "rgba(0, 0, 0, 0.25)",
+          "backgroundColor": "rgb(245, 245, 245)",
+          "borderColor": "rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "height": "28px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "text": "创建保洁任务",
+        "cls": "ant-btn ant-btn-primary actionBtn___3JOeb",
+        "disabled": false,
+        "rect": {
+          "x": 1308,
+          "y": 144,
+          "w": 116,
+          "h": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "borderColor": "rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "height": "28px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "text": "订阅开通",
+        "cls": "ant-btn ant-btn-primary purchaseBtn___CXW95",
+        "disabled": false,
+        "rect": {
+          "x": 196,
+          "y": 816,
+          "w": 94,
+          "h": 42
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "borderColor": "rgb(77, 101, 246)",
+          "borderRadius": "8px",
+          "fontSize": "14px",
+          "height": "42px"
+        }
+      }
+    ],
+    "filterLabels": [
+      "全部门店",
+      "天落会宿公寓(前海壹方城宝安中心店)",
+      "保洁日期：",
+      "房型房间：",
+      "保洁类型：",
+      "保洁状态：",
+      "保洁员：",
+      "类型",
+      "支付方式",
+      "日期",
+      "金额(¥)",
+      "备注"
+    ],
+    "bodyTextSample": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+  },
+  "interactions": [
+    {
+      "label": "date-picker",
+      "count": 2,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "room-picker",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "clean-type-dropdown",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "clean-status-dropdown",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "cleaner-dropdown",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "create-task-modal",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 房态管理 月房态 日房态 房态日志 房价管理 中央价 渠道RP价 竞争圈比价 门市价 其他价格 电子房价牌 调价日志 房情表 保洁管理 保洁任务 保洁统计 保洁人员 保洁设置 保洁日志 版本号：v4.10.7 全部门店 天落会宿公寓(前海壹方城宝安中心店) 保洁日期： 导 出 房型房间： 保洁类型： 请选择保洁类型 保洁状态： 请选择保洁状态 保洁员： 请选择保洁员 重 置 查 询 批量通知 创建保洁任务 限时钜惠！智能保洁6折开通 自动派单 ｜实时提醒 ｜ 报表清晰 订阅开通"
+    },
+    {
+      "label": "subscribe-modal",
+      "count": 1,
+      "bodyText": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 订阅中心 我的权益 置换权益 版本订阅 应用订阅 路客商城 版本号：v4.10.7 智能保洁 适用于酒店、民宿日常的保洁场景，支持自动或手动给保洁员创建任务，统计保洁数据。 商品详情 购买信息 商品价格 ¥1,237.38¥2,203.14/年 购买时长 跟随版本2027-09-28到期 订单金额 ¥1,237.38 明细 我已阅读并同意《路客云产品服务购买协议》 立即购买"
+    }
+  ]
+}

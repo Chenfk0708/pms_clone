@@ -1,0 +1,75 @@
+body.member-points-route .page-content,
+.page-content:has(.member-points-page) {
+  padding: 0 8px 0 8px;
+  background: #f4f7fb;
+}
+
+body.member-points-route .page-content > .page-header,
+.page-content:has(.member-points-page) > .page-header {
+  display: none;
+}
+
+.member-points-page {
+  position: relative;
+  min-height: calc(100vh - 52px);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.member-points-panel {
+  min-height: calc(100vh - 60px);
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.member-points-empty {
+  display: flex;
+  min-height: 830px;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 98px;
+}
+
+.member-points-coming-soon {
+  width: 480px;
+  height: 480px;
+  object-fit: contain;
+}
+
+.member-points-contact {
+  display: flex;
+  align-items: flex-start;
+  width: 408px;
+  height: 180px;
+}
+
+.member-points-qr {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+
+.member-points-contact__text {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-left: 25px;
+  padding-top: 40px;
+  font-size: 14px;
+  line-height: normal;
+}
+
+.member-points-contact__text p {
+  margin: 0 0 10px;
+  color: #333;
+  font-weight: 700;
+}
+
+.member-points-contact__text span {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+

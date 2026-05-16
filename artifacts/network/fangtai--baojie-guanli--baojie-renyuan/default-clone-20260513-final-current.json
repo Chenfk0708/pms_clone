@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+  "capturedAt": "2026-05-13T11:52:51.991Z",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/cleanManage/cleanStaff",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-nk5Wob_T.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CxXbYFcR.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/KEEPCLEANRENYUAN.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image"
+    }
+  ]
+}

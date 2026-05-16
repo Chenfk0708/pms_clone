@@ -1,0 +1,1681 @@
+{
+  "targetUrl": "https://minsubao.localhome.cn/houseManage/retailPrice",
+  "pageUrl": "https://minsubao.localhome.cn/houseManage/retailPrice",
+  "results": [
+    {
+      "label": "hour-room-setting",
+      "text": "钟点房设置",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "钟点房设置",
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "text": "钟点房设置",
+        "box": {
+          "x": 1014,
+          "y": 70,
+          "width": 102,
+          "height": 28
+        }
+      },
+      "textChanged": true,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\hour-room-setting-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\hour-room-setting-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [],
+        "drawerTexts": [],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价/\n钟点房设置\n选择房型\n+房型\n产品名称\n入住时长限制\n限制\n不限制\n入住时长\n3 小时\n可入住时段\n全天\n自定义\n10 点\n到\n22 点\n确 定",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "+房型",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 344,
+              "y": 118,
+              "width": 68,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-input",
+            "box": {
+              "x": 344,
+              "y": 161,
+              "width": 300,
+              "height": 26
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 344,
+              "y": 209,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 431,
+              "y": 209,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "3 小时",
+            "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+            "box": {
+              "x": 344,
+              "y": 244,
+              "width": 175,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 356,
+              "y": 245,
+              "width": 137,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 344,
+              "y": 293,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 431,
+              "y": 293,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "10 点",
+            "className": "ant-select ant-select-sm ant-select-in-form-item ant-select-single ant-select-show-arrow ant-select-disabled",
+            "box": {
+              "x": 505,
+              "y": 288,
+              "width": 100,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 513,
+              "y": 289,
+              "width": 63,
+              "height": 22
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "22 点",
+            "className": "ant-select ant-select-sm ant-select-in-form-item ant-select-single ant-select-show-arrow ant-select-disabled",
+            "box": {
+              "x": 639,
+              "y": 288,
+              "width": 100,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 647,
+              "y": 289,
+              "width": 63,
+              "height": 22
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "确 定",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 192,
+              "y": 326,
+              "width": 63,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "retail-price-setting",
+      "text": "门市价设置",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "门市价设置",
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "text": "门市价设置",
+        "box": {
+          "x": 1126,
+          "y": 70,
+          "width": 102,
+          "height": 28
+        }
+      },
+      "textChanged": true,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\retail-price-setting-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\retail-price-setting-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [
+          "门市价设置请设置门市价与路客云中央价的关系门市价等于中央价门市价关联中央价门市价=中央价+门市价与中央价相互独立保 存取 消"
+        ],
+        "drawerTexts": [
+          "门市价设置请设置门市价与路客云中央价的关系门市价等于中央价门市价关联中央价门市价=中央价+门市价与中央价相互独立保 存取 消"
+        ],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置\n门市价设置\n请设置门市价与路客云中央价的关系\n门市价等于中央价\n门市价关联中央价\n门市价=中央价\n+\n门市价与中央价相互独立\n保 存\n取 消",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 151,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 183,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "+",
+            "className": "ant-select ant-select-sm contentSelect___tGgxX ant-select-single ant-select-show-arrow",
+            "box": {
+              "x": 896,
+              "y": 203,
+              "width": 45,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 904,
+              "y": 204,
+              "width": 8,
+              "height": 22
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-up",
+            "box": {
+              "x": 1013,
+              "y": 202,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-down",
+            "box": {
+              "x": 1013,
+              "y": 215,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "请输入",
+            "className": "ant-input-number-input",
+            "box": {
+              "x": 947,
+              "y": 202,
+              "width": 88,
+              "height": 22
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 243,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "保 存",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 878,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "取 消",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 1202,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "price-plan",
+      "text": "价格规划",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "价格规划",
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "text": "价格规划",
+        "box": {
+          "x": 1238,
+          "y": 70,
+          "width": 88,
+          "height": 28
+        }
+      },
+      "textChanged": true,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\price-plan-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\price-plan-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [
+          "价格规划全部门店天落会宿公寓(前海壹方城宝安中心店) 房型 房型标签+新增规划没有相关数据哦！"
+        ],
+        "drawerTexts": [
+          "价格规划全部门店天落会宿公寓(前海壹方城宝安中心店) 房型 房型标签+新增规划没有相关数据哦！"
+        ],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置\n价格规划\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n+新增规划\n\n没有相关数据哦！",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 459,
+              "y": 99,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 471,
+              "y": 103,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 567,
+              "y": 99,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 579,
+              "y": 103,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 681,
+              "y": 100,
+              "width": 118,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 786,
+              "y": 97,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 804,
+              "y": 100,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "+新增规划",
+            "className": "ant-btn ant-btn-primary setting___3r4a5",
+            "box": {
+              "x": 1324,
+              "y": 99,
+              "width": 96,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "batch-price",
+      "text": "批量改价",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "批量改价",
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "text": "批量改价",
+        "box": {
+          "x": 1336,
+          "y": 70,
+          "width": 88,
+          "height": 28
+        }
+      },
+      "textChanged": true,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\batch-price-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\batch-price-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [
+          "批量修改修改类型价格选择房型添加房型已选0个房型选择日期多段模式日历模式添加时间段修改节假日价格选择星期周一周二周三周四周五周六周日全选价格绝对值改价保 存取 消"
+        ],
+        "drawerTexts": [
+          "批量修改修改类型价格选择房型添加房型已选0个房型选择日期多段模式日历模式添加时间段修改节假日价格选择星期周一周二周三周四周五周六周日全选价格绝对值改价保 存取 消"
+        ],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置\n批量修改\n修改类型\n价格\n选择房型\n添加房型\n已选0个房型\n选择日期\n多段模式\n日历模式\n添加时间段修改节假日价格\n选择星期\n周一\n周二\n周三\n周四\n周五\n周六\n周日\n全选\n价格\n绝对值改价\n保 存\n取 消",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 785,
+              "y": 157,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "添加房型",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1327,
+              "y": 209,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "",
+            "className": "ant-picker ant-picker-range rangePicker___1MEcI",
+            "box": {
+              "x": 785,
+              "y": 382,
+              "width": 250,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "开始日期",
+            "className": "",
+            "box": {
+              "x": 797,
+              "y": 385,
+              "width": 88,
+              "height": 22
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "结束日期",
+            "className": "",
+            "box": {
+              "x": 917,
+              "y": 385,
+              "width": 88,
+              "height": 22
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "添加时间段",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 785,
+              "y": 420,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 785,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 850,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 915,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 979,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 1044,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 1109,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 1174,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-checkbox-input",
+            "box": {
+              "x": 1358,
+              "y": 527,
+              "width": 16,
+              "height": 16
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 785,
+              "y": 621,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-up",
+            "box": {
+              "x": 1392,
+              "y": 648,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-down",
+            "box": {
+              "x": 1392,
+              "y": 661,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "请输入",
+            "className": "ant-input-number-input",
+            "box": {
+              "x": 786,
+              "y": 648,
+              "width": 628,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "保 存",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 870,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "取 消",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 1210,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "go-setting",
+      "text": "去设置",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "去设置",
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-default",
+        "text": "去设置",
+        "box": {
+          "x": 761,
+          "y": 535,
+          "width": 74,
+          "height": 28
+        }
+      },
+      "textChanged": true,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\go-setting-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\go-setting-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [
+          "门市价设置请设置门市价与路客云中央价的关系门市价等于中央价门市价关联中央价门市价=中央价+门市价与中央价相互独立保 存取 消"
+        ],
+        "drawerTexts": [
+          "门市价设置请设置门市价与路客云中央价的关系门市价等于中央价门市价关联中央价门市价=中央价+门市价与中央价相互独立保 存取 消"
+        ],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置\n门市价设置\n请设置门市价与路客云中央价的关系\n门市价等于中央价\n门市价关联中央价\n门市价=中央价\n+\n门市价与中央价相互独立\n保 存\n取 消",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 151,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 183,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "+",
+            "className": "ant-select ant-select-sm contentSelect___tGgxX ant-select-single ant-select-show-arrow",
+            "box": {
+              "x": 896,
+              "y": 203,
+              "width": 45,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 904,
+              "y": 204,
+              "width": 8,
+              "height": 22
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-up",
+            "box": {
+              "x": 1013,
+              "y": 202,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-number-handler ant-input-number-handler-down",
+            "box": {
+              "x": 1013,
+              "y": 215,
+              "width": 22,
+              "height": 13
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "请输入",
+            "className": "ant-input-number-input",
+            "box": {
+              "x": 947,
+              "y": 202,
+              "width": 88,
+              "height": 22
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-radio-input",
+            "box": {
+              "x": 776,
+              "y": 243,
+              "width": 14,
+              "height": 14
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "保 存",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 878,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "取 消",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 1202,
+              "y": 862,
+              "width": 120,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "room-select",
+      "text": "房型",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "房型",
+        "tag": "DIV",
+        "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+        "text": " 房型",
+        "box": {
+          "x": 371,
+          "y": 106,
+          "width": 100,
+          "height": 28
+        }
+      },
+      "textChanged": false,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\room-select-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\room-select-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [],
+        "drawerTexts": [],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "tag-select",
+      "text": "房型标签",
+      "clickResult": {
+        "clicked": true,
+        "targetText": "房型标签",
+        "tag": "DIV",
+        "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+        "text": " 房型标签",
+        "box": {
+          "x": 479,
+          "y": 106,
+          "width": 100,
+          "height": 28
+        }
+      },
+      "textChanged": false,
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\tag-select-target-20260513-061328.png",
+      "html": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--fangjia-guanli--menshijia\\tag-select-target-20260513-061328.html",
+      "summary": {
+        "modalTexts": [],
+        "drawerTexts": [],
+        "dropdownTexts": [],
+        "body": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门市价\n钟点房设置\n门市价设置\n价格规划\n批量改价\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n房型标签\n\n请先完成门市价设置\n\n去设置",
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "text": "钟点房设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1014,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "门市价设置",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1126,
+              "y": 70,
+              "width": 102,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "价格规划",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1238,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "批量改价",
+            "className": "ant-btn ant-btn-primary",
+            "box": {
+              "x": 1336,
+              "y": 70,
+              "width": 88,
+              "height": 28
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 371,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 383,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "DIV",
+            "text": "房型标签",
+            "className": "ant-select house___2CmIJ ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-show-search",
+            "box": {
+              "x": 479,
+              "y": 106,
+              "width": 100,
+              "height": 28
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "",
+            "className": "ant-select-selection-search-input",
+            "box": {
+              "x": 491,
+              "y": 110,
+              "width": 4,
+              "height": 24
+            }
+          },
+          {
+            "tag": "INPUT",
+            "text": "房源编码/简称/标题",
+            "className": "ant-input ant-input-borderless",
+            "box": {
+              "x": 593,
+              "y": 107,
+              "width": 78,
+              "height": 26
+            }
+          },
+          {
+            "tag": "SPAN",
+            "text": "",
+            "className": "ant-input-clear-icon ant-input-clear-icon-hidden",
+            "box": {
+              "x": 658,
+              "y": 104,
+              "width": 12,
+              "height": 25
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "",
+            "className": "ant-btn ant-btn-default ant-btn-icon-only ant-input-search-button",
+            "box": {
+              "x": 676,
+              "y": 107,
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "去设置",
+            "className": "ant-btn ant-btn-default",
+            "box": {
+              "x": 761,
+              "y": 535,
+              "width": 74,
+              "height": 28
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

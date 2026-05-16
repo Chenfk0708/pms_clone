@@ -1,0 +1,215 @@
+{
+  ".page-content--room-situation": {
+    "display": "block",
+    "position": "static",
+    "width": "1284px",
+    "height": "842px",
+    "padding": "10px 16px 12px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "hidden",
+    "zIndex": "auto",
+    "rect": {
+      "x": 156,
+      "y": 58,
+      "width": 1284,
+      "height": 842
+    }
+  },
+  ".room-situation-toolbar": {
+    "display": "block",
+    "position": "static",
+    "width": "1252px",
+    "height": "65px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 65
+    }
+  },
+  ".room-situation-tabs": {
+    "display": "inline-flex",
+    "position": "static",
+    "width": "219px",
+    "height": "28px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 68,
+      "width": 219,
+      "height": 28
+    }
+  },
+  ".room-situation-filters": {
+    "display": "flex",
+    "position": "relative",
+    "width": "1252px",
+    "height": "28px",
+    "padding": "0px",
+    "margin": "8px 0px 0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 105,
+      "width": 1252,
+      "height": 28
+    }
+  },
+  ".room-store-select": {
+    "display": "flex",
+    "position": "relative",
+    "width": "316px",
+    "height": "34px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 102,
+      "width": 316,
+      "height": 34
+    }
+  },
+  ".room-store-tooltip": null,
+  ".room-metric-help": {
+    "display": "block",
+    "position": "static",
+    "width": "94px",
+    "height": "34px",
+    "padding": "4px 14px",
+    "margin": "0px 0px 0px 14px",
+    "color": "rgb(255, 255, 255)",
+    "backgroundColor": "rgb(75, 99, 242)",
+    "border": "1px solid rgb(75, 99, 242)",
+    "borderRadius": "4px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 544,
+      "y": 102,
+      "width": 94,
+      "height": 34
+    }
+  },
+  ".room-situation-board": {
+    "display": "block",
+    "position": "static",
+    "width": "1252px",
+    "height": "335.5px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "2px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 141,
+      "width": 1252,
+      "height": 335.5
+    }
+  },
+  ".room-situation-table-scroll": {
+    "display": "block",
+    "position": "static",
+    "width": "1252px",
+    "height": "282px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(36, 50, 74)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "auto",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 141,
+      "width": 1252,
+      "height": 282
+    }
+  },
+  ".room-situation-table": {
+    "display": "table",
+    "position": "static",
+    "width": "1252px",
+    "height": "282px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(21, 34, 56)",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(128, 128, 128)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "auto",
+    "rect": {
+      "x": 172,
+      "y": 141,
+      "width": 1252,
+      "height": 282
+    }
+  },
+  ".room-situation-pagination": {
+    "display": "flex",
+    "position": "relative",
+    "width": "1252px",
+    "height": "53.5px",
+    "padding": "12px 340px 12px 4px",
+    "margin": "0px",
+    "color": "rgb(108, 120, 144)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(108, 120, 144)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "overflow": "visible",
+    "zIndex": "5",
+    "rect": {
+      "x": 172,
+      "y": 423,
+      "width": 1252,
+      "height": 53.5
+    }
+  },
+  ".room-page-size-options": null,
+  ".room-metric-drawer": null
+}

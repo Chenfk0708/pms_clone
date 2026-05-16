@@ -1,0 +1,171 @@
+.page-content:has(.card-verify-page) {
+  padding: 10px 16px 12px;
+  background: #fff;
+}
+
+.page-content:has(.card-verify-page) > .page-header {
+  display: none;
+}
+
+.card-verify-page {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.card-verify-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding-top: 8px;
+}
+
+.card-verify-entry input {
+  width: 500px;
+  height: 28px;
+  margin-right: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.85);
+  padding: 4px 11px;
+  font-size: 14px;
+  line-height: 22px;
+  outline: 0;
+}
+
+.card-verify-entry input::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.card-verify-entry input:focus {
+  border-color: #4d65f6;
+  box-shadow: 0 0 0 2px rgba(77, 101, 246, 0.12);
+}
+
+.card-verify-entry button,
+.card-verify-records__head button {
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.card-verify-entry button {
+  min-width: 68px;
+  font-size: 16px;
+}
+
+.card-verify-notice {
+  justify-self: center;
+  border: 1px solid #b9e5cb;
+  border-radius: 4px;
+  background: #f0fff6;
+  color: #1f8b55;
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+.card-verify-records {
+  display: grid;
+  gap: 4px;
+}
+
+.card-verify-records__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-verify-records__head h2 {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.card-verify-table {
+  overflow-x: auto;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.card-verify-table__head {
+  display: grid;
+  grid-template-columns: 126px 84px 148px 128px 112px 112px 78px 92px 126px 126px 70px;
+  min-width: 1220px;
+  height: 56px;
+  border-top: 1px solid #f0f0f0;
+  border-left: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.card-verify-table__head > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0 8px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.card-verify-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-width: 1220px;
+  min-height: 136px;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  border-left: 1px solid #f0f0f0;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+}
+
+.card-verify-empty strong {
+  font-weight: 400;
+}
+
+.card-verify-empty__icon {
+  position: relative;
+  width: 42px;
+  height: 34px;
+  border: 1px solid #dfe3eb;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fbfcfe, #f5f7fb);
+}
+
+.card-verify-empty__icon::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: -8px;
+  width: 24px;
+  height: 14px;
+  border: 1px solid #dfe3eb;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #fbfcfe;
+}
+
+@media (max-width: 920px) {
+  .card-verify-entry {
+    justify-content: flex-start;
+  }
+
+  .card-verify-entry input {
+    width: min(500px, calc(100vw - 190px));
+  }
+}

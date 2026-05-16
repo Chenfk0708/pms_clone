@@ -1,0 +1,481 @@
+.app-shell:has(.statistics-distribution-order-page) .page-content {
+  padding: 8px 8px 0;
+  background: #f0f2f5;
+}
+
+.app-shell:has(.statistics-distribution-order-page) .page-content > .page-header {
+  display: none;
+}
+
+.app-shell:has(.statistics-distribution-order-page) .topbar-actions button:not(.topbar-tool-button) {
+  width: 56px;
+  height: 32px;
+  padding: 0 6px;
+  overflow: hidden;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.app-shell:has(.statistics-distribution-order-page) .topbar-actions button:not(.topbar-tool-button):first-child {
+  width: 72px;
+}
+
+.statistics-distribution-order-page {
+  min-height: calc(100vh - 66px);
+  padding: 0 8px;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  overflow: auto;
+}
+
+.distribution-order-query.statistics-distribution-query,
+.distribution-order-query.statistics-distribution-query.is-expanded {
+  position: relative;
+  display: block;
+  min-height: 104px;
+  margin: 0;
+}
+
+.statistics-distribution-store {
+  margin: 2px 0 0;
+}
+
+.statistics-distribution-store .distribution-order-store__scope {
+  min-width: 96px;
+}
+
+.statistics-distribution-store .distribution-order-store__current {
+  width: 96px;
+  min-width: 96px;
+  max-width: 96px;
+}
+
+.statistics-distribution-store .distribution-order-store__settings {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(0 0 0 / 45%);
+  font-size: 16px;
+}
+
+.statistics-distribution-advanced {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0;
+}
+
+.statistics-distribution-advanced .distribution-order-field {
+  height: 32px;
+  gap: 8px;
+}
+
+.statistics-distribution-advanced .distribution-order-field > span {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  color: #333;
+  font-size: 14px;
+}
+
+.statistics-distribution-advanced .distribution-order-date {
+  width: 314px;
+}
+
+.statistics-distribution-advanced .distribution-order-date > span {
+  width: 77px;
+}
+
+.statistics-distribution-advanced .distribution-order-date__range {
+  grid-template-columns: 92px 22px 92px 14px;
+  width: 220px;
+  height: 28px;
+}
+
+.statistics-distribution-advanced .distribution-order-date__range::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  margin-left: 3px;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 2px;
+  background:
+    linear-gradient(rgb(0 0 0 / 25%) 0 0) 2px 3px / 8px 1px no-repeat,
+    linear-gradient(rgb(0 0 0 / 25%) 0 0) 2px 7px / 8px 1px no-repeat;
+}
+
+.statistics-distribution-advanced .distribution-order-date__range input {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.statistics-distribution-advanced .distribution-order-date__range em {
+  font-size: 14px;
+}
+
+.statistics-distribution-advanced .distribution-order-keyword {
+  width: 313px;
+  padding: 0 8px;
+}
+
+.statistics-distribution-advanced .distribution-order-keyword > span {
+  width: 69px;
+}
+
+.statistics-distribution-advanced .distribution-order-keyword input {
+  width: 220px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.statistics-distribution-advanced .distribution-order-select-field {
+  width: 297px;
+  padding: 0 8px;
+}
+
+.statistics-distribution-advanced .distribution-order-select-field > span {
+  width: 69px;
+}
+
+.statistics-distribution-advanced .distribution-order-select {
+  width: 220px;
+  height: 28px;
+  color: rgb(0 0 0 / 25%);
+  font-size: 12px;
+}
+
+.statistics-distribution-options {
+  top: 78px;
+  left: 711px;
+  width: 220px;
+  min-width: 220px;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 12%);
+}
+
+.statistics-distribution-options button {
+  min-height: 34px;
+  border-radius: 0;
+  padding: 6px 12px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.statistics-distribution-options button:hover,
+.statistics-distribution-options [aria-selected='true'] {
+  background: #f5f5f5;
+  color: rgb(0 0 0 / 85%);
+}
+
+.statistics-distribution-actions {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  display: grid;
+  grid-template-columns: 130px 64px 64px;
+  grid-template-rows: 28px 28px;
+  align-items: center;
+  justify-items: end;
+  gap: 0 10px;
+  width: 297px;
+  margin: 0;
+  padding: 0;
+}
+
+.statistics-distribution-actions button {
+  min-width: 64px;
+  white-space: nowrap;
+}
+
+.statistics-distribution-actions button:nth-child(1) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.statistics-distribution-actions button:nth-child(2) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.statistics-distribution-actions button:nth-child(3) {
+  grid-column: 3;
+  grid-row: 2;
+  width: 88px;
+}
+
+.statistics-distribution-actions button:nth-child(4) {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  justify-self: start;
+  min-width: 49px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.statistics-distribution-table {
+  width: 100%;
+  overflow: auto hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.statistics-distribution-table table {
+  width: 100%;
+  min-width: 1252px;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: fixed;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.statistics-distribution-table th,
+.statistics-distribution-table td {
+  height: 37px;
+  padding: 8px;
+  border-right: 1px solid #eef1f6;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.statistics-distribution-table th {
+  height: 36px;
+  background: #f3f8ff;
+  color: #333;
+}
+
+.statistics-distribution-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.statistics-distribution-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.statistics-distribution-table tr:not(.is-summary) td {
+  height: 56px;
+}
+
+.statistics-distribution-table th:nth-child(1),
+.statistics-distribution-table td:nth-child(1) {
+  width: 221px;
+}
+
+.statistics-distribution-table th:nth-child(2),
+.statistics-distribution-table td:nth-child(2),
+.statistics-distribution-table th:nth-child(3),
+.statistics-distribution-table td:nth-child(3) {
+  width: 167px;
+}
+
+.statistics-distribution-table th:nth-child(4),
+.statistics-distribution-table td:nth-child(4) {
+  width: 132px;
+}
+
+.statistics-distribution-table th:nth-child(5),
+.statistics-distribution-table td:nth-child(5) {
+  width: 134px;
+}
+
+.statistics-distribution-table th:nth-child(6),
+.statistics-distribution-table td:nth-child(6) {
+  width: 133px;
+}
+
+.statistics-distribution-table th:nth-child(7),
+.statistics-distribution-table td:nth-child(7),
+.statistics-distribution-table th:nth-child(8),
+.statistics-distribution-table td:nth-child(8) {
+  width: 100px;
+}
+
+.statistics-distribution-table th:nth-child(9),
+.statistics-distribution-table td:nth-child(9) {
+  width: 96px;
+}
+
+.statistics-distribution-table a,
+.statistics-distribution-table .is-summary td:first-child {
+  color: #4d65f6;
+}
+
+.statistics-distribution-order-page .distribution-order-pagination {
+  min-height: 56px;
+  padding-top: 16px;
+  color: rgb(0 0 0 / 85%);
+}
+
+.statistics-distribution-order-page .distribution-order-pagination button {
+  height: 24px;
+  min-width: 24px;
+  border-radius: 2px;
+  padding: 0 6px;
+  line-height: 22px;
+}
+
+.statistics-distribution-order-page .distribution-order-pagination .is-current {
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
+.statistics-distribution-order-page .distribution-order-pagination button:last-child {
+  width: 89px;
+  height: 24px;
+  border-color: #d9d9d9;
+  border-radius: 4px;
+}
+
+.statistics-distribution-date-popover {
+  position: absolute;
+  top: 80px;
+  left: 84px;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 100px 264px 264px;
+  width: 660px;
+  min-height: 271px;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 14%);
+}
+
+.statistics-distribution-date-presets {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  align-content: start;
+  padding: 10px 0;
+  border-right: 1px solid #f0f0f0;
+}
+
+.statistics-distribution-date-presets button {
+  height: 29px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 85%);
+  padding: 0 36px;
+  text-align: left;
+}
+
+.statistics-distribution-date-presets button:hover {
+  color: #4d65f6;
+}
+
+.statistics-distribution-calendar {
+  padding: 10px 12px 12px;
+}
+
+.statistics-distribution-calendar:nth-of-type(1) {
+  grid-column: 2;
+}
+
+.statistics-distribution-calendar:nth-of-type(2) {
+  grid-column: 3;
+}
+
+.statistics-distribution-calendar header {
+  display: grid;
+  grid-template-columns: 28px 1fr auto 28px;
+  align-items: center;
+  height: 24px;
+  color: rgb(0 0 0 / 88%);
+}
+
+.statistics-distribution-calendar header button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 25%);
+  padding: 0;
+}
+
+.statistics-distribution-calendar header strong {
+  font-weight: 500;
+  text-align: center;
+}
+
+.statistics-distribution-calendar header strong + strong {
+  padding-left: 4px;
+  text-align: left;
+}
+
+.statistics-distribution-weekdays,
+.statistics-distribution-days {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  justify-content: center;
+}
+
+.statistics-distribution-weekdays {
+  margin-top: 18px;
+}
+
+.statistics-distribution-weekdays span {
+  height: 28px;
+  color: rgb(0 0 0 / 88%);
+  line-height: 28px;
+  text-align: center;
+}
+
+.statistics-distribution-days button {
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 85%);
+  padding: 0;
+  line-height: 30px;
+}
+
+.statistics-distribution-days .is-muted {
+  color: rgb(0 0 0 / 25%);
+}
+
+.statistics-distribution-days .is-in-range {
+  background: #eef3ff;
+}
+
+.statistics-distribution-days .is-selected {
+  background: #4d65f6;
+  color: #fff;
+}
+
+.statistics-distribution-days .is-today {
+  box-shadow: inset 0 0 0 1px #4d65f6;
+}
+
+@media (max-width: 1280px) {
+  .statistics-distribution-advanced {
+    position: static;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .statistics-distribution-query {
+    min-height: 160px;
+  }
+
+  .statistics-distribution-actions {
+    top: 88px;
+    left: 0;
+    right: auto;
+  }
+
+  .statistics-distribution-options {
+    left: 8px;
+  }
+}

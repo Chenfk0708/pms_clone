@@ -1,0 +1,346 @@
+.app-shell:has(.distribution-order-page) .page-content {
+  padding: 8px 8px 0 12px;
+  background: #f0f2f5;
+}
+
+.app-shell:has(.distribution-order-page) .page-header {
+  display: none;
+}
+
+.distribution-order-page {
+  position: relative;
+  min-height: 845px;
+  padding: 0 8px;
+  overflow: auto;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.distribution-order-store {
+  display: inline-flex;
+  height: 28px;
+  margin: 10px 0 8px;
+  font-size: 0;
+}
+
+.distribution-order-store button {
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+  line-height: 26px;
+}
+
+.distribution-order-store__scope {
+  min-width: 96px;
+  border-color: #4d65f6;
+  border-radius: 4px 0 0 4px;
+  color: #4d65f6;
+}
+
+.distribution-order-store__current {
+  max-width: 176px;
+  min-width: 96px;
+  border-left: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.distribution-order-store__settings {
+  width: 32px;
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+  color: #687385;
+}
+
+.distribution-order-query {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: 56px;
+  margin-bottom: 0;
+}
+
+.distribution-order-query.is-expanded {
+  min-height: 76px;
+}
+
+.distribution-order-query__advanced {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  padding: 6px 0 0 8px;
+}
+
+.distribution-order-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.distribution-order-field > span {
+  color: #333;
+}
+
+.distribution-order-date__range {
+  display: inline-grid;
+  grid-template-columns: 92px 22px 92px;
+  align-items: center;
+  width: 220px;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.distribution-order-date__range input {
+  width: 100%;
+  height: 24px;
+  border: 0;
+  outline: 0;
+  padding: 0 8px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 12px;
+}
+
+.distribution-order-date__range em {
+  color: #333;
+  font-style: normal;
+  text-align: center;
+}
+
+.distribution-order-keyword input {
+  width: 220px;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0 11px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 12px;
+}
+
+.distribution-order-keyword input::placeholder {
+  color: rgb(0 0 0 / 25%);
+}
+
+.distribution-order-select {
+  position: relative;
+  width: 220px;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgb(0 0 0 / 45%);
+  padding: 0 28px 0 11px;
+  text-align: left;
+}
+
+.distribution-order-select::after {
+  content: '⌄';
+  position: absolute;
+  top: 3px;
+  right: 9px;
+  color: rgb(0 0 0 / 35%);
+}
+
+.distribution-order-options {
+  position: absolute;
+  top: 38px;
+  left: 724px;
+  z-index: 24;
+  display: grid;
+  min-width: 220px;
+  padding: 4px;
+  border: 1px solid #dce2ef;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(31 42 68 / 14%);
+}
+
+.distribution-order-options button {
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  padding: 8px 10px;
+  color: #31415d;
+  text-align: left;
+}
+
+.distribution-order-options button:hover,
+.distribution-order-options [aria-selected='true'] {
+  background: #eef2ff;
+  color: #4d65f6;
+}
+
+.distribution-order-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  padding: 0 18px 0 0;
+}
+
+.distribution-order-actions button {
+  height: 28px;
+  min-width: 64px;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.distribution-order-actions .is-outline {
+  border: 1px solid #4d65f6;
+  background: #fff;
+  color: #4d65f6;
+}
+
+.distribution-order-actions .is-primary {
+  border: 1px solid #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.distribution-order-actions .is-link {
+  min-width: 56px;
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0 4px;
+}
+
+.distribution-order-actions .is-link::after {
+  content: '⌃';
+  margin-left: 8px;
+}
+
+.distribution-order-actions .is-link:not(:last-child)::after {
+  content: '';
+}
+
+.distribution-order-query:not(.is-expanded) .is-link::after {
+  content: '⌄';
+}
+
+.distribution-order-notice {
+  position: fixed;
+  top: 68px;
+  right: 356px;
+  z-index: 36;
+  padding: 8px 14px;
+  border: 1px solid #dce5ff;
+  border-radius: 6px;
+  background: #f4f7ff;
+  color: #4d65f6;
+  box-shadow: 0 8px 24px rgb(31 42 68 / 12%);
+}
+
+.distribution-order-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.distribution-order-table__head,
+.distribution-order-table__row {
+  display: grid;
+  grid-template-columns: 220px 168px 168px 132px 134px 132px 100px 100px 100px;
+  min-width: 1254px;
+}
+
+.distribution-order-table__head {
+  height: 36px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  background: #f3f8ff;
+}
+
+.distribution-order-table__head > div,
+.distribution-order-table__row > div {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-right: 1px solid #eef1f6;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+
+.distribution-order-table__head > div {
+  color: #333;
+  font-weight: 400;
+}
+
+.distribution-order-table__row {
+  background: #fff;
+}
+
+.distribution-order-table__row.is-summary {
+  color: rgb(0 0 0 / 85%);
+}
+
+.distribution-order-table__row a,
+.distribution-order-table__row.is-summary > div:first-child {
+  color: #315cff;
+}
+
+.distribution-order-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 56px;
+  padding: 8px 0 0;
+  color: rgb(0 0 0 / 85%);
+}
+
+.distribution-order-pagination button {
+  min-width: 28px;
+  height: 26px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #fff;
+  color: rgb(0 0 0 / 45%);
+  padding: 0 8px;
+}
+
+.distribution-order-pagination button:disabled {
+  color: rgb(0 0 0 / 25%);
+  cursor: not-allowed;
+}
+
+.distribution-order-pagination .is-current {
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
+.distribution-order-pagination button:last-child {
+  width: 88px;
+  border-color: #d9d9d9;
+  color: rgb(0 0 0 / 85%);
+}
+
+@media (max-width: 1280px) {
+  .distribution-order-query {
+    display: grid;
+    gap: 8px;
+  }
+
+  .distribution-order-actions {
+    justify-content: flex-start;
+    margin-left: 0;
+    padding-left: 8px;
+  }
+
+  .distribution-order-options {
+    left: 420px;
+  }
+}

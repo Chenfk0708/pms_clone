@@ -1,0 +1,380 @@
+{
+  "capturedAt": "2026-05-16T06:28:15.822Z",
+  "targetUrl": "https://minsubao.localhome.cn/houseManage/days",
+  "finalUrl": "https://minsubao.localhome.cn/houseManage/days",
+  "isLoginBlocked": false,
+  "keyPatterns": [
+    "/roomStatusesToday/get",
+    "/rooms/get",
+    "/roomCategories/page/get",
+    "/cleanTask/status/count",
+    "/order/report/get",
+    "/paymentTypes/get/v2"
+  ],
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1778860800000,
+        "queryCode": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "basic",
+            "roomCategories",
+            "roomViews",
+            "floorViews",
+            "isInitFloor"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "overview",
+            "todayNewOrder",
+            "todayCheckOut",
+            "todayCheckIn",
+            "todayPredictCheckIn",
+            "todayPredictCheckOut",
+            "staying",
+            "tomorrowCheckIn",
+            "tomorrowCheckOut",
+            "pending",
+            "refunding",
+            "exception",
+            "orderBox",
+            "arrangeSameRoom",
+            "unArrangeRoom",
+            "arrangeRoom",
+            "unOccupation",
+            "unStatistics",
+            "expiredNotCheckIn",
+            "expiredNotCheckOut"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "total",
+            "size",
+            "current",
+            "extraInfo",
+            "pageNum",
+            "hasNextPage",
+            "pages",
+            "list"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "overview",
+            "todayNewOrder",
+            "todayCheckOut",
+            "todayCheckIn",
+            "todayPredictCheckIn",
+            "todayPredictCheckOut",
+            "staying",
+            "tomorrowCheckIn",
+            "tomorrowCheckOut",
+            "pending",
+            "refunding",
+            "exception",
+            "orderBox",
+            "arrangeSameRoom",
+            "unArrangeRoom",
+            "arrangeRoom",
+            "unOccupation",
+            "unStatistics",
+            "expiredNotCheckIn",
+            "expiredNotCheckOut"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/cleanTask/status/count",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "array",
+          "length": 4,
+          "sampleKeys": [
+            "cleanStatus",
+            "cleanStatusStr",
+            "number"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1778860800000,
+        "queryCode": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "basic",
+            "roomCategories",
+            "roomViews",
+            "floorViews",
+            "isInitFloor"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          3
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "paymentGroups"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "roomCategoryRooms"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          2
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "paymentGroups"
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "success": true,
+        "data": {
+          "type": "object",
+          "keys": [
+            "total",
+            "size",
+            "current",
+            "extraInfo",
+            "pageNum",
+            "hasNextPage",
+            "pages",
+            "list"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "default": {
+    "header": {
+      "x": 172,
+      "y": 68,
+      "width": 1,
+      "height": 1
+    },
+    "queryRect": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 32
+    },
+    "tableHead": {
+      "x": 172,
+      "y": 100,
+      "width": 1252,
+      "height": 36
+    },
+    "empty": {
+      "x": 172,
+      "y": 136,
+      "width": 1252,
+      "height": 156
+    },
+    "controls": [
+      {
+        "text": "日志关键词",
+        "rect": {
+          "x": 180,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整方式手动调整",
+        "rect": {
+          "x": 493,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "渠道请选择",
+        "rect": {
+          "x": 806,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      }
+    ],
+    "buttons": [
+      {
+        "text": "手动调整",
+        "aria": "调整方式 手动调整",
+        "rect": {
+          "x": 557,
+          "y": 70,
+          "width": 220,
+          "height": 28
+        }
+      },
+      {
+        "text": "请选择",
+        "aria": "渠道 请选择",
+        "rect": {
+          "x": 842,
+          "y": 70,
+          "width": 248,
+          "height": 28
+        }
+      },
+      {
+        "text": "重 置",
+        "aria": null,
+        "rect": {
+          "x": 1350,
+          "y": 70,
+          "width": 66,
+          "height": 28
+        }
+      },
+      {
+        "text": "查 询",
+        "aria": null,
+        "rect": {
+          "x": 1276,
+          "y": 70,
+          "width": 66,
+          "height": 28
+        }
+      },
+      {
+        "text": "展开",
+        "aria": null,
+        "rect": {
+          "x": 1219,
+          "y": 70,
+          "width": 49,
+          "height": 28
+        }
+      }
+    ],
+    "ranges": [],
+    "columns": [
+      "房型",
+      "价格日期",
+      "操作内容",
+      "调整方式",
+      "同步渠道",
+      "渠道价格",
+      "操作人",
+      "操作时间"
+    ]
+  },
+  "expanded": {
+    "header": {
+      "x": 172,
+      "y": 68,
+      "width": 1,
+      "height": 1
+    },
+    "queryRect": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 72
+    },
+    "tableHead": {
+      "x": 172,
+      "y": 140,
+      "width": 1252,
+      "height": 36
+    },
+    "empty": {
+      "x": 172,
+      "y": 176,
+      "width": 1252,
+      "height": 156
+    },
+    "controls": [
+      {
+        "text": "日志关键词",
+        "rect": {
+          "x": 180,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整方式手动调整",
+        "rect": {
+          "x": 493,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "渠道请选择",
+        "rect": {
+          "x": 806,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整时间→",
+        "rect": {
+          "x": 1119,
+          "y": 68,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "操作日期→",
+        "rect": {
+          "x": 180,
+          "y": 108,
+          "width": 297,
+          "height": 32
+        }
+      },
+      {
+        "text": "操作人姓名",
+        "rect": {
+          "x": 493,
+          "y": 108,
+          "width": 297,
+          "height": 32
+        }
+      }
+    ],
+    "buttons": [
+      {
+        "text": "手动调整",
+        "aria": "调整方式 手动调整",
+        "rect": {
+          "x": 557,
+          "y": 70,
+          "width": 220,
+          "height": 28
+        }
+      },
+      {
+        "text": "请选择",
+        "aria": "渠道 请选择",
+        "rect": {
+          "x": 842,
+          "y": 70,
+          "width": 248,
+          "height": 28
+        }
+      },
+      {
+        "text": "重 置",
+        "aria": null,
+        "rect": {
+          "x": 1350,
+          "y": 110,
+          "width": 66,
+          "height": 28
+        }
+      },
+      {
+        "text": "查 询",
+        "aria": null,
+        "rect": {
+          "x": 1276,
+          "y": 110,
+          "width": 66,
+          "height": 28
+        }
+      },
+      {
+        "text": "收起",
+        "aria": null,
+        "rect": {
+          "x": 1219,
+          "y": 110,
+          "width": 49,
+          "height": 28
+        }
+      }
+    ],
+    "ranges": [
+      {
+        "label": "调整时间",
+        "text": "→",
+        "rect": {
+          "x": 1183,
+          "y": 70,
+          "width": 220,
+          "height": 28
+        }
+      },
+      {
+        "label": "操作日期",
+        "text": "→",
+        "rect": {
+          "x": 244,
+          "y": 110,
+          "width": 220,
+          "height": 28
+        }
+      }
+    ],
+    "columns": [
+      "房型",
+      "价格日期",
+      "操作内容",
+      "调整方式",
+      "同步渠道",
+      "渠道价格",
+      "操作人",
+      "操作时间"
+    ]
+  }
+}

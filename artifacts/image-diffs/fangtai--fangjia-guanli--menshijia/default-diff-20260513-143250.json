@@ -1,0 +1,12 @@
+﻿{
+    "target":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\default-target-20260513-060759.png",
+    "clone":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangjia-guanli--menshijia\\default-clone-20260513-143250.png",
+    "diff":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--fangjia-guanli--menshijia\\default-diff-20260513-143250.png",
+    "width":  1440,
+    "height":  900,
+    "threshold":  18,
+    "differentPixels":  217923,
+    "totalPixels":  1296000,
+    "diffRatio":  0.16815,
+    "note":  "默认态目标与本地 clone 固定视口像素差异；主要包含全局 AppShell/真实站 chrome、字体和 AntD 控件渲染差异。"
+}

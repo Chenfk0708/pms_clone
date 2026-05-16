@@ -1,0 +1,1580 @@
+{
+  "side": "target",
+  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+  "isLoginBlocked": false,
+  "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+  "defaultState": {
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "location": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+    "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+    "controls": [
+      {
+        "tag": "DIV",
+        "className": "ant-modal",
+        "role": "dialog",
+        "ariaLabel": "",
+        "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-modal-close",
+        "role": "",
+        "ariaLabel": "Close",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.45)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.45)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "14px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "className": "anticon anticon-close-circle ant-input-clear-icon-hidden ant-input-clear-icon",
+        "role": "button",
+        "ariaLabel": "close-circle",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.25)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.25)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "0px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary sendButton___2H8-Q",
+        "role": "",
+        "ariaLabel": "",
+        "text": "发 送",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "13px",
+          "fontWeight": "400",
+          "lineHeight": "20.4295px",
+          "padding": "0px 10px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-radio-button-input",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 270,
+          "y": 80,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-radio-button-input",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 365,
+          "y": 80,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(102, 102, 102)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-select ant-select-multiple ant-select-show-search",
+        "role": "",
+        "ariaLabel": "",
+        "text": "请选择房间",
+        "placeholder": "",
+        "box": {
+          "x": 250,
+          "y": 104,
+          "width": 200,
+          "height": 28
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-select-selection-search-input",
+        "role": "combobox",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 262,
+          "y": 109,
+          "width": 4,
+          "height": 24
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-picker ant-picker-range ant-picker-small",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 552,
+          "y": 104,
+          "width": 240,
+          "height": 28
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px 7px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "开始日期",
+        "box": {
+          "x": 560,
+          "y": 107,
+          "width": 87,
+          "height": 22
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "结束日期",
+        "box": {
+          "x": 679,
+          "y": 107,
+          "width": 87,
+          "height": 22
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-select operaterSelect ant-select-single ant-select-show-arrow",
+        "role": "",
+        "ariaLabel": "",
+        "text": "请选择操作人",
+        "placeholder": "",
+        "box": {
+          "x": 880,
+          "y": 104,
+          "width": 200,
+          "height": 28
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-select-selection-search-input",
+        "role": "combobox",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 892,
+          "y": 105,
+          "width": 162,
+          "height": 28
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "role": "",
+        "ariaLabel": "",
+        "text": "搜 索",
+        "placeholder": "",
+        "box": {
+          "x": 1290,
+          "y": 104,
+          "width": 63,
+          "height": 28
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px 15px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-default",
+        "role": "",
+        "ariaLabel": "",
+        "text": "重 置",
+        "placeholder": "",
+        "box": {
+          "x": 1361,
+          "y": 104,
+          "width": 63,
+          "height": 28
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px 15px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table ant-table-small ant-table-bordered ant-table-empty ant-table-scroll-horizontal",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-modal",
+        "role": "dialog",
+        "ariaLabel": "",
+        "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-modal-close",
+        "role": "",
+        "ariaLabel": "Close",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.45)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.45)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "14px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+        "role": "",
+        "ariaLabel": "",
+        "text": "请选择类型",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-select-selection-search-input",
+        "role": "combobox",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-select ant-select-in-form-item ant-select-single ant-select-show-arrow",
+        "role": "",
+        "ariaLabel": "",
+        "text": "请选择支付方式",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-select-selection-search-input",
+        "role": "combobox",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-picker",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "4px 11px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "请选择日期",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "className": "ant-input-number-handler ant-input-number-handler-up",
+        "role": "button",
+        "ariaLabel": "Increase Value",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.45)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px 2px 0px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "0px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "className": "ant-input-number-handler ant-input-number-handler-down",
+        "role": "button",
+        "ariaLabel": "Decrease Value",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.45)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px 0px 2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "0px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-input-number-input",
+        "role": "spinbutton",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "请输入金额",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px 11px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary",
+        "role": "",
+        "ariaLabel": "",
+        "text": "提 交",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px 15px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-modal",
+        "role": "dialog",
+        "ariaLabel": "",
+        "text": "账号登录+86 请按住滑块，拖动到最右边 登 录其他登录方式新用户立即体验新用户忘记密码",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-input",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "手机号码",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "11.2px",
+          "fontWeight": "400",
+          "lineHeight": "17.6008px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "className": "ant-input",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "请输入密码",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "fontSize": "11.2px",
+          "fontWeight": "400",
+          "lineHeight": "17.6008px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+        "role": "",
+        "ariaLabel": "",
+        "text": "登 录",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(125, 143, 247)",
+          "border": "1px solid rgb(125, 143, 247)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "fontSize": "12.8px",
+          "fontWeight": "500",
+          "lineHeight": "20.1152px",
+          "padding": "0px 15px"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "tag": "DIV",
+        "className": "commonTable___2Llz8",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-pro-table css-17w5757",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table-wrapper",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table ant-table-small ant-table-bordered ant-table-empty ant-table-scroll-horizontal",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22.001px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table-container",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 140,
+          "width": 1252,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "5px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table-content",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 140,
+          "width": 1251,
+          "height": 201
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "TABLE",
+        "className": "",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容 暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 140,
+          "width": 1251,
+          "height": 201
+        },
+        "style": {
+          "display": "table",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "8px 8px 0px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "THEAD",
+        "className": "ant-table-thead",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间操作人操作类型操作内容",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 140,
+          "width": 1251,
+          "height": 36
+        },
+        "style": {
+          "display": "table-header-group",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "TH",
+        "className": "ant-table-cell",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作时间",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 140,
+          "width": 275,
+          "height": 36
+        },
+        "style": {
+          "display": "table-cell",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "",
+          "borderRadius": "8px 0px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "8px"
+        }
+      },
+      {
+        "tag": "TH",
+        "className": "ant-table-cell",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作人",
+        "placeholder": "",
+        "box": {
+          "x": 448,
+          "y": 140,
+          "width": 183,
+          "height": 36
+        },
+        "style": {
+          "display": "table-cell",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "8px"
+        }
+      },
+      {
+        "tag": "TH",
+        "className": "ant-table-cell",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作类型",
+        "placeholder": "",
+        "box": {
+          "x": 631,
+          "y": 140,
+          "width": 183,
+          "height": 36
+        },
+        "style": {
+          "display": "table-cell",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "8px"
+        }
+      },
+      {
+        "tag": "TH",
+        "className": "ant-table-cell ant-table-cell-ellipsis",
+        "role": "",
+        "ariaLabel": "",
+        "text": "操作内容",
+        "placeholder": "",
+        "box": {
+          "x": 814,
+          "y": 140,
+          "width": 610,
+          "height": 36
+        },
+        "style": {
+          "display": "table-cell",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "",
+          "borderRadius": "0px 8px 0px 0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "8px"
+        }
+      },
+      {
+        "tag": "TBODY",
+        "className": "ant-table-tbody",
+        "role": "",
+        "ariaLabel": "",
+        "text": "暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 176,
+          "width": 1251,
+          "height": 165
+        },
+        "style": {
+          "display": "table-row-group",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "TR",
+        "className": "ant-table-measure-row",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 176,
+          "width": 1251,
+          "height": 0
+        },
+        "style": {
+          "display": "table-row",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "TR",
+        "className": "ant-table-placeholder",
+        "role": "",
+        "ariaLabel": "",
+        "text": "暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 176,
+          "width": 1251,
+          "height": 165
+        },
+        "style": {
+          "display": "table-row",
+          "color": "rgba(0, 0, 0, 0.25)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "TD",
+        "className": "ant-table-cell",
+        "role": "",
+        "ariaLabel": "",
+        "text": "暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 173,
+          "y": 176,
+          "width": 1251,
+          "height": 165
+        },
+        "style": {
+          "display": "table-cell",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "8px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-table-expanded-row-fixed",
+        "role": "",
+        "ariaLabel": "",
+        "text": "暂无数据",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 176,
+          "width": 1252,
+          "height": 164
+        },
+        "style": {
+          "display": "block",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "16px"
+        }
+      }
+    ],
+    "headings": [
+      {
+        "tag": "DIV",
+        "className": "ant-modal-title",
+        "role": "",
+        "ariaLabel": "",
+        "text": "邀请成员加入店铺",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "22px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "ant-modal-title",
+        "role": "",
+        "ariaLabel": "",
+        "text": "添加收款记录",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "22px",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "H2",
+        "className": "formHeadTitle",
+        "role": "",
+        "ariaLabel": "",
+        "text": "账号登录",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "inline-flex",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "className": "otherTitle",
+        "role": "",
+        "ariaLabel": "",
+        "text": "其他登录方式",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(102, 102, 102)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "fontSize": "9.6px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "padding": "0px"
+        }
+      }
+    ]
+  },
+  "interactions": [
+    {
+      "slug": "operation-date",
+      "label": "操作日期开始",
+      "found": false,
+      "clicked": false,
+      "textChanged": false,
+      "urlChanged": false,
+      "clickResult": {
+        "found": false,
+        "clicked": false,
+        "label": "操作日期开始"
+      },
+      "before": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-rizhi\\operation-date-target-20260513-202910.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-rizhi\\operation-date-target-20260513-202910.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-rizhi\\operation-date-target-20260513-202910.json"
+    },
+    {
+      "slug": "room-picker",
+      "label": "请选择房间",
+      "found": true,
+      "clicked": true,
+      "textChanged": true,
+      "urlChanged": false,
+      "clickResult": {
+        "found": true,
+        "clicked": true,
+        "label": "请选择房间",
+        "text": "请选择房间",
+        "box": {
+          "x": 262,
+          "y": 105,
+          "width": 176,
+          "height": 26
+        }
+      },
+      "before": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据\n选择房间\n请选择房型标签\n顶层套房（浴缸巨幕电竞麻将）\n房间1（关房）\n总裁套间（桑拿浴缸露台电竞麻将）\n房间1（占）\n天落大床电竞套间\n1（占）\n观影大床房\n房间1（占）\n取 消\n确 定",
+        "dialogs": [
+          "选择房间 请选择房型标签顶层套房（浴缸巨幕电竞麻将）房间1（关房）总裁套间（桑拿浴缸露台电竞麻将）房间1（占）天落大床电竞套间1（占）观影大床房房间1（占）取 消确 定"
+        ],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-rizhi\\room-picker-target-20260513-202910.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-rizhi\\room-picker-target-20260513-202910.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-rizhi\\room-picker-target-20260513-202910.json"
+    },
+    {
+      "slug": "operator-picker",
+      "label": "请选择操作人",
+      "found": true,
+      "clicked": true,
+      "textChanged": true,
+      "urlChanged": false,
+      "clickResult": {
+        "found": true,
+        "clicked": true,
+        "label": "请选择操作人",
+        "text": "请选择操作人",
+        "box": {
+          "x": 885,
+          "y": 105,
+          "width": 190,
+          "height": 26
+        }
+      },
+      "before": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据\n1796067693261905922\n路客云6TS5",
+        "dialogs": [],
+        "dropdowns": [
+          "1796067693261905922路客云6TS5"
+        ],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-rizhi\\operator-picker-target-20260513-202910.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-rizhi\\operator-picker-target-20260513-202910.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-rizhi\\operator-picker-target-20260513-202910.json"
+    },
+    {
+      "slug": "search-action",
+      "label": "搜 索",
+      "found": true,
+      "clicked": true,
+      "textChanged": false,
+      "urlChanged": false,
+      "clickResult": {
+        "found": true,
+        "clicked": true,
+        "label": "搜 索",
+        "text": "搜 索",
+        "box": {
+          "x": 1290,
+          "y": 104,
+          "width": 63,
+          "height": 28
+        }
+      },
+      "before": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-rizhi\\search-action-target-20260513-202910.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-rizhi\\search-action-target-20260513-202910.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-rizhi\\search-action-target-20260513-202910.json"
+    },
+    {
+      "slug": "reset-action",
+      "label": "重 置",
+      "found": true,
+      "clicked": true,
+      "textChanged": false,
+      "urlChanged": false,
+      "clickResult": {
+        "found": true,
+        "clicked": true,
+        "label": "重 置",
+        "text": "重 置",
+        "box": {
+          "x": 1361,
+          "y": 104,
+          "width": 63,
+          "height": 28
+        }
+      },
+      "before": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "https://minsubao.localhome.cn/cleanManage/cleanLog",
+        "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n门店：\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型房间：\n请选择房间\n操作日期：\n操作人：\n请选择操作人\n搜 索\n重 置\n操作时间\t操作人\t操作类型\t操作内容\n\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据",
+        "dialogs": [],
+        "dropdowns": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-rizhi\\reset-action-target-20260513-202910.png",
+      "htmlPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\fangtai--baojie-guanli--baojie-rizhi\\reset-action-target-20260513-202910.html",
+      "statePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\fangtai--baojie-guanli--baojie-rizhi\\reset-action-target-20260513-202910.json"
+    }
+  ]
+}

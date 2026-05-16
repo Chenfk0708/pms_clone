@@ -1,0 +1,273 @@
+{
+  "title": "pms_clone",
+  "location": "http://127.0.0.1:4173/cleanManage/cleanTask",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n\nPMS Clone Prototype\n\n保洁任务\n采集基线：Chrome 1440x900 / 账号已授权登录\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n保洁日期：\n‹\n›\n导 出\n房型房间：\n请选择房型房间\n保洁类型：\n请选择保洁类型\n保洁状态：\n请选择保洁状态\n保洁员：\n请选择保洁员\n重 置\n查 询\n批量通知\n创建保洁任务\n限时钜惠！智能保洁6折开通\n自动派单 ｜实时提醒 ｜ 报表清晰\n订阅开通",
+  "styles": {
+    "body": {
+      "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志PMS Clone Prototype保洁任务采集基线：Chrome 1440x900 / 账号已授权登录全部门店天落会宿公寓(前海壹方城",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 944
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(237, 242, 248)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px",
+      "margin": "0px"
+    },
+    ".app-shell": {
+      "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志PMS Clone Prototype保洁任务采集基线：Chrome 1440x900 / 账号已授权登录全部门店天落会宿公寓(前海壹方城",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 944
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px",
+      "margin": "0px"
+    },
+    ".topbar": {
+      "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 58
+      },
+      "display": "grid",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(255, 255, 255, 0.98)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px 16px 0px 8px",
+      "margin": "0px"
+    },
+    ".sidebar": {
+      "text": "房态管理月房态日房态房态日志房价管理中央价渠道RP价竞争圈比价门市价其他价格电子房价牌调价日志房情表房情表保洁管理保洁任务保洁统计保洁人员保洁设置保洁日志",
+      "rect": {
+        "x": 0,
+        "y": 58,
+        "width": 156,
+        "height": 886
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "14px 0px",
+      "margin": "0px"
+    },
+    ".page-content": {
+      "text": "PMS Clone Prototype保洁任务采集基线：Chrome 1440x900 / 账号已授权登录全部门店天落会宿公寓(前海壹方城宝安中心店)保洁日期：‹›导 出房型房间：请选择房型房间保洁类型：请选择保洁类型保洁状态：请选择保洁状态保洁员：请选择保洁员重 置查 询批量通知创建保洁任务限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 156,
+        "y": 58,
+        "width": 1284,
+        "height": 886
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "12px",
+      "margin": "0px"
+    },
+    ".clean-task-panel": {
+      "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)保洁日期：‹›导 出房型房间：请选择房型房间保洁类型：请选择保洁类型保洁状态：请选择保洁状态保洁员：请选择保洁员重 置查 询批量通知创建保洁任务",
+      "rect": {
+        "x": 168,
+        "y": 164,
+        "width": 1260,
+        "height": 118
+      },
+      "display": "grid",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(229, 233, 241)",
+      "borderRadius": "8px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "8px",
+      "margin": "0px"
+    },
+    ".clean-task-row--top": {
+      "text": "全部门店天落会宿公寓(前海壹方城宝安中心店)保洁日期：‹›导 出",
+      "rect": {
+        "x": 177,
+        "y": 173,
+        "width": 1242,
+        "height": 28
+      },
+      "display": "flex",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px",
+      "margin": "0px"
+    },
+    ".clean-task-row--filters": {
+      "text": "房型房间：请选择房型房间保洁类型：请选择保洁类型保洁状态：请选择保洁状态保洁员：请选择保洁员重 置查 询批量通知创建保洁任务",
+      "rect": {
+        "x": 177,
+        "y": 209,
+        "width": 1242,
+        "height": 64
+      },
+      "display": "flex",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px",
+      "margin": "0px"
+    },
+    ".clean-filter button": {
+      "text": "请选择房型房间",
+      "rect": {
+        "x": 263,
+        "y": 209,
+        "width": 140,
+        "height": 28
+      },
+      "display": "block",
+      "color": "rgb(104, 119, 153)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(217, 221, 232)",
+      "borderRadius": "4px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "14px",
+      "lineHeight": "21px",
+      "padding": "0px 12px",
+      "margin": "0px"
+    },
+    ".clean-actions button": {
+      "text": "重 置",
+      "rect": {
+        "x": 1091,
+        "y": 209,
+        "width": 58,
+        "height": 28
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(217, 221, 232)",
+      "borderRadius": "4px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "14px",
+      "lineHeight": "21px",
+      "padding": "0px 12px",
+      "margin": "0px"
+    },
+    ".clean-list-card": {
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 168,
+        "y": 290,
+        "width": 1260,
+        "height": 642
+      },
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "border": "1px solid rgb(229, 233, 241)",
+      "borderRadius": "8px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px",
+      "margin": "0px"
+    },
+    ".clean-unpaid": {
+      "text": "限时钜惠！智能保洁6折开通自动派单 ｜实时提醒 ｜ 报表清晰订阅开通",
+      "rect": {
+        "x": 169,
+        "y": 291,
+        "width": 1258,
+        "height": 640
+      },
+      "display": "grid",
+      "color": "rgb(36, 50, 74)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(36, 50, 74)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px 24px 38px",
+      "margin": "0px"
+    },
+    ".clean-unpaid__copy button": {
+      "text": "订阅开通",
+      "rect": {
+        "x": 193,
+        "y": 851,
+        "width": 100,
+        "height": 42
+      },
+      "display": "block",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(77, 101, 246)",
+      "border": "0px none rgb(255, 255, 255)",
+      "borderRadius": "4px",
+      "boxShadow": "none",
+      "fontFamily": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "0px 18px",
+      "margin": "6px 0px 0px"
+    }
+  },
+  "assertions": {
+    "hasSubscriptionMask": true,
+    "hasCreateTaskButton": true,
+    "hasFakeTaskRow": false,
+    "batchNotifyDisabled": true
+  }
+}

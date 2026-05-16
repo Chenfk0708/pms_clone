@@ -1,0 +1,334 @@
+[
+  {
+    "label": "default",
+    "url": "https://minsubao.localhome.cn/houseManage/logs/price",
+    "bodyHasLogin": false,
+    "bodyHasSlider": false,
+    "labels": [
+      {
+        "text": "日志关键词",
+        "rect": {
+          "x": 180,
+          "y": 68,
+          "width": 83,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整方式",
+        "rect": {
+          "x": 493,
+          "y": 68,
+          "width": 69,
+          "height": 32
+        }
+      },
+      {
+        "text": "渠道",
+        "rect": {
+          "x": 806,
+          "y": 68,
+          "width": 41,
+          "height": 32
+        }
+      },
+      {
+        "text": "调整时间",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "操作日期",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "操作人姓名",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "类型",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "支付方式",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "日期",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "金额(¥)",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "备注",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      }
+    ],
+    "selects": [
+      {
+        "text": "手动调整",
+        "rect": {
+          "x": 570,
+          "y": 70,
+          "width": 220,
+          "height": 28
+        }
+      },
+      {
+        "text": "请选择",
+        "rect": {
+          "x": 855,
+          "y": 70,
+          "width": 248,
+          "height": 28
+        }
+      },
+      {
+        "text": "请选择类型",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "text": "请选择支付方式",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "id": "keyword",
+        "placeholder": "搜索房型名称/房间号/渠道房源名称",
+        "value": "",
+        "rect": {
+          "x": 283,
+          "y": 71,
+          "width": 166,
+          "height": 26
+        }
+      },
+      {
+        "id": "adjustType",
+        "placeholder": null,
+        "value": "",
+        "rect": {
+          "x": 582,
+          "y": 71,
+          "width": 182,
+          "height": 28
+        }
+      },
+      {
+        "id": "channelIds",
+        "placeholder": null,
+        "value": "",
+        "rect": {
+          "x": 867,
+          "y": 74,
+          "width": 4,
+          "height": 24
+        }
+      }
+    ],
+    "buttons": [
+      {
+        "text": "重 置",
+        "role": "button",
+        "rect": {
+          "x": 1352,
+          "y": 70,
+          "width": 64,
+          "height": 28
+        }
+      },
+      {
+        "text": "查 询",
+        "role": "button",
+        "rect": {
+          "x": 1280,
+          "y": 70,
+          "width": 64,
+          "height": 28
+        }
+      },
+      {
+        "text": "展开",
+        "role": "a",
+        "rect": {
+          "x": 1215,
+          "y": 74,
+          "width": 49,
+          "height": 20
+        }
+      }
+    ],
+    "headers": [
+      {
+        "text": "房型",
+        "rect": {
+          "x": 173,
+          "y": 108,
+          "width": 130,
+          "height": 36
+        }
+      },
+      {
+        "text": "价格日期",
+        "rect": {
+          "x": 303,
+          "y": 108,
+          "width": 130,
+          "height": 36
+        }
+      },
+      {
+        "text": "操作内容",
+        "rect": {
+          "x": 433,
+          "y": 108,
+          "width": 130,
+          "height": 36
+        }
+      },
+      {
+        "text": "调整方式",
+        "rect": {
+          "x": 564,
+          "y": 108,
+          "width": 130,
+          "height": 36
+        }
+      },
+      {
+        "text": "同步渠道",
+        "rect": {
+          "x": 694,
+          "y": 108,
+          "width": 300,
+          "height": 36
+        }
+      },
+      {
+        "text": "渠道价格",
+        "rect": {
+          "x": 994,
+          "y": 108,
+          "width": 200,
+          "height": 36
+        }
+      },
+      {
+        "text": "操作人",
+        "rect": {
+          "x": 1194,
+          "y": 108,
+          "width": 100,
+          "height": 36
+        }
+      },
+      {
+        "text": "操作时间",
+        "rect": {
+          "x": 1294,
+          "y": 108,
+          "width": 130,
+          "height": 36
+        }
+      }
+    ],
+    "emptyText": "暂无数据",
+    "queryRect": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 32
+    },
+    "tableRect": {
+      "x": 172,
+      "y": 108,
+      "width": 1252,
+      "height": 193
+    }
+  },
+  {
+    "label": "adjustment-open",
+    "options": [
+      "手动调整",
+      "系统调整"
+    ]
+  },
+  {
+    "label": "channel-open",
+    "options": [
+      "手动调整",
+      "系统调整",
+      "自来客",
+      "路客云聚合",
+      "美团民宿",
+      "美团酒店",
+      "途家",
+      "途家直连",
+      "爱彼迎",
+      "飞猪淘酒店",
+      "飞猪民宿直连",
+      "飞猪酒店直连"
+    ]
+  }
+]

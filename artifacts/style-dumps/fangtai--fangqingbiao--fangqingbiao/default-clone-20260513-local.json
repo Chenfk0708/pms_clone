@@ -1,0 +1,74 @@
+{
+  ".toolbar-card": {
+    "display": "grid",
+    "gridTemplateColumns": "1234px",
+    "padding": "10px 12px",
+    "gap": "12px",
+    "background": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(223, 229, 241)",
+    "borderRadius": "14px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  },
+  ".room-summary": {
+    "display": "grid",
+    "gridTemplateColumns": "624px 624px",
+    "padding": "0px",
+    "gap": "12px",
+    "background": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  },
+  ".room-situation-layout": {
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "padding": "0px",
+    "gap": "normal",
+    "background": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  },
+  ".room-type-panel": {
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "padding": "0px",
+    "gap": "normal",
+    "background": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  },
+  ".room-card-panel": {
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "padding": "0px",
+    "gap": "normal",
+    "background": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  },
+  ".room-card": {
+    "display": "block",
+    "gridTemplateColumns": "none",
+    "padding": "0px",
+    "gap": "normal",
+    "background": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "boxShadow": "none",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px"
+  }
+}

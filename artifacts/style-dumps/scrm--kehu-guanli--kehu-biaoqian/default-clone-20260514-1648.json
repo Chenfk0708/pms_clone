@@ -1,0 +1,1667 @@
+{
+  "side": "clone",
+  "mode": "clone",
+  "stamp": "20260514-1648",
+  "finalUrl": "http://127.0.0.1:43275/customer/tag",
+  "states": {
+    "default": {
+      "url": "http://127.0.0.1:43275/customer/tag",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n客户标签\n标签组:\n查 询\n重 置\n同步企微标签\n新建标签组\n标签组\n标签名称\n创建人\n创建时间\n操作\n\n暂无数据\n\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签组",
+          "placeholder": "请输入",
+          "text": "",
+          "rect": {
+            "x": 228,
+            "y": 72,
+            "width": 234,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "234px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "查 询",
+          "rect": {
+            "x": 1296,
+            "y": 72,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "重 置",
+          "rect": {
+            "x": 1368,
+            "y": 72,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "同步企微标签",
+          "rect": {
+            "x": 1206,
+            "y": 114,
+            "width": 116,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "116px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "新建标签组",
+          "rect": {
+            "x": 1330,
+            "y": 114,
+            "width": 102,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "102px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "刷新会话",
+          "placeholder": null,
+          "text": "↻",
+          "rect": {
+            "x": 1371,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "收起会话",
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1397,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock__collapse",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1350,
+            "y": 858,
+            "width": 80,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "fixed",
+            "width": "80px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px 4px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": null,
+          "placeholder": "请输入",
+          "ariaLabel": "标签组",
+          "value": ""
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "查 询",
+        "重 置",
+        "同步企微标签",
+        "新建标签组",
+        "↻",
+        "收起",
+        "收起"
+      ],
+      "tableHeaders": [],
+      "tableTexts": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "客户标签 标签组: 查 询 重 置 同步企微标签 新建标签组 标签组 标签名称 创建人 创建时间 操作 暂无数据",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "8px 8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ]
+    },
+    "afterClick:新建标签组": {
+      "url": "http://127.0.0.1:43275/customer/tag",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n客户标签\n标签组:\n查 询\n重 置\n同步企微标签\n新建标签组\n标签组\n标签名称\n创建人\n创建时间\n操作\n\n暂无数据\n\n新建标签组\n×\n标签组名称\n标签\n+ 添加标签\n取消\n确定\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签组",
+          "placeholder": "请输入",
+          "text": "",
+          "rect": {
+            "x": 228,
+            "y": 72,
+            "width": 234,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "234px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "查 询",
+          "rect": {
+            "x": 1296,
+            "y": 72,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "重 置",
+          "rect": {
+            "x": 1368,
+            "y": 72,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "同步企微标签",
+          "rect": {
+            "x": 1206,
+            "y": 114,
+            "width": 116,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "116px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "新建标签组",
+          "rect": {
+            "x": 1330,
+            "y": 114,
+            "width": 102,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "102px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "关闭新建标签组",
+          "placeholder": null,
+          "text": "×",
+          "rect": {
+            "x": 928,
+            "y": 113,
+            "width": 28,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "28px",
+            "height": "28px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "24px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.45)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签组名称",
+          "placeholder": "请输入标签组名称",
+          "text": "",
+          "rect": {
+            "x": 484,
+            "y": 211,
+            "width": 472,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "472px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "+ 添加标签",
+          "rect": {
+            "x": 484,
+            "y": 282,
+            "width": 71,
+            "height": 21
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "70.5312px",
+            "height": "21px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "取消",
+          "rect": {
+            "x": 796,
+            "y": 333,
+            "width": 76,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "76px",
+            "height": "32px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "确定",
+          "rect": {
+            "x": 880,
+            "y": 333,
+            "width": 76,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "76px",
+            "height": "32px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "刷新会话",
+          "placeholder": null,
+          "text": "↻",
+          "rect": {
+            "x": 1371,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "收起会话",
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1397,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock__collapse",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1350,
+            "y": 858,
+            "width": 80,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "fixed",
+            "width": "80px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px 4px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": null,
+          "placeholder": "请输入",
+          "ariaLabel": "标签组",
+          "value": ""
+        },
+        {
+          "type": null,
+          "placeholder": "请输入标签组名称",
+          "ariaLabel": "标签组名称",
+          "value": ""
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "查 询",
+        "重 置",
+        "同步企微标签",
+        "新建标签组",
+        "×",
+        "+ 添加标签",
+        "取消",
+        "确定",
+        "↻",
+        "收起",
+        "收起"
+      ],
+      "tableHeaders": [],
+      "tableTexts": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "客户标签 标签组: 查 询 重 置 同步企微标签 新建标签组 标签组 标签名称 创建人 创建时间 操作 暂无数据 新建标签组 × 标签组名称 标签 + 添加标签 取消 确定",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "8px 8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\新建标签组-clone-20260514-1648.png"
+    },
+    "afterClick:同步企微标签": {
+      "error": "locator.click: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '同步企微标签' }).first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"is-primary\">同步企微标签</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    },
+    "afterClick:新建标签": {
+      "error": "locator.click: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '新建标签' }).first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"is-primary\">新建标签组</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    },
+    "afterClick:添加标签": {
+      "url": "http://127.0.0.1:43275/customer/tag",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n客户标签\n标签组:\n查 询\n重 置\n同步企微标签\n新建标签组\n标签组\n标签名称\n创建人\n创建时间\n操作\n\n暂无数据\n\n新建标签组\n×\n标签组名称\n标签\n+ 添加标签\n取消\n确定\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签组",
+          "placeholder": "请输入",
+          "text": "",
+          "rect": {
+            "x": 228,
+            "y": 37,
+            "width": 234,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "234px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "查 询",
+          "rect": {
+            "x": 1296,
+            "y": 37,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "重 置",
+          "rect": {
+            "x": 1368,
+            "y": 37,
+            "width": 64,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "64.1562px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "同步企微标签",
+          "rect": {
+            "x": 1206,
+            "y": 79,
+            "width": 116,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "116px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "新建标签组",
+          "rect": {
+            "x": 1330,
+            "y": 79,
+            "width": 102,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "102px",
+            "height": "28px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "关闭新建标签组",
+          "placeholder": null,
+          "text": "×",
+          "rect": {
+            "x": 928,
+            "y": 113,
+            "width": 28,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "28px",
+            "height": "28px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "24px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgba(0, 0, 0, 0.45)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.45)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签组名称",
+          "placeholder": "请输入标签组名称",
+          "text": "",
+          "rect": {
+            "x": 484,
+            "y": 211,
+            "width": 472,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "472px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": "标签1",
+          "placeholder": "请输入标签名称",
+          "text": "",
+          "rect": {
+            "x": 484,
+            "y": 282,
+            "width": 472,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "472px",
+            "height": "28px",
+            "padding": "0px 11px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "22px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "clip",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "+ 添加标签",
+          "rect": {
+            "x": 484,
+            "y": 318,
+            "width": 71,
+            "height": 21
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "70.5312px",
+            "height": "21px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(77, 101, 246)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "取消",
+          "rect": {
+            "x": 796,
+            "y": 369,
+            "width": 76,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "76px",
+            "height": "32px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "is-primary",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "确定",
+          "rect": {
+            "x": 880,
+            "y": 369,
+            "width": 76,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "76px",
+            "height": "32px",
+            "padding": "0px 15px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "刷新会话",
+          "placeholder": null,
+          "text": "↻",
+          "rect": {
+            "x": 1371,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "收起会话",
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1397,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock__collapse",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1350,
+            "y": 858,
+            "width": 80,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "fixed",
+            "width": "80px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px 4px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": null,
+          "placeholder": "请输入",
+          "ariaLabel": "标签组",
+          "value": ""
+        },
+        {
+          "type": null,
+          "placeholder": "请输入标签组名称",
+          "ariaLabel": "标签组名称",
+          "value": ""
+        },
+        {
+          "type": null,
+          "placeholder": "请输入标签名称",
+          "ariaLabel": "标签1",
+          "value": ""
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "查 询",
+        "重 置",
+        "同步企微标签",
+        "新建标签组",
+        "×",
+        "+ 添加标签",
+        "取消",
+        "确定",
+        "↻",
+        "收起",
+        "收起"
+      ],
+      "tableHeaders": [],
+      "tableTexts": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "客户标签 标签组: 查 询 重 置 同步企微标签 新建标签组 标签组 标签名称 创建人 创建时间 操作 暂无数据 新建标签组 × 标签组名称 标签 + 添加标签 取消 确定",
+          "rect": {
+            "x": 156,
+            "y": 23,
+            "width": 1284,
+            "height": 877
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "877px",
+            "padding": "8px 8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\添加标签-clone-20260514-1648.png"
+    },
+    "afterClick:重 置": {
+      "error": "locator.click: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '重 置' }).first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\">重 置</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    },
+    "afterClick:查 询": {
+      "error": "locator.click: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '查 询' }).first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"is-primary\">查 询</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"customer-tag-modal-backdrop\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    }
+  },
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260514-1648.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\full-clone-20260514-1648.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260514-1648.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260514-1648.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260514-1648.json"
+  }
+}

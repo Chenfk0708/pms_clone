@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "collapsed",
+  "stamp": "20260515135200",
+  "url": "http://127.0.0.1:43181/setting/paymentSetting",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43181/setting/paymentSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43181/assets/index-CVGaH2sL.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43181/assets/index-bMb3t9Ph.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43181/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

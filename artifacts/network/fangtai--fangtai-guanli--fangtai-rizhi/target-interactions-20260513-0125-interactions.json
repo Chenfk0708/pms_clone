@@ -1,0 +1,189 @@
+[
+  {
+    "name": "state-default-target",
+    "url": "https://minsubao.localhome.cn/houseManage/logs/status",
+    "text": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n日志关键词\n调整方式\n手动调整\n操作渠道\n请选择\n重 置\n查 询\n展开\n房型\t房间\t房态调整日期\t操作内容\t调整方式\t同步渠道\t渠道库存变更\t操作人\t操作时间\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据"
+  },
+  {
+    "name": "clicked-expand",
+    "ok": true
+  },
+  {
+    "name": "state-expanded-target",
+    "url": "https://minsubao.localhome.cn/houseManage/logs/status",
+    "text": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n日志关键词\n调整方式\n手动调整\n操作渠道\n请选择\n重 置\n查 询\n展开\n房型\t房间\t房态调整日期\t操作内容\t调整方式\t同步渠道\t渠道库存变更\t操作人\t操作时间\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据"
+  },
+  {
+    "name": "select-count",
+    "selects": 4
+  },
+  {
+    "name": "select-0-popup",
+    "popupText": "1\n2\n手动调整\n系统调整"
+  },
+  {
+    "name": "select-1-popup",
+    "popupText": "0\n17\n自来客\n路客云聚合\n美团民宿\n美团酒店\n途家\n途家直连\n爱彼迎\n飞猪淘酒店\n飞猪民宿直连\n飞猪酒店直连"
+  },
+  {
+    "name": "select-2-popup",
+    "popupText": ""
+  },
+  {
+    "name": "select-3-popup",
+    "popupText": ""
+  },
+  {
+    "name": "inputs",
+    "inputs": [
+      {
+        "i": 0,
+        "placeholder": null,
+        "value": "",
+        "type": "text"
+      },
+      {
+        "i": 1,
+        "placeholder": "搜索房型名称/房间号/渠道房源名称",
+        "value": "",
+        "type": "text"
+      },
+      {
+        "i": 2,
+        "placeholder": null,
+        "value": "",
+        "type": "search"
+      },
+      {
+        "i": 3,
+        "placeholder": null,
+        "value": "",
+        "type": "search"
+      },
+      {
+        "i": 4,
+        "placeholder": "请选择",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 5,
+        "placeholder": "请选择",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 6,
+        "placeholder": "请选择",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 7,
+        "placeholder": "请选择",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 8,
+        "placeholder": "搜索操作人名称/手机号",
+        "value": "",
+        "type": "text"
+      },
+      {
+        "i": 9,
+        "placeholder": null,
+        "value": "",
+        "type": "search"
+      },
+      {
+        "i": 10,
+        "placeholder": null,
+        "value": "",
+        "type": "search"
+      },
+      {
+        "i": 11,
+        "placeholder": "请选择日期",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 12,
+        "placeholder": "请输入金额",
+        "value": "",
+        "type": null
+      },
+      {
+        "i": 13,
+        "placeholder": "手机号码",
+        "value": "",
+        "type": "number"
+      },
+      {
+        "i": 14,
+        "placeholder": "请输入密码",
+        "value": "",
+        "type": "password"
+      }
+    ]
+  },
+  {
+    "name": "buttons",
+    "buttons": [
+      {
+        "i": 0,
+        "text": "",
+        "cls": "ant-modal-close"
+      },
+      {
+        "i": 1,
+        "text": "发 送",
+        "cls": "ant-btn ant-btn-primary sendButton___2H8-Q"
+      },
+      {
+        "i": 2,
+        "text": "重 置",
+        "cls": "ant-btn ant-btn-default"
+      },
+      {
+        "i": 3,
+        "text": "查 询",
+        "cls": "ant-btn ant-btn-primary"
+      },
+      {
+        "i": 4,
+        "text": "",
+        "cls": "ant-modal-close"
+      },
+      {
+        "i": 5,
+        "text": "提 交",
+        "cls": "ant-btn ant-btn-primary"
+      },
+      {
+        "i": 6,
+        "text": "登 录",
+        "cls": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait"
+      }
+    ]
+  },
+  {
+    "name": "clicked-query",
+    "ok": true
+  },
+  {
+    "name": "state-query-target",
+    "url": "https://minsubao.localhome.cn/houseManage/logs/status",
+    "text": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n日志关键词\n调整方式\n手动调整\n操作渠道\n请选择\n重 置\n查 询\n展开\n房型\t房间\t房态调整日期\t操作内容\t调整方式\t同步渠道\t渠道库存变更\t操作人\t操作时间\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据"
+  },
+  {
+    "name": "clicked-reset",
+    "ok": true
+  },
+  {
+    "name": "state-reset-target",
+    "url": "https://minsubao.localhome.cn/houseManage/logs/status",
+    "text": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n\n月房态\n\n日房态\n\n房态日志\n\n房价管理\n\n中央价\n\n渠道RP价\n\n竞争圈比价\n\n门市价\n\n其他价格\n\n电子房价牌\n\n调价日志\n\n房情表\n保洁管理\n\n保洁任务\n\n保洁统计\n\n保洁人员\n\n保洁设置\n\n保洁日志\n\n版本号：v4.10.7\n日志关键词\n调整方式\n手动调整\n操作渠道\n请选择\n重 置\n查 询\n展开\n房型\t房间\t房态调整日期\t操作内容\t调整方式\t同步渠道\t渠道库存变更\t操作人\t操作时间\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\n\n暂无数据"
+  }
+]

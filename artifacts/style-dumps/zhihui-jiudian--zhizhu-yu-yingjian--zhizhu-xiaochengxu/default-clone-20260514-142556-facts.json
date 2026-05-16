@@ -1,0 +1,4227 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260514-142556",
+  "url": "http://127.0.0.1:4187/smartHotel/smartSettings",
+  "isLoginBlocked": false,
+  "interactions": [],
+  "facts": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:4187/smartHotel/smartSettings",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n智住管理\n自助入住\n全局设置\n智住小程序\n智能硬件\n智能硬件商城\n智能门锁\n身份证读卡器\n公安对接\nPSB公安对接\n上报日志\n智住小程序\n版本号：v4.10.7\n装修\n分享\n操作按钮设置\n添加按钮\n\n可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。\n\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n按钮图标\n上传图片\n按钮名称：\n弹框文案：\n保 存",
+    "isLoginBlocked": false,
+    "buttons": [
+      "首页",
+      "房态",
+      "房价",
+      "订单",
+      "售卖/产品",
+      "OTA",
+      "社媒",
+      "私域",
+      "聚合分销HOT",
+      "SCRM",
+      "AI全域雷达",
+      "智慧酒店",
+      "报表",
+      "设置",
+      "应用订阅",
+      "消息",
+      "用户",
+      "自助入住",
+      "全局设置",
+      "智住小程序",
+      "智能硬件",
+      "智能硬件商城",
+      "智能门锁",
+      "身份证读卡器",
+      "公安对接",
+      "PSB公安对接",
+      "上报日志",
+      "装修",
+      "分享",
+      "添加按钮",
+      "上传图片",
+      "上传图片",
+      "上传图片",
+      "上传图片",
+      "上传图片",
+      "上传图片",
+      "上传图片",
+      "保 存"
+    ],
+    "inputs": [
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "入住登记",
+        "rect": {
+          "x": 470,
+          "y": 259,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 259,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "入住指引",
+        "rect": {
+          "x": 470,
+          "y": 328,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 328,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "入住须知",
+        "rect": {
+          "x": 470,
+          "y": 397,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 397,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "WIFI上网",
+        "rect": {
+          "x": 470,
+          "y": 466,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 466,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "续住",
+        "rect": {
+          "x": 470,
+          "y": 535,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 535,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "一键退房",
+        "rect": {
+          "x": 470,
+          "y": 604,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 604,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入按钮名称",
+        "ariaLabel": null,
+        "value": "开发票",
+        "rect": {
+          "x": 470,
+          "y": 673,
+          "width": 160,
+          "height": 28
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入弹框文案",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 744,
+          "y": 673,
+          "width": 160,
+          "height": 28
+        }
+      }
+    ],
+    "selects": [],
+    "tableHeaders": [],
+    "rows": [],
+    "cards": [
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 454
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "smart-settings-surface",
+        "role": null,
+        "ariaLabel": "智住小程序设置",
+        "placeholder": null,
+        "text": "装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：保 存",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 763
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "16px 16px 32px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-card",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：保 存",
+        "rect": {
+          "x": 172,
+          "y": 122,
+          "width": 1252,
+          "height": 667
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "24px 24px 28px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "smart-settings-card__head",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "操作按钮设置添加按钮",
+        "rect": {
+          "x": 196,
+          "y": 146,
+          "width": 1204,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ],
+    "elementSamples": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype智住小程序采集基线：Chrome 1440x900 / 账号已授权登录智住小程序版本号：v4.10.7装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype智住小程序采集基线：Chrome 1440x900 / 账号已授权登录智住小程序版本号：v4.10.7装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅消息用户",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 58
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "padding": "0px 16px 0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "260px 904px 220px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-block",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 260,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-mark",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS",
+        "rect": {
+          "x": 8,
+          "y": 16,
+          "width": 55,
+          "height": 34
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 75,
+          "y": 20,
+          "width": 193,
+          "height": 26
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺",
+        "rect": {
+          "x": 75,
+          "y": 23,
+          "width": 127,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "畅享版",
+        "rect": {
+          "x": 212,
+          "y": 20,
+          "width": 56,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "4px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(68, 105, 228)",
+          "backgroundColor": "rgb(232, 241, 255)",
+          "border": "0px none rgb(68, 105, 228)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "role": null,
+        "ariaLabel": "顶部导航",
+        "placeholder": null,
+        "text": "首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 904,
+          "height": 56
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "首页",
+        "rect": {
+          "x": 284,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房态",
+        "rect": {
+          "x": 332,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房价",
+        "rect": {
+          "x": 380,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单",
+        "rect": {
+          "x": 428,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "售卖/产品",
+        "rect": {
+          "x": 476,
+          "y": 5,
+          "width": 66,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "OTA",
+        "rect": {
+          "x": 560,
+          "y": 5,
+          "width": 29,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "社媒",
+        "rect": {
+          "x": 608,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "私域",
+        "rect": {
+          "x": 656,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 704,
+          "y": 5,
+          "width": 95,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "HOT",
+        "rect": {
+          "x": 768,
+          "y": 28,
+          "width": 31,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 0px 0px 4px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 92, 82)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "SCRM",
+        "rect": {
+          "x": 817,
+          "y": 5,
+          "width": 43,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 878,
+          "y": 5,
+          "width": 75,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智慧酒店",
+        "rect": {
+          "x": 971,
+          "y": 5,
+          "width": 60,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "700",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "报表",
+        "rect": {
+          "x": 1049,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "设置",
+        "rect": {
+          "x": 1097,
+          "y": 5,
+          "width": 30,
+          "height": 56
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "18px 0px 15px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅消息用户",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 220,
+          "height": 66
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1204,
+          "y": 0,
+          "width": 89,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "消息",
+        "rect": {
+          "x": 1301,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "用户",
+        "rect": {
+          "x": 1367,
+          "y": 0,
+          "width": 58,
+          "height": 66
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(223, 229, 241)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志PMS Clone Prototype智住小程序采集基线：Chrome 1440x900 / 账号已授权登录智住小程序版本号：v4.10.7装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 1440,
+          "height": 842
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "156px 1284px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "role": null,
+        "ariaLabel": "智住小程序侧边导航",
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 58,
+          "width": 156,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "14px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 454
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理",
+        "rect": {
+          "x": 0,
+          "y": 72,
+          "width": 155,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 18px",
+          "margin": "0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(80, 97, 127)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(80, 97, 127)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自助入住全局设置智住小程序智能硬件智能硬件商城智能门锁身份证读卡器公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 425
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "自助入住",
+        "rect": {
+          "x": 0,
+          "y": 101,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全局设置",
+        "rect": {
+          "x": 0,
+          "y": 144,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住小程序",
+        "rect": {
+          "x": 0,
+          "y": 186,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件",
+        "rect": {
+          "x": 0,
+          "y": 229,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件商城",
+        "rect": {
+          "x": 0,
+          "y": 271,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能门锁",
+        "rect": {
+          "x": 0,
+          "y": 314,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "身份证读卡器",
+        "rect": {
+          "x": 0,
+          "y": 356,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接",
+        "rect": {
+          "x": 0,
+          "y": 399,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PSB公安对接",
+        "rect": {
+          "x": 0,
+          "y": 441,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志",
+        "rect": {
+          "x": 0,
+          "y": 484,
+          "width": 155,
+          "height": 43
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(48, 64, 90)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(48, 64, 90)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PMS Clone Prototype智住小程序采集基线：Chrome 1440x900 / 账号已授权登录智住小程序版本号：v4.10.7装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-page",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住小程序版本号：v4.10.7装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：保 存",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h1",
+        "className": "sr-only-heading",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住小程序",
+        "rect": {
+          "x": 155,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "-1px",
+          "fontSize": "28px",
+          "fontWeight": "700",
+          "lineHeight": "42px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "smart-settings-version",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "版本号：v4.10.7",
+        "rect": {
+          "x": 0,
+          "y": 872,
+          "width": 156,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "4px 0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(169, 169, 169)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(169, 169, 169)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "smart-settings-surface",
+        "role": null,
+        "ariaLabel": "智住小程序设置",
+        "placeholder": null,
+        "text": "装修分享操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：保 存",
+        "rect": {
+          "x": 156,
+          "y": 58,
+          "width": 1284,
+          "height": 763
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "16px 16px 32px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-tabs",
+        "role": "tablist",
+        "ariaLabel": "智住小程序页签",
+        "placeholder": null,
+        "text": "装修分享",
+        "rect": {
+          "x": 172,
+          "y": 74,
+          "width": 107,
+          "height": 32
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 16px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-active",
+        "role": "tab",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "装修",
+        "rect": {
+          "x": 172,
+          "y": 74,
+          "width": 54,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px 0px 0px 4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": "tab",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "分享",
+        "rect": {
+          "x": 226,
+          "y": 74,
+          "width": 53,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px 4px 4px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-card",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "操作按钮设置添加按钮可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：保 存",
+        "rect": {
+          "x": 172,
+          "y": 122,
+          "width": 1252,
+          "height": 667
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "24px 24px 28px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "smart-settings-card__head",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "操作按钮设置添加按钮",
+        "rect": {
+          "x": 196,
+          "y": 146,
+          "width": 1204,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "操作按钮设置",
+        "rect": {
+          "x": 196,
+          "y": 150,
+          "width": 96,
+          "height": 24
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "添加按钮",
+        "rect": {
+          "x": 312,
+          "y": 146,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px 0px 0px 8px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "smart-settings-help",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。",
+        "rect": {
+          "x": 196,
+          "y": 188,
+          "width": 1204,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "10px 0px 22px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.45)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.45)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-list",
+        "role": null,
+        "ariaLabel": "智住小程序操作按钮",
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 232,
+          "width": 1204,
+          "height": 469
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "1204px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 232,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 255,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 261,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 255,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 259,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 263,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 259,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 259,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 263,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 259,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 301,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 324,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 330,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 324,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 328,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 332,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 328,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 328,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 332,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 328,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 370,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 393,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 399,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 393,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 397,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 401,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 397,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 397,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 401,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 397,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 439,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 462,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 468,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 462,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 466,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 470,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 466,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 466,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 470,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 466,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 508,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 531,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 537,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 531,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 535,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 539,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 535,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 535,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 539,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 535,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 577,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 600,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 606,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 600,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 604,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 608,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 604,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 604,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 608,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 604,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-button-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片按钮名称：弹框文案：",
+        "rect": {
+          "x": 196,
+          "y": 646,
+          "width": 1204,
+          "height": 55
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "174px 238px 252px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "smart-settings-upload",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标上传图片",
+        "rect": {
+          "x": 196,
+          "y": 669,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 88px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮图标",
+        "rect": {
+          "x": 196,
+          "y": 675,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上传图片",
+        "rect": {
+          "x": 276,
+          "y": 669,
+          "width": 88,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 673,
+          "width": 238,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "70px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "按钮名称：",
+        "rect": {
+          "x": 392,
+          "y": 677,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入按钮名称",
+        "text": "",
+        "rect": {
+          "x": 470,
+          "y": 673,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "smart-settings-field",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 673,
+          "width": 252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "84px 160px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "弹框文案：",
+        "rect": {
+          "x": 652,
+          "y": 677,
+          "width": 84,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.78)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.78)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入弹框文案",
+        "text": "",
+        "rect": {
+          "x": 744,
+          "y": 673,
+          "width": 160,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "footer",
+        "className": "smart-settings-footer",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "保 存",
+        "rect": {
+          "x": 196,
+          "y": 729,
+          "width": 1204,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 0px 0px 696px",
+          "margin": "28px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "保 存",
+        "rect": {
+          "x": 892,
+          "y": 729,
+          "width": 64,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ]
+  }
+}

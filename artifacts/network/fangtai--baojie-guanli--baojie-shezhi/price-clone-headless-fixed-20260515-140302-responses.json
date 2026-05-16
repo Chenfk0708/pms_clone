@@ -1,0 +1,36 @@
+{
+  "side": "clone",
+  "state": "price",
+  "stamp": "20260515-140302",
+  "url": "http://127.0.0.1:54624/cleanManage/cleanSetting",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:54624/cleanManage/cleanSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:54624/assets/index-BAx9MAKc.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:54624/assets/index-ZgL7z12L.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:54624/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

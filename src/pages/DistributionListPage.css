@@ -1,0 +1,243 @@
+.app-shell:has(.distribution-list-page) .page-content {
+  padding: 8px 8px 0 12px;
+  background: #f0f2f5;
+}
+
+.app-shell:has(.distribution-list-page) .page-header {
+  display: none;
+}
+
+.distribution-list-page {
+  position: relative;
+  min-height: 845px;
+  padding: 0 8px;
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+  overflow: auto;
+}
+
+.distribution-list-tabs {
+  display: inline-flex;
+  height: 28px;
+  margin: 8px 0 8px;
+  font-size: 0;
+}
+
+.distribution-list-tabs button {
+  min-width: 73px;
+  height: 28px;
+  padding: 0 15px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+  line-height: 26px;
+}
+
+.distribution-list-tabs button:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.distribution-list-tabs button:last-child {
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.distribution-list-tabs .is-active {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.distribution-panel {
+  min-height: 229px;
+  color: rgb(0 0 0 / 85%);
+}
+
+.distribution-panel--distributed {
+  min-height: 875px;
+}
+
+.distribution-toolbar,
+.distribution-panel__actions {
+  display: flex;
+  align-items: center;
+}
+
+.distribution-toolbar {
+  justify-content: space-between;
+  min-height: 28px;
+  margin-bottom: 8px;
+}
+
+.distribution-panel__actions {
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.distribution-store-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 410px;
+}
+
+.distribution-store-filter span {
+  color: #333;
+  font-size: 14px;
+}
+
+.distribution-store-filter button,
+.distribution-panel__actions button {
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.distribution-store-filter button {
+  max-width: 330px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.distribution-panel__actions .is-outline {
+  border: 1px solid #4d65f6;
+  background: #fff;
+  color: #4d65f6;
+}
+
+.distribution-panel__actions .is-primary {
+  border: 1px solid #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.distribution-blank {
+  min-height: 835px;
+}
+
+.distribution-dropdown {
+  position: relative;
+}
+
+.distribution-dropdown__menu {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  z-index: 18;
+  display: grid;
+  min-width: 148px;
+  padding: 4px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgb(31 42 68 / 16%);
+}
+
+.distribution-dropdown__menu button {
+  justify-content: flex-start;
+  border: 0;
+  background: transparent;
+  color: #333;
+  text-align: left;
+}
+
+.distribution-dropdown__menu button:hover {
+  background: #f3f8ff;
+  color: #4d65f6;
+}
+
+.distribution-table-wrap {
+  width: 100%;
+  overflow: auto;
+}
+
+.distribution-table {
+  width: 100%;
+  min-width: 1160px;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.distribution-table__select {
+  width: 50px;
+}
+
+.distribution-table__actions {
+  width: 150px;
+}
+
+.distribution-table th,
+.distribution-table td {
+  height: 36px;
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.distribution-table th {
+  background: #f3f8ff;
+}
+
+.distribution-table th:first-child {
+  border-radius: 8px 0 0;
+}
+
+.distribution-table th:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.distribution-table input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.distribution-empty-row td {
+  height: 157px;
+  padding: 8px;
+  color: rgb(0 0 0 / 25%);
+  text-align: center;
+}
+
+.distribution-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 140px;
+}
+
+.distribution-empty span {
+  width: 44px;
+  height: 32px;
+  border: 1px solid #dfe3eb;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #fbfcfe, #f5f7fb);
+}
+
+.distribution-empty p {
+  margin: 0;
+}
+
+.distribution-toast {
+  position: fixed;
+  right: 356px;
+  top: 70px;
+  z-index: 36;
+  padding: 8px 14px;
+  border: 1px solid #dce5ff;
+  border-radius: 6px;
+  background: #f4f7ff;
+  color: #4d65f6;
+  box-shadow: 0 8px 24px rgb(31 42 68 / 12%);
+}

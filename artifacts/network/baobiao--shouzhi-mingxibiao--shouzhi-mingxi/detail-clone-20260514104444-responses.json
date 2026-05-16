@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "detail",
+  "stamp": "20260514104444",
+  "url": "http://127.0.0.1:4173/statistics/orderLedger",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/statistics/orderLedger",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-C90r7x4F.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-D5b2Mv1F.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

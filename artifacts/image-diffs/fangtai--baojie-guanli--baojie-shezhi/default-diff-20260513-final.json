@@ -1,0 +1,22 @@
+﻿{
+    "target":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-target-20260513-review2.png",
+    "clone":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-shezhi\\default-clone-20260513-final.png",
+    "diff":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--baojie-guanli--baojie-shezhi\\default-diff-20260513-final.png",
+    "targetSize":  {
+                       "height":  905,
+                       "width":  1440
+                   },
+    "cloneSize":  {
+                      "height":  944,
+                      "width":  1440
+                  },
+    "comparedSize":  {
+                         "height":  905,
+                         "width":  1440
+                     },
+    "tolerance":  8,
+    "diffPixels":  995263,
+    "comparedPixels":  1303200,
+    "diffRatio":  0.763707,
+    "note":  "Diff includes known global AppShell/header/sidebar/login-overlay differences; local content now matches target unpaid-mask interaction state."
+}

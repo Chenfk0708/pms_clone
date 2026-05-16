@@ -1,0 +1,125 @@
+.page-content:has(.reception-config-page) {
+  padding: 8px 8px 0;
+  background: #f0f2f5;
+}
+
+.page-content:has(.reception-config-page) > .page-header {
+  display: none;
+}
+
+.reception-config-page {
+  min-height: calc(100vh - 66px);
+  padding-right: 0;
+  color: #333333;
+}
+
+.reception-config-panel {
+  min-height: calc(100vh - 66px);
+  overflow: auto;
+  border-radius: 8px 8px 0 0;
+  background: #ffffff;
+}
+
+.reception-config-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 107px;
+  padding: 24px;
+  background: #ffffff;
+}
+
+.reception-config-hero__info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 650px;
+}
+
+.reception-config-hero__info img {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.reception-config-hero h2,
+.reception-config-detail h2 {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.reception-config-hero p {
+  margin: 7px 0 0;
+  color: #333333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.reception-config-action {
+  position: relative;
+  width: 88px;
+  margin-right: 40px;
+}
+
+.reception-config-action button {
+  width: 88px;
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.reception-config-action span {
+  position: absolute;
+  top: -11px;
+  right: -32px;
+  min-width: 64px;
+  height: 22px;
+  padding: 2px 8px;
+  border-radius: 16px;
+  background: #f59a23;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.reception-config-detail {
+  padding: 24px;
+  background: #ffffff;
+}
+
+.reception-config-detail h2 {
+  margin-bottom: 20px;
+}
+
+.reception-config-detail__images {
+  display: grid;
+  gap: 20px;
+}
+
+.reception-config-detail__images img {
+  display: block;
+  width: 100%;
+  max-width: 1204px;
+  height: auto;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .reception-config-hero {
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .reception-config-action {
+    margin-right: 0;
+  }
+}

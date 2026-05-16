@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "description",
+  "stamp": "20260514104003",
+  "url": "http://127.0.0.1:54870/statistics/profitReport",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:54870/statistics/profitReport",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:54870/assets/index-CmBLhV8o.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:54870/assets/index-CvW92-ZQ.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:54870/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "selector": ".month-toolbar",
+    "display": "grid",
+    "padding": "20px 16px 16px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "8px 8px 0px 0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "zIndex": "auto"
+  },
+  {
+    "selector": ".month-board",
+    "display": "block",
+    "padding": "0px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(216, 216, 216)",
+    "borderRadius": "8px 8px 0px 0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "zIndex": "auto"
+  },
+  {
+    "selector": ".month-cell",
+    "display": "grid",
+    "padding": "16px 12px 8px",
+    "backgroundColor": "rgb(216, 219, 225)",
+    "border": "",
+    "borderRadius": "0px",
+    "color": "rgb(85, 85, 85)",
+    "fontSize": "16px",
+    "zIndex": "auto"
+  },
+  {
+    "selector": ".month-dialog-backdrop",
+    "display": "grid",
+    "padding": "0px",
+    "backgroundColor": "rgba(25, 35, 56, 0.22)",
+    "border": "0px none rgb(36, 50, 74)",
+    "borderRadius": "0px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "zIndex": "40"
+  },
+  {
+    "selector": ".month-dialog",
+    "display": "block",
+    "padding": "0px",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "border": "1px solid rgb(223, 229, 241)",
+    "borderRadius": "10px",
+    "color": "rgb(36, 50, 74)",
+    "fontSize": "16px",
+    "zIndex": "auto"
+  }
+]

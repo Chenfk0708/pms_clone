@@ -1,0 +1,240 @@
+.page-content:has(.member-equity-page) {
+  padding: 0 12px 12px;
+  background: #f3f6fb;
+}
+
+.page-content:has(.member-equity-page) > .page-header {
+  display: none;
+}
+
+.member-equity-page {
+  min-height: calc(100vh - 58px);
+  padding-top: 10px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.member-equity-panel {
+  min-height: 236px;
+  background: #fff;
+}
+
+.member-equity-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 46px;
+  padding: 8px 0 8px 4px;
+}
+
+.member-equity-panel__header h1,
+.member-equity-panel__header p {
+  margin: 0;
+}
+
+.member-equity-panel__header h1 {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.member-equity-panel__header p {
+  margin-top: 3px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+}
+
+.member-equity-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-equity-button {
+  min-width: 63px;
+  height: 28px;
+  padding: 0 15px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.member-equity-button.is-primary:hover,
+.member-equity-modal footer .is-primary:hover {
+  background: #4058e8;
+  border-color: #4058e8;
+}
+
+.member-equity-sort-tip {
+  padding: 0 0 8px 4px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}
+
+.member-equity-notice {
+  margin: 0 0 8px 4px;
+  color: #d4380d;
+  font-size: 13px;
+}
+
+.member-equity-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  font-size: 14px;
+}
+
+.member-equity-table th {
+  height: 54px;
+  padding: 16px;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  text-align: left;
+}
+
+.member-equity-table td {
+  height: 137px;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.member-equity-empty {
+  display: grid;
+  min-height: 69px;
+  place-items: center;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.member-equity-empty span {
+  width: 44px;
+  height: 34px;
+  border-radius: 3px;
+  background:
+    linear-gradient(#f5f5f5, #f5f5f5) 8px 9px / 28px 4px no-repeat,
+    linear-gradient(#f0f0f0, #f0f0f0) 8px 18px / 24px 4px no-repeat,
+    #fbfbfb;
+  border: 1px solid #eee;
+}
+
+.member-equity-empty strong {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.member-equity-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: start center;
+  padding-top: 100px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.member-equity-modal {
+  width: 400px;
+  min-height: 447px;
+  padding-bottom: 24px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.member-equity-modal header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 55px;
+  padding: 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.member-equity-modal h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.member-equity-modal header button {
+  border: 0;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.member-equity-form {
+  display: grid;
+  gap: 22px;
+  padding: 22px 24px 0;
+}
+
+.member-equity-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.member-equity-form label > span {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.member-equity-form input,
+.member-equity-form textarea {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.member-equity-form input {
+  height: 32px;
+  padding: 4px 11px;
+}
+
+.member-equity-form textarea {
+  min-height: 72px;
+  padding: 8px 11px;
+  resize: none;
+}
+
+.member-equity-upload {
+  width: 104px;
+  height: 104px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 2px;
+  background: #fafafa;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.member-equity-modal footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 22px 24px 0;
+}
+
+.member-equity-modal footer button {
+  min-width: 68px;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.member-equity-modal footer .is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}

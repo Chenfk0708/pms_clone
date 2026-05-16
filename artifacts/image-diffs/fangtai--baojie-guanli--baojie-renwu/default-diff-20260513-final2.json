@@ -1,0 +1,31 @@
+﻿{
+    "cloneAssertions":  {
+                            "hasFakeTaskRow":  false,
+                            "hasSubscriptionMask":  true,
+                            "batchNotifyDisabled":  true,
+                            "subscribeNavigatesToDetail":  true
+                        },
+    "kind":  "target-clone-diff-composite",
+    "targetScreenshot":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renwu\\default-target-20260513-reaudit.png",
+    "changedRatio":  0.728425,
+    "totalPixels":  1296000,
+    "cloneScreenshot":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--baojie-guanli--baojie-renwu\\default-clone-20260513-final2.png",
+    "changedPixels":  944039,
+    "diffScreenshot":  "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\image-diffs\\fangtai--baojie-guanli--baojie-renwu\\default-diff-20260513-final2.png",
+    "threshold":  "sum(abs(rgb delta)) \u003e 48",
+    "acceptedDifferences":  [
+                                "Global AppShell and production AntD header/sidebar assets still differ; this remains a shared shell difference outside this page task.",
+                                "The target account is in the unpaid smart-cleaning state, so no real clean-task rows are available; the clone intentionally does not fabricate task-list rows.",
+                                "The target and local data/session chrome include dynamic account, menu and production asset differences; this diff is retained as a regression artifact rather than a zero-pixel gate."
+                            ],
+    "targetCoverage":  [
+                           "default viewport",
+                           "filter bar",
+                           "disabled batch notify",
+                           "unpaid smart-cleaning subscription mask"
+                       ],
+    "dimensionsCompared":  {
+                               "height":  900,
+                               "width":  1440
+                           }
+}

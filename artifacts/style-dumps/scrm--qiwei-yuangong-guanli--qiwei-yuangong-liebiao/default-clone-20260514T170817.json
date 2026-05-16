@@ -1,0 +1,1348 @@
+{
+  "side": "clone",
+  "mode": "both",
+  "stamp": "20260514T170817",
+  "finalUrl": "http://127.0.0.1:4173/customer/staffList",
+  "states": {
+    "default": {
+      "url": "http://127.0.0.1:4173/customer/staffList",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n企微SCRM-员工管理\n\n实时获取企业微信员工，实现员工管理\n\n立即开通\n限时免费\n商品详情\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "立即开通",
+          "rect": {
+            "x": 1268,
+            "y": 112,
+            "width": 92,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "92px",
+            "height": "28px",
+            "padding": "0px 18px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "28px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "刷新会话",
+          "placeholder": null,
+          "text": "↻",
+          "rect": {
+            "x": 1371,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "收起会话",
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1397,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock__collapse",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1350,
+            "y": 858,
+            "width": 80,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "fixed",
+            "width": "80px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px 4px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "立即开通",
+        "↻",
+        "收起",
+        "收起"
+      ],
+      "tableHeaders": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM-员工管理 实时获取企业微信员工，实现员工管理 立即开通 限时免费 商品详情",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 2151
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "2151px",
+            "padding": "8px 8px 0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(244, 247, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "div",
+          "className": "staff-list-page",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM-员工管理 实时获取企业微信员工，实现员工管理 立即开通 限时免费 商品详情",
+          "rect": {
+            "x": 164,
+            "y": 66,
+            "width": 1268,
+            "height": 2143
+          },
+          "styles": {
+            "display": "grid",
+            "position": "relative",
+            "width": "1268px",
+            "height": "2143px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "1268px"
+          }
+        }
+      ]
+    },
+    "afterClick:收起": {
+      "url": "http://127.0.0.1:4173/customer/staffList",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n企微SCRM-员工管理\n\n实时获取企业微信员工，实现员工管理\n\n立即开通\n限时免费\n商品详情",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "立即开通",
+          "rect": {
+            "x": 1268,
+            "y": 112,
+            "width": 92,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "92px",
+            "height": "28px",
+            "padding": "0px 18px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "28px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock-launcher",
+          "role": null,
+          "ariaLabel": "打开全部会话",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1377,
+            "y": 822,
+            "width": 46,
+            "height": 46
+          },
+          "styles": {
+            "display": "grid",
+            "position": "fixed",
+            "width": "46px",
+            "height": "46px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(0, 0, 0)",
+            "borderRadius": "50%",
+            "boxShadow": "rgba(77, 101, 246, 0.28) 0px 4px 12px 0px",
+            "overflow": "visible",
+            "gridTemplateColumns": "34px"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "立即开通",
+        "打开全部会话"
+      ],
+      "tableHeaders": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM-员工管理 实时获取企业微信员工，实现员工管理 立即开通 限时免费 商品详情",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 2151
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "2151px",
+            "padding": "8px 8px 0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(244, 247, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "div",
+          "className": "staff-list-page",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM-员工管理 实时获取企业微信员工，实现员工管理 立即开通 限时免费 商品详情",
+          "rect": {
+            "x": 164,
+            "y": 66,
+            "width": 1268,
+            "height": 2143
+          },
+          "styles": {
+            "display": "grid",
+            "position": "relative",
+            "width": "1268px",
+            "height": "2143px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "1268px"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\收起-clone-20260514T170817.png"
+    },
+    "afterClick:立即开通": {
+      "url": "http://127.0.0.1:4173/customer/staffList",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n企微SCRM\n\n利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通；\n\n返回\n商品详情\n购买信息\n商品价格\n¥150.6\n¥75,300 /年\n购买时长\n跟随版本2027-09-28到期\n跟随版本2027-09-28到期\n订单金额\n¥150.6\n明细 ⓘ\n我已阅读并同意《路客云产品服务购买协议》\n立即购买",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "返回",
+          "rect": {
+            "x": 1016,
+            "y": 123,
+            "width": 58,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "58px",
+            "height": "30px",
+            "padding": "0px 14px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "跟随版本2027-09-28到期",
+          "rect": {
+            "x": 1181,
+            "y": 192,
+            "width": 184,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "183.797px",
+            "height": "28px",
+            "padding": "0px 10px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(238, 242, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "跟随版本2027-09-28到期",
+          "rect": {
+            "x": 1181,
+            "y": 228,
+            "width": 184,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "183.797px",
+            "height": "28px",
+            "padding": "0px 10px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(238, 242, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1111,
+            "y": 332,
+            "width": 13,
+            "height": 13
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "13px",
+            "height": "13px",
+            "padding": "0px",
+            "margin": "3px 3px 3px 4px",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "lineHeight": "18px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "staff-purchase-submit",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "立即购买",
+          "rect": {
+            "x": 1107,
+            "y": 364,
+            "width": 309,
+            "height": 32
+          },
+          "styles": {
+            "display": "inline-block",
+            "position": "static",
+            "width": "309px",
+            "height": "32px",
+            "padding": "0px 18px",
+            "margin": "16px 0px 0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "28px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock-launcher",
+          "role": null,
+          "ariaLabel": "打开全部会话",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1377,
+            "y": 822,
+            "width": 46,
+            "height": 46
+          },
+          "styles": {
+            "display": "grid",
+            "position": "fixed",
+            "width": "46px",
+            "height": "46px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(0, 0, 0)",
+            "borderRadius": "50%",
+            "boxShadow": "rgba(77, 101, 246, 0.28) 0px 4px 12px 0px",
+            "overflow": "visible",
+            "gridTemplateColumns": "34px"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaLabel": null,
+          "value": "on"
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "返回",
+        "跟随版本2027-09-28到期",
+        "跟随版本2027-09-28到期",
+        "立即购买",
+        "打开全部会话"
+      ],
+      "tableHeaders": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM 利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通； 返回 商品详情 购买信息 商品价格 ¥150.6 ¥75,300 /年 购买时长 跟随版本2027-09-28到期 跟随版本2027-09-28到期 订单金额 ¥150.6 明细 ⓘ 我已阅读并同意《路客云产品服务购买协议》 立即购买",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 1460
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "1460.45px",
+            "padding": "8px 8px 0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(244, 247, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "div",
+          "className": "staff-list-page staff-list-page--purchase",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM 利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通； 返回 商品详情 购买信息 商品价格 ¥150.6 ¥75,300 /年 购买时长 跟随版本2027-09-28到期 跟随版本2027-09-28到期 订单金额 ¥150.6 明细 ⓘ 我已阅读并同意《路客云产品服务购买协议》 立即购买",
+          "rect": {
+            "x": 164,
+            "y": 66,
+            "width": 1268,
+            "height": 1452
+          },
+          "styles": {
+            "display": "grid",
+            "position": "relative",
+            "width": "1268px",
+            "height": "1452.45px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "8px 8px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "926px 342px"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\立即开通-clone-20260514T170817.png"
+    },
+    "afterClick:商品详情": {
+      "url": "http://127.0.0.1:4173/customer/staffList",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n消息\n用户\n客户概况\n客户管理\n客户列表\n客户标签\n会员中心\n会员等级\n会员权益\n会员积分\n增长获客\n批量加好友\n营销推广\n优惠券\n全员营销\n客户营销\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\n企微员工列表\n企微SCRM\n\n利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通；\n\n返回\n商品详情\n购买信息\n商品价格\n¥150.6\n¥75,300 /年\n购买时长\n跟随版本2027-09-28到期\n跟随版本2027-09-28到期\n订单金额\n¥150.6\n明细 ⓘ\n我已阅读并同意《路客云产品服务购买协议》\n立即购买",
+      "controls": [
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "应用订阅",
+          "rect": {
+            "x": 1204,
+            "y": 0,
+            "width": 89,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "89px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "消息",
+          "rect": {
+            "x": 1301,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "用户",
+          "rect": {
+            "x": 1367,
+            "y": 0,
+            "width": 58,
+            "height": 66
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "57.5px",
+            "height": "66px",
+            "padding": "8px 12px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(47, 58, 81)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(223, 229, 241)",
+            "borderRadius": "8px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "返回",
+          "rect": {
+            "x": 1016,
+            "y": 123,
+            "width": 58,
+            "height": 30
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "58px",
+            "height": "30px",
+            "padding": "0px 14px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "1px solid rgb(217, 217, 217)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "跟随版本2027-09-28到期",
+          "rect": {
+            "x": 1181,
+            "y": 192,
+            "width": 184,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "183.797px",
+            "height": "28px",
+            "padding": "0px 10px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(238, 242, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "跟随版本2027-09-28到期",
+          "rect": {
+            "x": 1181,
+            "y": 228,
+            "width": 184,
+            "height": 28
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "183.797px",
+            "height": "28px",
+            "padding": "0px 10px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(77, 101, 246)",
+            "backgroundColor": "rgb(238, 242, 255)",
+            "border": "1px solid rgb(77, 101, 246)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "input",
+          "className": "",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1111,
+            "y": 332,
+            "width": 13,
+            "height": 13
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "13px",
+            "height": "13px",
+            "padding": "0px",
+            "margin": "3px 3px 3px 4px",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "lineHeight": "18px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "staff-purchase-submit",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "立即购买",
+          "rect": {
+            "x": 1107,
+            "y": 364,
+            "width": 309,
+            "height": 32
+          },
+          "styles": {
+            "display": "inline-block",
+            "position": "static",
+            "width": "309px",
+            "height": "32px",
+            "padding": "0px 18px",
+            "margin": "16px 0px 0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "28px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock-launcher",
+          "role": null,
+          "ariaLabel": "打开全部会话",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1377,
+            "y": 822,
+            "width": 46,
+            "height": 46
+          },
+          "styles": {
+            "display": "grid",
+            "position": "fixed",
+            "width": "46px",
+            "height": "46px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(0, 0, 0)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(0, 0, 0)",
+            "borderRadius": "50%",
+            "boxShadow": "rgba(77, 101, 246, 0.28) 0px 4px 12px 0px",
+            "overflow": "visible",
+            "gridTemplateColumns": "34px"
+          }
+        }
+      ],
+      "inputs": [
+        {
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaLabel": null,
+          "value": "on"
+        }
+      ],
+      "buttons": [
+        "应用订阅",
+        "消息",
+        "用户",
+        "返回",
+        "跟随版本2027-09-28到期",
+        "跟随版本2027-09-28到期",
+        "立即购买",
+        "打开全部会话"
+      ],
+      "tableHeaders": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM 利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通； 返回 商品详情 购买信息 商品价格 ¥150.6 ¥75,300 /年 购买时长 跟随版本2027-09-28到期 跟随版本2027-09-28到期 订单金额 ¥150.6 明细 ⓘ 我已阅读并同意《路客云产品服务购买协议》 立即购买",
+          "rect": {
+            "x": 156,
+            "y": 58,
+            "width": 1284,
+            "height": 1460
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "1460.45px",
+            "padding": "8px 8px 0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(244, 247, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "div",
+          "className": "staff-list-page staff-list-page--purchase",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微SCRM 利用企业微信高效工具完成入住前、入住中、入住后的全入住流程体验升级，在企业微信中智能接待，高效沟通； 返回 商品详情 购买信息 商品价格 ¥150.6 ¥75,300 /年 购买时长 跟随版本2027-09-28到期 跟随版本2027-09-28到期 订单金额 ¥150.6 明细 ⓘ 我已阅读并同意《路客云产品服务购买协议》 立即购买",
+          "rect": {
+            "x": 164,
+            "y": 66,
+            "width": 1268,
+            "height": 1452
+          },
+          "styles": {
+            "display": "grid",
+            "position": "relative",
+            "width": "1268px",
+            "height": "1452.45px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "8px 8px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "926px 342px"
+          }
+        }
+      ],
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\商品详情-clone-20260514T170817.png"
+    }
+  },
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\default-clone-20260514T170817.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\full-clone-20260514T170817.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\default-clone-20260514T170817.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\default-clone-20260514T170817.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\default-clone-20260514T170817.json"
+  }
+}

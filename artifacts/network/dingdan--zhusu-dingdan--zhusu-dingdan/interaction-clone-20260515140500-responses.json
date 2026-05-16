@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260515140500",
+  "url": "http://127.0.0.1:54618/order/house-order/list",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:54618/order/house-order/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:54618/assets/index-CVGaH2sL.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:54618/assets/index-BJot_wsw.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:54618/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

@@ -49,7 +49,7 @@ export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal
     signal,
   })
 
-  let payload: ChannelPriceResponse | null = null
+  let payload: ChannelPriceResponse | null
   try {
     payload = (await response.json()) as ChannelPriceResponse
   } catch {

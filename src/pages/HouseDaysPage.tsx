@@ -2,7 +2,7 @@ import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './HouseDaysPage.css'
-import { houseDaysDataSource, roomCards, statusGroups, viewModes } from './houseDaysData'
+import { roomCards, statusGroups, viewModes } from './houseDaysData'
 
 export function HouseDaysPage() {
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ export function HouseDaysPage() {
   const [openMenu, setOpenMenu] = useState<'settings' | 'clean' | 'openClose' | null>(null)
   const [showLegend, setShowLegend] = useState(false)
   const [keyword, setKeyword] = useState('')
-  const [feedback, setFeedback] = useState(houseDaysDataSource.blocker)
+  const [feedback, setFeedback] = useState('')
 
   useEffect(() => {
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -51,12 +51,6 @@ export function HouseDaysPage() {
   return (
     <div className="page-stack day-status-page">
       <section className="toolbar-card day-toolbar">
-        <div className="day-data-source" aria-label="日房态数据来源">
-          <strong>固定 Chrome 目标站取证快照</strong>
-          <span>{houseDaysDataSource.capturedAt}</span>
-          <span>{houseDaysDataSource.networkEndpoints.join('；')}</span>
-          <em>{houseDaysDataSource.blocker}</em>
-        </div>
         <div className="day-feedback" role="status" aria-label="日房态操作反馈" aria-live="polite">
           {feedback}
         </div>

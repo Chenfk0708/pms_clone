@@ -1,0 +1,1640 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "defaultState": {
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "消息",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "收款",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "接待",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "门锁",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "客服",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "通知",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "style": {
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "用户菜单",
+        "text": "",
+        "placeholder": "",
+        "box": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "style": {
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "房态管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "style": {
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "fontSize": "15px",
+          "lineHeight": "22.5px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "房价管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 236,
+          "width": 155,
+          "height": 44
+        },
+        "style": {
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "fontSize": "15px",
+          "lineHeight": "22.5px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "保洁管理",
+        "placeholder": "",
+        "box": {
+          "x": 0,
+          "y": 336,
+          "width": 155,
+          "height": 44
+        },
+        "style": {
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "fontSize": "15px",
+          "lineHeight": "22.5px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "月房态",
+        "placeholder": "",
+        "box": {
+          "x": 174,
+          "y": 81,
+          "width": 66,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "日房态",
+        "placeholder": "",
+        "box": {
+          "x": 248,
+          "y": 81,
+          "width": 66,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(102, 102, 102)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "输入客户姓名/手机/房间/渠道单/备注",
+        "box": {
+          "x": 766,
+          "y": 81,
+          "width": 400,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(153, 153, 153)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "0px none rgb(153, 153, 153)",
+          "borderRadius": "4px",
+          "fontSize": "12px",
+          "lineHeight": "18px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "读 卡",
+        "placeholder": "",
+        "box": {
+          "x": 1174,
+          "y": 81,
+          "width": 68,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "房价管理",
+        "placeholder": "",
+        "box": {
+          "x": 1250,
+          "y": 81,
+          "width": 74,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "更多设置",
+        "text": "更多设置",
+        "placeholder": "",
+        "box": {
+          "x": 1332,
+          "y": 81,
+          "width": 92,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "全部门店",
+        "placeholder": "",
+        "box": {
+          "x": 172,
+          "y": 119,
+          "width": 96,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px 0px 0px 4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "天落会宿公寓(前海壹方城宝安中心店)",
+        "placeholder": "",
+        "box": {
+          "x": 267,
+          "y": 119,
+          "width": 96,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(136, 136, 136)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 216, 216)",
+          "borderRadius": "0px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "门店设置",
+        "text": "⚙",
+        "placeholder": "",
+        "box": {
+          "x": 362,
+          "y": 119,
+          "width": 32,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "0px 4px 4px 0px",
+          "fontSize": "16px",
+          "lineHeight": "16px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "房型",
+        "placeholder": "",
+        "box": {
+          "x": 402,
+          "y": 119,
+          "width": 116,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(153, 153, 153)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 216, 216)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "房型标签",
+        "placeholder": "",
+        "box": {
+          "x": 526,
+          "y": 119,
+          "width": 116,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(153, 153, 153)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 216, 216)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "role": "",
+        "ariaLabel": "",
+        "text": "",
+        "placeholder": "房源编码/简称/标题",
+        "box": {
+          "x": 655,
+          "y": 120,
+          "width": 104,
+          "height": 26
+        },
+        "style": {
+          "color": "rgb(153, 153, 153)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(153, 153, 153)",
+          "borderRadius": "4px 0px 0px 4px",
+          "fontSize": "12px",
+          "lineHeight": "18px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "搜索房源",
+        "text": "⌕",
+        "placeholder": "",
+        "box": {
+          "x": 759,
+          "y": 120,
+          "width": 26,
+          "height": 26
+        },
+        "style": {
+          "color": "rgb(119, 119, 119)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px 4px 4px 0px",
+          "fontSize": "18px",
+          "lineHeight": "18px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "批量设脏/净",
+        "placeholder": "",
+        "box": {
+          "x": 1156,
+          "y": 119,
+          "width": 94,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "批量开/关房",
+        "placeholder": "",
+        "box": {
+          "x": 1258,
+          "y": 119,
+          "width": 94,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "刷新房态",
+        "text": "↻",
+        "placeholder": "",
+        "box": {
+          "x": 1360,
+          "y": 119,
+          "width": 28,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "16px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "重新加载",
+        "text": "⟳",
+        "placeholder": "",
+        "box": {
+          "x": 1396,
+          "y": 119,
+          "width": 28,
+          "height": 28
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "fontSize": "16px",
+          "lineHeight": "16px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "重试真实请求",
+        "placeholder": "",
+        "box": {
+          "x": 335,
+          "y": 163,
+          "width": 100,
+          "height": 26
+        },
+        "style": {
+          "color": "rgb(168, 7, 26)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(255, 120, 117)",
+          "borderRadius": "4px",
+          "fontSize": "13px",
+          "lineHeight": "19.5px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "全部收起",
+        "placeholder": "",
+        "box": {
+          "x": 237,
+          "y": 269,
+          "width": 48,
+          "height": 14
+        },
+        "style": {
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px",
+          "fontSize": "12px",
+          "lineHeight": "14px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.13三未返回",
+        "placeholder": "",
+        "box": {
+          "x": 165,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.14四未返回",
+        "placeholder": "",
+        "box": {
+          "x": 257,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.15五未返回",
+        "placeholder": "",
+        "box": {
+          "x": 349,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "◆05.16六未返回",
+        "placeholder": "",
+        "box": {
+          "x": 441,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.17日未返回",
+        "placeholder": "",
+        "box": {
+          "x": 533,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.18一未返回",
+        "placeholder": "",
+        "box": {
+          "x": 625,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.19二未返回",
+        "placeholder": "",
+        "box": {
+          "x": 717,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.20三未返回",
+        "placeholder": "",
+        "box": {
+          "x": 809,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.21四未返回",
+        "placeholder": "",
+        "box": {
+          "x": 901,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.22五未返回",
+        "placeholder": "",
+        "box": {
+          "x": 993,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.23六未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1085,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.24日未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1177,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.25一未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1269,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.26二未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1361,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.27三未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1453,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.28四未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1545,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.29五未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1637,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.30六未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1729,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "05.31日未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1821,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.01一未返回",
+        "placeholder": "",
+        "box": {
+          "x": 1913,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.02二未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2005,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.03三未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2097,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.04四未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2189,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.05五未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2281,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.06六未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2373,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.07日未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2465,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.08一未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2557,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.09二未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2649,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.10三未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2741,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.11四未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2833,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.12五未返回",
+        "placeholder": "",
+        "box": {
+          "x": 2925,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.13六未返回",
+        "placeholder": "",
+        "box": {
+          "x": 3017,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "06.14日未返回",
+        "placeholder": "",
+        "box": {
+          "x": 3109,
+          "y": 237,
+          "width": 92,
+          "height": 55
+        },
+        "style": {
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "刷新会话",
+        "text": "↻",
+        "placeholder": "",
+        "box": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "style": {
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "收起会话",
+        "text": "收起",
+        "placeholder": "",
+        "box": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "style": {
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "fontSize": "16px",
+          "lineHeight": "24px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "role": "",
+        "ariaLabel": "",
+        "text": "收起",
+        "placeholder": "",
+        "box": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "style": {
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px",
+          "fontSize": "14px",
+          "lineHeight": "21px"
+        }
+      }
+    ]
+  },
+  "interactions": [
+    {
+      "slug": "room-filter",
+      "label": "房型筛选",
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "房型",
+        "text": "房型",
+        "box": {
+          "x": 402,
+          "y": 119,
+          "width": 116,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-room-filter-clone-20260516-174659.png"
+    },
+    {
+      "slug": "tag-filter",
+      "label": "房型标签筛选",
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "房型标签",
+        "text": "房型标签",
+        "box": {
+          "x": 526,
+          "y": 119,
+          "width": 116,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n暂无数据\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-tag-filter-clone-20260516-174659.png"
+    },
+    {
+      "slug": "batch-dirty-clean",
+      "label": "批量设脏/净",
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "批量设脏/净",
+        "text": "批量设脏/净",
+        "box": {
+          "x": 1156,
+          "y": 119,
+          "width": 94,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量设脏\n批量设净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [
+          "批量设脏批量设净"
+        ],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-batch-dirty-clean-clone-20260516-174659.png"
+    },
+    {
+      "slug": "batch-open-close",
+      "label": "批量开/关房",
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "批量开/关房",
+        "text": "批量开/关房",
+        "box": {
+          "x": 1258,
+          "y": 119,
+          "width": 94,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n批量关房\n批量开房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [
+          "批量关房批量开房"
+        ],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-batch-open-close-clone-20260516-174659.png"
+    },
+    {
+      "slug": "more-settings",
+      "label": "更多设置",
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "更多设置",
+        "text": "更多设置",
+        "box": {
+          "x": 1332,
+          "y": 81,
+          "width": 92,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n图例说明\n房态设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [
+          "图例说明房态设置"
+        ],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-more-settings-clone-20260516-174659.png"
+    },
+    {
+      "slug": "booking-detail",
+      "label": "订单详情入口",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "陈家辉",
+          "刘翻红",
+          "张张",
+          "详情"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n月房态\n日房态\n房态日志\n房价管理\n房情表\n保洁管理\n月房态\n月房态\n日房态\n读 卡\n房价管理\n更多设置\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n房型\n房型标签\n⌕\n批量设脏/净\n批量开/关房\n↻\n⟳\n真实接口阻塞\n没有登录\n重试真实请求\n等待真实请求返回\n2026.05.16\n▣\n全部收起\n05.13\n三\n未返回\n05.14\n四\n未返回\n05.15\n五\n未返回\n◆\n05.16\n六\n未返回\n05.17\n日\n未返回\n05.18\n一\n未返回\n05.19\n二\n未返回\n05.20\n三\n未返回\n05.21\n四\n未返回\n05.22\n五\n未返回\n05.23\n六\n未返回\n05.24\n日\n未返回\n05.25\n一\n未返回\n05.26\n二\n未返回\n05.27\n三\n未返回\n05.28\n四\n未返回\n05.29\n五\n未返回\n05.30\n六\n未返回\n05.31\n日\n未返回\n06.01\n一\n未返回\n06.02\n二\n未返回\n06.03\n三\n未返回\n06.04\n四\n未返回\n06.05\n五\n未返回\n06.06\n六\n未返回\n06.07\n日\n未返回\n06.08\n一\n未返回\n06.09\n二\n未返回\n06.10\n三\n未返回\n06.11\n四\n未返回\n06.12\n五\n未返回\n06.13\n六\n未返回\n06.14\n日\n未返回\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": [
+          "房态",
+          "房态管理",
+          "月房态",
+          "月房态"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-booking-detail-clone-20260516-174659.png"
+    }
+  ]
+}

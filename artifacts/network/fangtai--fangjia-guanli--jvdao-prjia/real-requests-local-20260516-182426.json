@@ -1,0 +1,52 @@
+{
+  "side": "local",
+  "url": "http://127.0.0.1:4173/houseManage/channelPrice?campId=1796067693589061634",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "requests": [
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryStatuses/roomCategory/channel/get",
+      "pathname": "/roomCategoryStatuses/roomCategory/channel/get",
+      "method": "POST",
+      "status": 200,
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryProductSaleType": null,
+        "roomCategoryIds": null,
+        "date": "2026-05-16",
+        "days": 30,
+        "poiIds": null,
+        "pageNum": 1,
+        "pageSize": 15,
+        "isFinalChannelRp": 1
+      },
+      "responseSummary": {
+        "rootKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataType": "object",
+        "dataKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "sample": {
+          "success": false,
+          "errorCode": "USER_NOT_LOGIN",
+          "errorMsg": "没有登录",
+          "errorDetail": "没有登录",
+          "data": null
+        }
+      }
+    }
+  ]
+}

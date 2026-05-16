@@ -4,6 +4,7 @@ import { channelSideNav, distributionSideNav, globalRadarSideNav, informationSid
 import type { TopNavItem } from '../types'
 import { resolveSideNav } from '../data/mock'
 import { ChatDock } from './ChatDock'
+import { getCurrentSessionUser } from '../services/session'
 
 interface AppShellProps {
   path: string
@@ -42,6 +43,7 @@ const topbarTools: Array<{ id: TopbarTool; label: string; icon: string }> = [
 
 export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const navigate = useNavigate()
+  const sessionUser = getCurrentSessionUser()
   const [openTopbarPanel, setOpenTopbarPanel] = useState<TopbarPanel | null>(null)
   const [chatOpenSignal, setChatOpenSignal] = useState(0)
   const [collapsedSidebarGroups, setCollapsedSidebarGroups] = useState<Record<string, boolean>>({})
@@ -230,7 +232,8 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           </button>
           {openTopbarPanel === 'user' ? (
             <div className="topbar-user-popover" role="dialog" aria-label="用户菜单面板">
-              <strong>路客云 6TS5 的店铺</strong>
+              <strong>{sessionUser?.name ?? '路客云 6TS5 的店铺'}</strong>
+              {sessionUser ? <span>{sessionUser.roleLabel}</span> : null}
               <Link to="/InformationMaintenance/campInfo" onClick={() => setOpenTopbarPanel(null)}>门店信息</Link>
               <Link to="/setting/member" onClick={() => setOpenTopbarPanel(null)}>成员设置</Link>
               <Link to="/CompanySetting/Apikeys" onClick={() => setOpenTopbarPanel(null)}>API keys</Link>

@@ -13,7 +13,7 @@ async function mockWorkspaceApis(page: Page) {
   await page.route(`${HUDSON_API}/**`, async (route) => {
     const request = route.request()
     const url = request.url()
-    let body: Record<string, unknown> = {}
+    let body: Record<string, unknown>
     try {
       body = request.postDataJSON() as Record<string, unknown>
     } catch {
@@ -231,6 +231,20 @@ test.describe('workspace page clone', () => {
     await page.goto('/workspace')
     await expect(page.getByRole('alert')).toContainText('首页数据请求失败')
     await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+
+    const topStripBox = await page.locator('.workspace-top-strip').boundingBox()
+    const revenueBox = await page.locator('.workspace-revenue').boundingBox()
+    expect(topStripBox?.y).toBeLessThan(revenueBox?.y ?? 0)
+  })
+
+  test('does not show a technical campId banner on the visual workspace shell', async ({ page }) => {
+    await page.addInitScript(() => window.localStorage.removeItem('pmsCampId'))
+    await page.goto('/workspace')
+
+    await expect(page.getByText('首页数据请求失败：缺少 campId')).toHaveCount(0)
+    const topStripBox = await page.locator('.workspace-top-strip').boundingBox()
+    const revenueBox = await page.locator('.workspace-revenue').boundingBox()
+    expect(topStripBox?.y).toBeLessThan(revenueBox?.y ?? 0)
   })
 
   test('gives feedback for visible workspace action buttons', async ({ page }) => {

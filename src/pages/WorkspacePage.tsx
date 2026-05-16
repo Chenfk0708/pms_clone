@@ -90,7 +90,7 @@ export function WorkspacePage() {
 
   async function loadDashboard() {
     if (!hasCampContext) {
-      setErrorMessage(`首页数据请求失败：${campId}`)
+      setErrorMessage('')
       return
     }
 

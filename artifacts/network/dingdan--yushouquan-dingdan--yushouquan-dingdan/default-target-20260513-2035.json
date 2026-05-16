@@ -1,4 +1,4 @@
-{
+﻿{
   "side": "target",
   "url": "https://minsubao.localhome.cn/mallManagement/orderManagement",
   "responses": [
@@ -423,13 +423,13 @@
       "resourceType": "fetch"
     },
     {
-      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=668a891f8667845d7d2d07cf0ece98df&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=8d0514326dbd437d73cf9dc837543884",
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=668a891f8667845d7d2d07cf0ece98df&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=[redacted-app-key]",
       "status": 200,
       "method": "GET",
       "resourceType": "xhr"
     },
     {
-      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=[redacted-accid]&sv=90500&pv=1&networkType=0&k=[redacted-app-key]",
       "status": 200,
       "method": "GET",
       "resourceType": "xhr"
@@ -549,7 +549,7 @@
       "resourceType": "fetch"
     },
     {
-      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=8d0514326dbd437d73cf9dc837543884&uid=prod_0_1796067702522908674&os=web&session=&ver=90500&type=im&platform=chrome148",
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=[redacted-app-key]&uid=[redacted-accid]&os=web&session=&ver=90500&type=im&platform=chrome148",
       "status": 200,
       "method": "GET",
       "resourceType": "xhr"

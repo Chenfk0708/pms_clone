@@ -28,11 +28,102 @@ function jsonResponse(body: unknown) {
   }
 }
 
-async function mockMonthStatusApis(page, requestedPaths: string[] = []) {
+async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant: 'target' | 'api' = 'target') {
+  const categories =
+    variant === 'api'
+      ? [
+          {
+            roomCategoryId: 'cat-interface',
+            roomCategoryName: 'API Room Type',
+            rooms: [{ roomId: 'room-interface', roomName: 'API Room' }],
+          },
+        ]
+      : [
+          {
+            roomCategoryId: 'cat-top',
+            roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
+            rooms: [{ roomId: 'room-top-1', roomName: '房间1' }],
+          },
+          {
+            roomCategoryId: 'cat-president',
+            roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
+            rooms: [{ roomId: 'room-president-1', roomName: '房间1' }],
+          },
+          {
+            roomCategoryId: 'cat-sky',
+            roomCategoryName: '天落大床电竞套间',
+            rooms: [{ roomId: 'room-sky-1', roomName: '房间1' }],
+          },
+          {
+            roomCategoryId: 'cat-movie',
+            roomCategoryName: '观影大床房',
+            rooms: [{ roomId: 'room-movie-1', roomName: '房间1' }],
+          },
+        ]
+  const orderRows =
+    variant === 'api'
+      ? [
+          {
+            roomCategoryId: 'cat-interface',
+            roomId: 'room-interface',
+            date: formatIsoDate(monthWindowDate(3)),
+            guestName: 'API Guest',
+            channelName: 'API Channel',
+            roomFee: 188,
+            totalIncome: 199,
+            stayRange: '2026.05.16-05.17',
+            remark: 'API Remark',
+            orderId: 'interface-order',
+          },
+        ]
+      : [
+          {
+            roomCategoryId: 'cat-president',
+            roomId: 'room-president-1',
+            date: formatIsoDate(monthWindowDate(6)),
+            guestName: '陈家辉',
+            channelName: '飞猪淘酒店',
+            roomFee: 597.6,
+            totalIncome: 664,
+            stayRange: '2026.05.18-05.20',
+            orderId: 'target-order',
+          },
+          {
+            roomCategoryId: 'cat-president',
+            roomId: 'room-president-1',
+            date: formatIsoDate(monthWindowDate(3)),
+            guestName: '刘翻红',
+            channelName: '携程',
+            roomFee: 285.44,
+            totalIncome: 285.44,
+            hasRemark: true,
+          },
+          {
+            roomCategoryId: 'cat-movie',
+            roomId: 'room-movie-1',
+            date: formatIsoDate(monthWindowDate(5)),
+            guestName: '张张',
+            channelName: '携程',
+            roomFee: 163.94,
+            totalIncome: 163.94,
+            hasRemark: true,
+          },
+        ]
+
   await page.route(`${HUDSON_API}/**`, async (route) => {
     const request = route.request()
     const pathname = new URL(request.url()).pathname
     requestedPaths.push(pathname)
+
+    if (pathname === '/camps/get') {
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: { camps: [{ campId: 'camp-interface', name: 'API Store' }] },
+        }),
+      )
+      return
+    }
 
     if (pathname === '/roomStatuses/rooms/get') {
       await route.fulfill(
@@ -40,13 +131,7 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = []) {
           success: true,
           data: {
             isSingleInventory: 0,
-            list: [
-              {
-                roomCategoryId: 'cat-interface',
-                roomCategoryName: '接口房型',
-                rooms: [{ roomId: 'room-interface', roomName: '接口房间' }],
-              },
-            ],
+            list: categories,
           },
         }),
       )
@@ -58,20 +143,7 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = []) {
         jsonResponse({
           success: true,
           data: {
-            list: [
-              {
-                roomCategoryId: 'cat-interface',
-                roomId: 'room-interface',
-                date: formatIsoDate(monthWindowDate(3)),
-                guestName: '接口客人',
-                channelName: '接口渠道',
-                roomFee: 188,
-                totalIncome: 199,
-                stayRange: '2026.05.16-05.17',
-                remark: '接口备注',
-                orderId: 'interface-order',
-              },
-            ],
+            list: orderRows,
             orderArrangementInfos: [],
           },
         }),
@@ -96,7 +168,11 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = []) {
         jsonResponse({
           success: true,
           data: {
-            list: [{ roomCategoryId: 'cat-interface', date: formatIsoDate(monthWindowDate(3)), inventory: 1 }],
+            list: categories.map((category) => ({
+              roomCategoryId: category.roomCategoryId,
+              date: formatIsoDate(monthWindowDate(3)),
+              inventory: 1,
+            })),
           },
         }),
       )
@@ -112,8 +188,19 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = []) {
   })
 }
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.currentCampId', 'camp-interface')
+  })
+  await mockMonthStatusApis(page)
+})
+
 function formatIsoDate(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function shanghaiMidnightTimestamp(date: Date) {
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - 8 * 60 * 60 * 1000
 }
 
 test('month room status page shows filters and calendar matrix', async ({ page }) => {
@@ -138,14 +225,15 @@ test('month room status page shows filters and calendar matrix', async ({ page }
 
 test('month room status page loads core grid from real request layer', async ({ page }) => {
   const requestedPaths: string[] = []
-  await mockMonthStatusApis(page, requestedPaths)
+  await page.unroute(`${HUDSON_API}/**`)
+  await mockMonthStatusApis(page, requestedPaths, 'api')
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months?campId=camp-interface')
 
-  await expect(page.getByText('接口房型')).toBeVisible()
-  await expect(page.getByText('接口房间')).toBeVisible()
-  await expect(page.getByText('接口客人')).toBeVisible()
-  await expect(page.getByText('接口渠道')).toBeVisible()
+  await expect(page.getByText('API Room Type', { exact: true })).toBeVisible()
+  await expect(page.getByText('API Room', { exact: true })).toBeVisible()
+  await expect(page.getByText('API Guest', { exact: true })).toBeVisible()
+  await expect(page.getByText('API Channel', { exact: true })).toBeVisible()
   await expect(page.getByText('¥188')).toBeVisible()
   await expect(page.getByText('陈家辉')).toHaveCount(0)
 
@@ -162,7 +250,112 @@ test('month room status page loads core grid from real request layer', async ({ 
   )
 })
 
+test('month room status page resolves camp context from real camps endpoint', async ({ page }) => {
+  const requestedPaths: string[] = []
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.currentCampId')
+  })
+  await page.unroute(`${HUDSON_API}/**`)
+  await mockMonthStatusApis(page, requestedPaths, 'api')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await expect(page.getByText('API Room Type', { exact: true })).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  expect(requestedPaths).toEqual(expect.arrayContaining(['/camps/get', '/roomStatuses/rooms/get']))
+})
+
+test('month room status page adapts compact target room status schema', async ({ page }) => {
+  const today = monthWindowDate(3)
+  await page.unroute(`${HUDSON_API}/**`)
+  await page.route(`${HUDSON_API}/**`, async (route) => {
+    const pathname = new URL(route.request().url()).pathname
+
+    if (pathname === '/roomStatuses/rooms/get') {
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: {
+            isSingleInventory: 0,
+            list: [
+              {
+                i: 'compact-category',
+                n: 'Compact Suite',
+                inv: 2,
+                rs: [{ i: 'compact-room', n: 'Compact Room', d: 0, s: 1 }],
+              },
+            ],
+          },
+        }),
+      )
+      return
+    }
+
+    if (pathname === '/roomStatuses/inv/get') {
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: {
+            list: [{ rci: 'compact-category', ivs: Array.from({ length: 33 }, () => 2) }],
+          },
+        }),
+      )
+      return
+    }
+
+    if (pathname === '/roomStatuses/orderDetails/get') {
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: {
+            list: [
+              {
+                ri: 'compact-room',
+                oi: 'compact-order',
+                odi: 'compact-detail',
+                gn: 'Compact Guest',
+                ocn: 'Compact Channel',
+                cid: formatIsoDate(today),
+                cod: formatIsoDate(monthWindowDate(4)),
+                rp: 22918,
+                oep: 29143,
+                rmk: 'compact remark',
+              },
+            ],
+            orderArrangementInfos: [
+              {
+                ri: 'compact-room',
+                d: shanghaiMidnightTimestamp(today),
+                odis: ['compact-detail'],
+                ecodis: [],
+              },
+            ],
+          },
+        }),
+      )
+      return
+    }
+
+    if (pathname.startsWith('/roomStatuses/')) {
+      await route.fulfill(jsonResponse({ success: true, data: { list: [] } }))
+      return
+    }
+
+    await route.fulfill(jsonResponse({ success: true, data: {} }))
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months?campId=camp-interface')
+
+  await expect(page.getByText('Compact Suite', { exact: true })).toBeVisible()
+  await expect(page.getByText('Compact Room', { exact: true })).toBeVisible()
+  await expect(page.getByText('Compact Guest', { exact: true })).toBeVisible()
+  await expect(page.getByText('Compact Channel', { exact: true })).toBeVisible()
+  await expect(page.getByText('¥229.18')).toBeVisible()
+})
+
 test('month room status page exposes real API blockers instead of static fallback data', async ({ page }) => {
+  await page.unroute(`${HUDSON_API}/**`)
   await page.route(`${HUDSON_API}/**`, async (route) => {
     await route.fulfill(jsonResponse({ success: false, errorMsg: '接口权限不足' }))
   })
@@ -419,7 +612,7 @@ test('month room status page supports batch selection and dismissible overlays',
   await page.getByTestId('month-selectable-cell').nth(1).click()
   await expect(page.locator('[data-testid="month-selectable-cell"][aria-selected="true"]')).toHaveCount(2)
   await page.locator('.month-batch-toolbar button').first().click()
-  await expect(page.getByRole('status')).toHaveAttribute('data-batch-result', 'dirty')
+  await expect(page.getByRole('status')).toContainText('批量设脏 真实提交接口未接入，已作为阻塞暴露。')
   await expect(page.locator('.month-batch-toolbar')).toHaveCount(0)
 })
 
@@ -441,6 +634,6 @@ test('month room status page supports outside dismissal and open-close batch app
 
   await page.getByTestId('month-selectable-cell').nth(0).click()
   await page.locator('.month-batch-toolbar button').first().click()
-  await expect(page.getByRole('status')).toHaveAttribute('data-batch-result', 'open')
+  await expect(page.getByRole('status')).toContainText('批量开房 真实提交接口未接入，已作为阻塞暴露。')
   await expect(page.locator('.month-batch-toolbar')).toHaveCount(0)
 })

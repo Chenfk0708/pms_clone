@@ -57,10 +57,10 @@ export async function fetchPriceLogEvidence(query: PriceLogEvidenceQuery, signal
   ])
 
   return {
-    channels: readArray(readRecord(channelsPayload.data).channels).filter(isRecord),
-    roomCategories: readArray(readRecord(channelsPayload.data).list).filter(isRecord).concat(
-      readArray(readRecord(roomCategoriesPayload.data).list).filter(isRecord),
-    ),
+    channels: readArray(readRecord(channelsPayload.data).channels).map(adaptChannel).filter((item): item is PriceLogChannel => Boolean(item)),
+    roomCategories: readArray(readRecord(roomCategoriesPayload.data).list)
+      .map(adaptRoomCategory)
+      .filter((item): item is PriceLogRoomCategory => Boolean(item)),
     capturedListEndpoint: false,
     requests: [
       { endpoint: PRICE_LOG_CHANNELS_ENDPOINT, body: channelsBody },
@@ -80,7 +80,7 @@ async function postJson(endpoint: string, body: Record<string, unknown>, signal?
     body: JSON.stringify(body),
   })
 
-  let payload: RawApiResponse | null = null
+  let payload: RawApiResponse | null
   try {
     payload = (await response.json()) as RawApiResponse
   } catch {
@@ -112,4 +112,32 @@ function readArray(value: unknown): unknown[] {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === 'object')
+}
+
+function adaptChannel(value: unknown): PriceLogChannel | null {
+  if (!isRecord(value)) return null
+  return {
+    channelId: readStringOrNumber(value.channelId ?? value.id),
+    channelName: readString(value.channelName ?? value.name),
+    name: readString(value.name),
+  }
+}
+
+function adaptRoomCategory(value: unknown): PriceLogRoomCategory | null {
+  if (!isRecord(value)) return null
+  return {
+    roomCategoryId: readStringOrNumber(value.roomCategoryId ?? value.id),
+    roomCategoryName: readString(value.roomCategoryName ?? value.name),
+    name: readString(value.name),
+  }
+}
+
+function readString(value: unknown) {
+  if (value === null || value === undefined || value === '') return undefined
+  return String(value)
+}
+
+function readStringOrNumber(value: unknown) {
+  if (typeof value === 'string' || typeof value === 'number') return value
+  return readString(value)
 }

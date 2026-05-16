@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appBaseURL = process.env.PMS_TEST_BASE_URL
@@ -11,6 +12,7 @@ function appUrl(routePath: string) {
 
 const DAY_MS = 24 * 60 * 60 * 1000
 const MONTH_WINDOW_START_OFFSET_DAYS = -3
+const HUDSON_API = 'https://hudson-prod.localhome.cn'
 
 function monthWindowDate(offsetFromWindowStart: number) {
   const today = new Date()
@@ -22,7 +24,11 @@ function formatMonthDay(date: Date) {
   return `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
 }
 
-async function mockPriceBoardApis(page: Parameters<Parameters<typeof test>[1]>[0]['page']) {
+function formatIsoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+async function mockPriceBoardApis(page: Page) {
   const requests: Array<{ url: string; postData: unknown }> = []
 
   await page.route('https://hudson-prod.localhome.cn/camps/get', async (route) => {
@@ -96,6 +102,112 @@ async function mockPriceBoardApis(page: Parameters<Parameters<typeof test>[1]>[0
   })
 
   return requests
+}
+
+async function mockMonthStatusApis(page: Page) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.currentCampId', 'camp-interface')
+  })
+
+  const categories = [
+    {
+      roomCategoryId: 'cat-top',
+      roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
+      rooms: [{ roomId: 'room-top-1', roomName: '房间1' }],
+    },
+    {
+      roomCategoryId: 'cat-president',
+      roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
+      rooms: [{ roomId: 'room-president-1', roomName: '房间1' }],
+    },
+    {
+      roomCategoryId: 'cat-sky',
+      roomCategoryName: '天落大床电竞套间',
+      rooms: [{ roomId: 'room-sky-1', roomName: '房间1' }],
+    },
+    {
+      roomCategoryId: 'cat-movie',
+      roomCategoryName: '观影大床房',
+      rooms: [{ roomId: 'room-movie-1', roomName: '房间1' }],
+    },
+  ]
+  const orderRows = [
+    {
+      roomCategoryId: 'cat-president',
+      roomId: 'room-president-1',
+      date: formatIsoDate(monthWindowDate(6)),
+      guestName: '陈家辉',
+      channelName: '飞猪淘酒店',
+      roomFee: 597.6,
+      totalIncome: 664,
+      stayRange: '2026.05.18-05.20',
+      orderId: 'target-order',
+    },
+    {
+      roomCategoryId: 'cat-president',
+      roomId: 'room-president-1',
+      date: formatIsoDate(monthWindowDate(3)),
+      guestName: '刘翻红',
+      channelName: '携程',
+      roomFee: 285.44,
+      totalIncome: 285.44,
+      hasRemark: true,
+    },
+    {
+      roomCategoryId: 'cat-movie',
+      roomId: 'room-movie-1',
+      date: formatIsoDate(monthWindowDate(5)),
+      guestName: '张张',
+      channelName: '携程',
+      roomFee: 163.94,
+      totalIncome: 163.94,
+      hasRemark: true,
+    },
+  ]
+
+  await page.route(`${HUDSON_API}/**`, async (route) => {
+    const pathname = new URL(route.request().url()).pathname
+
+    if (pathname === '/roomStatuses/rooms/get') {
+      await route.fulfill({ json: { success: true, data: { isSingleInventory: 0, list: categories } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/orderDetails/get') {
+      await route.fulfill({ json: { success: true, data: { list: orderRows, orderArrangementInfos: [] } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/dailyMonitor/get') {
+      await route.fulfill({
+        json: { success: true, data: { list: [{ date: formatIsoDate(monthWindowDate(3)), remain: '余1间' }] } },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/inv/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: categories.map((category) => ({
+              roomCategoryId: category.roomCategoryId,
+              date: formatIsoDate(monthWindowDate(3)),
+              inventory: 1,
+            })),
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname.startsWith('/roomStatuses/')) {
+      await route.fulfill({ json: { success: true, data: { list: [] } } })
+      return
+    }
+
+    await route.fulfill({ json: { success: true, data: {} } })
+  })
 }
 
 const pages = [
@@ -319,6 +431,12 @@ const pages = [
 for (const pageDef of pages) {
   test(`${pageDef.path} renders`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
+    if (pageDef.path === '/houseManage/priceBoard') {
+      await mockPriceBoardApis(page)
+    }
+    if (pageDef.path === '/houseManage/months') {
+      await mockMonthStatusApis(page)
+    }
     await page.goto(appUrl(pageDef.path))
     if (pageDef.path === '/workspace') {
       await expect(page.getByText('交接班')).toBeVisible()
@@ -354,7 +472,9 @@ for (const pageDef of pages) {
     } else if (pageDef.path === '/order/house-order/list') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.locator('.order-page')).toBeVisible()
-      await expect(page.getByRole('table', { name: '住宿订单列表' })).toContainText('2054409001821356034')
+      await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toBeVisible()
+      await expect(page.getByRole('alert')).toContainText('缺少 campId')
+      await expect(page.getByRole('table', { name: '住宿订单列表' }).getByRole('columnheader')).toHaveCount(24)
     } else if (pageDef.path === '/order/house-longRental-order/list') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.locator('.order-page--long-rental')).toBeVisible()
@@ -487,12 +607,12 @@ test('/houseManage/days matches captured navigation interactions', async ({ page
   await expect(page.getByRole('heading', { name: '门店信息', level: 1 })).toBeVisible()
 })
 
-test('/houseManage/days exposes source blockers and feedback for visible actions', async ({ page }) => {
+test('/houseManage/days keeps business UI clean and gives feedback for visible actions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/houseManage/days'))
 
-  await expect(page.getByLabel('日房态数据来源')).toContainText('固定 Chrome 目标站取证快照')
-  await expect(page.getByLabel('日房态数据来源')).toContainText('roomStatusesToday/get')
+  await expect(page.getByText('本地 SPA 目前没有可复用的已认证 PMS API 代理')).toHaveCount(0)
+  await expect(page.getByText('固定 Chrome 目标站取证快照')).toHaveCount(0)
 
   await page.getByPlaceholder('输入客户姓名/手机/房间/渠道单/备注').fill('房间1')
   await page.keyboard.press('Enter')
@@ -500,6 +620,7 @@ test('/houseManage/days exposes source blockers and feedback for visible actions
 
   await page.getByRole('button', { name: '读卡' }).click()
   await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('读卡器未接入')
+  await expect(page.getByText('本地 SPA 目前没有可复用的已认证 PMS API 代理')).toHaveCount(0)
 
   await page.getByRole('button', { name: '更多设置' }).click()
   await page.getByRole('menuitem', { name: '图例说明' }).click()
@@ -609,7 +730,124 @@ test('/order/house-longRental-order/list matches captured long-rental columns an
   await expect(page.getByRole('dialog', { name: '长租订单详情' })).toContainText('押金：200')
 })
 
+test('/order/house-longRental-order/list exposes data source and blocked actions', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-longRental-order/list'))
+
+  await expect(page.getByLabel('长租订单数据来源')).toContainText('orders/page/get')
+  await expect(page.getByLabel('长租订单数据来源')).toContainText('真实目标站取证快照')
+  await expect(page.getByRole('alert', { name: '长租订单接口阻塞' })).toContainText('缺少 campId')
+
+  await page.getByRole('button', { name: '导出明细' }).click()
+  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('导出明细真实接口未取证')
+
+  await page.getByRole('button', { name: '展开' }).click()
+  await page.getByRole('button', { name: '日期类型' }).click()
+  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('日期类型')
+})
+
+test('/order/house-longRental-order/list requests real endpoint when camp context exists', async ({ page }) => {
+  const requestBodies: Record<string, unknown>[] = []
+  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+    requestBodies.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 1,
+          list: [
+            {
+              orderId: 'LR20260516001',
+              channelName: '美团民宿',
+              contactName: '测试租客',
+              contactPhone: '+8613900000000',
+              roomCategoryName: '测试长租房型',
+              roomName: 'A101',
+              poiName: '测试门店',
+              checkInTime: '2026-05-16 15:00',
+              checkOutTime: '2026-06-16 12:00',
+              liveStatusName: '入住中',
+              roomRevenue: 3000,
+              roomRevenueWithoutCommission: 2800,
+              otherExpense: 50,
+              deposit: 1000,
+              orderTotalRevenue: 4050,
+              contractStartDate: '2026-05-16',
+              contractEndDate: '2026-06-16',
+              contractTerm: '31日',
+              paymentWayName: '月付',
+              paymentDateDesc: '每月16号',
+              createTime: '2026-05-16 10:00:00',
+              isOccupyStock: 1,
+              arrangeRoomStatusName: '已排房',
+              includeStatisticsName: '是',
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+
+  await expect
+    .poll(() => requestBodies.length, { message: '长租订单应请求目标站 orders/page/get' })
+    .toBeGreaterThan(0)
+  expect(requestBodies[0]).toMatchObject({
+    campId: '1796067693589061634',
+    pageNum: 1,
+    pageSize: 20,
+    current: 1,
+    isLt: 1,
+  })
+  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('真实接口已加载 1 条')
+  await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('LR20260516001')
+  await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('测试租客')
+})
+
+test('/order/house-longRental-order/list exposes real request failures', async ({ page }) => {
+  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+    await route.fulfill({
+      status: 403,
+      contentType: 'application/json',
+      body: JSON.stringify({ success: false, errorMsg: '无权限访问长租订单' }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+
+  await expect(page.getByRole('alert', { name: '长租订单接口阻塞' })).toContainText('HTTP 403')
+  await expect(page.getByRole('button', { name: '重试长租订单接口' })).toBeVisible()
+})
+
+test('/order/house-longRental-order/list exposes real empty state', async ({ page }) => {
+  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 0,
+          list: [],
+        },
+      }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+
+  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('真实接口已加载 0 条')
+  await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('暂无数据')
+})
+
 test('/houseManage/months matches captured month-grid structure', async ({ page }) => {
+  await mockMonthStatusApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
 
@@ -623,6 +861,7 @@ test('/houseManage/months matches captured month-grid structure', async ({ page 
 })
 
 test('/houseManage/months supports captured month-grid interactions', async ({ page }) => {
+  await mockMonthStatusApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
 
@@ -631,7 +870,7 @@ test('/houseManage/months supports captured month-grid interactions', async ({ p
   await expect(page.getByRole('menuitem', { name: '图例说明' })).toBeVisible()
   await expect(page.getByRole('menuitem', { name: '房态设置' })).toBeVisible()
   await page.getByRole('menuitem', { name: '图例说明' }).click()
-  await expect(page.getByRole('status')).toContainText('已打开图例说明')
+  await expect(page.getByRole('status')).toContainText('图例说明仅完成目标站菜单取证，真实说明弹层待接入。')
 
   await page.getByRole('button', { name: /全部收起/ }).click()
   await expect(page.getByTestId('month-type-row')).toHaveCount(4)
@@ -654,13 +893,14 @@ test('/houseManage/months supports captured month-grid interactions', async ({ p
   await expect(page.getByRole('toolbar', { name: '批量操作' })).toContainText('已选 1 间夜')
 
   await page.getByRole('button', { name: '取消' }).click()
-  await page.getByText('王永祥').click()
+  await page.getByText('陈家辉').click()
   await expect(page.locator('.month-order-drawer')).toContainText('订单信息')
-  await expect(page.locator('.month-order-drawer')).toContainText('王永祥')
-  await expect(page.locator('.month-order-drawer')).toContainText('直携程')
+  await expect(page.locator('.month-order-drawer')).toContainText('陈家辉')
+  await expect(page.locator('.month-order-drawer')).toContainText('直飞猪淘酒店')
 })
 
 test('/houseManage/months supports room type and tag dropdown filters', async ({ page }) => {
+  await mockMonthStatusApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
 
@@ -680,9 +920,27 @@ test('/houseManage/months supports room type and tag dropdown filters', async ({
 
 test('/houseManage/priceBoard supports captured purchase interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/houseManage/priceBoard')
+  const priceBoardRequests = await mockPriceBoardApis(page)
+  await page.goto(appUrl('/houseManage/priceBoard'))
+
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('已连接真实请求层')
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('/weiRoomCategories/page/get')
+  expect(priceBoardRequests.map((request) => new URL(request.url).pathname)).toEqual(
+    expect.arrayContaining([
+      '/camps/get',
+      '/edition/resource/get',
+      '/weiRoomCategories/page/get',
+      '/paymentTypes/get/v2',
+    ]),
+  )
+  expect(priceBoardRequests.find((request) => request.url.endsWith('/weiRoomCategories/page/get'))?.postData).toMatchObject({
+    buyCampId: 'camp-95',
+    roomCategoryTypes: [1],
+    goodsTypes: [7],
+  })
 
   await expect(page.getByText('可直连路客云系统房价')).toBeVisible()
+  await expect(page.getByText('接口返回的电子房价牌介绍')).toBeVisible()
   await expect(page.getByText('商品详情')).toBeVisible()
   const promoImages = page.getByRole('img', { name: /电子房价牌宣传图/ })
   await expect(promoImages).toHaveCount(3)
@@ -736,19 +994,70 @@ test('/houseManage/priceBoard supports captured purchase interactions', async ({
   expect(detailImageMetrics.naturalWidth).toBeGreaterThan(2000)
   expect(detailImageMetrics.naturalHeight).toBeGreaterThan(900)
   expect(detailImageMetrics.renderedHeight).toBeGreaterThan(320)
-  await expect(page.getByRole('article').filter({ hasText: '商品价格' }).getByText('¥150.9')).toBeVisible()
+  await expect(page.getByRole('article').filter({ hasText: '商品价格' }).getByText('¥499')).toBeVisible()
   await expect(page.getByText('立即购买')).toBeVisible()
+  await page.locator('.price-board-duration-row label').filter({ hasText: '两年' }).click()
+  await expect(page.getByRole('article').filter({ hasText: '订单金额' }).getByText('¥998')).toBeVisible()
 
   await page.getByRole('button', { name: '立即购买' }).click()
   await expect(page.getByRole('dialog', { name: '微信支付' })).toBeVisible()
   await expect(page.getByText('请使用微信扫码支付')).toBeVisible()
-  await expect(page.getByText('¥ 150.90')).toBeVisible()
+  await expect(page.getByText('¥ 998.00')).toBeVisible()
+  await expect(page.getByText('真实支付下单接口未接入，当前仅展示支付阻塞状态')).toBeVisible()
   await expect(page.getByText('支付时间：')).toBeVisible()
   await page.getByRole('button', { name: '关闭支付弹层' }).click()
 
   await page.getByLabel('我已阅读并同意《路客云产品服务购买协议》').uncheck()
   await page.getByRole('button', { name: '立即购买' }).click()
   await expect(page.getByText('请先阅读并同意《路客云产品服务购买协议》')).toBeVisible()
+})
+
+test('/houseManage/priceBoard exposes real request failures with retry', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  let shouldFail = true
+  let weiRequestCount = 0
+
+  await page.route('https://hudson-prod.localhome.cn/camps/get', async (route) => {
+    await route.fulfill({ json: { success: true, data: { camps: [{ campId: 'camp-95', name: '95分门店' }] } } })
+  })
+  await page.route('https://hudson-prod.localhome.cn/edition/resource/get', async (route) => {
+    await route.fulfill({ json: { success: true, data: { resourceGetViews: [] } } })
+  })
+  await page.route('https://hudson-prod.localhome.cn/paymentTypes/get/v2', async (route) => {
+    await route.fulfill({ json: { success: true, data: { paymentGroups: [] } } })
+  })
+  await page.route('https://hudson-prod.localhome.cn/weiRoomCategories/page/get', async (route) => {
+    weiRequestCount += 1
+    if (shouldFail) {
+      await route.fulfill({ status: 503, json: { success: false, errorMsg: '真实接口暂不可达' } })
+      return
+    }
+
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          list: [
+            {
+              channelRoomCategoryName: '电子房价牌',
+              description: '重试后返回的真实商品',
+              roomCategoryProductGetViews: [{ roomCategoryProductId: 'pb-year', roomCategoryProductName: '一年', sellingPrice: 49900, originalPrice: 89900 }],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/houseManage/priceBoard'))
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('真实接口阻塞')
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('真实接口暂不可达')
+
+  shouldFail = false
+  await page.getByRole('button', { name: '重试真实请求' }).click()
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('已连接真实请求层')
+  await expect(page.getByText('重试后返回的真实商品')).toBeVisible()
+  expect(weiRequestCount).toBe(2)
 })
 
 test('/houseManage/otherPrice supports fee-setting interactions', async ({ page }) => {
@@ -1082,23 +1391,23 @@ test('/cleanManage/cleanStatistics supports captured statistics interactions', a
   await expect(page.getByRole('heading', { name: '保洁统计', level: 1 })).toBeVisible()
   await expect(page.getByRole('button', { name: '统计汇总' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('保洁统计汇总表')).toContainText('扫尘保洁')
-  await expect(page.getByLabel('保洁统计汇总表')).toContainText('18980.88')
-  await expect(page.locator('.clean-stat-table__row')).toHaveCount(11)
+  await expect(page.getByRole('alert', { name: '保洁统计数据阻塞' })).toContainText('缺少 campId')
+  await expect(page.getByLabel('保洁统计汇总表')).toContainText('暂无保洁统计数据')
+  await expect(page.getByLabel('保洁统计汇总表')).not.toContainText('18980.88')
+  await expect(page.locator('.clean-stat-table__row')).toHaveCount(0)
   await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
   const subscribeBox = await page.getByRole('button', { name: '订阅开通' }).boundingBox()
   expect(subscribeBox?.x).toBeLessThan(360)
 
   await page.getByRole('button', { name: '统计明细' }).click()
-  await expect(page.getByLabel('保洁统计明细表')).toContainText('CL20260513001')
+  await expect(page.getByLabel('保洁统计明细表')).toContainText('统计明细独立接口未完成取证')
+  await expect(page.getByLabel('保洁统计明细表')).not.toContainText('CL20260513001')
 
   await page.getByRole('button', { name: '请选择房间' }).click()
-  await expect(page.getByRole('listbox', { name: '房型房间筛选' })).toContainText('观影大床房 房间1')
-  await page.getByRole('option', { name: '观影大床房 房间1' }).click()
-  await expect(page.getByLabel('保洁统计明细表')).toContainText('观影大床房 房间1')
-  await expect(page.getByLabel('保洁统计明细表')).not.toContainText('顶层套房 房间1')
+  await expect(page.getByRole('listbox', { name: '房型房间筛选' })).toContainText('暂无房间数据')
 
   await page.getByRole('button', { name: '导 出' }).click()
-  await expect(page.getByRole('status')).toContainText('已生成保洁统计导出任务')
+  await expect(page.getByRole('alert', { name: '保洁统计数据错误' })).toContainText('导出接口未取证')
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByRole('button', { name: '请选择房间' })).toBeVisible()
 

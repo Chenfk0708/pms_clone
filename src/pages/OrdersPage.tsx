@@ -1,35 +1,13 @@
-import { useMemo, useState } from 'react'
+﻿import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  fetchHouseOrders,
+  resolveHouseOrderCampId,
+  type HouseOrderData,
+  type HouseOrderRow as OrderRow,
+} from '../services/houseOrders'
+import { fetchLongRentalOrders } from '../services/longRentalOrders'
 import './OrdersPage.css'
 
-type OrderRow = {
-  orderNo: string
-  channel: string
-  status: '进行中' | '已完成' | '已取消' | '已预订'
-  contact: string
-  phone: string
-  stayType: string
-  roomType: string
-  room: string
-  store: string
-  checkInAt: string
-  leaveAt: string
-  liveStatus: '入住中' | '已退房' | '已取消' | '待入住'
-  afterSaleStatus: string
-  roomRevenueNet: string
-  otherExpense: string
-  roomRevenueGross: string
-  totalRevenue: string
-  debt: string
-  bookedAt: string
-  channelOrderNo: string
-  stockFlag: string
-  roomFlag: string
-  planFlag: string
-  needsRoomAssignment?: boolean
-  commission?: string
-  collected?: string
-  confirmNo?: string
-}
 
 type LongRentalOrderRow = {
   orderNo: string
@@ -140,440 +118,6 @@ const longRentalAdvancedFilters = [
   ['房型标签', '全部'],
 ] as const
 
-const orders: OrderRow[] = [
-  {
-    orderNo: '2055143511458684929',
-    channel: '携程',
-    status: '已取消',
-    contact: 'CHAN SHUK KWAN',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-23 15:00',
-    leaveAt: '2026-05-24 12:00',
-    liveStatus: '已取消',
-    afterSaleStatus: '--',
-    roomRevenueNet: '0',
-    otherExpense: '0',
-    roomRevenueGross: '0',
-    totalRevenue: '0',
-    debt: '0',
-    bookedAt: '2026-05-15 12:29:30',
-    channelOrderNo: '1359044583414945',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2055103007337734146',
-    channel: '飞猪淘酒店',
-    status: '已预订',
-    contact: '黄国辉',
-    phone: '+8617328513805',
-    stayType: '全日房',
-    roomType: '顶层套房（浴缸巨幕电竞麻将）',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-16 15:00',
-    leaveAt: '2026-05-23 12:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '1980.85',
-    otherExpense: '0',
-    roomRevenueGross: '2116.53',
-    totalRevenue: '2116.53',
-    debt: '0',
-    bookedAt: '2026-05-15 09:48:30',
-    channelOrderNo: '5115623835635087439',
-    stockFlag: '',
-    roomFlag: '未排房',
-    planFlag: '',
-    needsRoomAssignment: true,
-  },
-  {
-    orderNo: '2054982772215554049',
-    channel: '飞猪淘酒店',
-    status: '已预订',
-    contact: '陈家辉',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-18 15:00',
-    leaveAt: '2026-05-20 12:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '597.6',
-    otherExpense: '0',
-    roomRevenueGross: '664',
-    totalRevenue: '664',
-    debt: '0',
-    bookedAt: '2026-05-15 01:50:10',
-    channelOrderNo: '5116035240226051843',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054958882479181826',
-    channel: '飞猪淘酒店',
-    status: '已预订',
-    contact: '李慧萍',
-    phone: '+8618089877096',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-06-19 15:00',
-    leaveAt: '2026-06-21 12:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '597.6',
-    otherExpense: '0',
-    roomRevenueGross: '637.92',
-    totalRevenue: '637.92',
-    debt: '0',
-    bookedAt: '2026-05-15 00:15:48',
-    channelOrderNo: '5116107745021014602',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054803500091822081',
-    channel: '自来客',
-    status: '已取消',
-    contact: '翌',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '观影大床房',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-14 15:00',
-    leaveAt: '2026-05-15 12:00',
-    liveStatus: '已取消',
-    afterSaleStatus: '--',
-    roomRevenueNet: '376.2',
-    otherExpense: '0',
-    roomRevenueGross: '376.2',
-    totalRevenue: '376.2',
-    debt: '0',
-    bookedAt: '2026-05-14 13:58:25',
-    channelOrderNo: '-',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054765870809522177',
-    channel: '携程',
-    status: '已预订',
-    contact: '闵尊海',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '天落大床电竞套间',
-    room: '1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-16 15:00',
-    leaveAt: '2026-05-17 12:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '209.17',
-    otherExpense: '0',
-    roomRevenueGross: '269',
-    totalRevenue: '269',
-    debt: '0',
-    bookedAt: '2026-05-14 11:28:53',
-    channelOrderNo: '1128147922175371',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054616751201689601',
-    channel: '携程',
-    status: '已完成',
-    contact: '李虹岐',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-14 15:00',
-    leaveAt: '2026-05-15 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '276.64',
-    otherExpense: '0',
-    roomRevenueGross: '355',
-    totalRevenue: '355',
-    debt: '0',
-    bookedAt: '2026-05-14 01:36:21',
-    channelOrderNo: '1128147921209625',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054409001821356034',
-    channel: '路客云聚合',
-    status: '已完成',
-    contact: '陈崇科',
-    phone: '+8618319045566',
-    stayType: '全日房',
-    roomType: '天落大床电竞套间',
-    room: '1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-13 15:00',
-    leaveAt: '2026-05-14 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '369.75',
-    otherExpense: '0',
-    roomRevenueGross: '435',
-    totalRevenue: '435',
-    debt: '0',
-    bookedAt: '2026-05-13 11:50:49',
-    channelOrderNo: '10085200031107',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-    collected: '435.00',
-  },
-  {
-    orderNo: '2054340491892084738',
-    channel: '携程',
-    status: '已完成',
-    contact: '张张',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '观影大床房',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-13 15:00',
-    leaveAt: '2026-05-14 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '163.94',
-    otherExpense: '0',
-    roomRevenueGross: '211',
-    totalRevenue: '211',
-    debt: '0',
-    bookedAt: '2026-05-13 07:18:35',
-    channelOrderNo: '1128147908092485',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-    commission: '47.06',
-    collected: '178.26',
-    confirmNo: '1128147908092485-1',
-  },
-  {
-    orderNo: '2054266689027952643',
-    channel: '携程',
-    status: '已完成',
-    contact: '曾观强',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-12 15:00',
-    leaveAt: '2026-05-13 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '169.3',
-    otherExpense: '0',
-    roomRevenueGross: '233',
-    totalRevenue: '233',
-    debt: '0',
-    bookedAt: '2026-05-13 02:25:19',
-    channelOrderNo: '1128147906877974',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054198383042457601',
-    channel: '途家',
-    status: '已取消',
-    contact: '张宇',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '顶层套房（浴缸巨幕电竞麻将）',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-13 15:00',
-    leaveAt: '2026-05-14 12:00',
-    liveStatus: '已取消',
-    afterSaleStatus: '--',
-    roomRevenueNet: '0',
-    otherExpense: '0',
-    roomRevenueGross: '0',
-    totalRevenue: '0',
-    debt: '0',
-    bookedAt: '2026-05-12 21:53:48',
-    channelOrderNo: '10085100147463',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2054107372756955137',
-    channel: '飞猪淘酒店',
-    status: '已预订',
-    contact: '陈家辉',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-17 15:00',
-    leaveAt: '2026-05-20 12:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '896.4',
-    otherExpense: '0',
-    roomRevenueGross: '996',
-    totalRevenue: '996',
-    debt: '0',
-    bookedAt: '2026-05-12 15:52:01',
-    channelOrderNo: '5115231003771015833',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2053977389904437249',
-    channel: '飞猪淘酒店',
-    status: '已完成',
-    contact: '张勇',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '天落大床电竞套间',
-    room: '1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-12 15:00',
-    leaveAt: '2026-05-13 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '164.46',
-    otherExpense: '0',
-    roomRevenueGross: '182.07',
-    totalRevenue: '182.07',
-    debt: '0',
-    bookedAt: '2026-05-12 07:15:30',
-    channelOrderNo: '5115711637758049210',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2053904159843667969',
-    channel: '携程',
-    status: '已完成',
-    contact: '张张',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '观影大床房',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-12 15:00',
-    leaveAt: '2026-05-13 12:00',
-    liveStatus: '已退房',
-    afterSaleStatus: '--',
-    roomRevenueNet: '163.94',
-    otherExpense: '0',
-    roomRevenueGross: '211',
-    totalRevenue: '211',
-    debt: '0',
-    bookedAt: '2026-05-12 02:24:46',
-    channelOrderNo: '1128147865865163',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2053868305083363330',
-    channel: '携程',
-    status: '进行中',
-    contact: '刘翻红',
-    phone: '-',
-    stayType: '全日房',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-13 15:00',
-    leaveAt: '2026-05-14 12:00',
-    liveStatus: '入住中',
-    afterSaleStatus: '--',
-    roomRevenueNet: '285.44',
-    otherExpense: '0',
-    roomRevenueGross: '365',
-    totalRevenue: '365',
-    debt: '0',
-    bookedAt: '2026-05-12 00:02:17',
-    channelOrderNo: '1128147865610093',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2053844376356769793',
-    channel: '美团酒店',
-    status: '已预订',
-    contact: '樊润虎',
-    phone: '+8613049425760',
-    stayType: '全日房',
-    roomType: '观影大床房',
-    room: '房间1',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-14 00:00',
-    leaveAt: '2026-05-15 00:00',
-    liveStatus: '待入住',
-    afterSaleStatus: '--',
-    roomRevenueNet: '229.18',
-    otherExpense: '0',
-    roomRevenueGross: '291.43',
-    totalRevenue: '291.43',
-    debt: '0',
-    bookedAt: '2026-05-11 22:26:56',
-    channelOrderNo: '5026028505688868639',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-  {
-    orderNo: '2052953037821870082',
-    channel: '飞猪淘酒店',
-    status: '进行中',
-    contact: '黄国辉',
-    phone: '+8617328513805',
-    stayType: '全日房',
-    roomType: '顶层套房（浴缸巨幕电竞麻将）',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2026-05-10 15:00',
-    leaveAt: '2026-05-16 12:00',
-    liveStatus: '入住中',
-    afterSaleStatus: '--',
-    roomRevenueNet: '1743.86',
-    otherExpense: '0',
-    roomRevenueGross: '1863.38',
-    totalRevenue: '1863.38',
-    debt: '0',
-    bookedAt: '2026-05-09 20:15:08',
-    channelOrderNo: '5115711637758049210',
-    stockFlag: '',
-    roomFlag: '未排房',
-    planFlag: '',
-    needsRoomAssignment: true,
-  },
-]
-
 const longRentalOrders: LongRentalOrderRow[] = [
   {
     orderNo: '1871589898539520001',
@@ -603,7 +147,7 @@ const longRentalOrders: LongRentalOrderRow[] = [
   },
 ]
 
-function statusTone(status: OrderRow['status'] | OrderRow['liveStatus']) {
+function statusTone(status: string) {
   if (status === '进行中' || status === '入住中') return 'is-running'
   if (status === '已完成' || status === '已退房') return 'is-done'
   if (status === '已预订' || status === '待入住') return 'is-booked'
@@ -620,7 +164,15 @@ function formatLongContractTime(order: LongRentalOrderRow) {
   return `${order.contractStart} 至 ${order.contractEnd}`
 }
 
-function OrderDetail({ order, onClose }: { order: OrderRow; onClose: () => void }) {
+function OrderDetail({
+  order,
+  onClose,
+  onBlockedAction,
+}: {
+  order: OrderRow
+  onClose: () => void
+  onBlockedAction: (label: string) => void
+}) {
   const collected = order.collected ?? order.totalRevenue
   const commission = order.commission ?? '0'
 
@@ -675,7 +227,7 @@ function OrderDetail({ order, onClose }: { order: OrderRow; onClose: () => void 
 
           <section className="order-detail-section">
             <h3>入住人（0/1）</h3>
-            <button type="button" className="order-link-button">
+            <button type="button" className="order-link-button" onClick={() => onBlockedAction('登记入住人')}>
               登记入住人
             </button>
           </section>
@@ -751,7 +303,7 @@ function OrderDetail({ order, onClose }: { order: OrderRow; onClose: () => void 
 
           <section className="order-detail-actions" aria-label="订单操作">
             {['邀请登记', '邀请续住', '入住人', '延迟退房', '换房', '取消排房', '不占库存', '不计入统计', '设为续住单', '取消房单', '保洁', '打印'].map((action) => (
-              <button key={action} type="button">
+              <button key={action} type="button" onClick={() => onBlockedAction(action)}>
                 {action}
               </button>
             ))}
@@ -767,11 +319,11 @@ function OrderDetail({ order, onClose }: { order: OrderRow; onClose: () => void 
             <span>订单总收入：</span>
             <strong>¥{Number(order.totalRevenue).toFixed(2)}</strong>
           </div>
-          <button type="button">更多操作</button>
-          <button type="button">收 款</button>
-          <button type="button">续 住</button>
-          <button type="button">入住</button>
-          <button type="button">退房</button>
+          <button type="button" onClick={() => onBlockedAction('更多操作')}>更多操作</button>
+          <button type="button" onClick={() => onBlockedAction('收款')}>收 款</button>
+          <button type="button" onClick={() => onBlockedAction('续住')}>续 住</button>
+          <button type="button" onClick={() => onBlockedAction('入住')}>入住</button>
+          <button type="button" onClick={() => onBlockedAction('退房')}>退房</button>
         </footer>
       </section>
     </div>
@@ -897,10 +449,61 @@ function LongRentalOrdersPage() {
   const [expanded, setExpanded] = useState(false)
   const [keyword, setKeyword] = useState('')
   const [selectedOrder, setSelectedOrder] = useState<LongRentalOrderRow | null>(null)
+  const [orders, setOrders] = useState<LongRentalOrderRow[]>(longRentalOrders)
+  const [dataSource, setDataSource] = useState('orders/page/get · 真实目标站取证快照')
+  const [loadStatus, setLoadStatus] = useState('未接入实时上下文，展示真实目标站取证快照')
+  const [requestError, setRequestError] = useState<string | null>(null)
+  const [operationFeedback, setOperationFeedback] = useState('等待操作')
+
+  const campId = useMemo(() => new URLSearchParams(window.location.search).get('campId')?.trim() ?? '', [])
+
+  const loadRealOrders = useCallback(
+    async (signal?: AbortSignal) => {
+      if (!campId) {
+        setOrders(longRentalOrders)
+        setDataSource('orders/page/get · 真实目标站取证快照')
+        setLoadStatus('缺少 campId，未发起长租订单真实接口请求')
+        setRequestError('缺少 campId，无法请求 hudson-prod.localhome.cn/orders/page/get')
+        return
+      }
+
+      setRequestError(null)
+      setLoadStatus('正在请求 orders/page/get')
+      const result = await fetchLongRentalOrders(
+        {
+          campId,
+          pageNum: 1,
+          pageSize: 20,
+          current: 1,
+          keyword,
+        },
+        signal,
+      )
+      setOrders(result.rows)
+      setDataSource(`orders/page/get · 真实接口已加载 · campId=${campId}`)
+      setLoadStatus(`真实接口已加载 ${result.rows.length} 条`)
+    },
+    [campId, keyword],
+  )
+
+  useEffect(() => {
+    const controller = new AbortController()
+    queueMicrotask(() => {
+      if (controller.signal.aborted) return
+      loadRealOrders(controller.signal).catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setOrders(longRentalOrders)
+        setDataSource('orders/page/get · 真实接口请求失败，保留真实目标站取证快照')
+        setLoadStatus('真实接口请求失败')
+        setRequestError(error instanceof Error ? error.message : String(error))
+      })
+    })
+    return () => controller.abort()
+  }, [loadRealOrders])
 
   const filteredOrders = useMemo(() => {
     const trimmedKeyword = keyword.trim().toLowerCase()
-    return longRentalOrders.filter((order) => {
+    return orders.filter((order) => {
       const filterMatched =
         activeFilter === '全部' ||
         (activeFilter === '今日新单' && order.bookedAt.startsWith('2026-05-13')) ||
@@ -916,11 +519,35 @@ function LongRentalOrdersPage() {
         .toLowerCase()
         .includes(trimmedKeyword)
     })
-  }, [activeFilter, keyword])
+  }, [activeFilter, keyword, orders])
 
   return (
     <div className="page-stack order-page order-page--long-rental">
       <h1>长租订单</h1>
+      <section className="order-source-panel" aria-label="长租订单数据来源">
+        <span>{dataSource}</span>
+        <span role="status" aria-label="长租订单加载状态">
+          {loadStatus}
+        </span>
+      </section>
+      {requestError ? (
+        <section className="order-blocked-alert" role="alert" aria-label="长租订单接口阻塞">
+          <span>{requestError}</span>
+          {campId ? (
+            <button
+              type="button"
+              onClick={() => {
+                loadRealOrders().catch((error) => {
+                  setRequestError(error instanceof Error ? error.message : String(error))
+                  setLoadStatus('真实接口请求失败')
+                })
+              }}
+            >
+              重试长租订单接口
+            </button>
+          ) : null}
+        </section>
+      ) : null}
       <section className="order-filter-panel" aria-label="长租订单筛选">
         <div className="order-filter-tabs" role="radiogroup" aria-label="订单快捷筛选">
           {quickFilters.map((filter) => (
@@ -930,7 +557,10 @@ function LongRentalOrdersPage() {
               role="radio"
               aria-checked={activeFilter === filter}
               className={activeFilter === filter ? 'is-active' : ''}
-              onClick={() => setActiveFilter(filter)}
+              onClick={() => {
+                setActiveFilter(filter)
+                setOperationFeedback(`${filter}筛选已切换${campId ? '，正在同步真实接口' : '，缺少 campId 未请求真实接口'}`)
+              }}
             >
               {filter}
             </button>
@@ -955,14 +585,23 @@ function LongRentalOrdersPage() {
                 setKeyword('')
                 setActiveFilter('全部')
                 setExpanded(false)
+                setOperationFeedback(`重置筛选完成${campId ? '，正在刷新真实接口' : '，缺少 campId 未请求真实接口'}`)
               }}
             >
               重置筛选
             </button>
-            <button type="button" className="order-primary-action">
+            <button
+              type="button"
+              className="order-primary-action"
+              onClick={() => setOperationFeedback('导出明细真实接口未取证，当前不执行假成功导出')}
+            >
               导出明细
             </button>
-            <button type="button" className="order-primary-action">
+            <button
+              type="button"
+              className="order-primary-action"
+              onClick={() => setOperationFeedback('录入订单入口未接入真实长租订单创建流程')}
+            >
               录入订单
             </button>
           </div>
@@ -973,7 +612,12 @@ function LongRentalOrdersPage() {
             {longRentalAdvancedFilters.map(([label, value]) => (
               <label key={label}>
                 <span>{label}</span>
-                <button type="button" aria-label={label} className="order-select-like">
+                <button
+                  type="button"
+                  aria-label={label}
+                  className="order-select-like"
+                  onClick={() => setOperationFeedback(`${label}真实选项未接入，等待目标站筛选配置接口闭环`)}
+                >
                   {value}
                 </button>
               </label>
@@ -981,6 +625,9 @@ function LongRentalOrdersPage() {
           </div>
         ) : null}
       </section>
+      <div className="order-operation-feedback" role="status" aria-label="长租订单操作反馈">
+        {operationFeedback}
+      </div>
 
       <section className="order-table-card">
         <div className="order-table-scroll">
@@ -1060,29 +707,72 @@ function LongRentalOrdersPage() {
   )
 }
 
+const orderTypeByFilter: Record<string, string> = {
+  全部: '',
+  今日新单: '1',
+  今日预抵: '11',
+  今日在住: '10',
+  今日预离: '12',
+  明日入住: '4',
+  明日退房: '5',
+  待接单: '6',
+  待退款: '7',
+  异常订单: '8',
+}
+
 function HouseOrdersPage() {
   const [activeFilter, setActiveFilter] = useState('全部')
   const [expanded, setExpanded] = useState(false)
   const [keyword, setKeyword] = useState('')
   const [selectedOrder, setSelectedOrder] = useState<OrderRow | null>(null)
+  const [data, setData] = useState<HouseOrderData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [requestRevision, setRequestRevision] = useState(0)
+  const [actionMessage, setActionMessage] = useState('')
+
+  const orderType = orderTypeByFilter[activeFilter] ?? ''
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadOrders() {
+      setIsLoading(true)
+      setError('')
+      try {
+        const campId = resolveHouseOrderCampId()
+        const nextData = await fetchHouseOrders(
+          {
+            campId,
+            pageNum: 1,
+            pageSize: 20,
+            orderType,
+            keyword: keyword.trim(),
+          },
+          controller.signal,
+        )
+        if (controller.signal.aborted) return
+        setData(nextData)
+      } catch (requestError) {
+        if (controller.signal.aborted) return
+        setData(null)
+        setError(`真实接口请求失败：${requestError instanceof Error ? requestError.message : String(requestError)}。请检查登录态、campId、CORS 或后端可达性。`)
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false)
+      }
+    }
+
+    loadOrders()
+    return () => controller.abort()
+  }, [keyword, orderType, requestRevision])
 
   const filteredOrders = useMemo(() => {
     const trimmedKeyword = keyword.trim().toLowerCase()
-    return orders.filter((order) => {
-      const filterMatched =
-        activeFilter === '全部' ||
-        (activeFilter === '今日新单' && order.bookedAt.startsWith('2026-05-13')) ||
-        (activeFilter === '今日预抵' && order.checkInAt.startsWith('2026-05-13')) ||
-        (activeFilter === '今日在住' && order.liveStatus === '入住中') ||
-        (activeFilter === '今日预离' && order.leaveAt.startsWith('2026-05-13')) ||
-        (activeFilter === '明日入住' && order.checkInAt.startsWith('2026-05-14')) ||
-        (activeFilter === '明日退房' && order.leaveAt.startsWith('2026-05-14')) ||
-        (activeFilter === '异常订单' && order.needsRoomAssignment)
+    const rows = data?.rows ?? []
+    if (!trimmedKeyword) return rows
 
-      if (!filterMatched) return false
-      if (!trimmedKeyword) return true
-
-      return [
+    return rows.filter((order) =>
+      [
         order.orderNo,
         order.channelOrderNo,
         order.room,
@@ -1094,9 +784,27 @@ function HouseOrdersPage() {
       ]
         .join(' ')
         .toLowerCase()
-        .includes(trimmedKeyword)
-    })
-  }, [activeFilter, keyword])
+        .includes(trimmedKeyword),
+    )
+  }, [data?.rows, keyword])
+
+  const handleReset = useCallback(() => {
+    setKeyword('')
+    setActiveFilter('全部')
+    setExpanded(false)
+    setActionMessage('筛选条件已重置，正在重新请求住宿订单。')
+    setRequestRevision((value) => value + 1)
+  }, [])
+
+  const handleBlockedAction = useCallback((label: string) => {
+    setActionMessage(`${label}：目标站存在该入口，但本地尚未接入可变更业务接口，已作为阻塞暴露。`)
+  }, [])
+
+  const requestText = data
+    ? `已通过真实接口刷新：${data.requestPaths.join('、')}，共 ${data.total} 条`
+    : isLoading
+      ? '正在请求住宿订单真实接口'
+      : '等待住宿订单请求结果'
 
   return (
     <div className="page-stack order-page">
@@ -1110,6 +818,7 @@ function HouseOrdersPage() {
               role="radio"
               aria-checked={activeFilter === filter}
               className={activeFilter === filter ? 'is-active' : ''}
+              disabled={isLoading}
               onClick={() => setActiveFilter(filter)}
             >
               {filter}
@@ -1123,26 +832,19 @@ function HouseOrdersPage() {
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
             placeholder="输入订单号/渠道订单号/房间号/姓名/手机号"
+            aria-label="住宿订单关键词"
           />
           <div className="order-filter-actions">
             <button type="button" className="order-link-action" onClick={() => setExpanded((value) => !value)}>
               {expanded ? '收起' : '展开'}
             </button>
-            <button
-              type="button"
-              className="order-outline-action"
-              onClick={() => {
-                setKeyword('')
-                setActiveFilter('全部')
-                setExpanded(false)
-              }}
-            >
+            <button type="button" className="order-outline-action" onClick={handleReset} disabled={isLoading}>
               重置筛选
             </button>
-            <button type="button" className="order-primary-action">
+            <button type="button" className="order-primary-action" onClick={() => handleBlockedAction('导出明细')}>
               导出明细
             </button>
-            <button type="button" className="order-primary-action">
+            <button type="button" className="order-primary-action" onClick={() => handleBlockedAction('录入订单')}>
               录入订单
             </button>
           </div>
@@ -1152,7 +854,7 @@ function HouseOrdersPage() {
           <div className="order-advanced-filters">
             <label>
               <span>订单状态</span>
-              <select defaultValue="">
+              <select defaultValue="" onChange={() => handleBlockedAction('订单状态筛选')}>
                 <option value="">全部</option>
                 <option>进行中</option>
                 <option>已预订</option>
@@ -1162,7 +864,7 @@ function HouseOrdersPage() {
             </label>
             <label>
               <span>渠道</span>
-              <select defaultValue="">
+              <select defaultValue="" onChange={() => handleBlockedAction('渠道筛选')}>
                 <option value="">全部渠道</option>
                 <option>携程</option>
                 <option>路客云聚合</option>
@@ -1172,17 +874,34 @@ function HouseOrdersPage() {
             </label>
             <label>
               <span>入住日期</span>
-              <input type="text" placeholder="开始日期 - 结束日期" />
+              <input type="text" placeholder="开始日期 - 结束日期" onFocus={() => handleBlockedAction('入住日期筛选')} />
             </label>
             <label>
               <span>离开日期</span>
-              <input type="text" placeholder="开始日期 - 结束日期" />
+              <input type="text" placeholder="开始日期 - 结束日期" onFocus={() => handleBlockedAction('离开日期筛选')} />
             </label>
+          </div>
+        ) : null}
+
+        <div className="order-request-status" role="status" aria-label="住宿订单请求状态">
+          {requestText}
+        </div>
+        {actionMessage ? (
+          <div className="order-action-feedback" role="status" aria-label="住宿订单操作反馈">
+            {actionMessage}
+          </div>
+        ) : null}
+        {error ? (
+          <div className="order-request-error" role="alert">
+            <span>{error}</span>
+            <button type="button" onClick={() => setRequestRevision((value) => value + 1)}>
+              重试
+            </button>
           </div>
         ) : null}
       </section>
 
-      <section className="order-table-card">
+      <section className="order-table-card" aria-busy={isLoading}>
         <div className="order-table-scroll">
           <div className="order-table" role="table" aria-label="住宿订单列表">
             <div className="order-table__head" role="row">
@@ -1196,57 +915,68 @@ function HouseOrdersPage() {
                 </div>
               ))}
             </div>
-            {filteredOrders.map((order) => (
-              <div key={order.orderNo} className="order-table__row" role="row">
-                <div role="cell" className="order-no">
-                  {order.orderNo}
-                </div>
-                <div role="cell">{order.channel}</div>
-                <div role="cell">
-                  <span className={`order-status ${statusTone(order.status)}`}>{order.status}</span>
-                </div>
-                <div role="cell">{order.contact}</div>
-                <div role="cell">{order.phone}</div>
-                <div role="cell">{order.stayType}</div>
-                <div role="cell" className="order-room-type">
-                  {order.roomType}
-                </div>
-                <div role="cell" className={order.needsRoomAssignment ? 'needs-room' : undefined}>
-                  {order.needsRoomAssignment ? (
-                    <>
-                      <span>{order.room}</span>
-                      <em>未排房</em>
-                    </>
-                  ) : (
-                    order.room
-                  )}
-                </div>
-                <div role="cell">{order.store}</div>
-                <div role="cell">{order.checkInAt}</div>
-                <div role="cell">{order.leaveAt}</div>
-                <div role="cell">
-                  <span className={`order-status ${statusTone(order.liveStatus)}`}>{order.liveStatus}</span>
-                </div>
-                <div role="cell">{order.afterSaleStatus}</div>
-                <div role="cell">{order.roomRevenueNet}</div>
-                <div role="cell">{order.otherExpense}</div>
-                <div role="cell">{order.roomRevenueGross}</div>
-                <div role="cell">{order.totalRevenue}</div>
-                <div role="cell">{order.debt}</div>
-                <div role="cell">{order.bookedAt}</div>
-                <div role="cell">{order.channelOrderNo}</div>
-                <div role="cell" className="order-action-cell">
-                  {order.needsRoomAssignment ? <button type="button">排房</button> : null}
-                  <button type="button" onClick={() => setSelectedOrder(order)}>
-                    详情
-                  </button>
-                </div>
-                <div role="cell">{order.stockFlag}</div>
-                <div role="cell">{order.roomFlag}</div>
-                <div role="cell">{order.planFlag}</div>
+            {isLoading ? (
+              <div className="order-table__empty" role="row">
+                <div role="cell">正在加载住宿订单...</div>
               </div>
-            ))}
-            {filteredOrders.length === 0 ? (
+            ) : null}
+            {!isLoading && !error
+              ? filteredOrders.map((order) => (
+                  <div key={order.orderNo} className="order-table__row" role="row">
+                    <div role="cell" className="order-no">
+                      {order.orderNo}
+                    </div>
+                    <div role="cell">{order.channel}</div>
+                    <div role="cell">
+                      <span className={`order-status ${statusTone(order.status)}`}>{order.status}</span>
+                    </div>
+                    <div role="cell">{order.contact}</div>
+                    <div role="cell">{order.phone}</div>
+                    <div role="cell">{order.stayType}</div>
+                    <div role="cell" className="order-room-type">
+                      {order.roomType}
+                    </div>
+                    <div role="cell" className={order.needsRoomAssignment ? 'needs-room' : undefined}>
+                      {order.needsRoomAssignment ? (
+                        <>
+                          <span>{order.room}</span>
+                          <em>未排房</em>
+                        </>
+                      ) : (
+                        order.room
+                      )}
+                    </div>
+                    <div role="cell">{order.store}</div>
+                    <div role="cell">{order.checkInAt}</div>
+                    <div role="cell">{order.leaveAt}</div>
+                    <div role="cell">
+                      <span className={`order-status ${statusTone(order.liveStatus)}`}>{order.liveStatus}</span>
+                    </div>
+                    <div role="cell">{order.afterSaleStatus}</div>
+                    <div role="cell">{order.roomRevenueNet}</div>
+                    <div role="cell">{order.otherExpense}</div>
+                    <div role="cell">{order.roomRevenueGross}</div>
+                    <div role="cell">{order.totalRevenue}</div>
+                    <div role="cell">{order.debt}</div>
+                    <div role="cell">{order.bookedAt}</div>
+                    <div role="cell">{order.channelOrderNo}</div>
+                    <div role="cell" className="order-action-cell">
+                      {order.needsRoomAssignment ? (
+                        <button type="button" onClick={() => handleBlockedAction('排房')}>
+                          排房
+                        </button>
+                      ) : null}
+                      <button type="button" onClick={() => setSelectedOrder(order)}>
+                        详情
+                      </button>
+                    </div>
+                    <div role="cell">{order.stockFlag}</div>
+                    <div role="cell">{order.roomFlag}</div>
+                    <div role="cell">{order.planFlag}</div>
+                  </div>
+                ))
+              : null}
+            {!isLoading && !error && filteredOrders.length === 0 ? (
               <div className="order-table__empty" role="row">
                 <div role="cell">暂无数据</div>
               </div>
@@ -1254,25 +984,23 @@ function HouseOrdersPage() {
           </div>
         </div>
         <footer className="order-pagination">
-          <span>共 1680 条</span>
-          <button type="button" aria-label="上一页">
+          <span>共 {data?.total ?? 0} 条</span>
+          <button type="button" aria-label="上一页" disabled>
             {'<'}
           </button>
           <button type="button" className="is-active">
-            1
+            {data?.pageNum ?? 1}
           </button>
-          <button type="button">2</button>
-          <button type="button">3</button>
-          <span>...</span>
-          <button type="button">84</button>
-          <button type="button" aria-label="下一页">
+          <button type="button" aria-label="下一页" disabled={!data?.pages || data.pageNum >= data.pages} onClick={() => handleBlockedAction('下一页')}>
             {'>'}
           </button>
-          <span>20 条/页</span>
+          <span>{data?.pageSize ?? 20} 条/页</span>
         </footer>
       </section>
 
-      {selectedOrder ? <OrderDetail order={selectedOrder} onClose={() => setSelectedOrder(null)} /> : null}
+      {selectedOrder ? (
+        <OrderDetail order={selectedOrder} onClose={() => setSelectedOrder(null)} onBlockedAction={handleBlockedAction} />
+      ) : null}
     </div>
   )
 }
@@ -1280,3 +1008,6 @@ function HouseOrdersPage() {
 export function OrdersPage({ variant = 'house' }: { variant?: 'house' | 'longRental' }) {
   return variant === 'longRental' ? <LongRentalOrdersPage /> : <HouseOrdersPage />
 }
+
+
+

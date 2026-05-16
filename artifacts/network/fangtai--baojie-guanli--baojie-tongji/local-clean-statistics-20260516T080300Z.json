@@ -1,0 +1,46 @@
+﻿[
+  {
+    "type": "request",
+    "url": "https://hudson-prod.localhome.cn/cleanTask/statistics",
+    "method": "POST",
+    "postData": "{\"pageNum\":1,\"pageSize\":20,\"campId\":\"camp-1\",\"cleanStartTime\":1777564800000,\"cleanEndTime\":1778947199999}"
+  },
+  {
+    "type": "request",
+    "url": "https://hudson-prod.localhome.cn/cleaner/list/get",
+    "method": "POST",
+    "postData": "{\"campId\":\"camp-1\"}"
+  },
+  {
+    "type": "request",
+    "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+    "method": "POST",
+    "postData": "{\"campId\":\"camp-1\",\"pageSize\":999,\"pageNum\":1,\"roomCategoryName\":\"\",\"keyword\":\"\",\"cityIds\":[],\"channelId\":\"\"}"
+  },
+  {
+    "type": "response",
+    "url": "https://hudson-prod.localhome.cn/cleanTask/statistics",
+    "status": 200
+  },
+  {
+    "type": "response",
+    "url": "https://hudson-prod.localhome.cn/cleaner/list/get",
+    "status": 200
+  },
+  {
+    "type": "response",
+    "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+    "status": 200
+  },
+  {
+    "type": "request",
+    "url": "https://hudson-prod.localhome.cn/rooms/get",
+    "method": "POST",
+    "postData": "{\"campId\":\"camp-1\",\"roomCategoryIds\":[\"room-type-1\"],\"saleType\":1}"
+  },
+  {
+    "type": "response",
+    "url": "https://hudson-prod.localhome.cn/rooms/get",
+    "status": 200
+  }
+]

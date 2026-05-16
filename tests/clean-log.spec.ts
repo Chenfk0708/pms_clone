@@ -112,10 +112,10 @@ test('/cleanManage/cleanLog keeps captured filters interactive without fabricati
     campId: '1796067693589061634',
     pageNum: 1,
     pageSize: 10,
-    roomName: '观影大床房 房间1',
-    operator: '路客云6TS5',
-    operateStartTime: '2026-05-13',
-    operateEndTime: '2026-05-13',
+    roomId: ['room-observation-1'],
+    operatorId: '1796067693261905922',
+    operatorStartTime: expect.any(Number),
+    operatorEndTime: expect.any(Number),
   })
   await expect(page.getByText('暂无数据')).toBeVisible()
   await expect(page.getByText('CL20260513001')).toHaveCount(0)

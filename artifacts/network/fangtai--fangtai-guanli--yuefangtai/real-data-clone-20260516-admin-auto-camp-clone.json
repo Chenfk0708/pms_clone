@@ -1,0 +1,6102 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:4177/houseManage/months",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "object",
+          "keys": [],
+          "sample": {}
+        },
+        "bodyValues": {}
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "camps"
+              ],
+              "sample": {
+                "camps": {
+                  "type": "array",
+                  "length": 1
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4177/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "upgrade-insecure-requests",
+            "user-agent"
+          ],
+          "values": {}
+        },
+        "queryKeys": [],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        },
+        "bodyValues": null
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 2
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "isSingleInventory",
+                "list"
+              ],
+              "sample": {
+                "isSingleInventory": {
+                  "type": "number"
+                },
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 0
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list",
+                "orderArrangementInfos"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 16
+                },
+                "orderArrangementInfos": {
+                  "type": "array",
+                  "length": 17
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 4
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "headers": {
+          "keys": [
+            "accept",
+            "accept-language",
+            "app_device",
+            "app_platform",
+            "app_source",
+            "app_system",
+            "app_version",
+            "content-type",
+            "hudson-access-token",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent"
+          ],
+          "values": {
+            "origin": "http://127.0.0.1:4177",
+            "referer": "http://127.0.0.1:4177/",
+            "app_device": "web",
+            "app_platform": "2",
+            "app_source": "1",
+            "app_system": "v4.10.7",
+            "app_version": "4.10.7",
+            "content-type": "application/json",
+            "hudson-access-token": {
+              "present": true,
+              "length": 237
+            }
+          }
+        },
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        },
+        "bodyValues": {
+          "campId": "1796067693589061634",
+          "startDate": "2026-05-13",
+          "days": 33
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "null"
+            },
+            "errorMsg": {
+              "type": "null"
+            },
+            "errorDetail": {
+              "type": "null"
+            },
+            "data": {
+              "type": "object",
+              "keys": [
+                "list"
+              ],
+              "sample": {
+                "list": {
+                  "type": "array",
+                  "length": 34
+                }
+              }
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    }
+  ]
+}

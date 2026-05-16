@@ -220,6 +220,13 @@
   color: #fff;
 }
 
+.clean-log-store-tabs button:disabled,
+.clean-log-select-wrap > button:disabled,
+.clean-log-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
 .clean-log-options {
   position: absolute;
   top: calc(100% + 4px);
@@ -281,6 +288,31 @@
   border-right: 0;
 }
 
+.clean-log-table__body {
+  min-width: 1200px;
+}
+
+.clean-log-table__row {
+  display: grid;
+  grid-template-columns: 180px 120px 120px 1fr;
+  min-height: 38px;
+  border-top: 1px solid #eef1f6;
+}
+
+.clean-log-table__row > span {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 10px;
+  border-right: 1px solid #eef1f6;
+  color: #31415d;
+  font-size: 13px;
+}
+
+.clean-log-table__row > span:last-child {
+  border-right: 0;
+}
+
 .clean-log-empty {
   display: grid;
   place-items: center;
@@ -325,6 +357,29 @@
   color: #fff;
   padding: 8px 12px;
   font-size: 13px;
+}
+
+.clean-log-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 10px 0 0;
+  border: 1px solid #ffd7c2;
+  border-radius: 4px;
+  background: #fff7f2;
+  color: #9b3d12;
+  padding: 9px 12px;
+  font-size: 13px;
+}
+
+.clean-log-error button {
+  height: 28px;
+  border: 1px solid #fa8c16;
+  border-radius: 4px;
+  background: #fff;
+  color: #d46b08;
+  padding: 0 12px;
 }
 
 .clean-log-modal-backdrop {
@@ -450,6 +505,14 @@
   color: #69758a;
   font-size: 14px;
   font-weight: 400;
+}
+
+.clean-log-room-empty {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  color: #9aa3b5;
+  font-size: 14px;
 }
 
 .clean-log-room-modal footer {

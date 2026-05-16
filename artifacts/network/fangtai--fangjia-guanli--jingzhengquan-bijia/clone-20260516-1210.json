@@ -1,64 +1,64 @@
-{
-  "label": "clone",
-  "startUrl": "http://127.0.0.1:4173/houseManage/priceComparison",
-  "finalUrl": "http://127.0.0.1:4173/version/applicationPayment/detail?app=smartPricing",
-  "isLoginBlocked": false,
-  "responses": [
-    {
-      "url": "http://127.0.0.1:4173/houseManage/priceComparison",
-      "method": "GET",
-      "resourceType": "document",
-      "postData": null,
-      "status": 200,
-      "contentType": "text/html"
-    },
-    {
-      "url": "http://127.0.0.1:4173/assets/index-BOJwIM6e.css",
-      "method": "GET",
-      "resourceType": "stylesheet",
-      "postData": null,
-      "status": 200,
-      "contentType": "text/css"
-    },
-    {
-      "url": "http://127.0.0.1:4173/assets/index-DR6j_9h3.js",
-      "method": "GET",
-      "resourceType": "script",
-      "postData": null,
-      "status": 200,
-      "contentType": "text/javascript"
-    },
-    {
-      "url": "https://minsubao.localhome.cn/assets/price_compare_bg.png",
-      "method": "GET",
-      "resourceType": "image",
-      "postData": null,
-      "status": 200,
-      "contentType": "image/png"
-    },
-    {
-      "url": "http://127.0.0.1:4173/favicon.svg",
-      "method": "GET",
-      "resourceType": "other",
-      "postData": null,
-      "status": 200,
-      "contentType": "image/svg+xml"
-    },
-    {
-      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/COMPARE_UNPAID.png",
-      "method": "GET",
-      "resourceType": "image",
-      "postData": null,
-      "status": 200,
-      "contentType": "image/png"
-    },
-    {
-      "url": "http://127.0.0.1:4173/favicon.svg",
-      "method": "GET",
-      "resourceType": "other",
-      "postData": null,
-      "status": 200,
-      "contentType": "image/svg+xml"
-    }
-  ]
+﻿{
+    "label":  "clone",
+    "startUrl":  "http://127.0.0.1:4173/houseManage/priceComparison",
+    "finalUrl":  "http://127.0.0.1:4173/version/applicationPayment/detail?app=smartPricing",
+    "isLoginBlocked":  false,
+    "responses":  [
+                      {
+                          "url":  "http://127.0.0.1:4173/houseManage/priceComparison",
+                          "method":  "GET",
+                          "resourceType":  "document",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "text/html"
+                      },
+                      {
+                          "url":  "http://127.0.0.1:4173/assets/index-BOJwIM6e.css",
+                          "method":  "GET",
+                          "resourceType":  "stylesheet",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "text/css"
+                      },
+                      {
+                          "url":  "http://127.0.0.1:4173/assets/index-DR6j_9h3.js",
+                          "method":  "GET",
+                          "resourceType":  "script",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "text/javascript"
+                      },
+                      {
+                          "url":  "https://minsubao.localhome.cn/assets/price_compare_bg.png",
+                          "method":  "GET",
+                          "resourceType":  "image",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "image/png"
+                      },
+                      {
+                          "url":  "http://127.0.0.1:4173/favicon.svg",
+                          "method":  "GET",
+                          "resourceType":  "other",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "image/svg+xml"
+                      },
+                      {
+                          "url":  "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/COMPARE_UNPAID.png",
+                          "method":  "GET",
+                          "resourceType":  "image",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "image/png"
+                      },
+                      {
+                          "url":  "http://127.0.0.1:4173/favicon.svg",
+                          "method":  "GET",
+                          "resourceType":  "other",
+                          "postData":  null,
+                          "status":  200,
+                          "contentType":  "image/svg+xml"
+                      }
+                  ]
 }

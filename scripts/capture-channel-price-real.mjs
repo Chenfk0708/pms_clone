@@ -176,7 +176,7 @@ function redactSecrets(value) {
 
   return Object.fromEntries(
     Object.entries(value).map(([key, item]) => {
-      if (/token|cookie|password|passwd|secret|authorization|mobile|phone|mpQrUrl|appKey/i.test(key)) {
+      if (/token|cookie|password|passwd|secret|authorization|mobile|phone|mpQrUrl|appKey|accid/i.test(key)) {
         return [key, '[REDACTED]']
       }
       return [key, redactSecrets(item)]

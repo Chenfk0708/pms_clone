@@ -23,7 +23,6 @@
   box-shadow: none;
 }
 
-.day-data-source,
 .day-feedback {
   display: flex;
   align-items: center;
@@ -35,32 +34,14 @@
   line-height: 18px;
 }
 
-.day-data-source {
-  flex-wrap: wrap;
-  border: 1px solid #d9e2ff;
-  background: #f4f7ff;
-  color: #405173;
-}
-
-.day-data-source strong {
-  color: #233a8b;
-  font-weight: 600;
-}
-
-.day-data-source span {
-  color: #52637f;
-}
-
-.day-data-source em {
-  flex-basis: 100%;
-  color: #8a4b10;
-  font-style: normal;
-}
-
 .day-feedback {
   border: 1px solid #fde7c6;
   background: #fff9ed;
   color: #7b3f08;
+}
+
+.day-feedback:empty {
+  display: none;
 }
 
 .day-notice {

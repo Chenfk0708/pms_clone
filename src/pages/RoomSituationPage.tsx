@@ -1,43 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import {
+  dailyRoomSituationEndpoint,
+  fetchDailyRoomSituation,
+  fetchForwardRoomSituation,
+  fetchRoomSituationStores,
+  forwardRoomSituationEndpoint,
+  resolveRoomSituationCampId,
+  type DailyRoomSituationRow,
+  type ForwardRoomSituationRow,
+  type RoomSituationStore,
+} from '../services/roomSituation'
 
 type RoomSituationMode = 'day' | 'future'
 
-interface RoomSituationRow {
-  name: string
-  total: number
-  sold: number
-  available: number
-  closed: number
-  disabled: number
-  reserved: number
-  repair: number
-  linkedClosed: number
-  usable: number
-  arriving: number
-  occupied: number
-  leaving: number
-  clean: number
-  dirty: number
-}
-
-interface FutureRow {
-  name: string
-  total: number
-  days: Array<{
-    available: number
-    occupied: number
-  }>
-}
-
-const dayRows: RoomSituationRow[] = [
-  { name: '合计', total: 4, sold: 0, available: 4, closed: 0, disabled: 0, reserved: 0, repair: 0, linkedClosed: 0, usable: 4, arriving: 0, occupied: 0, leaving: 0, clean: 3, dirty: 1 },
-  { name: '顶层套房（浴缸巨幕电竞麻将）', total: 1, sold: 0, available: 1, closed: 0, disabled: 0, reserved: 0, repair: 0, linkedClosed: 0, usable: 1, arriving: 0, occupied: 0, leaving: 0, clean: 1, dirty: 0 },
-  { name: '总裁套间（桑拿浴缸露台电竞麻将）', total: 1, sold: 0, available: 1, closed: 0, disabled: 0, reserved: 0, repair: 0, linkedClosed: 0, usable: 1, arriving: 0, occupied: 0, leaving: 0, clean: 1, dirty: 0 },
-  { name: '天落大床电竞套间', total: 1, sold: 0, available: 1, closed: 0, disabled: 0, reserved: 0, repair: 0, linkedClosed: 0, usable: 1, arriving: 0, occupied: 0, leaving: 0, clean: 1, dirty: 0 },
-  { name: '观影大床房', total: 1, sold: 0, available: 1, closed: 0, disabled: 0, reserved: 0, repair: 0, linkedClosed: 0, usable: 1, arriving: 0, occupied: 0, leaving: 0, clean: 0, dirty: 1 },
-]
-
-const columns: Array<{ key: keyof RoomSituationRow; label: string }> = [
+const dayColumns: Array<{ key: keyof Omit<DailyRoomSituationRow, 'id' | 'name'>; label: string }> = [
   { key: 'total', label: '总房间数' },
   { key: 'sold', label: '已售房间数' },
   { key: 'available', label: '剩余可售数' },
@@ -54,83 +30,25 @@ const columns: Array<{ key: keyof RoomSituationRow; label: string }> = [
   { key: 'dirty', label: '脏房' },
 ]
 
-const DAY_MS = 24 * 60 * 60 * 1000
-const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-
-function buildFutureDates(length = 30) {
-  const today = new Date()
-  const localMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-
-  return Array.from({ length }, (_, index) => {
-    const date = new Date(localMidnight.getTime() + index * DAY_MS)
-    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${weekdays[date.getDay()]}`
-  })
-}
-
-const futureDates = buildFutureDates()
-
-function buildFutureDays(defaultAvailable: number, defaultOccupied: number, overrides: Record<number, [number, number]> = {}) {
-  return futureDates.map((_, index) => {
-    const [available, occupied] = overrides[index] ?? [defaultAvailable, defaultOccupied]
-    return { available, occupied }
-  })
-}
-
-const futureRows: FutureRow[] = [
-  {
-    name: '合计',
-    total: 4,
-    days: buildFutureDays(4, 0, {
-      1: [3, 1],
-      3: [3, 1],
-      4: [3, 1],
-    }),
-  },
-  {
-    name: '顶层套房（浴缸巨幕电竞麻将）',
-    total: 1,
-    days: buildFutureDays(1, 0),
-  },
-  {
-    name: '总裁套间（桑拿浴缸露台电竞麻将）',
-    total: 1,
-    days: buildFutureDays(1, 0, {
-      3: [0, 1],
-      4: [0, 1],
-    }),
-  },
-  {
-    name: '天落大床电竞套间',
-    total: 1,
-    days: buildFutureDays(1, 0, {
-      1: [0, 1],
-    }),
-  },
-  {
-    name: '观影大床房',
-    total: 1,
-    days: buildFutureDays(1, 0),
-  },
-]
-
-const storeName = '天落会宿公寓(前海壹方城宝安中心店)'
-
 const metricDescriptions = [
-  '总房间数：企业的房间总数；',
-  '已售房间数：今日已销售的房间总数，已售房间数=在住-预离+预抵；',
-  '剩余可售数：今日可销售的房间数量（不包含已售），剩余可售数=总房间数-总关房数-已售房间数；',
-  '总关房数：今日关房不可销售的房间数量，总关房数=停用房+维修房+保留房+联动关房；',
-  '停用房：关房类型为停用房；',
-  '保留房：关房类型为保留房；',
-  '维修房：关房类型为维修房；',
-  '联动关房：与其他房型绑定了联动关系，因库存同步策略联动关房；',
-  '总可用房数：当前可安排客人入住的房间数量，总可用房数=总房间数-总关房数-在住',
-  '预抵：今日入住状态为待入住的订单总数（不包含今日已办理入住的订单）；',
-  '在住：今日入住状态为入住中的订单总数（包含预离）；',
-  '预离：预计今日退房的订单总数；',
-  '净房：已完成清洁、可直接安排入住的房间数量；',
-  '脏房：待清洁或清洁中的房间数量；',
+  '总房间数：企业的房间总数。',
+  '已售房间数：今日已销售的房间总数，已售房间数=在住-预离+预抵。',
+  '剩余可售数：今日可销售的房间数量，不包含已售。',
+  '总关房数：今日关房不可销售的房间数量。',
+  '停用房：关房类型为停用房。',
+  '保留房：关房类型为保留房。',
+  '维修房：关房类型为维修房。',
+  '联动关房：与其他房型绑定联动关系后产生的关房。',
+  '总可用房数：当前可安排客人入住的房间数量。',
+  '预抵：今日待入住订单数。',
+  '在住：今日入住状态为入住中的订单数。',
+  '预离：预计今日退房的订单数。',
+  '净房：已完成清洁、可直接安排入住的房间数量。',
+  '脏房：待清洁或清洁中的房间数量。',
 ]
+
+const dayMs = 24 * 60 * 60 * 1000
+const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
 export function RoomSituationPage() {
   const [mode, setMode] = useState<RoomSituationMode>('day')
@@ -138,9 +56,90 @@ export function RoomSituationPage() {
   const [pageSize, setPageSize] = useState(20)
   const [showMetricHelp, setShowMetricHelp] = useState(false)
   const [tooltip, setTooltip] = useState<string | null>(null)
+  const [stores, setStores] = useState<RoomSituationStore[]>([])
+  const [storeError, setStoreError] = useState('')
+  const [dailyRows, setDailyRows] = useState<DailyRoomSituationRow[]>([])
+  const [forwardRows, setForwardRows] = useState<ForwardRoomSituationRow[]>([])
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [feedback, setFeedback] = useState('等待真实请求')
+  const [reloadKey, setReloadKey] = useState(0)
+  const activeEndpoint = mode === 'day' ? dailyRoomSituationEndpoint : forwardRoomSituationEndpoint
+  const displayEndpoint = activeEndpoint.replace(/^\//, '')
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadStores() {
+      try {
+        const campId = resolveRoomSituationCampId()
+        const nextStores = await fetchRoomSituationStores(campId, controller.signal)
+        setStores(nextStores)
+        setStoreError('')
+      } catch (caught) {
+        if (isAbortError(caught)) return
+        setStoreError(toErrorMessage(caught))
+      }
+    }
+
+    void loadStores()
+    return () => controller.abort()
+  }, [reloadKey])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadTableData() {
+      setLoading(true)
+      setError('')
+
+      try {
+        const campId = resolveRoomSituationCampId()
+        const today = formatDate()
+
+        if (mode === 'day') {
+          const nextData = await fetchDailyRoomSituation(
+            { campId, date: today, poiIds: [], pageNum: 1, pageSize },
+            controller.signal,
+          )
+          setDailyRows(nextData.rows)
+          setTotal(nextData.total)
+        } else {
+          const nextData = await fetchForwardRoomSituation(
+            { campId, startDate: today, endDate: formatDate(30), poiIds: [], pageNum: 1, pageSize },
+            controller.signal,
+          )
+          setForwardRows(nextData.rows)
+          setTotal(nextData.total)
+        }
+
+        setFeedback('真实请求已完成')
+      } catch (caught) {
+        if (isAbortError(caught)) return
+        setError(toErrorMessage(caught))
+        setFeedback('真实请求失败')
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    void loadTableData()
+    return () => controller.abort()
+  }, [mode, pageSize, reloadKey])
+
+  const rowsInView = mode === 'day' ? dailyRows.length : forwardRows.length
+  const futureDates = useMemo(() => buildFutureDates(Math.max(1, maxForwardDays(forwardRows))), [forwardRows])
+  const currentStoreName = stores[0]?.poiName ?? (storeError ? '门店请求失败' : '全部门店')
 
   function showTooltip(text: string) {
     setTooltip(text)
+  }
+
+  function retry() {
+    setReloadKey((value) => value + 1)
   }
 
   return (
@@ -160,8 +159,8 @@ export function RoomSituationPage() {
             <button type="button" className="room-store-scope" onClick={() => showTooltip('全部门店')}>
               全部门店
             </button>
-            <button type="button" className="room-store-current" onClick={() => showTooltip(storeName)}>
-              {storeName}
+            <button type="button" className="room-store-current" onClick={() => showTooltip(currentStoreName)}>
+              {currentStoreName}
             </button>
             {tooltip ? (
               <div className="room-store-tooltip" role="tooltip">
@@ -169,19 +168,49 @@ export function RoomSituationPage() {
               </div>
             ) : null}
           </div>
-          <button type="button" className="room-icon-button" aria-label="设置" onClick={() => showTooltip('设置')}>
+          <button type="button" className="room-icon-button" aria-label="设置" onClick={() => showTooltip('当前房情表列设置沿用目标站展示')}>
             ⚙
           </button>
           <button type="button" className="room-metric-help" onClick={() => setShowMetricHelp(true)}>
             指标说明
           </button>
         </div>
+
+        <div className="room-request-status" aria-live="polite">
+          <div className="room-data-source" aria-label="房情表数据来源">
+            数据来源：POST {displayEndpoint}
+          </div>
+          <div className="room-feedback" aria-label="房情表操作反馈">
+            {loading ? '真实请求加载中' : feedback}
+          </div>
+          {storeError ? <div className="room-store-warning">门店请求阻塞：{storeError}</div> : null}
+        </div>
       </section>
 
       <section className="room-situation-board">
-        {mode === 'future' ? <FutureSituationTable /> : <DaySituationTable />}
+        {error ? (
+          <div className="room-error" role="alert">
+            <strong>{error}</strong>
+            <button type="button" onClick={retry} disabled={loading}>
+              重试
+            </button>
+          </div>
+        ) : null}
+
+        {loading ? <div className="room-loading">正在加载真实房情表数据...</div> : null}
+
+        {!loading && !error && rowsInView === 0 ? <div className="room-empty">暂无房情表数据</div> : null}
+
+        {mode === 'future' ? (
+          <FutureSituationTable rows={forwardRows} dates={futureDates} />
+        ) : (
+          <DaySituationTable rows={dailyRows} />
+        )}
+
         <footer className="room-situation-pagination">
-          <span>第 1-5 条/总共 5 条</span>
+          <span>
+            第 {rowsInView === 0 ? 0 : 1}-{rowsInView} 条 总共 {total} 条
+          </span>
           <button type="button" className="is-active">
             1
           </button>
@@ -238,23 +267,26 @@ export function RoomSituationPage() {
   )
 }
 
-function DaySituationTable() {
+function DaySituationTable({ rows }: { rows: DailyRoomSituationRow[] }) {
   return (
     <div className="room-situation-table-scroll" data-testid="room-situation-table-scroll">
       <table className="room-situation-table">
         <thead>
           <tr>
             <th className="room-type-column">房型名称</th>
-            {columns.map((column) => (
+            {dayColumns.map((column) => (
               <th key={column.key}>{column.label}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {dayRows.map((row) => (
-            <tr key={row.name}>
-              <th className="room-type-column">{row.name}</th>
-              {columns.map((column) => (
+          {rows.map((row) => (
+            <tr key={row.id}>
+              <th className="room-type-column">
+                <span className="room-row-summary">{formatDailyRowSummary(row)}</span>
+                <span>{row.name}</span>
+              </th>
+              {dayColumns.map((column) => (
                 <td key={column.key}> {row[column.key]}</td>
               ))}
             </tr>
@@ -265,7 +297,7 @@ function DaySituationTable() {
   )
 }
 
-function FutureSituationTable() {
+function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]; dates: string[] }) {
   return (
     <>
       <div className="room-situation-caption">
@@ -279,27 +311,30 @@ function FutureSituationTable() {
                 房型
               </th>
               <th rowSpan={2}>总房间数</th>
-              {futureDates.map((date) => (
+              {dates.map((date) => (
                 <th key={date} colSpan={2}>
                   {date}
                 </th>
               ))}
             </tr>
             <tr>
-              {futureDates.flatMap((date) => [
+              {dates.flatMap((date) => [
                 <th key={`${date}-available`}>剩余可售</th>,
                 <th key={`${date}-occupied`}>占用</th>,
               ])}
             </tr>
           </thead>
           <tbody>
-            {futureRows.map((row) => (
-              <tr key={row.name}>
-                <th className="room-type-column">{row.name}</th>
+            {rows.map((row) => (
+              <tr key={row.id}>
+                <th className="room-type-column">
+                  <span className="room-row-summary">{formatForwardRowSummary(row)}</span>
+                  <span>{row.name}</span>
+                </th>
                 <td> {row.total}</td>
                 {row.days.flatMap((day, index) => [
-                  <td key={`${row.name}-${futureDates[index]}-available`}> {day.available}</td>,
-                  <td key={`${row.name}-${futureDates[index]}-occupied`}> {day.occupied}</td>,
+                  <td key={`${row.id}-${dates[index] ?? index}-available`}> {day.available}</td>,
+                  <td key={`${row.id}-${dates[index] ?? index}-occupied`}> {day.occupied}</td>,
                 ])}
               </tr>
             ))}
@@ -308,4 +343,46 @@ function FutureSituationTable() {
       </div>
     </>
   )
+}
+
+function formatDate(offset = 0) {
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  date.setDate(date.getDate() + offset)
+
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function buildFutureDates(length: number) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  return Array.from({ length }, (_, index) => {
+    const date = new Date(today.getTime() + index * dayMs)
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${weekdays[date.getDay()]}`
+  })
+}
+
+function maxForwardDays(rows: ForwardRoomSituationRow[]) {
+  return rows.reduce((max, row) => Math.max(max, row.days.length), 0)
+}
+
+function formatDailyRowSummary(row: DailyRoomSituationRow) {
+  return [row.name, ...dayColumns.map((column) => row[column.key])].join(' ')
+}
+
+function formatForwardRowSummary(row: ForwardRoomSituationRow) {
+  return [
+    row.name,
+    row.total,
+    ...row.days.flatMap((day) => [day.available, day.occupied]),
+  ].join(' ')
+}
+
+function toErrorMessage(caught: unknown) {
+  return caught instanceof Error ? caught.message : String(caught)
+}
+
+function isAbortError(caught: unknown) {
+  return caught instanceof DOMException && caught.name === 'AbortError'
 }

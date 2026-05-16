@@ -9,6 +9,7 @@ const cloneUrl = process.env.PMS_CLONE_URL ?? 'http://127.0.0.1:4173/houseManage
 const storageState = path.resolve('playwright/.auth/pms-user.json')
 const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const useCloneStorageState = process.env.PMS_CLONE_USE_STORAGE_STATE === '1'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const pageUrl = mode === 'clone' ? cloneUrl : targetUrl
@@ -26,6 +27,7 @@ for (const dir of Object.values(artifactDirs)) {
 }
 
 let previewProcess = null
+let cloneHudsonAccessToken = ''
 
 try {
   if (mode === 'clone') {
@@ -35,10 +37,14 @@ try {
   const browser = await chromium.launch({
     executablePath: chromeExecutablePath,
     headless: true,
+    args: buildLaunchArgs(pageUrl),
   })
 
   try {
-    const result = await captureSide(browser, mode, pageUrl, mode === 'target' ? { storageState } : {})
+    if (mode === 'clone' && useCloneStorageState) {
+      cloneHudsonAccessToken = await captureHudsonAccessToken()
+    }
+    const result = await captureSide(browser, mode, pageUrl, mode === 'target' || useCloneStorageState ? { storageState } : {})
     console.log(JSON.stringify(result, null, 2))
   } finally {
     await browser.close()
@@ -60,7 +66,33 @@ async function captureSide(browser, side, url, contextOptions = {}) {
   })
 
   try {
+    if (side === 'clone' && cloneHudsonAccessToken) {
+      await context.addInitScript((token) => {
+        window.localStorage.setItem('pms.hudsonAccessToken', token)
+      }, cloneHudsonAccessToken)
+    }
     const page = await context.newPage()
+    if (side === 'clone' && useCloneStorageState) {
+      const cookieHeader = await buildHudsonCookieHeader(storageState)
+      if (cloneHudsonAccessToken) {
+        await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
+          const headers = buildHudsonProxyHeaders(route.request().headers(), cloneHudsonAccessToken)
+          const response = await route.fetch({
+            headers,
+          })
+          await route.fulfill({ response })
+        })
+      } else if (cookieHeader) {
+        await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
+          await route.continue({
+            headers: {
+              ...route.request().headers(),
+              cookie: cookieHeader,
+            },
+          })
+        })
+      }
+    }
     page.on('response', async (response) => {
       const request = response.request()
       const responseUrl = response.url()
@@ -158,6 +190,36 @@ async function captureSide(browser, side, url, contextOptions = {}) {
     }
   } finally {
     await context.close()
+  }
+}
+
+async function captureHudsonAccessToken() {
+  const tokenBrowser = await chromium.launch({
+    executablePath: chromeExecutablePath,
+    headless: true,
+  })
+  const context = await tokenBrowser.newContext({
+    storageState,
+    viewport: { width: 1440, height: 900 },
+    locale: 'zh-CN',
+    timezoneId: 'Asia/Shanghai',
+  })
+  try {
+    const page = await context.newPage()
+    const tokenPromise = new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(''), 15_000)
+      page.on('request', (request) => {
+        if (!request.url().includes('hudson-prod.localhome.cn/roomStatuses/rooms/get')) return
+        const token = request.headers()['hudson-access-token'] ?? ''
+        clearTimeout(timer)
+        resolve(token)
+      })
+    })
+    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 45_000 })
+    return await tokenPromise
+  } finally {
+    await context.close()
+    await tokenBrowser.close()
   }
 }
 
@@ -262,6 +324,7 @@ function shouldKeepNetworkRecord(url, resourceType) {
   if (resourceType !== 'fetch' && resourceType !== 'xhr' && resourceType !== 'document') return false
   return (
     url.includes('/houseManage/months') ||
+    url.includes('hudson-prod.localhome.cn/camps/get') ||
     url.includes('hudson-prod.localhome.cn/roomStatuses') ||
     url.includes('hudson-prod.localhome.cn/roomCategories') ||
     url.includes('hudson-prod.localhome.cn/rooms/get') ||
@@ -278,10 +341,84 @@ function summarizeRequest(request) {
   const parsedBody = parseJson(postData)
 
   return {
+    headers: summarizeHeaders(request.headers()),
     queryKeys: Array.from(url.searchParams.keys()).sort(),
     bodyKeys: parsedBody && typeof parsedBody === 'object' && !Array.isArray(parsedBody) ? Object.keys(parsedBody).sort() : [],
     bodyShape: summarizeJson(parsedBody),
+    bodyValues: summarizeBodyValues(parsedBody),
   }
+}
+
+function summarizeHeaders(headers) {
+  const summary = {
+    keys: Object.keys(headers).sort(),
+    values: {},
+  }
+
+  for (const [key, value] of Object.entries(headers)) {
+    const lowerKey = key.toLowerCase()
+    if (lowerKey === 'hudson-access-token' || lowerKey === 'authorization' || lowerKey === 'cookie') {
+      summary.values[lowerKey] = {
+        present: Boolean(value),
+        length: typeof value === 'string' ? value.length : 0,
+      }
+      continue
+    }
+
+    if (
+      lowerKey.startsWith('app_') ||
+      lowerKey === 'content-type' ||
+      lowerKey === 'origin' ||
+      lowerKey === 'referer' ||
+      lowerKey === 'sec-fetch-site' ||
+      lowerKey === 'sec-fetch-mode' ||
+      lowerKey === 'sec-fetch-dest'
+    ) {
+      summary.values[lowerKey] = value
+    }
+  }
+
+  return summary
+}
+
+function buildHudsonProxyHeaders(requestHeaders, token) {
+  const headers = { ...requestHeaders }
+  delete headers.origin
+  delete headers['sec-fetch-dest']
+  delete headers['sec-fetch-mode']
+  delete headers['sec-fetch-site']
+
+  headers.referer = `${new URL(targetUrl).origin}/`
+  headers.app_device = 'web'
+  headers.app_platform = '2'
+  headers.app_source = '1'
+  headers.app_system = 'v4.10.7'
+  headers.app_version = '4.10.7'
+  headers['hudson-access-token'] = token
+
+  return headers
+}
+
+function summarizeBodyValues(value, depth = 0) {
+  if (depth > 2) return summarizeJson(value, depth)
+  if (value === null || value === undefined) return value
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.length ? summarizeBodyValues(value[0], depth + 1) : undefined,
+    }
+  }
+  if (typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 20)
+        .map(([key, child]) => [key, summarizeBodyValues(child, depth + 1)]),
+    )
+  }
+  if (typeof value === 'string') return value.length > 80 ? { type: 'string', length: value.length } : value
+  if (typeof value === 'number' || typeof value === 'boolean') return value
+  return { type: typeof value }
 }
 
 async function summarizeResponse(response) {
@@ -424,7 +561,8 @@ function buildInteractionMatrix(side, interactions, responses) {
 }
 
 async function ensurePreviewServer(serverUrl) {
-  if (await canFetch(serverUrl)) return
+  const healthUrl = previewHealthUrl(serverUrl)
+  if (await canFetch(healthUrl)) return
 
   const command = process.platform === 'win32' ? 'npm.cmd' : 'npm'
   const port = new URL(serverUrl).port || '4173'
@@ -436,11 +574,25 @@ async function ensurePreviewServer(serverUrl) {
 
   const started = Date.now()
   while (Date.now() - started < 20_000) {
-    if (await canFetch(serverUrl)) return
+    if (await canFetch(healthUrl)) return
     await delay(500)
   }
 
   throw new Error(`Local preview server did not become ready at ${serverUrl}`)
+}
+
+function buildLaunchArgs(url) {
+  if (mode !== 'clone') return []
+  const hostname = new URL(url).hostname
+  if (hostname === '127.0.0.1' || hostname === 'localhost') return []
+  return [`--host-resolver-rules=MAP ${hostname} 127.0.0.1`]
+}
+
+function previewHealthUrl(serverUrl) {
+  const url = new URL(serverUrl)
+  if (url.hostname === '127.0.0.1' || url.hostname === 'localhost') return serverUrl
+  url.hostname = '127.0.0.1'
+  return url.toString()
 }
 
 async function canFetch(serverUrl) {
@@ -493,4 +645,23 @@ function roundBox(box) {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function buildHudsonCookieHeader(storageStatePath) {
+  if (!useCloneStorageState) return ''
+  const rawState = await fs.readFile(storageStatePath, 'utf8').catch(() => '')
+  const parsedState = parseJson(rawState)
+  if (!parsedState || typeof parsedState !== 'object' || !Array.isArray(parsedState.cookies)) return ''
+
+  const nowSeconds = Date.now() / 1000
+  return parsedState.cookies
+    .filter((cookie) => {
+      if (!cookie || typeof cookie !== 'object') return false
+      if (typeof cookie.name !== 'string' || typeof cookie.value !== 'string') return false
+      if (typeof cookie.expires === 'number' && cookie.expires > 0 && cookie.expires < nowSeconds) return false
+      const domain = typeof cookie.domain === 'string' ? cookie.domain.replace(/^\./, '') : ''
+      return domain === 'hudson-prod.localhome.cn' || domain.endsWith('.localhome.cn') || domain === 'localhome.cn'
+    })
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
+    .join('; ')
 }

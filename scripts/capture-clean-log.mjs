@@ -62,13 +62,26 @@ async function captureSide(browser, side, pageUrl, contextOptions = {}) {
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()
-      network.push({
+      const record = {
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
         contentType: response.headers()['content-type'] ?? '',
-      })
+        requestPostData: request.postData(),
+      }
+      network.push(record)
+
+      if (response.url().includes('/cleanLog/page/get')) {
+        response
+          .text()
+          .then((body) => {
+            record.responsePreview = body.slice(0, 2000)
+          })
+          .catch((error) => {
+            record.responsePreview = `READ_ERROR:${error instanceof Error ? error.message : String(error)}`
+          })
+      }
     })
 
     await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 45_000 })

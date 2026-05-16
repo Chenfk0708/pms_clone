@@ -144,7 +144,7 @@ export async function fetchWorkspaceAnalysis(campId: string, range: WorkspacePer
         label: '营业收入',
         value: formatCurrency(data.businessIncome),
         detailLeft: `预计总收入 ${formatCurrency(0)}`,
-        detailRight: `记一笔 ${formatCurrency(data.writeDownIncome)}　其他收入/支出 ${formatCurrency(data.otherOrderExpense)}`,
+        detailRight: `记一笔 ${formatCurrency(data.writeDownIncome)} 其他收入/支出 ${formatCurrency(data.otherOrderExpense)}`,
         accent: 'amber',
       },
       {
@@ -273,7 +273,7 @@ function normalizeTrendDates(list: WorkspaceAnalysis['chartDates'] | Array<{ dat
   return list.map((item) => {
     if (typeof item === 'string') return item
     const date = item.date || ''
-    const [, month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) ?? []
+    const [, , month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) ?? []
     return month && day ? `${month}/${day}` : date
   })
 }

@@ -99,7 +99,7 @@ test('/houseManage/channelPrice supports key channel price interactions', async 
   await expect(page.getByRole('heading', { name: '日历房', level: 1 })).toBeVisible()
   await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
   await expect(page.getByRole('button', { name: '新增售卖产品' })).toBeVisible()
-  await page.goto('/houseManage/channelPrice')
+  await page.goto('/houseManage/channelPrice?campId=test-camp')
 
   await page.getByRole('button', { name: '价格设置' }).click()
   await expect(page.getByRole('dialog', { name: '价格设置' })).toBeVisible()
@@ -131,9 +131,9 @@ test('/houseManage/channelPrice supports key channel price interactions', async 
   await page.getByLabel('关闭改价').click()
 
   await page.getByRole('button', { name: '全部收起' }).click()
-  await expect(page.getByText('顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>')).toBeHidden()
+  await expect(page.getByText('真实接口产品A<无早>')).toBeHidden()
   await page.getByRole('button', { name: '全部展开' }).click()
-  await expect(page.getByText('顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>')).toBeVisible()
+  await expect(page.getByText('真实接口产品A<无早>')).toBeVisible()
 })
 
 test('/houseManage/channelPrice supports target alert and guide flows', async ({ page }) => {

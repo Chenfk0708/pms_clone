@@ -14,7 +14,9 @@
 }
 
 .presale-order-query,
-.presale-order-table {
+.presale-order-table,
+.presale-order-source,
+.presale-order-footer {
   border: 1px solid #e5e9f1;
   border-radius: 8px;
   background: #fff;
@@ -26,7 +28,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px 12px;
   min-height: 128px;
-  padding: 8px 0 8px 0;
+  padding: 8px 0;
 }
 
 .presale-order-query__grid {
@@ -34,7 +36,6 @@
   grid-template-columns: repeat(4, minmax(210px, 1fr));
   gap: 8px 16px;
   align-items: center;
-  padding: 0 0 0 0;
 }
 
 .presale-order-field {
@@ -82,10 +83,6 @@
   font-size: 14px;
 }
 
-.presale-order-select.is-fixed::after {
-  color: rgba(0, 0, 0, 0.25);
-}
-
 .presale-order-keyword input {
   padding: 0 11px;
 }
@@ -118,12 +115,13 @@
   align-items: flex-end;
   justify-content: flex-end;
   gap: 8px;
-  padding-right: 0;
   padding-bottom: 8px;
 }
 
 .presale-order-actions button,
-.presale-order-export button {
+.presale-order-export button,
+.presale-order-pagination button,
+.presale-order-row button {
   height: 32px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -138,6 +136,14 @@
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
+}
+
+.presale-order-actions button:disabled,
+.presale-order-pagination button:disabled {
+  cursor: not-allowed;
+  border-color: #eceff5;
+  color: rgba(0, 0, 0, 0.25);
+  background: #f8f9fb;
 }
 
 .presale-order-export {
@@ -161,7 +167,8 @@
   box-shadow: 0 8px 24px rgba(31, 42, 68, 0.14);
 }
 
-.presale-order-options button {
+.presale-order-options button,
+.presale-order-options__empty {
   border: 0;
   border-radius: 4px;
   background: transparent;
@@ -176,37 +183,86 @@
   color: #4d65f6;
 }
 
-.presale-order-notice {
-  justify-self: end;
-  border: 1px solid #b9e5cb;
-  border-radius: 4px;
-  background: #f0fff6;
-  color: #1f8b55;
-  padding: 6px 10px;
+.presale-order-source {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 12px;
   font-size: 13px;
 }
 
+.presale-order-source div {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.presale-order-source strong {
+  flex: 0 0 auto;
+}
+
+.presale-order-source span {
+  color: #526178;
+  overflow-wrap: anywhere;
+}
+
+.presale-order-source [role='alert'] {
+  color: #b42318;
+}
+
+.presale-order-source code {
+  color: #526178;
+  font-size: 12px;
+}
+
 .presale-order-table {
-  overflow: hidden;
+  overflow: auto;
+}
+
+.presale-order-table__head,
+.presale-order-row {
+  display: grid;
+  grid-template-columns: 190px 1.15fr 0.86fr 0.76fr 0.76fr 1.02fr 0.76fr 0.76fr 0.88fr;
+  min-width: 1244px;
 }
 
 .presale-order-table__head {
-  display: grid;
-  grid-template-columns: 150px 1.25fr 0.85fr 0.72fr 0.72fr 1.05fr 0.72fr 0.72fr 0.82fr;
-  min-width: 1244px;
-  height: 58px;
+  min-height: 58px;
   background: #fafafa;
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
 }
 
-.presale-order-table__head > div {
+.presale-order-table__head > div,
+.presale-order-row > div {
   display: flex;
   align-items: center;
   min-width: 0;
-  padding: 0 8px;
+  padding: 8px;
   border-bottom: 1px solid #f0f0f0;
   overflow-wrap: anywhere;
+}
+
+.presale-order-row {
+  min-height: 72px;
+  color: #26324a;
+  font-size: 13px;
+}
+
+.presale-order-row > div {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+}
+
+.presale-order-row strong {
+  color: #172033;
+  font-weight: 500;
+}
+
+.presale-order-row span {
+  color: #7a869a;
 }
 
 .presale-order-empty {
@@ -217,12 +273,16 @@
   min-width: 1244px;
   min-height: 154px;
   border-top: 1px solid #f0f0f0;
-  color: rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.35);
   font-size: 14px;
 }
 
 .presale-order-empty strong {
   font-weight: 400;
+}
+
+.presale-order-empty small {
+  color: #b42318;
 }
 
 .presale-order-empty__icon {
@@ -247,16 +307,45 @@
   background: #fbfcfe;
 }
 
+.presale-order-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 8px 12px;
+}
+
+.presale-order-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #526178;
+  font-size: 13px;
+}
+
+.presale-order-footer details {
+  max-width: 520px;
+  color: #526178;
+  font-size: 12px;
+}
+
+.presale-order-footer pre {
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid #eef1f6;
+  border-radius: 6px;
+  background: #fafbfc;
+  padding: 8px;
+}
+
 @media (max-width: 1280px) {
-  .presale-order-query {
+  .presale-order-query,
+  .presale-order-source,
+  .presale-order-footer {
     grid-template-columns: 1fr;
   }
 
   .presale-order-query__grid {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
-  }
-
-  .presale-order-actions {
-    padding-right: 0;
   }
 }

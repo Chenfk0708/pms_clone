@@ -1,0 +1,3564 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+  "title": "pms_clone",
+  "isLoginBlocked": false,
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "request": {
+        "queryKeys": [
+          "campId"
+        ],
+        "bodyKeys": [],
+        "bodyShape": {
+          "type": "null"
+        }
+      },
+      "response": {
+        "contentType": "text/html"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/orderDetails/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/occ/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/redDot/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/inv/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/block/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatuses/dailyMonitor/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "request": {
+        "queryKeys": [],
+        "bodyKeys": [
+          "campId",
+          "days",
+          "startDate"
+        ],
+        "bodyShape": {
+          "type": "object",
+          "keys": [
+            "campId",
+            "startDate",
+            "days"
+          ],
+          "sample": {
+            "campId": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "days": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "response": {
+        "contentType": "application/json",
+        "shape": {
+          "type": "object",
+          "keys": [
+            "success",
+            "errorCode",
+            "errorMsg",
+            "errorDetail",
+            "data"
+          ],
+          "sample": {
+            "success": {
+              "type": "boolean"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMsg": {
+              "type": "string"
+            },
+            "errorDetail": {
+              "type": "string"
+            },
+            "data": {
+              "type": "null"
+            }
+          }
+        },
+        "fieldKeys": [
+          "data",
+          "errorCode",
+          "errorDetail",
+          "errorMsg",
+          "success"
+        ]
+      }
+    }
+  ]
+}

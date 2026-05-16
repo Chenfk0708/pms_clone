@@ -1,0 +1,497 @@
+{
+  "location": "http://127.0.0.1:4173/houseManage/channelPrice?campId=1796067693589061634",
+  "title": "pms_clone",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n保洁管理\n中央价\n渠道RP价\n竞争圈比价\n当前通过\n\"实际卖价\"\n进行价格调控\n预览与覆盖\n暂不处理\n同步至渠道\nRP设置\n价格设置\n价格规划\n批量改价\n新手指引\n\n渠道rp价与房型价格存在差异\n\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n渠道\n全部房型\n房型标签\n真实接口请求失败\n没有登录\n重试真实请求\n上一周\n2026.05.16 起\n下一周\n今日\n全部收起\n点击价格单元格可打开改价弹层\n全部收起\n产品系数\n基础价\n今日\n六\n05.17\n日\n05.18\n一\n05.19\n二\n05.20\n三\n05.21\n四\n05.22\n五\n05.23\n六\n05.24\n日\n05.25\n一\n05.26\n二\n05.27\n三\n05.28\n四\n05.29\n五\n05.30\n六\n05.31\n日\n06.01\n一\n06.02\n二\n06.03\n三\n06.04\n四\n06.05\n五\n06.06\n六\n06.07\n日\n06.08\n一\n06.09\n二\n06.10\n三\n06.11\n四\n06.12\n五\n06.13\n六\n06.14\n日\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--message",
+      "role": "",
+      "ariaLabel": "消息",
+      "text": "",
+      "box": {
+        "x": 1208,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--payment",
+      "role": "",
+      "ariaLabel": "收款",
+      "text": "",
+      "box": {
+        "x": 1236,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--reception",
+      "role": "",
+      "ariaLabel": "接待",
+      "text": "",
+      "box": {
+        "x": 1264,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--key",
+      "role": "",
+      "ariaLabel": "门锁",
+      "text": "",
+      "box": {
+        "x": 1292,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--service",
+      "role": "",
+      "ariaLabel": "客服",
+      "text": "",
+      "box": {
+        "x": 1320,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--notice",
+      "role": "",
+      "ariaLabel": "通知",
+      "text": "",
+      "box": {
+        "x": 1348,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-user-menu",
+      "role": "",
+      "ariaLabel": "用户菜单",
+      "text": "",
+      "box": {
+        "x": 1376,
+        "y": 10,
+        "width": 56,
+        "height": 32
+      },
+      "display": "flex"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房态管理",
+      "box": {
+        "x": 0,
+        "y": 64,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房价管理",
+      "box": {
+        "x": 0,
+        "y": 114,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title",
+      "role": "",
+      "ariaLabel": "",
+      "text": "保洁管理",
+      "box": {
+        "x": 0,
+        "y": 490,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "中央价",
+      "box": {
+        "x": 173,
+        "y": 79,
+        "width": 74,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-active",
+      "role": "",
+      "ariaLabel": "RP价页签",
+      "text": "渠道RP价",
+      "box": {
+        "x": 255,
+        "y": 79,
+        "width": 92,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "竞争圈比价",
+      "box": {
+        "x": 173,
+        "y": 115,
+        "width": 102,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "预览与覆盖",
+      "box": {
+        "x": 683,
+        "y": 97,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "暂不处理",
+      "box": {
+        "x": 787,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "同步至渠道",
+      "box": {
+        "x": 879,
+        "y": 97,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "RP设置",
+      "box": {
+        "x": 983,
+        "y": 97,
+        "width": 74,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "价格设置",
+      "box": {
+        "x": 1065,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "价格规划",
+      "box": {
+        "x": 1157,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "批量改价",
+      "box": {
+        "x": 1248,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "新手指引",
+      "box": {
+        "x": 1340,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部门店",
+      "box": {
+        "x": 173,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "box": {
+        "x": 269,
+        "y": 215,
+        "width": 265,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "渠道",
+      "box": {
+        "x": 542,
+        "y": 215,
+        "width": 60,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部房型",
+      "box": {
+        "x": 610,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型标签",
+      "box": {
+        "x": 706,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "INPUT",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "",
+      "box": {
+        "x": 802,
+        "y": 215,
+        "width": 120,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "重试真实请求",
+      "box": {
+        "x": 1311,
+        "y": 503,
+        "width": 100,
+        "height": 26
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "上一周",
+      "box": {
+        "x": 173,
+        "y": 782,
+        "width": 74,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "下一周",
+      "box": {
+        "x": 395,
+        "y": 782,
+        "width": 74,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "今日",
+      "box": {
+        "x": 477,
+        "y": 782,
+        "width": 58,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部收起",
+      "box": {
+        "x": 543,
+        "y": 782,
+        "width": 90,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "刷新会话",
+      "text": "↻",
+      "box": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "收起会话",
+      "text": "收起",
+      "box": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chat-dock__collapse",
+      "role": "",
+      "ariaLabel": "",
+      "text": "收起",
+      "box": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      },
+      "display": "block"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "finalUrl": "http://127.0.0.1:4173/workspace?campId=1796067693589061634",
+  "requests": [
+    {
+      "url": "https://hudson-prod.localhome.cn/report/homePage/v2",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId"
+        ],
+        "campId": "[redacted-campId]"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "nowPredictCheckIn",
+          "nowAlreadyCheckIn",
+          "nowPredictCheckOut",
+          "nowOnSaleNum",
+          "userBusyRepairNum",
+          "dirtyNum",
+          "exceptionOrderNum",
+          "nowIncome"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/accommodation/management/analysis/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "startDate",
+          "endDate"
+        ],
+        "campId": "[redacted-campId]",
+        "startDate": "2026-05-15",
+        "endDate": "2026-05-15"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "businessIncome",
+          "roomFeePriceIncludingCommission",
+          "otherOrderExpense",
+          "writeDownIncome",
+          "occ",
+          "adr",
+          "revPar",
+          "openRoomCount",
+          "roomCount",
+          "growthTrendAnalysisList",
+          "orderOriginAnalysisList"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/accommodation/management/analysis/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "startDate",
+          "endDate",
+          "predictStartDate",
+          "predictEndDate"
+        ],
+        "campId": "[redacted-campId]",
+        "startDate": "2026-05-11",
+        "endDate": "2026-05-16"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "businessIncome",
+          "roomFeePriceIncludingCommission",
+          "otherOrderExpense",
+          "writeDownIncome",
+          "occ",
+          "adr",
+          "revPar",
+          "openRoomCount",
+          "roomCount",
+          "growthTrendAnalysisList",
+          "orderOriginAnalysisList"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "orderType",
+          "pageNum",
+          "keyword",
+          "pageSize"
+        ],
+        "campId": "[redacted-campId]",
+        "orderType": "11",
+        "keyword": "",
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "total",
+          "list"
+        ],
+        "listLength": 2
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/memo/page/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "pageNum",
+          "pageSize",
+          "isHandle"
+        ],
+        "campId": "[redacted-campId]",
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "total",
+          "list"
+        ],
+        "listLength": 0
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/backlogs/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId"
+        ],
+        "campId": "[redacted-campId]"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "array",
+        "listLength": 1
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId"
+        ],
+        "campId": "[redacted-campId]"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "isOpenFlow",
+          "channelInfos"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/accommodation/management/analysis/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "startDate",
+          "endDate"
+        ],
+        "campId": "[redacted-campId]",
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-16"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "businessIncome",
+          "roomFeePriceIncludingCommission",
+          "otherOrderExpense",
+          "writeDownIncome",
+          "occ",
+          "adr",
+          "revPar",
+          "openRoomCount",
+          "roomCount",
+          "growthTrendAnalysisList",
+          "orderOriginAnalysisList"
+        ]
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/accommodation/management/analysis/get",
+      "method": "POST",
+      "requestBody": {
+        "keys": [
+          "campId",
+          "startDate",
+          "endDate"
+        ],
+        "campId": "[redacted-campId]",
+        "startDate": "2026-05-04",
+        "endDate": "2026-05-10"
+      },
+      "status": 200,
+      "responseSummary": {
+        "success": true,
+        "dataType": "object",
+        "dataKeys": [
+          "businessIncome",
+          "roomFeePriceIncludingCommission",
+          "otherOrderExpense",
+          "writeDownIncome",
+          "occ",
+          "adr",
+          "revPar",
+          "openRoomCount",
+          "roomCount",
+          "growthTrendAnalysisList",
+          "orderOriginAnalysisList"
+        ]
+      }
+    }
+  ]
+}

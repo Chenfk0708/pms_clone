@@ -1,6 +1,12 @@
-import { type MouseEvent as ReactMouseEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { type MouseEvent as ReactMouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { fetchHouseMonthsSnapshot, type MonthCell, type MonthDateColumn, type MonthRoomGroup } from '../services/houseMonths'
+import {
+  fetchHouseMonthsDefaultCampId,
+  fetchHouseMonthsSnapshot,
+  type MonthCell,
+  type MonthDateColumn,
+  type MonthRoomGroup,
+} from '../services/houseMonths'
 import './HouseMonthsPage.css'
 
 type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
@@ -74,26 +80,27 @@ export function HouseMonthsPage() {
     if (monthBoardRef.current) monthBoardRef.current.scrollLeft = 184
   }, [])
 
-  const campId = useMemo(() => {
+  const initialCampId = useMemo(() => {
     const queryCampId = new URLSearchParams(location.search).get('campId')?.trim()
     if (queryCampId) return queryCampId
     return window.localStorage.getItem('pms.currentCampId')?.trim() || ''
   }, [location.search])
+  const resolvedCampIdRef = useRef('')
 
-  const loadSnapshot = async (nextRoomType = roomType, nextQuery = query) => {
-    if (!campId) {
-      setRoomGroups([])
-      setLoadState('error')
-      setLoadError('缺少 campId：当前克隆页没有 PMS 全局门店上下文，无法发起月房态真实请求。')
-      return
-    }
-
+  const loadSnapshot = useCallback(async (nextRoomType = roomType, nextQuery = query) => {
     setLoadState('loading')
     setLoadError('')
     try {
+      let activeCampId = initialCampId || resolvedCampIdRef.current
+      if (!activeCampId) {
+        activeCampId = await fetchHouseMonthsDefaultCampId()
+        window.localStorage.setItem('pms.currentCampId', activeCampId)
+        resolvedCampIdRef.current = activeCampId
+      }
+
       const snapshot = await fetchHouseMonthsSnapshot(
         {
-          campId,
+          campId: activeCampId,
           startDate: monthDates[0].isoDate,
           days: monthDates.length,
           roomCategoryId: nextRoomType || undefined,
@@ -110,11 +117,19 @@ export function HouseMonthsPage() {
       setLoadState('error')
       setLoadError(error instanceof Error ? error.message : String(error))
     }
-  }
+  }, [initialCampId, query, roomType])
 
   useEffect(() => {
-    void loadSnapshot()
-  }, [campId])
+    let cancelled = false
+
+    queueMicrotask(() => {
+      if (!cancelled) void loadSnapshot()
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [loadSnapshot])
 
   useEffect(() => {
     const closeByKey = (event: KeyboardEvent) => {
@@ -160,7 +175,7 @@ export function HouseMonthsPage() {
       if (roomType && group.label !== roomType) return false
       return true
     })
-  }, [query, roomType])
+  }, [query, roomGroups, roomType])
 
   const startBatch = (mode: BatchMode) => {
     setBatchMode(mode)

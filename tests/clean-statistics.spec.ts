@@ -93,6 +93,34 @@ test('/cleanManage/cleanStatistics requests real statistics and renders response
   })
 })
 
+test('/cleanManage/cleanStatistics renders empty statistics response without static rows', async ({ page }) => {
+  await mockLookupRequests(page)
+  await page.route(cleanStatisticsEndpoint, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 0,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          hasNextPage: false,
+          list: [],
+        },
+      }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/cleanManage/cleanStatistics?campId=camp-1'))
+
+  await expect(page.getByLabel('保洁统计汇总表')).toContainText('暂无保洁统计数据')
+  await expect(page.locator('.clean-stat-table__row')).toHaveCount(0)
+  await expect(page.getByRole('status', { name: '保洁统计请求状态' })).toContainText('记录数 0')
+})
+
 test('/cleanManage/cleanStatistics exposes backend failures and retry entry', async ({ page }) => {
   await mockLookupRequests(page)
   await page.route(cleanStatisticsEndpoint, async (route) => {

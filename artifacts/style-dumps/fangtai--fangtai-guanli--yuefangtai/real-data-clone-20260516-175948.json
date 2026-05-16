@@ -1,0 +1,173 @@
+{
+  "side": "clone",
+  "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+  "title": "",
+  "isLoginBlocked": false,
+  "defaultState": {
+    "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+    "controls": []
+  },
+  "interactions": [
+    {
+      "slug": "room-filter",
+      "label": "房型筛选",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "label": "房型"
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-room-filter-clone-20260516-175948.png"
+    },
+    {
+      "slug": "tag-filter",
+      "label": "房型标签筛选",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "label": "房型标签"
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-tag-filter-clone-20260516-175948.png"
+    },
+    {
+      "slug": "batch-dirty-clean",
+      "label": "批量设脏/净",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "label": "批量设脏/净"
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-batch-dirty-clean-clone-20260516-175948.png"
+    },
+    {
+      "slug": "batch-open-close",
+      "label": "批量开/关房",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "label": "批量开/关房"
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-batch-open-close-clone-20260516-175948.png"
+    },
+    {
+      "slug": "more-settings",
+      "label": "更多设置",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "label": "更多设置"
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-more-settings-clone-20260516-175948.png"
+    },
+    {
+      "slug": "booking-detail",
+      "label": "订单详情入口",
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "陈家辉",
+          "刘翻红",
+          "张张",
+          "详情"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "after": {
+        "url": "http://minsubao.localhome.cn:4175/houseManage/months?campId=1796067693589061634",
+        "bodyText": "Blocked request. This host (\"minsubao.localhome.cn\") is not allowed.\nTo allow this host, add \"minsubao.localhome.cn\" to `preview.allowedHosts` in vite.config.js.",
+        "menus": [],
+        "dialogs": [],
+        "selectedText": []
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\fangtai--fangtai-guanli--yuefangtai\\real-data-booking-detail-clone-20260516-175948.png"
+    }
+  ]
+}

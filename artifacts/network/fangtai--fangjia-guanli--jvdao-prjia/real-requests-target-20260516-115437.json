@@ -1,7 +1,7 @@
-{
+﻿{
   "side": "target",
   "url": "https://minsubao.localhome.cn/houseManage/channelPrice",
-  "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+  "title": "璺浜慞MS - 鍏嶈垂閰掑簵鍏瘬姘戝绠＄悊绯荤粺_瀹樼綉",
   "isLoginBlocked": false,
   "requests": [
     {
@@ -70,7 +70,7 @@
         ],
         "sample": {
           "campId": "1796067693589061634",
-          "name": "路客云6TS5的店铺",
+          "name": "璺浜?TS5鐨勫簵閾?,
           "type": 1,
           "isModifyConsoleLogo": 0,
           "networkNum": "835466",
@@ -120,7 +120,7 @@
           "mobile": "[REDACTED]",
           "email": null,
           "headImages": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
-          "nickName": "路客云6TS5",
+          "nickName": "璺浜?TS5",
           "areaCode": "+86",
           "area": null,
           "inviter": null,
@@ -214,7 +214,7 @@
         ],
         "sample": {
           "editionId": "9",
-          "editionName": "畅享版",
+          "editionName": "鐣呬韩鐗?,
           "editionType": 1,
           "editionLevel": 1,
           "isOwner": 1,
@@ -288,7 +288,7 @@
             "type": 1,
             "icon": "#",
             "code": "hudson-pc",
-            "name": "民宿宝PC端",
+            "name": "姘戝瀹漃C绔?,
             "path": "#",
             "uiComponentId": null,
             "isOpen": 0,
@@ -302,7 +302,7 @@
             "type": 3,
             "icon": "",
             "code": "statisticsByDay_check",
-            "name": "按营业日统计查看",
+            "name": "鎸夎惀涓氭棩缁熻鏌ョ湅",
             "path": "",
             "uiComponentId": null,
             "isOpen": 0,
@@ -422,8 +422,8 @@
         "sample": [
           {
             "channelId": "17",
-            "channelName": "路客云聚合",
-            "shortChannelName": "路客云",
+            "channelName": "璺浜戣仛鍚?,
+            "shortChannelName": "璺浜?,
             "color": "#274080",
             "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
             "image2Logo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png",
@@ -435,8 +435,8 @@
           },
           {
             "channelId": "34",
-            "channelName": "品牌小程序",
-            "shortChannelName": "品牌小程序",
+            "channelName": "鍝佺墝灏忕▼搴?,
+            "shortChannelName": "鍝佺墝灏忕▼搴?,
             "color": "#7fd53e",
             "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png",
             "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png",
@@ -471,14 +471,14 @@
         "sample": [
           {
             "channelId": "1763419426095210497",
-            "channelName": "线下自来客",
-            "shortChannelName": "线下自来客",
+            "channelName": "绾夸笅鑷潵瀹?,
+            "shortChannelName": "绾夸笅鑷潵瀹?,
             "color": "#3E7EFF"
           },
           {
             "channelId": "1763515441183764482",
-            "channelName": "携程",
-            "shortChannelName": "携程",
+            "channelName": "鎼虹▼",
+            "shortChannelName": "鎼虹▼",
             "color": "#170B99"
           }
         ]
@@ -529,7 +529,7 @@
         ],
         "sample": {
           "editionId": "9",
-          "editionName": "畅享版",
+          "editionName": "鐣呬韩鐗?,
           "editionType": 1,
           "editionLevel": 1,
           "isOwner": 1,
@@ -778,7 +778,7 @@
         ],
         "sample": {
           "editionId": "9",
-          "editionName": "畅享版",
+          "editionName": "鐣呬韩鐗?,
           "editionType": 1,
           "resourceGetViews": "array(14)",
           "valueAddServices": null
@@ -866,7 +866,7 @@
         ],
         "sample": {
           "appKey": "[REDACTED]",
-          "accid": "prod_0_1796067702522908674",
+          "accid": "[REDACTED]",
           "token": "[REDACTED]"
         }
       }
@@ -923,7 +923,7 @@
         "action": "183",
         "param": {
           "campId": "1796067693589061634",
-          "type": "门店"
+          "type": "闂ㄥ簵"
         }
       },
       "responseSummary": {
@@ -1972,12 +1972,12 @@
         "dataLength": 12,
         "sample": [
           {
-            "name": "美元",
+            "name": "缇庡厓",
             "currency": "USD",
             "symbol": "$"
           },
           {
-            "name": "新西兰元",
+            "name": "鏂拌タ鍏板厓",
             "currency": "NZD",
             "symbol": "NZ$"
           }
@@ -2087,8 +2087,8 @@
         "sample": [
           {
             "channelId": "17",
-            "channelName": "路客云聚合",
-            "shortChannelName": "路客云",
+            "channelName": "璺浜戣仛鍚?,
+            "shortChannelName": "璺浜?,
             "color": "#274080",
             "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
             "image2Logo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png",
@@ -2100,8 +2100,8 @@
           },
           {
             "channelId": "34",
-            "channelName": "品牌小程序",
-            "shortChannelName": "品牌小程序",
+            "channelName": "鍝佺墝灏忕▼搴?,
+            "shortChannelName": "鍝佺墝灏忕▼搴?,
             "color": "#7fd53e",
             "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png",
             "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png",
@@ -2209,14 +2209,14 @@
         "sample": [
           {
             "channelId": "1763419426095210497",
-            "channelName": "线下自来客",
-            "shortChannelName": "线下自来客",
+            "channelName": "绾夸笅鑷潵瀹?,
+            "shortChannelName": "绾夸笅鑷潵瀹?,
             "color": "#3E7EFF"
           },
           {
             "channelId": "1763515441183764482",
-            "channelName": "携程",
-            "shortChannelName": "携程",
+            "channelName": "鎼虹▼",
+            "shortChannelName": "鎼虹▼",
             "color": "#170B99"
           }
         ]

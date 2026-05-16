@@ -165,8 +165,8 @@
         "errorMsg": null,
         "errorDetail": null,
         "data": {
-          "userId": "1796067693261905922",
-          "mobile": "18123941382",
+          "userId": "[redacted-user-id]",
+          "mobile": "[redacted-mobile]",
           "email": null,
           "headImages": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
           "nickName": "路客云6TS5",
@@ -174,7 +174,7 @@
           "area": null,
           "inviter": null,
           "isBindingMp": 0,
-          "mpQrUrl": "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/wAALCAGuAa4BAREA/8...",
+          "mpQrUrl": "[redacted-qr-data]",
           "isLoginBindMp": 0,
           "roles": {
             "type": "array",
@@ -1126,9 +1126,9 @@
         "errorMsg": null,
         "errorDetail": null,
         "data": {
-          "appKey": "8d0514326dbd437d73cf9dc837543884",
-          "accid": "prod_0_1796067702522908674",
-          "token": "f23849932f3c47e7b741537900571ccd"
+          "appKey": "[redacted-app-key]",
+          "accid": "[redacted-accid]",
+          "token": "[redacted-token]"
         }
       }
     },

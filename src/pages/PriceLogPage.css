@@ -237,6 +237,41 @@
   margin-top: 8px;
 }
 
+.price-log-feedback {
+  margin: 8px 8px 0;
+  padding: 7px 10px;
+  border: 1px solid #d9e3ff;
+  border-radius: 4px;
+  background: #f7f9ff;
+  color: #3a4f7a;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.price-log-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 8px 0;
+  padding: 8px 10px;
+  border: 1px solid #ffd0c7;
+  border-radius: 4px;
+  background: #fff7f5;
+  color: #b23b28;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.price-log-error button {
+  flex: 0 0 auto;
+  height: 26px;
+  border: 1px solid #ff9c8b;
+  border-radius: 4px;
+  background: #fff;
+  color: #b23b28;
+}
+
 .price-log-table__head {
   display: grid;
   grid-template-columns: repeat(4, 130px) 300px 200px 100px 130px;

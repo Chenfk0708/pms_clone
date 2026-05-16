@@ -1,0 +1,92 @@
+{
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260516-95-real-loop",
+  "url": "http://127.0.0.1:4173/order/house-order/list?campId=1796067693589061634",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/order/house-order/list?campId=1796067693589061634",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-FnNobtG6.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-ol-5-w-q.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch"
+    }
+  ]
+}

@@ -2,6 +2,16 @@ import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 're
 import { useLocation, useNavigate } from 'react-router-dom'
 import { priceDates, priceRows } from '../data/mock'
 import { fetchChannelPriceRows, type ChannelPriceRow } from '../services/channelPrice'
+import {
+  type CentralPriceData,
+  type CentralPriceFilters,
+  type CentralPriceRoom,
+  centralPriceEndpoint,
+  fetchCentralPrices,
+  getCentralPriceRequestDate,
+} from '../services/centralPrice'
+import { loadOtherPriceData, type OtherPriceData } from '../services/otherPrice'
+import { loadPriceBoardData, type PriceBoardData, type PriceBoardDurationOption } from '../services/priceBoard'
 import { loadRetailPriceData, type RetailPriceData } from '../services/retailPrice'
 import './PricePage.css'
 
@@ -61,12 +71,14 @@ type ChannelPriceRequestState =
   | { kind: 'empty'; message: string; rows: ChannelPriceRow[] }
   | { kind: 'error'; message: string; rows: ChannelPriceRow[] }
 
-const weekdays = ['日', '一', '二', '三', '四', '五', '六']
+type CentralPriceRequestState =
+  | { kind: 'idle'; message: string }
+  | { kind: 'loading'; message: string }
+  | { kind: 'success'; message: string }
+  | { kind: 'empty'; message: string }
+  | { kind: 'error'; message: string }
 
-function formatCentralDerivedPrice(value: number) {
-  if (!Number.isFinite(value)) return '-'
-  return String(Math.round(value))
-}
+const weekdays = ['日', '一', '二', '三', '四', '五', '六']
 
 const channelOptions = ['全部渠道', '携程', '美团', '同程', '途家']
 const retailWeekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
@@ -933,12 +945,20 @@ function PriceMatrix({
   channelState,
   channelDate,
   onRetryChannelRequest,
+  centralData,
+  centralState,
+  onRetryCentralRequest,
+  onActionBlocked,
 }: {
   mode: string
   channelRows?: PriceMatrixRow[]
   channelState?: ChannelPriceRequestState
   channelDate?: string
   onRetryChannelRequest?: () => void
+  centralData?: CentralPriceData
+  centralState?: CentralPriceRequestState
+  onRetryCentralRequest?: () => void
+  onActionBlocked?: (message: string) => void
 }) {
   const [selectedCell, setSelectedCell] = useState('')
   const [selectedDetail, setSelectedDetail] = useState<{ price: string; date: string } | null>(null)
@@ -948,15 +968,9 @@ function PriceMatrix({
   const isChannelRp = mode === '渠道RP价'
   const isCentral = mode === '中央价'
 
-  const centralRows: PriceMatrixRow[] = ['途家', '小猪', '携程', '美团酒店', '飞猪淘酒店', '路客云聚合', '木鸟'].map((channel) => {
-    const source = priceRows.find((row) => row.channel === channel)
-    return source ?? { channel, coefficient: '-', basePrice: '-', prices: ['-'], comparePrices: ['-'] }
-  })
   const rows: PriceMatrixRow[] =
     isChannelRp
       ? (channelRows ?? channelRpRows)
-      : isCentral
-        ? centralRows
       : mode === '门市价' || mode === '其他价格'
         ? roomTypes.map((room) => ({
             channel: room.name,
@@ -968,36 +982,23 @@ function PriceMatrix({
         : priceRows
 
   const calendarStartDay = isChannelRp ? Number(channelDate?.slice(8, 10) ?? 16) : isCentral ? 13 : 12
-  const visibleDates = isCentral || isChannelRp ? makePriceDates(dateOffset, calendarStartDay) : priceDates.map((item) => ({ ...item, label: item.date, key: item.date }))
+  const visibleDates = isCentral
+    ? (centralData?.dates ?? makePriceDates(dateOffset, calendarStartDay))
+    : isChannelRp
+      ? makePriceDates(dateOffset, calendarStartDay)
+      : priceDates.map((item) => ({ ...item, label: item.date, key: item.date }))
   const gridTemplateColumns = `${mode === '中央价' || isChannelRp ? '170px' : '150px'} 76px 76px repeat(${visibleDates.length}, 88px)`
   const minWidth = 322 + visibleDates.length * 88
   const formatDateLabel = (key: string) => key.slice(5).replace('-', '.')
-  const centralRoomGroups = roomTypes.slice(0, 3)
+  const centralRoomGroups = centralData?.rooms ?? []
+  const firstVisibleDate = visibleDates[0]
+  const firstVisibleDateLabel = firstVisibleDate
+    ? 'dateLabel' in firstVisibleDate
+      ? firstVisibleDate.dateLabel
+      : formatDateLabel(firstVisibleDate.key)
+    : `05.${String(calendarStartDay + dateOffset).padStart(2, '0')}`
 
-  function withRoomPrices(row: PriceMatrixRow, room: (typeof roomTypes)[number], roomIndex: number): PriceMatrixRow {
-    const weekendBump = roomIndex === 0 ? 200 : roomIndex === 1 ? 180 : 53
-    const unavailableChannels = new Set(['携程', '美团酒店'])
-
-    return {
-      ...row,
-      basePrice: unavailableChannels.has(row.channel) ? '-' : String(room.base),
-      prices: visibleDates.map((item) => {
-        if (unavailableChannels.has(row.channel)) return '-'
-        return String(room.base + (['六', '日'].includes(item.weekday) ? weekendBump : 0))
-      }),
-      comparePrices: visibleDates.map((item) => {
-        if (unavailableChannels.has(row.channel) || row.channel === '路客云聚合') return '-'
-        const price = room.base + (['六', '日'].includes(item.weekday) ? weekendBump : 0)
-        if (row.channel === '途家') return formatCentralDerivedPrice(price * 1.05263)
-        if (row.channel === '木鸟') return formatCentralDerivedPrice(price * 1.11111)
-        return String(price)
-      }),
-    }
-  }
-
-  function renderCentralGroupRow(room: (typeof roomTypes)[number], roomIndex: number) {
-    const weekendBump = roomIndex === 0 ? 200 : roomIndex === 1 ? 180 : 53
-
+  function renderCentralGroupRow(room: CentralPriceRoom) {
     return (
       <div key={`${room.name}-summary`} className="price-grid__row price-grid__group-row" style={{ gridTemplateColumns, minWidth }}>
         <div className="price-room-header price-room-header--group">
@@ -1007,12 +1008,13 @@ function PriceMatrix({
         <div>
           <span className="price-coeff-badge price-coeff-badge--central">中</span>
         </div>
-        <div>{room.base}</div>
+        <div>{room.basePrice}</div>
         {visibleDates.map((dateItem, index) => {
-          const price = String(room.base + (['六', '日'].includes(dateItem.weekday) ? weekendBump : 0))
-          const stock = roomIndex === 0 && index === 0 ? '余0' : '余1'
+          const status = room.prices[index] ?? { price: '-', stock: '-' }
+          const price = status.price
+          const stock = status.stock
           const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key)
-          const key = `${room.name}-summary-${dateItem.key}`
+          const key = `${room.id}-summary-${dateItem.key}`
 
           return (
             <button
@@ -1099,6 +1101,41 @@ function PriceMatrix({
           真实接口返回空数据，请检查当前筛选条件或后端权限。
         </section>
       ) : null}
+      {isCentral ? (
+        <section className="price-data-source" aria-label="中央价数据来源">
+          <strong>{centralPriceEndpoint.replace('https://hudson-prod.localhome.cn/', '')}</strong>
+          <span>
+            {centralState?.kind === 'loading'
+              ? '请求中'
+              : centralState?.kind === 'success'
+                ? '请求成功'
+                : centralState?.kind === 'empty'
+                  ? '请求成功，暂无数据'
+                  : centralState?.kind === 'error'
+                    ? '阻塞'
+                    : '等待请求'}
+          </span>
+        </section>
+      ) : null}
+      {isCentral && centralState?.kind === 'loading' ? (
+        <section className="price-loading-state" role="status" aria-label="中央价加载状态">
+          正在请求中央价真实接口...
+        </section>
+      ) : null}
+      {isCentral && centralState?.kind === 'error' ? (
+        <section className="price-error-state" role="alert" aria-label="中央价接口阻塞">
+          <strong>中央价接口阻塞</strong>
+          <span>{centralState.message}</span>
+          <button type="button" onClick={onRetryCentralRequest}>
+            重试中央价请求
+          </button>
+        </section>
+      ) : null}
+      {isCentral && centralState?.kind === 'empty' ? (
+        <section className="price-empty-state" role="status" aria-label="中央价空状态">
+          暂无中央价数据
+        </section>
+      ) : null}
       <section className="table-card">
         {!isCentral ? (
           <div className="price-calendar-toolbar">
@@ -1126,7 +1163,7 @@ function PriceMatrix({
             <div>
               {isCentral ? (
                 <button type="button" className="price-grid__collapse-button" onClick={() => setCollapsed((value) => !value)}>
-                  <strong>2026.05.{String(calendarStartDay + dateOffset).padStart(2, '0')}</strong>
+                  <strong>{firstVisibleDateLabel}</strong>
                   <span>{collapsed ? '全部展开' : '全部收起'}</span>
                 </button>
               ) : isChannelRp ? (
@@ -1144,11 +1181,11 @@ function PriceMatrix({
               </div>
             ))}
           </div>
-          {!collapsed && isCentral
-            ? centralRoomGroups.map((room, roomIndex) => (
-                <div key={room.name} className="price-grid__section">
-                  {renderCentralGroupRow(room, roomIndex)}
-                  {rows.map((row) => renderPriceRow(withRoomPrices(row, room, roomIndex), `${room.name}-`))}
+          {!collapsed && isCentral && centralState?.kind === 'success'
+            ? centralRoomGroups.map((room) => (
+                <div key={room.id} className="price-grid__section">
+                  {renderCentralGroupRow(room)}
+                  {room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`))}
                 </div>
               ))
             : null}
@@ -1201,7 +1238,13 @@ function PriceMatrix({
               <button type="button" onClick={() => setModalCell(null)}>
                 取消
               </button>
-              <button type="button" onClick={() => setModalCell(null)}>
+              <button
+                type="button"
+                onClick={() => {
+                  setModalCell(null)
+                  if (isCentral) onActionBlocked?.('中央价改价提交接口未接入，已记录为阻塞')
+                }}
+              >
                 确定
               </button>
             </footer>
@@ -1216,8 +1259,18 @@ function RegularPricePage({ active }: { active: string }) {
   const location = useLocation()
   const isCentral = active === '中央价'
   const isChannelRp = active === '渠道RP价'
+  const [selectedStore, setSelectedStore] = useState('全部门店')
   const [selectedChannel, setSelectedChannel] = useState('渠道')
+  const [selectedRoom, setSelectedRoom] = useState('全部房型')
+  const [selectedTag, setSelectedTag] = useState('房型标签')
   const [reloadKey, setReloadKey] = useState(0)
+  const [centralReloadKey, setCentralReloadKey] = useState(0)
+  const [actionFeedback, setActionFeedback] = useState('')
+  const [centralData, setCentralData] = useState<CentralPriceData | undefined>()
+  const [centralRequestState, setCentralRequestState] = useState<CentralPriceRequestState>({
+    kind: 'idle',
+    message: '等待请求中央价数据',
+  })
   const [channelRequestState, setChannelRequestState] = useState<ChannelPriceRequestState>({
     kind: 'loading',
     message: '等待请求真实渠道RP价数据',
@@ -1225,25 +1278,42 @@ function RegularPricePage({ active }: { active: string }) {
   })
   const campId = useMemo(() => new URLSearchParams(location.search).get('campId') ?? '', [location.search])
   const channelDate = useMemo(() => currentBusinessDate(), [])
+  const centralFilters = useMemo<CentralPriceFilters>(
+    () => ({
+      selectedStore,
+      selectedChannel,
+      selectedRoom,
+      selectedTag,
+      date: getCentralPriceRequestDate(),
+      pageNum: 1,
+      pageSize: 15,
+    }),
+    [selectedChannel, selectedRoom, selectedStore, selectedTag],
+  )
 
   useEffect(() => {
     if (!isChannelRp) return
 
     if (!campId) {
-      setChannelRequestState({
-        kind: 'blocked',
-        message: '缺少 campId，无法构造目标站真实价格请求。请从带 campId 的项目入口进入，或接入项目全局门店上下文。',
-        rows: [],
+      queueMicrotask(() => {
+        setChannelRequestState({
+          kind: 'blocked',
+          message: '缺少 campId，无法构造目标站真实价格请求。请从带 campId 的项目入口进入，或接入项目全局门店上下文。',
+          rows: [],
+        })
       })
       return
     }
 
     const controller = new AbortController()
-    setChannelRequestState((current) => ({
-      kind: 'loading',
-      message: '正在请求真实渠道RP价数据',
-      rows: current.rows,
-    }))
+    queueMicrotask(() => {
+      if (controller.signal.aborted) return
+      setChannelRequestState((current) => ({
+        kind: 'loading',
+        message: '正在请求真实渠道RP价数据',
+        rows: current.rows,
+      }))
+    })
 
     fetchChannelPriceRows(
       {
@@ -1272,15 +1342,67 @@ function RegularPricePage({ active }: { active: string }) {
     return () => controller.abort()
   }, [campId, channelDate, isChannelRp, reloadKey, selectedChannel])
 
+  useEffect(() => {
+    if (!isCentral) return
+
+    const controller = new AbortController()
+    queueMicrotask(() => {
+      if (!controller.signal.aborted) {
+        setCentralRequestState({ kind: 'loading', message: '正在请求中央价真实接口' })
+      }
+    })
+
+    fetchCentralPrices(centralFilters, controller.signal)
+      .then((result) => {
+        if (!result.ok) {
+          setCentralData(undefined)
+          setCentralRequestState({ kind: 'error', message: result.message })
+          return
+        }
+
+        setCentralData(result.data)
+        setCentralRequestState({
+          kind: result.data.rooms.length > 0 ? 'success' : 'empty',
+          message: result.data.rooms.length > 0 ? '中央价真实数据已返回' : '暂无中央价数据',
+        })
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) return
+        setCentralData(undefined)
+        setCentralRequestState({
+          kind: 'error',
+          message: error instanceof Error ? error.message : String(error),
+        })
+      })
+
+    return () => controller.abort()
+  }, [centralFilters, centralReloadKey, isCentral])
+
   return (
     <div className={`page-stack price-page${isCentral ? ' price-page--central' : ''}`}>
-      <SharedToolbar active={active} selectedChannel={selectedChannel} onChannelChange={setSelectedChannel} />
+      <SharedToolbar
+        active={active}
+        selectedStore={selectedStore}
+        selectedChannel={selectedChannel}
+        selectedRoom={selectedRoom}
+        selectedTag={selectedTag}
+        actionFeedback={actionFeedback}
+        onStoreChange={setSelectedStore}
+        onChannelChange={setSelectedChannel}
+        onRoomChange={setSelectedRoom}
+        onTagChange={setSelectedTag}
+        onActionBlocked={setActionFeedback}
+      />
       <PriceMatrix
         mode={active}
         channelRows={channelRequestState.rows}
         channelState={isChannelRp ? channelRequestState : undefined}
         channelDate={channelDate}
         onRetryChannelRequest={() => setReloadKey((value) => value + 1)}
+        centralData={centralData}
+        centralState={isCentral ? centralRequestState : undefined}
+        onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
+        onActionBlocked={setActionFeedback}
       />
     </div>
   )
@@ -1744,6 +1866,44 @@ function PriceBoardPage() {
   const [agreed, setAgreed] = useState(true)
   const [purchaseMessage, setPurchaseMessage] = useState('')
   const [paymentOpen, setPaymentOpen] = useState(false)
+  const [requestRevision, setRequestRevision] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [requestError, setRequestError] = useState('')
+  const [priceBoardData, setPriceBoardData] = useState<PriceBoardData | null>(null)
+  const [selectedDurationId, setSelectedDurationId] = useState('')
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    queueMicrotask(() => {
+      if (controller.signal.aborted) return
+      setIsLoading(true)
+      setRequestError('')
+    })
+    loadPriceBoardData(controller.signal)
+      .then((data) => {
+        setPriceBoardData(data)
+        setSelectedDurationId((current) => current || data.durationOptions[0]?.id || '')
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setPriceBoardData(null)
+        setRequestError(error instanceof Error ? error.message : String(error))
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [requestRevision])
+
+  const selectedDuration =
+    priceBoardData?.durationOptions.find((item) => item.id === selectedDurationId) ??
+    priceBoardData?.durationOptions[0] ??
+    null
+
+  const productName = priceBoardData?.productName ?? '电子房价牌'
+  const productDescription = priceBoardData?.description ?? '可直连路客云系统房价，展示于门店的电子展示牌上面，一目了然'
 
   function openDetail() {
     setAgreed(true)
@@ -1757,20 +1917,49 @@ function PriceBoardPage() {
       setPurchaseMessage('请先阅读并同意《路客云产品服务购买协议》')
       return
     }
+    if (!selectedDuration || requestError) {
+      setPurchaseMessage('真实商品配置尚未加载成功，不能创建支付订单')
+      return
+    }
     setPurchaseMessage('')
     setPaymentOpen(true)
   }
 
+  function retryPriceBoardRequest() {
+    setPaymentOpen(false)
+    setPurchaseMessage('')
+    setRequestRevision((current) => current + 1)
+  }
+
+  const requestStatus = (
+    <div className={`price-board-request-status${requestError ? ' is-error' : ''}`} role="status" aria-label="电子房价牌数据接入状态">
+      {requestError ? (
+        <>
+          <strong>真实接口阻塞</strong>
+          <span>{requestError}</span>
+          <button type="button" onClick={retryPriceBoardRequest}>重试真实请求</button>
+        </>
+      ) : (
+        <>
+          <strong>{isLoading ? '正在连接真实请求层' : '已连接真实请求层'}</strong>
+          <span>{priceBoardData ? priceBoardData.requestSummary.join('；') : '等待 /weiRoomCategories/page/get 返回电子房价牌商品'}</span>
+          {priceBoardData ? <em>门店：{priceBoardData.campName}；商品总数：{priceBoardData.totalProductCount}</em> : null}
+        </>
+      )}
+    </div>
+  )
+
   if (detailOpen) {
     return (
       <div className="page-stack price-board-page price-board-detail-page">
+        {requestStatus}
         <div className="price-board-subscribe-layout">
           <main className="price-board-detail-main">
             <section className="price-board-product-card price-board-product-card--detail">
               <img src={priceBoardAssets.logo} alt="" className="price-board-logo" />
               <div>
-                <h2>电子房价牌</h2>
-                <p>用于外接前台大屏，可实时展示当前房型价格，支持门市价、会员价，联动路客云改价，可实时更新</p>
+                <h2>{productName}</h2>
+                <p>{productDescription}</p>
               </div>
             </section>
 
@@ -1784,23 +1973,26 @@ function PriceBoardPage() {
             <h2>购买信息</h2>
             <article className="price-board-purchase-row">
               <span>商品价格</span>
-              <strong>¥150.9</strong>
-              <em>¥75,450 / 年</em>
+              <strong>{selectedDuration ? formatPriceBoardMoney(selectedDuration.price) : '-'}</strong>
+              {selectedDuration ? <em>{formatPriceBoardMoney(selectedDuration.originalPrice)} / {selectedDuration.label}</em> : null}
             </article>
             <article className="price-board-purchase-row price-board-duration-row">
               <span>购买时长</span>
-              <label className="is-active">
-                <input type="radio" name="price-board-duration" defaultChecked />
-                跟随版本2027-09-28到期
-              </label>
-              <label>
-                <input type="radio" name="price-board-duration" />
-                跟随版本2027-09-28到期
-              </label>
+              {priceBoardData?.durationOptions.map((option) => (
+                <PriceBoardDurationLabel
+                  key={option.id}
+                  option={option}
+                  selected={selectedDuration?.id === option.id}
+                  onSelect={() => {
+                    setSelectedDurationId(option.id)
+                    setPurchaseMessage('')
+                  }}
+                />
+              )) ?? <span className="price-board-duration-empty">等待真实商品时长</span>}
             </article>
             <article className="price-board-purchase-row">
               <span>订单金额</span>
-              <strong>¥150.9</strong>
+              <strong>{selectedDuration ? formatPriceBoardMoney(selectedDuration.price) : '-'}</strong>
               <em>明细</em>
             </article>
             <label className="price-board-agreement">
@@ -1830,10 +2022,11 @@ function PriceBoardPage() {
               </div>
               <div className="price-board-pay-modal__info">
                 <p>请使用微信扫码支付</p>
-                <strong>¥ 150.90</strong>
+                <strong>{selectedDuration ? formatPriceBoardPaymentMoney(selectedDuration.price) : '-'}</strong>
                 <div className="price-board-pay-modal__method">
-                  <span>微信支付</span>
+                  <span>{priceBoardData?.paymentTypeNames[0] ?? '微信支付'}</span>
                 </div>
+                <div className="price-board-pay-modal__blocker">真实支付下单接口未接入，当前仅展示支付阻塞状态</div>
                 <div className="price-board-pay-modal__countdown">
                   <span>支付时间：</span>
                   <b>00</b>
@@ -1852,13 +2045,15 @@ function PriceBoardPage() {
 
   return (
     <div className="page-stack price-board-page">
+      {requestStatus}
       <section className="price-board-product-card">
         <img src={priceBoardAssets.logo} alt="" className="price-board-logo" />
         <div>
-          <h2>电子房价牌</h2>
+          <h2>{productName}</h2>
           <p>可直连路客云系统房价，展示于门店的电子展示牌上面，一目了然</p>
+          {priceBoardData ? <span className="price-board-product-card__api-desc">{productDescription}</span> : null}
         </div>
-        <button type="button" onClick={openDetail}>
+        <button type="button" onClick={openDetail} disabled={isLoading || Boolean(requestError)}>
           去开通
         </button>
       </section>
@@ -1875,6 +2070,39 @@ function PriceBoardPage() {
   )
 }
 
+function PriceBoardDurationLabel({
+  option,
+  selected,
+  onSelect,
+}: {
+  option: PriceBoardDurationOption
+  selected: boolean
+  onSelect: () => void
+}) {
+  return (
+    <label className={selected ? 'is-active' : ''}>
+      <input
+        type="radio"
+        name="price-board-duration"
+        aria-label={option.label}
+        checked={selected}
+        onChange={onSelect}
+      />
+      {option.label}
+    </label>
+  )
+}
+
+function formatPriceBoardMoney(cents: number) {
+  const amount = cents / 100
+  const normalized = Number.isInteger(amount) ? String(amount) : amount.toFixed(2).replace(/\.?0+$/, '')
+  return `¥${normalized}`
+}
+
+function formatPriceBoardPaymentMoney(cents: number) {
+  return `¥ ${(cents / 100).toFixed(2)}`
+}
+
 const otherPriceColumns = ['押金', '可加客人数', '加人费(每人)', '餐食数量', '佣金率(%)']
 const activityColumns = [
   '连住2天以上',
@@ -1889,19 +2117,6 @@ const activityColumns = [
 ]
 
 const feeRow = (channel: string, commissionRate = '设置') => [channel, '设置', '设置', '设置', '设置', commissionRate]
-const unsupportedActivityRow = (channel: string) => [channel, ...activityColumns.map(() => '暂不支持')]
-const originalActivityRow = (channel: string) => [
-  channel,
-  '原价',
-  '原价',
-  '原价',
-  '原价',
-  '原价',
-  '原价',
-  '暂不支持',
-  '设置',
-  '设置',
-]
 
 const otherPriceRows = [
   {
@@ -1959,64 +2174,24 @@ const otherPriceRows = [
   },
 ]
 
-const otherPriceChannels = ['全部平台', '携程', '美团酒店', '飞猪淘酒店', '美团民宿', '途家', '木鸟', '小猪', '路客云聚合']
-const otherPriceRooms = ['全部房型', ...otherPriceRows.map((item) => item.roomType)]
+const fallbackActivityRows = otherPriceRows.map((group) => ({
+  roomType: group.roomType,
+  channels: group.channels.map((row) => [row[0], ...activityColumns.map(() => '设置')]),
+}))
 
-const activityRows = [
-  {
-    roomType: '顶层套房（浴缸巨幕电竞麻将）',
-    channels: [
-      ['途家', '9.5折', '原价', '8.5折', '原价', '8折', '7.5折', '暂不支持', '14:00开始 9.5折', '15:00开始 9.1折'],
-      originalActivityRow('途家'),
-      unsupportedActivityRow('小猪'),
-      unsupportedActivityRow('小猪'),
-      unsupportedActivityRow('携程'),
-      unsupportedActivityRow('美团酒店'),
-      unsupportedActivityRow('飞猪淘酒店'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    channels: [
-      originalActivityRow('途家'),
-      unsupportedActivityRow('小猪'),
-      unsupportedActivityRow('携程'),
-      unsupportedActivityRow('美团酒店'),
-      unsupportedActivityRow('飞猪淘酒店'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '天落大床电竞套间',
-    channels: [
-      unsupportedActivityRow('小猪'),
-      unsupportedActivityRow('携程'),
-      unsupportedActivityRow('美团酒店'),
-      unsupportedActivityRow('飞猪淘酒店'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '观影大床房',
-    channels: [
-      originalActivityRow('途家'),
-      unsupportedActivityRow('美团民宿'),
-      unsupportedActivityRow('携程'),
-      unsupportedActivityRow('美团酒店'),
-      unsupportedActivityRow('飞猪淘酒店'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('路客云聚合'),
-      unsupportedActivityRow('木鸟'),
-    ],
-  },
-]
+function uniqueOtherPriceOptions(rows: typeof otherPriceRows) {
+  return Array.from(new Set(rows.flatMap((group) => group.channels.map((row) => row[0]))))
+}
+
+function filterOtherPriceRows(rows: typeof otherPriceRows, selectedChannel: string, selectedRoom: string) {
+  return rows
+    .filter((group) => selectedRoom === '全部房型' || group.roomType === selectedRoom)
+    .map((group) => ({
+      ...group,
+      channels: group.channels.filter((row) => selectedChannel === '全部平台' || row[0] === selectedChannel),
+    }))
+    .filter((group) => group.channels.length > 0)
+}
 
 function OtherPriceSelect({
   label,
@@ -2062,28 +2237,72 @@ function OtherPriceSelect({
 
 function OtherPricePage() {
   const [tab, setTab] = useState<'杂费设置' | '活动设置'>('杂费设置')
-  const [channel, setChannel] = useState(otherPriceChannels[0])
-  const [room, setRoom] = useState(otherPriceRooms[0])
+  const [channel, setChannel] = useState('全部平台')
+  const [room, setRoom] = useState('全部房型')
+  const [otherPriceData, setOtherPriceData] = useState<OtherPriceData | null>(null)
+  const [requestState, setRequestState] = useState<{ kind: 'loading' | 'success' | 'empty' | 'error'; message: string }>({
+    kind: 'loading',
+    message: '正在通过真实请求层加载其他价格',
+  })
+  const [reloadToken, setReloadToken] = useState(0)
+  const [operationFeedback, setOperationFeedback] = useState('')
   const [editing, setEditing] = useState<{ channel: string; column: string } | null>(null)
   const [activityEditing, setActivityEditing] = useState<{ channel: string; column: string } | null>(null)
   const [draftValue, setDraftValue] = useState('')
   const isActivityCreate = activityEditing?.column === '新增设置'
 
-  const filteredRows = otherPriceRows
-    .filter((group) => room === otherPriceRooms[0] || group.roomType === room)
-    .map((group) => ({
-      ...group,
-      channels: group.channels.filter((row) => channel === otherPriceChannels[0] || row[0] === channel),
-    }))
-    .filter((group) => group.channels.length > 0)
+  const selectedChannelId = useMemo(() => {
+    if (channel === '全部平台') return undefined
+    return otherPriceData?.channels.find((item) => item.name === channel)?.id
+  }, [channel, otherPriceData?.channels])
+  const selectedRoomId = useMemo(() => {
+    if (room === '全部房型') return undefined
+    return otherPriceData?.rooms.find((item) => item.name === room)?.id
+  }, [room, otherPriceData?.rooms])
 
-  const filteredActivityRows = activityRows
-    .filter((group) => room === otherPriceRooms[0] || group.roomType === room)
-    .map((group) => ({
-      ...group,
-      channels: group.channels.filter((row) => channel === otherPriceChannels[0] || row[0] === channel),
-    }))
-    .filter((group) => group.channels.length > 0)
+  useEffect(() => {
+    const controller = new AbortController()
+    queueMicrotask(() => {
+      if (!controller.signal.aborted) {
+        setRequestState({ kind: 'loading', message: '正在通过真实请求层加载其他价格' })
+      }
+    })
+    loadOtherPriceData({ channelId: selectedChannelId, roomCategoryId: selectedRoomId }, controller.signal)
+      .then((data) => {
+        setOtherPriceData(data)
+        const totalRows = data.feeRows.reduce((sum, group) => sum + group.channels.length, 0)
+        setRequestState({
+          kind: totalRows > 0 ? 'success' : 'empty',
+          message:
+            totalRows > 0
+              ? `已连接真实请求层：${data.campName}，房型 ${data.rooms.length} 个，杂费行 ${totalRows} 条`
+              : '真实接口返回空数据，当前筛选下暂无其他价格记录',
+        })
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setOtherPriceData(null)
+        setRequestState({
+          kind: 'error',
+          message: `真实接口阻塞：${error instanceof Error ? error.message : String(error)}`,
+        })
+      })
+    return () => controller.abort()
+  }, [selectedChannelId, selectedRoomId, reloadToken])
+
+  const fallbackChannelOptions = useMemo(() => uniqueOtherPriceOptions(otherPriceRows), [])
+  const channelOptions = ['全部平台', ...(otherPriceData?.channels.map((item) => item.name) ?? fallbackChannelOptions)]
+  const roomOptions = ['全部房型', ...(otherPriceData?.rooms.map((item) => item.name) ?? otherPriceRows.map((item) => item.roomType))]
+  const feeColumns = otherPriceData?.feeColumns ?? otherPriceColumns
+  const currentActivityColumns = otherPriceData?.activityColumns ?? activityColumns
+  const filteredRows = otherPriceData?.feeRows ?? filterOtherPriceRows(otherPriceRows, channel, room)
+  const filteredActivityRows = otherPriceData?.activityRows ?? filterOtherPriceRows(fallbackActivityRows, channel, room)
+
+  const exposeUnsupportedSave = (message: string) => {
+    setOperationFeedback(message)
+    setEditing(null)
+    setActivityEditing(null)
+  }
   return (
     <div className="other-price-page">
       <section className="other-price-panel">
@@ -2105,9 +2324,31 @@ function OtherPricePage() {
         </div>
 
         <div className="other-price-filters">
-          <OtherPriceSelect label="渠道" value={channel} options={otherPriceChannels} onChange={setChannel} />
-          <OtherPriceSelect label="房型" value={room} options={otherPriceRooms} onChange={setRoom} />
+          <OtherPriceSelect label="渠道" value={channel} options={channelOptions} onChange={setChannel} />
+          <OtherPriceSelect label="房型" value={room} options={roomOptions} onChange={setRoom} />
+          <button type="button" onClick={() => setReloadToken((current) => current + 1)}>
+            刷新
+          </button>
         </div>
+
+        {requestState.kind === 'error' ? (
+          <div className="other-price-state other-price-state--error" role="alert" aria-label="其他价格接口阻塞">
+            <strong>{requestState.message}</strong>
+            <button type="button" onClick={() => setReloadToken((current) => current + 1)}>
+              重试真实请求
+            </button>
+          </div>
+        ) : (
+          <div className="other-price-state" role="status" aria-label="其他价格数据来源">
+            {requestState.message}
+          </div>
+        )}
+
+        {operationFeedback && (
+          <div className="other-price-state" role="status" aria-label="其他价格操作反馈">
+            {operationFeedback}
+          </div>
+        )}
 
         {tab === '活动设置' ? (
           <div className="other-price-table other-price-table--activity" aria-label="活动设置表格">
@@ -2124,10 +2365,12 @@ function OtherPricePage() {
             </div>
             <div className="other-price-table__head">
               <div />
-              {activityColumns.map((column) => (
+              {currentActivityColumns.map((column) => (
                 <div key={column}>{column}</div>
               ))}
             </div>
+            {requestState.kind === 'loading' ? <div className="other-price-empty">正在加载活动配置...</div> : null}
+            {filteredActivityRows.length === 0 && requestState.kind !== 'loading' ? <div className="other-price-empty">暂无活动设置数据</div> : null}
             {filteredActivityRows.map((group) => (
               <div key={group.roomType} className="other-price-group">
                 <div className="other-price-room">{group.roomType}</div>
@@ -2135,7 +2378,7 @@ function OtherPricePage() {
                   <div key={`${group.roomType}-${row[0]}-${rowIndex}`} className="other-price-row">
                     <div>{row[0]}</div>
                     {row.slice(1).map((cell, index) => {
-                      const column = activityColumns[index]
+                      const column = currentActivityColumns[index]
                       return (
                         <div key={`${column}-${index}`}>
                           {cell === '设置' ? (
@@ -2164,10 +2407,12 @@ function OtherPricePage() {
           <div className="other-price-table" aria-label="杂费设置表格">
             <div className="other-price-table__head">
               <div />
-              {otherPriceColumns.map((column) => (
+              {feeColumns.map((column) => (
                 <div key={column}>{column}</div>
               ))}
             </div>
+            {requestState.kind === 'loading' ? <div className="other-price-empty">正在加载费用配置...</div> : null}
+            {filteredRows.length === 0 && requestState.kind !== 'loading' ? <div className="other-price-empty">暂无杂费设置数据</div> : null}
             {filteredRows.map((group) => (
               <div key={group.roomType} className="other-price-group">
                 <div className="other-price-room">{group.roomType}</div>
@@ -2175,7 +2420,7 @@ function OtherPricePage() {
                   <div key={`${group.roomType}-${row[0]}-${rowIndex}`} className="other-price-row">
                     <div>{row[0]}</div>
                     {row.slice(1).map((cell, index) => {
-                      const column = otherPriceColumns[index]
+                      const column = feeColumns[index]
                       return (
                         <div key={`${column}-${index}`}>
                           {cell === '设置' ? (
@@ -2230,7 +2475,11 @@ function OtherPricePage() {
               </p>
             </div>
             <footer>
-              <button type="button" className="is-primary" onClick={() => setEditing(null)}>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => exposeUnsupportedSave('杂费保存接口未接入：已取证到读取接口，保存契约未稳定取证，未执行假成功')}
+              >
                 保存
               </button>
               <button type="button" onClick={() => setEditing(null)}>
@@ -2254,7 +2503,9 @@ function OtherPricePage() {
                 <strong>设置连住天数</strong>
                 <p>有哪些时段，您希望特别调整价格？</p>
                 <p>标注*者所有平台都支持，建议使用</p>
-                <button type="button">添 加</button>
+                <button type="button" onClick={() => setOperationFeedback('活动新增接口未接入：目标站新增提交契约未完成取证')}>
+                  添 加
+                </button>
               </div>
             ) : (
               <div className="other-price-drawer__form other-price-discount-form">
@@ -2280,7 +2531,11 @@ function OtherPricePage() {
               </div>
             )}
             <footer>
-              <button type="button" className="is-primary" onClick={() => setActivityEditing(null)}>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => exposeUnsupportedSave(isActivityCreate ? '活动保存接口未接入：未执行假成功' : '活动折扣保存接口未接入：未执行假成功')}
+              >
                 保存
               </button>
               <button type="button" onClick={() => setActivityEditing(null)}>

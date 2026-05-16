@@ -153,7 +153,7 @@ test('/houseManage/otherPrice loads data from real request contracts and refetch
   const lastPricingRequest = captured.filter((request) => request.path === '/roomCategoryPricings/get').at(-1)
   expect(lastPricingRequest?.body.roomCategoryIds).toEqual(['room-2'])
   await expect(page.getByText('真实接口房型A')).toHaveCount(0)
-  await expect(page.getByText('真实接口房型B')).toBeVisible()
+  await expect(page.locator('.other-price-room', { hasText: '真实接口房型B' })).toBeVisible()
 })
 
 test('/houseManage/otherPrice exposes real request failures', async ({ page }) => {
@@ -173,10 +173,11 @@ test('/houseManage/otherPrice does not fake-save unsupported business actions', 
 
   await page.goto('/houseManage/otherPrice')
   await page.getByLabel('杂费设置表格').getByRole('button', { name: '设置', exact: true }).first().click()
-  await expect(page.getByRole('dialog', { name: '改价' })).toBeVisible()
-  await page.getByPlaceholder('请输入价格').fill('300')
-  await page.getByRole('button', { name: '保存' }).click()
+  const dialog = page.getByRole('dialog', { name: '改价' })
+  await expect(dialog).toBeVisible()
+  await dialog.getByPlaceholder('请输入价格').fill('300')
+  await dialog.getByRole('button', { name: '保存' }).click()
 
-  await expect(page.getByRole('status', { name: '其他价格操作反馈' })).toContainText('杂费保存接口未接入')
-  await expect(page.getByRole('status', { name: '其他价格操作反馈' })).not.toContainText('保存成功')
+  await expect(page.getByLabel('其他价格操作反馈')).toContainText('杂费保存接口未接入')
+  await expect(page.getByLabel('其他价格操作反馈')).not.toContainText('保存成功')
 })

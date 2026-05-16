@@ -5,7 +5,6 @@ import {
   fetchCleanStatisticsDashboard,
   getCurrentMonthRange,
   type CleanStatisticsDashboard,
-  type CleanSummaryRow,
 } from '../services/cleanStatistics'
 import './CleanStatisticsPage.css'
 
@@ -111,7 +110,15 @@ export function CleanStatisticsPage() {
   )
 
   useEffect(() => {
-    void loadStatistics()
+    let cancelled = false
+
+    queueMicrotask(() => {
+      if (!cancelled) void loadStatistics()
+    })
+
+    return () => {
+      cancelled = true
+    }
   }, [loadStatistics])
 
   function toggleOption(kind: 'room' | 'cleaner', option: string) {
@@ -206,7 +213,11 @@ export function CleanStatisticsPage() {
                 onChange={(event) => setRange((current) => ({ ...current, end: event.target.value }))}
               />
             </label>
-            <button type="button" className="clean-stat-export" onClick={() => setStatus('已生成保洁统计导出任务')}>
+            <button
+              type="button"
+              className="clean-stat-export"
+              onClick={() => setError('导出接口未取证，不能伪造成已生成导出任务。')}
+            >
               导 出
             </button>
           </div>

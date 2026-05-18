@@ -12,6 +12,7 @@ const CHROME_PATH =
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
 const state = stateArg ? stateArg.split('=')[1] : 'default'
+const mockMode = process.env.PMS_HOTEL_PRODUCT_MOCK_MODE ?? ''
 const stamp =
   process.env.PMS_CAPTURE_STAMP ??
   new Date().toISOString().replace(/\D/g, '').slice(0, 14)
@@ -232,14 +233,27 @@ async function main() {
     const page = await context.newPage()
     page.on('response', async (response) => {
       const request = response.request()
+      let postData = null
+      try {
+        postData = request.postDataJSON()
+      } catch {
+        postData = request.postData()
+      }
       network.push({
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
         contentType: response.headers()['content-type'] ?? '',
+        requestBody: postData,
       })
     })
+
+    if (mode === 'clone' && mockMode) {
+      await context.addInitScript((configuredMockMode) => {
+        window.localStorage.setItem('pms.hotelProductMockMode', configuredMockMode)
+      }, mockMode)
+    }
 
     await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
       waitUntil: 'domcontentloaded',

@@ -1,0 +1,2578 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260518-business-audit",
+  "interactions": [],
+  "facts": {
+    "url": "http://127.0.0.1:5184/channels/social",
+    "title": "pms_clone",
+    "bodyLength": 1104,
+    "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nOTA\n社媒\n私域\n社媒\n\nOTA / 社媒 / 社媒\n\n社媒渠道运营\n刷新\n导出\n更多\n运营日期\n门店\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n项目\n全部项目\n日历房\n预售券\n渠道状态\n全部状态\n已直连\n待开通\n关键词\n查询\n重置\n社媒数据已更新\n已直连渠道\n1\n较昨日持平\n待开通渠道\n3\n本周新增 1 个意向\n今日渠道订单\n18\n较昨日 +12%\n待处理事项\n4\n2 项需今日处理\n已直连渠道\n抖音来客\n关联房型2/4\n支持：日历房、预售券\n今日订单 18，转化率 13.6%\n♪\n管理渠道\n未直连渠道\n小红书\n待开通\n支持：内容种草、活动引流\n今日订单 0，转化率 -\n小红书\n订阅开通\n视频号\n待开通\n支持：直播间、短视频\n今日订单 0，转化率 -\n视频号\n订阅开通\n抖音特价酒店\n待开通\n支持：特价房、闪促活动\n今日订单 0，转化率 -\n♪\n订阅开通\n社媒运营趋势\n05-12\n05-13\n05-14\n05-15\n05-16\n抖音来客\n小红书\n视频号\n待办提醒\n授权日历房房型\n抖音来客\n高 / 今日 18:00\n同步预售券库存\n抖音来客\n中 / 今日\n确认小红书订阅方案\n小红书\n中 / 本周\n快捷入口\n房价管理\n住宿订单\n预售券订单\n账号管理\n渠道账号id\t账号ID\t门店\t授权业务\t审核状态\t同步状态\t操作\n7370207731854149643\t1820360983796908034\t天落会宿公寓(前海壹方城宝安中心店)\t\n酒店行业预售券解决方案\n酒店行业日历房解决方案\n\t\n已发布\n\t房型待同步\t\n查看详情\n拉取房型\n授权日历房\n\n7370207731854149650\t1820360983796908051\t天落会宿公寓(前海壹方城宝安中心店)\t\n酒店行业日历房解决方案\n\t\n审核中\n\t资料待确认\t\n查看详情\n拉取房型\n授权日历房\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "isLoginBlocked": false,
+    "hasBusinessText": true,
+    "forbiddenTermsFound": [],
+    "buttons": [
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "消息",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "收款",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "接待",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "门锁",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "客服",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "通知",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "用户菜单",
+        "className": "topbar-user-menu",
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group-title",
+        "text": "私域",
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "15px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "刷新",
+        "rect": {
+          "x": 1202,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "导出",
+        "rect": {
+          "x": 1272,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "更多",
+        "rect": {
+          "x": 1342,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查询",
+        "rect": {
+          "x": 1135,
+          "y": 194,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "重置",
+        "rect": {
+          "x": 1205,
+          "y": 194,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "管理渠道",
+        "rect": {
+          "x": 207,
+          "y": 592,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 207,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 614,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 1022,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房房型 抖音来客 高 / 今日 18:00",
+        "rect": {
+          "x": 850,
+          "y": 938,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "同步预售券库存 抖音来客 中 / 今日",
+        "rect": {
+          "x": 850,
+          "y": 1015,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "确认小红书订阅方案 小红书 中 / 本周",
+        "rect": {
+          "x": 850,
+          "y": 1093,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "房价管理",
+        "rect": {
+          "x": 1185,
+          "y": 938,
+          "width": 96,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "住宿订单",
+        "rect": {
+          "x": 1289,
+          "y": 938,
+          "width": 96,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "预售券订单",
+        "rect": {
+          "x": 1185,
+          "y": 978,
+          "width": 110,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查看详情",
+        "rect": {
+          "x": 1241,
+          "y": 1288,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "拉取房型",
+        "rect": {
+          "x": 1301,
+          "y": 1288,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房",
+        "rect": {
+          "x": 1241,
+          "y": 1315,
+          "width": 65,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查看详情",
+        "rect": {
+          "x": 1241,
+          "y": 1368,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "拉取房型",
+        "rect": {
+          "x": 1301,
+          "y": 1368,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房",
+        "rect": {
+          "x": 1241,
+          "y": 1395,
+          "width": 65,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "刷新会话",
+        "className": "",
+        "text": "↻",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "收起会话",
+        "className": "",
+        "text": "收起",
+        "rect": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-dock__collapse",
+        "text": "收起",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px"
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "role": null,
+        "ariaLabel": "运营日期",
+        "className": "",
+        "text": "",
+        "rect": {
+          "x": 192,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "门店",
+        "className": "",
+        "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 354,
+          "y": 194,
+          "width": 259,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "项目",
+        "className": "",
+        "text": "全部项目 日历房 预售券",
+        "rect": {
+          "x": 625,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "渠道状态",
+        "className": "",
+        "text": "全部状态 已直连 待开通",
+        "rect": {
+          "x": 787,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "ariaLabel": "关键词",
+        "className": "",
+        "text": "",
+        "rect": {
+          "x": 949,
+          "y": 194,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      }
+    ],
+    "visible": [
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "首页",
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "房态",
+        "rect": {
+          "x": 320,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "房价",
+        "rect": {
+          "x": 366,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "订单",
+        "rect": {
+          "x": 412,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "售卖/产品",
+        "rect": {
+          "x": 458,
+          "y": 1,
+          "width": 62,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "OTA",
+        "rect": {
+          "x": 538,
+          "y": 1,
+          "width": 27,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link is-active",
+        "text": "社媒",
+        "rect": {
+          "x": 583,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "私域",
+        "rect": {
+          "x": 629,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 675,
+          "y": 1,
+          "width": 91,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "SCRM",
+        "rect": {
+          "x": 785,
+          "y": 1,
+          "width": 40,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 843,
+          "y": 1,
+          "width": 70,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "智慧酒店",
+        "rect": {
+          "x": 931,
+          "y": 1,
+          "width": 56,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "报表",
+        "rect": {
+          "x": 1005,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "topnav-link",
+        "text": "设置",
+        "rect": {
+          "x": 1051,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": "应用订阅",
+        "className": "topbar-app-entry",
+        "text": "应用订阅 限时试用",
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 80,
+          "height": 20
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "fontSize": "14px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "消息",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "收款",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "接待",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "门锁",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "客服",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "通知",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "用户菜单",
+        "className": "topbar-user-menu",
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group sidebar-group--module is-collapsed sidebar-group--leaf",
+        "text": "OTA",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group-title sidebar-group-title--link sidebar-link",
+        "text": "OTA",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "15px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group sidebar-group--module is-collapsed is-active-group sidebar-group--leaf",
+        "text": "社媒",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group-title sidebar-group-title--link sidebar-link is-active",
+        "text": "社媒",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group sidebar-group--module is-collapsed",
+        "text": "私域",
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "sidebar-group-title",
+        "text": "私域",
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "15px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-channel-surface",
+        "text": "OTA / 社媒 / 社媒 社媒渠道运营 刷新 导出 更多 运营日期 门店 全部门店 天落会宿公寓(前海壹方城宝安中心店) 项目 全部项目 日历房 预售券 渠道状态 全部状态 已直连 待开通 关键词 查询 重置 社媒数据已更新 已直连渠道 1 较昨日持平 待开通渠道 3 本周新增 1 个意向 今日渠道订单 18 较昨日 +12% 待处理事项 4 2 项需今日处理 已直连渠道 抖音来客 关联房型2/4 支持：日历房、预售券 今日订单 18，转化率 13.6% ♪ 管理渠道 未直连渠道 小红书 待开通 支持：内容种草、活动引流 今日订单 0，转化率 - 小红书 订阅开通 视频号 待开通 支持：直播",
+        "rect": {
+          "x": 172,
+          "y": 68,
+          "width": 1252,
+          "height": 1390
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "8px 8px 0px 0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "刷新",
+        "rect": {
+          "x": 1202,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "导出",
+        "rect": {
+          "x": 1272,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "更多",
+        "rect": {
+          "x": 1342,
+          "y": 98,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "ariaLabel": "运营日期",
+        "className": "",
+        "text": "",
+        "rect": {
+          "x": 192,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "门店",
+        "className": "",
+        "text": "全部门店 天落会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 354,
+          "y": 194,
+          "width": 259,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "项目",
+        "className": "",
+        "text": "全部项目 日历房 预售券",
+        "rect": {
+          "x": 625,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "select",
+        "role": null,
+        "ariaLabel": "渠道状态",
+        "className": "",
+        "text": "全部状态 已直连 待开通",
+        "rect": {
+          "x": 787,
+          "y": 194,
+          "width": 150,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "input",
+        "role": null,
+        "ariaLabel": "关键词",
+        "className": "",
+        "text": "",
+        "rect": {
+          "x": 949,
+          "y": 194,
+          "width": 174,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(216, 221, 232)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查询",
+        "rect": {
+          "x": 1135,
+          "y": 194,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "重置",
+        "rect": {
+          "x": 1205,
+          "y": 194,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": "社媒核心指标",
+        "className": "social-metric-grid",
+        "text": "已直连渠道 1 较昨日持平 待开通渠道 3 本周新增 1 个意向 今日渠道订单 18 较昨日 +12% 待处理事项 4 2 项需今日处理",
+        "rect": {
+          "x": 172,
+          "y": 277,
+          "width": 1252,
+          "height": 135
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-metric-card social-metric-card--blue",
+        "text": "已直连渠道 1 较昨日持平",
+        "rect": {
+          "x": 192,
+          "y": 293,
+          "width": 294,
+          "height": 115
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-metric-card social-metric-card--orange",
+        "text": "待开通渠道 3 本周新增 1 个意向",
+        "rect": {
+          "x": 498,
+          "y": 293,
+          "width": 294,
+          "height": 115
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-metric-card social-metric-card--green",
+        "text": "今日渠道订单 18 较昨日 +12%",
+        "rect": {
+          "x": 804,
+          "y": 293,
+          "width": 294,
+          "height": 115
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-metric-card social-metric-card--red",
+        "text": "待处理事项 4 2 项需今日处理",
+        "rect": {
+          "x": 1110,
+          "y": 293,
+          "width": 294,
+          "height": 115
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-channel-section",
+        "text": "已直连渠道 抖音来客 关联房型2/4 支持：日历房、预售券 今日订单 18，转化率 13.6% ♪ 管理渠道",
+        "rect": {
+          "x": 172,
+          "y": 412,
+          "width": 1252,
+          "height": 227
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": "抖音来客",
+        "className": "social-channel-card social-channel-card--connected",
+        "text": "抖音来客 关联房型2/4 支持：日历房、预售券 今日订单 18，转化率 13.6% ♪ 管理渠道",
+        "rect": {
+          "x": 192,
+          "y": 470,
+          "width": 340,
+          "height": 165
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(243, 247, 255)",
+          "border": "1px solid rgb(185, 203, 255)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "管理渠道",
+        "rect": {
+          "x": 207,
+          "y": 592,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-channel-section",
+        "text": "未直连渠道 小红书 待开通 支持：内容种草、活动引流 今日订单 0，转化率 - 小红书 订阅开通 视频号 待开通 支持：直播间、短视频 今日订单 0，转化率 - 视频号 订阅开通 抖音特价酒店 待开通 支持：特价房、闪促活动 今日订单 0，转化率 - ♪ 订阅开通",
+        "rect": {
+          "x": 172,
+          "y": 639,
+          "width": 1252,
+          "height": 227
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": "小红书",
+        "className": "social-channel-card social-channel-card--pending",
+        "text": "小红书 待开通 支持：内容种草、活动引流 今日订单 0，转化率 - 小红书 订阅开通",
+        "rect": {
+          "x": 192,
+          "y": 697,
+          "width": 397,
+          "height": 165
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 207,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": "视频号",
+        "className": "social-channel-card social-channel-card--pending",
+        "text": "视频号 待开通 支持：直播间、短视频 今日订单 0，转化率 - 视频号 订阅开通",
+        "rect": {
+          "x": 599,
+          "y": 697,
+          "width": 397,
+          "height": 165
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 614,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": "抖音特价酒店",
+        "className": "social-channel-card social-channel-card--pending",
+        "text": "抖音特价酒店 待开通 支持：特价房、闪促活动 今日订单 0，转化率 - ♪ 订阅开通",
+        "rect": {
+          "x": 1007,
+          "y": 697,
+          "width": 397,
+          "height": 165
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgb(241, 243, 248)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "订阅开通",
+        "rect": {
+          "x": 1022,
+          "y": 819,
+          "width": 70,
+          "height": 28
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "fontSize": "12px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-dashboard-grid",
+        "text": "社媒运营趋势 05-12 05-13 05-14 05-15 05-16 抖音来客 小红书 视频号 待办提醒 授权日历房房型 抖音来客 高 / 今日 18:00 同步预售券库存 抖音来客 中 / 今日 确认小红书订阅方案 小红书 中 / 本周 快捷入口 房价管理 住宿订单 预售券订单",
+        "rect": {
+          "x": 172,
+          "y": 866,
+          "width": 1252,
+          "height": 306
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": "社媒运营趋势",
+        "className": "social-panel",
+        "text": "社媒运营趋势 05-12 05-13 05-14 05-15 05-16 抖音来客 小红书 视频号",
+        "rect": {
+          "x": 172,
+          "y": 878,
+          "width": 646,
+          "height": 290
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": "社媒待办",
+        "className": "social-panel",
+        "text": "待办提醒 授权日历房房型 抖音来客 高 / 今日 18:00 同步预售券库存 抖音来客 中 / 今日 确认小红书订阅方案 小红书 中 / 本周",
+        "rect": {
+          "x": 830,
+          "y": 878,
+          "width": 323,
+          "height": 290
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房房型 抖音来客 高 / 今日 18:00",
+        "rect": {
+          "x": 850,
+          "y": 938,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "同步预售券库存 抖音来客 中 / 今日",
+        "rect": {
+          "x": 850,
+          "y": 1015,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "确认小红书订阅方案 小红书 中 / 本周",
+        "rect": {
+          "x": 850,
+          "y": 1093,
+          "width": 283,
+          "height": 70
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "6px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": "快捷入口",
+        "className": "social-panel",
+        "text": "快捷入口 房价管理 住宿订单 预售券订单",
+        "rect": {
+          "x": 1165,
+          "y": 878,
+          "width": 259,
+          "height": 290
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "房价管理",
+        "rect": {
+          "x": 1185,
+          "y": 938,
+          "width": 96,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "住宿订单",
+        "rect": {
+          "x": 1289,
+          "y": 938,
+          "width": 96,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "预售券订单",
+        "rect": {
+          "x": 1185,
+          "y": 978,
+          "width": 110,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(48, 56, 73)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 222, 234)",
+          "borderRadius": "4px"
+        }
+      },
+      {
+        "tag": "section",
+        "role": null,
+        "ariaLabel": null,
+        "className": "social-panel social-account-panel",
+        "text": "账号管理 渠道账号id 账号ID 门店 授权业务 审核状态 同步状态 操作 7370207731854149643 1820360983796908034 天落会宿公寓(前海壹方城宝安中心店) 酒店行业预售券解决方案 酒店行业日历房解决方案 已发布 房型待同步 查看详情 拉取房型 授权日历房 7370207731854149650 1820360983796908051 天落会宿公寓(前海壹方城宝安中心店) 酒店行业日历房解决方案 审核中 资料待确认 查看详情 拉取房型 授权日历房",
+        "rect": {
+          "x": 172,
+          "y": 1171,
+          "width": 1252,
+          "height": 287
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(47, 53, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 53, 66)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "table",
+        "role": null,
+        "ariaLabel": "社媒账号管理列表",
+        "className": "social-detail-table",
+        "text": "渠道账号id 账号ID 门店 授权业务 审核状态 同步状态 操作 7370207731854149643 1820360983796908034 天落会宿公寓(前海壹方城宝安中心店) 酒店行业预售券解决方案 酒店行业日历房解决方案 已发布 房型待同步 查看详情 拉取房型 授权日历房 7370207731854149650 1820360983796908051 天落会宿公寓(前海壹方城宝安中心店) 酒店行业日历房解决方案 审核中 资料待确认 查看详情 拉取房型 授权日历房",
+        "rect": {
+          "x": 192,
+          "y": 1231,
+          "width": 1212,
+          "height": 197
+        },
+        "styles": {
+          "display": "table",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(128, 128, 128)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查看详情",
+        "rect": {
+          "x": 1241,
+          "y": 1288,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "拉取房型",
+        "rect": {
+          "x": 1301,
+          "y": 1288,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房",
+        "rect": {
+          "x": 1241,
+          "y": 1315,
+          "width": 65,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "查看详情",
+        "rect": {
+          "x": 1241,
+          "y": 1368,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "拉取房型",
+        "rect": {
+          "x": 1301,
+          "y": 1368,
+          "width": 52,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "",
+        "text": "授权日历房",
+        "rect": {
+          "x": 1241,
+          "y": 1395,
+          "width": 65,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "13px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "刷新会话",
+        "className": "",
+        "text": "↻",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": "收起会话",
+        "className": "",
+        "text": "收起",
+        "rect": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-item",
+        "text": "携程民宿-【M335275070】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 加了",
+        "rect": {
+          "x": 1105,
+          "y": 483,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-item",
+        "text": "携程民宿-【M566739056】 咨询中 途家总裁套间（桦拿淞缇露台电竞麻将） 我 已办理退房",
+        "rect": {
+          "x": 1105,
+          "y": 579,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-item",
+        "text": "去哪民宿-【去哪儿用户】 咨询中 途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将） 我 人 有的",
+        "rect": {
+          "x": 1105,
+          "y": 675,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "article",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-item",
+        "text": "携程民宿-【M614718025】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1105,
+          "y": 771,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "fontSize": "16px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px"
+        }
+      },
+      {
+        "tag": "button",
+        "role": null,
+        "ariaLabel": null,
+        "className": "chat-dock__collapse",
+        "text": "收起",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px"
+        }
+      }
+    ],
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    }
+  }
+}

@@ -1,0 +1,1323 @@
+{
+  "location": "http://127.0.0.1:4173/houseManage/channelPrice?campId=test-camp",
+  "title": "pms_clone",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n房价管理\n中央价\n渠道RP价\n竞争圈比价\n门市价\n其他价格\n电子房价牌\n调价日志\n房情表\n保洁管理\n中央价\n渠道RP价\n竞争圈比价\n当前通过\n\"实际卖价\"\n进行价格调控\n预览与覆盖\n暂不处理\n同步至渠道\nRP设置\n价格设置\n价格规划\n批量改价\n新手指引\n\n渠道rp价与房型价格存在差异\n\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n渠道\n全部房型\n房型标签\n渠道RP价数据已更新\n已按当前筛选条件更新价格矩阵\n上一周\n2026.05.18 起\n下一周\n今日\n全部收起\n点击价格单元格可打开改价弹层\n全部收起\n产品系数\n基础价\n今日\n一\n05.19\n二\n05.20\n三\n05.21\n四\n05.22\n五\n05.23\n六\n05.24\n日\n05.25\n一\n05.26\n二\n05.27\n三\n05.28\n四\n05.29\n五\n05.30\n六\n05.31\n日\n06.01\n一\n06.02\n二\n06.03\n三\n06.04\n四\n06.05\n五\n06.06\n六\n06.07\n日\n06.08\n一\n06.09\n二\n06.10\n三\n06.11\n四\n06.12\n五\n06.13\n六\n06.14\n日\n06.15\n一\n06.16\n二\n模拟渠道RP价房型A\n模拟渠道RP价产品A<无早>\n*0.88\n399\n321\n399\n322\n399\n323\n399\n324\n399\n421\n499\n422\n499\n323\n399\n324\n399\n321\n399\n322\n399\n323\n399\n324\n399\n421\n499\n422\n499\n323\n399\n324\n399\n321\n399\n322\n399\n323\n399\n324\n399\n421\n499\n422\n499\n323\n399\n324\n399\n321\n399\n322\n399\n323\n399\n324\n399\n421\n499\n422\n499\n模拟渠道RP价房型B\n模拟渠道RP价产品B<双早>\n*0.91\n559\n508\n559\n508\n559\n509\n559\n509\n559\n609\n669\n609\n669\n508\n559\n508\n559\n508\n559\n508\n559\n509\n559\n509\n559\n609\n669\n609\n669\n508\n559\n508\n559\n508\n559\n508\n559\n509\n559\n509\n559\n609\n669\n609\n669\n508\n559\n508\n559\n508\n559\n508\n559\n509\n559\n509\n559\n609\n669\n609\n669\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--message",
+      "role": "",
+      "ariaLabel": "消息",
+      "text": "",
+      "box": {
+        "x": 1208,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--payment",
+      "role": "",
+      "ariaLabel": "收款",
+      "text": "",
+      "box": {
+        "x": 1236,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--reception",
+      "role": "",
+      "ariaLabel": "接待",
+      "text": "",
+      "box": {
+        "x": 1264,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--key",
+      "role": "",
+      "ariaLabel": "门锁",
+      "text": "",
+      "box": {
+        "x": 1292,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--service",
+      "role": "",
+      "ariaLabel": "客服",
+      "text": "",
+      "box": {
+        "x": 1320,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--notice",
+      "role": "",
+      "ariaLabel": "通知",
+      "text": "",
+      "box": {
+        "x": 1348,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-user-menu",
+      "role": "",
+      "ariaLabel": "用户菜单",
+      "text": "",
+      "box": {
+        "x": 1376,
+        "y": 10,
+        "width": 56,
+        "height": 32
+      },
+      "display": "flex"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房态管理",
+      "box": {
+        "x": 0,
+        "y": 64,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房价管理",
+      "box": {
+        "x": 0,
+        "y": 114,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title",
+      "role": "",
+      "ariaLabel": "",
+      "text": "保洁管理",
+      "box": {
+        "x": 0,
+        "y": 490,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "中央价",
+      "box": {
+        "x": 173,
+        "y": 79,
+        "width": 74,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "is-active",
+      "role": "",
+      "ariaLabel": "RP价页签",
+      "text": "渠道RP价",
+      "box": {
+        "x": 255,
+        "y": 79,
+        "width": 92,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "竞争圈比价",
+      "box": {
+        "x": 173,
+        "y": 115,
+        "width": 102,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "预览与覆盖",
+      "box": {
+        "x": 683,
+        "y": 97,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "暂不处理",
+      "box": {
+        "x": 787,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "同步至渠道",
+      "box": {
+        "x": 879,
+        "y": 97,
+        "width": 96,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "RP设置",
+      "box": {
+        "x": 983,
+        "y": 97,
+        "width": 74,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "价格设置",
+      "box": {
+        "x": 1065,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "价格规划",
+      "box": {
+        "x": 1157,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "批量改价",
+      "box": {
+        "x": 1248,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "新手指引",
+      "box": {
+        "x": 1340,
+        "y": 97,
+        "width": 84,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部门店",
+      "box": {
+        "x": 173,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "天落会宿公寓(前海壹方城宝安中心店)",
+      "box": {
+        "x": 269,
+        "y": 215,
+        "width": 265,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "渠道",
+      "box": {
+        "x": 542,
+        "y": 215,
+        "width": 60,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部房型",
+      "box": {
+        "x": 610,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chip",
+      "role": "",
+      "ariaLabel": "",
+      "text": "房型标签",
+      "box": {
+        "x": 706,
+        "y": 215,
+        "width": 88,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "INPUT",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "",
+      "box": {
+        "x": 802,
+        "y": 215,
+        "width": 120,
+        "height": 28
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "上一周",
+      "box": {
+        "x": 173,
+        "y": 638,
+        "width": 74,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "下一周",
+      "box": {
+        "x": 395,
+        "y": 638,
+        "width": 74,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "今日",
+      "box": {
+        "x": 477,
+        "y": 638,
+        "width": 58,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "",
+      "text": "全部收起",
+      "box": {
+        "x": 543,
+        "y": 638,
+        "width": 90,
+        "height": 42
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "321 05.18",
+      "text": "321399",
+      "box": {
+        "x": 495,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "322 05.19",
+      "text": "322399",
+      "box": {
+        "x": 583,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 05.20",
+      "text": "323399",
+      "box": {
+        "x": 671,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 05.21",
+      "text": "324399",
+      "box": {
+        "x": 759,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "421 05.22",
+      "text": "421499",
+      "box": {
+        "x": 847,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "422 05.23",
+      "text": "422499",
+      "box": {
+        "x": 935,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 05.24",
+      "text": "323399",
+      "box": {
+        "x": 1023,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 05.25",
+      "text": "324399",
+      "box": {
+        "x": 1111,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "321 05.26",
+      "text": "321399",
+      "box": {
+        "x": 1199,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "322 05.27",
+      "text": "322399",
+      "box": {
+        "x": 1287,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 05.28",
+      "text": "323399",
+      "box": {
+        "x": 1375,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 05.29",
+      "text": "324399",
+      "box": {
+        "x": 1463,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "421 05.30",
+      "text": "421499",
+      "box": {
+        "x": 1551,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "422 05.31",
+      "text": "422499",
+      "box": {
+        "x": 1639,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 06.01",
+      "text": "323399",
+      "box": {
+        "x": 1727,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 06.02",
+      "text": "324399",
+      "box": {
+        "x": 1815,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "321 06.03",
+      "text": "321399",
+      "box": {
+        "x": 1903,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "322 06.04",
+      "text": "322399",
+      "box": {
+        "x": 1991,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 06.05",
+      "text": "323399",
+      "box": {
+        "x": 2079,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 06.06",
+      "text": "324399",
+      "box": {
+        "x": 2167,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "421 06.07",
+      "text": "421499",
+      "box": {
+        "x": 2255,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "422 06.08",
+      "text": "422499",
+      "box": {
+        "x": 2343,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 06.09",
+      "text": "323399",
+      "box": {
+        "x": 2431,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 06.10",
+      "text": "324399",
+      "box": {
+        "x": 2519,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "321 06.11",
+      "text": "321399",
+      "box": {
+        "x": 2607,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "322 06.12",
+      "text": "322399",
+      "box": {
+        "x": 2695,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "323 06.13",
+      "text": "323399",
+      "box": {
+        "x": 2783,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "324 06.14",
+      "text": "324399",
+      "box": {
+        "x": 2871,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "421 06.15",
+      "text": "421499",
+      "box": {
+        "x": 2959,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "422 06.16",
+      "text": "422499",
+      "box": {
+        "x": 3047,
+        "y": 755,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.18",
+      "text": "508559",
+      "box": {
+        "x": 495,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.19",
+      "text": "508559",
+      "box": {
+        "x": 583,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 05.20",
+      "text": "509559",
+      "box": {
+        "x": 671,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 05.21",
+      "text": "509559",
+      "box": {
+        "x": 759,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 05.22",
+      "text": "609669",
+      "box": {
+        "x": 847,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 05.23",
+      "text": "609669",
+      "box": {
+        "x": 935,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.24",
+      "text": "508559",
+      "box": {
+        "x": 1023,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.25",
+      "text": "508559",
+      "box": {
+        "x": 1111,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.26",
+      "text": "508559",
+      "box": {
+        "x": 1199,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 05.27",
+      "text": "508559",
+      "box": {
+        "x": 1287,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 05.28",
+      "text": "509559",
+      "box": {
+        "x": 1375,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 05.29",
+      "text": "509559",
+      "box": {
+        "x": 1463,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 05.30",
+      "text": "609669",
+      "box": {
+        "x": 1551,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 05.31",
+      "text": "609669",
+      "box": {
+        "x": 1639,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.01",
+      "text": "508559",
+      "box": {
+        "x": 1727,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.02",
+      "text": "508559",
+      "box": {
+        "x": 1815,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.03",
+      "text": "508559",
+      "box": {
+        "x": 1903,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.04",
+      "text": "508559",
+      "box": {
+        "x": 1991,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 06.05",
+      "text": "509559",
+      "box": {
+        "x": 2079,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 06.06",
+      "text": "509559",
+      "box": {
+        "x": 2167,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 06.07",
+      "text": "609669",
+      "box": {
+        "x": 2255,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 06.08",
+      "text": "609669",
+      "box": {
+        "x": 2343,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.09",
+      "text": "508559",
+      "box": {
+        "x": 2431,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.10",
+      "text": "508559",
+      "box": {
+        "x": 2519,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.11",
+      "text": "508559",
+      "box": {
+        "x": 2607,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "508 06.12",
+      "text": "508559",
+      "box": {
+        "x": 2695,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 06.13",
+      "text": "509559",
+      "box": {
+        "x": 2783,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "509 06.14",
+      "text": "509559",
+      "box": {
+        "x": 2871,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 06.15",
+      "text": "609669",
+      "box": {
+        "x": 2959,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "price-cell price-cell-button ",
+      "role": "",
+      "ariaLabel": "609 06.16",
+      "text": "609669",
+      "box": {
+        "x": 3047,
+        "y": 827,
+        "width": 88,
+        "height": 72
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "刷新会话",
+      "text": "↻",
+      "box": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "收起会话",
+      "text": "收起",
+      "box": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chat-dock__collapse",
+      "role": "",
+      "ariaLabel": "",
+      "text": "收起",
+      "box": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      },
+      "display": "block"
+    }
+  ]
+}

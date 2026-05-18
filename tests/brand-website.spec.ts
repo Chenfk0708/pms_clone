@@ -6,62 +6,80 @@ function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/mallManagement/weapp/decorate matches captured brand website template market', async ({ page }) => {
+async function openBrandWebsite(page: import('@playwright/test').Page, mode: 'success' | 'empty' | 'error' = 'success') {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript((mockMode) => {
+    window.localStorage.setItem('pms.brandWebsiteProvider', 'mock')
+    window.localStorage.setItem('pms.brandWebsiteMockMode', mockMode)
+  }, mode)
   await page.goto(appUrl('/mallManagement/weapp/decorate'))
+}
+
+function button(page: import('@playwright/test').Page, text: string) {
+  return page.locator('button').filter({ hasText: text }).first()
+}
+
+test('/mallManagement/weapp/decorate loads business data from the brand website service', async ({ page }) => {
+  await openBrandWebsite(page)
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.getByRole('heading', { name: '品牌官网', level: 1 })).toBeVisible()
-  await expect(page.getByRole('link', { name: '品牌官网' })).toHaveClass(/is-active/)
-  await expect(page.getByText('页面导航')).toBeVisible()
-  await expect(page.getByRole('button', { name: '模板市场' })).toHaveClass(/is-active/)
+  await expect(page.locator('h1').filter({ hasText: '品牌官网' })).toBeVisible()
+  await expect(page.locator('a.is-active').filter({ hasText: '品牌官网' })).toBeVisible()
+  await expect(page.getByTestId('brand-website-contract')).toContainText('"traceId":"mock-ota--siyu--pinpai-guanwang-list-001"')
 
-  await expect(page.getByText('露营地主题模板')).toBeVisible()
-  await expect(page.getByText('酒店主题模板')).toBeVisible()
-  await expect(page.getByText('民宿主题模板')).toBeVisible()
-  await expect(page.getByText('默认模板')).toBeVisible()
-  await expect(page.getByRole('button', { name: '一键使用' })).toHaveCount(4)
-  await expect(page.locator('.brand-template__swatch')).toHaveCount(12)
-  await expect(page.locator('.brand-template-phone')).toHaveCount(8)
-  await expect(page.getByText('预览')).toHaveCount(8)
-  await expect(page.locator('.chat-dock')).toContainText('全部会话')
-  await expect(page.locator('.chat-dock__collapse')).toBeVisible()
+  await expect(page.locator('select[aria-label="门店"]')).toHaveValue('camp-ts5')
+  await expect(page.locator('input[aria-label="运营日期"]')).toHaveValue('2026-05-18')
+  await expect(page.getByText('今日访问')).toBeVisible()
+  await expect(page.getByText('1,286')).toBeVisible()
+  await expect(button(page, '露营地主题模板 一键使用')).toBeVisible()
+  await expect(button(page, '模板市场')).toHaveClass(/is-active/)
+  await expect(page.getByText('路客云 TS5 的店铺')).toBeVisible()
+
+  const bodyText = await page.locator('body').innerText()
+  expect(bodyText).not.toMatch(/mock|provider|未接入|阻塞|后端未就绪|后端接口未完成|接口契约|未取证/i)
 })
 
-test('/mallManagement/weapp/decorate supports captured page navigation states', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/mallManagement/weapp/decorate'))
+test('/mallManagement/weapp/decorate supports filter, refresh, export and section interactions', async ({ page }) => {
+  await openBrandWebsite(page)
 
-  await page.getByRole('button', { name: '店铺主页' }).click()
-  await expect(page.getByRole('button', { name: '店铺主页' })).toHaveClass(/is-active/)
-  await expect(page.getByText('路客云6TS5的店铺')).toBeVisible()
-  await expect(page.getByRole('button', { name: '前往装修' })).toBeVisible()
-  await expect(page.getByText('热门套餐')).toBeVisible()
+  await page.locator('select[aria-label="门店"]').selectOption('camp-hotel')
+  await page.locator('input[aria-label="运营日期"]').fill('2026-05-19')
+  await button(page, '查询').click()
+  await expect(page.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('已按当前条件更新品牌官网')
+  await expect(page.getByTestId('brand-website-contract')).toContainText('"campId":"camp-hotel"')
+  await expect(page.getByTestId('brand-website-contract')).toContainText('"businessDate":"2026-05-19"')
 
-  await page.getByRole('button', { name: '个人中心' }).click()
-  await expect(page.getByText('用户昵称')).toBeVisible()
-  await expect(page.getByText('我的订单')).toBeVisible()
-  await expect(page.getByText('微商城订单')).toBeVisible()
+  await button(page, '刷新').click()
+  await expect(page.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('品牌官网数据已刷新')
 
-  await page.getByRole('button', { name: '领券活动' }).click()
-  await expect(page.getByPlaceholder('请输入领券活动名称')).toBeVisible()
-  await expect(page.getByRole('button', { name: '新建活动' })).toBeVisible()
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await button(page, '导出').click()
+  await expect(page.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('导出任务已创建')
 
-  await page.getByRole('button', { name: '通用导航' }).click()
-  await expect(page.getByRole('heading', { name: '底部导航' })).toBeVisible()
-  await expect(page.getByText('品牌小程序暂未开通，请尽快开通。')).toBeVisible()
-  await expect(page.getByRole('button', { name: '保存并发布' })).toBeVisible()
+  await button(page, '酒店主题模板 一键使用').click()
+  await expect(page.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('已应用酒店主题模板')
 
-  await page.getByRole('button', { name: '悬浮框' }).click()
-  await expect(page.getByText('是否开启:')).toBeVisible()
-  await expect(page.getByText('图片上传:')).toBeVisible()
-  await expect(page.getByPlaceholder('开头为https://')).toBeVisible()
+  await button(page, '查看酒店主题模板详情').click()
+  await expect(page.locator('[role="dialog"][aria-label="模板详情"]')).toContainText('酒店主题模板')
+  await button(page, '关闭模板详情').click()
+  await expect(page.locator('[role="dialog"][aria-label="模板详情"]')).toBeHidden()
 
-  await page.getByRole('button', { name: '首页弹窗' }).click()
-  await expect(page.getByText('建议上传宽度280*350的图片')).toBeVisible()
+  await button(page, '领券活动').click()
+  await page.getByPlaceholder('请输入活动名称').fill('春季')
+  await button(page, '搜索活动').click()
+  await expect(page.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('已筛选领券活动')
+  await button(page, '新建活动').click()
+  await expect(page.locator('[role="dialog"][aria-label="活动详情"]')).toContainText('春季连住券')
+})
 
-  await page.getByRole('button', { name: '全局风格' }).click()
-  await expect(page.getByText('当前小程序展示')).toBeVisible()
-  await expect(page.getByText('选择颜色')).toBeVisible()
+test('/mallManagement/weapp/decorate handles empty and error envelopes', async ({ browser }) => {
+  const emptyPage = await browser.newPage()
+  await openBrandWebsite(emptyPage, 'empty')
+  await expect(emptyPage.locator('[role="status"][aria-label="品牌官网空态"]')).toContainText('暂无符合当前条件的品牌官网配置')
+  await expect(button(emptyPage, '重置条件')).toBeVisible()
+
+  const errorPage = await browser.newPage()
+  await openBrandWebsite(errorPage, 'error')
+  await expect(errorPage.locator('[role="alert"]')).toContainText('品牌官网数据加载失败')
+  await button(errorPage, '重试').click()
+  await expect(errorPage.locator('[role="status"][aria-label="品牌官网操作反馈"]')).toContainText('已重新加载品牌官网')
 })

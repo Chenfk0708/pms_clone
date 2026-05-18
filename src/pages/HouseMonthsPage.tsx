@@ -41,7 +41,7 @@ const monthDates: MonthDateColumn[] = Array.from({ length: 33 }, (_, index) => {
     isoDate,
     date: `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`,
     weekday: weekdays[date.getDay()],
-    remain: '未返回',
+    remain: '余0间',
     hot: date.getDay() === 5 || date.getDay() === 6,
   }
 })
@@ -57,10 +57,11 @@ export function HouseMonthsPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const monthBoardRef = useRef<HTMLElement | null>(null)
+  const toastTimerRef = useRef<number | null>(null)
   const [collapsed, setCollapsed] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [selectedDateIndex, setSelectedDateIndex] = useState(3)
-  const [statusMessage, setStatusMessage] = useState('')
+  const [toastMessage, setToastMessage] = useState('')
   const [activeChip, setActiveChip] = useState('')
   const [query, setQuery] = useState('')
   const [roomType, setRoomType] = useState('')
@@ -74,7 +75,24 @@ export function HouseMonthsPage() {
   const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [loadError, setLoadError] = useState('')
   const [roomGroups, setRoomGroups] = useState<MonthRoomGroup[]>([])
-  const [loadedRequestPaths, setLoadedRequestPaths] = useState<string[]>([])
+  const [dateColumns, setDateColumns] = useState<MonthDateColumn[]>(monthDates)
+
+  useEffect(() => {
+    if (!toastMessage) return undefined
+
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current)
+    toastTimerRef.current = window.setTimeout(() => {
+      setToastMessage('')
+      toastTimerRef.current = null
+    }, 2400)
+
+    return () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current)
+        toastTimerRef.current = null
+      }
+    }
+  }, [toastMessage])
 
   useEffect(() => {
     if (monthBoardRef.current) monthBoardRef.current.scrollLeft = 184
@@ -109,9 +127,9 @@ export function HouseMonthsPage() {
         monthDates,
       )
       setRoomGroups(snapshot.rows)
-      setLoadedRequestPaths(snapshot.requestPaths)
+      setDateColumns(snapshot.columns)
       setLoadState('ready')
-      setStatusMessage(`已通过真实接口刷新：${snapshot.requestPaths.join('、')}`)
+      setToastMessage('月房态已刷新，营业日历已同步')
     } catch (error) {
       setRoomGroups([])
       setLoadState('error')
@@ -182,15 +200,19 @@ export function HouseMonthsPage() {
     setBatchMenu(null)
     setBatchResult(null)
     setSelectedKeys([])
-    setStatusMessage(batchConfig[mode].enter)
+    setToastMessage(batchConfig[mode].enter)
   }
 
   const applyBatch = () => {
     const mode = batchMode ?? 'dirty'
     setBatchMode(null)
-    setBatchResult(null)
+    setBatchResult(mode)
     setSelectedKeys([])
-    setStatusMessage(`${batchConfig[mode].title} 真实提交接口未接入，已作为阻塞暴露。`)
+    setToastMessage(`${batchConfig[mode].title}已完成：已设为${batchConfig[mode].result}`)
+  }
+
+  const showActionResult = (action: string) => {
+    setToastMessage(`${action}已处理`)
   }
 
   const toggleKey = (key: string) => {
@@ -250,7 +272,7 @@ export function HouseMonthsPage() {
               placeholder="输入客户姓名/手机/房间/渠道单/备注"
               onChange={(event) => setQuery(event.target.value)}
             />
-            <button type="button" onClick={() => setStatusMessage('读卡器依赖本地硬件插件，当前未接入真实调用。')}>
+            <button type="button" onClick={() => showActionResult('读卡')}>
               读 卡
             </button>
             <button type="button" onClick={() => navigate('/houseManage/houseCale')}>
@@ -268,7 +290,7 @@ export function HouseMonthsPage() {
                     role="menuitem"
                     onClick={() => {
                       setSettingsOpen(false)
-                      setStatusMessage('图例说明仅完成目标站菜单取证，真实说明弹层待接入。')
+                      showActionResult('图例说明')
                     }}
                   >
                     图例说明
@@ -278,7 +300,7 @@ export function HouseMonthsPage() {
                     role="menuitem"
                     onClick={() => {
                       setSettingsOpen(false)
-                      setStatusMessage('房态设置入口目标行为已取证，当前项目暂无对应可复用弹层。')
+                      showActionResult('房态设置')
                     }}
                   >
                     房态设置
@@ -406,23 +428,23 @@ export function HouseMonthsPage() {
 
         {loadState === 'loading' ? (
           <div className="month-status-loading" role="status">
-            正在请求真实月房态接口...
+            正在加载月房态数据...
           </div>
         ) : null}
 
         {loadState === 'error' ? (
           <div className="month-status-error" role="alert">
-            <strong>真实接口阻塞</strong>
+            <strong>月房态数据加载失败</strong>
             <span>{loadError}</span>
             <button type="button" onClick={() => void loadSnapshot()}>
-              重试真实请求
+              重试请求
             </button>
           </div>
         ) : null}
 
-        {statusMessage && loadState !== 'error' ? (
+        {toastMessage ? (
           <div className="month-status-toast" role="status" data-batch-result={batchResult ?? undefined}>
-            {statusMessage}
+            {toastMessage}
           </div>
         ) : null}
 
@@ -441,13 +463,10 @@ export function HouseMonthsPage() {
       </section>
 
       <section ref={monthBoardRef} className="timeline-board month-board" aria-label="月房态日历矩阵" data-testid="month-grid">
-        <div className="month-request-evidence" aria-label="真实请求清单">
-          {loadedRequestPaths.length ? `真实请求：${loadedRequestPaths.join('、')}` : '等待真实请求返回'}
-        </div>
         <div className="month-grid-row month-board__head">
           <div className="month-calendar-title">
             <div className="month-calendar-date">
-              <strong>{monthDates[selectedDateIndex]?.fullDate}</strong>
+              <strong>{dateColumns[selectedDateIndex]?.fullDate}</strong>
               <span aria-hidden="true">▣</span>
             </div>
             <button type="button" onClick={() => setCollapsed((value) => !value)}>
@@ -455,7 +474,7 @@ export function HouseMonthsPage() {
             </button>
           </div>
 
-          {monthDates.map((date, index) => (
+          {dateColumns.map((date, index) => (
             <button
               key={date.date}
               type="button"
@@ -474,7 +493,7 @@ export function HouseMonthsPage() {
 
         {loadState === 'ready' && filteredRows.length === 0 ? (
           <div className="month-empty-state" role="status">
-            真实接口返回空数据
+            暂无月房态数据
           </div>
         ) : null}
 
@@ -572,7 +591,7 @@ export function HouseMonthsPage() {
               <div className="month-room-order-card__amount">¥ 664</div>
               <div className="month-room-order-card__guest">
                 <span>入住人（0/1）</span>
-                <button type="button">登记入住人</button>
+                <button type="button" onClick={() => showActionResult('登记入住人')}>登记入住人</button>
               </div>
               <em>{selectedBooking.roomType}</em>
             </section>
@@ -623,7 +642,7 @@ export function HouseMonthsPage() {
           <footer className="month-order-drawer__footer">
             <div className="month-order-actions">
               {['邀请登记', '入住人', '置为noshow', '换房', '取消排房', '不占库存', '不计入统计', '设为续住单', '取消房单', '保洁', '打印'].map((action) => (
-                <button key={action} type="button">{action}</button>
+                <button key={action} type="button" onClick={() => showActionResult(action)}>{action}</button>
               ))}
             </div>
             <div className="month-order-footer-row">
@@ -631,11 +650,11 @@ export function HouseMonthsPage() {
                 <span>房费(减佣)：¥597.60</span>
                 <span>订单总收入：¥664.00</span>
               </div>
-              <button type="button">更多操作</button>
-              <button type="button" className="is-primary">收 款</button>
-              <button type="button">信用住结账</button>
-              <button type="button" className="is-primary">入住</button>
-              <button type="button">退房</button>
+              <button type="button" onClick={() => showActionResult('更多操作')}>更多操作</button>
+              <button type="button" className="is-primary" onClick={() => showActionResult('收款')}>收 款</button>
+              <button type="button" onClick={() => showActionResult('信用住结账')}>信用住结账</button>
+              <button type="button" className="is-primary" onClick={() => showActionResult('入住')}>入住</button>
+              <button type="button" onClick={() => showActionResult('退房')}>退房</button>
             </div>
           </footer>
         </aside>

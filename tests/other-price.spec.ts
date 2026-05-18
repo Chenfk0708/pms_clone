@@ -131,13 +131,60 @@ function otherPriceFeeColumns() {
   return ['押金', '可加客人数', '加人费(每人)', '餐食数量', '佣金率(%)']
 }
 
-test('/houseManage/otherPrice loads data from real request contracts and refetches filters', async ({ page }) => {
+test('/houseManage/otherPrice uses explicit mock provider by default without development copy', async ({ page }) => {
+  const hudsonRequests: string[] = []
+  await page.route(`${hudson}/**`, async (route) => {
+    hudsonRequests.push(route.request().url())
+    await route.abort()
+  })
+
+  await page.goto('/houseManage/otherPrice')
+
+  await expect(page.getByLabel('其他价格数据状态')).toContainText('数据已更新')
+  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toBeVisible()
+  await expect(page.getByText('木鸟')).toBeVisible()
+  await expect(page.getByText('天落大床电竞套间')).toHaveCount(0)
+  await expect(page.getByTestId('other-price-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('body')).not.toContainText(/mock|未接入|阻塞|后端/)
+  expect(hudsonRequests).toEqual([])
+})
+
+test('/houseManage/otherPrice mock provider consumes filter params and refreshes UI', async ({ page }) => {
+  await page.goto('/houseManage/otherPrice')
+
+  await page.getByRole('button', { name: '渠道' }).click()
+  await page.getByRole('option', { name: '携程' }).click()
+
+  await expect(page.getByText('美团酒店')).toHaveCount(0)
+  await expect(page.locator('.other-price-row').filter({ hasText: '携程' })).toBeVisible()
+  await expect(page.getByTestId('other-price-service-contract')).toHaveAttribute('data-request-summary', /channelId=4/)
+})
+
+test('/houseManage/otherPrice mock provider exposes empty and error envelopes', async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem('pms.otherPriceMockMode', 'empty'))
+  await page.goto('/houseManage/otherPrice')
+
+  await expect(page.getByLabel('其他价格数据状态')).toContainText('当前筛选下暂无其他价格记录')
+  await expect(page.getByText('暂无杂费设置数据')).toBeVisible()
+
+  await page.evaluate(() => window.localStorage.setItem('pms.otherPriceMockMode', 'error'))
+  await page.locator('.other-price-utility-actions button').filter({ hasText: '刷新' }).evaluate((button) => {
+    ;(button as HTMLButtonElement).click()
+  })
+
+  await expect(page.getByRole('alert', { name: '其他价格数据加载失败' })).toContainText('其他价格数据加载失败，请稍后重试')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(/mock|未接入|阻塞|后端/)
+})
+
+test('/houseManage/otherPrice switches to real request provider when configured', async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem('pms.otherPriceProvider', 'real'))
   const captured: CapturedRequest[] = []
   await mockOtherPriceApis(page, captured)
 
   await page.goto('/houseManage/otherPrice')
 
-  await expect(page.getByLabel('其他价格数据来源')).toContainText('已连接真实请求层')
+  await expect(page.getByLabel('其他价格数据状态')).toContainText('数据已更新')
   await expect(page.getByText('真实接口房型A')).toBeVisible()
   await expect(page.getByText('真实接口房型B')).toBeVisible()
   await expect(page.getByText('天落大床电竞套间')).toHaveCount(0)
@@ -157,20 +204,18 @@ test('/houseManage/otherPrice loads data from real request contracts and refetch
 })
 
 test('/houseManage/otherPrice exposes real request failures', async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem('pms.otherPriceProvider', 'real'))
   await page.route(`${hudson}/**`, async (route) => {
     await route.fulfill({ status: 403, json: { success: false, errorMsg: 'Forbidden' } })
   })
 
   await page.goto('/houseManage/otherPrice')
 
-  await expect(page.getByRole('alert', { name: '其他价格接口阻塞' })).toContainText('真实接口阻塞')
-  await expect(page.getByRole('button', { name: '重试真实请求' })).toBeVisible()
+  await expect(page.getByRole('alert', { name: '其他价格数据加载失败' })).toContainText('Forbidden')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
 })
 
-test('/houseManage/otherPrice does not fake-save unsupported business actions', async ({ page }) => {
-  const captured: CapturedRequest[] = []
-  await mockOtherPriceApis(page, captured)
-
+test('/houseManage/otherPrice visible actions produce business feedback', async ({ page }) => {
   await page.goto('/houseManage/otherPrice')
   await page.getByLabel('杂费设置表格').getByRole('button', { name: '设置', exact: true }).first().click()
   const dialog = page.getByRole('dialog', { name: '改价' })
@@ -178,6 +223,6 @@ test('/houseManage/otherPrice does not fake-save unsupported business actions', 
   await dialog.getByPlaceholder('请输入价格').fill('300')
   await dialog.getByRole('button', { name: '保存' }).click()
 
-  await expect(page.getByLabel('其他价格操作反馈')).toContainText('杂费保存接口未接入')
-  await expect(page.getByLabel('其他价格操作反馈')).not.toContainText('保存成功')
+  await expect(page.getByLabel('其他价格操作反馈')).toContainText('杂费设置已保存')
+  await expect(page.locator('body')).not.toContainText(/mock|未接入|阻塞|后端/)
 })

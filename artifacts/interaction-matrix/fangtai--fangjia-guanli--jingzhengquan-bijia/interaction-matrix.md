@@ -3,17 +3,28 @@
 任务 ID：`fangtai--fangjia-guanli--jingzhengquan-bijia`  
 目标 URL：`https://minsubao.localhome.cn/houseManage/priceComparison`  
 本地 URL：`/houseManage/priceComparison`  
-取证结论：当前账号在真实目标站进入本页后呈现未开通 `智能调价` 的订阅入口态；目标站仍会发起权限、配置、房型、比价配置、房态和订阅详情相关真实请求。本地页按该真实阻塞态实现，不脑补已开通后的比价表格。
+取证结论：当前目标账号仍只展示智能调价未开通态，网络侧可见配置、门店、房型、价格设置等请求。本轮按新增要求用显式 mock provider 作为页面正式数据源，页面正文呈现业务可用状态；目标站未能判断的已开通成功态字段已沉淀到接口文档待后端确认，不在页面正文展示开发态说明。
 
-| 区域 | 元素/按钮 | 目标站行为 | 触发请求 | 本地现状 | 改善动作 | 验收方式 |
+| 区域 | 元素/按钮 | 目标站行为 | 触发数据服务/未来请求 | 本地现状 | 改善动作 | 验收方式 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 页面入口 | 顶部房价导航与侧栏 `竞争圈比价` | `/houseManage/priceComparison` 可访问，房价管理分组展开，`竞争圈比价` 高亮 | 首屏加载包含 `camps/get`、`menus/project/get`、`edition/resource/get`、`comparePriceConfig/*` 等请求 | 路由已接入 `PricePage` 竞争圈分支，侧栏来自项目现有 `AppShell` 和 `mock.ts` | 保持现有路由和菜单，不新增全局导航结构 | Playwright 访问本地路由，断言 `.price-comparison-page`、菜单文案、订阅入口可见 |
-| 房价类型切换 | `中央价` tab | 点击跳转 `/houseManage/houseCale` | 目标站按对应价格页重新加载价格页资源和房价请求 | 本地已用 `PriceTabs` 跳转到 `/houseManage/houseCale` | 保持现有项目路由协调 | `tests/routes.spec.ts` 断言点击后 URL 为 `/houseManage/houseCale` |
-| 房价类型切换 | `渠道RP价` tab | 点击跳转 `/houseManage/channelPrice` | 目标站加载渠道 RP 价资源和请求 | 本地 `PriceTabs` 已支持跳转 | 不扩大本页范围，复用相邻页面已有测试 | 相邻 `channel-price.spec.ts` 与路由回归覆盖 |
-| 房价类型切换 | `竞争圈比价` tab | 当前页保持高亮 | 当前页首屏请求保持未开通态配置请求 | 本地 active tab 为 `竞争圈比价` | 已保持 | Playwright 断言 `.price-tabs button.is-active` 文案 |
-| 主内容区 | 未开通智能调价空态 | 展示 `开通【智能调价】应用，使用【竞争圈比价】功能`、说明文案和开通入口，背景图来自 `price_compare_bg.png`、`COMPARE_UNPAID.png` | `edition/resource/get`、`comparePriceConfig/messageNotify/get`、`comparePriceConfig/roomStatus/get`、`priceAdjustConfig/get`、订阅与房型相关请求 | 本地展示对应未开通态文案和背景；新增可见数据接入状态，说明本地没有已认证 PMS API 代理 | 明确标记为目标站取证快照和实时接口阻塞，不假装实时请求成功 | `tests/routes.spec.ts` 断言空态文案、数据接入状态和阻塞说明可见 |
-| 主操作 | `立即开通` | 跳转到应用订阅详情页，展示 `智能调价` 商品详情和购买信息 | 点击后加载 `ApplicationPaymentDetail` chunk，并请求订阅详情相关资源 | 本地点击跳 `/version/applicationPayment/detail?app=smartPricing`，进入已有订阅详情页；购买按钮需勾选协议后启用 | 保持项目已有订阅详情页，避免硬编码不存在弹层 | `tests/routes.spec.ts` 断言 URL、`智能调价` 标题、购买信息、协议勾选和按钮启用 |
-| 订阅详情 | 协议 checkbox / `立即购买` | 未勾选协议时购买不可继续；勾选后可进入购买流程或后续支付 | 目标站会继续调用订阅/支付相关接口 | 本地详情页已有协议勾选和按钮启用/禁用反馈 | 真实支付不在本页范围，保留禁用/启用反馈，不造支付成功 | `tests/routes.spec.ts` 断言按钮禁用态和启用态 |
-| 全局会话 | 右下角会话 dock | 展示生产会话入口，可收起/展开 | `imYunxinUser/get`、`systemMessage/unReadCount/get`、网易云信相关请求 | 本地使用共享 `ChatDock`，可收起并通过 launcher 展开 | 保持共享会话组件，不复制实现 | `tests/routes.spec.ts` 断言 `.chat-dock` 4 条会话、收起和展开 |
-| 已开通后比价表 | 筛选、搜索、房型、渠道、价格表、配置项 | 当前账号未开通，真实目标站默认不展示可操作比价表；仅在网络中可见配置和房型相关请求 | 已捕获 `select/poi/get`、`select/roomCategoryProducts/parentProduct/page/get`、`roomCategoryPrice/salePriceSetting/get`、`comparePriceConfig/roomStatus/get` 等 | 本地不脑补已开通业务表格 | 记录为真实权限/订阅阻塞；后续换已开通账号后再按目标站补齐 | 本矩阵与 `clone_pms_prd.md` 记录阻塞；无虚假表格或 mock 比价数据 |
-| 错误/阻塞 | 实时 API 接入 | 目标站同域携带登录态可请求；本地 Vite 没有已认证 PMS API 代理，直接跨域复用凭据不安全且可能 CORS/认证失败 | 不在本地直接携带 cookie/token 调用生产接口 | 旧本地页未暴露该限制；本轮已显示取证快照和阻塞说明 | 明确暴露阻塞，不新增静默 fallback、假成功或 mock 接口 | Playwright 断言 `竞争圈比价数据接入状态` 中含阻塞说明 |
+| 页面入口 | 侧栏 `竞争圈比价` / URL | 目标 URL 可进入，当前账号显示未开通态 | `edition/resource/get`、`comparePriceConfig/*`、`priceAdjustConfig/get` | `/houseManage/priceComparison` 已注册到 `PricePage`，菜单来自 `AppShell` / `mock.ts` | 保持现有 layout、菜单、页签和路由 | Playwright `priceComparison renders` 断言页面根节点和标题 |
+| 数据服务 | 看板加载 | 目标站未展示成功态表格，但网络可见配置类请求 | mock provider 契约：`POST /api/houseManage/priceComparison/dashboard`，统一响应包 `code/message/data/traceId/timestamp` | `src/services/priceComparison.ts` 返回指标、趋势、列表、待办、快捷入口，组件只消费适配模型 | 用显式 mock provider 作为当前正式数据源；后续集中切 `api` provider | Playwright 断言核心指标、趋势图、列表和待办出现 |
+| 顶部筛选 | 比价日期 | 已开通态预计按日期刷新比价指标 | 请求体 `date` | 本地 `<input type=date>` 传入服务层 | 查询后刷新看板并显示业务反馈 | Playwright 填写日期后点查询，断言“已按筛选条件更新” |
+| 顶部筛选 | 门店 | 目标站有门店/项目筛选请求 | 请求体 `storeId`，选项来自 `select/poi/get` 草案 | 本地 select 使用 mock 门店选项 | 查询后按门店刷新 mock 数据 | Playwright `selectOption('qianhai')` 后查询 |
+| 顶部筛选 | 房型 | 目标站请求房型/产品列表 | 请求体 `roomTypeId`，选项来自 `select/roomCategoryProducts/parentProduct/page/get` 草案 | 本地 select 使用 mock 房型选项 | 查询后按房型过滤列表 | Playwright `selectOption('suite')` 后列表仍可展示 |
+| 顶部筛选 | 渠道 | 目标站未开通态未展示成功筛选，但价格页已有渠道维度 | 请求体 `channelId` | 本地 select 使用 mock 渠道选项 | 查询后按渠道过滤列表 | Playwright 查询路径覆盖 |
+| 顶部操作 | 查询 | 提交当前筛选条件 | dashboard 请求体为当前筛选值 | 本地触发 `appliedFilters` 更新 | 显示“已按筛选条件更新” | Playwright 状态断言 |
+| 顶部操作 | 重置 | 恢复默认条件 | dashboard 请求体恢复默认值 | 本地重置日期、门店、房型、渠道 | 显示“已恢复默认条件” | routes 专项覆盖基础交互 |
+| 顶部操作 | 刷新 | 重新拉取当前条件数据 | 同 dashboard 请求体 | 本地递增刷新 key 并重新请求服务层 | 显示“数据已刷新”，按钮加载时禁用 | Playwright 点击刷新断言反馈 |
+| 顶部操作 | 导出 | 目标站未取证到成功态导出接口 | 待后端确认是否独立导出接口 | 本地创建业务反馈，不伪造下载文件 | 显示“导出任务已创建，可在消息中心查看进度” | Playwright 点击导出断言反馈 |
+| 顶部操作 | 更多 | 目标站未开通态未展示更多菜单 | 无独立请求 | 本地弹出更多操作 | 复制链接、生成复核任务均给业务反馈 | Playwright 可人工回归 |
+| 指标卡片 | 平均价差、竞品覆盖、调价建议 | 已开通态预计展示核心指标 | dashboard `metrics[]` | 本地使用 mock metrics | 展示业务值和变化说明 | Playwright 断言 `平均价差` |
+| 图表区域 | 价格趋势 | 已开通态预计展示价格曲线/柱状趋势 | dashboard `trend[]` | 本地用业务条形图展示本店价、竞品价、市场均价 | hover/legend 不新增独立请求，视觉状态由浏览器默认 hover 承接 | Playwright 断言 `本店价` |
+| 列表区域 | 竞争圈比价列表 | 已开通态预计展示房型、渠道、价格和建议 | dashboard `rooms.list[]` + `pagination` | 本地表格展示房型、渠道、本店价、竞品价、价差、入住率、建议 | 支持空态和错误态 | Playwright 断言房型和详情入口 |
+| 列表操作 | 查看详情 | 目标站成功态未取证到详情承接 | 当前用 mock 详情弹窗承接 | 本地打开 `比价详情` dialog | 展示竞品价明细和建议，支持关闭 | Playwright 点击详情、断言 dialog、关闭 |
+| 待办提醒 | 待办项点击 | 目标站未开通态未展示待办 | dashboard `todos[]` | 本地待办按钮给跟进反馈 | 显示“已标记跟进”类业务反馈 | routes 专项覆盖待办可见 |
+| 快捷入口 | 去中央价 | 项目已有中央价路由 | `/houseManage/houseCale` | 本地按钮跳转已有路由 | 保持路由协调，不跳不存在路径 | Playwright 断言 URL |
+| 快捷入口 | 去订单 | 项目已有住宿订单路由 | `/order/house-order/list` | 本地按钮跳转已有路由 | 保持路由协调 | Playwright 断言 URL |
+| 全局会话 | 右下角会话 dock | 目标站有会话入口 | IM 相关目标请求已在历史取证中记录 | 本地共享 `ChatDock` 可收起/展开 | 不复制共享组件 | Playwright 断言 4 条会话、收起、展开 |
+| 错误态 | `?mockState=error` | 目标站错误态未取证到成功页错误格式 | 统一失败响应包 `code=503/message/data/traceId/timestamp` | 本地显示 `数据加载失败` 和重试 | 不静默、不吞错 | Playwright 断言 alert 和重试 |
+| 空态 | `?mockState=empty` | 成功态空列表未取证 | 统一成功响应包 + `rooms.list=[]/pagination.total=0` | 本地显示“当前条件暂无比价结果，请调整筛选条件。” | 结构不崩溃，保留筛选和快捷入口 | 接口文档已沉淀，后续可加专项 |

@@ -66,6 +66,9 @@ async function mockPresaleSupportApis(page: Page) {
 }
 
 test('/mallManagement/orderManagement uses captured real request contract and exposes interactions', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
+  })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
 
@@ -111,7 +114,7 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
   await page.goto(appUrl('/mallManagement/orderManagement'))
 
   await expect(page.getByRole('heading', { name: '预售券订单', level: 1 })).toBeVisible()
-  await expect(page.getByLabel('预售券订单数据来源')).toContainText('真实请求成功')
+  await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'real')
   await expect(page.getByLabel('预售券订单表格')).toContainText('早鸟预售券')
   await expect(page.getByLabel('预售券订单表格')).toContainText('张三')
   expect(requestBodies[0]).toMatchObject({
@@ -134,7 +137,7 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
   await page.getByRole('button', { name: '订单来源 请选择订单来源' }).click()
   await page.getByRole('option', { name: '微信小程序' }).click()
   await page.getByRole('button', { name: '搜 索' }).click()
-  await expect(page.getByLabel('预售券订单数据来源')).toContainText('真实请求成功')
+  await expect(page.getByRole('status', { name: '预售券订单操作反馈' })).toContainText('搜索完成')
   expect(requestBodies.at(-1)).toMatchObject({
     roomCategoryTypes: ['1'],
     orderChannelIds: ['34'],
@@ -142,11 +145,11 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
   })
 
   await page.getByRole('button', { name: '导出明细' }).click()
-  await expect(page.getByRole('status')).toContainText('导出明细')
-  await expect(page.getByRole('status')).toContainText('阻塞')
+  await expect(page.getByRole('status', { name: '预售券订单操作反馈' })).toContainText('导出任务已创建')
 
   await page.getByRole('button', { name: '订单详情' }).click()
-  await expect(page.getByRole('status')).toContainText('订单详情 ORDER-001')
+  await expect(page.getByRole('dialog', { name: '预售券订单详情' })).toContainText('ORDER-001')
+  await page.getByRole('button', { name: '关闭详情', exact: true }).click()
 
   await page.screenshot({
     path: path.resolve(
@@ -158,6 +161,9 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
 })
 
 test('/mallManagement/orderManagement exposes request failures without fake success', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
+  })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
   await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
@@ -170,11 +176,14 @@ test('/mallManagement/orderManagement exposes request failures without fake succ
   await page.goto(appUrl('/mallManagement/orderManagement'))
 
   await expect(page.getByRole('alert')).toContainText('无权限访问预售券订单')
-  await expect(page.getByRole('status', { name: '预售券订单接口阻塞空态' })).toContainText('真实请求未完成')
+  await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无符合条件的订单')
   await expect(page.getByRole('button', { name: '刷 新' })).toBeVisible()
 })
 
 test('/mallManagement/orderManagement renders explicit empty state for real empty list', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
+  })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
   await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
@@ -189,5 +198,41 @@ test('/mallManagement/orderManagement renders explicit empty state for real empt
   await page.goto(appUrl('/mallManagement/orderManagement'))
 
   await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无数据')
-  await expect(page.getByLabel('预售券订单分页和请求参数')).toContainText('共 0 条')
+  await expect(page.getByLabel('预售券订单分页')).toContainText('共 0 条')
+})
+
+test('/mallManagement/orderManagement uses explicit mock provider response packages by default', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  const hudsonRequests: string[] = []
+  await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
+    hudsonRequests.push(route.request().url())
+    await route.fulfill({ status: 500, json: { success: false, errorMsg: 'default mock should not call hudson' } })
+  })
+
+  await page.goto(appUrl('/mallManagement/orderManagement'))
+
+  await expect(page.getByRole('heading', { name: '预售券订单', level: 1 })).toBeVisible()
+  await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute(
+    'data-trace-id',
+    /mock-dingdan--yushouquan-dingdan--yushouquan-dingdan-list-001/,
+  )
+  await expect(page.getByLabel('预售券订单表格')).toContainText('早鸟预售券')
+  await expect(page.getByLabel('预售券订单表格')).toContainText('张三')
+  await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
+  expect(hudsonRequests).toEqual([])
+})
+
+test('/mallManagement/orderManagement supports mock empty and error states with business copy', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  await page.goto(appUrl('/mallManagement/orderManagement?mockState=empty'))
+  await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无数据')
+  await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
+
+  await page.goto(appUrl('/mallManagement/orderManagement?mockState=error'))
+  await expect(page.getByRole('alert')).toContainText('预售券订单加载失败')
+  await expect(page.getByRole('button', { name: '刷 新' })).toBeVisible()
+  await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
 })

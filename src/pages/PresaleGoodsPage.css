@@ -17,6 +17,10 @@
   color: #1f2a44;
 }
 
+.presale-goods-request-audit {
+  display: none;
+}
+
 .presale-goods-query,
 .presale-goods-main,
 .presale-goods-edit-card {
@@ -218,7 +222,18 @@
   padding-right: 8px;
 }
 
-.presale-goods-notice {
+.presale-goods-statebar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 8px 8px;
+}
+
+.presale-goods-loading,
+.presale-goods-notice,
+.presale-goods-error {
   margin: 0 8px 8px auto;
   width: fit-content;
   border: 1px solid #b9e5cb;
@@ -229,14 +244,42 @@
   font-size: 13px;
 }
 
+.presale-goods-loading {
+  border-color: #c9dcff;
+  background: #f4f8ff;
+  color: #3d63d4;
+}
+
+.presale-goods-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-color: #ffd1d1;
+  background: #fff5f5;
+  color: #c23737;
+}
+
+.presale-goods-error button {
+  height: 26px;
+  border: 1px solid #f0a6a6;
+  border-radius: 4px;
+  background: #fff;
+  color: #c23737;
+  padding: 0 10px;
+}
+
 .presale-goods-table {
   overflow: auto;
 }
 
-.presale-goods-table__head {
+.presale-goods-table__head,
+.presale-goods-row {
   display: grid;
   grid-template-columns: 96px 210px 150px 130px 160px 110px 120px 120px 180px 180px 124px;
   min-width: 1580px;
+}
+
+.presale-goods-table__head {
   height: 36px;
   border-top: 1px solid #edf0f6;
   background: #f1f5fb;
@@ -245,7 +288,8 @@
   font-weight: 600;
 }
 
-.presale-goods-table__head > div {
+.presale-goods-table__head > div,
+.presale-goods-row > div {
   display: flex;
   align-items: center;
   min-width: 0;
@@ -255,11 +299,72 @@
   overflow-wrap: anywhere;
 }
 
+.presale-goods-row {
+  min-height: 58px;
+  background: #fff;
+  color: #33415c;
+  font-size: 13px;
+}
+
+.presale-goods-row:hover {
+  background: #fbfdff;
+}
+
+.presale-goods-row strong {
+  display: block;
+  color: #17213a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.presale-goods-row span {
+  display: block;
+  margin-top: 4px;
+  color: #6e7d96;
+}
+
+.presale-goods-row-actions {
+  gap: 6px;
+}
+
+.presale-goods-row-actions button {
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0 2px;
+}
+
+.presale-goods-row-actions button:hover {
+  text-decoration: underline;
+}
+
+.presale-goods-skus {
+  min-width: 1580px;
+  border-bottom: 1px solid #edf0f6;
+  background: #fafcff;
+  padding: 8px 96px;
+}
+
+.presale-goods-skus > div {
+  display: grid;
+  grid-template-columns: 260px 120px 120px 120px;
+  gap: 16px;
+  align-items: center;
+  min-height: 30px;
+  color: #526079;
+  font-size: 13px;
+}
+
 .presale-goods-empty {
+  display: grid;
+  place-items: center;
   min-width: 1580px;
   min-height: 156px;
   border-top: 1px solid #f0f0f0;
   background: #fff;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
 }
 
 .presale-goods-empty > div {
@@ -296,6 +401,85 @@
   border-bottom: 0;
   border-radius: 6px 6px 0 0;
   background: #fbfcfe;
+}
+
+.presale-goods-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  border-top: 1px solid #edf0f6;
+  padding: 10px 12px;
+  color: #66748d;
+  font-size: 12px;
+}
+
+.presale-goods-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 28, 44, 0.34);
+}
+
+.presale-goods-dialog {
+  width: min(560px, calc(100vw - 32px));
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(20, 28, 44, 0.24);
+}
+
+.presale-goods-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #edf0f6;
+  padding: 14px 18px;
+}
+
+.presale-goods-dialog header strong {
+  color: #17213a;
+  font-size: 16px;
+}
+
+.presale-goods-dialog header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: #f4f6fb;
+  color: #526079;
+}
+
+.presale-goods-dialog dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin: 0;
+  padding: 16px 18px 4px;
+}
+
+.presale-goods-dialog dl div {
+  display: grid;
+  gap: 4px;
+}
+
+.presale-goods-dialog dt {
+  color: #8a95a8;
+  font-size: 12px;
+}
+
+.presale-goods-dialog dd {
+  margin: 0;
+  color: #25324d;
+  font-size: 14px;
+}
+
+.presale-goods-dialog p {
+  margin: 0;
+  padding: 12px 18px 18px;
+  color: #526079;
+  line-height: 1.7;
 }
 
 .presale-goods-edit-page {

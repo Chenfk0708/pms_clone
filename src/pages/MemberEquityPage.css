@@ -55,29 +55,71 @@
   min-width: 63px;
   height: 28px;
   padding: 0 15px;
-  border: 1px solid #4d65f6;
+  border: 1px solid #d9d9d9;
   border-radius: 4px;
-  background: #4d65f6;
-  color: #fff;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
   line-height: 22px;
 }
 
-.member-equity-button.is-primary:hover,
+.member-equity-button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.member-equity-button:disabled,
+.member-equity-modal footer button:disabled,
+.member-equity-row-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.member-equity-button.is-primary:not(:disabled):hover,
 .member-equity-modal footer .is-primary:hover {
   background: #4058e8;
   border-color: #4058e8;
 }
 
-.member-equity-sort-tip {
-  padding: 0 0 8px 4px;
+.member-equity-statebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+  padding: 0 4px 8px;
   color: rgba(0, 0, 0, 0.45);
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.member-equity-notice {
-  margin: 0 0 8px 4px;
+.member-equity-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 4px 10px;
+  padding: 10px 12px;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  background: #fff2f0;
   color: #d4380d;
+  font-size: 13px;
+}
+
+.member-equity-error button {
+  height: 28px;
+  border: 1px solid #ff7875;
+  border-radius: 4px;
+  background: #fff;
+  color: #cf1322;
+}
+
+.member-equity-loading {
+  margin: 0 4px 10px;
+  padding: 10px 12px;
+  border: 1px solid #d6e4ff;
+  border-radius: 4px;
+  background: #f0f5ff;
+  color: #2f54eb;
   font-size: 13px;
 }
 
@@ -101,9 +143,50 @@
 }
 
 .member-equity-table td {
-  height: 137px;
+  min-height: 64px;
   padding: 16px;
   border-bottom: 1px solid #f0f0f0;
+  color: rgba(0, 0, 0, 0.72);
+  vertical-align: middle;
+}
+
+.member-equity-table td strong {
+  display: block;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.member-equity-table td em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.member-equity-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.member-equity-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.member-equity-row-actions button {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .member-equity-empty {
@@ -221,7 +304,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  padding: 22px 24px 0;
+  padding: 0;
 }
 
 .member-equity-modal footer button {
@@ -236,5 +319,62 @@
 .member-equity-modal footer .is-primary {
   border-color: #4d65f6;
   background: #4d65f6;
+  color: #fff;
+}
+
+.member-equity-form-error {
+  margin-top: -8px;
+  color: #d4380d;
+  font-size: 13px;
+}
+
+.member-equity-upload img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.member-equity-confirm {
+  width: 360px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.member-equity-confirm h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.member-equity-confirm p {
+  margin: 14px 0 8px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.member-equity-confirm strong {
+  display: block;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.member-equity-confirm footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.member-equity-confirm button {
+  min-width: 68px;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.member-equity-confirm .is-danger {
+  border-color: #ff4d4f;
+  background: #ff4d4f;
   color: #fff;
 }

@@ -4,34 +4,35 @@
 目标页：`https://minsubao.localhome.cn/cleanManage/cleanStatistics`  
 本地页：`/cleanManage/cleanStatistics`
 
-## 真实取证结论
+## 取证结论
 
-- 固定 Chrome + `playwright/.auth/pms-user.json` 可进入目标页，未触发登录页阻塞。
-- 首屏专属接口包括：
-  - `POST https://hudson-prod.localhome.cn/cleanTask/statistics`
-  - `POST https://hudson-prod.localhome.cn/cleaner/list/get`
-  - `POST https://hudson-prod.localhome.cn/roomCategories/page/get`
-  - `POST https://hudson-prod.localhome.cn/rooms/get`
-- 统计请求参数来自当前门店和日期：`campId/pageNum/pageSize/cleanStartTime/cleanEndTime`。
-- 本地旧实现把汇总表和明细表写死在组件数组中，查询、导出和重置只显示本地假成功提示。
+- 历史 target artifacts 已包含固定 Chrome + `playwright/.auth/pms-user.json` 的默认态和订阅跳转态证据：`target-default-headless-final-20260515-134800.*`、`target-subscribe-headless-final-20260515-134800.*`。
+- 目标站首屏接口参考：`cleanTask/statistics`、`cleaner/list/get`、`roomCategories/page/get`、`rooms/get`。
+- 本轮新要求后，本地默认改为显式 `mock` provider 正式驱动页面，不再把缺少 `campId` 展示为页面正文阻塞；后续通过 `VITE_PMS_CLEAN_STATISTICS_PROVIDER=api` 集中切换到接口 provider。
+- 本地新鲜 artifacts：`local-provider-20260518-verified.*`，覆盖截图、DOM、样式摘要和 provider/network 记录。
 
-| 区域 | 元素/按钮 | 目标站行为 | 触发请求 | 本地现状 | 改善动作 | 验收方式 |
+| 区域 | 元素/按钮 | 目标站行为 | 触发数据服务/未来请求 | 本地现状 | 改善动作 | 验收方式 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 入口导航 | 房态 > 保洁管理 > 保洁统计 | URL 为 `/cleanManage/cleanStatistics`，房态顶部导航和保洁管理侧栏高亮 | 首屏加载壳层和页面专属接口 | 路由和高亮已存在 | 保持现有 AppShell 路由和菜单 | Playwright 断言标题、侧栏链接、核心页面可见 |
-| 数据来源 | 页面首屏 | 读取当前门店、房型、房间、保洁员和统计汇总 | `cleanTask/statistics`、`cleaner/list/get`、`roomCategories/page/get`、`rooms/get` | 组件内硬编码静态表格 | 新增页面服务，按 URL/localStorage/env 提供的 `campId` 请求真实接口；缺少上下文时暴露阻塞 | Playwright route 断言请求 body，页面渲染响应数据 |
-| 顶部筛选 | 门店切换 | 目标站按门店上下文切换后刷新统计 | `cleanTask/statistics` 携带当前 `campId` | 只切换本地按钮状态 | 当前项目无全局门店上下文，先使用 `campId` 来源；无上下文时禁用真实查询并显示阻塞 | 缺 `campId` 测试显示 alert，不出现假数据 |
-| 顶部筛选 | 本月/上月/日期范围 | 更新日期范围并重新查询 | `cleanStartTime/cleanEndTime` 随 UI 日期变化 | 只改本地日期 | 日期变化后查询使用当前日期范围，loading 时禁用按钮 | Playwright 点击查询后断言时间戳参数 |
-| 顶部操作 | 查询 | 按当前筛选刷新统计 | `cleanTask/statistics` | 假成功 toast | 调用真实服务，成功显示数据和更新时间，失败显示错误 | Playwright 断言请求和 UI 更新 |
-| 顶部操作 | 重置 | 恢复本月筛选并重新查询 | `cleanTask/statistics` | 清空本地筛选并假成功 | 恢复默认范围，重新请求；缺上下文时只保留阻塞 | Playwright 断言重置后的日期和请求 |
-| 顶部操作 | 导出 | 目标站存在导出按钮，本轮未捕获到明确导出文件接口 | 未取证到导出接口 | 假成功“已生成导出任务” | 不伪装成功，改为明确未接入阻塞提示 | Playwright 点击后断言阻塞提示 |
-| 下拉控件 | 房型房间 | 从房型/房间接口渲染选项 | `roomCategories/page/get`、`rooms/get` | 写死房间名 | 由真实接口适配房型房间选项，选中后作为本地筛选反馈 | Playwright 断言选项来自 route 响应 |
-| 下拉控件 | 保洁员 | 从保洁员接口渲染选项 | `cleaner/list/get` | 写死保洁员 | 由接口响应适配；空数据时显示“暂无保洁员” | Playwright 断言空态或选项 |
-| 表格 | 统计汇总 | 显示 `cleanTask/statistics.data.list`，列为扫尘/续住/退房/深度/合计数量和费用 | `cleanTask/statistics` | 写死旧数据 | 删除静态假数据，按响应字段适配 | Playwright 断言响应中的日期和金额 |
-| 明细页签 | 统计明细 | 目标站存在页签；本轮未捕获到独立明细接口，当前首屏只确认统计汇总接口 | 未确认独立明细接口 | 写死任务编号明细 | 删除假明细，显示“明细接口未取证”阻塞 | Playwright 断言不再出现静态任务编号 |
-| 错误态 | 接口失败/登录失效 | 后端失败、未登录或无权限需暴露 | 对应 HTTP/业务错误 | 无真实错误态 | 显示 `role=alert` 错误和重试按钮，不吞错 | Playwright 模拟 500/业务失败 |
-| 跨页入口 | 订阅开通 | 跳转智能保洁订阅详情 | 项目路由 | 已可跳转 | 保持跳转到 `/version/applicationPayment/detail` | Playwright 断言 URL 和订阅页内容 |
+| 入口导航 | 房态 > 保洁管理 > 保洁统计 | URL 为 `/cleanManage/cleanStatistics`，保洁统计页可进入 | 看板数据加载 | 已接入路由 | 保持项目现有 AppShell/路由，页面内显示业务标题 | `routes.spec.ts --grep cleanStatistics` |
+| 数据来源 | 首屏加载 | 加载统计、保洁员、房型房间 | `POST /api/clean/statistics/dashboard`，参考目标站 `cleanTask/statistics` 等接口 | 旧版直连真实接口且缺上下文时阻断 | 改为显式 provider，统一响应包后适配业务模型 | `clean-statistics.spec.ts` 断言核心指标、汇总表、`data-clean-request` |
+| 顶部筛选 | 门店切换 | 切换门店上下文后刷新统计 | `storeId` 进入请求体 | 可点击但旧状态会被首屏加载覆盖 | 切换后显示“已切换门店”业务反馈 | Playwright 点击并断言 status |
+| 顶部筛选 | 本月/上月/日期范围 | 改变统计日期范围 | `cleanStartTime/cleanEndTime` | 旧版可改日期但依赖真实上下文 | 查询时按当前日期生成上海时区时间戳 | Playwright 填日期并断言请求参数 |
+| 顶部筛选 | 房型房间下拉 | 展示房型房间选项 | `roomIds` | 旧版选项来自真实接口或空态 | mock provider 返回稳定房间选项，选择后按钮显示选中项 | Playwright 打开 listbox 并选择 |
+| 顶部筛选 | 保洁员下拉 | 展示保洁员选项 | `cleanerIds` | 旧版选项来自真实接口或空态 | mock provider 返回稳定保洁员选项，选择后按钮显示选中项 | Playwright 打开 listbox 并选择 |
+| 顶部操作 | 查询 | 按当前筛选刷新 | 看板接口 | 旧版依赖 `campId`，按钮可能禁用 | 默认可查，loading 时禁用防重复提交 | Playwright 点击后断言业务反馈和请求体 |
+| 顶部操作 | 重置 | 恢复默认筛选并刷新 | 看板接口 | 旧版重置后可能继续阻断 | 恢复默认门店、日期、房间、保洁员并刷新 | Playwright 断言按钮恢复默认 |
+| 顶部操作 | 导出 | 创建导出任务 | `POST /api/clean/statistics/export` | 旧版显示“导出接口未取证” | 改为业务态“导出任务已创建”反馈，接口文档沉淀导出契约 | Playwright 点击并断言 status |
+| 说明入口 | `?` | 展示统计口径说明 | 无请求 | 旧版显示开发态说明 | 改为业务口径弹窗 | Playwright 断言 dialog |
+| 指标卡片 | 本月保洁/费用/通过率/待处理 | 查看指标含义 | 无请求 | 旧版无指标卡片 | 打开指标详情弹窗 | Playwright 点击并关闭 |
+| 汇总表 | 统计汇总 | 显示扫尘、续住、退房、深度和合计 | 看板接口 `statistics.list` | 旧版直连接口或空态 | 组件消费服务层适配后的 `CleanSummaryRow` | Playwright 断言 2026-05-16 和金额 |
+| 明细表 | 统计明细页签 | 显示任务明细 | 看板接口 `statistics.detailList`，后端可拆分页 | 旧版显示“明细接口未取证” | 改为业务明细表和查看弹窗 | Playwright 点击 `CL20260516001` |
+| 待办入口 | 今日退房保洁/待验收/排班 | 跳转或切换业务承接 | 已有路由 `/houseManage/days`、`/cleanManage/cleanStaff` 或明细页签 | 旧版无待办区 | 使用现有路由与明细页签承接 | Playwright 断言待办可见，专项覆盖主要动作 |
+| 订阅入口 | 订阅开通 | 跳转智能保洁购买详情 | `/version/applicationPayment/detail` | 已对齐目标站跳转 | 保持跳转，校验购买详情页 | Playwright 断言 URL 和购买页内容 |
+| 空态 | `cleanMockState=empty` | 无数据时表结构保持 | 统一响应包 `code=0,data.list=[]` | 旧版空态依赖接口 | 显示业务空态，不崩溃 | Playwright 空态测试 |
+| 错误态 | `cleanMockState=error` | 请求失败时暴露错误与重试 | 统一响应包 `code!=0` | 旧版错误可显示但文案偏开发态 | 显示“数据加载失败，请稍后重试”和重试按钮 | Playwright 错误态测试 |
 
-## 阻塞
+## 待后端确认
 
-- 当前本地 SPA 无全局已认证 PMS API 代理。真实接口直连依赖浏览器同源 Cookie/CORS，若本地运行时失败，页面必须暴露错误，不添加静默 fallback。
-- 导出接口和统计明细独立接口本轮未取证到，不能伪造成成功。
+1. 目标站当前 Hudson 包是否可收敛为统一响应包。
+2. 明细列表是否与汇总同接口返回。
+3. 导出任务是否需要轮询进度。

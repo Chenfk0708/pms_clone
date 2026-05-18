@@ -1,82 +1,180 @@
 import { expect, test } from '@playwright/test'
 
+const hudson = 'https://hudson-prod.localhome.cn'
+const forbiddenPageCopy = /mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成|mock 数据/
+
+type CapturedRequest = {
+  path: string
+  body: Record<string, unknown>
+}
+
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/mallManagement/hotelProduct matches captured hotel package empty state', async ({ page }) => {
+async function mockHotelProductApis(page: import('@playwright/test').Page, captured: CapturedRequest[]) {
+  await page.route(`${hudson}/**`, async (route) => {
+    const request = route.request()
+    const path = new URL(request.url()).pathname
+    const body = (request.postDataJSON() as Record<string, unknown>) ?? {}
+    captured.push({ path, body })
+
+    if (path === '/camps/get') {
+      await route.fulfill({
+        json: { success: true, data: { camps: [{ campId: 'camp-real-1', name: '路客云6TS5的店铺' }] } },
+      })
+      return
+    }
+
+    if (path === '/roomCategories/page/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: [
+              { roomCategoryId: 'room-real-1', roomCategoryName: '真实接口套房A' },
+              { roomCategoryId: 'room-real-2', roomCategoryName: '真实接口套房B' },
+            ],
+          },
+        },
+      })
+      return
+    }
+
+    if (path === '/select/calChannel4RoomCategory/get' || path === '/channels/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            select: [
+              { value: '4', label: '携程' },
+              { value: '2', label: '途家' },
+            ],
+          },
+        },
+      })
+      return
+    }
+
+    if (path === '/roomCategoryProducts/page/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: [
+              {
+                productId: 'real-product-1',
+                title: '真实接口电竞套餐',
+                roomCategoryName: '真实接口套房A',
+                channelName: '携程',
+                stock: 16,
+                salePrice: 699,
+                extraPrice: 88,
+                createdAt: '2026-05-18 10:00',
+                updatedAt: '2026-05-18 11:00',
+                status: 1,
+              },
+            ],
+            pagination: { page: 1, pageSize: 20, total: 1 },
+          },
+        },
+      })
+      return
+    }
+
+    await route.fulfill({ json: { success: true, data: {} } })
+  })
+}
+
+test('/mallManagement/hotelProduct uses explicit provider and renders business data', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  const realRequests: string[] = []
+  await page.route(`${hudson}/**`, async (route) => {
+    realRequests.push(route.request().url())
+    await route.abort()
+  })
+
   await page.goto(appUrl('/mallManagement/hotelProduct'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.getByRole('heading', { name: '酒店套餐', level: 1 })).toBeVisible()
   await expect(page.getByRole('link', { name: '酒店套餐' })).toHaveClass(/is-active/)
-  await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toBeVisible()
-  await expect(page.getByPlaceholder('请输入套餐名称')).toBeVisible()
-  await expect(page.getByRole('button', { name: '关联房型 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '渠道 请选择渠道' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '重 置' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '搜 索' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '接单策略' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '创建酒店套餐' })).toBeVisible()
-
-  await expect(page.getByLabel('酒店套餐列表').locator('.hotel-product-table__head > div')).toHaveText([
-    '',
-    '商品标题',
-    '关联房型',
-    '关联渠道',
-    '库存',
-    '售价(元)',
-    '加价(元)',
-    '创建时间',
-    '更新时间',
-    '操作',
-  ])
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByLabel('酒店套餐数据状态')).toContainText('数据已更新')
+  await expect(page.getByText('电竞欢聚双晚套餐')).toBeVisible()
+  await expect(page.getByText('影音大床工作日套餐')).toBeVisible()
+  await expect(page.getByTestId('hotel-product-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('body')).not.toContainText(forbiddenPageCopy)
+  expect(realRequests).toEqual([])
 })
 
-test('/mallManagement/hotelProduct supports captured filters and strategy dialog', async ({ page }) => {
+test('/mallManagement/hotelProduct filters, refreshes, and exposes empty/error states', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/mallManagement/hotelProduct'))
 
   await page.getByRole('button', { name: '关联房型 请选择' }).click()
-  await expect(page.getByRole('listbox', { name: '关联房型选项' })).toContainText('顶层套房（浴缸巨幕电竞麻将）')
-  await expect(page.getByRole('listbox', { name: '关联房型选项' })).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
-  await expect(page.getByRole('listbox', { name: '关联房型选项' })).toContainText('天落大床电竞套间')
-  await expect(page.getByRole('listbox', { name: '关联房型选项' })).toContainText('观影大床房')
   await page.getByRole('option', { name: '观影大床房' }).click()
-  await expect(page.getByRole('button', { name: '关联房型 观影大床房' })).toBeVisible()
+  await expect(page.getByText('影音大床工作日套餐')).toBeVisible()
+  await expect(page.getByText('电竞欢聚双晚套餐')).toHaveCount(0)
+  await expect(page.getByTestId('hotel-product-service-contract')).toHaveAttribute('data-request-summary', /roomCategoryId=room-mock-4/)
 
-  await page.getByRole('button', { name: '渠道 请选择渠道' }).click()
-  await expect(page.getByRole('listbox', { name: '渠道选项' })).toContainText('携程')
-  await expect(page.getByRole('listbox', { name: '渠道选项' })).toContainText('飞猪淘酒店')
-  await expect(page.getByRole('listbox', { name: '渠道选项' })).toContainText('路客云聚合')
-  await page.getByRole('option', { name: '携程' }).click()
-  await expect(page.getByRole('button', { name: '渠道 携程' })).toBeVisible()
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
+  await expect(page.getByLabel('酒店套餐操作反馈')).toContainText('数据已刷新')
 
-  await page.getByPlaceholder('请输入套餐名称').fill('电竞')
-  await page.getByRole('button', { name: '重 置' }).click()
-  await expect(page.getByPlaceholder('请输入套餐名称')).toHaveValue('')
-  await expect(page.getByRole('button', { name: '关联房型 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '渠道 请选择渠道' })).toBeVisible()
+  await page.evaluate(() => window.localStorage.setItem('pms.hotelProductMockMode', 'empty'))
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
+  await expect(page.getByRole('status', { name: '酒店套餐空态' })).toContainText('暂无符合当前筛选条件的酒店套餐')
 
-  await page.getByRole('button', { name: '接单策略' }).click()
-  const strategyDialog = page.getByRole('dialog', { name: '酒店套餐接单策略' })
-  await expect(strategyDialog).toBeVisible()
-  await expect(strategyDialog).toContainText('视频号:')
-  await expect(strategyDialog).toContainText('手动接单')
-  await expect(strategyDialog).toContainText('自动接单库存不足时，需手动接单')
-  await expect(strategyDialog).toContainText('品牌小程序:')
-  await expect(strategyDialog).toContainText('自动接单')
-  await page.getByRole('button', { name: '取 消' }).click()
-  await expect(strategyDialog).toHaveCount(0)
+  await page.evaluate(() => window.localStorage.setItem('pms.hotelProductMockMode', 'error'))
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
+  await expect(page.getByRole('alert', { name: '酒店套餐加载失败' })).toContainText('酒店套餐数据加载失败，请稍后重试')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(forbiddenPageCopy)
 })
 
-test('/mallManagement/hotelProduct supports captured create package flow', async ({ page }) => {
+test('/mallManagement/hotelProduct visible actions produce business feedback', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/mallManagement/hotelProduct'))
+
+  await page.getByRole('button', { name: '查看详情' }).first().click()
+  const detailDialog = page.getByRole('dialog', { name: '酒店套餐详情' })
+  await expect(detailDialog).toContainText('预订电话')
+  await detailDialog.getByRole('button', { name: '关闭' }).last().click()
+
+  await page.getByRole('button', { name: '导出' }).click()
+  await expect(page.getByLabel('酒店套餐操作反馈')).toContainText('导出任务已创建')
+
+  await page.getByRole('button', { name: '更多' }).first().click()
+  await expect(page.getByRole('dialog', { name: '酒店套餐操作' })).toContainText('库存校验')
+  await page.getByRole('button', { name: '执行校验' }).click()
+  await expect(page.getByLabel('酒店套餐操作反馈')).toContainText('库存校验已完成')
+
+  await page.getByRole('button', { name: '接单策略' }).click()
+  await expect(page.getByRole('dialog', { name: '酒店套餐接单策略' })).toBeVisible()
+  await page.getByRole('button', { name: '确 定' }).click()
+  await expect(page.getByLabel('酒店套餐操作反馈')).toContainText('接单策略已保存')
+  await expect(page.locator('body')).not.toContainText(forbiddenPageCopy)
+})
+
+test('/mallManagement/hotelProduct switches to real provider contract when configured', async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem('pms.hotelProductProvider', 'real'))
+  const captured: CapturedRequest[] = []
+  await mockHotelProductApis(page, captured)
+
+  await page.goto(appUrl('/mallManagement/hotelProduct'))
+
+  await expect(page.getByText('真实接口电竞套餐')).toBeVisible()
+  await expect(page.getByTestId('hotel-product-service-contract')).toHaveAttribute('data-provider', 'real')
+  expect(captured.map((request) => request.path)).toContain('/roomCategoryProducts/page/get')
+
+  await page.getByRole('button', { name: '渠道 请选择渠道' }).click()
+  await page.getByRole('option', { name: '携程' }).click()
+  await expect.poll(() => captured.filter((request) => request.path === '/roomCategoryProducts/page/get').length).toBeGreaterThan(1)
+  expect(captured.filter((request) => request.path === '/roomCategoryProducts/page/get').at(-1)?.body.channelId).toBe('4')
+})
+
+test('/mallManagement/hotelProduct create flow has usable controls', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/mallManagement/hotelProduct'))
 
@@ -86,29 +184,17 @@ test('/mallManagement/hotelProduct supports captured create package flow', async
 
   await page.getByRole('button', { name: '创建酒店套餐' }).click()
   await expect(page).toHaveURL(/\/mallManagement\/hotelProduct\/edit$/)
-  await expect(page.getByRole('heading', { name: '酒店套餐', level: 1 })).toBeVisible()
   await expect(page.getByText('酒店套餐 / 创建酒店套餐')).toBeVisible()
-  await expect(page.getByRole('tab', { name: '商品信息' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByRole('tab', { name: '套餐设置' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: '售卖规则' })).toBeVisible()
-  await expect(page.getByText('基本信息')).toBeVisible()
-  await expect(page.getByPlaceholder('请输入商品标题')).toBeVisible()
-  await expect(page.getByText('建议尺寸：1200*1200像素')).toBeVisible()
-  await expect(page.getByText('品牌小程序')).toBeVisible()
-  await expect(page.getByText('视频号')).toBeVisible()
-  await expect(page.getByRole('button', { name: '+ 选择房型' })).toHaveCount(2)
-  await expect(page.getByPlaceholder('请输入手机号码或座机号码（如：010-12345678）')).toBeVisible()
-  await expect(page.getByPlaceholder('请输入预定说明')).toBeVisible()
-  await expect(page.getByRole('button', { name: '返回列表' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '下一步' })).toBeVisible()
-
+  await page.getByRole('button', { name: '+ 选择房型' }).first().click()
+  await expect(page.getByRole('dialog', { name: '选择房型' })).toContainText('顶层套房')
+  await page.getByRole('button', { name: '确认选择' }).click()
+  await page.getByRole('button', { name: '上传' }).click()
+  await expect(page.getByLabel('酒店套餐编辑反馈')).toContainText('图片已加入上传队列')
   await page.getByRole('button', { name: '下一步' }).click()
   await expect(page.getByRole('tab', { name: '套餐设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('添加套餐')).toBeVisible()
-  await expect(page.getByText('日期')).toBeVisible()
-  await expect(page.getByText('加价金额')).toBeVisible()
-
-  await page.getByRole('button', { name: '返回列表' }).click()
-  await expect(page).toHaveURL(/\/mallManagement\/hotelProduct$/)
-  await expect(page.getByText('创建酒店套餐')).toBeVisible()
+  await page.getByRole('button', { name: '添加套餐' }).click()
+  await expect(page.getByText('2026-05-18 至 2026-05-19')).toBeVisible()
+  await page.getByRole('button', { name: '保 存' }).click()
+  await expect(page.getByLabel('酒店套餐编辑反馈')).toContainText('酒店套餐已保存')
+  await expect(page.locator('body')).not.toContainText(forbiddenPageCopy)
 })

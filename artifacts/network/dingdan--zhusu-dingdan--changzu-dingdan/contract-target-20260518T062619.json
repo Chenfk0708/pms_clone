@@ -1,0 +1,2253 @@
+{
+  "capturedAt": "2026-05-18T06:28:17.613Z",
+  "requests": [
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "overview",
+              "todayNewOrder",
+              "todayCheckOut",
+              "todayCheckIn",
+              "todayPredictCheckIn",
+              "todayPredictCheckOut",
+              "staying",
+              "tomorrowCheckIn",
+              "tomorrowCheckOut",
+              "pending",
+              "refunding",
+              "exception",
+              "orderBox",
+              "arrangeSameRoom",
+              "unArrangeRoom",
+              "arrangeRoom",
+              "unOccupation",
+              "unStatistics",
+              "expiredNotCheckIn",
+              "expiredNotCheckOut"
+            ],
+            "fields": {
+              "overview": {
+                "type": "number",
+                "value": 1
+              },
+              "todayNewOrder": {
+                "type": "number",
+                "value": 0
+              },
+              "todayCheckOut": {
+                "type": "number",
+                "value": 1
+              },
+              "todayCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "todayPredictCheckIn": {
+                "type": "null",
+                "value": null
+              },
+              "todayPredictCheckOut": {
+                "type": "null",
+                "value": null
+              },
+              "staying": {
+                "type": "number",
+                "value": 1
+              },
+              "tomorrowCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "tomorrowCheckOut": {
+                "type": "number",
+                "value": 0
+              },
+              "pending": {
+                "type": "number",
+                "value": 0
+              },
+              "refunding": {
+                "type": "number",
+                "value": 0
+              },
+              "exception": {
+                "type": "number",
+                "value": 0
+              },
+              "orderBox": {
+                "type": "null",
+                "value": null
+              },
+              "arrangeSameRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "unArrangeRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "arrangeRoom": {
+                "type": "number",
+                "value": 1
+              },
+              "unOccupation": {
+                "type": "number",
+                "value": 0
+              },
+              "unStatistics": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckOut": {
+                "type": "number",
+                "value": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "pathname": "/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 1
+              },
+              "size": {
+                "type": "number",
+                "value": 999
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": false
+              },
+              "pages": {
+                "type": "number",
+                "value": 1
+              },
+              "list": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "poiId",
+                      "poiName"
+                    ],
+                    "fields": {
+                      "poiId": "string",
+                      "poiName": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "pathname": "/roomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 4
+              },
+              "size": {
+                "type": "number",
+                "value": 999
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": false
+              },
+              "pages": {
+                "type": "number",
+                "value": 1
+              },
+              "list": {
+                "type": "array",
+                "length": 4,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "roomCategoryId",
+                      "campId",
+                      "saleCampId",
+                      "upstreamCampId",
+                      "downstreamCampId",
+                      "fromType",
+                      "channelId",
+                      "parentId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "inventory",
+                      "checkinGuestCount",
+                      "roomCategoryTransferId",
+                      "checkinGuideId",
+                      "isCampHasMultiInventoryRoomCategory",
+                      "isTransfer",
+                      "priority",
+                      "basePrice",
+                      "weekendPrice",
+                      "holidayPrice",
+                      "channelOrderTotalNum",
+                      "expectedChannelOrderTotalNum",
+                      "roomViews",
+                      "isAvailability",
+                      "auditStatus",
+                      "failReason",
+                      "depositPrice",
+                      "fullAddress",
+                      "waitMappingChannelNum",
+                      "poiView",
+                      "icsInfoViews",
+                      "roomCategoryProductInfoViews",
+                      "roomCategorySystemConfigInfos",
+                      "isSupportHotelProduct",
+                      "isCanDelete",
+                      "deleteMessage",
+                      "name",
+                      "linkRcs",
+                      "byLinkRcs",
+                      "channels",
+                      "channelInfos",
+                      "channelProductInfos",
+                      "roomCategoryGroupInfos"
+                    ],
+                    "fields": {
+                      "roomCategoryId": "string",
+                      "campId": "string",
+                      "saleCampId": "string",
+                      "upstreamCampId": "string",
+                      "downstreamCampId": "string",
+                      "fromType": "number",
+                      "channelId": "string",
+                      "parentId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "inventory": "number",
+                      "checkinGuestCount": "number",
+                      "roomCategoryTransferId": "null",
+                      "checkinGuideId": "null",
+                      "isCampHasMultiInventoryRoomCategory": "null",
+                      "isTransfer": "number",
+                      "priority": "null",
+                      "basePrice": "number",
+                      "weekendPrice": "number",
+                      "holidayPrice": "number",
+                      "channelOrderTotalNum": "number",
+                      "expectedChannelOrderTotalNum": "number",
+                      "roomViews": "object"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "roomCategoryId",
+                      "campId",
+                      "saleCampId",
+                      "upstreamCampId",
+                      "downstreamCampId",
+                      "fromType",
+                      "channelId",
+                      "parentId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "inventory",
+                      "checkinGuestCount",
+                      "roomCategoryTransferId",
+                      "checkinGuideId",
+                      "isCampHasMultiInventoryRoomCategory",
+                      "isTransfer",
+                      "priority",
+                      "basePrice",
+                      "weekendPrice",
+                      "holidayPrice",
+                      "channelOrderTotalNum",
+                      "expectedChannelOrderTotalNum",
+                      "roomViews",
+                      "isAvailability",
+                      "auditStatus",
+                      "failReason",
+                      "depositPrice",
+                      "fullAddress",
+                      "waitMappingChannelNum",
+                      "poiView",
+                      "icsInfoViews",
+                      "roomCategoryProductInfoViews",
+                      "roomCategorySystemConfigInfos",
+                      "isSupportHotelProduct",
+                      "isCanDelete",
+                      "deleteMessage",
+                      "name",
+                      "linkRcs",
+                      "byLinkRcs",
+                      "channels",
+                      "channelInfos",
+                      "channelProductInfos",
+                      "roomCategoryGroupInfos"
+                    ],
+                    "fields": {
+                      "roomCategoryId": "string",
+                      "campId": "string",
+                      "saleCampId": "string",
+                      "upstreamCampId": "string",
+                      "downstreamCampId": "string",
+                      "fromType": "number",
+                      "channelId": "string",
+                      "parentId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "inventory": "number",
+                      "checkinGuestCount": "number",
+                      "roomCategoryTransferId": "null",
+                      "checkinGuideId": "null",
+                      "isCampHasMultiInventoryRoomCategory": "null",
+                      "isTransfer": "number",
+                      "priority": "null",
+                      "basePrice": "number",
+                      "weekendPrice": "number",
+                      "holidayPrice": "number",
+                      "channelOrderTotalNum": "number",
+                      "expectedChannelOrderTotalNum": "number",
+                      "roomViews": "object"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "pathname": "/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          3
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentGroups"
+            ],
+            "fields": {
+              "paymentGroups": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "groupType",
+                      "groupTypeName",
+                      "paymentTypes"
+                    ],
+                    "fields": {
+                      "groupType": "number",
+                      "groupTypeName": "string",
+                      "paymentTypes": "object"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 21
+              },
+              "size": {
+                "type": "number",
+                "value": 20
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": true
+              },
+              "pages": {
+                "type": "number",
+                "value": 2
+              },
+              "list": {
+                "type": "array",
+                "length": 20,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "pathname": "/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 9999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 1
+              },
+              "size": {
+                "type": "number",
+                "value": 999
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": false
+              },
+              "pages": {
+                "type": "number",
+                "value": 1
+              },
+              "list": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "poiId",
+                      "poiName"
+                    ],
+                    "fields": {
+                      "poiId": "string",
+                      "poiName": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/orderFilter/get",
+      "pathname": "/systemConfigs/user/orderFilter/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "userId": "1796067693261905922",
+        "isLt": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "userOrderFilters"
+            ],
+            "fields": {
+              "userOrderFilters": {
+                "type": "array",
+                "length": 12,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "code",
+                      "name",
+                      "isEnable"
+                    ],
+                    "fields": {
+                      "code": "number",
+                      "name": "string",
+                      "isEnable": "number"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "code",
+                      "name",
+                      "isEnable"
+                    ],
+                    "fields": {
+                      "code": "number",
+                      "name": "string",
+                      "isEnable": "number"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/calChannel4Order/get",
+      "pathname": "/select/calChannel4Order/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "select"
+            ],
+            "fields": {
+              "select": {
+                "type": "array",
+                "length": 9,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "channelId",
+                      "channelName"
+                    ],
+                    "fields": {
+                      "channelId": "string",
+                      "channelName": "string"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "channelId",
+                      "channelName"
+                    ],
+                    "fields": {
+                      "channelId": "string",
+                      "channelName": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "pathname": "/orders/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "orderType": "",
+        "isLt": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 1
+              },
+              "size": {
+                "type": "number",
+                "value": 20
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": false
+              },
+              "pages": {
+                "type": "number",
+                "value": 1
+              },
+              "list": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "orderId",
+                      "outOrderId",
+                      "channelId",
+                      "priceMode",
+                      "orderChannelId",
+                      "guestName",
+                      "guestMobile",
+                      "orderExpectedPrice",
+                      "orderTotalIncomePrice",
+                      "invoicePrice",
+                      "includeCommissionRoomPrice",
+                      "platformServicePrice",
+                      "totalRoomPrice",
+                      "otherPrice",
+                      "totalReducePrice",
+                      "orderTotalPrice",
+                      "sumAdditionPrice",
+                      "totalPayPrice",
+                      "depositPrice",
+                      "debtPrice",
+                      "bookedTime",
+                      "createTime",
+                      "orderState",
+                      "ticketState",
+                      "type",
+                      "isLt",
+                      "isOta",
+                      "refundOrderId",
+                      "refundDisplayState",
+                      "refundOrder",
+                      "payWayName",
+                      "orderTagValues",
+                      "remark",
+                      "ltTotalRentPrice",
+                      "ltOtherPrice",
+                      "ltDepositPrice",
+                      "ltGrossRevenuePrice",
+                      "ltGrossProceedPrice",
+                      "ltPaymentCycle",
+                      "ltTermOfContract",
+                      "ltRentStartDate",
+                      "ltRentEndDate",
+                      "ltRuleJson",
+                      "ltPeriodOfContract",
+                      "paymentTime",
+                      "ltPaymentCycleName",
+                      "ltPaymentReminderMonth",
+                      "ltPaymentReminderDay",
+                      "depositGetView",
+                      "paymentOrderTradeTime",
+                      "paymentOrderTradeTimeStr",
+                      "orderPaymentId",
+                      "paymentOrders",
+                      "orderDetailViews"
+                    ],
+                    "fields": {
+                      "orderId": "string",
+                      "outOrderId": "string",
+                      "channelId": "string",
+                      "priceMode": "null",
+                      "orderChannelId": "string",
+                      "guestName": "string",
+                      "guestMobile": "string",
+                      "orderExpectedPrice": "number",
+                      "orderTotalIncomePrice": "number",
+                      "invoicePrice": "number",
+                      "includeCommissionRoomPrice": "number",
+                      "platformServicePrice": "number",
+                      "totalRoomPrice": "number",
+                      "otherPrice": "number",
+                      "totalReducePrice": "number",
+                      "orderTotalPrice": "number",
+                      "sumAdditionPrice": "null",
+                      "totalPayPrice": "number",
+                      "depositPrice": "number",
+                      "debtPrice": "number",
+                      "bookedTime": "number",
+                      "createTime": "number",
+                      "orderState": "number",
+                      "ticketState": "null"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/page/get",
+      "pathname": "/orders/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "orderType": "",
+        "isLt": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 1
+              },
+              "size": {
+                "type": "number",
+                "value": 20
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": false
+              },
+              "pages": {
+                "type": "number",
+                "value": 1
+              },
+              "list": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "orderId",
+                      "outOrderId",
+                      "channelId",
+                      "priceMode",
+                      "orderChannelId",
+                      "guestName",
+                      "guestMobile",
+                      "orderExpectedPrice",
+                      "orderTotalIncomePrice",
+                      "invoicePrice",
+                      "includeCommissionRoomPrice",
+                      "platformServicePrice",
+                      "totalRoomPrice",
+                      "otherPrice",
+                      "totalReducePrice",
+                      "orderTotalPrice",
+                      "sumAdditionPrice",
+                      "totalPayPrice",
+                      "depositPrice",
+                      "debtPrice",
+                      "bookedTime",
+                      "createTime",
+                      "orderState",
+                      "ticketState",
+                      "type",
+                      "isLt",
+                      "isOta",
+                      "refundOrderId",
+                      "refundDisplayState",
+                      "refundOrder",
+                      "payWayName",
+                      "orderTagValues",
+                      "remark",
+                      "ltTotalRentPrice",
+                      "ltOtherPrice",
+                      "ltDepositPrice",
+                      "ltGrossRevenuePrice",
+                      "ltGrossProceedPrice",
+                      "ltPaymentCycle",
+                      "ltTermOfContract",
+                      "ltRentStartDate",
+                      "ltRentEndDate",
+                      "ltRuleJson",
+                      "ltPeriodOfContract",
+                      "paymentTime",
+                      "ltPaymentCycleName",
+                      "ltPaymentReminderMonth",
+                      "ltPaymentReminderDay",
+                      "depositGetView",
+                      "paymentOrderTradeTime",
+                      "paymentOrderTradeTimeStr",
+                      "orderPaymentId",
+                      "paymentOrders",
+                      "orderDetailViews"
+                    ],
+                    "fields": {
+                      "orderId": "string",
+                      "outOrderId": "string",
+                      "channelId": "string",
+                      "priceMode": "null",
+                      "orderChannelId": "string",
+                      "guestName": "string",
+                      "guestMobile": "string",
+                      "orderExpectedPrice": "number",
+                      "orderTotalIncomePrice": "number",
+                      "invoicePrice": "number",
+                      "includeCommissionRoomPrice": "number",
+                      "platformServicePrice": "number",
+                      "totalRoomPrice": "number",
+                      "otherPrice": "number",
+                      "totalReducePrice": "number",
+                      "orderTotalPrice": "number",
+                      "sumAdditionPrice": "null",
+                      "totalPayPrice": "number",
+                      "depositPrice": "number",
+                      "debtPrice": "number",
+                      "bookedTime": "number",
+                      "createTime": "number",
+                      "orderState": "number",
+                      "ticketState": "null"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "pathname": "/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          2
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentGroups"
+            ],
+            "fields": {
+              "paymentGroups": {
+                "type": "array",
+                "length": 1,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "groupType",
+                      "groupTypeName",
+                      "paymentTypes"
+                    ],
+                    "fields": {
+                      "groupType": "number",
+                      "groupTypeName": "string",
+                      "paymentTypes": "object"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "overview",
+              "todayNewOrder",
+              "todayCheckOut",
+              "todayCheckIn",
+              "todayPredictCheckIn",
+              "todayPredictCheckOut",
+              "staying",
+              "tomorrowCheckIn",
+              "tomorrowCheckOut",
+              "pending",
+              "refunding",
+              "exception",
+              "orderBox",
+              "arrangeSameRoom",
+              "unArrangeRoom",
+              "arrangeRoom",
+              "unOccupation",
+              "unStatistics",
+              "expiredNotCheckIn",
+              "expiredNotCheckOut"
+            ],
+            "fields": {
+              "overview": {
+                "type": "number",
+                "value": 1
+              },
+              "todayNewOrder": {
+                "type": "number",
+                "value": 0
+              },
+              "todayCheckOut": {
+                "type": "number",
+                "value": 1
+              },
+              "todayCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "todayPredictCheckIn": {
+                "type": "null",
+                "value": null
+              },
+              "todayPredictCheckOut": {
+                "type": "null",
+                "value": null
+              },
+              "staying": {
+                "type": "number",
+                "value": 1
+              },
+              "tomorrowCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "tomorrowCheckOut": {
+                "type": "number",
+                "value": 0
+              },
+              "pending": {
+                "type": "number",
+                "value": 0
+              },
+              "refunding": {
+                "type": "number",
+                "value": 0
+              },
+              "exception": {
+                "type": "number",
+                "value": 0
+              },
+              "orderBox": {
+                "type": "null",
+                "value": null
+              },
+              "arrangeSameRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "unArrangeRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "arrangeRoom": {
+                "type": "number",
+                "value": 1
+              },
+              "unOccupation": {
+                "type": "number",
+                "value": 0
+              },
+              "unStatistics": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckOut": {
+                "type": "number",
+                "value": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "pathname": "/order/report/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "overview",
+              "todayNewOrder",
+              "todayCheckOut",
+              "todayCheckIn",
+              "todayPredictCheckIn",
+              "todayPredictCheckOut",
+              "staying",
+              "tomorrowCheckIn",
+              "tomorrowCheckOut",
+              "pending",
+              "refunding",
+              "exception",
+              "orderBox",
+              "arrangeSameRoom",
+              "unArrangeRoom",
+              "arrangeRoom",
+              "unOccupation",
+              "unStatistics",
+              "expiredNotCheckIn",
+              "expiredNotCheckOut"
+            ],
+            "fields": {
+              "overview": {
+                "type": "number",
+                "value": 1
+              },
+              "todayNewOrder": {
+                "type": "number",
+                "value": 0
+              },
+              "todayCheckOut": {
+                "type": "number",
+                "value": 1
+              },
+              "todayCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "todayPredictCheckIn": {
+                "type": "null",
+                "value": null
+              },
+              "todayPredictCheckOut": {
+                "type": "null",
+                "value": null
+              },
+              "staying": {
+                "type": "number",
+                "value": 1
+              },
+              "tomorrowCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "tomorrowCheckOut": {
+                "type": "number",
+                "value": 0
+              },
+              "pending": {
+                "type": "number",
+                "value": 0
+              },
+              "refunding": {
+                "type": "number",
+                "value": 0
+              },
+              "exception": {
+                "type": "number",
+                "value": 0
+              },
+              "orderBox": {
+                "type": "null",
+                "value": null
+              },
+              "arrangeSameRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "unArrangeRoom": {
+                "type": "number",
+                "value": 0
+              },
+              "arrangeRoom": {
+                "type": "number",
+                "value": 1
+              },
+              "unOccupation": {
+                "type": "number",
+                "value": 0
+              },
+              "unStatistics": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckIn": {
+                "type": "number",
+                "value": 0
+              },
+              "expiredNotCheckOut": {
+                "type": "number",
+                "value": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 21
+              },
+              "size": {
+                "type": "number",
+                "value": 20
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": true
+              },
+              "pages": {
+                "type": "number",
+                "value": 2
+              },
+              "list": {
+                "type": "array",
+                "length": 20,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "pathname": "/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": {
+            "type": "boolean",
+            "value": true
+          },
+          "errorCode": {
+            "type": "null",
+            "value": null
+          },
+          "errorMsg": {
+            "type": "null",
+            "value": null
+          },
+          "errorDetail": {
+            "type": "null",
+            "value": null
+          },
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": {
+                "type": "number",
+                "value": 21
+              },
+              "size": {
+                "type": "number",
+                "value": 20
+              },
+              "current": {
+                "type": "number",
+                "value": 1
+              },
+              "extraInfo": {
+                "type": "null",
+                "value": null
+              },
+              "pageNum": {
+                "type": "number",
+                "value": 1
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "value": true
+              },
+              "pages": {
+                "type": "number",
+                "value": 2
+              },
+              "list": {
+                "type": "array",
+                "length": 20,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "campId",
+                      "channelRoomCategoryId",
+                      "channelRoomCategoryName",
+                      "parentRoomCategoryId",
+                      "mainPhotoMediaId",
+                      "mainPhotoMediaUrl",
+                      "mainPhoto",
+                      "bedroomNum",
+                      "ableArea",
+                      "hallNum",
+                      "personCapacity",
+                      "bedNum",
+                      "bedMetas",
+                      "lowestSellingPrice",
+                      "lowestSettlementPrice",
+                      "lowestOriginalPrice",
+                      "reducePrice",
+                      "isCanBooking",
+                      "totalStock",
+                      "roomCategoryType",
+                      "goodsType",
+                      "isLongTermEffective",
+                      "effectiveStartTime",
+                      "effectiveEndTime",
+                      "poiType",
+                      "parentPoiId",
+                      "poiTags",
+                      "channelPoiId",
+                      "promotionDirectRatio",
+                      "editionId",
+                      "editionLevel",
+                      "editionUpgradeType",
+                      "isTransitionEdition",
+                      "isFreeEdition",
+                      "giftType",
+                      "outRuleJson",
+                      "channelOutRuleJson",
+                      "applyId",
+                      "isAvailability",
+                      "description",
+                      "attIds",
+                      "contractAgreementUrl",
+                      "bindRoomCategoryViews",
+                      "bindServiceViews",
+                      "roomCategoryProductGetViews"
+                    ],
+                    "fields": {
+                      "campId": "null",
+                      "channelRoomCategoryId": "string",
+                      "channelRoomCategoryName": "string",
+                      "parentRoomCategoryId": "string",
+                      "mainPhotoMediaId": "string",
+                      "mainPhotoMediaUrl": "string",
+                      "mainPhoto": "string",
+                      "bedroomNum": "null",
+                      "ableArea": "null",
+                      "hallNum": "null",
+                      "personCapacity": "null",
+                      "bedNum": "null",
+                      "bedMetas": "object",
+                      "lowestSellingPrice": "number",
+                      "lowestSettlementPrice": "number",
+                      "lowestOriginalPrice": "number",
+                      "reducePrice": "number",
+                      "isCanBooking": "number",
+                      "totalStock": "string",
+                      "roomCategoryType": "number",
+                      "goodsType": "number",
+                      "isLongTermEffective": "number",
+                      "effectiveStartTime": "null",
+                      "effectiveEndTime": "number"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

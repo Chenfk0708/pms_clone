@@ -1,0 +1,4372 @@
+{
+  "mode": "target",
+  "state": "default",
+  "stamp": "20260518064500",
+  "url": "https://minsubao.localhome.cn/channels/ota",
+  "responses": [
+    {
+      "url": "https://minsubao.localhome.cn/channels/ota",
+      "method": "GET",
+      "resourceType": "document",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/umi.f9c39b80.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://o.alicdn.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/antv.a431a2e7.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/vendors.086c7e42.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "text",
+        "length": 405
+      },
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/NMessage/NMessage.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/umi.1a3afbb9.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://s.union.360.cn/574989.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/FeiLin/1.4.2/feilin048.ddce2cf47d8401fddc510ebb28e3ff03b6e70f265d82fb06816ac621616b0a74.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://360fenxi.mediav.com/mediav1130.html",
+      "method": "GET",
+      "resourceType": "document",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://s.union.360.cn/proxy.html",
+      "method": "GET",
+      "resourceType": "document",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/antdesigns.667af312.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/common.76db7af9.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=100&si=574989&ldt=1&vis=visible&prv=0&guid=230120645.2588568498806900224.1779087221001.3855&huid=11I2mmHnclqgWOgklcWR6PmZPQ1x%252F9PcvdJvYEucydWRA%253D&t=1779087196450&v=3.2.0&_mtd=im",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {
+        "lts": "1",
+        "et": "100",
+        "si": "574989",
+        "ldt": "1",
+        "vis": "visible",
+        "prv": "0",
+        "guid": "230120645.2588568498806900224.1779087221001.3855",
+        "huid": "11I2mmHnclqgWOgklcWR6PmZPQ1x%2F9PcvdJvYEucydWRA%3D",
+        "t": "1779087196450",
+        "v": "3.2.0",
+        "_mtd": "im"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/layouts__index.ffab234b.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/loading.svg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://e.so.com/search/c.js?u=3496203270&_=1779087196458",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "u": "3496203270",
+        "_": "1779087196458"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/antdesigns.99ad5dd0.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/layouts__index.3a435595.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "object",
+        "keys": [],
+        "fields": {}
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "camps"
+            ],
+            "fields": {
+              "camps": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/common.2ede47b3.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=20&mvosr=&eid=1293812&ep=&vid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&ctn=&vvid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&_mvnf=1&_mvctn=0&_mvck=0&_refnf=1&url=https%3A%2F%2Fminsubao.localhome.cn%2Fchannels%2Fota&si=574989&su=&flt=1779087196&lt=1779087196&pt=1368610977708470000&guid=230120645.2588568498806900224.1779087221001.3855&huid=11I2mmHnclqgWOgklcWR6PmZPQ1x%252F9PcvdJvYEucydWRA%253D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779087196896&_mtd=im",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {
+        "lts": "1",
+        "et": "20",
+        "mvosr": "",
+        "eid": "1293812",
+        "ep": "",
+        "vid": ">i#teB^/_T>Kq0TGZdE[",
+        "ctn": "",
+        "vvid": ">i#teB^/_T>Kq0TGZdE[",
+        "_mvnf": "1",
+        "_mvctn": "0",
+        "_mvck": "0",
+        "_refnf": "1",
+        "url": "https://minsubao.localhome.cn/channels/ota",
+        "si": "574989",
+        "su": "",
+        "flt": "1779087196",
+        "lt": "1779087196",
+        "pt": "1368610977708470000",
+        "guid": "230120645.2588568498806900224.1779087221001.3855",
+        "huid": "11I2mmHnclqgWOgklcWR6PmZPQ1x%2F9PcvdJvYEucydWRA%3D",
+        "v": "3.2.0",
+        "lt2": "1778652410",
+        "pt2": "756392771820028300",
+        "t": "1779087196896",
+        "_mtd": "im"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=0&ck=0&adb=0&cl=24&ds=1440x900&ln=zh-CN&url=https%3A%2F%2Fminsubao.localhome.cn%2Fchannels%2Fota&si=574989&su=&flt=1779087196&lt=1779087196&pt=1368610977708470000&guid=230120645.2588568498806900224.1779087221001.3855&huid=11I2mmHnclqgWOgklcWR6PmZPQ1x%252F9PcvdJvYEucydWRA%253D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779087197007&qhclickid=&_mtd=im",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {
+        "lts": "1",
+        "et": "0",
+        "ck": "0",
+        "adb": "0",
+        "cl": "24",
+        "ds": "1440x900",
+        "ln": "zh-CN",
+        "url": "https://minsubao.localhome.cn/channels/ota",
+        "si": "574989",
+        "su": "",
+        "flt": "1779087196",
+        "lt": "1779087196",
+        "pt": "1368610977708470000",
+        "guid": "230120645.2588568498806900224.1779087221001.3855",
+        "huid": "11I2mmHnclqgWOgklcWR6PmZPQ1x%2F9PcvdJvYEucydWRA%3D",
+        "v": "3.2.0",
+        "lt2": "1778652410",
+        "pt2": "756392771820028300",
+        "t": "1779087197007",
+        "qhclickid": "",
+        "_mtd": "im"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "object",
+        "keys": [],
+        "fields": {}
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "userId",
+              "mobile",
+              "email",
+              "headImages",
+              "nickName",
+              "areaCode",
+              "area",
+              "inviter",
+              "isBindingMp",
+              "mpQrUrl",
+              "isLoginBindMp",
+              "roles",
+              "userIpv4"
+            ],
+            "fields": {
+              "userId": "string",
+              "mobile": "string",
+              "email": null,
+              "headImages": "string",
+              "nickName": "string",
+              "areaCode": "string",
+              "area": null,
+              "inviter": null,
+              "isBindingMp": "number",
+              "mpQrUrl": "string",
+              "isLoginBindMp": "number",
+              "roles": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "name",
+              "type",
+              "isModifyConsoleLogo",
+              "networkNum",
+              "nationId",
+              "nationName",
+              "provinceId",
+              "provinceName",
+              "cityId",
+              "cityName",
+              "countyId",
+              "countyName",
+              "address",
+              "qrUrl",
+              "logoPhotoMediaId",
+              "logoPhotoMediaUrl",
+              "consoleLogoPhotoMediaId",
+              "consoleLogoPhotoMediaUrl",
+              "contactNumber",
+              "description",
+              "bizLicenceMediaId",
+              "bizLicenceMediaUrl",
+              "industryLicenseMediaId",
+              "industryLicenseMediaUrl",
+              "hasAuditQualification",
+              "scaleType",
+              "accounts",
+              "accountCamps",
+              "isComplete",
+              "campPhotos"
+            ],
+            "fields": {
+              "campId": "string",
+              "name": "string",
+              "type": "number",
+              "isModifyConsoleLogo": "number",
+              "networkNum": "string",
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "host"
+            ],
+            "fields": {
+              "campId": "string",
+              "host": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "editionId",
+              "editionName",
+              "editionType",
+              "editionLevel",
+              "isOwner",
+              "currentVersion",
+              "paymentInfo",
+              "isEditionLongTerm",
+              "isEditionTrial",
+              "contractStartDate",
+              "contractEndDate",
+              "expireDay",
+              "storeNum",
+              "storeQuotaNum",
+              "isStoreOverLimit",
+              "poiNum",
+              "poiQuotaNum",
+              "isPoiOverLimit",
+              "inventory",
+              "roomNum",
+              "roomQuotaNum",
+              "isRoomOverLimit",
+              "userRoleNum",
+              "employeeNum",
+              "employeeQuotaNum",
+              "isEmployeeOverLimit",
+              "isEditionReplace",
+              "appVersionInfoViews",
+              "applyGoodsViews",
+              "applyRoomCategoryViews"
+            ],
+            "fields": {
+              "editionId": "string",
+              "editionName": "string",
+              "editionType": "number",
+              "editionLevel": "number",
+              "isOwner": "number",
+              "currentVersion": null,
+              "paymentInfo": "string",
+              "isEditionLongTerm": "number",
+              "isEditionTrial": "number",
+              "contractStartDate": "number",
+              "contractEndDate": "number",
+              "expireDay": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "traces"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "traces"
+        ],
+        "fields": {
+          "campId": "string",
+          "traces": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "type": "object",
+              "keys": [
+                "pageName",
+                "extraInfo",
+                "actionTime",
+                "sessionSeq",
+                "sessionId",
+                "pageContextId",
+                "screenHeight",
+                "screenWidth"
+              ],
+              "fields": {
+                "pageName": "string",
+                "extraInfo": "string",
+                "actionTime": "number",
+                "sessionSeq": "number",
+                "sessionId": "string",
+                "pageContextId": "string",
+                "screenHeight": "number",
+                "screenWidth": "number"
+              }
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": "boolean"
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "projectMenuId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "projectMenuId"
+        ],
+        "fields": {
+          "campId": "string",
+          "projectMenuId": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 25,
+            "first": {
+              "type": "object",
+              "keys": [
+                "menuId",
+                "parentId",
+                "type",
+                "icon",
+                "code",
+                "name",
+                "path",
+                "uiComponentId",
+                "isOpen",
+                "seq",
+                "isShow",
+                "children"
+              ],
+              "fields": {
+                "menuId": "string",
+                "parentId": "string",
+                "type": "number",
+                "icon": "string",
+                "code": "string",
+                "name": "string",
+                "path": "string",
+                "uiComponentId": "object",
+                "isOpen": "number",
+                "seq": "number",
+                "isShow": "number",
+                "children": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "text",
+        "length": 5465
+      },
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-web-base-zh.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 304,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "hasAllChannel"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "hasAllChannel"
+        ],
+        "fields": {
+          "campId": "string",
+          "hasAllChannel": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "channels"
+            ],
+            "fields": {
+              "channels": {
+                "type": "array",
+                "length": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "platform"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "platform"
+        ],
+        "fields": {
+          "campId": "string",
+          "platform": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "isRemind",
+              "remindContent",
+              "remindType",
+              "editionDailyRemindDataList"
+            ],
+            "fields": {
+              "isRemind": "number",
+              "remindContent": null,
+              "remindType": null,
+              "editionDailyRemindDataList": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "systemConfigs"
+            ],
+            "fields": {
+              "systemConfigs": {
+                "type": "array",
+                "length": 96
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "number",
+          "param": {
+            "type": "object",
+            "keys": [],
+            "fields": {}
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 69,
+            "first": {
+              "type": "object",
+              "keys": [
+                "channelId",
+                "channelName",
+                "shortChannelName",
+                "color",
+                "imageLogo",
+                "image2Logo",
+                "imageClose",
+                "imageOpen",
+                "isSupportIcs",
+                "isLongRent",
+                "isOpen"
+              ],
+              "fields": {
+                "channelId": "string",
+                "channelName": "string",
+                "shortChannelName": "string",
+                "color": "string",
+                "imageLogo": "string",
+                "image2Logo": "string",
+                "imageClose": "string",
+                "imageOpen": "string",
+                "isSupportIcs": "number",
+                "isLongRent": "number",
+                "isOpen": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "number",
+          "param": {
+            "type": "object",
+            "keys": [],
+            "fields": {}
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 2214,
+            "first": {
+              "type": "object",
+              "keys": [
+                "channelId",
+                "channelName",
+                "shortChannelName",
+                "color"
+              ],
+              "fields": {
+                "channelId": "string",
+                "channelName": "string",
+                "shortChannelName": "string",
+                "color": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "editionId",
+              "editionName",
+              "editionType",
+              "editionLevel",
+              "isOwner",
+              "currentVersion",
+              "paymentInfo",
+              "isEditionLongTerm",
+              "isEditionTrial",
+              "contractStartDate",
+              "contractEndDate",
+              "expireDay",
+              "storeNum",
+              "storeQuotaNum",
+              "isStoreOverLimit",
+              "poiNum",
+              "poiQuotaNum",
+              "isPoiOverLimit",
+              "inventory",
+              "roomNum",
+              "roomQuotaNum",
+              "isRoomOverLimit",
+              "userRoleNum",
+              "employeeNum",
+              "employeeQuotaNum",
+              "isEmployeeOverLimit",
+              "isEditionReplace",
+              "appVersionInfoViews",
+              "applyGoodsViews",
+              "applyRoomCategoryViews"
+            ],
+            "fields": {
+              "editionId": "string",
+              "editionName": "string",
+              "editionType": "number",
+              "editionLevel": "number",
+              "isOwner": "number",
+              "currentVersion": null,
+              "paymentInfo": "string",
+              "isEditionLongTerm": "number",
+              "isEditionTrial": "number",
+              "contractStartDate": "number",
+              "contractEndDate": "number",
+              "expireDay": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "channelIds",
+        "roomCategoryGroupIds",
+        "roomCategoryIds",
+        "poiIds",
+        "cleanStatus",
+        "date",
+        "queryCode"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "channelIds",
+          "roomCategoryGroupIds",
+          "roomCategoryIds",
+          "poiIds",
+          "cleanStatus",
+          "date",
+          "queryCode"
+        ],
+        "fields": {
+          "campId": "string",
+          "channelIds": null,
+          "roomCategoryGroupIds": null,
+          "roomCategoryIds": null,
+          "poiIds": null,
+          "cleanStatus": null,
+          "date": "number",
+          "queryCode": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "basic",
+              "roomCategories",
+              "roomViews",
+              "floorViews",
+              "isInitFloor"
+            ],
+            "fields": {
+              "basic": {
+                "type": "object",
+                "keys": [
+                  "preComeNum",
+                  "liveNum",
+                  "preLeaveNum",
+                  "arrangeSameRoomNum",
+                  "orderRemarkNum",
+                  "ltNum",
+                  "debtNum",
+                  "hourRoomOrderNum",
+                  "roomNum",
+                  "soldNum",
+                  "idleNum",
+                  "occNum",
+                  "occ",
+                  "idleCleanNum",
+                  "idleDirtyNum",
+                  "liveCleanNum",
+                  "liveDirtyNum",
+                  "extendStayNum"
+                ],
+                "fields": {
+                  "preComeNum": "number",
+                  "liveNum": "number",
+                  "preLeaveNum": "number",
+                  "arrangeSameRoomNum": "number",
+                  "orderRemarkNum": "number",
+                  "ltNum": "number",
+                  "debtNum": "number",
+                  "hourRoomOrderNum": "number",
+                  "roomNum": "number",
+                  "soldNum": "number",
+                  "idleNum": "number",
+                  "occNum": "number"
+                }
+              },
+              "roomCategories": {
+                "type": "array",
+                "length": 4
+              },
+              "roomViews": {
+                "type": "array",
+                "length": 0
+              },
+              "floorViews": {
+                "type": "array",
+                "length": 0
+              },
+              "isInitFloor": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "isPaid",
+              "isEffectiveEdition"
+            ],
+            "fields": {
+              "isPaid": "string",
+              "isEffectiveEdition": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "count",
+              "countDetail"
+            ],
+            "fields": {
+              "count": "number",
+              "countDetail": {
+                "type": "object",
+                "keys": [
+                  "orderNotificationCount",
+                  "campWarnCount",
+                  "campDynamicCount"
+                ],
+                "fields": {
+                  "orderNotificationCount": "number",
+                  "campWarnCount": "number",
+                  "campDynamicCount": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "param",
+        "action"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "param",
+          "action"
+        ],
+        "fields": {
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          },
+          "action": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "isNeedInit"
+            ],
+            "fields": {
+              "isNeedInit": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "hasCardDevice",
+              "cardDeviceSystem"
+            ],
+            "fields": {
+              "hasCardDevice": "boolean",
+              "cardDeviceSystem": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/p__pc__Channels__OTA.2ff434b3.chunk.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {
+        "text": "https://h.localhome.cn/user/hudson/parseurl?schema=hudsonaction%3A%2F%2Fminsubao.localhome.cn%2FFETCSET_CHANNELSH_JOIN_NETWORK%3FnetworkNum%3D%26inviteUserId%3D1796067693261905922%26inviteWay%3D1"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/advancedLogov2.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_Social_media_hover%402x.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250320makeCardContainer.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/jhot.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "text",
+        "length": 1570
+      },
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "editionId",
+              "editionName",
+              "editionType",
+              "resourceGetViews",
+              "valueAddServices"
+            ],
+            "fields": {
+              "editionId": "string",
+              "editionName": "string",
+              "editionType": "number",
+              "resourceGetViews": {
+                "type": "array",
+                "length": 14
+              },
+              "valueAddServices": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "overview",
+              "todayNewOrder",
+              "todayCheckOut",
+              "todayCheckIn",
+              "todayPredictCheckIn",
+              "todayPredictCheckOut",
+              "staying",
+              "tomorrowCheckIn",
+              "tomorrowCheckOut",
+              "pending",
+              "refunding",
+              "exception",
+              "orderBox",
+              "arrangeSameRoom",
+              "unArrangeRoom",
+              "arrangeRoom",
+              "unOccupation",
+              "unStatistics",
+              "expiredNotCheckIn",
+              "expiredNotCheckOut"
+            ],
+            "fields": {
+              "overview": "number",
+              "todayNewOrder": "number",
+              "todayCheckOut": "number",
+              "todayCheckIn": "number",
+              "todayPredictCheckIn": null,
+              "todayPredictCheckOut": null,
+              "staying": "number",
+              "tomorrowCheckIn": "number",
+              "tomorrowCheckOut": "number",
+              "pending": "number",
+              "refunding": "number",
+              "exception": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "appKey",
+              "accid",
+              "token"
+            ],
+            "fields": {
+              "appKey": "string",
+              "accid": "string",
+              "token": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentTypes"
+            ],
+            "fields": {
+              "paymentTypes": {
+                "type": "array",
+                "length": 53
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_siyu_hover%402x.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_OTA_white%402x.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "type"
+            ],
+            "fields": {
+              "campId": "string",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "pageSize",
+        "pageNum",
+        "channelId",
+        "isAvailability"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "pageSize",
+          "pageNum",
+          "channelId",
+          "isAvailability"
+        ],
+        "fields": {
+          "campId": "string",
+          "pageSize": "number",
+          "pageNum": "number",
+          "channelId": "number",
+          "isAvailability": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "hasDigitalProcess",
+              "isComplete",
+              "state",
+              "failReason",
+              "currentProgress",
+              "estimatedTime",
+              "isHandleRoomCategory",
+              "ydPoiId",
+              "channelId"
+            ],
+            "fields": {
+              "hasDigitalProcess": "number",
+              "isComplete": null,
+              "state": null,
+              "failReason": null,
+              "currentProgress": null,
+              "estimatedTime": null,
+              "isHandleRoomCategory": null,
+              "ydPoiId": null,
+              "channelId": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "pageSize",
+        "pageNum",
+        "roomCategoryName",
+        "keyword",
+        "cityIds",
+        "channelId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "pageSize",
+          "pageNum",
+          "roomCategoryName",
+          "keyword",
+          "cityIds",
+          "channelId"
+        ],
+        "fields": {
+          "campId": "string",
+          "pageSize": "number",
+          "pageNum": "number",
+          "roomCategoryName": "string",
+          "keyword": "string",
+          "cityIds": {
+            "type": "array",
+            "length": 0
+          },
+          "channelId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "isNormalOperation"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "isNormalOperation"
+        ],
+        "fields": {
+          "campId": "string",
+          "isNormalOperation": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "title",
+              "content",
+              "operationResult"
+            ],
+            "fields": {
+              "title": null,
+              "content": null,
+              "operationResult": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "string",
+          "param": {
+            "type": "object",
+            "keys": [
+              "userId",
+              "campId"
+            ],
+            "fields": {
+              "userId": "string",
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 9,
+            "first": {
+              "type": "object",
+              "keys": [
+                "accountId",
+                "channelId",
+                "outAccountId",
+                "outName",
+                "tokenExpired",
+                "isCal",
+                "refreshable",
+                "unmappingnum",
+                "mappingnum"
+              ],
+              "fields": {
+                "accountId": "string",
+                "channelId": "string",
+                "outAccountId": "string",
+                "outName": "string",
+                "tokenExpired": "number",
+                "isCal": "number",
+                "refreshable": "number",
+                "unmappingnum": "string",
+                "mappingnum": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_qrcode.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.041.f71ffcc04ab32956.js",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/wxCp/authInfo/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "isAuthWxCp",
+              "isAuthWxMa",
+              "isWxCpVerified",
+              "isSamePrincipal",
+              "corpId"
+            ],
+            "fields": {
+              "isAuthWxCp": "number",
+              "isAuthWxMa": "number",
+              "isWxCpVerified": "number",
+              "isSamePrincipal": "number",
+              "corpId": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "code"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "code"
+        ],
+        "fields": {
+          "campId": "string",
+          "code": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "commons"
+            ],
+            "fields": {
+              "commons": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_wechat.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_message.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/im-ring1.wav",
+      "method": "GET",
+      "resourceType": "media",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 206,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/newOrder.wav",
+      "method": "GET",
+      "resourceType": "media",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 206,
+      "responseFields": null
+    },
+    {
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=61ecb39071aac674b916770b62371169&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=8d0514326dbd437d73cf9dc837543884",
+      "method": "GET",
+      "resourceType": "xhr",
+      "query": {
+        "deviceId": "61ecb39071aac674b916770b62371169",
+        "sdktype": "IM",
+        "sdkVer": "9.5.0",
+        "platform": "Web",
+        "appkey": "8d0514326dbd437d73cf9dc837543884"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/cancelOrder.wav",
+      "method": "GET",
+      "resourceType": "media",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 206,
+      "responseFields": null
+    },
+    {
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "method": "GET",
+      "resourceType": "xhr",
+      "query": {
+        "id": "prod_0_1796067702522908674",
+        "sv": "90500",
+        "pv": "1",
+        "networkType": "0",
+        "k": "8d0514326dbd437d73cf9dc837543884"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channelGroups/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "channelType"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "channelType"
+        ],
+        "fields": {
+          "campId": "string",
+          "channelType": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "channelGroupViews"
+            ],
+            "fields": {
+              "channelGroupViews": {
+                "type": "array",
+                "length": 5
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "expectedChannelOrderTotalNum",
+              "isOpenFlow",
+              "orderMobile",
+              "isStopFlow",
+              "stopType",
+              "channelInfos",
+              "isEnableEbk"
+            ],
+            "fields": {
+              "campId": "string",
+              "expectedChannelOrderTotalNum": "number",
+              "isOpenFlow": "number",
+              "orderMobile": "string",
+              "isStopFlow": "number",
+              "stopType": "number",
+              "channelInfos": {
+                "type": "array",
+                "length": 13
+              },
+              "isEnableEbk": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/wxCpOpen/accounts/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "isValidKfAndCustomerAuth"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "isValidKfAndCustomerAuth"
+        ],
+        "fields": {
+          "campId": "string",
+          "isValidKfAndCustomerAuth": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "accountId",
+              "corpName",
+              "corpId",
+              "corpType",
+              "isTrial",
+              "expiredDay",
+              "wxCpAccountGetViews"
+            ],
+            "fields": {
+              "accountId": null,
+              "corpName": null,
+              "corpId": null,
+              "corpType": null,
+              "isTrial": null,
+              "expiredDay": null,
+              "wxCpAccountGetViews": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/tpAuthorizeApps/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "channelId",
+        "type"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "channelId",
+          "type"
+        ],
+        "fields": {
+          "campId": "string",
+          "channelId": "number",
+          "type": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "isMapping",
+              "tpAuthorizeAppGetViewList"
+            ],
+            "fields": {
+              "isMapping": "number",
+              "tpAuthorizeAppGetViewList": {
+                "type": "array",
+                "length": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "buyCampId",
+        "roomCategoryTypes",
+        "goodsTypes"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "buyCampId",
+          "roomCategoryTypes",
+          "goodsTypes"
+        ],
+        "fields": {
+          "campId": "string",
+          "buyCampId": "string",
+          "roomCategoryTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          },
+          "goodsTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 20
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "code"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "code"
+        ],
+        "fields": {
+          "campId": "string",
+          "code": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "commons"
+            ],
+            "fields": {
+              "commons": {
+                "type": "array",
+                "length": 6
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-channel-protocols-new.json?t=1779087201701",
+      "method": "GET",
+      "resourceType": "fetch",
+      "query": {
+        "t": "1779087201701"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8981066208472485.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/WechatIMG671.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/beike-square.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "text",
+        "length": 646
+      },
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "bizTypes",
+        "isEnable"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "bizTypes",
+          "isEnable"
+        ],
+        "fields": {
+          "campId": "string",
+          "bizTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          },
+          "isEnable": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentGroups"
+            ],
+            "fields": {
+              "paymentGroups": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "roomCategoryIds",
+        "saleType"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "roomCategoryIds",
+          "saleType"
+        ],
+        "fields": {
+          "campId": "string",
+          "roomCategoryIds": {
+            "type": "array",
+            "length": 4,
+            "first": "string"
+          },
+          "saleType": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "roomCategoryRooms"
+            ],
+            "fields": {
+              "roomCategoryRooms": {
+                "type": "array",
+                "length": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/booking004.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/58-square.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson_app_channels/muniao3.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/bnb002.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8346444282052181.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channellogoItem/17more.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://weblink-bgp.netease.im/socket.io/1/?t=1779087202250",
+      "method": "GET",
+      "resourceType": "xhr",
+      "query": {
+        "t": "1779087202250"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/0842875468894826.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channellogo/txdt.jpg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "number",
+          "param": {
+            "type": "object",
+            "keys": [
+              "campId"
+            ],
+            "fields": {
+              "campId": "string"
+            }
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "count"
+            ],
+            "fields": {
+              "count": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Source%20Han%20Sans%20CN%20Regular.woff2",
+      "method": "GET",
+      "resourceType": "font",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "bizTypes",
+        "isEnable"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "bizTypes",
+          "isEnable"
+        ],
+        "fields": {
+          "campId": "string",
+          "bizTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          },
+          "isEnable": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentGroups"
+            ],
+            "fields": {
+              "paymentGroups": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "paymentWays"
+            ],
+            "fields": {
+              "paymentWays": {
+                "type": "array",
+                "length": 11
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "expectedChannelOrderTotalNum",
+              "isOpenFlow",
+              "orderMobile",
+              "isStopFlow",
+              "stopType",
+              "channelInfos",
+              "isEnableEbk"
+            ],
+            "fields": {
+              "campId": "string",
+              "expectedChannelOrderTotalNum": "number",
+              "isOpenFlow": "number",
+              "orderMobile": "string",
+              "isStopFlow": "number",
+              "stopType": "number",
+              "channelInfos": {
+                "type": "array",
+                "length": 13
+              },
+              "isEnableEbk": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId"
+        ],
+        "fields": {
+          "campId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "campId",
+              "expectedChannelOrderTotalNum",
+              "isOpenFlow",
+              "orderMobile",
+              "isStopFlow",
+              "stopType",
+              "channelInfos",
+              "isEnableEbk"
+            ],
+            "fields": {
+              "campId": "string",
+              "expectedChannelOrderTotalNum": "number",
+              "isOpenFlow": "number",
+              "orderMobile": "string",
+              "isStopFlow": "number",
+              "stopType": "number",
+              "channelInfos": {
+                "type": "array",
+                "length": 13
+              },
+              "isEnableEbk": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imScaleSetting.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imEnlarge.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/oneClickReading.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "isSupport"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "isSupport"
+        ],
+        "fields": {
+          "campId": "string",
+          "isSupport": "number"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 12,
+            "first": {
+              "type": "object",
+              "keys": [
+                "name",
+                "currency",
+                "symbol"
+              ],
+              "fields": {
+                "name": "string",
+                "currency": "string",
+                "symbol": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=8d0514326dbd437d73cf9dc837543884&uid=prod_0_1796067702522908674&os=web&session=&ver=90500&type=im&platform=chrome148",
+      "method": "GET",
+      "resourceType": "xhr",
+      "query": {
+        "event": "ws_connected",
+        "appkey": "8d0514326dbd437d73cf9dc837543884",
+        "uid": "prod_0_1796067702522908674",
+        "os": "web",
+        "session": "",
+        "ver": "90500",
+        "type": "im",
+        "platform": "chrome148"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "number",
+          "param": {
+            "type": "object",
+            "keys": [],
+            "fields": {}
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 69,
+            "first": {
+              "type": "object",
+              "keys": [
+                "channelId",
+                "channelName",
+                "shortChannelName",
+                "color",
+                "imageLogo",
+                "image2Logo",
+                "imageClose",
+                "imageOpen",
+                "isSupportIcs",
+                "isLongRent",
+                "isOpen"
+              ],
+              "fields": {
+                "channelId": "string",
+                "channelName": "string",
+                "shortChannelName": "string",
+                "color": "string",
+                "imageLogo": "string",
+                "image2Logo": "string",
+                "imageClose": "string",
+                "imageOpen": "string",
+                "isSupportIcs": "number",
+                "isLongRent": "number",
+                "isOpen": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "buyCampId",
+        "roomCategoryTypes",
+        "goodsTypes"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "buyCampId",
+          "roomCategoryTypes",
+          "goodsTypes"
+        ],
+        "fields": {
+          "campId": "string",
+          "buyCampId": "string",
+          "roomCategoryTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          },
+          "goodsTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 20
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "campId",
+        "buyCampId",
+        "roomCategoryTypes",
+        "goodsTypes"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "campId",
+          "buyCampId",
+          "roomCategoryTypes",
+          "goodsTypes"
+        ],
+        "fields": {
+          "campId": "string",
+          "buyCampId": "string",
+          "roomCategoryTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          },
+          "goodsTypes": {
+            "type": "array",
+            "length": 1,
+            "first": "number"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "total",
+              "size",
+              "current",
+              "extraInfo",
+              "pageNum",
+              "hasNextPage",
+              "pages",
+              "list"
+            ],
+            "fields": {
+              "total": "number",
+              "size": "number",
+              "current": "number",
+              "extraInfo": null,
+              "pageNum": "number",
+              "hasNextPage": "boolean",
+              "pages": "number",
+              "list": {
+                "type": "array",
+                "length": 20
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "userId"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "userId"
+        ],
+        "fields": {
+          "userId": "string"
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "userShortcuts"
+            ],
+            "fields": {
+              "userShortcuts": {
+                "type": "array",
+                "length": 12
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "action",
+        "param"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "action",
+          "param"
+        ],
+        "fields": {
+          "action": "number",
+          "param": {
+            "type": "object",
+            "keys": [],
+            "fields": {}
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "array",
+            "length": 2214,
+            "first": {
+              "type": "object",
+              "keys": [
+                "channelId",
+                "channelName",
+                "shortChannelName",
+                "color"
+              ],
+              "fields": {
+                "channelId": "string",
+                "channelName": "string",
+                "shortChannelName": "string",
+                "color": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [
+        "menuIds"
+      ],
+      "bodySummary": {
+        "type": "object",
+        "keys": [
+          "menuIds"
+        ],
+        "fields": {
+          "menuIds": {
+            "type": "array",
+            "length": 1,
+            "first": "string"
+          }
+        }
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "optionJsonViews"
+            ],
+            "fields": {
+              "optionJsonViews": {
+                "type": "array",
+                "length": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": {
+        "type": "object",
+        "keys": [],
+        "fields": {}
+      },
+      "status": 200,
+      "responseFields": {
+        "type": "object",
+        "keys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "fields": {
+          "success": "boolean",
+          "errorCode": null,
+          "errorMsg": null,
+          "errorDetail": null,
+          "data": {
+            "type": "object",
+            "keys": [
+              "holidayInfos"
+            ],
+            "fields": {
+              "holidayInfos": {
+                "type": "array",
+                "length": 50
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://pic.tujia.com/upload/festatic/crn/defaultAvatarM_s.png",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c0812000na9jbqk7A54_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2m12000na9j4bl5392_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2f12000na9jaezFEED_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2312000na9j5h1276B_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    }
+  ]
+}

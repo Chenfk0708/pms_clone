@@ -68,6 +68,9 @@ async function mockRetailApis(page: Page) {
 }
 
 test('/houseManage/retailPrice matches captured setup-required state', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsRetailPriceProvider', 'real')
+  })
   await mockRetailApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/retailPrice')
@@ -107,6 +110,9 @@ test('/houseManage/retailPrice matches captured setup-required state', async ({ 
 })
 
 test('/houseManage/retailPrice supports captured setting interactions', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsRetailPriceProvider', 'real')
+  })
   await mockRetailApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/retailPrice')
@@ -147,6 +153,21 @@ test('/houseManage/retailPrice supports captured setting interactions', async ({
   await expect(batchDialog.getByText('绝对值改价')).toBeVisible()
   await page.getByRole('button', { name: '取消' }).click()
 
+  await page.getByRole('button', { name: '导出' }).click()
+  await expect(page.getByRole('status', { name: '门市价操作反馈' })).toContainText('门市价导出任务已创建')
+
+  await page.getByRole('button', { name: '查看详情' }).click()
+  await expect(page.getByRole('dialog', { name: '门市价详情' })).toContainText('门店数量')
+  await page.getByRole('button', { name: '知道了' }).click()
+
+  await page.getByRole('button', { name: '更多' }).click()
+  await expect(page.getByRole('menu', { name: '门市价更多操作' })).toBeVisible()
+  await page.getByRole('menuitem', { name: '同步房价' }).click()
+  await expect(page.getByRole('status', { name: '门市价操作反馈' })).toContainText('门市价同步任务已创建')
+
+  await page.getByRole('button', { name: '重置' }).click()
+  await expect(page.getByRole('status', { name: '门市价操作反馈' })).toContainText('已重置门市价筛选条件')
+
   await page.getByRole('button', { name: '钟点房设置' }).click()
   await expect(page).toHaveURL(/\/houseManage\/retailPrice\/hourSetting$/)
   const hourBreadcrumb = page.locator('.retail-breadcrumb')
@@ -165,6 +186,10 @@ test('/houseManage/retailPrice supports captured setting interactions', async ({
 
 test('/houseManage/retailPrice loads through real request layer and refetches with UI filters', async ({ page }) => {
   const capturedRequests: Array<{ url: string; body: Record<string, unknown> }> = []
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsRetailPriceProvider', 'real')
+  })
 
   await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
     const request = route.request()
@@ -227,8 +252,9 @@ test('/houseManage/retailPrice loads through real request layer and refetches wi
   })
 
   await page.goto('/houseManage/retailPrice')
-  await expect(page.getByText(/已连接真实请求层/)).toBeVisible()
-  await expect(page.getByText('真实接口：门店 1 个，房型 2 个，当前需完成门市价设置')).toBeVisible()
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).toContainText('门市价数据已更新')
+  await expect(page.getByText('门店 1 个，房型 2 个，当前需完成门市价设置')).toBeVisible()
+  await expect(page.getByTestId('retail-price-service-contract')).toHaveAttribute('data-provider', 'real')
 
   const endpointNames = capturedRequests.map((request) => new URL(request.url).pathname)
   expect(endpointNames).toContain('/camps/get')
@@ -237,19 +263,69 @@ test('/houseManage/retailPrice loads through real request layer and refetches wi
   expect(endpointNames).toContain('/roomCategoryPrice/salePriceSetting/get')
 
   await page.getByPlaceholder('房源编码/简称/标题').fill('总裁')
-  await page.getByRole('button', { name: '搜索' }).click()
+  await page.locator('.retail-search-submit').click()
   await expect.poll(() => capturedRequests.filter((request) => new URL(request.url).pathname === '/roomCategories/page/get').length).toBeGreaterThan(1)
   const lastRoomRequest = capturedRequests.filter((request) => new URL(request.url).pathname === '/roomCategories/page/get').at(-1)
   expect(lastRoomRequest?.body.keyword).toBe('总裁')
 })
 
 test('/houseManage/retailPrice exposes real request failures instead of silent fallback', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsRetailPriceProvider', 'real')
+  })
+
   await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
     await route.fulfill({ status: 403, json: { success: false, errorMsg: 'Forbidden' } })
   })
 
   await page.goto('/houseManage/retailPrice')
-  await expect(page.getByText(/真实接口阻塞/)).toBeVisible()
-  await expect(page.getByRole('button', { name: '重试真实请求' })).toBeVisible()
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).toContainText('数据加载失败')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
   await expect(page.getByText('请先完成门市价设置')).toBeVisible()
+})
+
+test('/houseManage/retailPrice uses explicit mock provider response packages by default', async ({ page }) => {
+  const hudsonRequests: string[] = []
+
+  await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
+    hudsonRequests.push(route.request().url())
+    await route.abort('blockedbyclient')
+  })
+
+  await page.goto('/houseManage/retailPrice')
+
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).toContainText('门市价数据已更新')
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).not.toContainText('mock')
+  await expect(page.locator('.retail-price-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
+  await expect(page.getByTestId('retail-price-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.getByTestId('retail-price-service-contract')).toHaveAttribute('data-trace-id', 'mock-fangtai--fangjia-guanli--menshijia-overview-001')
+  await expect(page.getByText('天落会宿公寓(前海壹方城宝安中心店)')).toBeVisible()
+  await page.getByRole('button', { name: /^房型\s*⌄$/ }).click()
+  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toBeVisible()
+  await expect(page.getByText('请先完成门市价设置')).toBeVisible()
+  expect(hudsonRequests).toEqual([])
+})
+
+test('/houseManage/retailPrice exposes mock empty and error envelopes', async ({ page }) => {
+  await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
+    await route.abort('blockedbyclient')
+  })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsRetailPriceProvider', 'mock')
+    window.localStorage.setItem('pmsRetailPriceMockMode', 'empty')
+  })
+
+  await page.goto('/houseManage/retailPrice')
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).toContainText('门市价数据已更新')
+  await expect(page.getByTestId('retail-price-service-contract')).toHaveAttribute('data-mode', 'empty')
+  await expect(page.getByText('暂无房型数据')).toBeVisible()
+
+  await page.evaluate(() => {
+    window.localStorage.setItem('pmsRetailPriceMockMode', 'error')
+  })
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
+
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).toContainText('数据加载失败')
+  await expect(page.getByRole('status', { name: '门市价数据服务状态' })).not.toContainText('mock')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
 })

@@ -1,0 +1,1033 @@
+{
+  "taskId": "fangtai--baojie-guanli--baojie-shezhi",
+  "mode": "target",
+  "stamp": "20260518-95-provider",
+  "url": "https://minsubao.localhome.cn/version/applicationPayment/detail",
+  "requestCount": 128,
+  "requests": [
+    {
+      "url": "https://minsubao.localhome.cn/cleanManage/cleanSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/umi.f9c39b80.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/x-javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://o.alicdn.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/antv.a431a2e7.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/vendors.086c7e42.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/NMessage/NMessage.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8",
+      "requestPostData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log1&Data=byAgDBTTWK6iQ63aLnMRvywYbJ50c453wUz9CdNf4pWB%2BH4EOu7koqzwbASi1Zy3zgHU8sTKNHpOkNOGqQFYFiCpOJ3LalCqYbFhgZ4XnXghkXEopFso2Vh4IzTDRTPtJYSMMGWfCx8pPxsr6oCgxZN3SDxRpIk6y5QgH%2FKJd%2FE%3D&SignatureNonce=d8632501-a02c-40c2-9d4e-2ccdc66c291c&Signature=n4zJ3vMFIsrxysaoRSldtTSBgfE%3D"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/umi.1a3afbb9.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://s.union.360.cn/574989.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/plain",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/FeiLin/1.4.2/feilin047.f60b835917d154de7a21d4deb0256ef85f4655a4a0fd70e47ba48d4afbfd3b88.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/antdesigns.667af312.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/common.76db7af9.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/layouts__index.ffab234b.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/loading.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/svg+xml",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/antdesigns.99ad5dd0.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://s.union.360.cn/proxy.html",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://360fenxi.mediav.com/mediav1130.html",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=100&si=574989&ldt=1&vis=visible&prv=0&guid=%5BREDACTED%5D&huid=%5BREDACTED%5D&t=1779087184928&v=3.2.0&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{}"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/common.2ede47b3.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://e.so.com/search/c.js?u=3496203270&_=1779087184935",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript;charset=utf-8",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/layouts__index.3a435595.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"traces\":[{\"pageName\":\"/cleanManage/cleanSetting\",\"extraInfo\":\"\",\"actionTime\":1779087185433,\"sessionSeq\":1,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"708d9276-c356-40d8-bdf8-3131c02cae4c\",\"screenHeight\":900,\"screenWidth\":1440}]}"
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=20&mvosr=&eid=1293812&ep=&vid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&ctn=&vvid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&_mvnf=1&_mvctn=0&_mvck=0&_refnf=1&url=https%3A%2F%2Fminsubao.localhome.cn%2FcleanManage%2FcleanSetting&si=574989&su=&flt=1779087184&lt=1779087184&pt=1387093269946571800&guid=%5BREDACTED%5D&huid=%5BREDACTED%5D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779087185311&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"projectMenuId\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"141\",\"param\":{\"campId\":\"1796067693589061634\",\"host\":\"minsubao.localhome.cn\"}}"
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=0&ck=0&adb=0&cl=24&ds=1440x900&ln=zh-CN&url=https%3A%2F%2Fminsubao.localhome.cn%2FcleanManage%2FcleanSetting&si=574989&su=&flt=1779087184&lt=1779087184&pt=1387093269946571800&guid=%5BREDACTED%5D&huid=%5BREDACTED%5D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779087185472&qhclickid=&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"104\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8",
+      "requestPostData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log2&Data=0blQ85dGJrY0HYY8GlS4tTBVuksZpLI2N7miYiBeU9tGkeeLSAkiJSYLfjRcaR2BZz4RlbJiEHfKU6Je48%2BmyZxPX97uw%2Ff1ID0L%2BrEY8ofwefc175OPzfSe5lRGgBsdCFoQEPl7D8OjH5c%2B4AdC%2BnPEZGioy233%2BIuCPm33UGJ3mrxPrWZef3XS%2FdOvM5aimVCP%2BhbpVlL7qCmSOMOXj2Y2Z4umU9hX%2Btcgl72WFQhS6Fn5AUvyxesXQZuZSSkxb9WfiidRgC%2BJGNyx0CeuG693iVCO3dUXMGt3f8vxGKTupvbAzW5LOq%2F69F6jKCnTB7SBWeWjKAENtr61C7hykOxbvXmKrTaIRdloPpap2i1DpUy8zP0qmr8yyhZsqdwwvWeKQ5IiE6M2GZ64aOHuKwrCy2zTxZvjmQXUV%2FTBsGZUeyPJtVS3BT4A1dIVVJucFKdC%2By2n4o%2Bt3R%2BhOR64OscbHHcqj5OV2oZn2%2BmO3CfleKbJ5Efk%2Fhi937zG8DERAiNpZng7bkAdItxuwugkawboq%2FUqmbY1621CGhPOw%2Bskv0I5atHaaRibedDSIZ8CzhK3BZFpwFjR4lz9oCCUFJwCXK0fUvZ%2F9feX5tjpXctNecJeS246QL1b7wShQ8Sc80ihPYr%2FdNfe2pdcFIKc0KkRYv6L5xQMp7g%2BTSQH%2F4buIct%2BGz%2Fk79Dkj0txgEjY7Gg0x81PbBWN1UR%2BQmWvHsyLccFEPSj03yi1mnGk63uvnefg%2BKAl2xc8PO02Y0LGO%2Bzky67C4%2BAVy7Iy4%2BxjoohkD1JwDO1N8NMTKxJiebxwDsjnEgQG8ZkpE6mJFrITqBOpUFiMgp75%2F4pFKe%2BPG%2FfHpQ%2FSLKZ%2F27vfveXeG4Lw8B%2FWybLrLmUD6qk8WZTYv4mmtJBX0L3bxpvW8tEFzm%2BABy2wfxM7qkbzngLY%2BJ9wzsIqKIOU2lOA%2FY7hs3sz5S3Lwbr2lgwqeE8ZAEcNIUzpmvTFAlOjxM%2FbnuwobPap7ykqBVu%2Fw1D%2FdxNN%2BT3xCzSBg1WgReusVB%2FsMdaN5KK2c%2BiHP7GqDyC9wyUsuQQA62dnyO8%2FIrLedD0b8zx%2BB02zjXVEOEAJvyXFCu6Vac1CyKuC3R1oq%2Fr%2BRlADsmOARNrzuz9NBcQKVAFCEsZT2k7TLrotXUweB1nI2%2FO88gDUdj35XGGHoHLMeq%2BtPjpoDxm1rrDayxCn4bhjQVUt6rBLbCMh4zMZxiyh2LsFwD%2FCRSHeJk6GIjknp%2FIRcXniQe55uzxgZDi7twlaWPlEHMJEoTqYfhWovegqWX5T09iqkLVOzQmZ5ILsvmtT2Y8DtUu%2FNBxt3tbMKsNeVvZ44gckEJJtP6ASzCGVydGxG%2FAljFGfGcJ1vkqqWz2n8amxMgp344ngqAUsJeAigQgFsuoqXR%2Bj7Ni3DgqveH5biuGC%2F6xENYZJMgAjjvXkPr6T1%2F3b3tKLp21VfFuAM%2Fro9ydprm2IlhKibUjIqS3H4WTHHxxO9m%2FDocEKVTscenmWcDfc1P6E4sxhxWsXw9%2BWg1bXOu4c31bXwxA81DRd2rgZLAetOfXMvLL8OicNYvbpSzfW5pkdSmehTDXn%2BECT7mzsZ8ezBjl%2Bk5mfNcSHF2gf4uo4xf0kZIajHRkc%2Fp0%2BKrhIIz%2BYBp5%2F8ucs8VcK74rNDoH0Ap5NacBMLyv71auOCYJ4mFzQkTPwbmLrZPqmSijSN%2FMJhM7LK1yD8pyctDbeV6QUDMNhsn3sQMNLZ2wipS9SZ2IIgSGkfcr6BLyxAr5P3oG2PMiVblBoBsrCkywvyFy5tbkPdfofjd3fov%2BsnVHvE339PyMxyNldQy2U9lJOq7EWsQYxFUXVevau1PGO0V%2FACWzaadW%2B7NB6kwIIqv2TKcrhVc3F2r7W324QsHTOU%2F7yINyB%2BccGfIpkJ%2BYmoBDFvWK%2Fqvgm6BUA5wgzrBoA%2FpzbOsJLlQb%2FEE8foH%2FwzLnUl6dn3naNdZVZ2UBXaqihg8cJ%2Fe%2FrHxJMD39NJi5yqbupf7YQGGNtdAbMzzKwecfWkWGjIejuORX1ed6KikT9u2RdFqM8ac2PhPavCe%2BwBdXOTkdI0eNAt3iSoSJI57cyH%2Be7oo6PwrcvpR7ZkH7qf5ijhiNhCnkDciaKOO3J0uaF%2F62tG4itohB6rR%2BJhrkS1kVRMcDiNQS0EFX1QhzSQaDY5YIEvNwv5GiuS86h7b1CR32cfNrbR5RqztMvE2%2Brzb815mhiFjDHNo6rRmXZ%2FpwgNf0se64jX%2BzdZ3idfhYSRtzliwqfNFKm0i%2B2fdYKxAC%2FW2YZhG%2FNp9SpRUS9gGoNzmBPlbdRwuVYG%2B6la%2BUzzdM9mPFkseMNb1BK%2BZ0rq9VU3vk3GxfLB8dcpFGduI3Mm%2BUWWGhvlD9xNX9eKKSbR%2Fd%2FHV%2FqOzNODW%2FN7VTeNjb9XcqyFV75uwjdTmIn51Lmb8VUrHEq41N3j7Dk6eLZeyzNmC%2BvKfhi7vx2liGk9VQ%2FMRxYDMfsu1B0EF0%2FZ3KhVAdFAa6hikpMdSGBeQohgDoCvCVL418hHqCnSegX5G%2BSyPZ41p7H2GCVgafqp1uz7VPWFE5Hvr3w0OrFKR3u8ryDDq4WGg5VUVM0M2X%2FXrsYoZcXFNJL4CCNFwmcalMsXt5IV02HOVcDNdP9utAzHYhJD5HBpWj%2BFqVGtpkYXpxToqpTHa4McOpab%2Bp9vzm4nkmKpRdLi6N9l9YIDeSKC3141ZZN%2FbEyntBmrwMXlBbiy7M%2FnmhfuR0EJQmJfdjeSh8kGCymWtEHfTH4uK9DCT%2F7stuvxKF31hU0jXdOkQ2jnNj09jKQpsoIzMkToW6NaPOG0G7yKM23rG6s7bNX1WRBEyY83y3UTRUZbHk2nXXtq7PTqlfY9dy3C%2FJ9DISLYRciyvJaRATFEq96B6QXXw988pnn%2Fyoae3eIEtUTQxUB2ynz3nIQwuYkiPwULb7%2FV502qYGiPah3v6H%2B3IWozoVNYNDuQe2znngbOS0bVU12TrcFo0weAl4gWThy1Xi8j1XD21MW3CpklY4q9vLJqO%2F0KDhIt1xgCuyn0WXFdACJtbhFAXOaZ8ab41YQ3aIPrBqz9CBVz7GS%2BWYfbEK0TEUT79j7NyksIK2O1A099VN2OcMoXr%2F0aupxl4PlAHQvKdVhQYYd6Z8KkjXBedqhWWFjvlo6yVQQPM8ar0RoIVbRhg6XMqHIf2zWTetd86S014MXKs4WnetuXOQ9yoNmNU3BhbuLw%2BYMXwEDgzFzI4oGh1iykS2ScbdFbQDrT6luZlPrUsz8yg%2FoSwU1rWFidn4XdGGltevPIQs8ponm13Z8gS2hGx61qS%2Fs7zrk9rc9LF0CqxE%2Fq3ZMOCEVCv3%2Fm5upzGUrjj3bJs5aPyYEu%2BmZINrqQhdi5pFK7qeLRuDY9NT5%2BiQWplqOE0GY90kte%2F%2BaHwV2kLohgZhgtvRUyHq6VjgGww5ceD0qW8IJjYJRjDb3uas5q3LH2c%2BuAU3M0C%2BcsfljbaMZd28rXl44%2BG1CBnjJNjH8LeZh4gimnUEhbhfZjlTZZpF6RaTE3rSXHprEckLYsFhk%2F0JEMeCERPrh7tZ9bWh9J%2ByCMd0T%2F7bUKSp1IKSAD2NIP3O47%2B2GqtlAjzDuC5M2P8LJRoxnNtRfRPCiSALEWaLzprTEwvccklavXJgQPDgfD6FneqOm%2BZn9EeRGIrgjiaWwqCSGhpoTVe%2FeKwYuKHOqF2q4KJSNYCTBDYjauRfpVN2ePybK%2FExc5VzXvUHGtNTSDrCipnjjFzdeQNiygSBjNquaC9%2F4AxTykgh2rkDSV8IjGjIMp4jYZ9K%2BZ8mKdCmvV0s4eFxuycrTtqq%2BKUEGQmSvLG1DHPO87dZo2oFKFFgcAAFYkPxCo89n0PZ5EAQobPRzY4X9F5ZR%2BWs8NiBXgc6pMArEwGh7C%2FpxUNM9PK3%2F3p2Z8xBOyZwEWsYBbsHeZB8BdVz1SC8rtRodgnzrHjCe%2B%2F9Aza9EHvcSAUosYIP1fi7f6uizw79TZgFWD6Iu%2B%2FselxsMLaivxKO30THpEplMN4gX6%2FEuEmy0IZPI6zJyUKGeas47JtkYc8QRx%2BrXy%2FB5tYd%2Bi9n05EPdcX1SOuxP0L7wLJ7LITkaUp2X94PZnoS54UY23UQo%2BVOW%2FUPxgSYG2PU0b6c9LOGIo2OG452n2DwXjQfgJcoJR9HKPOyTbkLdkr8cOVm7yOB05vw%2BZhAkfNfhCuAqIF9e3ezofse%2BU0ESTLKo4MgI%2BoEz8EfAwI1nfoHwK391qeBX%2BnoztZue4O%2BjDu%2BeJFuTnZHL2N3XF32Ytr18YvPTsywaDj79la2%2FW2Xm1%2F4GsOP0MBc1abSYcrKOOXdJS8Eh84TcDS6ka%2FknNHBcJdg3LJAI%2F%2BuKeNy7qx8VxWmd1KFaDE4tSN%2BHu2Vu3d6efvNyBpAPrjn8OSkdL19IxuRbFrO4SxkF0T0frrJnwA3FqneXC35tvpWsZS6DWXkWKJABGvzfCANjqmB4dB5DAH8u0fy7sruw3tESMO0GCF3KiEjQbaeVHBA0gWAVq6BOcPHH9WFtePhQ%2FmJjL2QS554xL%2BnwK8NXFgQDzm327K%2BL%2F4tUkYnML6UPv04COU6XvUfzL0wvnVc%2BstggfW%2FgUKw77LGoHZrV3ncHyWHnFdRYVHpX8u3MFyktTyuezBXxh7EyjSHN5gFrcosPueVQY2PrXTZh3KvfPvDVlPJ7L4tPbNHHne0V%2BIyz5ckv2dNxxhbvI5Esv8b%2By%2BqGoHC1tUuGJSYA88YM8pZeGuxdBxUHVdIhgBTiAiKOZ7UHXHvcFK0ksczYk%2Bg%2BYHZt%2BqAGOSxQw98ifSspA6Gf3YxbMm7JXIYfPH%2BIey2%2FvwS4VVg0fBAVWJjY%2BQhukfdPq33FIe8TKhhJZzQnw3FBiDgX5PdomyuVDJNKd2BC5QL5cRopYI6PDla9yfiDlHu78uK9u8y0fg%3D%3D&SignatureNonce=58e26677-6ff9-4f7a-92ce-30706ae0f788&Signature=4Ey3qKm%2BFH0IWjbHKOdPIu3yCw8%3D"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-web-base-zh.json",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"hasAllChannel\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"platform\":2}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":47,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":48,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"104\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"channelIds\":null,\"roomCategoryGroupIds\":null,\"roomCategoryIds\":null,\"poiIds\":null,\"cleanStatus\":null,\"date\":1779033600000,\"queryCode\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"134\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"param\":{\"campId\":\"1796067693589061634\"},\"action\":\"168\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"159\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/css/p__pc__CleanManage__CleanSetting__index.bf1c579a.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down2.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/p__pc__CleanManage__CleanSetting__index.c94dd86b.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/jhot.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/advancedLogov2.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":\"183\",\"param\":{\"campId\":\"1796067693589061634\",\"type\":\"门店\"}}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_statistics_hover%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"1848317056370487297\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"roomCategoryName\":\"\",\"keyword\":\"\",\"cityIds\":[],\"channelId\":\"\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"channelId\":0,\"isAvailability\":\"1\"}"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "requestPostData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-18T06%3A53%3A09Z&Version=2023-03-05&Action=InitCaptchaV3&SceneId=m9m5hmjm&Language=cn&Mode=embed&DeviceToken=V0VCI2FiMDM0ZWMwNjQzZjkxMzk5ZWIzM2UwNjJkYzdmYWUxLWgtMTc3OTA4NzIxMDAzNC1lNmRmMjBjZDkwYWY0NmYxYTJiYWIyMDFhNWQwNTI5NSNNa01zT3V2c0NDQXYwM0x3ZVVNcWJRdmJLNGpnZTh4SDVTQnhNQ2Z1VmozOW1rSk9VeUxYRVNYSFRXNVZFeFF0MTBpaW05ZDJMMGtuVDdHaks3ZU9iMzJ3M3kwQlhsNy9sZkZsYmVlL29DNHJVMHlodmUxRWM0KzVtb2FzcFRhS1BlcXZUUkF3YzBZN05jS0U4dWhpOHkzd2FJa1pmRTlpNkVOUHltK3YwenpLYzZqd1IrcHBqRDhvYVV2TTJtNXd3K1duMmpaWThDS1pyVjE2dkE1K2UrUmhMZTBWSzlpeHAxNFAwL1ZzaTFjR1VNLzNJdG9BVGcrQzNTZ2dPeHlPTXBxUkpRQWZUMHVPTVg5SER0TXpWUU5ReDgzelphRUoxcWcxU2g5TkxsVHB3WlFSVzNDcmR0UlY2cmdYcG9BZjhUQjBheDRJdjJjZlgwemdCb1EwSC9SRmRvdWhBbkdUWDdhUHkraXBVcjdtRngzbFFpSnkyQzkxV1p2RmRsdzE3TmVod21nRjVoRHkySThvaEcyN3RXUytzd0dUTEdZTUZYVHRvaFBVMGhUTFlVT3FNQ0VKVGJWb2NtVnRKL1V2RlVpUUxPejBjQmdFK0hYM2ttb0hlSHd6NjFPbk8wbDl5UEZZdTRod0Qya1hsK1N2aXN5aUJwaysyeEpIMXpaVW9ZNzlqcVQwREtPWkNaQjZxQVAvUmVvaklwSTRlZk5xeHUwdXFMM3pXTnNNTnpLY0trc1lObDVzL3N1N245T3UzQ0xTeWVEZkdsNG8zZjlsY3FvaHFHcndNT2ltZ3VFZFFvdU1pRWdTNnBNbUNFSjQzTDR0RlduaDN1ZERhWnByOUxrNlphYWZWNHkyS2hNZ2YvTXp2bFFoVGhVUlZCV2RJclNwbEw2ZHZlMnNhQmVObUQwQ2JZdU5OU2F0UDNvMDdOb3NXNXdyRkFjWDNIMGF0Q1lmZmUzaUg3Qjh6QTZqbHRSRGM5WFBMZmtTb2JnUXBHUmtHWHRRRXlzOEpqdFlNZXBINDZLc0ZLNnl2S0h1N1htQ3pIa3ZtY3JQVEk4R2ZaS0U1U3htZ3cwPSM3MzIjZjhlZDFhNzJkMGMxZWVhMjU0YzE5OWNlZTZkYzI5OWU%3D&SignatureNonce=a0cde5e5-0d94-4d28-8e0b-54d58c26d541&Signature=wzwJrf7MKarBNVOoFcy%2BStjNNT8%3D"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/cleaner_left_bar_current.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"isNormalOperation\":0}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250320makeCardContainer.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_Prices_hover%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/price_compare_bg.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_Status_hover%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/cleanConfig/base/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/KEEPCLEANSETTING.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.047.676ef134a4195762.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"2000745252682776577\"]}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/im-ring1.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_qrcode.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_wechat.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_message.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"roomCategoryIds\":[\"1796425099729092609\",\"1796425099485822977\",\"1796425099242553345\",\"1796425098965729282\"],\"saleType\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[3],\"isEnable\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"code\":\"hudson.im.picture.support.channels\"}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/cancelOrder.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "requestPostData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-18T06%3A53%3A10Z&Version=2023-03-05&Action=UploadLog&log=%7B%22sId%22%3A%22m9m5hmjm%22%2C%22pfx%22%3A%22x0xnm7%22%2C%22mInit%22%3A%7B%22t%22%3A1779087189849%2C%22s%22%3Atrue%2C%22msg%22%3A%22INIT_SUCCESS%22%2C%22rt%22%3A263%7D%2C%22hst%22%3A%22captcha-open.aliyuncs.com%22%2C%22cId%22%3A%220qKhNDwjCR%22%2C%22js%22%3A%7B%22t%22%3A1779087190103%2C%22s%22%3Atrue%2C%22msg%22%3A%22DYNAMICJS_LOADED%22%2C%22rt%22%3A251%7D%2C%22rt%22%3A528%7D&SignatureNonce=5d525ad8-2110-4be7-9459-86af5272029c&Signature=vC%2FrsNklLEkaJImKiQas%2FAfRebo%3D"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/newOrder.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[2],\"isEnable\":1}"
+    },
+    {
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://weblink-bgp.netease.im/socket.io/1/?t=1779087190322",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "text/plain; charset=UTF-8",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"isSupport\":1}"
+    },
+    {
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=2173f476d2c85b3f622aebb149855152&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=%5BREDACTED%5D",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"1754323708553199617\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"1876219663445012481\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":47,\"param\":{}}"
+    },
+    {
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=%5BREDACTED%5D&uid=%5BREDACTED%5D&os=web&session=%5BREDACTED%5D&ver=90500&type=im&platform=chrome148",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "image/gif",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Source%20Han%20Sans%20CN%20Regular.woff2",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "font",
+      "contentType": "application/font-woff2",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imScaleSetting.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imEnlarge.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/oneClickReading.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"userId\":\"1796067693261905922\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"action\":48,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"1947569513926946818\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"menuIds\":[\"1953303333244473346\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2f12000na9jaezFEED_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c0812000na9jbqk7A54_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2m12000na9j4bl5392_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://pic.tujia.com/upload/festatic/crn/defaultAvatarM_s.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"traces\":[{\"pageName\":\"/cleanManage/cleanSetting\",\"extraInfo\":\"\",\"actionCode\":\"modal_strongReminder\",\"actionTime\":1779087189601,\"sessionSeq\":2,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"708d9276-c356-40d8-bdf8-3131c02cae4c\",\"screenHeight\":900,\"screenWidth\":1440},{\"pageName\":\"/cleanManage/cleanSetting\",\"extraInfo\":\"\",\"actionCode\":\"workspace_ad_show\",\"actionTime\":1779087190128,\"sessionSeq\":3,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"708d9276-c356-40d8-bdf8-3131c02cae4c\",\"screenHeight\":900,\"screenWidth\":1440},{\"pageName\":\"/cleanManage/cleanSetting\",\"extraInfo\":\"24792.600000023842\",\"actionCode\":\"global-init-speed\",\"actionTime\":1779087209598,\"sessionSeq\":4,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"708d9276-c356-40d8-bdf8-3131c02cae4c\",\"screenHeight\":900,\"screenWidth\":1440}]}"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/loading.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/svg+xml",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1778851032697/js/p__pc__VersionMannager__ApplicationPayment__ApplicationPaymentDetail.62aef9be.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"campId\":\"1796067693589061634\",\"traces\":[{\"pageName\":\"/cleanManage/cleanSetting\",\"extraInfo\":\"\",\"actionTime\":1779087217600,\"sessionSeq\":5,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"708d9276-c356-40d8-bdf8-3131c02cae4c\",\"screenHeight\":900,\"screenWidth\":1440},{\"pageName\":\"/version/applicationPayment/detail\",\"extraInfo\":\"\",\"actionTime\":1779087217601,\"sessionSeq\":6,\"sessionId\":\"[REDACTED]\",\"pageContextId\":\"6cdd1634-8e04-43b3-b19d-25f9c4ee7e3f\",\"screenHeight\":900,\"screenWidth\":1440}]}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_member_current%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/cleaner_left_bar_hover.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/smart_baojie_product.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategory/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestPostData": "{\"channelRoomCategoryId\":\"1671102652115399919\",\"buyCampId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson/1671102652115399918.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "requestPostData": ""
+    }
+  ]
+}

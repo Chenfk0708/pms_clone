@@ -1,5 +1,13 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState, useEffect, type FormEvent } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import {
+  buildCleanSettingRequest,
+  createDefaultCleanSettingFilters,
+  fetchCleanSettingDashboard,
+  type CleanSettingDashboard,
+  type CleanSettingFilters,
+  type CleanSettingPolicyRule,
+} from '../services/cleanSetting'
 import './CleanSettingPage.css'
 
 const subscriptionSideLinks = [
@@ -13,25 +21,368 @@ const subscriptionSideLinks = [
 const smartCleanPrice = '¥1,232.46'
 const smartCleanOriginalPrice = '¥2,194.38 / 年'
 
-function CleanUnpaidMask({ onSubscribe }: { onSubscribe: () => void }) {
+const statusLabel: Record<string, string> = {
+  all: '全部状态',
+  enabled: '已启用',
+  paused: '已暂停',
+}
+
+const policyStatusLabel: Record<CleanSettingPolicyRule['status'], string> = {
+  enabled: '已启用',
+  paused: '已暂停',
+}
+
+function CleanSettingBusinessPage({ search }: { search: string }) {
+  const navigate = useNavigate()
+  const initialFilters = useMemo(() => createDefaultCleanSettingFilters(new URLSearchParams(search)), [search])
+  const [filters, setFilters] = useState<CleanSettingFilters>(initialFilters)
+  const [dashboard, setDashboard] = useState<CleanSettingDashboard | null>(null)
+  const [activeTab, setActiveTab] = useState<'basic' | 'price'>('basic')
+  const [feedback, setFeedback] = useState('数据加载中')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [detailRule, setDetailRule] = useState<CleanSettingPolicyRule | null>(null)
+  const [editRule, setEditRule] = useState<CleanSettingPolicyRule | null>(null)
+
+  const loadDashboard = useCallback(async (nextFilters: CleanSettingFilters, reason: 'initial' | 'query' | 'refresh' | 'reset') => {
+    setIsLoading(true)
+    setError('')
+    setFeedback('数据加载中')
+
+    try {
+      const nextDashboard = await fetchCleanSettingDashboard(nextFilters)
+      setDashboard(nextDashboard)
+      if (nextDashboard.policyRules.length === 0) {
+        setFeedback('暂无符合条件的保洁设置')
+      } else if (reason === 'query') {
+        setFeedback('已按筛选条件更新')
+      } else if (reason === 'refresh') {
+        setFeedback('数据已刷新')
+      } else if (reason === 'reset') {
+        setFeedback('筛选条件已重置')
+      } else {
+        setFeedback('数据已更新')
+      }
+    } catch (loadError) {
+      const message = loadError instanceof Error ? loadError.message : '保洁设置加载失败，请稍后重试'
+      setError(message)
+      setFeedback(message)
+      setDashboard(null)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void loadDashboard(initialFilters, 'initial')
+    }, 0)
+    return () => window.clearTimeout(timer)
+  }, [initialFilters, loadDashboard])
+
+  const selectedStore = dashboard?.stores.find((item) => item.value === filters.storeId)?.label ?? '全部门店'
+  const selectedProject = dashboard?.projects.find((item) => item.value === filters.projectId)?.label ?? '全部项目'
+  const canExport = Boolean(dashboard && dashboard.policyRules.length > 0 && !isLoading)
+  const requestSummary = buildCleanSettingRequest(filters)
+
+  function updateFilter<K extends keyof CleanSettingFilters>(key: K, value: CleanSettingFilters[K]) {
+    setFilters((current) => ({ ...current, [key]: value }))
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    void loadDashboard(filters, 'query')
+  }
+
+  function handleReset() {
+    const nextFilters = createDefaultCleanSettingFilters(new URLSearchParams(search))
+    setFilters(nextFilters)
+    void loadDashboard(nextFilters, 'reset')
+  }
+
+  function handleRefresh() {
+    void loadDashboard(filters, 'refresh')
+  }
+
+  function handleExport() {
+    setFeedback(`导出任务已创建：保洁设置-${filters.businessDate}.xlsx`)
+  }
+
+  function handleSaveRule() {
+    setEditRule(null)
+    setFeedback('策略已保存')
+  }
+
   return (
-    <section className="clean-unpaid-mask" aria-label="智能保洁订阅提示">
-      <div className="clean-unpaid-card">
-        <div className="clean-unpaid-visual" aria-hidden="true" />
-        <div className="clean-unpaid-copy">
-          <strong>限时钜惠！智能保洁6折开通</strong>
-          <span>自动派单 ｜实时提醒 ｜ 报表清晰</span>
-          <button type="button" onClick={onSubscribe}>
-            订阅开通
-          </button>
+    <div className="clean-setting-page">
+      <header className="clean-setting-head">
+        <div>
+          <h1>保洁设置</h1>
+          <p>按门店、项目和策略状态维护自动派单、提醒和价格规则。</p>
         </div>
-      </div>
-    </section>
+        <div role="status" aria-label="保洁设置操作反馈" className="clean-setting-feedback">
+          {feedback}
+        </div>
+      </header>
+
+      <form className="clean-setting-filters" aria-label="保洁设置筛选" onSubmit={handleSubmit}>
+        <label>
+          <span>保洁日期</span>
+          <input
+            aria-label="保洁日期"
+            type="date"
+            value={filters.businessDate}
+            disabled={isLoading}
+            onChange={(event) => updateFilter('businessDate', event.target.value)}
+          />
+        </label>
+        <label>
+          <span>门店</span>
+          <select
+            aria-label="门店"
+            value={filters.storeId}
+            disabled={isLoading || !dashboard}
+            onChange={(event) => updateFilter('storeId', event.target.value)}
+          >
+            {(dashboard?.stores ?? [{ value: 'all', label: '全部门店' }]).map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>项目</span>
+          <select
+            aria-label="项目"
+            value={filters.projectId}
+            disabled={isLoading || !dashboard}
+            onChange={(event) => updateFilter('projectId', event.target.value)}
+          >
+            {(dashboard?.projects ?? [{ value: 'all', label: '全部项目' }]).map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>策略状态</span>
+          <select
+            aria-label="策略状态"
+            value={filters.status}
+            disabled={isLoading || !dashboard}
+            onChange={(event) => updateFilter('status', event.target.value)}
+          >
+            {(dashboard?.statusOptions ?? [{ value: 'all', label: '全部状态' }]).map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+        <div className="clean-setting-filter-actions">
+          <button type="submit" disabled={isLoading}>查询</button>
+          <button type="button" disabled={isLoading} onClick={handleReset}>重置</button>
+          <button type="button" disabled={isLoading} onClick={handleRefresh}>刷新</button>
+          <button type="button" disabled={!canExport} onClick={handleExport}>导出</button>
+        </div>
+      </form>
+
+      <section className="clean-setting-current" aria-label="当前筛选条件">
+        <span>{selectedStore}</span>
+        <span>{selectedProject}</span>
+        <span>{statusLabel[filters.status] ?? filters.status}</span>
+        <span>{requestSummary.businessDate}</span>
+      </section>
+
+      {isLoading && (
+        <section className="clean-setting-loading" aria-label="保洁设置加载状态">
+          保洁设置数据加载中
+        </section>
+      )}
+
+      {error && (
+        <section className="clean-setting-error" role="alert" aria-label="保洁设置数据错误">
+          <strong>保洁设置加载失败</strong>
+          <span>{error}</span>
+          <button type="button" onClick={handleRefresh}>重新加载</button>
+        </section>
+      )}
+
+      {dashboard && !error && (
+        <>
+          <section className="clean-setting-metrics" aria-label="保洁设置核心指标">
+            {dashboard.metrics.map((metric) => (
+              <article key={metric.key}>
+                <span>{metric.label}</span>
+                <strong>{metric.value}</strong>
+                <em>{metric.description}</em>
+              </article>
+            ))}
+          </section>
+
+          <div className="clean-setting-tabs" role="tablist" aria-label="保洁设置类型">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'basic'}
+              className={activeTab === 'basic' ? 'is-active' : ''}
+              onClick={() => setActiveTab('basic')}
+            >
+              基础设置
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'price'}
+              className={activeTab === 'price' ? 'is-active' : ''}
+              onClick={() => setActiveTab('price')}
+            >
+              价格设置
+            </button>
+          </div>
+
+          <div className="clean-setting-grid">
+            <section className="clean-setting-card clean-setting-card--wide">
+              <div className="clean-setting-card-head">
+                <h2>{activeTab === 'basic' ? '自动派单策略' : '保洁价格规则'}</h2>
+                <button type="button" onClick={() => dashboard.policyRules[0] && setEditRule(dashboard.policyRules[0])} disabled={dashboard.policyRules.length === 0}>
+                  新增策略
+                </button>
+              </div>
+              <table className="clean-setting-table" aria-label="保洁策略列表">
+                <thead>
+                  <tr>
+                    <th>策略名称</th>
+                    <th>门店</th>
+                    <th>适用房源</th>
+                    <th>触发规则</th>
+                    <th>保洁组</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dashboard.policyRules.length === 0 ? (
+                    <tr>
+                      <td colSpan={7}>暂无保洁策略</td>
+                    </tr>
+                  ) : dashboard.policyRules.map((rule) => (
+                    <tr key={rule.id}>
+                      <td>{rule.name}</td>
+                      <td>{rule.storeName}</td>
+                      <td>{rule.roomScope}</td>
+                      <td>{rule.trigger}</td>
+                      <td>{rule.cleanerGroup}</td>
+                      <td><span className={`clean-setting-badge is-${rule.status}`}>{policyStatusLabel[rule.status]}</span></td>
+                      <td>
+                        <button type="button" onClick={() => setDetailRule(rule)}>查看详情 {rule.name}</button>
+                        <button type="button" onClick={() => setEditRule(rule)}>编辑 {rule.name}</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+
+            <section className="clean-setting-card" aria-label="保洁待办提醒">
+              <h2>待办提醒</h2>
+              {dashboard.reminders.length === 0 ? (
+                <p className="clean-setting-empty">暂无待办提醒</p>
+              ) : dashboard.reminders.map((item) => (
+                <button key={item.id} type="button" className={`clean-setting-reminder is-${item.severity}`} onClick={() => setFeedback(`${item.title}已打开`)}>
+                  <strong>{item.title}</strong>
+                  <span>{item.description}</span>
+                </button>
+              ))}
+            </section>
+
+            <section className="clean-setting-card clean-setting-card--wide">
+              <h2>价格规则</h2>
+              <table className="clean-setting-table" aria-label="保洁价格规则">
+                <thead>
+                  <tr>
+                    <th>规则名称</th>
+                    <th>保洁类型</th>
+                    <th>金额</th>
+                    <th>结算方式</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dashboard.priceRules.length === 0 ? (
+                    <tr>
+                      <td colSpan={5}>暂无价格规则</td>
+                    </tr>
+                  ) : dashboard.priceRules.map((rule) => (
+                    <tr key={rule.id}>
+                      <td>{rule.name}</td>
+                      <td>{rule.cleanType}</td>
+                      <td>{rule.amount}</td>
+                      <td>{rule.settlementMode}</td>
+                      <td><span className={`clean-setting-badge is-${rule.status}`}>{policyStatusLabel[rule.status]}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+
+            <section className="clean-setting-card">
+              <h2>运营时段</h2>
+              {dashboard.schedule.length === 0 ? (
+                <p className="clean-setting-empty">暂无时段任务</p>
+              ) : dashboard.schedule.map((item) => (
+                <div key={item.label} className={`clean-setting-schedule is-${item.tone}`}>
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+            </section>
+          </div>
+
+          <section className="clean-setting-quick" aria-label="保洁设置快捷入口">
+            <button type="button" onClick={() => navigate('/cleanManage/cleanTask')}>查看保洁任务</button>
+            <button type="button" onClick={() => navigate('/cleanManage/cleanStatistics')}>查看保洁统计</button>
+            <button type="button" onClick={() => navigate('/cleanManage/cleanLog')}>查看保洁日志</button>
+          </section>
+        </>
+      )}
+
+      {detailRule && (
+        <div className="clean-setting-modal-backdrop">
+          <section role="dialog" aria-modal="true" aria-label="保洁策略详情" className="clean-setting-modal">
+            <h2>保洁策略详情</h2>
+            <dl>
+              <div><dt>策略</dt><dd>{detailRule.name}</dd></div>
+              <div><dt>适用房源</dt><dd>{detailRule.roomScope}</dd></div>
+              <div><dt>执行说明</dt><dd>{detailRule.detail}</dd></div>
+              <div><dt>最近更新</dt><dd>{detailRule.updatedAt}</dd></div>
+            </dl>
+            <button type="button" onClick={() => setDetailRule(null)}>关闭详情</button>
+          </section>
+        </div>
+      )}
+
+      {editRule && (
+        <div className="clean-setting-modal-backdrop">
+          <section role="dialog" aria-modal="true" aria-label="编辑保洁策略" className="clean-setting-modal">
+            <h2>编辑保洁策略</h2>
+            <strong className="clean-setting-modal-summary">{editRule.name}</strong>
+            <label>
+              <span>策略名称</span>
+              <input value={editRule.name} readOnly />
+            </label>
+            <label>
+              <span>触发规则</span>
+              <input value={editRule.trigger} readOnly />
+            </label>
+            <div className="clean-setting-modal-actions">
+              <button type="button" onClick={() => setEditRule(null)}>取消</button>
+              <button type="button" onClick={handleSaveRule}>保存策略</button>
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
   )
 }
 
 export function CleanSettingPage() {
-  const [activeTab, setActiveTab] = useState<'basic' | 'price'>('basic')
   const [agreed, setAgreed] = useState(false)
   const [scrmAgreed, setScrmAgreed] = useState(false)
   const location = useLocation()
@@ -359,31 +710,5 @@ export function CleanSettingPage() {
     )
   }
 
-  return (
-    <div className="clean-setting-page">
-      <section className="clean-setting-panel">
-        <div className="clean-setting-tabs" role="tablist" aria-label="保洁设置类型">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'basic'}
-            className={activeTab === 'basic' ? 'is-active' : ''}
-            onClick={() => setActiveTab('basic')}
-          >
-            基础设置
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'price'}
-            className={activeTab === 'price' ? 'is-active' : ''}
-            onClick={() => setActiveTab('price')}
-          >
-            价格设置
-          </button>
-        </div>
-        <CleanUnpaidMask onSubscribe={() => navigate('/version/applicationPayment/detail')} />
-      </section>
-    </div>
-  )
+  return <CleanSettingBusinessPage key={location.search} search={location.search} />
 }

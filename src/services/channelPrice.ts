@@ -2,6 +2,7 @@ export type ChannelPriceFilters = {
   campId: string
   channel: string
   date: string
+  provider?: ChannelPriceProviderName
 }
 
 export type ChannelPriceRow = {
@@ -13,10 +14,26 @@ export type ChannelPriceRow = {
   product?: string
 }
 
+export type ChannelPriceProviderName = 'mock' | 'real'
+type ChannelPriceMockMode = 'success' | 'empty' | 'error'
+
+export type ChannelPriceData = {
+  rows: ChannelPriceRow[]
+  requestBody: Record<string, unknown>
+  endpoint: string
+  provider: ChannelPriceProviderName
+  sourceLabel: string
+}
+
 type ChannelPriceResponse = {
+  code?: number
+  message?: string
   success?: boolean
   errorMsg?: string | null
+  errorCode?: string | null
   data?: unknown
+  traceId?: string
+  timestamp?: string
 }
 
 export class ChannelPriceRequestError extends Error {
@@ -26,8 +43,35 @@ export class ChannelPriceRequestError extends Error {
   }
 }
 
-export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal?: AbortSignal): Promise<ChannelPriceRow[]> {
-  const body = {
+export const channelPriceEndpoint = 'https://hudson-prod.localhome.cn/roomCategoryStatuses/roomCategory/channel/get'
+export const channelPriceMockSourceLabel = '统一响应包 mock provider'
+
+export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal?: AbortSignal): Promise<ChannelPriceData> {
+  const body = createChannelPriceRequestBody(filters)
+
+  if (resolveChannelPriceProviderName(filters.provider) === 'mock') {
+    return fetchMockChannelPriceRows(body)
+  }
+
+  const response = await fetch(channelPriceEndpoint, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  const payload = await readJson(response)
+
+  if (!response.ok || isFailedResponse(payload)) {
+    throw new ChannelPriceRequestError(extractErrorMessage(payload) ?? `HTTP ${response.status}`)
+  }
+
+  return adaptChannelPriceData(payload?.data, body, 'real')
+}
+
+export function createChannelPriceRequestBody(filters: ChannelPriceFilters): Record<string, unknown> {
+  return {
     campId: filters.campId,
     channelIds: filters.channel && filters.channel !== '渠道' && filters.channel !== '全部渠道' ? [filters.channel] : null,
     roomCategoryGroupIds: null,
@@ -40,27 +84,32 @@ export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal
     pageSize: 15,
     isFinalChannelRp: 1,
   }
+}
 
-  const response = await fetch('https://hudson-prod.localhome.cn/roomCategoryStatuses/roomCategory/channel/get', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(body),
-    signal,
-  })
+function fetchMockChannelPriceRows(requestBody: Record<string, unknown>): ChannelPriceData {
+  const mode = resolveChannelPriceMockMode()
+  const response =
+    mode === 'error'
+      ? mockChannelPriceErrorEnvelope()
+      : mode === 'empty'
+        ? mockChannelPriceEmptyEnvelope()
+        : mockChannelPriceSuccessEnvelope(requestBody)
 
-  let payload: ChannelPriceResponse | null
-  try {
-    payload = (await response.json()) as ChannelPriceResponse
-  } catch {
-    payload = null
+  if (response.code !== 0) {
+    throw new ChannelPriceRequestError(`${response.message}（traceId: ${response.traceId}）`)
   }
 
-  if (!response.ok || payload?.success === false) {
-    throw new ChannelPriceRequestError(payload?.errorMsg ?? `HTTP ${response.status}`)
-  }
+  return adaptChannelPriceData(response.data, requestBody, 'mock')
+}
 
-  return adaptChannelPriceRows(payload?.data)
+function adaptChannelPriceData(data: unknown, requestBody: Record<string, unknown>, provider: ChannelPriceProviderName): ChannelPriceData {
+  return {
+    rows: adaptChannelPriceRows(data),
+    requestBody,
+    endpoint: provider === 'mock' ? channelPriceMockSourceLabel : channelPriceEndpoint,
+    provider,
+    sourceLabel: provider === 'mock' ? channelPriceMockSourceLabel : channelPriceEndpoint.replace('https://hudson-prod.localhome.cn/', ''),
+  }
 }
 
 export function adaptChannelPriceRows(data: unknown): ChannelPriceRow[] {
@@ -127,6 +176,126 @@ function readPriceCells(record: Record<string, unknown>) {
   }
 
   return []
+}
+
+function resolveChannelPriceProviderName(explicitProvider?: ChannelPriceProviderName): ChannelPriceProviderName {
+  const configured =
+    explicitProvider ||
+    readRuntimeConfig('pms.channelPriceProvider') ||
+    (import.meta.env.VITE_CHANNEL_PRICE_PROVIDER as string | undefined)
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolveChannelPriceMockMode(): ChannelPriceMockMode {
+  const configured =
+    readRuntimeConfig('pms.channelPriceMockMode') ||
+    (import.meta.env.VITE_CHANNEL_PRICE_MOCK_MODE as string | undefined)
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
+}
+
+type ChannelPriceEnvelope<T> = {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+function mockChannelPriceSuccessEnvelope(requestBody: Record<string, unknown>): ChannelPriceEnvelope<{
+  list: ChannelPriceRow[]
+  pagination: { page: number; pageSize: number; total: number }
+}> {
+  const channelIds = Array.isArray(requestBody.channelIds) ? requestBody.channelIds.map((item) => String(item)) : []
+  const channelName = channelIds[0]
+  const productPrefix = channelName ? `${channelName}渠道` : '模拟渠道RP价'
+  const list: ChannelPriceRow[] = [
+    {
+      channel: '模拟渠道RP价房型A',
+      coefficient: '*0.88',
+      basePrice: '399',
+      product: `${productPrefix}产品A<无早>`,
+      prices: ['321', '322', '323', '324', '421', '422', '323', '324'],
+      comparePrices: ['399', '399', '399', '399', '499', '499', '399', '399'],
+    },
+    {
+      channel: '模拟渠道RP价房型B',
+      coefficient: '*0.91',
+      basePrice: '559',
+      product: `${productPrefix}产品B<双早>`,
+      prices: ['508', '508', '509', '509', '609', '609', '508', '508'],
+      comparePrices: ['559', '559', '559', '559', '669', '669', '559', '559'],
+    },
+  ]
+
+  return {
+    code: 0,
+    message: 'success',
+    data: {
+      list,
+      pagination: {
+        page: 1,
+        pageSize: 20,
+        total: list.length,
+      },
+    },
+    traceId: 'mock-fangtai--fangjia-guanli--jvdao-prjia-list-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockChannelPriceEmptyEnvelope(): ChannelPriceEnvelope<{
+  list: ChannelPriceRow[]
+  pagination: { page: number; pageSize: number; total: number }
+}> {
+  return {
+    code: 0,
+    message: 'success',
+    data: {
+      list: [],
+      pagination: {
+        page: 1,
+        pageSize: 20,
+        total: 0,
+      },
+    },
+    traceId: 'mock-fangtai--fangjia-guanli--jvdao-prjia-empty-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockChannelPriceErrorEnvelope(): ChannelPriceEnvelope<null> {
+  return {
+    code: 50001,
+    message: 'mock 渠道RP价接口模拟失败',
+    data: null,
+    traceId: 'mock-fangtai--fangjia-guanli--jvdao-prjia-error-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+async function readJson(response: Response): Promise<ChannelPriceResponse | null> {
+  try {
+    return (await response.json()) as ChannelPriceResponse
+  } catch {
+    return null
+  }
+}
+
+function isFailedResponse(payload: ChannelPriceResponse | null) {
+  if (!payload) return false
+  if (payload.code !== undefined) return payload.code !== 0
+  return payload.success === false
+}
+
+function extractErrorMessage(payload: ChannelPriceResponse | null) {
+  if (!payload) return null
+  return payload.message ?? payload.errorMsg ?? payload.errorCode ?? null
 }
 
 function readString(value: unknown) {

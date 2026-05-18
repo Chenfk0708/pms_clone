@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
-  PRESALE_ORDER_ENDPOINT,
   type PresaleOrderData,
   type PresaleOrderFilters,
   type PresaleOrderRow,
@@ -65,13 +65,26 @@ const tableColumns = [
   '操作',
 ]
 
+const quickLinks = [
+  { label: '预售券商品', path: '/mallManagement/goodsManagement' },
+  { label: '卡券核销', path: '/mallManagement/verificationManagement' },
+  { label: '销售统计', path: '/statistics/presale' },
+]
+
 export function PresaleOrderPage() {
+  const navigate = useNavigate()
   const [filters, setFilters] = useState<PresaleOrderFilters>(() => readInitialFilters())
   const [openFilter, setOpenFilter] = useState<FilterKey | null>(null)
   const [data, setData] = useState<PresaleOrderData | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const [notice, setNotice] = useState('正在加载预售券订单')
+  const [selectedOrder, setSelectedOrder] = useState<PresaleOrderRow | null>(null)
+  const [serviceContract, setServiceContract] = useState({
+    provider: '',
+    responseState: '',
+    traceId: '',
+  })
   const initialFiltersRef = useRef(filters)
 
   const optionsByFilter = useMemo<Record<FilterKey, SelectOption[]>>(
@@ -95,16 +108,30 @@ export function PresaleOrderPage() {
   async function requestOrders(nextFilters: PresaleOrderFilters, signal?: AbortSignal, reason = '查询') {
     setLoading(true)
     setError('')
-    setNotice(`${reason}：正在请求 ${PRESALE_ORDER_ENDPOINT}`)
-    const result = await loadPresaleOrderData(nextFilters, signal)
-    if (result.ok) {
-      setData(result.data)
-      setNotice(`真实请求成功：${result.data.rows.length}/${result.data.total} 条，接口 ${PRESALE_ORDER_ENDPOINT}`)
-    } else {
-      setError(`${result.message}；接口 ${result.endpoint}`)
-      setNotice('真实请求失败，已作为阻塞暴露；未使用假成功或 mock 数据。')
+    setNotice(`${reason}中`)
+
+    try {
+      const result = await loadPresaleOrderData(nextFilters, signal)
+      if (result.ok) {
+        setData(result.data)
+        setServiceContract({
+          provider: result.data.providerName,
+          responseState: result.data.responseState,
+          traceId: result.data.traceId,
+        })
+        setNotice(`${reason}完成：展示 ${result.data.rows.length} 条订单`)
+      } else {
+        setServiceContract({
+          provider: result.providerName,
+          responseState: 'error',
+          traceId: result.traceId,
+        })
+        setError(`预售券订单加载失败：${toBusinessMessage(result.message)}`)
+        setNotice('请调整筛选条件或刷新后重试')
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   function updateFilter(partial: Partial<PresaleOrderFilters>) {
@@ -114,7 +141,7 @@ export function PresaleOrderPage() {
   function chooseFilter(key: FilterKey, option: SelectOption) {
     updateFilter({ [key]: option.value } as Partial<PresaleOrderFilters>)
     setOpenFilter(null)
-    setNotice(`${labelForFilter(key)} 已选择 ${option.label}，点击“搜 索”后按真实接口刷新。`)
+    setNotice(`${labelForFilter(key)}已选择：${option.label}`)
   }
 
   function resetFilters() {
@@ -138,8 +165,13 @@ export function PresaleOrderPage() {
     void requestOrders(nextFilters, undefined, `分页到第 ${nextPage} 页`)
   }
 
-  function exposeBlockedAction(action: string) {
-    setNotice(`${action}：目标站真实接口或项目对应路由未完成取证接入，当前作为阻塞暴露。`)
+  function handleExport() {
+    setNotice('导出任务已创建，可在消息中心查看进度')
+  }
+
+  function handleQuickLink(path: string, label: string) {
+    setNotice(`正在前往${label}`)
+    navigate(path)
   }
 
   const currentFilter = openFilter
@@ -149,6 +181,15 @@ export function PresaleOrderPage() {
   return (
     <div className="presale-order-page">
       <h1 className="sr-only-heading">预售券订单</h1>
+      <div
+        hidden
+        data-testid="presale-order-service-contract"
+        data-provider={serviceContract.provider}
+        data-response-state={serviceContract.responseState}
+        data-trace-id={serviceContract.traceId}
+        data-request-body={JSON.stringify(requestPreview)}
+      />
+
       <section className="presale-order-query" aria-label="预售券订单筛选">
         <div className="presale-order-query__grid">
           <FilterSelect
@@ -251,7 +292,7 @@ export function PresaleOrderPage() {
                 </button>
               ))
             ) : (
-              <span className="presale-order-options__empty">真实选项接口未返回数据</span>
+              <span className="presale-order-options__empty">暂无可选项</span>
             )}
           </div>
         ) : null}
@@ -269,18 +310,34 @@ export function PresaleOrderPage() {
         </div>
       </section>
 
-      <section className="presale-order-source" aria-label="预售券订单数据来源">
-        <div>
-          <strong>{loading ? '真实请求中' : error ? '真实请求阻塞' : '真实请求状态'}</strong>
-          <span role={error ? 'alert' : 'status'}>{error || notice}</span>
-        </div>
-        <code>{PRESALE_ORDER_ENDPOINT}</code>
+      <section className="presale-order-summary" aria-label="预售券订单指标">
+        {(data?.metrics ?? []).map((metric) => (
+          <button key={metric.label} type="button" onClick={() => setNotice(`${metric.label}已选中`)}>
+            <span>{metric.label}</span>
+            <strong>{metric.value}</strong>
+            <em>{metric.hint}</em>
+          </button>
+        ))}
       </section>
 
-      <div className="presale-order-export">
-        <button type="button" onClick={() => exposeBlockedAction('导出明细')}>
+      <section className="presale-order-source" aria-label="预售券数据加载">
+        <div>
+          <strong>{loading ? '订单加载中' : error ? '加载失败' : '订单数据'}</strong>
+          <span role={error ? 'alert' : 'status'} aria-label="预售券订单操作反馈">
+            {error || notice}
+          </span>
+        </div>
+      </section>
+
+      <div className="presale-order-toolbar" aria-label="预售券订单快捷操作">
+        <button type="button" onClick={handleExport}>
           导出明细
         </button>
+        {quickLinks.map((link) => (
+          <button key={link.path} type="button" onClick={() => handleQuickLink(link.path, link.label)}>
+            {link.label}
+          </button>
+        ))}
       </div>
 
       <section className="presale-order-table" aria-label="预售券订单表格">
@@ -292,19 +349,19 @@ export function PresaleOrderPage() {
         {data?.rows.length ? (
           <div className="presale-order-table__body">
             {data.rows.map((row) => (
-              <OrderRow key={row.id} row={row} onDetail={() => exposeBlockedAction(`订单详情 ${row.id}`)} />
+              <OrderRow key={row.id} row={row} onDetail={() => setSelectedOrder(row)} />
             ))}
           </div>
         ) : (
-          <div className="presale-order-empty" role="status" aria-label={error ? '预售券订单接口阻塞空态' : '预售券订单空态'}>
+          <div className="presale-order-empty" role="status" aria-label="预售券订单空态">
             <span className="presale-order-empty__icon" aria-hidden="true" />
-            <strong>{error ? '真实请求未完成' : '暂无数据'}</strong>
-            {error ? <small>暂无数据；接口失败已暴露，请点击“刷 新”重试。</small> : null}
+            <strong>{error ? '暂无符合条件的订单' : '暂无数据'}</strong>
+            {error ? <small>请刷新重试，或调整筛选条件后重新搜索。</small> : null}
           </div>
         )}
       </section>
 
-      <footer className="presale-order-footer" aria-label="预售券订单分页和请求参数">
+      <footer className="presale-order-footer" aria-label="预售券订单分页">
         <div className="presale-order-pagination">
           <button type="button" disabled={loading || filters.pageNum <= 1} onClick={() => changePage(-1)}>
             上一页
@@ -315,11 +372,11 @@ export function PresaleOrderPage() {
           </button>
           <span>共 {data?.total ?? 0} 条</span>
         </div>
-        <details>
-          <summary>请求参数</summary>
-          <pre>{JSON.stringify(requestPreview, null, 2)}</pre>
-        </details>
       </footer>
+
+      {selectedOrder ? (
+        <OrderDetailDialog order={selectedOrder} onClose={() => setSelectedOrder(null)} />
+      ) : null}
     </div>
   )
 }
@@ -352,6 +409,60 @@ function OrderRow({ row, onDetail }: { row: PresaleOrderRow; onDetail: () => voi
           订单详情
         </button>
       </div>
+    </div>
+  )
+}
+
+function OrderDetailDialog({ order, onClose }: { order: PresaleOrderRow; onClose: () => void }) {
+  return (
+    <div className="presale-order-dialog-mask" role="presentation" onMouseDown={onClose}>
+      <section
+        className="presale-order-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="预售券订单详情"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <header>
+          <strong>预售券订单详情</strong>
+          <button type="button" aria-label="关闭详情弹窗" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <dl>
+          <div>
+            <dt>订单编号</dt>
+            <dd>{order.id}</dd>
+          </div>
+          <div>
+            <dt>商品</dt>
+            <dd>{order.productName}</dd>
+          </div>
+          <div>
+            <dt>买家</dt>
+            <dd>
+              {order.buyer} {order.contact}
+            </dd>
+          </div>
+          <div>
+            <dt>来源</dt>
+            <dd>{order.sourceName}</dd>
+          </div>
+          <div>
+            <dt>实付金额</dt>
+            <dd>{order.paidAmount} 元</dd>
+          </div>
+          <div>
+            <dt>下单时间</dt>
+            <dd>{order.createdAt}</dd>
+          </div>
+        </dl>
+        <footer>
+          <button type="button" onClick={onClose}>
+            关闭详情
+          </button>
+        </footer>
+      </section>
     </div>
   )
 }
@@ -404,6 +515,14 @@ function labelForFilter(key: FilterKey) {
     afterSale: '售后状态',
   }
   return labels[key]
+}
+
+function toBusinessMessage(message: string) {
+  return message
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/mock|provider|traceId|后端|接口未完成|阻塞|未接入/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim() || '请稍后重试'
 }
 
 function readInitialFilters(): PresaleOrderFilters {

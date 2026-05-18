@@ -1,7 +1,7 @@
 body.member-points-route .page-content,
 .page-content:has(.member-points-page) {
-  padding: 0 8px 0 8px;
-  background: #f4f7fb;
+  padding: 10px 16px 18px;
+  background: #f3f6fb;
 }
 
 body.member-points-route .page-content > .page-header,
@@ -10,66 +10,448 @@ body.member-points-route .page-content > .page-header,
 }
 
 .member-points-page {
-  position: relative;
-  min-height: calc(100vh - 52px);
-  color: rgba(0, 0, 0, 0.85);
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  color: #243145;
+  font-size: 14px;
 }
 
-.member-points-panel {
-  min-height: calc(100vh - 60px);
-  margin-top: 8px;
-  overflow: hidden;
+.member-points-page button,
+.member-points-page input,
+.member-points-page select {
+  font: inherit;
+}
+
+.member-points-hero,
+.member-points-filters,
+.member-points-chart,
+.member-points-side section,
+.member-points-records,
+.member-points-alert {
+  border: 1px solid #e3e8f2;
+  border-radius: 8px;
+  background: #fbfcff;
+}
+
+.member-points-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 96px;
+  padding: 18px 20px;
+}
+
+.member-points-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: #66748a;
+  font-size: 12px;
+}
+
+.member-points-hero h2,
+.member-points-chart h2,
+.member-points-side h2,
+.member-points-records h2 {
+  margin: 0;
+  color: #162033;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.member-points-hero p {
+  margin: 8px 0 0;
+  color: #66748a;
+}
+
+.member-points-actions,
+.member-points-filter-actions,
+.member-points-legend,
+.member-points-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.member-points-actions button,
+.member-points-filter-actions button,
+.member-points-legend button,
+.member-points-pagination button,
+.member-points-alert button,
+.member-points-records td button {
+  height: 32px;
+  border: 1px solid #cfd8e7;
+  border-radius: 4px;
+  background: #fff;
+  color: #3656d4;
+  padding: 0 14px;
+}
+
+.member-points-actions button:disabled,
+.member-points-filter-actions button:disabled,
+.member-points-pagination button:disabled {
+  color: #9aa7ba;
+  cursor: not-allowed;
+}
+
+.member-points-filter-actions .is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.member-points-filters {
+  display: grid;
+  grid-template-columns: 220px 168px 168px 160px minmax(220px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px 16px;
+}
+
+.member-points-filters label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.member-points-filters label span {
+  color: #56657a;
+  font-size: 12px;
+}
+
+.member-points-filters input,
+.member-points-filters select {
+  width: 100%;
+  height: 34px;
+  min-width: 0;
+  border: 1px solid #cfd8e7;
+  border-radius: 4px;
+  background: #fff;
+  color: #22304a;
+  padding: 0 10px;
+}
+
+.member-points-toast {
+  justify-self: end;
+  border: 1px solid #b9e5cb;
+  border-radius: 4px;
+  background: #f0fff6;
+  color: #1f7e4b;
+  padding: 7px 12px;
+}
+
+.member-points-alert {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-color: #ffd7bd;
+  background: #fff7f0;
+  color: #9a431c;
+}
+
+.member-points-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.member-points-metric {
+  display: grid;
+  gap: 8px;
+  min-height: 122px;
+  border: 1px solid #e0e7f2;
   border-radius: 8px;
   background: #fff;
+  padding: 16px;
+  text-align: left;
 }
 
-.member-points-empty {
-  display: flex;
-  min-height: 830px;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 98px;
+.member-points-metric:hover {
+  border-color: #aebdfd;
+  box-shadow: 0 10px 24px rgba(47, 70, 132, 0.1);
 }
 
-.member-points-coming-soon {
-  width: 480px;
-  height: 480px;
-  object-fit: contain;
+.member-points-metric span {
+  color: #66748a;
 }
 
-.member-points-contact {
-  display: flex;
-  align-items: flex-start;
-  width: 408px;
-  height: 180px;
-}
-
-.member-points-qr {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-}
-
-.member-points-contact__text {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  margin-left: 25px;
-  padding-top: 40px;
-  font-size: 14px;
-  line-height: normal;
-}
-
-.member-points-contact__text p {
-  margin: 0 0 10px;
-  color: #333;
+.member-points-metric strong {
+  color: #162033;
+  font-size: 30px;
   font-weight: 700;
+  line-height: 1.05;
 }
 
-.member-points-contact__text span {
-  display: block;
-  margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.85);
+.member-points-metric em {
+  margin-left: 4px;
+  color: #6d7a8d;
+  font-size: 13px;
+  font-style: normal;
   font-weight: 500;
 }
 
+.member-points-metric small {
+  color: #56657a;
+}
+
+.member-points-metric.is-blue {
+  background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
+}
+
+.member-points-metric.is-green {
+  background: linear-gradient(180deg, #ffffff 0%, #effaf3 100%);
+}
+
+.member-points-metric.is-orange {
+  background: linear-gradient(180deg, #ffffff 0%, #fff5ec 100%);
+}
+
+.member-points-metric.is-purple {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f0ff 100%);
+}
+
+.member-points-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 12px;
+}
+
+.member-points-chart {
+  min-height: 278px;
+  padding: 16px;
+}
+
+.member-points-chart header,
+.member-points-records header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.member-points-legend button {
+  height: 28px;
+  padding: 0 12px;
+  color: #66748a;
+}
+
+.member-points-legend .is-selected {
+  border-color: #4d65f6;
+  background: #eef2ff;
+  color: #3656d4;
+}
+
+.member-points-bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: end;
+  gap: 14px;
+  height: 205px;
+  padding: 12px 4px 0;
+}
+
+.member-points-bar {
+  display: grid;
+  justify-items: center;
+  align-items: end;
+  gap: 6px;
+  height: 100%;
+  color: #66748a;
+  font-size: 12px;
+}
+
+.member-points-bar i {
+  width: 30px;
+  border-radius: 6px 6px 2px 2px;
+  background: #4d65f6;
+}
+
+.member-points-bar em {
+  color: #34445d;
+  font-style: normal;
+}
+
+.member-points-side {
+  display: grid;
+  gap: 12px;
+}
+
+.member-points-side section {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.member-points-reminder,
+.member-points-shortcut {
+  display: grid;
+  gap: 4px;
+  border: 1px solid #edf1f7;
+  border-radius: 6px;
+  background: #fff;
+  color: #243145;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.member-points-reminder {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.member-points-reminder strong {
+  color: #3656d4;
+  font-size: 20px;
+}
+
+.member-points-shortcut small {
+  color: #66748a;
+}
+
+.member-points-records {
+  overflow: hidden;
+  padding: 16px;
+}
+
+.member-points-records header span {
+  color: #66748a;
+  font-size: 12px;
+}
+
+.member-points-records table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.member-points-records th,
+.member-points-records td {
+  border-bottom: 1px solid #edf1f7;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.member-points-records th {
+  background: #f5f8fc;
+  color: #526178;
+  font-weight: 600;
+}
+
+.member-points-records td {
+  color: #243145;
+}
+
+.member-points-records td span {
+  display: block;
+  margin-top: 2px;
+  color: #7a8799;
+  font-size: 12px;
+}
+
+.member-points-records .is-plus {
+  color: #1f8b55;
+  font-weight: 650;
+}
+
+.member-points-records .is-minus {
+  color: #c7622c;
+  font-weight: 650;
+}
+
+.member-points-empty-block {
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  border: 1px dashed #cfd8e7;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #66748a;
+}
+
+.member-points-pagination {
+  justify-content: flex-end;
+  margin-top: 12px;
+  color: #66748a;
+}
+
+.member-points-dialog-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(17, 24, 39, 0.42);
+}
+
+.member-points-dialog {
+  width: min(520px, calc(100vw - 48px));
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.24);
+}
+
+.member-points-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  border-bottom: 1px solid #edf1f7;
+  padding: 0 18px;
+}
+
+.member-points-dialog header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.member-points-dialog header button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: #66748a;
+  font-size: 24px;
+}
+
+.member-points-dialog p,
+.member-points-dialog dl {
+  margin: 0;
+  padding: 18px;
+}
+
+.member-points-dialog dl {
+  display: grid;
+  gap: 10px;
+}
+
+.member-points-dialog dl div {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.member-points-dialog dt {
+  color: #66748a;
+}
+
+.member-points-dialog dd {
+  margin: 0;
+}
+
+@media (max-width: 1260px) {
+  .member-points-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .member-points-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .member-points-main {
+    grid-template-columns: 1fr;
+  }
+}

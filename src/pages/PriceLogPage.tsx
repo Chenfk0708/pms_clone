@@ -1,26 +1,24 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
-import { fetchPriceLogEvidence } from '../services/priceLogs'
-import type { PriceLogEvidence, PriceLogEvidenceQuery } from '../services/priceLogs'
+import {
+  createPriceLogExportRequest,
+  fetchPriceLogs,
+  getDefaultPriceLogAdjustmentOptions,
+  getDefaultPriceLogChannelOptions,
+  resolvePriceLogQueryFromLocation,
+  type PriceLogOption,
+  type PriceLogQuery,
+  type PriceLogRow,
+  type PriceLogViewModel,
+} from '../services/priceLogs'
 import './PriceLogPage.css'
 
-const columns = ['房型', '价格日期', '操作内容', '调整方式', '同步渠道', '渠道价格', '操作人', '操作时间']
-const adjustmentOptions = ['手动调整', '系统调整']
-const channelOptions = [
-  { label: '自来客', apiValue: '0' },
-  { label: '路客云聚合', apiValue: '17' },
-  { label: '美团民宿', apiValue: '3' },
-  { label: '美团酒店', apiValue: '6' },
-  { label: '途家', apiValue: '2' },
-  { label: '途家直连', apiValue: '49' },
-  { label: '爱彼迎', apiValue: '1' },
-  { label: '飞猪淘酒店', apiValue: '8' },
-  { label: '飞猪民宿直连', apiValue: '59' },
-  { label: '飞猪酒店直连', apiValue: '60' },
-]
+const columns = ['房型', '价格日期', '操作内容', '调整方式', '同步渠道', '渠道价格', '操作人', '操作时间', '操作']
+const PAGE_SIZE = 20
 
 export function PriceLogPage() {
   const [keyword, setKeyword] = useState('')
+  const [submittedKeyword, setSubmittedKeyword] = useState('')
   const [adjustmentMode, setAdjustmentMode] = useState('手动调整')
   const [channel, setChannel] = useState('')
   const [expanded, setExpanded] = useState(false)
@@ -30,22 +28,85 @@ export function PriceLogPage() {
   const [operationStart, setOperationStart] = useState('')
   const [operationEnd, setOperationEnd] = useState('')
   const [operator, setOperator] = useState('')
+  const [submittedOperator, setSubmittedOperator] = useState('')
+  const [refreshTick, setRefreshTick] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState('请设置筛选条件后查询调价日志')
+  const [message, setMessage] = useState('调价日志已加载')
   const [error, setError] = useState('')
-  const [evidence, setEvidence] = useState<PriceLogEvidence | null>(null)
-  const [lastQuery, setLastQuery] = useState<PriceLogEvidenceQuery | null>(null)
+  const [data, setData] = useState<PriceLogViewModel | null>(null)
+  const [selectedLog, setSelectedLog] = useState<PriceLogRow | null>(null)
 
   const campId = useMemo(() => resolveCampId(), [])
+  const locationQuery = useMemo(() => resolvePriceLogQueryFromLocation(window.location), [])
+  const channelOptions = data?.channelOptions ?? getDefaultPriceLogChannelOptions()
+  const adjustmentOptions = data?.adjustmentOptions ?? getDefaultPriceLogAdjustmentOptions()
+
+  const currentQuery = useMemo<PriceLogQuery>(
+    () => ({
+      provider: locationQuery.provider,
+      mockState: locationQuery.mockState,
+      campId: campId || '1796067693589061634',
+      keyword: submittedKeyword,
+      adjustmentMode,
+      channelId: channel,
+      adjustmentStart,
+      adjustmentEnd,
+      operationStart,
+      operationEnd,
+      operator: submittedOperator,
+      page: 1,
+      pageSize: PAGE_SIZE,
+    }),
+    [
+      adjustmentEnd,
+      adjustmentMode,
+      adjustmentStart,
+      campId,
+      channel,
+      locationQuery.mockState,
+      locationQuery.provider,
+      operationEnd,
+      operationStart,
+      submittedKeyword,
+      submittedOperator,
+    ],
+  )
+
+  useEffect(() => {
+    const controller = new AbortController()
+    queueMicrotask(() => {
+      if (controller.signal.aborted) return
+      setIsLoading(true)
+      setError('')
+    })
+
+    fetchPriceLogs(currentQuery, controller.signal)
+      .then((result) => {
+        setData(result.view)
+      })
+      .catch((requestError: unknown) => {
+        if (requestError instanceof DOMException && requestError.name === 'AbortError') return
+        setData(null)
+        setError(requestError instanceof Error ? requestError.message : '调价日志数据加载失败，请稍后重试')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [currentQuery, refreshTick])
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setOpenSelect(null)
-    void runQuery()
+    setSubmittedKeyword(keyword.trim())
+    setSubmittedOperator(operator.trim())
+    setMessage('查询完成')
   }
 
   function handleReset() {
     setKeyword('')
+    setSubmittedKeyword('')
     setAdjustmentMode('手动调整')
     setChannel('')
     setAdjustmentStart('')
@@ -53,56 +114,24 @@ export function PriceLogPage() {
     setOperationStart('')
     setOperationEnd('')
     setOperator('')
+    setSubmittedOperator('')
     setOpenSelect(null)
+    setSelectedLog(null)
     setError('')
-    setEvidence(null)
-    setLastQuery(null)
+    setRefreshTick((tick) => tick + 1)
     setMessage('筛选条件已重置')
   }
 
-  async function runQuery(query = buildQuery()) {
-    if (!query) {
-      setError('缺少门店上下文 campId，无法发起真实调价日志取证请求。请从项目带门店上下文的入口进入，或在 URL query 中提供 campId。')
-      setMessage('调价日志请求被阻塞')
-      setEvidence(null)
-      return
-    }
-
-    setIsLoading(true)
-    setError('')
-    setMessage('正在请求目标站已取证的调价日志上下文接口...')
-    setLastQuery(query)
-
-    try {
-      const nextEvidence = await fetchPriceLogEvidence(query)
-      setEvidence(nextEvidence)
-      setMessage(
-        `已完成真实取证请求：渠道 ${nextEvidence.channels.length} 个，房型 ${nextEvidence.roomCategories.length} 个；目标站本次未触发调价日志列表接口，保持空态并记录为阻塞`,
-      )
-    } catch (requestError) {
-      setEvidence(null)
-      setError(
-        `真实接口请求失败：${requestError instanceof Error ? requestError.message : String(requestError)}。这通常表示登录态、CORS 或后端接口不可达阻塞。`,
-      )
-      setMessage('调价日志请求失败')
-    } finally {
-      setIsLoading(false)
-    }
+  function handleRefresh() {
+    setOpenSelect(null)
+    setRefreshTick((tick) => tick + 1)
+    setMessage('已刷新')
   }
 
-  function retryLastQuery() {
-    void runQuery(lastQuery ?? buildQuery())
-  }
-
-  function buildQuery(): PriceLogEvidenceQuery | null {
-    if (!campId) return null
-
-    const selectedChannel = channelOptions.find((option) => option.label === channel)
-    return {
-      campId,
-      keyword: keyword.trim(),
-      channelId: selectedChannel?.apiValue ?? '',
-    }
+  function handleExport() {
+    const exportRequest = createPriceLogExportRequest(currentQuery)
+    window.localStorage.setItem('pms.priceLog.lastExportRequest', JSON.stringify(exportRequest))
+    setMessage('导出任务已创建')
   }
 
   return (
@@ -123,70 +152,37 @@ export function PriceLogPage() {
 
           <div className="price-log-field price-log-field--adjustment">
             <span>调整方式</span>
-            <div className="price-log-select">
-              <button
-                type="button"
-                aria-haspopup="listbox"
-                aria-label={`调整方式 ${adjustmentMode}`}
-                aria-expanded={openSelect === 'adjustment'}
-                onClick={() => setOpenSelect(openSelect === 'adjustment' ? null : 'adjustment')}
-                disabled={isLoading}
-              >
-                {adjustmentMode}
-              </button>
-              {openSelect === 'adjustment' ? (
-                <div className="price-log-options" role="listbox" aria-label="调整方式">
-                  {adjustmentOptions.map((option) => (
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={option === adjustmentMode}
-                      key={option}
-                      onClick={() => {
-                        setAdjustmentMode(option)
-                        setOpenSelect(null)
-                      }}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+            <PriceLogSelect
+              ariaLabel={`调整方式 ${adjustmentMode}`}
+              listLabel="调整方式"
+              valueLabel={adjustmentMode}
+              options={adjustmentOptions}
+              open={openSelect === 'adjustment'}
+              disabled={isLoading}
+              onToggle={() => setOpenSelect(openSelect === 'adjustment' ? null : 'adjustment')}
+              onSelect={(option) => {
+                setAdjustmentMode(option.label)
+                setOpenSelect(null)
+              }}
+            />
           </div>
 
           <div className="price-log-field price-log-field--channel">
             <span>渠道</span>
-            <div className="price-log-select">
-              <button
-                type="button"
-                aria-haspopup="listbox"
-                aria-label={`渠道 ${channel || '请选择'}`}
-                aria-expanded={openSelect === 'channel'}
-                onClick={() => setOpenSelect(openSelect === 'channel' ? null : 'channel')}
-                disabled={isLoading}
-              >
-                {channel || '请选择'}
-              </button>
-              {openSelect === 'channel' ? (
-                <div className="price-log-options price-log-options--channel" role="listbox" aria-label="渠道">
-                  {channelOptions.map((option) => (
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={option.label === channel}
-                      key={option.label}
-                      onClick={() => {
-                        setChannel(option.label)
-                        setOpenSelect(null)
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+            <PriceLogSelect
+              ariaLabel={`渠道 ${channelOptions.find((option) => option.value === channel)?.label ?? '请选择'}`}
+              listLabel="渠道"
+              valueLabel={channelOptions.find((option) => option.value === channel)?.label ?? '请选择'}
+              options={channelOptions}
+              open={openSelect === 'channel'}
+              disabled={isLoading}
+              optionClassName="price-log-options--channel"
+              onToggle={() => setOpenSelect(openSelect === 'channel' ? null : 'channel')}
+              onSelect={(option) => {
+                setChannel(option.value)
+                setOpenSelect(null)
+              }}
+            />
           </div>
 
           {expanded ? (
@@ -252,6 +248,12 @@ export function PriceLogPage() {
           ) : null}
 
           <div className="price-log-query__actions">
+            <button type="button" onClick={handleExport} disabled={isLoading}>
+              导出
+            </button>
+            <button type="button" onClick={handleRefresh} disabled={isLoading}>
+              刷新
+            </button>
             <button type="button" onClick={handleReset} disabled={isLoading}>
               重 置
             </button>
@@ -272,32 +274,135 @@ export function PriceLogPage() {
           </div>
         </form>
 
-        <div className="price-log-table" aria-busy={isLoading}>
-          <div className="price-log-table__head">
+        <div className="price-log-table" role="table" aria-label="调价日志列表" aria-busy={isLoading}>
+          <div className="price-log-table__head" role="row">
             {columns.map((column) => (
-              <div key={column}>{column}</div>
+              <div key={column} role="columnheader">
+                {column}
+              </div>
             ))}
           </div>
-          <div className="price-log-empty">
-            <div className="price-log-empty__icon" aria-hidden="true" />
-            <span>{isLoading ? '正在加载' : '暂无数据'}</span>
-          </div>
+          {data?.rows.map((row) => (
+            <div className="price-log-table__row" role="row" key={row.id}>
+              <div role="cell">{row.roomType}</div>
+              <div role="cell">{row.priceDate}</div>
+              <div role="cell">{row.actionContent}</div>
+              <div role="cell">{row.adjustmentMode}</div>
+              <div role="cell">{row.channel}</div>
+              <div role="cell">{row.channelPrice}</div>
+              <div role="cell">{row.operator}</div>
+              <div role="cell">{row.operationTime}</div>
+              <div role="cell">
+                <button type="button" onClick={() => setSelectedLog(row)} aria-label={`查看详情 ${row.id}`}>
+                  查看详情
+                </button>
+              </div>
+            </div>
+          ))}
+          {isLoading ? (
+            <div className="price-log-empty">
+              <div className="price-log-empty__icon" aria-hidden="true" />
+              <span>正在加载</span>
+            </div>
+          ) : null}
+          {!isLoading && !error && (!data || data.rows.length === 0) ? (
+            <div className="price-log-empty">
+              <div className="price-log-empty__icon" aria-hidden="true" />
+              <span>暂无数据</span>
+            </div>
+          ) : null}
         </div>
 
-        <div className="price-log-feedback" role="status" aria-live="polite">
+        <div className="price-log-feedback" role="status" aria-label="调价日志操作反馈" aria-live="polite">
           {message}
-          {evidence ? <span>；已接入接口 {evidence.requests.length} 个</span> : null}
+          {data ? <span>；共 {data.pagination.total} 条</span> : null}
         </div>
 
         {error ? (
-          <div className="price-log-error" role="alert">
+          <div className="price-log-error" role="alert" aria-label="调价日志数据错误">
             <span>{error}</span>
-            <button type="button" onClick={retryLastQuery} disabled={isLoading}>
+            <button type="button" onClick={handleRefresh} disabled={isLoading}>
               重试
             </button>
           </div>
         ) : null}
       </section>
+
+      {selectedLog ? (
+        <div className="price-log-dialog-backdrop" role="presentation">
+          <section className="price-log-dialog" role="dialog" aria-modal="true" aria-label="调价日志详情">
+            <header>
+              <h2>调价日志详情</h2>
+              <button type="button" onClick={() => setSelectedLog(null)} aria-label="关闭详情">
+                ×
+              </button>
+            </header>
+            <dl>
+              <div>
+                <dt>日志编号</dt>
+                <dd>{selectedLog.id}</dd>
+              </div>
+              <div>
+                <dt>房型</dt>
+                <dd>{selectedLog.roomType}</dd>
+              </div>
+              <div>
+                <dt>操作内容</dt>
+                <dd>{selectedLog.actionContent}</dd>
+              </div>
+              <div>
+                <dt>同步渠道</dt>
+                <dd>{selectedLog.channel}</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+function PriceLogSelect({
+  ariaLabel,
+  listLabel,
+  valueLabel,
+  options,
+  open,
+  disabled,
+  optionClassName,
+  onToggle,
+  onSelect,
+}: {
+  ariaLabel: string
+  listLabel: string
+  valueLabel: string
+  options: PriceLogOption[]
+  open: boolean
+  disabled: boolean
+  optionClassName?: string
+  onToggle: () => void
+  onSelect: (option: PriceLogOption) => void
+}) {
+  return (
+    <div className="price-log-select">
+      <button type="button" aria-haspopup="listbox" aria-label={ariaLabel} aria-expanded={open} onClick={onToggle} disabled={disabled}>
+        {valueLabel}
+      </button>
+      {open ? (
+        <div className={`price-log-options ${optionClassName ?? ''}`} role="listbox" aria-label={listLabel}>
+          {options.map((option) => (
+            <button
+              type="button"
+              role="option"
+              aria-selected={option.label === valueLabel}
+              key={`${option.value}-${option.label}`}
+              onClick={() => onSelect(option)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -307,7 +412,7 @@ function resolveCampId() {
   const queryCampId = params.get('campId')
   if (queryCampId) return queryCampId
 
-  for (const key of ['currentCamp', 'camp', 'pms.currentCamp']) {
+  for (const key of ['currentCamp', 'camp', 'pms.currentCamp', 'pms.currentCampId']) {
     const rawValue = window.localStorage.getItem(key)
     if (!rawValue) continue
 

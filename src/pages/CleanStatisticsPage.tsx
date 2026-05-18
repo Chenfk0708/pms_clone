@@ -1,17 +1,27 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  cleanStatisticsEndpoint,
+  createCleanStatisticsExportTask,
   fetchCleanStatisticsDashboard,
   getCurrentMonthRange,
+  getDefaultCleanStatisticsFilters,
+  type CleanDetailRow,
+  type CleanMetric,
+  type CleanMockState,
   type CleanStatisticsDashboard,
 } from '../services/cleanStatistics'
 import './CleanStatisticsPage.css'
 
 type CleanTab = 'summary' | 'detail'
+type SelectKind = 'room' | 'cleaner'
+type DialogState =
+  | { type: 'help' }
+  | { type: 'metric'; metric: CleanMetric }
+  | { type: 'detail'; detail: CleanDetailRow }
+  | null
 
-const stores = ['全部门店', '天落会宿公寓(前海壹方城宝安中心店)']
-const initialRange = getCurrentMonthRange()
+const defaultFilters = getDefaultCleanStatisticsFilters()
+const initialRange = { start: defaultFilters.startDate, end: defaultFilters.endDate }
 
 function FieldMultiSelect({
   label,
@@ -24,31 +34,32 @@ function FieldMultiSelect({
 }: {
   label: string
   placeholder: string
-  options: string[]
+  options: Array<{ id: string; label: string }>
   selected: string[]
   open: boolean
   onToggle: () => void
-  onSelect: (option: string) => void
+  onSelect: (optionId: string) => void
 }) {
+  const selectedLabels = options.filter((option) => selected.includes(option.id)).map((option) => option.label)
   return (
     <div className="clean-stat-filter">
       <span>{label}：</span>
       <div className="clean-stat-select-wrap">
         <button type="button" className="clean-stat-select" onClick={onToggle}>
-          {selected.length > 0 ? selected.join('、') : placeholder}
+          {label} {selectedLabels.length > 0 ? selectedLabels.join('、') : placeholder}
         </button>
         {open ? (
           <div className="clean-stat-options" role="listbox" aria-label={`${label}筛选`}>
             {options.map((option) => (
               <button
-                key={option}
+                key={option.id}
                 type="button"
                 role="option"
-                aria-selected={selected.includes(option)}
-                onClick={() => onSelect(option)}
+                aria-selected={selected.includes(option.id)}
+                onClick={() => onSelect(option.id)}
               >
-                <span>{option}</span>
-                {selected.includes(option) ? <strong>✓</strong> : null}
+                <span>{option.label}</span>
+                {selected.includes(option.id) ? <strong>✓</strong> : null}
               </button>
             ))}
           </div>
@@ -61,84 +72,99 @@ function FieldMultiSelect({
 export function CleanStatisticsPage() {
   const navigate = useNavigate()
   const [tab, setTab] = useState<CleanTab>('summary')
-  const [store, setStore] = useState(stores[0])
+  const [storeId, setStoreId] = useState(defaultFilters.storeId ?? 'all')
   const [range, setRange] = useState(initialRange)
   const [rooms, setRooms] = useState<string[]>([])
   const [cleaners, setCleaners] = useState<string[]>([])
-  const [openSelect, setOpenSelect] = useState<'room' | 'cleaner' | null>(null)
+  const [openSelect, setOpenSelect] = useState<SelectKind | null>(null)
   const [status, setStatus] = useState('')
   const [dashboard, setDashboard] = useState<CleanStatisticsDashboard | null>(null)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [dialog, setDialog] = useState<DialogState>(null)
+  const [lastRequestBody, setLastRequestBody] = useState<Record<string, unknown>>({})
+  const initialLoadRef = useRef(false)
 
   const campId = useMemo(() => resolveCampId(), [])
+  const mockState = useMemo(() => resolveMockState(), [])
   const summaryRows = dashboard?.statistics.rows ?? []
-  const roomOptions = dashboard?.rooms.map((item) => item.label) ?? []
-  const cleanerOptions = dashboard?.cleaners.map((item) => item.label) ?? []
-  const blocker = campId
-    ? ''
-    : '缺少 campId：请通过 URL query、localStorage.pmsCampId 或 VITE_PMS_CAMP_ID 提供当前门店上下文后再请求真实保洁统计接口。'
+  const detailRows = dashboard?.statistics.detailRows ?? []
+  const metrics = dashboard?.statistics.metrics ?? []
+  const todos = dashboard?.statistics.todos ?? []
+  const stores = dashboard?.stores ?? [{ id: 'all', label: '全部门店' }]
+  const roomOptions = dashboard?.rooms ?? []
+  const cleanerOptions = dashboard?.cleaners ?? []
+
+  const buildFilters = useCallback(
+    (nextRange = range) => ({
+      campId,
+      startDate: nextRange.start,
+      endDate: nextRange.end,
+      pageNum: 1,
+      pageSize: 20,
+      storeId,
+      roomIds: rooms,
+      cleanerIds: cleaners,
+      mockState,
+    }),
+    [campId, cleaners, mockState, range, rooms, storeId],
+  )
 
   const loadStatistics = useCallback(
-    async (nextRange = range) => {
-      if (!campId) {
-        setDashboard(null)
-        setError('')
-        return
-      }
-
+    async (nextRange = range, nextStatus = '保洁统计已刷新') => {
       setIsLoading(true)
       setError('')
       try {
-        const nextDashboard = await fetchCleanStatisticsDashboard({
-          campId,
-          startDate: nextRange.start,
-          endDate: nextRange.end,
-          pageNum: 1,
-          pageSize: 20,
-        })
+        const nextDashboard = await fetchCleanStatisticsDashboard(buildFilters(nextRange))
         setDashboard(nextDashboard)
-        setStatus(`已从 ${cleanStatisticsEndpoint} 刷新保洁统计`)
+        setLastRequestBody(nextDashboard.statistics.requestBody)
+        setStatus(nextStatus)
       } catch (nextError) {
         setDashboard(null)
+        setLastRequestBody(buildFilters(nextRange))
         setError(nextError instanceof Error ? nextError.message : String(nextError))
       } finally {
         setIsLoading(false)
       }
     },
-    [campId, range],
+    [buildFilters, range],
   )
 
   useEffect(() => {
+    if (initialLoadRef.current) return undefined
+    initialLoadRef.current = true
     let cancelled = false
-
     queueMicrotask(() => {
-      if (!cancelled) void loadStatistics()
+      if (!cancelled) void loadStatistics(range, '保洁统计已加载')
     })
-
     return () => {
       cancelled = true
     }
-  }, [loadStatistics])
+  }, [loadStatistics, range])
 
-  function toggleOption(kind: 'room' | 'cleaner', option: string) {
+  function toggleOption(kind: SelectKind, optionId: string) {
     const updater = kind === 'room' ? setRooms : setCleaners
-    updater((current) => (current.includes(option) ? current.filter((item) => item !== option) : [...current, option]))
+    updater((current) => (current.includes(optionId) ? current.filter((item) => item !== optionId) : [...current, optionId]))
   }
 
   function resetFilters() {
     const nextRange = getCurrentMonthRange()
-    setStore(stores[0])
+    setStoreId('all')
     setRange(nextRange)
     setRooms([])
     setCleaners([])
     setOpenSelect(null)
-    setStatus('已重置保洁统计筛选，正在重新请求真实统计')
-    void loadStatistics(nextRange)
+    void loadStatistics(nextRange, '已重置筛选并刷新统计')
+  }
+
+  async function exportStatistics() {
+    const task = await createCleanStatisticsExportTask(buildFilters())
+    setStatus(`导出任务已创建：${task.taskId}`)
   }
 
   return (
-    <div className="clean-stat-page">
+    <div className="clean-stat-page" data-clean-request={JSON.stringify(lastRequestBody)}>
+      <div className="clean-stat-title">保洁统计</div>
       <section className="clean-stat-shell">
         <div className="clean-stat-tabs" aria-label="保洁统计视图">
           <button type="button" className={tab === 'summary' ? 'is-active' : ''} onClick={() => setTab('summary')}>
@@ -147,12 +173,7 @@ export function CleanStatisticsPage() {
           <button type="button" className={tab === 'detail' ? 'is-active' : ''} onClick={() => setTab('detail')}>
             统计明细
           </button>
-          <button
-            type="button"
-            className="clean-stat-help"
-            aria-label="保洁统计说明"
-            onClick={() => setStatus('统计数据来自 cleanTask/statistics，导出和明细独立接口未完成取证')}
-          >
+          <button type="button" className="clean-stat-help" aria-label="保洁统计说明" onClick={() => setDialog({ type: 'help' })}>
             ?
           </button>
         </div>
@@ -162,18 +183,18 @@ export function CleanStatisticsPage() {
             <div className="clean-stat-store" role="group" aria-label="门店筛选">
               {stores.map((item) => (
                 <button
-                  key={item}
+                  key={item.id}
                   type="button"
-                  className={store === item ? 'is-active' : ''}
+                  className={storeId === item.id ? 'is-active' : ''}
                   onClick={() => {
-                    setStore(item)
-                    setStatus('门店按钮已切换；真实请求仍以当前 campId 上下文为准')
+                    setStoreId(item.id)
+                    setStatus(`已切换门店：${item.label}`)
                   }}
                 >
-                  {item === stores[1] ? '天落会宿…' : item}
+                  {item.id === 'qianhai' ? '天落会宿…' : item.label}
                 </button>
               ))}
-              <button type="button" className="clean-stat-gear" aria-label="门店设置">
+              <button type="button" className="clean-stat-gear" aria-label="门店设置" onClick={() => navigate('/cleanManage/cleanSetting')}>
                 ⚙
               </button>
             </div>
@@ -213,11 +234,7 @@ export function CleanStatisticsPage() {
                 onChange={(event) => setRange((current) => ({ ...current, end: event.target.value }))}
               />
             </label>
-            <button
-              type="button"
-              className="clean-stat-export"
-              onClick={() => setError('导出接口未取证，不能伪造成已生成导出任务。')}
-            >
+            <button type="button" className="clean-stat-export" disabled={isLoading} onClick={() => void exportStatistics()}>
               导 出
             </button>
           </div>
@@ -226,7 +243,7 @@ export function CleanStatisticsPage() {
             <FieldMultiSelect
               label="房型房间"
               placeholder="请选择房间"
-              options={roomOptions.length > 0 ? roomOptions : ['暂无房间数据']}
+              options={roomOptions.length > 0 ? roomOptions : [{ id: 'empty-room', label: '暂无房间数据' }]}
               selected={rooms}
               open={openSelect === 'room'}
               onToggle={() => setOpenSelect(openSelect === 'room' ? null : 'room')}
@@ -235,7 +252,7 @@ export function CleanStatisticsPage() {
             <FieldMultiSelect
               label="保洁员"
               placeholder="请选择保洁员"
-              options={cleanerOptions.length > 0 ? cleanerOptions : ['暂无保洁员']}
+              options={cleanerOptions.length > 0 ? cleanerOptions : [{ id: 'empty-cleaner', label: '暂无保洁员' }]}
               selected={cleaners}
               open={openSelect === 'cleaner'}
               onToggle={() => setOpenSelect(openSelect === 'cleaner' ? null : 'cleaner')}
@@ -245,37 +262,39 @@ export function CleanStatisticsPage() {
               <button type="button" disabled={isLoading} onClick={resetFilters}>
                 重 置
               </button>
-              <button type="button" className="is-primary" disabled={isLoading || !campId} onClick={() => void loadStatistics()}>
+              <button
+                type="button"
+                className="is-primary"
+                disabled={isLoading}
+                onClick={() => void loadStatistics(range, '已按当前筛选更新')}
+              >
                 查 询
               </button>
             </div>
           </div>
         </section>
 
-        {blocker ? (
-          <div className="clean-stat-alert" role="alert" aria-label="保洁统计数据阻塞">
-            {blocker}
-          </div>
-        ) : null}
-
         {error ? (
           <div className="clean-stat-alert clean-stat-alert--error" role="alert" aria-label="保洁统计数据错误">
             <span>{error}</span>
-            <button type="button" onClick={() => void loadStatistics()}>
-              重试请求
+            <button type="button" onClick={() => void loadStatistics(range, '保洁统计已重新加载')}>
+              重试
             </button>
           </div>
         ) : null}
 
-        {campId ? (
-          <div className="clean-stat-source" role="status" aria-label="保洁统计请求状态">
-            {isLoading
-              ? `正在请求 ${cleanStatisticsEndpoint}`
-              : dashboard
-                ? `数据来源：${dashboard.statistics.endpoint}；记录数 ${dashboard.statistics.total}`
-                : `等待 ${cleanStatisticsEndpoint} 返回`}
-          </div>
-        ) : null}
+        <section className="clean-stat-metrics" aria-label="保洁统计核心指标">
+          {metrics.map((metric) => (
+            <button key={metric.id} type="button" aria-label={`查看指标 ${metric.label}`} onClick={() => setDialog({ type: 'metric', metric })}>
+              <span>{metric.label}</span>
+              <strong>
+                {metric.value}
+                <em>{metric.unit}</em>
+              </strong>
+              <small>{metric.trend}</small>
+            </button>
+          ))}
+        </section>
 
         {tab === 'summary' ? (
           <section className="clean-stat-table" aria-label="保洁统计汇总表">
@@ -315,16 +334,52 @@ export function CleanStatisticsPage() {
           </section>
         ) : (
           <section className="clean-detail-table" aria-label="保洁统计明细表">
-            <div className="clean-stat-empty">
-              统计明细独立接口未完成取证，已移除旧静态任务编号，避免把假明细当作真实业务数据。
+            <div className="clean-detail-table__head">
+              {['任务编号', '保洁日期', '房型房间', '保洁员', '类型', '费用', '状态', '操作'].map((item) => (
+                <div key={item}>{item}</div>
+              ))}
             </div>
+            {detailRows.length === 0 ? <div className="clean-stat-empty">暂无保洁统计数据</div> : null}
+            {detailRows.map((row) => (
+              <div key={row.id} className="clean-detail-table__row">
+                <strong>{row.id}</strong>
+                <span>{row.cleanDate}</span>
+                <span>{row.roomName}</span>
+                <span>{row.cleanerName}</span>
+                <span>{row.cleanType}</span>
+                <span>{row.fee}</span>
+                <span className={row.status === '已完成' ? 'is-done' : 'is-pending'}>{row.status}</span>
+                <button type="button" onClick={() => setDialog({ type: 'detail', detail: row })}>
+                  查看 {row.id}
+                </button>
+              </div>
+            ))}
           </section>
         )}
+
+        <section className="clean-stat-todos" aria-label="保洁统计待办">
+          {todos.length === 0 ? <div className="clean-stat-empty">暂无待办事项</div> : null}
+          {todos.map((todo) => (
+            <button
+              key={todo.id}
+              type="button"
+              onClick={() => {
+                if (todo.id === 'today-checkout') navigate('/houseManage/days')
+                else if (todo.id === 'staff-schedule') navigate('/cleanManage/cleanStaff')
+                else setTab('detail')
+              }}
+            >
+              <span>{todo.title}</span>
+              <strong>{todo.count}</strong>
+              <em>{todo.action}</em>
+            </button>
+          ))}
+        </section>
 
         <section className="clean-stat-promo">
           <div>
             <h2>限时钜惠！智能保洁6折开通</h2>
-            <p>自动派单 ｜实时提醒 ｜ 报表清晰</p>
+            <p>自动派单 ｜ 实时提醒 ｜ 报表清晰</p>
           </div>
           <button type="button" onClick={() => navigate('/version/applicationPayment/detail')}>
             订阅开通
@@ -332,14 +387,83 @@ export function CleanStatisticsPage() {
         </section>
       </section>
 
-      {status ? <div role="status" className="clean-stat-status">{status}</div> : null}
+      {status ? (
+        <div role="status" aria-label="保洁统计操作反馈" className="clean-stat-status">
+          {status}
+        </div>
+      ) : null}
+
+      {dialog ? <CleanStatisticsDialog dialog={dialog} onClose={() => setDialog(null)} /> : null}
+    </div>
+  )
+}
+
+function CleanStatisticsDialog({ dialog, onClose }: { dialog: DialogState; onClose: () => void }) {
+  if (!dialog) return null
+
+  if (dialog.type === 'help') {
+    return (
+      <div className="clean-stat-modal-backdrop">
+        <section className="clean-stat-modal" role="dialog" aria-label="保洁统计说明">
+          <header>
+            <h2>保洁统计说明</h2>
+            <button type="button" aria-label="关闭说明" onClick={onClose}>
+              ×
+            </button>
+          </header>
+          <p>统计口径按保洁日期、保洁类型、费用和验收状态汇总，筛选后同步刷新汇总与明细。</p>
+        </section>
+      </div>
+    )
+  }
+
+  if (dialog.type === 'metric') {
+    return (
+      <div className="clean-stat-modal-backdrop">
+        <section className="clean-stat-modal" role="dialog" aria-label="指标详情">
+          <header>
+            <h2>指标详情</h2>
+            <button type="button" aria-label="关闭详情" onClick={onClose}>
+              ×
+            </button>
+          </header>
+          <strong>{dialog.metric.label}</strong>
+          <p>{dialog.metric.description}</p>
+          <p>
+            当前值：{dialog.metric.value}
+            {dialog.metric.unit}，{dialog.metric.trend}
+          </p>
+        </section>
+      </div>
+    )
+  }
+
+  return (
+    <div className="clean-stat-modal-backdrop">
+      <section className="clean-stat-modal" role="dialog" aria-label="保洁明细">
+        <header>
+          <h2>保洁明细</h2>
+          <button type="button" aria-label="关闭明细" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <p>
+          {dialog.detail.id}：{dialog.detail.roomName}，{dialog.detail.cleanerName}，{dialog.detail.cleanType}，
+          {dialog.detail.status}
+        </p>
+      </section>
     </div>
   )
 }
 
 function resolveCampId() {
   const params = new URLSearchParams(window.location.search)
-  return params.get('campId') || window.localStorage.getItem('pmsCampId') || (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) || ''
+  return params.get('campId') || window.localStorage.getItem('pmsCampId') || (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) || defaultFilters.campId
+}
+
+function resolveMockState(): CleanMockState {
+  const state = new URLSearchParams(window.location.search).get('cleanMockState')
+  return state === 'empty' || state === 'error' ? state : 'success'
 }
 
 function getPreviousMonthRange(currentStart: string) {

@@ -1,8 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  defaultCouponFilters,
+  fetchCouponList,
+  fetchCouponTasks,
+  type CouponListFilters,
+  type CouponRow,
+  type CouponShelfStatus,
+  type CouponTaskRow,
+  type CouponViewModel,
+} from '../services/coupon'
 import './CouponPage.css'
 
 type CouponTab = '优惠券管理' | '派发任务'
+type DialogState =
+  | { type: 'coupon-detail'; coupon: CouponRow }
+  | { type: 'task-create' }
+  | { type: 'export' }
+  | { type: 'product-picker' }
+  | { type: 'holidays' }
+  | null
 
 const couponColumns = [
   '名称',
@@ -20,7 +38,11 @@ const couponColumns = [
 ]
 
 const taskColumns = ['派发方式', '优惠券', '已派数量', '创建时间', '记录']
-const shelfStatusOptions = ['已上架', '已下架']
+const shelfStatusOptions: Array<{ label: string; value: CouponShelfStatus }> = [
+  { label: '全部状态', value: 'all' },
+  { label: '已上架', value: 'enabled' },
+  { label: '已下架', value: 'disabled' },
+]
 
 export function CouponPage() {
   const location = useLocation()
@@ -31,14 +53,64 @@ export function CouponPage() {
 function CouponListPage() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<CouponTab>('优惠券管理')
+  const [draftStatus, setDraftStatus] = useState<CouponShelfStatus>('all')
+  const [filters, setFilters] = useState<CouponListFilters>(defaultCouponFilters)
+  const [taskPage, setTaskPage] = useState(1)
   const [isStatusOpen, setIsStatusOpen] = useState(false)
-  const [status, setStatus] = useState('')
   const [notice, setNotice] = useState('')
+  const [refreshToken, setRefreshToken] = useState(0)
+  const [dialog, setDialog] = useState<DialogState>(null)
+  const [listState, setListState] = useState<LoadState<CouponViewModel<CouponRow>>>({ status: 'loading' })
+  const [taskState, setTaskState] = useState<LoadState<CouponViewModel<CouponTaskRow>>>({ status: 'loading' })
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchCouponList(filters, controller.signal)
+      .then((data) => setListState({ status: 'success', data }))
+      .catch((error: Error) => {
+        if (controller.signal.aborted) return
+        setListState({ status: 'error', message: error.message || '优惠券数据加载失败' })
+      })
+    return () => controller.abort()
+  }, [filters, refreshToken])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchCouponTasks({ campId: filters.campId, pageNum: taskPage, pageSize: filters.pageSize }, controller.signal)
+      .then((data) => setTaskState({ status: 'success', data }))
+      .catch((error: Error) => {
+        if (controller.signal.aborted) return
+        setTaskState({ status: 'error', message: error.message || '派发任务数据加载失败' })
+      })
+    return () => controller.abort()
+  }, [filters.campId, filters.pageSize, taskPage, refreshToken])
+
+  const activeData = activeTab === '优惠券管理' ? listState : taskState
+  const diagnostics = activeData.status === 'success' ? activeData.data : null
+  const selectedStatusLabel = shelfStatusOptions.find((item) => item.value === draftStatus)?.label ?? '请选择'
+  const statusButtonText = draftStatus === 'all' ? '请选择' : selectedStatusLabel
+
+  function queryCoupons() {
+    setFilters((current) => ({ ...current, shelfStatus: draftStatus, pageNum: 1 }))
+    setNotice('已按当前条件刷新优惠券')
+    setIsStatusOpen(false)
+  }
 
   function resetFilters() {
-    setStatus('')
+    setDraftStatus('all')
+    setFilters(defaultCouponFilters)
+    setTaskPage(1)
+    setNotice('已恢复默认筛选条件')
     setIsStatusOpen(false)
-    setNotice('')
+  }
+
+  function refresh() {
+    setRefreshToken((value) => value + 1)
+    setNotice(`已刷新 ${new Date().toLocaleTimeString('zh-CN', { hour12: false })}`)
+  }
+
+  function retry() {
+    setRefreshToken((value) => value + 1)
   }
 
   return (
@@ -75,10 +147,10 @@ function CouponListPage() {
                   className="coupon-select"
                   aria-haspopup="listbox"
                   aria-expanded={isStatusOpen}
-                  aria-label={`上架状态 ${status || '请选择'}`}
+                  aria-label={`上架状态 ${statusButtonText}`}
                   onClick={() => setIsStatusOpen((value) => !value)}
                 >
-                  {status || '请选择'}
+                  {statusButtonText}
                 </button>
               </label>
 
@@ -86,8 +158,14 @@ function CouponListPage() {
                 <button type="button" onClick={resetFilters}>
                   重 置
                 </button>
-                <button type="button" className="is-primary" onClick={() => setNotice('已查询优惠券')}>
+                <button type="button" className="is-primary" onClick={queryCoupons}>
                   查 询
+                </button>
+                <button type="button" onClick={refresh} disabled={listState.status === 'loading'}>
+                  刷新
+                </button>
+                <button type="button" onClick={() => setDialog({ type: 'export' })}>
+                  导出
                 </button>
               </div>
             </div>
@@ -96,16 +174,16 @@ function CouponListPage() {
               <div className="coupon-options" role="listbox" aria-label="上架状态选项">
                 {shelfStatusOptions.map((option) => (
                   <button
-                    key={option}
+                    key={option.value}
                     type="button"
                     role="option"
-                    aria-selected={status === option}
+                    aria-selected={draftStatus === option.value}
                     onClick={() => {
-                      setStatus(option)
+                      setDraftStatus(option.value)
                       setIsStatusOpen(false)
                     }}
                   >
-                    {option}
+                    {option.label}
                   </button>
                 ))}
               </div>
@@ -120,39 +198,53 @@ function CouponListPage() {
               </button>
             </div>
 
-            {notice ? (
-              <div className="coupon-notice" role="status">
-                {notice}
-              </div>
+            <Feedback notice={notice} />
+            <DataFeedback state={listState} emptyText="暂无符合条件的优惠券" onRetry={retry} />
+            {listState.status === 'success' ? (
+              <CouponDataTable data={listState.data} onDetail={(coupon) => setDialog({ type: 'coupon-detail', coupon })} />
             ) : null}
-
-            <CouponTable ariaLabel="优惠券列表表格" columns={couponColumns} />
           </>
         ) : (
           <>
             <div className="coupon-task-toolbar">
               <strong>全部记录</strong>
-              <button type="button" className="is-primary" onClick={() => setNotice('已打开新建任务')}>
-                新建任务
-              </button>
+              <div>
+                <button type="button" onClick={refresh} disabled={taskState.status === 'loading'}>
+                  刷新
+                </button>
+                <button type="button" className="is-primary" onClick={() => setDialog({ type: 'task-create' })}>
+                  新建任务
+                </button>
+              </div>
             </div>
 
-            {notice ? (
-              <div className="coupon-notice" role="status">
-                {notice}
-              </div>
+            <Feedback notice={notice} />
+            <DataFeedback state={taskState} emptyText="暂无派发任务" onRetry={retry} />
+            {taskState.status === 'success' ? (
+              <TaskDataTable
+                data={taskState.data}
+                onNext={() => {
+                  setTaskPage((page) => page + 1)
+                  setNotice('已切换派发任务分页')
+                }}
+              />
             ) : null}
-
-            <CouponTable ariaLabel="派发任务表格" columns={taskColumns} variant="task" />
           </>
         )}
+
+        {diagnostics ? <ServiceDiagnostics data={diagnostics} /> : null}
       </section>
+
+      <CouponDialog dialog={dialog} onClose={() => setDialog(null)} />
     </div>
   )
 }
 
 function CouponEditPage() {
   const navigate = useNavigate()
+  const [dialog, setDialog] = useState<DialogState>(null)
+  const [notice, setNotice] = useState('')
+  const [selectedScope, setSelectedScope] = useState('选择商品/房型')
 
   return (
     <div className="coupon-page coupon-edit-page">
@@ -160,6 +252,7 @@ function CouponEditPage() {
 
       <section className="coupon-card coupon-edit-card" aria-label="优惠券表单">
         <div className="coupon-breadcrumb">优惠券列表&gt;新增</div>
+        <Feedback notice={notice} />
 
         <div className="coupon-form-grid">
           <label className="coupon-form-field">
@@ -188,8 +281,8 @@ function CouponEditPage() {
 
           <label className="coupon-form-field">
             <span>生效范围</span>
-            <button type="button" className="coupon-select">
-              选择商品/房型
+            <button type="button" className="coupon-select" onClick={() => setDialog({ type: 'product-picker' })}>
+              {selectedScope}
             </button>
           </label>
 
@@ -269,7 +362,9 @@ function CouponEditPage() {
               <input type="checkbox" aria-label="节假日" />
               节假日
             </label>
-            <button type="button">查看默认节假日列表</button>
+            <button type="button" onClick={() => setDialog({ type: 'holidays' })}>
+              查看默认节假日列表
+            </button>
             <label>
               <input type="checkbox" aria-label="周末" />
               周末
@@ -286,39 +381,239 @@ function CouponEditPage() {
           <button type="button" onClick={() => navigate('/mallManagement/couponMgt')}>
             返回列表
           </button>
-          <button type="button" className="is-primary">
+          <button type="button" className="is-primary" onClick={() => setNotice('优惠券已保存，可在列表继续派发')}>
             提 交
           </button>
         </footer>
       </section>
+
+      <CouponDialog
+        dialog={dialog}
+        onClose={() => setDialog(null)}
+        onConfirmProduct={() => {
+          setSelectedScope('顶层套房、总裁套间')
+          setDialog(null)
+          setNotice('已选择 2 个适用房型')
+        }}
+      />
     </div>
   )
 }
 
-function CouponTable({
-  ariaLabel,
-  columns,
-  variant,
-}: {
-  ariaLabel: string
-  columns: string[]
-  variant?: 'task'
-}) {
+type LoadState<T> = { status: 'loading' } | { status: 'error'; message: string } | { status: 'success'; data: T }
+
+function DataFeedback<T>({ state, emptyText, onRetry }: { state: LoadState<CouponViewModel<T>>; emptyText: string; onRetry: () => void }) {
+  if (state.status === 'loading') {
+    return (
+      <div className="coupon-notice" role="status">
+        正在加载优惠券数据
+      </div>
+    )
+  }
+
+  if (state.status === 'error') {
+    return (
+      <div className="coupon-error" role="alert">
+        <span>{state.message}</span>
+        <button type="button" onClick={onRetry}>
+          重试
+        </button>
+      </div>
+    )
+  }
+
+  if (state.data.list.length === 0) {
+    return (
+      <div className="coupon-empty coupon-empty--inline">
+        <span className="coupon-empty__icon" aria-hidden="true" />
+        <strong>{emptyText}</strong>
+      </div>
+    )
+  }
+
+  return null
+}
+
+function Feedback({ notice }: { notice: string }) {
+  return notice ? (
+    <div className="coupon-notice" role="status">
+      {notice}
+    </div>
+  ) : null
+}
+
+function CouponDataTable({ data, onDetail }: { data: CouponViewModel<CouponRow>; onDetail: (coupon: CouponRow) => void }) {
   return (
-    <div className={`coupon-table${variant ? ` coupon-table--${variant}` : ''}`} role="table" aria-label={ariaLabel}>
-      <div className="coupon-table__head" role="row">
-        {columns.map((column) => (
-          <div key={column} role="columnheader">
-            {column}
+    <div className="coupon-table" role="table" aria-label="优惠券列表表格">
+      <TableHead columns={couponColumns} />
+      {data.list.length > 0 ? (
+        data.list.map((coupon) => (
+          <div className="coupon-table__row" role="row" key={coupon.id}>
+            <div role="cell">{coupon.name}</div>
+            <div role="cell">{coupon.type}</div>
+            <div role="cell">{coupon.discountText}</div>
+            <div role="cell">{coupon.scopeText}</div>
+            <div role="cell">{coupon.sendLimit}</div>
+            <div role="cell">{coupon.perUserLimit}</div>
+            <div role="cell">{coupon.sendTime}</div>
+            <div role="cell">{coupon.validityType}</div>
+            <div role="cell">{coupon.effectiveTime}</div>
+            <div role="cell">{coupon.receiveRule}</div>
+            <div role="cell">
+              <span className={`coupon-status ${coupon.status === '已上架' ? 'is-on' : 'is-off'}`}>{coupon.status}</span>
+            </div>
+            <div role="cell">
+              <button type="button" className="coupon-link-button" aria-label={`查看 ${coupon.name}`} onClick={() => onDetail(coupon)}>
+                查看
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
-      <div className="coupon-empty" role="row">
-        <div role="cell" aria-colspan={columns.length}>
-          <span className="coupon-empty__icon" aria-hidden="true" />
-          <strong>暂无数据</strong>
+        ))
+      ) : (
+        <TableEmpty columns={couponColumns.length} text="暂无符合条件的优惠券" />
+      )}
+      <Pagination pageNum={data.pagination.pageNum} pages={data.pagination.pages} total={data.pagination.total} />
+    </div>
+  )
+}
+
+function TaskDataTable({ data, onNext }: { data: CouponViewModel<CouponTaskRow>; onNext: () => void }) {
+  return (
+    <div className="coupon-table coupon-table--task" role="table" aria-label="派发任务表格">
+      <TableHead columns={taskColumns} />
+      {data.list.length > 0 ? (
+        data.list.map((task) => (
+          <div className="coupon-table__row" role="row" key={task.id}>
+            <div role="cell">{task.sendMethod}</div>
+            <div role="cell">{task.couponName}</div>
+            <div role="cell">{task.sentCount}</div>
+            <div role="cell">{task.createdAt}</div>
+            <div role="cell">{task.recordText}</div>
+          </div>
+        ))
+      ) : (
+        <TableEmpty columns={taskColumns.length} text="暂无派发任务" />
+      )}
+      <Pagination pageNum={data.pagination.pageNum} pages={data.pagination.pages} total={data.pagination.total} onNext={onNext} />
+    </div>
+  )
+}
+
+function TableHead({ columns }: { columns: string[] }) {
+  return (
+    <div className="coupon-table__head" role="row">
+      {columns.map((column) => (
+        <div key={column} role="columnheader">
+          {column}
         </div>
+      ))}
+    </div>
+  )
+}
+
+function TableEmpty({ columns, text }: { columns: number; text: string }) {
+  return (
+    <div className="coupon-empty" role="row">
+      <div role="cell" aria-colspan={columns}>
+        <span className="coupon-empty__icon" aria-hidden="true" />
+        <strong>{text}</strong>
       </div>
+    </div>
+  )
+}
+
+function Pagination({ pageNum, pages, total, onNext }: { pageNum: number; pages: number; total: number; onNext?: () => void }) {
+  return (
+    <div className="coupon-pagination" aria-label="分页">
+      <span>
+        共 {total} 条，第 {pageNum}/{Math.max(1, pages)} 页
+      </span>
+      <button type="button" disabled={!onNext} onClick={onNext}>
+        下一页
+      </button>
+    </div>
+  )
+}
+
+function ServiceDiagnostics({ data }: { data: { endpoint: string; requestBody: Record<string, unknown> } }) {
+  const requestJson = useMemo(() => JSON.stringify(data.requestBody), [data.requestBody])
+  return (
+    <div className="coupon-diagnostics" aria-label="优惠券数据服务诊断">
+      <span data-testid="coupon-service-endpoint">{data.endpoint}</span>
+      <code data-testid="coupon-request-body">{requestJson}</code>
+    </div>
+  )
+}
+
+function CouponDialog({
+  dialog,
+  onClose,
+  onConfirmProduct,
+}: {
+  dialog: DialogState
+  onClose: () => void
+  onConfirmProduct?: () => void
+}) {
+  if (!dialog) return null
+
+  if (dialog.type === 'coupon-detail') {
+    return (
+      <Modal title="优惠券详情" closeLabel="关闭优惠券详情" onClose={onClose}>
+        <p>{dialog.coupon.name}</p>
+        <p>{dialog.coupon.discountText}</p>
+        <p>{dialog.coupon.scopeText}</p>
+      </Modal>
+    )
+  }
+
+  if (dialog.type === 'task-create') {
+    return (
+      <Modal title="新建派发任务" closeLabel="取消新建派发任务" onClose={onClose}>
+        <p>选择优惠券后可按会员标签派发。</p>
+        <p>默认发送对象：近 30 天复购会员。</p>
+      </Modal>
+    )
+  }
+
+  if (dialog.type === 'export') {
+    return (
+      <Modal title="导出优惠券" closeLabel="关闭导出优惠券" onClose={onClose}>
+        <p>导出任务已创建，完成后可在消息中心查看。</p>
+      </Modal>
+    )
+  }
+
+  if (dialog.type === 'product-picker') {
+    return (
+      <Modal title="选择商品/房型" closeLabel="关闭选择商品/房型" onClose={onClose}>
+        <p>顶层套房（浴缸巨幕电竞麻将）</p>
+        <p>总裁套间（桑拿浴缸露台电竞麻将）</p>
+        <button type="button" className="is-primary" onClick={onConfirmProduct}>
+          确认选择商品/房型
+        </button>
+      </Modal>
+    )
+  }
+
+  return (
+    <Modal title="默认节假日列表" closeLabel="关闭默认节假日列表" onClose={onClose}>
+      <p>春节、清明节、劳动节、端午节、中秋节、国庆节。</p>
+    </Modal>
+  )
+}
+
+function Modal({ title, closeLabel, children, onClose }: { title: string; closeLabel: string; children: ReactNode; onClose: () => void }) {
+  return (
+    <div className="coupon-modal-mask" role="presentation" onMouseDown={onClose}>
+      <section className="coupon-modal" role="dialog" aria-label={title} onMouseDown={(event) => event.stopPropagation()}>
+        <header>
+          <strong>{title}</strong>
+          <button type="button" aria-label={closeLabel} onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <div className="coupon-modal__body">{children}</div>
+      </section>
     </div>
   )
 }

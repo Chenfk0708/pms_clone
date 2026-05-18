@@ -1,0 +1,203 @@
+{
+  "location": "http://127.0.0.1:4173/channels/private",
+  "title": "pms_clone",
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nOTA\n社媒\n私域\n私域渠道\n品牌小程序\n私域\n未直连渠道\n企业微信\n\n承接住中沟通、客户沉淀和复购触达\n\n立即关联\n公众号\n\n用于消息接待、会员触达和活动通知\n\n立即关联\n品牌小程序\n\n搭建自有预订入口，沉淀门店私域流量\n\n订阅开通\n小\n品牌小程序订阅方案已加入开通清单\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--message",
+      "role": "",
+      "ariaLabel": "消息",
+      "text": "",
+      "box": {
+        "x": 1208,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--payment",
+      "role": "",
+      "ariaLabel": "收款",
+      "text": "",
+      "box": {
+        "x": 1236,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--reception",
+      "role": "",
+      "ariaLabel": "接待",
+      "text": "",
+      "box": {
+        "x": 1264,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--key",
+      "role": "",
+      "ariaLabel": "门锁",
+      "text": "",
+      "box": {
+        "x": 1292,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--service",
+      "role": "",
+      "ariaLabel": "客服",
+      "text": "",
+      "box": {
+        "x": 1320,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-tool-button topbar-tool-button--notice",
+      "role": "",
+      "ariaLabel": "通知",
+      "text": "",
+      "box": {
+        "x": 1348,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "topbar-user-menu",
+      "role": "",
+      "ariaLabel": "用户菜单",
+      "text": "",
+      "box": {
+        "x": 1376,
+        "y": 10,
+        "width": 56,
+        "height": 32
+      },
+      "display": "flex"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "sidebar-group-title is-active",
+      "role": "",
+      "ariaLabel": "",
+      "text": "私域",
+      "box": {
+        "x": 0,
+        "y": 164,
+        "width": 155,
+        "height": 44
+      },
+      "display": "grid"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "private-button private-button--primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "立即关联",
+      "box": {
+        "x": 196,
+        "y": 236,
+        "width": 70,
+        "height": 28
+      },
+      "display": "inline-block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "private-button private-button--primary",
+      "role": "",
+      "ariaLabel": "",
+      "text": "立即关联",
+      "box": {
+        "x": 448,
+        "y": 236,
+        "width": 70,
+        "height": 28
+      },
+      "display": "inline-block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "private-button ",
+      "role": "",
+      "ariaLabel": "",
+      "text": "订阅开通",
+      "box": {
+        "x": 700,
+        "y": 236,
+        "width": 70,
+        "height": 28
+      },
+      "display": "inline-block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "刷新会话",
+      "text": "↻",
+      "box": {
+        "x": 1371,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "",
+      "role": "",
+      "ariaLabel": "收起会话",
+      "text": "收起",
+      "box": {
+        "x": 1397,
+        "y": 451,
+        "width": 22,
+        "height": 22
+      },
+      "display": "block"
+    },
+    {
+      "tag": "BUTTON",
+      "className": "chat-dock__collapse",
+      "role": "",
+      "ariaLabel": "",
+      "text": "收起",
+      "box": {
+        "x": 1350,
+        "y": 858,
+        "width": 80,
+        "height": 32
+      },
+      "display": "block"
+    }
+  ]
+}

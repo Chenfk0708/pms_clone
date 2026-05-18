@@ -1,0 +1,682 @@
+{
+  "targetUrl": "https://minsubao.localhome.cn/mallManagement/goodsManagement",
+  "capturedAt": "2026-05-18T10:00:00+08:00",
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {},
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "camps": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "campId": "1796067693589061634",
+              "name": "路客云6TS5的店铺",
+              "type": 1,
+              "networkNum": "835466",
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": null,
+              "joinTime": 1717050882188,
+              "roles": "1,2",
+              "logoPhotoMediaId": null,
+              "logoPhoto": null,
+              "consoleLogoPhotoMediaId": null,
+              "consoleLogoPhotoMediaUrl": null,
+              "contactNumber": null,
+              "description": null,
+              "isOwner": 1,
+              "scaleType": 2
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"camps\":[{\"campId\":\"1796067693589061634\",\"name\":\"路客云6TS5的店铺\",\"type\":1,\"networkNum\":\"835466\",\"nationId\":null,\"nationName\":null,\"provinceId\":null,\"provinceName\":null,\"cityId\":null,\"cityName\":null,\"countyId\":null,\"countyName\":null,\"address\":null,\"joinTime\":1717050882188,\"roles\":\"1,2\",\"logoPhotoMediaId\":null,\"logoPhoto\":null,\"consoleLogoPhotoMediaId\":null,\"consoleLogoPhotoMediaUrl\":null,\"contactNumber\":null,\"description\":null,\"isOwner\":1,\"scaleType\":2}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campId": "1796067693589061634",
+          "name": "路客云6TS5的店铺",
+          "type": 1,
+          "isModifyConsoleLogo": 0,
+          "networkNum": "835466",
+          "nationId": null,
+          "nationName": null,
+          "provinceId": null,
+          "provinceName": null,
+          "cityId": null,
+          "cityName": null,
+          "countyId": null,
+          "countyName": null,
+          "address": null,
+          "qrUrl": "https://hudson-prod.localhome.cn/qr?text=https://hudson-prod.localhome.cn/camp/invite/qr?networkNum=835466%26inviteUserId=1796067693261905922",
+          "logoPhotoMediaId": null,
+          "logoPhotoMediaUrl": null,
+          "consoleLogoPhotoMediaId": null,
+          "consoleLogoPhotoMediaUrl": null,
+          "contactNumber": null,
+          "description": null,
+          "bizLicenceMediaId": null,
+          "bizLicenceMediaUrl": null,
+          "industryLicenseMediaId": null,
+          "industryLicenseMediaUrl": null,
+          "hasAuditQualification": false,
+          "scaleType": 2,
+          "accounts": {
+            "type": "array",
+            "length": 9,
+            "first": {
+              "accountId": "1801948373101887489",
+              "channelId": "2",
+              "channelName": "途家",
+              "accountName": "BvYy9331",
+              "outAccountId": "134923302"
+            }
+          },
+          "accountCamps": {
+            "type": "array",
+            "length": 9,
+            "first": {
+              "accountCampId": "1801948373101887489",
+              "channelId": "2",
+              "accountName": "BvYy9331",
+              "outAccountId": "134923302",
+              "outCampName": "",
+              "accountId": "1801948373101887489",
+              "channelName": "途家"
+            }
+          },
+          "isComplete": false,
+          "campPhotos": {
+            "type": "array",
+            "length": 0,
+            "first": null
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"campId\":\"1796067693589061634\",\"name\":\"路客云6TS5的店铺\",\"type\":1,\"isModifyConsoleLogo\":0,\"networkNum\":\"835466\",\"nationId\":null,\"nationName\":null,\"provinceId\":null,\"provinceName\":null,\"cityId\":null,\"cityName\":null,\"countyId\":null,\"countyName\":null,\"address\":null,\"qrUrl\":\"https://hudson-prod.localhome.cn/qr?text=https://hudson-prod.localhome.cn/camp/invite/qr?networkNum=835466%26inviteUserId=1796067693261905922\",\"logoPhotoMediaId\":null,\"logoPhotoMediaUrl\":null,\"consoleLogoPhotoMediaId\":null,\"consoleLogoPhotoMediaUrl\":null,\"contactNumber\":null,\"description\":null,\"bizLicenceMediaId\":null,\"bizLicenceMediaUrl\":null,\"industryLicenseMediaId\":null,\"industryLicenseMediaUrl\":null,\"hasAuditQualification\":false,\"scaleType\":2,\"accounts\":[{\"accountId\":\"1801948373101887489\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"BvYy9331\",\"outAccountId\":\"134923302\"},{\"accountId\":\"1801207882877546498\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"EHPq0597\",\"outAccountId\":\"9825888\"},{\"accountId\":\"1815374921939075073\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"CDkZ9934\",\"outAccountId\":\"417444802\"},{\"accountId\":\"1801949566888878081\",\"channelId\":\"3\",\"channelName\":\"美团民宿\",\"accountName\":\"天落会宿\",\"outAccountId\":\"539df02d98044059ef472eaa2360ee7af477d777a05d0713b9dddb75b3c13c11\"},{\"accountId\":\"1873647550792806402\",\"channelId\":\"4\",\"channelName\":\"小猪\",\"accountName\":\"陈泓仰\",\"outAccountId\":\"28698039901\"},{\"accountId\":\"1974109534311833601\",\"channelId\":\"6\",\"channelName\":\"美团酒店\",\"accountName\":\"[redacted-account]\",\"outAccountId\":\"194698201\"},{\"accountId\":\"1869701816472887298\",\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"accountName\":\"路客云6TS5\",\"outAccountId\":\"1869701813359669248\"},{\"accountId\":\"1837477541152784386\",\"channelId\":\"21\",\"channelName\":\"木鸟\",\"accountName\":\"aikenchen\",\"outAccountId\":\"414127\"},{\"accountId\":\"1820360983796908034\",\"channelId\":\"58\",\"channelName\":\"抖音来客\",\"accountName\":\"7370207731854149643\",\"outAccountId\":\"7370207731854149643\"}],\"accountCamps\":[{\"accountCampId\":\"1801948373101887489\",\"channelId\":\"2\",\"accountName\":\"BvYy9331\",\"outAccountId\":\"134923302\",\"outCampName\":\"\",\"accountId\":\"1801948373101887489\",\"channelName\":\"途家\"},{\"accountCampId\":\"1801207882877546498\",\"channelId\":\"2\",\"accountName\":\"EHPq0597\",\"outAccountId\":\"9825888\",\"outCampName\":\"\",\"accountId\":\"1801207882877546498\",\"channelName\":\"途家\"},{\"accountCampId\":\"1815374921939075073\",\"channelId\":\"2\",\"accountName\":\"CDkZ9934\",\"outAccountId\":\"417444802\",\"outCampName\":\"\",\"accountId\":\"1815374921939075073\",\"channelName\":\"途家\"},{\"accountCampId\":\"1801949566888878081\",\"channelId\":\"3\",\"accountName\":\"天落会宿\",\"outAccountId\":\"539df02d98044059ef472eaa2360ee7af477d777a05d0713b9dddb75b3c13c11\",\"outCampName\":\"\",\"accountId\":\"1801949566888878081\",\"channelName\":\"美团民宿\"},{\"accountCampId\":\"1873647550792806402\",\"channelId\":\"4\",\"accountName\":\"陈泓仰\",\"outAccountId\":\"28698039901\",\"outCampName\":\"\",\"accountId\":\"1873647550792806402\",\"channelName\":\"小猪\"},{\"accountCampId\":\"1974109534311833601\",\"chan"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "hasAllChannel": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "channels": {
+            "type": "array",
+            "length": 100,
+            "first": {
+              "channelId": "0",
+              "channelName": "自来客",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3502071786857692.png",
+              "image2Logo": null,
+              "isCustom": 0,
+              "isLongRent": 0,
+              "isSupportIcs": null,
+              "isEnable": 1,
+              "seq": 0,
+              "color": "#6985cd",
+              "isCal": 1
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"channels\":[{\"channelId\":\"0\",\"channelName\":\"自来客\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3502071786857692.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":0,\"color\":\"#6985cd\",\"isCal\":1},{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png\",\"image2Logo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":1,\"color\":\"#274080\",\"isCal\":1},{\"channelId\":\"3\",\"channelName\":\"美团民宿\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":2,\"color\":\"#ffc506\",\"isCal\":1},{\"channelId\":\"6\",\"channelName\":\"美团酒店\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/WechatIMG671.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":3,\"color\":\"#00AFD6\",\"isCal\":1},{\"channelId\":\"2\",\"channelName\":\"途家\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":4,\"color\":\"#ff6d23\",\"isCal\":1},{\"channelId\":\"49\",\"channelName\":\"途家直连\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":4,\"color\":\"#ff6d23\",\"isCal\":1},{\"channelId\":\"1\",\"channelName\":\"爱彼迎\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/bnb002.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":5,\"color\":\"#FF5A5F\",\"isCal\":1},{\"channelId\":\"8\",\"channelName\":\"飞猪淘酒店\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":6,\"color\":\"#EDC171\",\"isCal\":1},{\"channelId\":\"59\",\"channelName\":\"飞猪民宿直连\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":6,\"color\":\"#EDC171\",\"isCal\":1},{\"channelId\":\"60\",\"channelName\":\"飞猪酒店直连\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":6,\"color\":\"#EDC171\",\"isCal\":1},{\"channelId\":\"4\",\"channelName\":\"小猪\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":7,\"color\":\"#ff4268\",\"isCal\":1},{\"channelId"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 1,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "poiId": "1796425098638573570",
+              "poiName": "天落会宿公寓(前海壹方城宝安中心店)"
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":1,\"size\":999,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":1,\"list\":[{\"poiId\":\"1796425098638573570\",\"poiName\":\"天落会宿公寓(前海壹方城宝安中心店)\"}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "first": {
+              "campId": null,
+              "channelRoomCategoryId": "1671102652115400022",
+              "channelRoomCategoryName": "携程直连",
+              "parentRoomCategoryId": "1671102652115400021",
+              "mainPhotoMediaId": "1671102652115400022",
+              "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": {
+                "type": "array",
+                "length": 0,
+                "first": null
+              },
+              "lowestSellingPrice": 246,
+              "lowestSettlementPrice": 246,
+              "lowestOriginalPrice": 246,
+              "reducePrice": 0,
+              "isCanBooking": 1,
+              "totalStock": "10368855",
+              "roomCategoryType": 1,
+              "goodsType": 7,
+              "isLongTermEffective": 1,
+              "effectiveStartTime": null,
+              "effectiveEndTime": 1822060800000,
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": 0,
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "11",
+              "isAvailability": "1",
+              "description": "开通携程直连，实现房态、房价、订单管理。"
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10368855\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channelOutRuleJson\":null,\"applyId\":\"11\",\"isAvailability\":\"1\",\"description\":\"开通携程直连，实现房态、房价、订单管理。\",\"attIds\":null,\"contractAgreementUrl\":null,\"bindRoomCategoryViews\":null,\"bindServiceViews\":null,\"roomCategoryProductGetViews\":[{\"roomCategoryProductId\":\"1671092891498688930\",\"roomCategoryProductName\":\"30天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":7380,\"originalPrice\":7380,\"settlementPrice\":7380,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":99999,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688928\",\"roomCategoryProductName\":\"1天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":246,\"originalPrice\":246,\"settlementPrice\":246,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":70197,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688922\",\"roomCategoryProductName\":\"一年\",\"sa"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          3
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "groupType": 1,
+              "groupTypeName": "住宿",
+              "paymentTypes": {
+                "type": "array",
+                "length": 53,
+                "first": "object"
+              }
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentGroups\":[{\"groupType\":1,\"groupTypeName\":\"住宿\",\"paymentTypes\":[{\"paymentTypeId\":\"1\",\"paymentTypeName\":\"房费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"2\",\"paymentTypeName\":\"清洁费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"3\",\"paymentTypeName\":\"平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"4\",\"paymentTypeName\":\"押金\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"5\",\"paymentTypeName\":\"取消平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"6\",\"paymentTypeName\":\"加床\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"7\",\"paymentTypeName\":\"加人\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"8\",\"paymentTypeName\":\"退订扣款\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"9\",\"paymentTypeName\":\"损坏赔偿\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"10\",\"paymentTypeName\":\"其他收入\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"11\",\"paymentTypeName\":\"保洁费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"12\",\"paymentTypeName\":\"佣金支出\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"13\",\"paymentTypeName\":\"房租\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"14\",\"paymentTypeName\":\"水费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"15\",\"paymentTypeName\":\"电费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"16\",\"paymentTypeName\":\"物业费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"17\",\"paymentTypeName\":\"维修费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"18\",\"paymentTypeName\":\"员工薪资\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"19\",\"paymentTypeName\":\"运营费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"20\",\"paymentTypeName\":\"其他支出\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"21\",\"paymentTypeName\":\"长租租金\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"22\",\""
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 9999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 1,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "poiId": "1796425098638573570",
+              "poiName": "天落会宿公寓(前海壹方城宝安中心店)"
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":1,\"size\":999,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":1,\"list\":[{\"poiId\":\"1796425098638573570\",\"poiName\":\"天落会宿公寓(前海壹方城宝安中心店)\"}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/calChannel4RoomCategory/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "select": {
+            "type": "array",
+            "length": 9,
+            "first": {
+              "channelId": "0",
+              "channelName": "自来客",
+              "seq": null
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"select\":[{\"channelId\":\"0\",\"channelName\":\"自来客\",\"seq\":null},{\"channelId\":\"5\",\"channelName\":\"携程\",\"seq\":null},{\"channelId\":\"6\",\"channelName\":\"美团酒店\",\"seq\":null},{\"channelId\":\"8\",\"channelName\":\"飞猪淘酒店\",\"seq\":null},{\"channelId\":\"3\",\"channelName\":\"美团民宿\",\"seq\":null},{\"channelId\":\"2\",\"channelName\":\"途家\",\"seq\":null},{\"channelId\":\"21\",\"channelName\":\"木鸟\",\"seq\":null},{\"channelId\":\"4\",\"channelName\":\"小猪\",\"seq\":null},{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"seq\":null}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/categories/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "parentId": 0
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "categoryViews": {
+            "type": "array",
+            "length": 8,
+            "first": {
+              "categoryId": "3",
+              "name": "旅游玩乐",
+              "parentId": "0",
+              "level": 1,
+              "seq": 1,
+              "isDisplay": 0,
+              "children": {
+                "type": "array",
+                "length": 8,
+                "first": "object"
+              }
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"categoryViews\":[{\"categoryId\":\"3\",\"name\":\"旅游玩乐\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":0,\"children\":[{\"categoryId\":\"4\",\"name\":\"套餐\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"5\",\"name\":\"酒店\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"6\",\"name\":\"客栈\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"7\",\"name\":\"公寓\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"8\",\"name\":\"餐饮\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"9\",\"name\":\"门票\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"10\",\"name\":\"娱乐\",\"parentId\":\"3\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"11\",\"name\":\"营位票\",\"parentId\":\"3\",\"level\":2,\"seq\":2,\"isDisplay\":0,\"children\":[]}]},{\"categoryId\":\"14\",\"name\":\"房券\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":1,\"children\":[]},{\"categoryId\":\"15\",\"name\":\"门票券\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":1,\"children\":[]},{\"categoryId\":\"16\",\"name\":\"餐饮券\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":1,\"children\":[]},{\"categoryId\":\"17\",\"name\":\"套餐\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":1,\"children\":[]},{\"categoryId\":\"18\",\"name\":\"路客云\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":0,\"children\":[]},{\"categoryId\":\"19\",\"name\":\"酒店套餐\",\"parentId\":\"0\",\"level\":1,\"seq\":1,\"isDisplay\":1,\"children\":[]},{\"categoryId\":\"1\",\"name\":\"其他\",\"parentId\":\"0\",\"level\":1,\"seq\":2,\"isDisplay\":0,\"children\":[{\"categoryId\":\"2\",\"name\":\"路客云\",\"parentId\":\"1\",\"level\":2,\"seq\":1,\"isDisplay\":0,\"children\":[]}]}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "roomCategoryRooms": {
+            "type": "array",
+            "length": 4,
+            "first": {
+              "roomCategoryId": "1796425099729092609",
+              "roomCategoryName": "顶层套房（浴缸巨幕电竞麻将）",
+              "rooms": {
+                "type": "array",
+                "length": 1,
+                "first": "object"
+              }
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"roomCategoryRooms\":[{\"roomCategoryId\":\"1796425099729092609\",\"roomCategoryName\":\"顶层套房（浴缸巨幕电竞麻将）\",\"rooms\":[{\"roomCategoryId\":\"1796425099729092609\",\"roomId\":\"1796425099787812870\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425099485822977\",\"roomCategoryName\":\"总裁套间（桑拿浴缸露台电竞麻将）\",\"rooms\":[{\"roomCategoryId\":\"1796425099485822977\",\"roomId\":\"1796425099544543234\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425099242553345\",\"roomCategoryName\":\"天落大床电竞套间\",\"rooms\":[{\"roomCategoryId\":\"1796425099242553345\",\"roomId\":\"1796425099301273602\",\"roomName\":\"1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425098965729282\",\"roomCategoryName\":\"观影大床房\",\"rooms\":[{\"roomCategoryId\":\"1796425098965729282\",\"roomId\":\"1796425099032838145\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channelRoomCategories/page/get/v2",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "roomCategoryTypes": [
+          1,
+          2,
+          3
+        ],
+        "categoryIds": [],
+        "searchKey": "",
+        "pageNum": 1,
+        "pageSize": 20,
+        "getChannelIds": [],
+        "isGetChannelInfo": 1,
+        "channelIds": [
+          0
+        ],
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 0,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 0,
+          "list": {
+            "type": "array",
+            "length": 0,
+            "first": null
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":0,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":0,\"list\":[]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          2
+        ],
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": {
+            "type": "array",
+            "length": 1,
+            "first": {
+              "groupType": 1,
+              "groupTypeName": "住宿",
+              "paymentTypes": {
+                "type": "array",
+                "length": 10,
+                "first": "object"
+              }
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentGroups\":[{\"groupType\":1,\"groupTypeName\":\"住宿\",\"paymentTypes\":[{\"paymentTypeId\":\"6\",\"paymentTypeName\":\"加床\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"7\",\"paymentTypeName\":\"加人\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"9\",\"paymentTypeName\":\"损坏赔偿\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"10\",\"paymentTypeName\":\"其他收入\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"20\",\"paymentTypeName\":\"其他支出\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"34\",\"paymentTypeName\":\"加时(延迟退房)\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"35\",\"paymentTypeName\":\"餐饮\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"36\",\"paymentTypeName\":\"旅游服务\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"50\",\"paymentTypeName\":\"退房费\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"54\",\"paymentTypeName\":\"其他佣金支出\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":1,\"groupType\":1}]}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "first": {
+              "campId": null,
+              "channelRoomCategoryId": "1671102652115400022",
+              "channelRoomCategoryName": "携程直连",
+              "parentRoomCategoryId": "1671102652115400021",
+              "mainPhotoMediaId": "1671102652115400022",
+              "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": {
+                "type": "array",
+                "length": 0,
+                "first": null
+              },
+              "lowestSellingPrice": 246,
+              "lowestSettlementPrice": 246,
+              "lowestOriginalPrice": 246,
+              "reducePrice": 0,
+              "isCanBooking": 1,
+              "totalStock": "10368855",
+              "roomCategoryType": 1,
+              "goodsType": 7,
+              "isLongTermEffective": 1,
+              "effectiveStartTime": null,
+              "effectiveEndTime": 1822060800000,
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": 0,
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "11",
+              "isAvailability": "1",
+              "description": "开通携程直连，实现房态、房价、订单管理。"
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10368855\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channelOutRuleJson\":null,\"applyId\":\"11\",\"isAvailability\":\"1\",\"description\":\"开通携程直连，实现房态、房价、订单管理。\",\"attIds\":null,\"contractAgreementUrl\":null,\"bindRoomCategoryViews\":null,\"bindServiceViews\":null,\"roomCategoryProductGetViews\":[{\"roomCategoryProductId\":\"1671092891498688930\",\"roomCategoryProductName\":\"30天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":7380,\"originalPrice\":7380,\"settlementPrice\":7380,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":99999,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688928\",\"roomCategoryProductName\":\"1天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":246,\"originalPrice\":246,\"settlementPrice\":246,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":70197,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688922\",\"roomCategoryProductName\":\"一年\",\"sa"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "first": {
+              "campId": null,
+              "channelRoomCategoryId": "1671102652115400022",
+              "channelRoomCategoryName": "携程直连",
+              "parentRoomCategoryId": "1671102652115400021",
+              "mainPhotoMediaId": "1671102652115400022",
+              "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": {
+                "type": "array",
+                "length": 0,
+                "first": null
+              },
+              "lowestSellingPrice": 246,
+              "lowestSettlementPrice": 246,
+              "lowestOriginalPrice": 246,
+              "reducePrice": 0,
+              "isCanBooking": 1,
+              "totalStock": "10368855",
+              "roomCategoryType": 1,
+              "goodsType": 7,
+              "isLongTermEffective": 1,
+              "effectiveStartTime": null,
+              "effectiveEndTime": 1822060800000,
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": 0,
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "11",
+              "isAvailability": "1",
+              "description": "开通携程直连，实现房态、房价、订单管理。"
+            }
+          }
+        }
+      },
+      "responseSample": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10368855\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channelOutRuleJson\":null,\"applyId\":\"11\",\"isAvailability\":\"1\",\"description\":\"开通携程直连，实现房态、房价、订单管理。\",\"attIds\":null,\"contractAgreementUrl\":null,\"bindRoomCategoryViews\":null,\"bindServiceViews\":null,\"roomCategoryProductGetViews\":[{\"roomCategoryProductId\":\"1671092891498688930\",\"roomCategoryProductName\":\"30天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":7380,\"originalPrice\":7380,\"settlementPrice\":7380,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":99999,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688928\",\"roomCategoryProductName\":\"1天\",\"saleType\":null,\"stockType\":null,\"sellingPrice\":246,\"originalPrice\":246,\"settlementPrice\":246,\"reducePrice\":null,\"isCanBooking\":1,\"stock\":70197,\"stockMode\":1,\"photoMediaId\":\"1534423790783582210\",\"photoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"cancelPolicy\":null,\"breakfastCount\":null,\"lunchCount\":null,\"dinnerCount\":null,\"curDayBookingTime\":null,\"earliestCheckInTime\":null,\"latestCheckInTime\":null,\"latestCheckOutTime\":null,\"hourCheckInTime\":null,\"hourCheckOutTime\":null,\"hourSerialCheckTime\":null,\"isHourLimit\":null,\"seq\":1,\"expandQuotaExpireTime\":null,\"bindRoomCategoryProductViews\":[]},{\"roomCategoryProductId\":\"1671092891498688922\",\"roomCategoryProductName\":\"一年\",\"sa"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "side": "clone",
+  "stamp": "20260518-mock-provider-clone",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/houseManage/months",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    }
+  ]
+}

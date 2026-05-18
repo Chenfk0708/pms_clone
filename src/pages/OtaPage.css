@@ -11,6 +11,57 @@
   background: #fff;
 }
 
+.ota-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 14px 0 12px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.ota-toolbar__actions {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 1px;
+}
+
+.ota-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 8px;
+  padding-top: 14px;
+}
+
+.ota-metric {
+  min-height: 86px;
+  padding: 14px;
+  border: 1px solid #edf0f6;
+  border-radius: 8px;
+  background: #fafcff;
+}
+
+.ota-metric span {
+  color: #667085;
+  font-size: 13px;
+}
+
+.ota-metric strong {
+  display: block;
+  margin-top: 6px;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.ota-metric p {
+  margin: 6px 0 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 .ota-channel-section {
   padding: 14px 0 0;
 }
@@ -46,6 +97,14 @@
   border: 1px solid #cfe0ff;
   border-radius: 8px;
   background: linear-gradient(135deg, #fff, #ebf3ff);
+}
+
+.ota-channel-card > p {
+  min-height: 38px;
+  margin: -10px 14px 8px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .ota-channel-card--pending {
@@ -127,7 +186,9 @@
 
 .ota-channel-card__actions button,
 .ota-button,
-.ota-select {
+.ota-select,
+.ota-dialog footer button,
+.ota-drawer footer button {
   min-width: 68px;
   height: 28px;
   border: 1px solid #4d65f6;
@@ -139,7 +200,8 @@
 }
 
 .ota-channel-card__actions .ota-primary-action,
-.ota-button--primary {
+.ota-button--primary,
+.ota-dialog footer .ota-button--primary {
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
@@ -209,6 +271,7 @@
 }
 
 .ota-field input,
+.ota-field select,
 .ota-select {
   width: 190px;
   height: 32px;
@@ -221,6 +284,10 @@
 
 .ota-field input {
   padding: 0 10px;
+}
+
+.ota-field select {
+  padding: 0 30px 0 10px;
 }
 
 .ota-select {
@@ -309,8 +376,210 @@
   font-size: 13px;
 }
 
+.ota-live-status.is-error {
+  color: #c2410c;
+}
+
+.ota-loading,
+.ota-state {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #d9dfe9;
+  border-radius: 8px;
+  background: #fafbfe;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ota-state strong {
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ota-state button {
+  width: fit-content;
+  height: 28px;
+  border: 1px solid #4d65f6;
+  border-radius: 5px;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.ota-state--error {
+  border-color: #fed7aa;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.ota-bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.ota-reminders,
+.ota-quick-links {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #edf0f6;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.ota-reminders h2,
+.ota-quick-links h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.ota-reminders button,
+.ota-quick-links button {
+  display: grid;
+  gap: 3px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #edf0f6;
+  border-radius: 6px;
+  background: #fafcff;
+  color: #1f2937;
+  text-align: left;
+}
+
+.ota-reminders button span {
+  color: #667085;
+  font-size: 12px;
+}
+
+.ota-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ota-pagination button {
+  min-width: 28px;
+  height: 28px;
+  border: 1px solid #d9dfe9;
+  border-radius: 5px;
+  background: #fff;
+  color: #333;
+}
+
+.ota-pagination button.is-active {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.ota-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(15, 23, 42, 0.26);
+}
+
+.ota-dialog,
+.ota-drawer {
+  position: fixed;
+  right: 28px;
+  top: 86px;
+  display: grid;
+  gap: 14px;
+  width: min(420px, calc(100vw - 56px));
+  padding: 18px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.18);
+}
+
+.ota-dialog {
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.ota-dialog header,
+.ota-drawer header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ota-dialog header strong,
+.ota-drawer header strong {
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ota-dialog header button,
+.ota-drawer header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 5px;
+  background: #f2f4f7;
+  color: #667085;
+  font-size: 18px;
+}
+
+.ota-dialog p,
+.ota-drawer p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ota-dialog footer,
+.ota-drawer footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ota-drawer dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.ota-drawer dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.ota-drawer dt {
+  color: #667085;
+}
+
+.ota-drawer dd {
+  margin: 0;
+  color: #1f2937;
+}
+
 @media (max-width: 1480px) {
   .ota-card-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .ota-metrics,
+  .ota-bottom-grid {
+    grid-template-columns: 1fr;
   }
 }

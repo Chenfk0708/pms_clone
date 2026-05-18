@@ -226,8 +226,8 @@ function interactionActions() {
     },
     {
       slug: 'order-detail',
-      label: '订单详情',
-      run: async (page) => clickFirstVisible(page, ['刘翻红', '陈崇科', '张张', '详情']),
+      label: '房间详情',
+      run: async (page) => clickFirstVisible(page, ['胡志深', '张祯', '观影大床房', '天落大床电竞套间', '详情']),
     },
   ]
 }

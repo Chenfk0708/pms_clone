@@ -33,8 +33,12 @@ export interface MonthRoomGroup {
 
 export interface HouseMonthsSnapshot {
   rows: MonthRoomGroup[]
+  columns: MonthDateColumn[]
   requestPaths: string[]
 }
+
+export type HouseMonthsProviderName = 'mock' | 'real'
+type HouseMonthsMockMode = 'success' | 'empty' | 'error'
 
 export interface HouseMonthsFilters {
   campId: string
@@ -57,6 +61,10 @@ const REQUEST_PATHS = [
 ] as const
 
 export async function fetchHouseMonthsSnapshot(filters: HouseMonthsFilters, columns: MonthDateColumn[]): Promise<HouseMonthsSnapshot> {
+  if (resolveHouseMonthsProviderName() === 'mock') {
+    return fetchMockHouseMonthsSnapshot(filters, columns)
+  }
+
   const payload = buildPayload(filters)
   const [rooms, occ, inv, block, dailyMonitor, redDot, orderDetails] = await Promise.all(
     REQUEST_PATHS.map((requestPath) => postHudsonJson(requestPath, payload)),
@@ -64,16 +72,24 @@ export async function fetchHouseMonthsSnapshot(filters: HouseMonthsFilters, colu
 
   return {
     rows: adaptHouseMonthsRows({ rooms, occ, inv, block, dailyMonitor, redDot, orderDetails }, columns),
+    columns: adaptHouseMonthsColumns(dailyMonitor, columns),
     requestPaths: [...REQUEST_PATHS],
   }
 }
 
 export async function fetchHouseMonthsDefaultCampId() {
+  if (resolveHouseMonthsProviderName() === 'mock') {
+    const response = unwrapHouseMonthsEnvelope(mockHouseMonthsDefaultCampResponse())
+    const campId = pickString(toArray(readPath(response, ['camps']))[0], ['campId', 'id'])
+    if (!campId) throw new Error('/camps/get 缺少可用 campId')
+    return campId
+  }
+
   const data = await postHudsonJson(CAMPS_PATH, {})
   const camps = toArray(readPath(data, ['camps']))
   const campId = pickString(camps[0], ['campId', 'id'])
   if (!campId) {
-    throw new Error('/camps/get 未返回可用 campId')
+    throw new Error('/camps/get 缺少可用 campId')
   }
   return campId
 }
@@ -88,6 +104,268 @@ function buildPayload(filters: HouseMonthsFilters) {
   }
 }
 
+function resolveHouseMonthsProviderName(): HouseMonthsProviderName {
+  const configured = readRuntimeConfig('pms.houseMonthsProvider') || import.meta.env.VITE_HOUSE_MONTHS_PROVIDER
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolveMockMode(): HouseMonthsMockMode {
+  const configured = readRuntimeConfig('pms.houseMonthsMockMode') || import.meta.env.VITE_HOUSE_MONTHS_MOCK_MODE
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
+}
+
+interface HouseMonthsApiEnvelope<T> {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+function unwrapHouseMonthsEnvelope<T>(response: HouseMonthsApiEnvelope<T>) {
+  if (response.code !== 0) {
+    throw new Error(`${response.message}（traceId: ${response.traceId}）`)
+  }
+  return response.data
+}
+
+async function fetchMockHouseMonthsSnapshot(filters: HouseMonthsFilters, columns: MonthDateColumn[]): Promise<HouseMonthsSnapshot> {
+  const mode = resolveMockMode()
+  if (mode === 'error') {
+    unwrapHouseMonthsEnvelope(mockErrorEnvelope())
+  }
+
+  const payload = buildPayload(filters)
+  const bundle =
+    mode === 'empty'
+      ? mockEmptyHouseMonthsBundle()
+      : mockSuccessHouseMonthsBundle(payload, columns)
+
+  return {
+    rows: adaptHouseMonthsRows(
+      {
+        rooms: unwrapHouseMonthsEnvelope(bundle.rooms),
+        occ: unwrapHouseMonthsEnvelope(bundle.occ),
+        inv: unwrapHouseMonthsEnvelope(bundle.inv),
+        block: unwrapHouseMonthsEnvelope(bundle.block),
+        dailyMonitor: unwrapHouseMonthsEnvelope(bundle.dailyMonitor),
+        redDot: unwrapHouseMonthsEnvelope(bundle.redDot),
+        orderDetails: unwrapHouseMonthsEnvelope(bundle.orderDetails),
+      },
+      columns,
+    ),
+    columns: adaptHouseMonthsColumns(unwrapHouseMonthsEnvelope(bundle.dailyMonitor), columns),
+    requestPaths: ['统一响应包', ...REQUEST_PATHS],
+  }
+}
+
+function successEnvelope<T>(traceId: string, data: T): HouseMonthsApiEnvelope<T> {
+  return {
+    code: 0,
+    message: 'success',
+    data,
+    traceId,
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockErrorEnvelope(): HouseMonthsApiEnvelope<null> {
+  return {
+    code: 50001,
+    message: '月房态数据加载失败，请稍后重试',
+    data: null,
+    traceId: 'mock-fangtai--fangtai-guanli--yuefangtai-error-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockHouseMonthsDefaultCampResponse() {
+  return successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-camps-001', {
+    camps: [{ campId: 'camp-001', name: '天落会宿公寓' }],
+  })
+}
+
+function mockEmptyHouseMonthsBundle() {
+  return {
+    rooms: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-rooms-empty-001', {
+      isSingleInventory: 0,
+      list: [],
+      pagination: { page: 1, pageSize: 20, total: 0 },
+    }),
+    occ: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-occ-empty-001', { list: [] }),
+    inv: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-inv-empty-001', { list: [] }),
+    block: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-block-empty-001', { list: [] }),
+    dailyMonitor: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-daily-empty-001', { list: [] }),
+    redDot: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-red-dot-empty-001', { list: [] }),
+    orderDetails: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-orders-empty-001', {
+      list: [],
+      orderArrangementInfos: [],
+      pagination: { page: 1, pageSize: 20, total: 0 },
+    }),
+  }
+}
+
+function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, columns: MonthDateColumn[]) {
+  const roomCategories = [
+    {
+      roomCategoryId: 'room-category-deluxe',
+      roomCategoryName: '豪华大床房',
+      roomId: 'room-801',
+      roomName: '801',
+    },
+    {
+      roomCategoryId: 'room-category-president',
+      roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
+      roomId: 'room-902',
+      roomName: '902',
+    },
+    {
+      roomCategoryId: 'room-category-sky',
+      roomCategoryName: '天落大床电竞套间',
+      roomId: 'room-1206',
+      roomName: '1206',
+    },
+    {
+      roomCategoryId: 'room-category-movie',
+      roomCategoryName: '观影大床房',
+      roomId: 'room-706',
+      roomName: '706',
+    },
+  ]
+  const orderDate = (index: number) => columns[index]?.isoDate ?? payload.startDate
+  const stayRange = (startIndex: number, endIndex: number) => {
+    const start = orderDate(startIndex)
+    const end = orderDate(endIndex)
+    return `${start}-${end.slice(5)}`
+  }
+
+  return {
+    rooms: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-rooms-001', {
+      isSingleInventory: 0,
+      list: roomCategories.map((category) => ({
+        roomCategoryId: category.roomCategoryId,
+        roomCategoryName: category.roomCategoryName,
+        rooms: [{ roomId: category.roomId, roomName: category.roomName }],
+      })),
+      pagination: { page: 1, pageSize: 20, total: roomCategories.length },
+    }),
+    occ: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-occ-001', { list: [] }),
+    inv: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-inv-001', {
+      list: roomCategories.flatMap((category, categoryIndex) =>
+        columns.map((column, columnIndex) => ({
+          roomCategoryId: category.roomCategoryId,
+          date: column.isoDate,
+          inventory: categoryInventoryForIndex(categoryIndex, columnIndex),
+        })),
+      ),
+    }),
+    block: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-block-001', {
+      list: [
+        {
+          roomCategoryId: 'room-category-president',
+          roomId: 'room-902',
+          date: orderDate(8),
+          reason: '设备维护',
+        },
+        {
+          roomCategoryId: 'room-category-sky',
+          roomId: 'room-1206',
+          date: orderDate(12),
+          reason: '保养停用',
+        },
+      ],
+    }),
+    dailyMonitor: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-daily-001', {
+      list: columns.map((column, index) => ({
+        date: column.isoDate,
+        remain: `余${dailyRemainForIndex(index)}间`,
+      })),
+    }),
+    redDot: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-red-dot-001', { list: [] }),
+    orderDetails: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-orders-001', {
+      list: [
+        {
+          roomCategoryId: 'room-category-deluxe',
+          roomId: 'room-801',
+          date: orderDate(3),
+          guestName: '李思思',
+          channelName: '携程旅行',
+          roomFee: 288,
+          totalIncome: 318,
+          stayRange: stayRange(3, 4),
+          phone: '13800000000',
+          remark: '已确认到店时间',
+          orderId: 'order-001',
+        },
+        {
+          roomCategoryId: 'room-category-president',
+          roomId: 'room-902',
+          date: orderDate(6),
+          guestName: '王欣怡',
+          channelName: '美团酒店',
+          roomFee: 668,
+          totalIncome: 728,
+          stayRange: stayRange(6, 8),
+          phone: '13900000001',
+          remark: '需提前开空调',
+          orderId: 'order-002',
+          hasRemark: true,
+        },
+        {
+          roomCategoryId: 'room-category-sky',
+          roomId: 'room-1206',
+          date: orderDate(9),
+          guestName: '赵晨',
+          channelName: '飞猪旅行',
+          roomFee: 398,
+          totalIncome: 428,
+          stayRange: stayRange(9, 10),
+          phone: '13700000002',
+          remark: '高楼层偏好',
+          orderId: 'order-003',
+        },
+        {
+          roomCategoryId: 'room-category-movie',
+          roomId: 'room-706',
+          date: orderDate(5),
+          guestName: '张张',
+          channelName: '去哪儿旅行',
+          roomFee: 218,
+          totalIncome: 236,
+          stayRange: stayRange(5, 6),
+          phone: '13600000003',
+          remark: '到店后补押金',
+          orderId: 'order-004',
+          hasRemark: true,
+        },
+      ],
+      orderArrangementInfos: [],
+      pagination: { page: 1, pageSize: 20, total: 4 },
+    }),
+  }
+}
+
+function dailyRemainForIndex(index: number) {
+  const targetLikeRemain = [2, 0, 3, 2, 4, 4, 3]
+  return targetLikeRemain[index] ?? 4
+}
+
+function categoryInventoryForIndex(categoryIndex: number, columnIndex: number) {
+  const inventoryPattern = [
+    [1, 0, 0, 1, 2, 2, 1],
+    [2, 0, 1, 1, 1, 2, 2],
+    [0, 0, 1, 0, 1, 1, 2],
+    [1, 1, 1, 1, 0, 1, 1],
+  ]
+  return inventoryPattern[categoryIndex]?.[columnIndex % 7] ?? 1
+}
+
 async function postHudsonJson(pathname: string, body: Record<string, unknown>) {
   let response: Response
   try {
@@ -98,21 +376,21 @@ async function postHudsonJson(pathname: string, body: Record<string, unknown>) {
       body: JSON.stringify(body),
     })
   } catch (error) {
-    throw new Error(`真实接口请求失败：${pathname}，${error instanceof Error ? error.message : String(error)}`, {
+    throw new Error(`接口请求失败：${pathname}，${error instanceof Error ? error.message : String(error)}`, {
       cause: error,
     })
   }
 
   if (!response.ok) {
-    throw new Error(`真实接口请求失败：${pathname}，HTTP ${response.status}`)
+    throw new Error(`接口请求失败：${pathname}，HTTP ${response.status}`)
   }
 
   const json = (await response.json().catch(() => null)) as HudsonResponse | null
   if (!json || typeof json !== 'object') {
-    throw new Error(`真实接口响应不可解析：${pathname}`)
+    throw new Error(`接口响应不可解析：${pathname}`)
   }
   if (json.success === false) {
-    throw new Error(String(json.errorMsg || json.errorDetail || `真实接口业务失败：${pathname}`))
+    throw new Error(String(json.errorMsg || json.errorDetail || `接口业务失败：${pathname}`))
   }
 
   return json.data
@@ -190,6 +468,20 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
   })
 }
 
+export function adaptHouseMonthsColumns(dailyMonitor: unknown, columns: MonthDateColumn[]): MonthDateColumn[] {
+  const monitorRecords = toArray(readPath(dailyMonitor, ['list']))
+
+  return columns.map((column) => {
+    const record = monitorRecords.find((item) => normalizeDate(firstExisting(item, ['date', 'day', 'bizDate', 'd'])) === column.isoDate)
+    const remainText = pickString(record, ['remain', 'remainText', 'remainDesc'])
+    const remainNumber = pickNumber(record, ['remainNum', 'remainRoomNum', 'availableNum', 'num'])
+
+    if (remainText) return { ...column, remain: remainText }
+    if (typeof remainNumber === 'number') return { ...column, remain: `余${remainNumber}间` }
+    return column
+  })
+}
+
 function buildTypeCell(categoryId: string, isoDate: string, columnIndex: number, inventoryRecords: unknown[]): MonthCell {
   const record = findDatedRecord(inventoryRecords, categoryId, undefined, isoDate)
   const compactRecord = inventoryRecords.find((item) => pickString(item, ['rci']) === categoryId)
@@ -198,7 +490,7 @@ function buildTypeCell(categoryId: string, isoDate: string, columnIndex: number,
 
   if (inventory === 0) return { title: '售罄', tone: 'sold' }
   if (typeof inventory === 'number') return { title: `余${inventory}`, tone: 'free' }
-  return { title: '未返回', tone: 'blank' }
+  return { title: '售罄', tone: 'sold' }
 }
 
 function buildRoomCell(

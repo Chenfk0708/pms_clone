@@ -33,8 +33,8 @@ test.describe('private channel page', () => {
     await expect(page.locator('.private-breadcrumb')).toContainText('渠道详情')
     await expect(page.getByRole('heading', { name: '企业微信', level: 2 })).toBeVisible()
     await expect(page.getByText('免费试用90天')).toBeVisible()
-    await expect(page.getByText('未接入')).toBeVisible()
-    await expect(page.getByRole('button', { name: '立即接入' })).toBeVisible()
+    await expect(page.getByText('待配置')).toBeVisible()
+    await expect(page.getByRole('button', { name: '立即配置' })).toBeVisible()
     await expect(page.getByText('自动化的获客流程')).toBeVisible()
     await expect(page.getByText('低成本的获客方式')).toBeVisible()
     await expect(page.getByText('丰富的活动运营数据分析和精细化的管理')).toBeVisible()
@@ -62,5 +62,41 @@ test.describe('private channel page', () => {
     await page.getByRole('article', { name: '品牌小程序' }).getByRole('button', { name: '订阅开通' }).click()
     await expect(page).toHaveURL(/\/channels\/private$/)
     await expect(page.getByRole('article', { name: '品牌小程序' })).toBeVisible()
+  })
+
+  test('uses private channel mock provider contract without development copy', async ({ page }) => {
+    await expect(page.getByTestId('private-channel-contract')).toContainText('"provider":"mock"')
+    await expect(page.getByTestId('private-channel-contract')).toContainText('"traceId":"mock-ota--siyu--siyu-qudao-list-001"')
+
+    const visibleText = await page.locator('.private-channel-page').innerText()
+    expect(visibleText).not.toMatch(/mock|未接入|阻塞|后端未就绪|后端接口未完成|后端|provider/i)
+
+    await page.getByRole('article', { name: '品牌小程序' }).getByRole('button', { name: '订阅开通' }).click()
+    await expect(page.getByRole('status', { name: '私域渠道操作反馈' })).toContainText('品牌小程序订阅方案已加入开通清单')
+  })
+
+  test('shows business empty and error states from private channel service', async ({ browser }) => {
+    const emptyContext = await browser.newContext()
+    const emptyPage = await emptyContext.newPage()
+    await emptyPage.setViewportSize({ width: 1440, height: 900 })
+    await emptyPage.addInitScript(() => {
+      window.localStorage.setItem('pmsPrivateChannelScenario', 'empty')
+    })
+    await emptyPage.goto(appUrl('/channels/private'))
+    await expect(emptyPage.getByRole('status', { name: '私域渠道空态' })).toContainText('暂无符合当前条件的私域渠道')
+    await expect(emptyPage.getByTestId('private-channel-contract')).toContainText('"scenario":"empty"')
+    await emptyContext.close()
+
+    const errorContext = await browser.newContext()
+    const errorPage = await errorContext.newPage()
+    await errorPage.setViewportSize({ width: 1440, height: 900 })
+    await errorPage.addInitScript(() => {
+      window.localStorage.setItem('pmsPrivateChannelScenario', 'error')
+    })
+    await errorPage.goto(appUrl('/channels/private'))
+    await expect(errorPage.getByRole('alert')).toContainText('私域渠道数据加载失败')
+    await errorPage.getByRole('button', { name: '重新加载' }).click()
+    await expect(errorPage.getByRole('status', { name: '私域渠道操作反馈' })).toContainText('已重新加载私域渠道')
+    await errorContext.close()
   })
 })

@@ -1,0 +1,35 @@
+{
+  "side": "local",
+  "url": "http://127.0.0.1:4173/channels/private",
+  "isLoginBlocked": false,
+  "forbiddenTermsFound": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4173/channels/private",
+      "pathname": "/channels/private",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "postData": null,
+      "responseSummary": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CBtAcYI7.css",
+      "pathname": "/assets/index-CBtAcYI7.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "postData": null,
+      "responseSummary": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BRVjsS9Q.js",
+      "pathname": "/assets/index-BRVjsS9Q.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "postData": null,
+      "responseSummary": null
+    }
+  ]
+}

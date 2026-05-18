@@ -185,11 +185,44 @@
   font-size: 13px;
 }
 
+.calendar-room-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  background: #fff2f0;
+  color: #b42318;
+  padding: 8px 12px;
+}
+
+.calendar-room-alert button {
+  height: 28px;
+  border: 1px solid #ff7875;
+  border-radius: 4px;
+  background: #fff;
+  color: #b42318;
+  padding: 0 12px;
+}
+
 .calendar-room-table {
+  position: relative;
   overflow: auto;
   border: 1px solid #f0f0f0;
   border-bottom: 0;
   background: #fff;
+}
+
+.calendar-room-table.is-loading::after {
+  content: '加载中';
+  position: absolute;
+  inset: 44px 0 0;
+  display: grid;
+  place-items: start center;
+  background: rgba(255, 255, 255, 0.72);
+  color: #4d65f6;
+  padding-top: 40px;
 }
 
 .calendar-room-table__head,
@@ -282,6 +315,21 @@
   background: #fbfcff;
 }
 
+.calendar-room-empty {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  min-width: 1260px;
+  min-height: 168px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #8a95a8;
+}
+
+.calendar-room-empty strong {
+  color: #333;
+  font-weight: 500;
+}
+
 .calendar-room-product-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
@@ -358,6 +406,100 @@
 .calendar-room-pagination button.is-active {
   border-color: #4d65f6;
   color: #4d65f6;
+}
+
+.calendar-room-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.calendar-room-dialog {
+  width: min(560px, calc(100vw - 48px));
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(20, 27, 44, 0.22);
+}
+
+.calendar-room-dialog header,
+.calendar-room-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #edf0f6;
+  padding: 14px 18px;
+}
+
+.calendar-room-dialog footer {
+  justify-content: flex-end;
+  border-top: 1px solid #edf0f6;
+  border-bottom: 0;
+}
+
+.calendar-room-dialog header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #66748d;
+  font-size: 18px;
+}
+
+.calendar-room-dialog dl,
+.calendar-room-dialog p,
+.calendar-room-dialog-field {
+  margin: 0;
+  padding: 16px 18px;
+}
+
+.calendar-room-dialog dl {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 10px 12px;
+}
+
+.calendar-room-dialog dt {
+  color: #66748d;
+}
+
+.calendar-room-dialog dd {
+  min-width: 0;
+  margin: 0;
+  color: #333;
+  overflow-wrap: anywhere;
+}
+
+.calendar-room-dialog button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+}
+
+.calendar-room-dialog .is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.calendar-room-dialog-field {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-room-dialog-field input {
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0 10px;
 }
 
 

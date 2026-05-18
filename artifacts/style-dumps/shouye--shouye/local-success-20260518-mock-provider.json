@@ -1,0 +1,86 @@
+[
+  {
+    "selector": ".workspace-top-strip",
+    "rect": {
+      "x": 16,
+      "y": 68,
+      "width": 1408,
+      "height": 96
+    },
+    "display": "grid",
+    "background": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 34, 58)",
+    "borderRadius": "0px",
+    "boxShadow": "none"
+  },
+  {
+    "selector": ".workspace-revenue",
+    "rect": {
+      "x": 16,
+      "y": 172,
+      "width": 464,
+      "height": 393
+    },
+    "display": "block",
+    "background": "rgb(255, 255, 255)",
+    "color": "rgb(23, 34, 58)",
+    "borderRadius": "8px",
+    "boxShadow": "none"
+  },
+  {
+    "selector": ".chart-panel",
+    "rect": {
+      "x": 488,
+      "y": 172,
+      "width": 582,
+      "height": 393
+    },
+    "display": "block",
+    "background": "rgb(255, 255, 255)",
+    "color": "rgb(23, 34, 58)",
+    "borderRadius": "8px",
+    "boxShadow": "none"
+  },
+  {
+    "selector": ".workspace-orders-panel",
+    "rect": {
+      "x": 16,
+      "y": 573,
+      "width": 700,
+      "height": 515
+    },
+    "display": "block",
+    "background": "rgb(255, 255, 255)",
+    "color": "rgb(23, 34, 58)",
+    "borderRadius": "8px",
+    "boxShadow": "none"
+  },
+  {
+    "selector": ".workspace-traffic-panel",
+    "rect": {
+      "x": 1078,
+      "y": 573,
+      "width": 346,
+      "height": 515
+    },
+    "display": "grid",
+    "background": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 34, 58)",
+    "borderRadius": "0px",
+    "boxShadow": "none"
+  },
+  {
+    "selector": ".workspace-feedback",
+    "rect": {
+      "x": 16,
+      "y": 1096,
+      "width": 1408,
+      "height": 39
+    },
+    "display": "flex",
+    "background": "rgb(241, 247, 255)",
+    "color": "rgb(39, 86, 158)",
+    "borderRadius": "6px",
+    "boxShadow": "none"
+  }
+]

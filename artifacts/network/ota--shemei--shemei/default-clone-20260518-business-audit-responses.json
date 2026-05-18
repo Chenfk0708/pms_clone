@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260518-business-audit",
+  "url": "http://127.0.0.1:5184/channels/social",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:5184/channels/social",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:5184/assets/index-B6yA3eBf.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:5184/assets/index-1_aJUDpo.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:5184/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "postData": null
+    }
+  ]
+}

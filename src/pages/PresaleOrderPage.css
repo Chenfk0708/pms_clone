@@ -16,6 +16,7 @@
 .presale-order-query,
 .presale-order-table,
 .presale-order-source,
+.presale-order-summary,
 .presale-order-footer {
   border: 1px solid #e5e9f1;
   border-radius: 8px;
@@ -119,9 +120,11 @@
 }
 
 .presale-order-actions button,
-.presale-order-export button,
+.presale-order-toolbar button,
 .presale-order-pagination button,
 .presale-order-row button {
+  position: relative;
+  z-index: 40;
   height: 32px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -132,7 +135,7 @@
 }
 
 .presale-order-actions .is-primary,
-.presale-order-export button {
+.presale-order-toolbar button:first-child {
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
@@ -146,9 +149,54 @@
   background: #f8f9fb;
 }
 
-.presale-order-export {
+.presale-order-toolbar {
   display: flex;
+  gap: 8px;
   justify-content: flex-end;
+}
+
+.presale-order-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 0;
+  overflow: hidden;
+}
+
+.presale-order-summary button {
+  display: grid;
+  gap: 4px;
+  border: 0;
+  border-right: 1px solid #eef1f6;
+  background: #fff;
+  padding: 12px 16px;
+  color: #25324d;
+  text-align: left;
+}
+
+.presale-order-summary button:last-child {
+  border-right: 0;
+}
+
+.presale-order-summary button:hover {
+  background: #f7f9ff;
+}
+
+.presale-order-summary span {
+  color: #667085;
+  font-size: 12px;
+}
+
+.presale-order-summary strong {
+  color: #172033;
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+.presale-order-summary em {
+  color: #667085;
+  font-size: 12px;
+  font-style: normal;
 }
 
 .presale-order-options {
@@ -184,8 +232,7 @@
 }
 
 .presale-order-source {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: block;
   gap: 12px;
   align-items: center;
   padding: 8px 12px;
@@ -209,11 +256,6 @@
 
 .presale-order-source [role='alert'] {
   color: #b42318;
-}
-
-.presale-order-source code {
-  color: #526178;
-  font-size: 12px;
 }
 
 .presale-order-table {
@@ -265,6 +307,23 @@
   color: #7a869a;
 }
 
+.presale-order-notice,
+.presale-order-alert {
+  min-height: 32px;
+  border: 1px solid #dce2ef;
+  border-radius: 6px;
+  background: #f8fbff;
+  padding: 7px 12px;
+  color: #31415d;
+  font-size: 13px;
+}
+
+.presale-order-alert {
+  border-color: #ffd6d6;
+  background: #fff8f8;
+  color: #b42318;
+}
+
 .presale-order-empty {
   display: grid;
   place-items: center;
@@ -308,11 +367,13 @@
 }
 
 .presale-order-footer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: start;
+  display: flex;
+  justify-content: flex-end;
   padding: 8px 12px;
+}
+
+.hotel-package-order-page .presale-order-footer {
+  justify-content: flex-start;
 }
 
 .presale-order-pagination {
@@ -323,19 +384,69 @@
   font-size: 13px;
 }
 
-.presale-order-footer details {
-  max-width: 520px;
-  color: #526178;
+.presale-order-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(19, 27, 42, 0.28);
+}
+
+.presale-order-dialog {
+  width: min(560px, calc(100vw - 32px));
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+}
+
+.presale-order-dialog header,
+.presale-order-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.presale-order-dialog footer {
+  justify-content: flex-end;
+  border-top: 1px solid #eef1f6;
+  border-bottom: 0;
+}
+
+.presale-order-dialog header button,
+.presale-order-dialog footer button {
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 12px;
+}
+
+.presale-order-dialog dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 0;
+  padding: 18px;
+}
+
+.presale-order-dialog dl div {
+  display: grid;
+  gap: 4px;
+}
+
+.presale-order-dialog dt {
+  color: #667085;
   font-size: 12px;
 }
 
-.presale-order-footer pre {
-  max-height: 220px;
-  overflow: auto;
-  border: 1px solid #eef1f6;
-  border-radius: 6px;
-  background: #fafbfc;
-  padding: 8px;
+.presale-order-dialog dd {
+  margin: 0;
+  color: #172033;
+  font-size: 14px;
 }
 
 @media (max-width: 1280px) {
@@ -347,5 +458,9 @@
 
   .presale-order-query__grid {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .presale-order-summary {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
   }
 }

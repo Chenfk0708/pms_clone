@@ -62,10 +62,19 @@
 }
 
 .private-card h3 {
-  margin: 0 0 55px;
+  margin: 0 0 8px;
   color: #1f2937;
   font-size: 16px;
   font-weight: 500;
+}
+
+.private-card p {
+  max-width: 126px;
+  min-height: 44px;
+  margin: 0 0 16px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .private-button {
@@ -84,6 +93,57 @@
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
+}
+
+.private-button:disabled {
+  cursor: not-allowed;
+  border-color: #d9dde8;
+  background: #f4f6fb;
+  color: #98a2b3;
+}
+
+.private-action-status {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+  min-width: 220px;
+  max-width: 360px;
+  padding: 10px 14px;
+  border: 1px solid #d9e6ff;
+  border-radius: 6px;
+  background: #f3f7ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
+}
+
+.private-empty-state,
+.private-error-state {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: 260px;
+  margin-top: 12px;
+  border: 1px dashed #d9dde8;
+  border-radius: 8px;
+  background: #fafbff;
+  color: #667085;
+  font-size: 14px;
+  text-align: center;
+}
+
+.private-error-state {
+  gap: 10px;
+}
+
+.private-error-state strong {
+  color: #b42318;
+  font-size: 16px;
+}
+
+.private-error-state p {
+  margin: 0;
 }
 
 .private-logo {

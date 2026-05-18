@@ -3,37 +3,55 @@
 - TASK_ID: `fangtai--baojie-guanli--baojie-shezhi`
 - PAGE_NAME: `保洁设置`
 - TARGET_URL: `https://minsubao.localhome.cn/cleanManage/cleanSetting`
-- 最近目标站取证批次: `headless-audit-20260515-134621`
-- 最近本地修正取证批次: `headless-fixed-20260515-140302`
+- 本地路由: `/cleanManage/cleanSetting`
+- 新增要求批次: `20260518-95-provider`
 - 固定 Chrome: `C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe`
 - 登录态: `playwright/.auth/pms-user.json`
 
-## 目标站状态结论
+## 差异结论
 
-固定 Chrome + storageState 可进入真实目标站，`isLoginBlocked=false`。当前账号在 `保洁设置` 下为未开通智能保洁状态，默认态和价格设置态均显示订阅引导，不展示早期取证中的真实配置表单。点击订阅开通进入 `/version/applicationPayment/detail`，展示智能保洁商品详情、购买信息、协议勾选和立即购买按钮。
+2026-05-15 固定 Chrome 目标站取证显示，当前账号在目标站保洁设置为未订阅智能保洁状态，默认态和价格设置态均显示订阅引导，仍能观察到 `/cleanConfig/base/get`、`/roomCategories/page/get`、`/rooms/get` 等保洁配置相关请求。2026-05-18 新增要求不再满足于静态未订阅态复刻，页面必须按“请求参数 -> 统一响应包 -> 字段适配 -> UI 展示”升级为业务可用状态。
+
+本地当前实现已新增 `src/services/cleanSetting.ts`，以显式 mock provider 返回统一响应包，组件只消费适配后的业务模型；页面正文显示正常业务态，不展示开发态说明。
 
 ## 交互矩阵
 
-| 区域 | 元素/按钮 | 目标站行为 | 触发请求 | 本地现状 | 改善动作 | 验收方式 |
+| 区域 | 元素/按钮 | 目标站行为 | 触发数据服务/未来请求 | 本地现状 | 改善动作 | 验收方式 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 入口与导航 | 侧栏 `房态 > 保洁管理 > 保洁设置` | 进入 `/cleanManage/cleanSetting`，左侧保洁管理分组展开，保洁设置高亮，页面标题为保洁设置 | 首屏加载包含 `GET /cleanManage/cleanSetting`、`POST /menus/project/get`、`POST /cleanConfig/base/get`、`POST /edition/resource/get` 等 | `src/App.tsx` 已注册 `/cleanManage/cleanSetting`，`src/data/mock.ts` 已有菜单项，AppShell 对 `/cleanManage/` 使用房态侧栏 | 保持现有路由和布局，不新增全局路由改动 | `tests/routes.spec.ts` 的 `/cleanManage/cleanSetting renders` 断言页面根节点、tab 和内容可见 |
-| 主内容 tab | `基础设置` | 默认选中，显示未订阅智能保洁引导，不展示配置表单 | 同首屏请求；无额外业务请求变化 | `CleanSettingPage` 默认 `activeTab='basic'`，展示订阅引导 | 保持与当前目标站一致；早期配置增强态不再渲染 | Playwright 断言 `基础设置` `aria-selected=true`，且 `创建保洁任务策略`/`设置保洁时段` 不存在 |
-| 主内容 tab | `价格设置` | 点击后 tab 选中，仍显示同一未订阅智能保洁引导 | 目标站点击不改变 URL；取证 summary 记录 `click-price-tab`，未发现额外核心配置数据态 | 点击更新 `activeTab='price'`，遮罩仍存在 | 保持本地同页状态切换，避免伪造价格配置 | Playwright 点击 `价格设置` 后断言 `aria-selected=true` 与订阅引导仍可见 |
-| 订阅引导 | `订阅开通` | 跳转 `/version/applicationPayment/detail`，进入智能保洁购买详情页 | 目标站加载订阅详情资源和接口，包括 `GET p__pc__VersionMannager__ApplicationPayment__ApplicationPaymentDetail...chunk.js`、`POST /weiRoomCategory/get` 等 | `navigate('/version/applicationPayment/detail')`，复用当前应用订阅详情分支 | 已按 2026-05-15 target 价格更新为 `¥1,232.46` 与 `¥2,194.38 / 年` | Playwright 点击后断言 URL、`智能保洁` 标题、商品详情、购买信息、价格和禁用购买按钮 |
-| 购买详情 | 协议勾选框 | 勾选购买协议后，立即购买按钮由禁用变可用 | 无本页业务提交请求，按钮启用属于前端状态反馈 | `agreed` 状态驱动 `立即购买` disabled/enabled | 保持显式禁用态，避免未同意协议时假提交 | Playwright 勾选 `我已阅读并同意...` 后断言 `立即购买` enabled |
-| 购买详情 | 返回 | 目标站购买详情可返回上级业务入口；本地提供返回保洁设置 | 本地路由跳转，无网络请求 | `navigate('/cleanManage/cleanSetting')` | 保持可回到本页，避免购买详情成为死路 | 本地手测/专项可从购买详情返回本页 |
-| 未开通配置区 | 创建策略、保洁时段、密码权限等旧设置项 | 当前 2026-05-15 目标账号未展示这些设置项，被订阅引导替代 | `POST /cleanConfig/base/get` 有响应，但可见 UI 仍被订阅态阻断 | 本地已移除旧增强态可见内容 | 明确记录为账号订阅状态阻塞，不伪造可编辑配置表单 | Playwright 断言旧设置文案 count 为 0 |
-| 错误与阻塞 | 登录态、权限、订阅状态 | 取证时 `isLoginBlocked=false`，未遇到登录表单或滑块；业务深层配置被未订阅状态阻断 | 目标站请求均记录到 `artifacts/network/...`；未订阅为业务状态，不静默降级 | 本地展示订阅引导和购买入口，不伪造成功配置保存 | 阻塞记录写入 PRD/看板；等待账号开通后再追加配置数据态 | summary JSON、网络清单、截图和本矩阵共同覆盖 |
+| 入口与导航 | 房态 > 保洁管理 > 保洁设置 | 进入 `/cleanManage/cleanSetting`，保洁管理分组展开，保洁设置高亮 | `GET /cleanManage/cleanSetting`、`POST /menus/project/get`、`POST /cleanConfig/base/get` | 路由、菜单已存在 | 保持现有 AppShell/路由，不新增全局路由 | `tests/routes.spec.ts` 和 `tests/clean-setting.spec.ts` 断言页面根节点、标题、核心业务区域 |
+| 数据来源 | 首屏加载 | 当前账号目标站显示订阅遮罩，但有保洁配置请求 | `POST /api/clean-setting/overview`，本地对应 `fetchCleanSettingDashboard` | 旧实现只有订阅遮罩静态内容 | 新增 `cleanSetting` 服务，返回统一 `code/message/data/traceId/timestamp` 响应包并适配业务模型 | 专项测试断言策略、价格、指标、待办来自页面服务并能展示 |
+| 顶部筛选 | 保洁日期 | 目标站配置态被订阅状态遮挡，日期口径待联调确认 | `businessDate` | 新增日期控件 | 日期传入服务层；格式错误由服务层抛出 | Playwright 填写 `2026-05-20` 后查询并断言当前筛选条件更新 |
+| 顶部筛选 | 门店 | 目标站有门店上下文与项目菜单请求 | `storeId` | 新增门店下拉 | 选项由服务层返回；选择 `前海店` 后刷新当前数据 | Playwright `selectOption('qianhai')` 后断言筛选摘要 |
+| 顶部筛选 | 项目 | 目标站业务口径待后端确认 | `projectId` | 新增项目下拉 | 选项由服务层返回，默认全部项目 | Playwright 首屏断言项目控件可见 |
+| 顶部筛选 | 策略状态 | 目标站配置态未可见 | `status`：`all/enabled/paused` | 新增状态下拉 | 服务层消费状态过滤策略列表 | Playwright 选择 `enabled` 后断言只展示启用策略业务反馈 |
+| 顶部操作 | 查询 | 按当前条件刷新设置数据 | `POST /cleanManage/cleanSetting/overview` | 旧实现无查询 | 调用服务层并显示“已按筛选条件更新” | `tests/clean-setting.spec.ts` |
+| 顶部操作 | 重置 | 恢复默认条件并刷新 | 同查询接口 | 旧实现无重置 | 重置日期、门店、项目、状态并显示业务反馈 | 专项测试覆盖按钮存在和默认态 |
+| 顶部操作 | 刷新 | 重新拉取当前条件数据 | 同查询接口 | 旧实现无刷新 | 显示 loading 和“数据已刷新” | Playwright 点击 `刷新` 精确按钮 |
+| 顶部操作 | 导出 | 目标站未取证到导出按钮 | `POST /cleanManage/cleanSetting/export` | 旧实现无导出 | 有数据时可导出，空态禁用，反馈导出任务已创建 | 专项测试断言成功反馈和空态禁用 |
+| 指标卡片 | 今日任务、启用策略、平均接单、异常率 | 目标站未订阅态不可见 | 同概览接口 | 新增指标区 | 由服务层 `metrics` 驱动 | 首屏测试断言“今日任务/启用策略” |
+| 基础设置 | 策略列表 | 目标站配置态被订阅遮罩阻断 | `policyRules` | 旧实现无策略表 | 展示自动派单、续住提醒、深度保洁复核策略 | Playwright 断言“退房保洁自动派单” |
+| 基础设置 | 查看详情 | 目标站配置态不可见；详情承接方式待确认 | 本地打开详情弹窗 | 旧实现无详情 | 用业务详情弹窗承接，不跳不存在路由 | Playwright 点击后断言弹窗与房源范围 |
+| 基础设置 | 编辑/保存策略 | 目标站保存接口未稳定取证 | `POST /cleanManage/cleanSetting/rule/save` | 旧实现无编辑 | 打开编辑弹窗，保存后显示“策略已保存” | Playwright 点击编辑和保存 |
+| 价格设置 | tab 切换 | 目标站价格设置 tab 仍显示订阅引导 | `priceRules` | 旧实现只是切换订阅遮罩 | 业务态切换后展示价格规则表 | Playwright 点击 `价格设置` 后断言“深度保洁附加费” |
+| 待办提醒 | 提醒项点击 | 目标站未订阅态不可见 | `reminders` | 新增提醒入口 | 点击显示业务反馈 | Playwright 可通过按钮点击验证 |
+| 快捷入口 | 查看保洁任务 | 目标站侧栏可进入保洁任务 | 项目已有 `/cleanManage/cleanTask` | 新增快捷入口 | 使用已有路由，不硬编码不存在路径 | Playwright 断言 URL |
+| 快捷入口 | 查看保洁统计 | 目标站侧栏可进入保洁统计 | 项目已有 `/cleanManage/cleanStatistics` | 新增快捷入口 | 使用已有路由 | Playwright 断言 URL |
+| 快捷入口 | 查看保洁日志 | 目标站侧栏可进入保洁日志 | 项目已有 `/cleanManage/cleanLog` | 新增快捷入口 | 使用已有路由 | 取证脚本覆盖按钮清单 |
+| 空态 | `?mockState=empty` | 未取证到目标站空配置态 | 统一响应包 `code=0,data.policyRules=[]` | 新增空态 | 表格显示“暂无保洁策略/暂无价格规则”，导出禁用 | 专项测试覆盖 |
+| 错误态 | `?mockState=error` | 目标站接口失败需清晰暴露 | 统一响应包 `code=50001` | 新增错误态 | 显示“保洁设置加载失败”和重新加载入口 | 专项测试覆盖 |
 
 ## 关键证据路径
 
-- 目标默认态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/default-target-headless-audit-20260515-134621-viewport.png`
-- 目标价格态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/price-target-headless-audit-20260515-134621-viewport.png`
-- 目标订阅态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/subscribe-target-headless-audit-20260515-134621-viewport.png`
-- 本地修正默认态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/default-clone-headless-fixed-20260515-140302-viewport.png`
-- 本地修正价格态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/price-clone-headless-fixed-20260515-140302-viewport.png`
-- 本地修正订阅态: `artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/subscribe-clone-headless-fixed-20260515-140302-viewport.png`
-- 目标网络清单: `artifacts/network/fangtai--baojie-guanli--baojie-shezhi/default-target-headless-audit-20260515-134621-responses.json`
-- 订阅网络清单: `artifacts/network/fangtai--baojie-guanli--baojie-shezhi/subscribe-target-headless-audit-20260515-134621-responses.json`
-- 目标/本地汇总: `artifacts/style-dumps/fangtai--baojie-guanli--baojie-shezhi/headless-audit-20260515-134621-summary.json`
-- 本地修正汇总: `artifacts/style-dumps/fangtai--baojie-guanli--baojie-shezhi/headless-fixed-20260515-140302-clone-summary.json`
+- 历史目标默认态：`artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/default-target-headless-audit-20260515-134621-viewport.png`
+- 历史目标价格态：`artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/price-target-headless-audit-20260515-134621-viewport.png`
+- 历史目标网络：`artifacts/network/fangtai--baojie-guanli--baojie-shezhi/default-target-headless-audit-20260515-134621-responses.json`
+- 新版本地取证脚本：`scripts/capture-clean-setting.mjs`
+- 新版专项测试：`tests/clean-setting.spec.ts`
+- 接口文档：`D:\pms_ui\95prompt\接口文档\fangtai--baojie-guanli--baojie-shezhi-保洁设置接口文档.md`
+
+## 待确认项
+
+1. 目标账号开通智能保洁后的真实配置表单字段、保存接口和价格设置接口。
+2. `cleanConfig/base/get` 的正式响应是否沿用目标站 `success/data`，还是按本轮统一响应包封装。
+3. 保洁员、房型、房间选项是否统一从保洁统计页已用接口复用。
+4. 导出任务是否异步生成文件，以及任务状态查询接口是否独立。

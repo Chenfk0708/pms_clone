@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260518-business-provider-final",
+  "url": "http://127.0.0.1:4173/mallManagement/orderManagement?mockState=error",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/mallManagement/orderManagement?mockState=error",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BqEedeFC.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DIpyaamB.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "postData": null
+    }
+  ]
+}

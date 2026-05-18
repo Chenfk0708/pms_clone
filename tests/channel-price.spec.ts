@@ -17,10 +17,10 @@ function successfulChannelPricePayload(rows = defaultRows()) {
 function defaultRows() {
   return [
     {
-      channel: '真实接口房型A',
+      channel: '渠道房型A',
       coefficient: '*0.88',
       basePrice: '399',
-      product: '真实接口产品A<无早>',
+      product: '渠道产品A<无早>',
       prices: ['321', '322', '323'],
       comparePrices: ['399', '399', '399'],
     },
@@ -42,10 +42,61 @@ async function mockChannelPrice(page, payload = successfulChannelPricePayload())
   return bodies
 }
 
+test('/houseManage/channelPrice uses explicit mock provider by default', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  let realRequestCount = 0
+  await page.route(channelPriceEndpoint, async (route) => {
+    realRequestCount += 1
+    await route.abort()
+  })
+
+  await page.goto('/houseManage/channelPrice?campId=test-camp')
+
+  await expect(page.getByText('模拟渠道RP价房型A')).toBeVisible()
+  await expect(page.getByText('模拟渠道RP价产品A<无早>')).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
+  expect(realRequestCount).toBe(0)
+})
+
+test('/houseManage/channelPrice mock provider consumes filter params and refreshes UI', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  let realRequestCount = 0
+  await page.route(channelPriceEndpoint, async (route) => {
+    realRequestCount += 1
+    await route.abort()
+  })
+
+  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.getByRole('button', { name: '渠道', exact: true }).click()
+  await page.getByRole('option', { name: '携程' }).click()
+
+  await expect(page.getByText('携程渠道产品A<无早>')).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
+  expect(realRequestCount).toBe(0)
+})
+
+test('/houseManage/channelPrice exposes mock empty and failure states as business copy', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  await page.evaluate(() => window.localStorage.setItem('pms.channelPriceMockMode', 'empty'))
+  await page.goto('/houseManage/channelPrice?campId=test-camp')
+
+  await expect(page.getByRole('status', { name: '渠道RP价空态' })).toContainText('暂无符合当前筛选条件的渠道RP价数据')
+  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
+
+  await page.evaluate(() => window.localStorage.setItem('pms.channelPriceMockMode', 'error'))
+  await page.goto('/houseManage/channelPrice?campId=test-camp')
+
+  await expect(page.getByRole('alert')).toContainText('渠道价格加载失败')
+  await expect(page.getByRole('alert')).toContainText('渠道RP价服务暂不可用，请稍后重试')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
+})
+
 test('/houseManage/channelPrice renders channel RP price grid', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   const requestBodies = await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
   await expect(page.locator('.price-tabs button.is-active')).toContainText('渠道RP价')
   await expect(page.getByText('渠道rp价与房型价格存在差异')).toBeVisible()
@@ -56,9 +107,9 @@ test('/houseManage/channelPrice renders channel RP price grid', async ({ page })
   await expect(page.getByText('RP设置')).toBeVisible()
   await expect(page.getByRole('button', { name: '价格规划' })).toBeVisible()
   await expect(page.getByText('产品系数')).toBeVisible()
-  await expect(page.getByText('真实接口房型A')).toBeVisible()
-  await expect(page.getByText('真实接口产品A<无早>')).toBeVisible()
-  await expect(page.getByRole('button', { name: '321 05.16' })).toBeVisible()
+  await expect(page.getByText('渠道房型A')).toBeVisible()
+  await expect(page.getByText('渠道产品A<无早>')).toBeVisible()
+  await expect(page.getByRole('button', { name: /321 \d{2}\.\d{2}/ }).first()).toBeVisible()
   expect(requestBodies[0]).toMatchObject({
     campId: 'test-camp',
     pageNum: 1,
@@ -78,7 +129,7 @@ test('/houseManage/channelPrice renders channel RP price grid', async ({ page })
 test('/houseManage/channelPrice supports key channel price interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   const requestBodies = await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
   await page.getByRole('button', { name: '渠道', exact: true }).click()
   await expect(page.getByRole('listbox', { name: '渠道筛选' })).toBeVisible()
@@ -99,7 +150,7 @@ test('/houseManage/channelPrice supports key channel price interactions', async 
   await expect(page.getByRole('heading', { name: '日历房', level: 1 })).toBeVisible()
   await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
   await expect(page.getByRole('button', { name: '新增售卖产品' })).toBeVisible()
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
   await page.getByRole('button', { name: '价格设置' }).click()
   await expect(page.getByRole('dialog', { name: '价格设置' })).toBeVisible()
@@ -124,22 +175,22 @@ test('/houseManage/channelPrice supports key channel price interactions', async 
   await expect(page.getByText('绝对值改价')).toBeVisible()
   await page.getByLabel('关闭批量修改').click()
 
-  await page.getByRole('button', { name: '321 05.16' }).click()
+  await page.getByRole('button', { name: /321 \d{2}\.\d{2}/ }).first().click()
   await expect(page.getByRole('dialog', { name: '改价' })).toBeVisible()
   await expect(page.getByText('已选1项')).toBeVisible()
   await expect(page.getByText('百分比改价')).toBeVisible()
   await page.getByLabel('关闭改价').click()
 
   await page.getByRole('button', { name: '全部收起' }).click()
-  await expect(page.getByText('真实接口产品A<无早>')).toBeHidden()
+  await expect(page.getByText('渠道产品A<无早>')).toBeHidden()
   await page.getByRole('button', { name: '全部展开' }).click()
-  await expect(page.getByText('真实接口产品A<无早>')).toBeVisible()
+  await expect(page.getByText('渠道产品A<无早>')).toBeVisible()
 })
 
 test('/houseManage/channelPrice supports target alert and guide flows', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
   await page.getByRole('button', { name: '预览与覆盖' }).click()
   await expect(page.getByRole('dialog', { name: '房价修改预览' })).toBeVisible()
@@ -170,11 +221,11 @@ test('/houseManage/channelPrice exposes real request errors without static fallb
     })
   })
 
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
-  await expect(page.getByRole('alert')).toContainText('真实接口请求失败')
+  await expect(page.getByRole('alert')).toContainText('渠道价格加载失败')
   await expect(page.getByRole('alert')).toContainText('上游服务不可达')
-  await expect(page.getByRole('button', { name: '重试真实请求' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
   await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toHaveCount(0)
 })
 
@@ -182,15 +233,18 @@ test('/houseManage/channelPrice exposes empty data from real request', async ({ 
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockChannelPrice(page, successfulChannelPricePayload([]))
 
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
 
-  await expect(page.getByRole('status', { name: '渠道RP价空态' })).toContainText('真实接口返回空数据')
+  await expect(page.getByRole('status', { name: '渠道RP价空态' })).toContainText('暂无符合当前筛选条件的渠道RP价数据')
   await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toHaveCount(0)
 })
 
-test('/houseManage/channelPrice exposes missing camp context as a blocker', async ({ page }) => {
+test('/houseManage/channelPrice supports direct entry without camp context', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  await page.evaluate(() => window.localStorage.removeItem('pms.channelPriceMockMode'))
   await page.goto('/houseManage/channelPrice')
 
-  await expect(page.getByRole('alert')).toContainText('缺少 campId')
+  await expect(page.getByText('模拟渠道RP价房型A')).toBeVisible()
+  await expect(page.getByText('缺少门店上下文')).toHaveCount(0)
 })

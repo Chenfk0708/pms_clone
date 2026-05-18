@@ -55,6 +55,7 @@ export function HouseStatusLogsPage() {
   const [lastQuery, setLastQuery] = useState<HouseStatusLogQuery | null>(null)
 
   const campId = useMemo(() => resolveCampId(), [])
+  const mockScenario = useMemo(() => resolveMockScenario(), [])
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -77,29 +78,23 @@ export function HouseStatusLogsPage() {
     setLastQuery(null)
   }
 
-  async function runQuery(query = buildQuery()) {
-    if (!query) {
-      setLogs([])
-      setTotal(null)
-      setError('缺少门店上下文 campId，无法发起真实房态日志请求。请从项目带门店上下文的入口进入，或在 URL query 中提供 campId。')
-      setMessage('房态日志请求被阻塞')
-      return
-    }
+  async function runQuery(query?: HouseStatusLogQuery) {
+    const nextQuery = query ?? buildQuery()
 
     setIsLoading(true)
     setError('')
-    setMessage('正在请求真实房态日志接口...')
-    setLastQuery(query)
+    setMessage('正在查询房态日志...')
+    setLastQuery(nextQuery)
 
     try {
-      const data = await fetchHouseStatusLogs(query)
+      const data = await fetchHouseStatusLogs(nextQuery)
       setLogs(data.list)
       setTotal(data.total)
-      setMessage(data.total > 0 ? `已加载 ${data.total} 条房态日志` : '真实接口返回空数据')
+      setMessage(data.total > 0 ? `已加载 ${data.total} 条房态日志` : '暂无符合条件的房态日志')
     } catch (requestError) {
       setLogs([])
       setTotal(null)
-      setError(`真实接口请求失败：${requestError instanceof Error ? requestError.message : String(requestError)}。这通常表示登录态、CORS 或后端接口不可达阻塞。`)
+      setError(`房态日志查询失败：${formatUserFacingError(requestError)}`)
       setMessage('房态日志请求失败')
     } finally {
       setIsLoading(false)
@@ -110,18 +105,17 @@ export function HouseStatusLogsPage() {
     void runQuery(lastQuery ?? buildQuery())
   }
 
-  function buildQuery(): HouseStatusLogQuery | null {
-    if (!campId) return null
-
+  function buildQuery(): HouseStatusLogQuery {
     const selectedAdjustment = adjustmentModeOptions.find((option) => option.value === adjustmentMode)
     const selectedChannel = channelOptions.find((option) => option.value === channel)
     const query: HouseStatusLogQuery = {
-      campId,
       pageNum: 1,
       pageSize: PAGE_SIZE,
       current: 1,
     }
 
+    if (campId) query.campId = campId
+    if (mockScenario) query.mockScenario = mockScenario
     if (keyword.trim()) query.keyword = keyword.trim()
     if (selectedAdjustment) query.adjustType = selectedAdjustment.apiValue
     if (selectedChannel) query.channelId = selectedChannel.apiValue
@@ -326,6 +320,22 @@ function resolveCampId() {
   }
 
   return ''
+}
+
+function resolveMockScenario() {
+  const params = new URLSearchParams(window.location.search)
+  const scenario = params.get('mockScenario')
+  return scenario === 'empty' || scenario === 'error' ? scenario : undefined
+}
+
+function formatUserFacingError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error)
+
+  if (message.includes('缺少门店上下文')) return '缺少门店上下文，无法查询房态日志'
+  if (message.includes('房态日志服务暂不可用')) return '房态日志服务暂不可用，请稍后重试'
+  if (message.includes('真实接口请求失败') || message.includes('Failed to fetch')) return '房态日志查询暂时失败，请稍后重试'
+
+  return message
 }
 
 function formatDateRange(log: HouseStatusLogRecord) {

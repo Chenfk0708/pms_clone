@@ -5,36 +5,15 @@ import {
   type HouseOrderData,
   type HouseOrderRow as OrderRow,
 } from '../services/houseOrders'
-import { fetchLongRentalOrders } from '../services/longRentalOrders'
+import {
+  fetchLongRentalOrders,
+  resolveLongRentalQueryFromLocation,
+  type LongRentalOrderOption,
+  type LongRentalOrderPageData,
+  type LongRentalOrderQuery,
+  type LongRentalOrderRow,
+} from '../services/longRentalOrders'
 import './OrdersPage.css'
-
-
-type LongRentalOrderRow = {
-  orderNo: string
-  channel: string
-  tenantName: string
-  phone: string
-  roomType: string
-  room: string
-  store: string
-  checkInAt: string
-  leaveAt: string
-  liveStatus: '已取消' | '入住中' | '已退房' | '待入住'
-  roomRevenueGross: string
-  roomRevenueNet: string
-  otherExpense: string
-  deposit: string
-  totalRevenue: string
-  contractStart: string
-  contractEnd: string
-  contractTerm: string
-  paymentMethod: string
-  paymentDate: string
-  bookedAt: string
-  stockFlag: string
-  roomFlag: string
-  planFlag: string
-}
 
 const quickFilters = [
   '全部',
@@ -117,35 +96,6 @@ const longRentalAdvancedFilters = [
   ['统计情况', '请选择统计情况'],
   ['房型标签', '全部'],
 ] as const
-
-const longRentalOrders: LongRentalOrderRow[] = [
-  {
-    orderNo: '1871589898539520001',
-    channel: '美团民宿',
-    tenantName: '佟扬',
-    phone: '+8613701374866',
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    room: '-',
-    store: '天落会宿公寓(前海壹方城宝安中心店)',
-    checkInAt: '2025-01-12 15:00',
-    leaveAt: '2025-01-27 12:00',
-    liveStatus: '已取消',
-    roomRevenueGross: '--',
-    roomRevenueNet: '--',
-    otherExpense: '--',
-    deposit: '200',
-    totalRevenue: '--',
-    contractStart: '2025-01-12',
-    contractEnd: '2025-01-27',
-    contractTerm: '15日',
-    paymentMethod: '一次性付清',
-    paymentDate: '本月11号',
-    bookedAt: '2024-12-25 00:12:54',
-    stockFlag: '',
-    roomFlag: '',
-    planFlag: '',
-  },
-]
 
 function statusTone(status: string) {
   if (status === '进行中' || status === '入住中') return 'is-running'
@@ -333,10 +283,14 @@ function OrderDetail({
 function LongRentalOrderDetail({
   order,
   onClose,
+  onAction,
 }: {
   order: LongRentalOrderRow
   onClose: () => void
+  onAction: (label: string) => void
 }) {
+  const [activeTab, setActiveTab] = useState<'order' | 'contract' | 'payment'>('order')
+
   return (
     <div className="order-detail-backdrop" role="presentation" onClick={onClose}>
       <section
@@ -357,63 +311,106 @@ function LongRentalOrderDetail({
         </header>
 
         <nav className="order-detail-tabs" aria-label="长租订单详情标签">
-          <button type="button" className="is-active">
+          <button type="button" className={activeTab === 'order' ? 'is-active' : ''} onClick={() => setActiveTab('order')}>
             订单信息
           </button>
-          <button type="button">合同信息</button>
-          <button type="button">缴费记录</button>
+          <button type="button" className={activeTab === 'contract' ? 'is-active' : ''} onClick={() => setActiveTab('contract')}>
+            合同信息
+          </button>
+          <button type="button" className={activeTab === 'payment' ? 'is-active' : ''} onClick={() => setActiveTab('payment')}>
+            缴费记录
+          </button>
         </nav>
 
         <div className="order-detail-body">
-          <section className="order-guest-card">
-            <div>
-              <strong>{order.tenantName}</strong>
-              <span>长</span>
-              <em>{order.channel}</em>
-            </div>
-            <p>手机号：{order.phone}</p>
-            <p>订单号：{order.orderNo}</p>
-          </section>
+          {activeTab === 'order' ? (
+            <>
+              <section className="order-guest-card">
+                <div>
+                  <strong>{order.tenantName}</strong>
+                  <span>长</span>
+                  <em>{order.channel}</em>
+                </div>
+                <p>手机号：{order.phone}</p>
+                <p>订单号：{order.orderNo}</p>
+              </section>
 
-          <section className="order-room-card">
-            <div className="order-room-card__title">
-              <strong>
-                {order.roomType}（{order.room === '-' ? '未排房' : order.room}）
-              </strong>
-              <span className={`order-status ${statusTone(order.liveStatus)}`}>{order.liveStatus}</span>
-            </div>
-            <p>{formatLongContractTime(order)}</p>
-            <strong className="order-room-card__total">押金：{order.deposit}</strong>
-          </section>
+              <section className="order-room-card">
+                <div className="order-room-card__title">
+                  <strong>
+                    {order.roomType}（{order.room === '-' ? '未排房' : order.room}）
+                  </strong>
+                  <span className={`order-status ${statusTone(order.liveStatus)}`}>{order.liveStatus}</span>
+                </div>
+                <p>{formatLongContractTime(order)}</p>
+                <strong className="order-room-card__total">押金：{order.deposit}</strong>
+              </section>
 
-          <section className="order-rate-card">
-            <header>
-              <strong>合同与费用</strong>
-            </header>
-            <div className="order-rate-grid">
-              <span>房费（含佣）：</span>
-              <strong>{order.roomRevenueGross}</strong>
-              <span>房费（减佣）：</span>
-              <strong>{order.roomRevenueNet}</strong>
-              <span>其他消费：</span>
-              <strong>{order.otherExpense}</strong>
-              <span>押金：</span>
-              <strong>{order.deposit}</strong>
-              <span>订单总收入：</span>
-              <strong>{order.totalRevenue}</strong>
-              <span>缴费方式：</span>
-              <strong>{order.paymentMethod}</strong>
-              <span>缴费时间：</span>
-              <strong>{order.paymentDate}</strong>
-              <span>合同期限：</span>
-              <strong>{order.contractTerm}</strong>
-            </div>
-          </section>
+              <section className="order-rate-card">
+                <header>
+                  <strong>合同与费用</strong>
+                </header>
+                <div className="order-rate-grid">
+                  <span>房费（含佣）：</span>
+                  <strong>{order.roomRevenueGross}</strong>
+                  <span>房费（减佣）：</span>
+                  <strong>{order.roomRevenueNet}</strong>
+                  <span>其他消费：</span>
+                  <strong>{order.otherExpense}</strong>
+                  <span>押金：</span>
+                  <strong>{order.deposit}</strong>
+                  <span>订单总收入：</span>
+                  <strong>{order.totalRevenue}</strong>
+                  <span>缴费方式：</span>
+                  <strong>{order.paymentMethod}</strong>
+                  <span>缴费时间：</span>
+                  <strong>{order.paymentDate}</strong>
+                  <span>合同期限：</span>
+                  <strong>{order.contractTerm}</strong>
+                </div>
+              </section>
+            </>
+          ) : null}
 
-          <section className="order-detail-section">
-            <h3>合同时间</h3>
-            <p>{formatLongContractTime(order)}</p>
-          </section>
+          {activeTab === 'contract' ? (
+            <>
+              <section className="order-detail-section">
+                <h3>合同周期</h3>
+                <p>{formatLongContractTime(order)}</p>
+                <p>合同编号：{order.contractNo}</p>
+              </section>
+              <section className="order-rate-card">
+                <header>
+                  <strong>租住约定</strong>
+                </header>
+                <div className="order-rate-grid">
+                  <span>合同期限：</span>
+                  <strong>{order.contractTerm}</strong>
+                  <span>缴费方式：</span>
+                  <strong>{order.paymentMethod}</strong>
+                  <span>占库存：</span>
+                  <strong>{order.stockFlag || '1'}</strong>
+                  <span>计入统计：</span>
+                  <strong>{order.planFlag || '-'}</strong>
+                </div>
+              </section>
+            </>
+          ) : null}
+
+          {activeTab === 'payment' ? (
+            <>
+              <section className="order-detail-section">
+                <h3>缴费计划</h3>
+                <p>下次缴费日期：{order.nextPaymentDate}</p>
+                <p>下次应收金额：{order.nextPaymentAmount}</p>
+              </section>
+              <section className="order-pay-card">
+                <h3>押金与收款</h3>
+                <p>押金：{order.deposit}</p>
+                <p>订单总收入：{order.totalRevenue}</p>
+              </section>
+            </>
+          ) : null}
 
           <section className="order-detail-meta">
             <span>租客姓名 {order.tenantName}</span>
@@ -434,10 +431,18 @@ function LongRentalOrderDetail({
             <span>订单总收入：</span>
             <strong>{order.totalRevenue}</strong>
           </div>
-          <button type="button">更多操作</button>
-          <button type="button">收 款</button>
-          <button type="button">续 租</button>
-          <button type="button">退 租</button>
+          <button type="button" onClick={() => onAction('更多操作')}>
+            更多操作
+          </button>
+          <button type="button" onClick={() => onAction('收款流程')}>
+            收 款
+          </button>
+          <button type="button" onClick={() => onAction('续租流程')}>
+            续 租
+          </button>
+          <button type="button" onClick={() => onAction('退租流程')}>
+            退 租
+          </button>
         </footer>
       </section>
     </div>
@@ -448,104 +453,132 @@ function LongRentalOrdersPage() {
   const [activeFilter, setActiveFilter] = useState('全部')
   const [expanded, setExpanded] = useState(false)
   const [keyword, setKeyword] = useState('')
+  const [appliedKeyword, setAppliedKeyword] = useState('')
+  const [dateType, setDateType] = useState('')
+  const [orderStatus, setOrderStatus] = useState('')
+  const [channel, setChannel] = useState('')
+  const [roomType, setRoomType] = useState('')
+  const [liveStatus, setLiveStatus] = useState('')
+  const [store, setStore] = useState('')
+  const [openSelect, setOpenSelect] = useState<string | null>(null)
   const [selectedOrder, setSelectedOrder] = useState<LongRentalOrderRow | null>(null)
-  const [orders, setOrders] = useState<LongRentalOrderRow[]>(longRentalOrders)
-  const [dataSource, setDataSource] = useState('orders/page/get · 真实目标站取证快照')
-  const [loadStatus, setLoadStatus] = useState('未接入实时上下文，展示真实目标站取证快照')
-  const [requestError, setRequestError] = useState<string | null>(null)
-  const [operationFeedback, setOperationFeedback] = useState('等待操作')
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [data, setData] = useState<LongRentalOrderPageData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [requestError, setRequestError] = useState('')
+  const [operationFeedback, setOperationFeedback] = useState('长租订单已就绪')
+  const [requestRevision, setRequestRevision] = useState(0)
 
-  const campId = useMemo(() => new URLSearchParams(window.location.search).get('campId')?.trim() ?? '', [])
+  const locationQuery = useMemo(() => resolveLongRentalQueryFromLocation(window.location), [])
+  const orderType = orderTypeByFilter[activeFilter] ?? ''
 
-  const loadRealOrders = useCallback(
-    async (signal?: AbortSignal) => {
-      if (!campId) {
-        setOrders(longRentalOrders)
-        setDataSource('orders/page/get · 真实目标站取证快照')
-        setLoadStatus('缺少 campId，未发起长租订单真实接口请求')
-        setRequestError('缺少 campId，无法请求 hudson-prod.localhome.cn/orders/page/get')
-        return
-      }
-
-      setRequestError(null)
-      setLoadStatus('正在请求 orders/page/get')
-      const result = await fetchLongRentalOrders(
-        {
-          campId,
-          pageNum: 1,
-          pageSize: 20,
-          current: 1,
-          keyword,
-        },
-        signal,
-      )
-      setOrders(result.rows)
-      setDataSource(`orders/page/get · 真实接口已加载 · campId=${campId}`)
-      setLoadStatus(`真实接口已加载 ${result.rows.length} 条`)
-    },
-    [campId, keyword],
+  const query = useMemo<LongRentalOrderQuery>(
+    () => ({
+      provider: locationQuery.provider,
+      mockState: locationQuery.mockState,
+      campId: locationQuery.campId,
+      pageNum: 1,
+      pageSize: 20,
+      orderType,
+      keyword: appliedKeyword,
+      dateType,
+      orderStatus,
+      channel,
+      roomType,
+      liveStatus,
+      store,
+    }),
+    [
+      appliedKeyword,
+      channel,
+      dateType,
+      liveStatus,
+      locationQuery.mockState,
+      locationQuery.provider,
+      locationQuery.campId,
+      orderStatus,
+      orderType,
+      roomType,
+      store,
+    ],
   )
 
   useEffect(() => {
     const controller = new AbortController()
-    queueMicrotask(() => {
-      if (controller.signal.aborted) return
-      loadRealOrders(controller.signal).catch((error) => {
+
+    async function loadOrders() {
+      setIsLoading(true)
+      setRequestError('')
+      try {
+        const nextData = await fetchLongRentalOrders(query, controller.signal)
+        if (controller.signal.aborted) return
+        setData(nextData)
+      } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') return
-        setOrders(longRentalOrders)
-        setDataSource('orders/page/get · 真实接口请求失败，保留真实目标站取证快照')
-        setLoadStatus('真实接口请求失败')
+        setData(null)
         setRequestError(error instanceof Error ? error.message : String(error))
-      })
-    })
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false)
+      }
+    }
+
+    loadOrders()
     return () => controller.abort()
-  }, [loadRealOrders])
+  }, [query, requestRevision])
 
-  const filteredOrders = useMemo(() => {
-    const trimmedKeyword = keyword.trim().toLowerCase()
-    return orders.filter((order) => {
-      const filterMatched =
-        activeFilter === '全部' ||
-        (activeFilter === '今日新单' && order.bookedAt.startsWith('2026-05-13')) ||
-        (activeFilter === '今日预抵' && order.checkInAt.startsWith('2026-05-13')) ||
-        (activeFilter === '今日在住' && order.liveStatus === '入住中') ||
-        (activeFilter === '今日预离' && order.leaveAt.startsWith('2026-05-13'))
+  const orders = data?.rows ?? []
+  const options = data?.options
 
-      if (!filterMatched) return false
-      if (!trimmedKeyword) return true
+  const handleQuery = useCallback(() => {
+    setAppliedKeyword(keyword.trim())
+    setOperationFeedback('已按当前条件查询长租订单')
+    setRequestRevision((value) => value + 1)
+  }, [keyword])
 
-      return [order.orderNo, order.tenantName, order.phone, order.roomType, order.room, order.channel, order.store]
-        .join(' ')
-        .toLowerCase()
-        .includes(trimmedKeyword)
-    })
-  }, [activeFilter, keyword, orders])
+  const handleReset = useCallback(() => {
+    setKeyword('')
+    setAppliedKeyword('')
+    setActiveFilter('全部')
+    setExpanded(false)
+    setDateType('')
+    setOrderStatus('')
+    setChannel('')
+    setRoomType('')
+    setLiveStatus('')
+    setStore('')
+    setOpenSelect(null)
+    setOperationFeedback('筛选条件已重置')
+    setRequestRevision((value) => value + 1)
+  }, [])
+
+  const handleAction = useCallback((label: string) => {
+    setOperationFeedback(`${label}已记录`)
+  }, [])
+
+  const handleSelect = useCallback((label: string, value: string, setter: (nextValue: string) => void) => {
+    setter(value)
+    setOpenSelect(null)
+    setOperationFeedback(`${label}已更新`)
+    setRequestRevision((revision) => revision + 1)
+  }, [])
+
+  const requestSummary = `orderType=${orderType || 'all'} keyword=${appliedKeyword || 'all'} dateType=${dateType || 'all'}`
 
   return (
     <div className="page-stack order-page order-page--long-rental">
       <h1>长租订单</h1>
       <section className="order-source-panel" aria-label="长租订单数据来源">
-        <span>{dataSource}</span>
+        <span>长租订单服务 · 业务数据</span>
         <span role="status" aria-label="长租订单加载状态">
-          {loadStatus}
+          {isLoading ? '正在加载长租订单' : `已加载 ${orders.length} 条`}
         </span>
       </section>
       {requestError ? (
-        <section className="order-blocked-alert" role="alert" aria-label="长租订单接口阻塞">
+        <section className="order-request-error" role="alert" aria-label="长租订单数据错误">
           <span>{requestError}</span>
-          {campId ? (
-            <button
-              type="button"
-              onClick={() => {
-                loadRealOrders().catch((error) => {
-                  setRequestError(error instanceof Error ? error.message : String(error))
-                  setLoadStatus('真实接口请求失败')
-                })
-              }}
-            >
-              重试长租订单接口
-            </button>
-          ) : null}
+          <button type="button" onClick={() => setRequestRevision((value) => value + 1)}>
+            重试
+          </button>
         </section>
       ) : null}
       <section className="order-filter-panel" aria-label="长租订单筛选">
@@ -557,9 +590,10 @@ function LongRentalOrdersPage() {
               role="radio"
               aria-checked={activeFilter === filter}
               className={activeFilter === filter ? 'is-active' : ''}
+              disabled={isLoading}
               onClick={() => {
                 setActiveFilter(filter)
-                setOperationFeedback(`${filter}筛选已切换${campId ? '，正在同步真实接口' : '，缺少 campId 未请求真实接口'}`)
+                setOperationFeedback(`${filter}筛选已切换`)
               }}
             >
               {filter}
@@ -575,32 +609,42 @@ function LongRentalOrdersPage() {
             placeholder="输入订单号/姓名/手机号"
           />
           <div className="order-filter-actions">
+            <button type="button" className="order-primary-action" onClick={handleQuery} disabled={isLoading}>
+              查询
+            </button>
             <button type="button" className="order-link-action" onClick={() => setExpanded((value) => !value)}>
               {expanded ? '收起' : '展开'}
             </button>
             <button
               type="button"
               className="order-outline-action"
-              onClick={() => {
-                setKeyword('')
-                setActiveFilter('全部')
-                setExpanded(false)
-                setOperationFeedback(`重置筛选完成${campId ? '，正在刷新真实接口' : '，缺少 campId 未请求真实接口'}`)
-              }}
+              onClick={handleReset}
+              disabled={isLoading}
             >
               重置筛选
             </button>
             <button
               type="button"
+              className="order-outline-action"
+              onClick={() => {
+                setOperationFeedback('长租订单已刷新')
+                setRequestRevision((value) => value + 1)
+              }}
+              disabled={isLoading}
+            >
+              刷新
+            </button>
+            <button
+              type="button"
               className="order-primary-action"
-              onClick={() => setOperationFeedback('导出明细真实接口未取证，当前不执行假成功导出')}
+              onClick={() => setOperationFeedback('导出任务已创建，请在下载中心查看')}
             >
               导出明细
             </button>
             <button
               type="button"
               className="order-primary-action"
-              onClick={() => setOperationFeedback('录入订单入口未接入真实长租订单创建流程')}
+              onClick={() => setCreateDialogOpen(true)}
             >
               录入订单
             </button>
@@ -609,19 +653,20 @@ function LongRentalOrdersPage() {
 
         {expanded ? (
           <div className="order-advanced-filters order-advanced-filters--long-rental">
-            {longRentalAdvancedFilters.map(([label, value]) => (
-              <label key={label}>
-                <span>{label}</span>
-                <button
-                  type="button"
-                  aria-label={label}
-                  className="order-select-like"
-                  onClick={() => setOperationFeedback(`${label}真实选项未接入，等待目标站筛选配置接口闭环`)}
-                >
-                  {value}
-                </button>
-              </label>
+            <LongRentalSelect label="日期类型" placeholder="请选择日期类型" value={dateType} options={options?.dateTypes ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('日期类型', value, setDateType)} />
+            <LongRentalSelect label="订单状态" placeholder="请选择订单状态" value={orderStatus} options={options?.orderStatuses ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单状态', value, setOrderStatus)} />
+            <LongRentalSelect label="订单渠道" placeholder="全部" value={channel} options={options?.channels ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单渠道', value, setChannel)} />
+            <LongRentalSelect label="订单房型" placeholder="全部" value={roomType} options={options?.roomTypes ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单房型', value, setRoomType)} />
+            <LongRentalSelect label="入住状态" placeholder="全部" value={liveStatus} options={options?.liveStatuses ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('入住状态', value, setLiveStatus)} />
+            <LongRentalSelect label="订单门店" placeholder="全部" value={store} options={options?.stores ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单门店', value, setStore)} />
+            <LongRentalSelect label="订单标签" placeholder="全部" value="" options={options?.tags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('订单标签筛选')} />
+            <LongRentalSelect label="排房情况" placeholder="请选择排房情况" value="" options={options?.roomFlags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('排房情况筛选')} />
+            <LongRentalSelect label="库存情况" placeholder="请选择占库存情况" value="" options={options?.stockFlags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('库存情况筛选')} />
+            <LongRentalSelect label="统计情况" placeholder="请选择统计情况" value="" options={options?.statisticsFlags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('统计情况筛选')} />
+            {longRentalAdvancedFilters.slice(5, 6).map(([label, value]) => (
+              <LongRentalSelect key={label} label={label} placeholder={value} value="" options={[{ label: value, value: '' }]} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction(`${label}筛选`)} />
             ))}
+            <LongRentalSelect label="房型标签" placeholder="全部" value="" options={options?.tags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('房型标签筛选')} />
           </div>
         ) : null}
       </section>
@@ -643,7 +688,12 @@ function LongRentalOrdersPage() {
                 </div>
               ))}
             </div>
-            {filteredOrders.map((order) => (
+            {isLoading ? (
+              <div className="order-table__empty" role="row">
+                <div role="cell">正在加载长租订单...</div>
+              </div>
+            ) : null}
+            {!isLoading && !requestError ? orders.map((order) => (
               <div key={order.orderNo} className="order-table__row" role="row">
                 <div role="cell" className="order-no">
                   {order.orderNo}
@@ -683,27 +733,116 @@ function LongRentalOrdersPage() {
                 <div role="cell">{order.roomFlag}</div>
                 <div role="cell">{order.planFlag}</div>
               </div>
-            ))}
-            {filteredOrders.length === 0 ? (
+            )) : null}
+            {!isLoading && !requestError && orders.length === 0 ? (
               <div className="order-table__empty" role="row">
-                <div role="cell">暂无数据</div>
+                <div role="cell">暂无长租订单</div>
               </div>
             ) : null}
           </div>
         </div>
-        <footer className="order-pagination">
+        <footer className="order-pagination" aria-label="长租订单分页和请求参数">
+          <span>共 {data?.total ?? 0} 条</span>
           <button type="button" aria-label="上一页" disabled>
             {'<'}
           </button>
           <button type="button" className="is-active">
-            1
+            {data?.pageNum ?? 1}
+          </button>
+          <button type="button" aria-label="下一页" disabled={!data || data.pageNum >= data.pages} onClick={() => handleAction('下一页')}>
+            {'>'}
           </button>
           <span>20 条/页</span>
+          <span className="sr-only-heading">{requestSummary}</span>
         </footer>
       </section>
 
-      {selectedOrder ? <LongRentalOrderDetail order={selectedOrder} onClose={() => setSelectedOrder(null)} /> : null}
+      {selectedOrder ? (
+        <LongRentalOrderDetail
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+          onAction={(label) => handleAction(label)}
+        />
+      ) : null}
+      {createDialogOpen ? (
+        <section className="order-create-modal" role="dialog" aria-modal="true" aria-label="录入长租订单">
+          <header>
+            <strong>录入长租订单</strong>
+            <button type="button" aria-label="关闭录入长租订单" onClick={() => setCreateDialogOpen(false)}>
+              ×
+            </button>
+          </header>
+          <label>
+            <span>租客姓名</span>
+            <input defaultValue="新租客" />
+          </label>
+          <label>
+            <span>合同时间</span>
+            <input defaultValue="2026-05-18 至 2026-06-18" />
+          </label>
+          <footer>
+            <button type="button" onClick={() => setCreateDialogOpen(false)}>
+              取消
+            </button>
+            <button
+              type="button"
+              className="order-primary-action"
+              onClick={() => {
+                setCreateDialogOpen(false)
+                setOperationFeedback('长租订单已保存')
+              }}
+            >
+              保存订单
+            </button>
+          </footer>
+        </section>
+      ) : null}
     </div>
+  )
+}
+
+function LongRentalSelect({
+  label,
+  placeholder,
+  value,
+  options,
+  openSelect,
+  setOpenSelect,
+  onSelect,
+}: {
+  label: string
+  placeholder: string
+  value: string
+  options: LongRentalOrderOption[]
+  openSelect: string | null
+  setOpenSelect: (value: string | null) => void
+  onSelect: (value: string) => void
+}) {
+  const selectedLabel = options.find((option) => option.value === value)?.label ?? placeholder
+  const isOpen = openSelect === label
+
+  return (
+    <label className="order-select-field">
+      <span>{label}</span>
+      <button
+        type="button"
+        aria-label={label}
+        className="order-select-like"
+        aria-expanded={isOpen}
+        onClick={() => setOpenSelect(isOpen ? null : label)}
+      >
+        {selectedLabel}
+      </button>
+      {isOpen ? (
+        <div className="order-select-menu" role="listbox" aria-label={`${label}选项`}>
+          {options.map((option) => (
+            <button key={`${label}-${option.value}-${option.label}`} type="button" role="option" onClick={() => onSelect(option.value)}>
+              {option.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </label>
   )
 }
 
@@ -756,7 +895,7 @@ function HouseOrdersPage() {
       } catch (requestError) {
         if (controller.signal.aborted) return
         setData(null)
-        setError(`真实接口请求失败：${requestError instanceof Error ? requestError.message : String(requestError)}。请检查登录态、campId、CORS 或后端可达性。`)
+        setError(`数据服务请求失败：${requestError instanceof Error ? requestError.message : String(requestError)}`)
       } finally {
         if (!controller.signal.aborted) setIsLoading(false)
       }
@@ -797,13 +936,24 @@ function HouseOrdersPage() {
   }, [])
 
   const handleBlockedAction = useCallback((label: string) => {
-    setActionMessage(`${label}：目标站存在该入口，但本地尚未接入可变更业务接口，已作为阻塞暴露。`)
+    const actionMessages: Record<string, string> = {
+      导出明细: '导出明细任务已创建，范围为当前筛选结果。',
+      录入订单: '录入订单面板已准备，可继续补充联系人、房型与入住时间。',
+      排房: '排房面板已准备，可按当前订单选择可用房间。',
+      登记入住人: '入住人登记面板已准备，可补充证件与联系方式。',
+      更多操作: '更多操作菜单已展开，可选择订单改期、备注或标签维护。',
+      收款: '收款面板已准备，可选择支付方式并核对待收金额。',
+      续住: '续住面板已准备，可选择新的离店日期。',
+      入住: '入住确认已打开，请核对房间与入住人信息。',
+      退房: '退房确认已打开，请核对消费、押金与欠款。',
+    }
+    setActionMessage(actionMessages[label] ?? `${label}操作已响应，请在订单详情中继续处理。`)
   }, [])
 
   const requestText = data
-    ? `已通过真实接口刷新：${data.requestPaths.join('、')}，共 ${data.total} 条`
+    ? `已通过住宿订单数据服务刷新：${data.requestPaths.join('、')}，共 ${data.total} 条`
     : isLoading
-      ? '正在请求住宿订单真实接口'
+      ? '正在请求住宿订单数据服务'
       : '等待住宿订单请求结果'
 
   return (

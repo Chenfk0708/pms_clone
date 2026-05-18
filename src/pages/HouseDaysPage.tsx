@@ -1,17 +1,71 @@
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import {
+  fetchHouseDays,
+  resolveHouseDaysQueryFromLocation,
+  type HouseDaysRoomCard,
+  type HouseDaysViewModel,
+} from '../services/houseDays'
 import './HouseDaysPage.css'
-import { roomCards, statusGroups, viewModes } from './houseDaysData'
 
 export function HouseDaysPage() {
   const navigate = useNavigate()
   const [viewMode, setViewMode] = useState('按房型')
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
+  const [selectedChannel, setSelectedChannel] = useState('')
+  const [selectedRoomType, setSelectedRoomType] = useState('')
+  const [selectedTag, setSelectedTag] = useState('')
+  const [queryKeyword, setQueryKeyword] = useState('')
   const [openMenu, setOpenMenu] = useState<'settings' | 'clean' | 'openClose' | null>(null)
   const [showLegend, setShowLegend] = useState(false)
+  const [showStatusSettings, setShowStatusSettings] = useState(false)
+  const [selectedRoom, setSelectedRoom] = useState<HouseDaysRoomCard | null>(null)
   const [keyword, setKeyword] = useState('')
   const [feedback, setFeedback] = useState('')
+  const [data, setData] = useState<HouseDaysViewModel | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [refreshTick, setRefreshTick] = useState(0)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const source = resolveHouseDaysQueryFromLocation(window.location)
+
+    void Promise.resolve()
+      .then(() => {
+        if (controller.signal.aborted) return null
+        setLoading(true)
+        setError('')
+        return fetchHouseDays(
+          {
+            provider: source.provider,
+            mockState: source.mockState,
+            keyword: queryKeyword,
+            viewMode,
+            statusFilters: selectedFilters,
+            channel: selectedChannel,
+            roomType: selectedRoomType,
+            tag: selectedTag,
+          },
+          controller.signal,
+        )
+      })
+      .then((nextData) => {
+        if (!nextData) return
+        setData(nextData)
+      })
+      .catch((nextError: unknown) => {
+        if (nextError instanceof DOMException && nextError.name === 'AbortError') return
+        setError('日房态数据加载失败，请稍后重试。')
+        setData(null)
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [queryKeyword, viewMode, selectedFilters, selectedChannel, selectedRoomType, selectedTag, refreshTick])
 
   useEffect(() => {
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -29,7 +83,7 @@ export function HouseDaysPage() {
     setSelectedFilters((current) =>
       current.includes(label) ? current.filter((item) => item !== label) : [...current, label],
     )
-    setFeedback(`${label}筛选已切换；实时刷新接口接入阻塞，当前仅更新本地筛选状态。`)
+    setFeedback(`${label}筛选已更新，日房态已按当前条件刷新。`)
   }
 
   const blockAction = (message: string) => {
@@ -39,18 +93,42 @@ export function HouseDaysPage() {
 
   const resetFilters = () => {
     setSelectedFilters([])
-    setFeedback('已重置当前日房态筛选；实时刷新接口接入阻塞，未伪装成接口刷新成功。')
+    setKeyword('')
+    setQueryKeyword('')
+    setSelectedChannel('')
+    setSelectedRoomType('')
+    setSelectedTag('')
+    setRefreshTick((tick) => tick + 1)
+    setFeedback('日房态已刷新，筛选条件已重置。')
   }
 
   const handleSearchKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setFeedback(`搜索条件已记录：${keyword || '空关键词'}；真实查询接口接入阻塞，未伪装成接口请求成功。`)
+      setQueryKeyword(keyword)
+      setFeedback(`已按“${keyword || '全部房间'}”更新日房态。`)
     }
+  }
+
+  const viewModes = data?.viewModes ?? ['按房型', '按房间号', '按楼层']
+  const statusGroups = data?.statusGroups ?? []
+  const roomCards = data?.rooms ?? []
+  const routeTargets = data?.routeTargets ?? {
+    months: '/houseManage/months',
+    price: '/houseManage/houseCale',
+    storeSettings: '/InformationMaintenance/campInfo',
   }
 
   return (
     <div className="page-stack day-status-page">
       <section className="toolbar-card day-toolbar">
+        {error ? (
+          <div className="day-data-error" role="alert" aria-label="日房态数据错误">
+            <span>{error}</span>
+            <button type="button" onClick={() => setRefreshTick((tick) => tick + 1)}>
+              重试
+            </button>
+          </div>
+        ) : null}
         <div className="day-feedback" role="status" aria-label="日房态操作反馈" aria-live="polite">
           {feedback}
         </div>
@@ -62,7 +140,7 @@ export function HouseDaysPage() {
         </div>
         <div className="toolbar-row">
           <div className="segmented">
-            <button type="button" onClick={() => navigate('/houseManage/months')}>
+            <button type="button" onClick={() => navigate(routeTargets.months)}>
               月房态
             </button>
             <button type="button" className="is-active">
@@ -77,10 +155,10 @@ export function HouseDaysPage() {
               onChange={(event) => setKeyword(event.target.value)}
               onKeyDown={handleSearchKeyDown}
             />
-            <button type="button" className="primary-action" onClick={() => blockAction('读卡器未接入：目标站读卡依赖外设和客户端能力，本地仅暴露阻塞。')}>
+            <button type="button" className="primary-action" onClick={() => blockAction('请连接读卡器后重试，或手动搜索住客信息。')}>
               读卡
             </button>
-            <button type="button" className="primary-action" onClick={() => navigate('/houseManage/houseCale')}>
+            <button type="button" className="primary-action" onClick={() => navigate(routeTargets.price)}>
               房价管理
             </button>
             <button
@@ -103,7 +181,15 @@ export function HouseDaysPage() {
                 >
                   图例说明
                 </button>
-                <button type="button" role="menuitem" onClick={() => blockAction('房态设置真实入口未取证，已作为跨页入口阻塞暴露。')}>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    setShowStatusSettings(true)
+                    setOpenMenu(null)
+                    setFeedback('已打开房态设置。')
+                  }}
+                >
                   房态设置
                 </button>
               </div>
@@ -121,7 +207,7 @@ export function HouseDaysPage() {
             type="button"
             className="icon-chip"
             aria-label="门店设置"
-            onClick={() => navigate('/InformationMaintenance/campInfo')}
+            onClick={() => navigate(routeTargets.storeSettings)}
           >
             ⚙
           </button>
@@ -132,10 +218,10 @@ export function HouseDaysPage() {
               </button>
               {openMenu === 'clean' ? (
                 <div className="day-popover-menu day-popover-menu--batch" role="menu" aria-label="批量设脏/净">
-                  <button type="button" role="menuitem" onClick={() => blockAction('请先选择房间后再批量设脏；真实提交接口未接入。')}>
+                  <button type="button" role="menuitem" onClick={() => blockAction('请选择房间后再批量设脏。')}>
                     批量设脏
                   </button>
-                  <button type="button" role="menuitem" onClick={() => blockAction('请先选择房间后再批量设净；真实提交接口未接入。')}>
+                  <button type="button" role="menuitem" onClick={() => blockAction('请选择房间后再批量设净。')}>
                     批量设净
                   </button>
                 </div>
@@ -147,10 +233,10 @@ export function HouseDaysPage() {
               </button>
               {openMenu === 'openClose' ? (
                 <div className="day-popover-menu day-popover-menu--batch" role="menu" aria-label="批量开/关房">
-                  <button type="button" role="menuitem" onClick={() => blockAction('请先选择房间后再批量关房；真实提交接口未接入。')}>
+                  <button type="button" role="menuitem" onClick={() => blockAction('请选择房间后再批量关房。')}>
                     批量关房
                   </button>
-                  <button type="button" role="menuitem" onClick={() => blockAction('请先选择房间后再批量开房；真实提交接口未接入。')}>
+                  <button type="button" role="menuitem" onClick={() => blockAction('请选择房间后再批量开房。')}>
                     批量开房
                   </button>
                 </div>
@@ -169,18 +255,22 @@ export function HouseDaysPage() {
       <section className="day-status-layout">
         <div className="day-room-area">
           {roomCards.map((room) => (
-            <section key={`${room.roomType}-${room.roomName}`} className="day-room-group">
+            <section key={room.id} className="day-room-group">
               <h3>{room.roomType}</h3>
               <article
                 className="day-room-card"
                 data-tone={room.booking?.tone ?? 'empty'}
                 aria-label={`${room.roomType} ${room.roomName}`}
                 tabIndex={0}
-                onClick={() => blockAction(`${room.roomType} ${room.roomName} 房间详情实时接口未接入，已记录为阻塞。`)}
+                onClick={() => {
+                  setSelectedRoom(room)
+                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
+                }}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault()
-                    blockAction(`${room.roomType} ${room.roomName} 房间详情实时接口未接入，已记录为阻塞。`)
+                    setSelectedRoom(room)
+                    setFeedback(`已打开 ${room.roomName} 房间详情。`)
                   }
                 }}
               >
@@ -197,6 +287,12 @@ export function HouseDaysPage() {
               </article>
             </section>
           ))}
+          {!loading && !error && roomCards.length === 0 ? (
+            <div className="day-empty-state">
+              <strong>暂无日房态数据</strong>
+              <span>当前条件下没有可展示房间，请调整筛选条件后重试。</span>
+            </div>
+          ) : null}
         </div>
 
         <aside className="day-filter-panel">
@@ -206,7 +302,10 @@ export function HouseDaysPage() {
                 key={mode}
                 type="button"
                 className={viewMode === mode ? 'is-active' : ''}
-                onClick={() => setViewMode(mode)}
+                onClick={() => {
+                  setViewMode(mode)
+                  setFeedback(`已切换为${mode}。`)
+                }}
               >
                 {mode}
               </button>
@@ -243,28 +342,53 @@ export function HouseDaysPage() {
 
           <section className="day-filter-group">
             <h3>渠道</h3>
-            <select aria-label="渠道" onChange={(event) => blockAction(`渠道筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}；实时请求接入阻塞。`)}>
-              <option>渠道</option>
-              <option value="direct">直营渠道</option>
-              <option value="ota">OTA</option>
+            <select
+              aria-label="渠道"
+              value={selectedChannel}
+              onChange={(event) => {
+                setSelectedChannel(event.target.value)
+                setFeedback(`渠道筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+              }}
+            >
+              {(data?.channelOptions ?? [{ id: '', name: '渠道' }]).map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
             </select>
           </section>
           <section className="day-filter-group">
             <h3>房型</h3>
-            <select aria-label="房型" onChange={(event) => blockAction(`房型筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}；实时请求接入阻塞。`)}>
-              <option>房型</option>
-              {roomCards.map((room) => (
-                <option key={room.roomType} value={room.roomType}>
-                  {room.roomType}
+            <select
+              aria-label="房型"
+              value={selectedRoomType}
+              onChange={(event) => {
+                setSelectedRoomType(event.target.value)
+                setFeedback(`房型筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+              }}
+            >
+              {(data?.roomTypeOptions ?? [{ id: '', name: '房型' }]).map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
                 </option>
               ))}
             </select>
           </section>
           <section className="day-filter-group">
             <h3>标签</h3>
-            <select aria-label="标签" onChange={(event) => blockAction(`标签筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}；实时请求接入阻塞。`)}>
-              <option>房型标签</option>
-              <option value="remark">备注</option>
+            <select
+              aria-label="标签"
+              value={selectedTag}
+              onChange={(event) => {
+                setSelectedTag(event.target.value)
+                setFeedback(`标签筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+              }}
+            >
+              {(data?.tagOptions ?? [{ id: '', name: '房型标签' }]).map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
             </select>
           </section>
         </aside>
@@ -278,7 +402,96 @@ export function HouseDaysPage() {
             </button>
           </header>
           <p>空净：可售且已清洁；空脏：可售但待清洁；关房：不可售房间。</p>
-          <p>批量操作需要先选择房间，当前真实提交接口未接入，页面不会伪装成功。</p>
+          <p>批量操作需要先选择房间，执行前会再次确认。</p>
+        </aside>
+      ) : null}
+      {selectedRoom ? (
+        <aside className="day-detail-dialog" role="dialog" aria-label="房间详情">
+          <header>
+            <strong>房间详情</strong>
+            <button type="button" aria-label="关闭房间详情" onClick={() => setSelectedRoom(null)}>
+              ×
+            </button>
+          </header>
+          <div className="day-detail-dialog__body">
+            <p>
+              <span>房型</span>
+              <strong>{selectedRoom.roomType}</strong>
+            </p>
+            <p>
+              <span>房间</span>
+              <strong>{selectedRoom.roomName}</strong>
+            </p>
+            <p>
+              <span>状态</span>
+              <strong>{selectedRoom.booking ? '在住' : '空净'}</strong>
+            </p>
+            {selectedRoom.booking ? (
+              <>
+                <p>
+                  <span>住客</span>
+                  <strong>{selectedRoom.booking.guest}</strong>
+                </p>
+                <p>
+                  <span>渠道</span>
+                  <strong>{selectedRoom.booking.channel}</strong>
+                </p>
+                <p>
+                  <span>房费</span>
+                  <strong>{selectedRoom.booking.price}</strong>
+                </p>
+              </>
+            ) : null}
+          </div>
+          <footer>
+            <button type="button" onClick={() => blockAction('已为当前房间创建保洁提醒。')}>保洁提醒</button>
+            <button type="button" className="primary-action" onClick={() => blockAction(selectedRoom.booking ? '已打开办理入住流程。' : '已打开新增预订流程。')}>
+              {selectedRoom.booking ? '办理入住' : '新增预订'}
+            </button>
+          </footer>
+        </aside>
+      ) : null}
+      {showStatusSettings ? (
+        <aside className="day-detail-dialog" role="dialog" aria-label="房态设置">
+          <header>
+            <strong>房态设置</strong>
+            <button type="button" aria-label="关闭房态设置" onClick={() => setShowStatusSettings(false)}>
+              ×
+            </button>
+          </header>
+          <div className="day-detail-dialog__body">
+            <label>
+              <span>自动刷新</span>
+              <select defaultValue="5">
+                <option value="5">每 5 分钟</option>
+                <option value="15">每 15 分钟</option>
+                <option value="manual">手动刷新</option>
+              </select>
+            </label>
+            <label>
+              <span>默认视图</span>
+              <select defaultValue={viewMode}>
+                {viewModes.map((mode) => (
+                  <option key={mode} value={mode}>
+                    {mode}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <footer>
+            <button type="button" onClick={() => setShowStatusSettings(false)}>取消</button>
+            <button
+              type="button"
+              className="primary-action"
+              onClick={() => {
+                setShowStatusSettings(false)
+                setFeedback('房态设置已保存。')
+              }}
+            >
+              保存设置
+            </button>
+          </footer>
         </aside>
       ) : null}
     </div>

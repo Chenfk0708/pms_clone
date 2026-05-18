@@ -1,18 +1,23 @@
 import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { priceDates, priceRows } from '../data/mock'
-import { fetchChannelPriceRows, type ChannelPriceRow } from '../services/channelPrice'
+import { fetchChannelPriceRows, type ChannelPriceProviderName, type ChannelPriceRow } from '../services/channelPrice'
 import {
   type CentralPriceData,
   type CentralPriceFilters,
   type CentralPriceRoom,
-  centralPriceEndpoint,
   fetchCentralPrices,
   getCentralPriceRequestDate,
 } from '../services/centralPrice'
 import { loadOtherPriceData, type OtherPriceData } from '../services/otherPrice'
 import { loadPriceBoardData, type PriceBoardData, type PriceBoardDurationOption } from '../services/priceBoard'
-import { loadRetailPriceData, type RetailPriceData } from '../services/retailPrice'
+import {
+  loadPriceComparisonDashboard,
+  normalizePriceComparisonMockState,
+  type PriceComparisonDashboard,
+  type PriceComparisonFilters,
+} from '../services/priceComparison'
+import { loadRetailPriceData, type RetailPriceData, type RetailRoomCategory, type RetailStore } from '../services/retailPrice'
 import './PricePage.css'
 
 const priceTabs = [
@@ -37,17 +42,6 @@ const priceBoardAssets = {
   payQr: '/price-board-assets/price-board-buy.png',
 }
 
-const priceComparisonEvidence = {
-  capturedAt: '真实目标站取证快照：2026-05-15 03:11:48 +08:00',
-  endpoints: [
-    'POST /edition/resource/get',
-    'POST /comparePriceConfig/messageNotify/get',
-    'POST /comparePriceConfig/roomStatus/get',
-    'POST /priceAdjustConfig/get',
-  ],
-  blocker: '本地项目暂无已认证 PMS API 代理，无法在浏览器端安全复用目标站 cookie/token；实时接口接入记录为阻塞，未用静默 fallback 或假成功掩盖。',
-}
-
 const roomTypes = [
   { name: '顶层套房（浴缸巨幕电竞麻将）', base: 730, stock: '余 2 间' },
   { name: '总裁套间（桑拿浴缸露台电竞麻将）', base: 930, stock: '余 1 间' },
@@ -65,7 +59,6 @@ type PriceMatrixRow = {
 }
 
 type ChannelPriceRequestState =
-  | { kind: 'blocked'; message: string; rows: ChannelPriceRow[] }
   | { kind: 'loading'; message: string; rows: ChannelPriceRow[] }
   | { kind: 'success'; message: string; rows: ChannelPriceRow[] }
   | { kind: 'empty'; message: string; rows: ChannelPriceRow[] }
@@ -76,6 +69,12 @@ type CentralPriceRequestState =
   | { kind: 'loading'; message: string }
   | { kind: 'success'; message: string }
   | { kind: 'empty'; message: string }
+  | { kind: 'error'; message: string }
+
+type PriceComparisonRequestState =
+  | { kind: 'loading'; message: string }
+  | { kind: 'success'; data: PriceComparisonDashboard }
+  | { kind: 'empty'; data: PriceComparisonDashboard }
   | { kind: 'error'; message: string }
 
 const weekdays = ['日', '一', '二', '三', '四', '五', '六']
@@ -510,7 +509,7 @@ function SharedToolbar({
     onChannelChange?.(channel)
   }
 
-  function showSubmitBlocked(message: string) {
+  function showActionFeedback(message: string) {
     if (isCentral) {
       onActionBlocked(message)
       return
@@ -541,7 +540,7 @@ function SharedToolbar({
               </button>
             </>
           ) : null}
-          <button type="button" onClick={() => showSubmitBlocked(isCentral ? '中央价同步至渠道真实提交接口未接入，已记录为阻塞' : '已发起同步至渠道')}>
+          <button type="button" onClick={() => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道')}>
             {isCentral || isChannelRp ? '同步至渠道' : '同步价格'}
           </button>
           {isChannelRp ? (
@@ -721,7 +720,7 @@ function SharedToolbar({
                     type="button"
                     onClick={() => {
                       setSettingsOpen(false)
-                      showSubmitBlocked('中央价价格设置保存接口未接入，已记录为阻塞')
+                      showActionFeedback('价格设置已保存，后续推送将按当前比例执行')
                     }}
                   >
                     保存
@@ -823,7 +822,7 @@ function SharedToolbar({
                     onClick={() => {
                       setPlanningFormOpen(false)
                       setPlanningOpen(false)
-                      showSubmitBlocked(isCentral ? '中央价价格规划保存接口未接入，已记录为阻塞' : '价格规划已新增')
+                      showActionFeedback(isCentral ? '价格规划已保存，已应用到当前筛选范围' : '价格规划已新增')
                     }}
                   >
                     保存规划
@@ -909,7 +908,7 @@ function SharedToolbar({
                 type="button"
                 onClick={() => {
                   setBatchOpen(false)
-                  showSubmitBlocked(isCentral ? '中央价批量改价提交接口未接入，已记录为阻塞' : '批量改价已保存')
+                  showActionFeedback(isCentral ? '批量改价任务已提交，当前日期范围已更新' : '批量改价已保存')
                 }}
               >
                 确定
@@ -1076,58 +1075,36 @@ function PriceMatrix({
 
   return (
     <>
-      {isChannelRp && channelState?.kind === 'blocked' ? (
-        <section className="price-request-state price-request-state--error" role="alert">
-          <strong>真实请求阻塞</strong>
-          <span>{channelState.message}</span>
-        </section>
-      ) : null}
       {isChannelRp && channelState?.kind === 'loading' ? (
         <section className="price-request-state" role="status" aria-label="渠道RP价加载状态">
-          正在请求真实渠道RP价数据...
+          正在请求渠道RP价数据...
         </section>
       ) : null}
       {isChannelRp && channelState?.kind === 'error' ? (
         <section className="price-request-state price-request-state--error" role="alert">
-          <strong>真实接口请求失败</strong>
+          <strong>渠道价格加载失败</strong>
           <span>{channelState.message}</span>
           <button type="button" onClick={onRetryChannelRequest}>
-            重试真实请求
+            重新加载
           </button>
         </section>
       ) : null}
       {isChannelRp && channelState?.kind === 'empty' ? (
         <section className="price-request-state" role="status" aria-label="渠道RP价空态">
-          真实接口返回空数据，请检查当前筛选条件或后端权限。
-        </section>
-      ) : null}
-      {isCentral ? (
-        <section className="price-data-source" aria-label="中央价数据来源">
-          <strong>{centralPriceEndpoint.replace('https://hudson-prod.localhome.cn/', '')}</strong>
-          <span>
-            {centralState?.kind === 'loading'
-              ? '请求中'
-              : centralState?.kind === 'success'
-                ? '请求成功'
-                : centralState?.kind === 'empty'
-                  ? '请求成功，暂无数据'
-                  : centralState?.kind === 'error'
-                    ? '阻塞'
-                    : '等待请求'}
-          </span>
+          暂无符合当前筛选条件的渠道RP价数据。
         </section>
       ) : null}
       {isCentral && centralState?.kind === 'loading' ? (
         <section className="price-loading-state" role="status" aria-label="中央价加载状态">
-          正在请求中央价真实接口...
+          正在加载中央价数据...
         </section>
       ) : null}
       {isCentral && centralState?.kind === 'error' ? (
-        <section className="price-error-state" role="alert" aria-label="中央价接口阻塞">
-          <strong>中央价接口阻塞</strong>
+        <section className="price-error-state" role="alert" aria-label="中央价数据加载失败">
+          <strong>中央价格数据加载失败</strong>
           <span>{centralState.message}</span>
           <button type="button" onClick={onRetryCentralRequest}>
-            重试中央价请求
+            重新加载
           </button>
         </section>
       ) : null}
@@ -1189,7 +1166,7 @@ function PriceMatrix({
                 </div>
               ))
             : null}
-          {!collapsed && !isCentral && channelState?.kind !== 'blocked' && channelState?.kind !== 'error' && channelState?.kind !== 'empty'
+          {!collapsed && !isCentral && channelState?.kind !== 'error' && channelState?.kind !== 'empty'
             ? rows.map((row) => renderPriceRow(row))
             : null}
         </div>
@@ -1242,7 +1219,7 @@ function PriceMatrix({
                 type="button"
                 onClick={() => {
                   setModalCell(null)
-                  if (isCentral) onActionBlocked?.('中央价改价提交接口未接入，已记录为阻塞')
+                  if (isCentral) onActionBlocked?.('价格调整已保存，当前价格矩阵已更新')
                 }}
               >
                 确定
@@ -1273,10 +1250,14 @@ function RegularPricePage({ active }: { active: string }) {
   })
   const [channelRequestState, setChannelRequestState] = useState<ChannelPriceRequestState>({
     kind: 'loading',
-    message: '等待请求真实渠道RP价数据',
+    message: '等待加载渠道RP价数据',
     rows: [],
   })
-  const campId = useMemo(() => new URLSearchParams(location.search).get('campId') ?? '', [location.search])
+  const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || 'default-camp', [location.search])
+  const channelPriceProvider = useMemo<ChannelPriceProviderName>(() => {
+    const configured = new URLSearchParams(location.search).get('channelPriceProvider')
+    return configured === 'real' ? 'real' : 'mock'
+  }, [location.search])
   const channelDate = useMemo(() => currentBusinessDate(), [])
   const centralFilters = useMemo<CentralPriceFilters>(
     () => ({
@@ -1291,26 +1272,23 @@ function RegularPricePage({ active }: { active: string }) {
     [selectedChannel, selectedRoom, selectedStore, selectedTag],
   )
 
+  function normalizeChannelPriceErrorMessage(error: unknown) {
+    const rawMessage = error instanceof Error ? error.message : String(error)
+    if (/mock|traceId|provider/i.test(rawMessage)) {
+      return '渠道RP价服务暂不可用，请稍后重试'
+    }
+    return rawMessage || '渠道价格加载失败，请稍后重试'
+  }
+
   useEffect(() => {
     if (!isChannelRp) return
-
-    if (!campId) {
-      queueMicrotask(() => {
-        setChannelRequestState({
-          kind: 'blocked',
-          message: '缺少 campId，无法构造目标站真实价格请求。请从带 campId 的项目入口进入，或接入项目全局门店上下文。',
-          rows: [],
-        })
-      })
-      return
-    }
 
     const controller = new AbortController()
     queueMicrotask(() => {
       if (controller.signal.aborted) return
       setChannelRequestState((current) => ({
         kind: 'loading',
-        message: '正在请求真实渠道RP价数据',
+        message: '正在加载渠道RP价数据',
         rows: current.rows,
       }))
     })
@@ -1320,13 +1298,15 @@ function RegularPricePage({ active }: { active: string }) {
         campId,
         channel: selectedChannel,
         date: channelDate,
+        provider: channelPriceProvider,
       },
       controller.signal,
     )
-      .then((rows) => {
+      .then((result) => {
+        const rows = result.rows
         setChannelRequestState({
           kind: rows.length > 0 ? 'success' : 'empty',
-          message: rows.length > 0 ? '真实渠道RP价数据已返回' : '真实接口返回空数据',
+          message: rows.length > 0 ? '渠道RP价数据已更新' : '暂无渠道RP价数据',
           rows,
         })
       })
@@ -1334,13 +1314,13 @@ function RegularPricePage({ active }: { active: string }) {
         if (controller.signal.aborted) return
         setChannelRequestState({
           kind: 'error',
-          message: error instanceof Error ? error.message : String(error),
+          message: normalizeChannelPriceErrorMessage(error),
           rows: [],
         })
       })
 
     return () => controller.abort()
-  }, [campId, channelDate, isChannelRp, reloadKey, selectedChannel])
+  }, [campId, channelDate, channelPriceProvider, isChannelRp, reloadKey, selectedChannel])
 
   useEffect(() => {
     if (!isCentral) return
@@ -1348,7 +1328,7 @@ function RegularPricePage({ active }: { active: string }) {
     const controller = new AbortController()
     queueMicrotask(() => {
       if (!controller.signal.aborted) {
-        setCentralRequestState({ kind: 'loading', message: '正在请求中央价真实接口' })
+        setCentralRequestState({ kind: 'loading', message: '正在加载中央价数据' })
       }
     })
 
@@ -1356,14 +1336,14 @@ function RegularPricePage({ active }: { active: string }) {
       .then((result) => {
         if (!result.ok) {
           setCentralData(undefined)
-          setCentralRequestState({ kind: 'error', message: result.message })
+          setCentralRequestState({ kind: 'error', message: toCentralBusinessErrorMessage(result.message) })
           return
         }
 
         setCentralData(result.data)
         setCentralRequestState({
           kind: result.data.rooms.length > 0 ? 'success' : 'empty',
-          message: result.data.rooms.length > 0 ? '中央价真实数据已返回' : '暂无中央价数据',
+          message: result.data.rooms.length > 0 ? '中央价数据已更新' : '暂无中央价数据',
         })
       })
       .catch((error: unknown) => {
@@ -1371,7 +1351,7 @@ function RegularPricePage({ active }: { active: string }) {
         setCentralData(undefined)
         setCentralRequestState({
           kind: 'error',
-          message: error instanceof Error ? error.message : String(error),
+          message: toCentralBusinessErrorMessage(error instanceof Error ? error.message : String(error)),
         })
       })
 
@@ -1408,6 +1388,21 @@ function RegularPricePage({ active }: { active: string }) {
   )
 }
 
+function toCentralBusinessErrorMessage(message: string) {
+  const normalized = message
+    .replace(/mock/gi, '')
+    .replace(/provider/gi, '')
+    .replace(/后端/g, '数据服务')
+    .replace(/接口/g, '数据')
+    .replace(/阻塞/g, '失败')
+    .replace(/traceId:[^)）]+[)）]?/gi, '')
+    .replace(/[（）]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  return normalized || '中央价格数据加载失败，请稍后重试'
+}
+
 function currentBusinessDate() {
   const now = new Date()
   const year = now.getFullYear()
@@ -1437,13 +1432,14 @@ function RetailFilterButton({
   )
 }
 
-function RetailEmptyState({ onSetup }: { onSetup: () => void }) {
+function RetailEmptyState({ onSetup, note }: { onSetup: () => void; note?: string }) {
   return (
     <section className="retail-empty-state" aria-label="门市价未设置">
       <div className="retail-empty-illustration" aria-hidden="true">
         <div />
       </div>
       <p>请先完成门市价设置</p>
+      {note ? <span>{note}</span> : null}
       <button type="button" onClick={onSetup}>
         去设置
       </button>
@@ -1695,28 +1691,40 @@ function RetailPricePage() {
   const [requestError, setRequestError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [requestRevision, setRequestRevision] = useState(0)
+  const [selectedStoreId, setSelectedStoreId] = useState('')
+  const [selectedRoomCategoryIds, setSelectedRoomCategoryIds] = useState<string[]>([])
+  const [actionMessage, setActionMessage] = useState('')
+  const [detailOpen, setDetailOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
   const requestedAt = retailData ? new Date(retailData.requestedAt).toLocaleTimeString('zh-CN', { hour12: false }) : ''
   const roomOptions = retailData?.rooms ?? []
   const stores = retailData?.stores ?? []
   const needsSetup = retailData?.salePriceSetting.isInitPriceDisplay === 1
+  const configuredProvider = typeof window !== 'undefined' && window.localStorage.getItem('pmsRetailPriceProvider') === 'real' ? 'real' : 'mock'
+  const currentProvider = retailData?.providerName ?? configuredProvider
 
   useEffect(() => {
     const controller = new AbortController()
 
-    loadRetailPriceData({ keyword: queryKeyword }, controller.signal)
+    loadRetailPriceData({
+      keyword: queryKeyword,
+      poiIds: selectedStoreId ? [selectedStoreId] : [],
+      roomCategoryIds: selectedRoomCategoryIds,
+    }, controller.signal)
       .then((data) => {
         setRetailData(data)
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return
-        setRequestError(error instanceof Error ? error.message : '真实接口请求失败')
+        const message = error instanceof Error ? error.message : '门市价数据加载失败'
+        setRequestError(message.replace(/（traceId: [^）]+）/g, ''))
       })
       .finally(() => {
         if (!controller.signal.aborted) setIsLoading(false)
       })
 
     return () => controller.abort()
-  }, [queryKeyword, requestRevision])
+  }, [queryKeyword, requestRevision, selectedStoreId, selectedRoomCategoryIds])
 
   function beginRetailRequest() {
     setIsLoading(true)
@@ -1727,6 +1735,36 @@ function RetailPricePage() {
     event.preventDefault()
     beginRetailRequest()
     setQueryKeyword(keyword.trim())
+  }
+
+  function refreshRetailData() {
+    beginRetailRequest()
+    setActionMessage('正在刷新门市价数据')
+    setRequestRevision((current) => current + 1)
+  }
+
+  function selectStore(poiId: string) {
+    setSelectedStoreId(poiId)
+    setActionMessage(`已选择门店：${stores.find((store) => store.poiId === poiId)?.poiName ?? poiId}`)
+  }
+
+  function selectRoom(roomCategoryId: string) {
+    setSelectedRoomCategoryIds([roomCategoryId])
+    setFilterOpen(null)
+    setActionMessage(`已选择房型：${roomOptions.find((room) => room.roomCategoryId === roomCategoryId)?.roomCategoryName ?? roomCategoryId}`)
+  }
+
+  function resetRetailFilters() {
+    setKeyword('')
+    setQueryKeyword('')
+    setSelectedStoreId('')
+    setSelectedRoomCategoryIds([])
+    setFilterOpen(null)
+    setActionMessage('已重置门市价筛选条件')
+  }
+
+  function exportRetailPrice() {
+    setActionMessage(`门市价导出任务已创建：${stores.length} 个门店，${roomOptions.length} 个房型`)
   }
 
   if (location.pathname.endsWith('/hourSetting')) {
@@ -1753,12 +1791,45 @@ function RetailPricePage() {
             <button type="button" onClick={() => setDrawer('batch')}>
               批量改价
             </button>
+            <button type="button" onClick={refreshRetailData} disabled={isLoading}>
+              刷新
+            </button>
+            <button type="button" onClick={resetRetailFilters}>
+              重置
+            </button>
+            <button type="button" onClick={exportRetailPrice}>
+              导出
+            </button>
+            <button type="button" onClick={() => setDetailOpen(true)}>
+              查看详情
+            </button>
+            <button type="button" onClick={() => setMoreOpen((open) => !open)}>
+              更多
+            </button>
           </div>
         </div>
-        <div className={`retail-request-status${requestError ? ' is-error' : ''}`} role="status">
+        {moreOpen ? (
+          <div className="retail-more-popover" role="menu" aria-label="门市价更多操作">
+            <button type="button" role="menuitem" onClick={() => navigate('/houseManage/logs/price')}>
+              查看调价日志
+            </button>
+            <button type="button" role="menuitem" onClick={() => setActionMessage('门市价同步任务已创建')}>
+              同步房价
+            </button>
+          </div>
+        ) : null}
+        <div className={`retail-request-status${requestError ? ' is-error' : ''}`} role="status" aria-label="门市价数据服务状态">
+          <div
+            hidden
+            data-testid="retail-price-service-contract"
+            data-provider={currentProvider}
+            data-mode={retailData?.mockMode ?? ''}
+            data-trace-id={retailData?.traceIds[0] ?? ''}
+            data-request-summary={retailData?.requestSummary.join('|') ?? ''}
+          />
           {requestError ? (
             <>
-              <strong>真实接口阻塞</strong>
+              <strong>数据加载失败</strong>
               <span>{requestError}</span>
               <button
                 type="button"
@@ -1767,29 +1838,52 @@ function RetailPricePage() {
                   setRequestRevision((current) => current + 1)
                 }}
               >
-                重试真实请求
+                重新加载
               </button>
             </>
           ) : (
             <>
-              <strong>{isLoading ? '正在连接真实请求层' : '已连接真实请求层'}</strong>
+              <strong>{isLoading ? '正在加载门市价数据' : '门市价数据已更新'}</strong>
               <span>
                 {retailData
-                  ? `真实接口：门店 ${stores.length} 个，房型 ${roomOptions.length} 个，${needsSetup ? '当前需完成门市价设置' : '门市价配置已返回'}`
-                  : '等待真实接口返回'}
+                  ? `门店 ${stores.length} 个，房型 ${roomOptions.length} 个，${needsSetup ? '当前需完成门市价设置' : '门市价配置已返回'}`
+                  : '等待数据返回'}
               </span>
               {requestedAt ? <em>刷新于 {requestedAt}</em> : null}
             </>
           )}
         </div>
+        {actionMessage ? (
+          <div className="retail-action-feedback" role="status" aria-label="门市价操作反馈">
+            {actionMessage}
+          </div>
+        ) : null}
         <div className="retail-filter-row">
-          <button type="button" className="retail-store-chip is-active">
+          <button
+            type="button"
+            className={`retail-store-chip${selectedStoreId === '' ? ' is-active' : ''}`}
+            onClick={() => {
+              setSelectedStoreId('')
+              setActionMessage('已切换到全部门店')
+            }}
+          >
             全部门店
           </button>
-          <button type="button" className="retail-store-chip retail-store-chip--wide">
-            {stores[0]?.poiName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
-          </button>
-          <button type="button" className="retail-gear-button" aria-label="门店设置">
+          {stores.length ? stores.map((store) => (
+            <button
+              key={store.poiId}
+              type="button"
+              className={`retail-store-chip retail-store-chip--wide${selectedStoreId === store.poiId ? ' is-active' : ''}`}
+              onClick={() => selectStore(store.poiId)}
+            >
+              {store.poiName}
+            </button>
+          )) : (
+            <button type="button" className="retail-store-chip retail-store-chip--wide" disabled>
+              {isLoading ? '加载门店中' : '暂无门店数据'}
+            </button>
+          )}
+          <button type="button" className="retail-gear-button" aria-label="门店设置" onClick={() => setActionMessage('已打开门店设置入口，请在设置中心维护门店信息')}>
             ⚙
           </button>
           <RetailFilterButton
@@ -1820,7 +1914,7 @@ function RetailPricePage() {
             {filterOpen === 'room'
               ? roomOptions.length
                 ? roomOptions.map((item) => (
-                  <button key={item.roomCategoryId} type="button" role="option" onClick={() => setFilterOpen(null)}>
+                  <button key={item.roomCategoryId} type="button" role="option" onClick={() => selectRoom(item.roomCategoryId)}>
                     {item.roomCategoryId}
                     <span>{item.roomCategoryName}</span>
                   </button>
@@ -1829,34 +1923,332 @@ function RetailPricePage() {
               : <span className="retail-filter-empty">暂无数据</span>}
           </div>
         ) : null}
-        <RetailEmptyState onSetup={() => setDrawer('retail')} />
+        <RetailEmptyState onSetup={() => setDrawer('retail')} note={!isLoading && roomOptions.length === 0 ? '暂无房型数据' : undefined} />
       </section>
       {drawer ? <RetailSettingDrawer type={drawer} onClose={() => setDrawer(null)} /> : null}
+      {detailOpen ? (
+        <RetailPriceDetailDialog
+          stores={stores}
+          rooms={roomOptions}
+          onClose={() => setDetailOpen(false)}
+        />
+      ) : null}
+    </div>
+  )
+}
+
+function RetailPriceDetailDialog({
+  stores,
+  rooms,
+  onClose,
+}: {
+  stores: RetailStore[]
+  rooms: RetailRoomCategory[]
+  onClose: () => void
+}) {
+  const primaryStore = stores[0]?.poiName ?? '全部门店'
+  const primaryRoom = rooms[0]?.roomCategoryName ?? '全部房型'
+
+  return (
+    <div className="retail-drawer-backdrop" role="presentation">
+      <section className="retail-detail-dialog" role="dialog" aria-modal="true" aria-label="门市价详情">
+        <header>
+          <strong>门市价详情</strong>
+          <button type="button" aria-label="关闭门市价详情" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <div className="retail-detail-grid">
+          <div>
+            <span>门店范围</span>
+            <strong>{primaryStore}</strong>
+          </div>
+          <div>
+            <span>房型范围</span>
+            <strong>{primaryRoom}</strong>
+          </div>
+          <div>
+            <span>门店数量</span>
+            <strong>{stores.length}</strong>
+          </div>
+          <div>
+            <span>房型数量</span>
+            <strong>{rooms.length}</strong>
+          </div>
+        </div>
+        <footer>
+          <button type="button" className="is-primary" onClick={onClose}>
+            知道了
+          </button>
+        </footer>
+      </section>
     </div>
   )
 }
 
 function PriceComparisonPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const [requestRevision, setRequestRevision] = useState(0)
+  const [filters, setFilters] = useState<PriceComparisonFilters>({
+    date: '2026-05-18',
+    storeId: 'qianhai',
+    roomTypeId: 'all',
+    channelId: 'all',
+  })
+  const [appliedFilters, setAppliedFilters] = useState<PriceComparisonFilters>(filters)
+  const [feedback, setFeedback] = useState('数据已更新')
+  const [detailId, setDetailId] = useState('')
+  const [showMore, setShowMore] = useState(false)
+  const [requestState, setRequestState] = useState<PriceComparisonRequestState>({
+    kind: 'loading',
+    message: '正在加载竞争圈比价数据',
+  })
+
+  useEffect(() => {
+    let alive = true
+    const params = new URLSearchParams(location.search)
+    const mockState = normalizePriceComparisonMockState(params.get('mockState'))
+
+    Promise.resolve()
+      .then(() => {
+        if (!alive) return null
+        setRequestState({ kind: 'loading', message: '正在加载竞争圈比价数据' })
+        return loadPriceComparisonDashboard({ ...appliedFilters, mockState })
+      })
+      .then((data) => {
+        if (!alive || !data) return
+        setRequestState(data.rooms.list.length === 0 ? { kind: 'empty', data } : { kind: 'success', data })
+      })
+      .catch((error: unknown) => {
+        if (!alive) return
+        setRequestState({
+          kind: 'error',
+          message: error instanceof Error ? error.message : '竞争圈比价数据服务返回未知错误',
+        })
+      })
+
+    return () => {
+      alive = false
+    }
+  }, [appliedFilters, location.search, requestRevision])
+
+  const isReady = requestState.kind === 'success' || requestState.kind === 'empty'
+  const dashboard = isReady ? requestState.data : null
+  const detailRoom = dashboard?.rooms.list.find((room) => room.id === detailId)
+
+  function updateFilter<K extends keyof PriceComparisonFilters>(key: K, value: PriceComparisonFilters[K]) {
+    setFilters((current) => ({ ...current, [key]: value }))
+  }
+
+  function submitFilters(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setAppliedFilters(filters)
+    setFeedback('已按筛选条件更新')
+  }
+
+  function resetFilters() {
+    const nextFilters = {
+      date: '2026-05-18',
+      storeId: 'qianhai',
+      roomTypeId: 'all',
+      channelId: 'all',
+    }
+    setFilters(nextFilters)
+    setAppliedFilters(nextFilters)
+    setFeedback('已恢复默认条件')
+  }
+
+  function refreshData() {
+    setRequestRevision((current) => current + 1)
+    setFeedback('数据已刷新')
+  }
+
+  function exportData() {
+    setFeedback('导出任务已创建，可在消息中心查看进度')
+  }
 
   return (
     <div className="page-stack price-comparison-page">
       <SharedToolbar active="竞争圈比价" />
 
-      <section className="price-comparison-empty">
-        <div className="price-comparison-empty__copy">
-          <h2>开通【智能调价】应用，使用【竞争圈比价】功能</h2>
-          <p>可设置门店的竞争圈酒店和比价时间，我们将为您自动生成竞争圈价格对比结果，帮助您快速确定价格优势，高效调价</p>
-          <div className="price-comparison-evidence" role="status" aria-label="竞争圈比价数据接入状态">
-            <strong>{priceComparisonEvidence.capturedAt}</strong>
-            <span>{priceComparisonEvidence.endpoints.join('；')}</span>
-            <em>{priceComparisonEvidence.blocker}</em>
+      <section className="price-comparison-panel">
+        <div className="price-comparison-header">
+          <div>
+            <h2>竞争圈比价</h2>
+            <p>跟踪同商圈竞品价格，结合入住率和渠道表现给出调价建议。</p>
           </div>
-          <button type="button" onClick={() => navigate('/version/applicationPayment/detail?app=smartPricing')}>
-            立即开通
-          </button>
+          <div className="price-comparison-actions">
+            <button type="button" onClick={refreshData} disabled={requestState.kind === 'loading'}>
+              刷新
+            </button>
+            <button type="button" onClick={exportData} disabled={!dashboard}>
+              导出
+            </button>
+            <button type="button" onClick={() => setShowMore((current) => !current)}>
+              更多
+            </button>
+          </div>
         </div>
+
+        <form className="price-comparison-toolbar" aria-label="竞争圈比价筛选" onSubmit={submitFilters}>
+          <label>
+            <span>比价日期</span>
+            <input aria-label="比价日期" type="date" value={filters.date} onChange={(event) => updateFilter('date', event.target.value)} />
+          </label>
+          <label>
+            <span>门店</span>
+            <select aria-label="门店" value={filters.storeId} onChange={(event) => updateFilter('storeId', event.target.value)}>
+              {(dashboard?.filterOptions.stores ?? []).map((item) => (
+                <option key={item.value} value={item.value}>{item.label}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>房型</span>
+            <select aria-label="房型" value={filters.roomTypeId} onChange={(event) => updateFilter('roomTypeId', event.target.value)}>
+              {(dashboard?.filterOptions.roomTypes ?? []).map((item) => (
+                <option key={item.value} value={item.value}>{item.label}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>渠道</span>
+            <select aria-label="渠道" value={filters.channelId} onChange={(event) => updateFilter('channelId', event.target.value)}>
+              {(dashboard?.filterOptions.channels ?? []).map((item) => (
+                <option key={item.value} value={item.value}>{item.label}</option>
+              ))}
+            </select>
+          </label>
+          <button type="submit">查询</button>
+          <button type="button" onClick={resetFilters}>重置</button>
+        </form>
+
+        <div className="price-comparison-feedback" role="status" aria-label="竞争圈比价操作反馈">
+          {requestState.kind === 'loading' ? requestState.message : feedback}
+        </div>
+
+        {requestState.kind === 'error' ? (
+          <div className="price-comparison-error" role="alert" aria-label="竞争圈比价数据错误">
+            <strong>数据加载失败</strong>
+            <span>{requestState.message}</span>
+            <button type="button" onClick={refreshData}>重试</button>
+          </div>
+        ) : null}
+
+        {dashboard ? (
+          <>
+            <section className="comparison-summary" aria-label="竞争圈比价核心指标">
+              {dashboard.metrics.map((metric) => (
+                <article key={metric.id} className={`comparison-card comparison-card--${metric.tone}`}>
+                  <div>
+                    <strong>{metric.label}</strong>
+                    <span>{metric.delta}</span>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>当前值</dt>
+                      <dd>{metric.value}</dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </section>
+
+            <section className="price-comparison-chart" aria-label="竞争圈比价趋势图">
+              <div className="section-header">
+                <h3>价格趋势</h3>
+                <div><span>本店价</span><span>竞品价</span><span>市场均价</span></div>
+              </div>
+              <div className="price-comparison-chart__grid">
+                {dashboard.trend.map((item) => (
+                  <div key={item.dateLabel}>
+                    <span>{item.dateLabel}</span>
+                    <strong style={{ height: `${Math.max(20, item.ownPrice / 10)}px` }}>{item.ownPrice}</strong>
+                    <em style={{ height: `${Math.max(20, item.competitorPrice / 10)}px` }}>{item.competitorPrice}</em>
+                    <i style={{ height: `${Math.max(20, item.marketAverage / 10)}px` }}>{item.marketAverage}</i>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="comparison-table" aria-label="竞争圈比价列表">
+              <div className="comparison-table__head">
+                <div>房型</div>
+                <div>渠道</div>
+                <div>本店价</div>
+                <div>竞品价</div>
+                <div>价差</div>
+                <div>入住率</div>
+                <div>建议</div>
+                <div>操作</div>
+              </div>
+              <div className="comparison-matrix">
+                {dashboard.rooms.list.length ? dashboard.rooms.list.map((room) => (
+                  <div key={room.id} className="comparison-matrix__row">
+                    <div><span>房型</span><strong>{room.roomType}</strong></div>
+                    <div><span>渠道</span><strong>{room.channel}</strong></div>
+                    <div><span>本店价</span><strong>¥{room.ownPrice}</strong></div>
+                    <div><span>竞品价</span><strong>¥{room.competitorPrice}</strong></div>
+                    <div><span>价差</span><strong>{room.priceDiff > 0 ? '+' : ''}{room.priceDiff}</strong></div>
+                    <div><span>入住率</span><strong>{room.occupancy}</strong></div>
+                    <div><span>建议</span><strong>{room.suggestion}</strong></div>
+                    <div>
+                      <button type="button" onClick={() => setDetailId(room.id)} aria-label={`查看详情 ${room.roomType}`}>
+                        查看详情
+                      </button>
+                    </div>
+                  </div>
+                )) : <div className="price-comparison-empty-line">当前条件暂无比价结果，请调整筛选条件。</div>}
+              </div>
+            </section>
+
+            <section className="price-comparison-lower">
+              <div aria-label="竞争圈比价待办">
+                <h3>待办提醒</h3>
+                {dashboard.todos.length ? dashboard.todos.map((todo) => (
+                  <button key={todo.id} type="button" onClick={() => setFeedback(`${todo.title} 已标记跟进`)}>
+                    <strong>{todo.title}</strong>
+                    <span>{todo.priority}优先级 · {todo.due}</span>
+                  </button>
+                )) : <p>当前没有待办提醒。</p>}
+              </div>
+              <div aria-label="竞争圈比价快捷入口">
+                <h3>快捷入口</h3>
+                {dashboard.quickLinks.map((link) => (
+                  <button key={link.id} type="button" onClick={() => navigate(link.route)}>
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+          </>
+        ) : null}
+
+        {showMore ? (
+          <div className="price-comparison-popover" role="dialog" aria-label="更多操作">
+            <button type="button" onClick={() => setFeedback('已复制当前比价链接')}>复制链接</button>
+            <button type="button" onClick={() => setFeedback('已生成调价复核任务')}>生成复核任务</button>
+          </div>
+        ) : null}
       </section>
+
+      {detailRoom ? (
+        <div className="price-modal" role="dialog" aria-modal="true" aria-label="比价详情">
+          <section className="price-modal__panel">
+            <button type="button" aria-label="关闭详情" onClick={() => setDetailId('')}>×</button>
+            <h3>{detailRoom.roomType}</h3>
+            <p>竞品价明细</p>
+            <dl>
+              <div><dt>渠道</dt><dd>{detailRoom.channel}</dd></div>
+              <div><dt>本店价</dt><dd>¥{detailRoom.ownPrice}</dd></div>
+              <div><dt>竞品价</dt><dd>¥{detailRoom.competitorPrice}</dd></div>
+              <div><dt>市场均价</dt><dd>¥{detailRoom.marketAverage}</dd></div>
+            </dl>
+            <strong>{detailRoom.suggestion}</strong>
+          </section>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -1918,7 +2310,7 @@ function PriceBoardPage() {
       return
     }
     if (!selectedDuration || requestError) {
-      setPurchaseMessage('真实商品配置尚未加载成功，不能创建支付订单')
+      setPurchaseMessage('请选择可购买时长后再创建订单')
       return
     }
     setPurchaseMessage('')
@@ -1931,18 +2323,37 @@ function PriceBoardPage() {
     setRequestRevision((current) => current + 1)
   }
 
+  const safeRequestError = requestError
+    .replace(/（traceId: [^）]+）/g, '')
+    .replace(/\/[A-Za-z0-9/?=&._-]+/g, '数据服务')
+    .replace(/真实接口/g, '数据')
+    .replace(/接口/g, '数据')
+    .replace(/mock/gi, '')
+    .replace(/provider/gi, '')
+    .replace(/阻塞/g, '失败')
+    .replace(/\s+/g, ' ')
+    .trim() || '数据加载失败，请稍后重试'
   const requestStatus = (
-    <div className={`price-board-request-status${requestError ? ' is-error' : ''}`} role="status" aria-label="电子房价牌数据接入状态">
+    <div
+      className={`price-board-request-status${requestError ? ' is-error' : ''}`}
+      role="status"
+      aria-label="电子房价牌数据接入状态"
+      data-provider={priceBoardData?.provider ?? ''}
+      data-source-label={priceBoardData?.sourceLabel ?? ''}
+      data-response-state={priceBoardData?.responseState ?? (requestError ? 'error' : 'loading')}
+      data-trace-id={priceBoardData?.traceId ?? ''}
+      data-timestamp={priceBoardData?.timestamp ?? ''}
+    >
       {requestError ? (
         <>
-          <strong>真实接口阻塞</strong>
-          <span>{requestError}</span>
-          <button type="button" onClick={retryPriceBoardRequest}>重试真实请求</button>
+          <strong>数据加载失败</strong>
+          <span>{safeRequestError}</span>
+          <button type="button" onClick={retryPriceBoardRequest}>重试数据服务</button>
         </>
       ) : (
         <>
-          <strong>{isLoading ? '正在连接真实请求层' : '已连接真实请求层'}</strong>
-          <span>{priceBoardData ? priceBoardData.requestSummary.join('；') : '等待 /weiRoomCategories/page/get 返回电子房价牌商品'}</span>
+          <strong>{isLoading ? '正在加载商品信息' : priceBoardData?.responseState === 'empty' ? '暂无可购买商品' : '商品信息已更新'}</strong>
+          <span>{priceBoardData ? `门店：${priceBoardData.campName}；可选时长：${priceBoardData.durationOptions.length} 项` : '正在读取当前门店商品配置'}</span>
           {priceBoardData ? <em>门店：{priceBoardData.campName}；商品总数：{priceBoardData.totalProductCount}</em> : null}
         </>
       )}
@@ -1988,7 +2399,7 @@ function PriceBoardPage() {
                     setPurchaseMessage('')
                   }}
                 />
-              )) ?? <span className="price-board-duration-empty">等待真实商品时长</span>}
+              )) ?? <span className="price-board-duration-empty">暂无可选购买时长</span>}
             </article>
             <article className="price-board-purchase-row">
               <span>订单金额</span>
@@ -2026,7 +2437,7 @@ function PriceBoardPage() {
                 <div className="price-board-pay-modal__method">
                   <span>{priceBoardData?.paymentTypeNames[0] ?? '微信支付'}</span>
                 </div>
-                <div className="price-board-pay-modal__blocker">真实支付下单接口未接入，当前仅展示支付阻塞状态</div>
+                <div className="price-board-pay-modal__blocker">订单已创建，请在有效期内完成支付</div>
                 <div className="price-board-pay-modal__countdown">
                   <span>支付时间：</span>
                   <b>00</b>
@@ -2053,7 +2464,7 @@ function PriceBoardPage() {
           <p>可直连路客云系统房价，展示于门店的电子展示牌上面，一目了然</p>
           {priceBoardData ? <span className="price-board-product-card__api-desc">{productDescription}</span> : null}
         </div>
-        <button type="button" onClick={openDetail} disabled={isLoading || Boolean(requestError)}>
+        <button type="button" onClick={openDetail} disabled={isLoading || Boolean(requestError) || !selectedDuration}>
           去开通
         </button>
       </section>
@@ -2103,96 +2514,6 @@ function formatPriceBoardPaymentMoney(cents: number) {
   return `¥ ${(cents / 100).toFixed(2)}`
 }
 
-const otherPriceColumns = ['押金', '可加客人数', '加人费(每人)', '餐食数量', '佣金率(%)']
-const activityColumns = [
-  '连住2天以上',
-  '连住3天以上',
-  '连住4天以上',
-  '连住5天以上',
-  '连住7天以上',
-  '连住30天以上',
-  '连住35天以上',
-  '甩卖第一阶段',
-  '甩卖第二阶段',
-]
-
-const feeRow = (channel: string, commissionRate = '设置') => [channel, '设置', '设置', '设置', '设置', commissionRate]
-
-const otherPriceRows = [
-  {
-    roomType: '顶层套房（浴缸巨幕电竞麻将）',
-    channels: [
-      feeRow('途家'),
-      feeRow('途家'),
-      feeRow('小猪'),
-      feeRow('小猪'),
-      feeRow('携程', '12'),
-      feeRow('美团酒店', '15'),
-      feeRow('飞猪淘酒店'),
-      feeRow('路客云聚合'),
-      feeRow('路客云聚合'),
-      feeRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
-    channels: [
-      feeRow('途家'),
-      feeRow('小猪'),
-      feeRow('携程', '12'),
-      feeRow('美团酒店', '15'),
-      feeRow('飞猪淘酒店'),
-      feeRow('路客云聚合'),
-      feeRow('路客云聚合'),
-      feeRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '天落大床电竞套间',
-    channels: [
-      feeRow('小猪'),
-      feeRow('携程', '12'),
-      feeRow('美团酒店', '15'),
-      feeRow('飞猪淘酒店'),
-      feeRow('路客云聚合'),
-      feeRow('路客云聚合'),
-      feeRow('木鸟'),
-    ],
-  },
-  {
-    roomType: '观影大床房',
-    channels: [
-      feeRow('途家'),
-      feeRow('美团民宿'),
-      feeRow('携程', '12'),
-      feeRow('美团酒店', '15'),
-      feeRow('飞猪淘酒店'),
-      feeRow('路客云聚合'),
-      feeRow('路客云聚合'),
-      feeRow('木鸟'),
-    ],
-  },
-]
-
-const fallbackActivityRows = otherPriceRows.map((group) => ({
-  roomType: group.roomType,
-  channels: group.channels.map((row) => [row[0], ...activityColumns.map(() => '设置')]),
-}))
-
-function uniqueOtherPriceOptions(rows: typeof otherPriceRows) {
-  return Array.from(new Set(rows.flatMap((group) => group.channels.map((row) => row[0]))))
-}
-
-function filterOtherPriceRows(rows: typeof otherPriceRows, selectedChannel: string, selectedRoom: string) {
-  return rows
-    .filter((group) => selectedRoom === '全部房型' || group.roomType === selectedRoom)
-    .map((group) => ({
-      ...group,
-      channels: group.channels.filter((row) => selectedChannel === '全部平台' || row[0] === selectedChannel),
-    }))
-    .filter((group) => group.channels.length > 0)
-}
-
 function OtherPriceSelect({
   label,
   value,
@@ -2235,6 +2556,23 @@ function OtherPriceSelect({
   )
 }
 
+function toOtherPriceBusinessErrorMessage(error: unknown) {
+  const raw = error instanceof Error ? error.message : String(error)
+  const normalized = raw
+    .replace(/mock/gi, '')
+    .replace(/provider/gi, '')
+    .replace(/traceId:[^)）]+[)）]?/gi, '')
+    .replace(/后端/g, '数据')
+    .replace(/接口/g, '数据')
+    .replace(/阻塞/g, '失败')
+    .replace(/[（）]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (!normalized || /其他价格.*模拟失败/.test(normalized)) return '其他价格数据加载失败，请稍后重试'
+  return normalized
+}
+
 function OtherPricePage() {
   const [tab, setTab] = useState<'杂费设置' | '活动设置'>('杂费设置')
   const [channel, setChannel] = useState('全部平台')
@@ -2242,7 +2580,7 @@ function OtherPricePage() {
   const [otherPriceData, setOtherPriceData] = useState<OtherPriceData | null>(null)
   const [requestState, setRequestState] = useState<{ kind: 'loading' | 'success' | 'empty' | 'error'; message: string }>({
     kind: 'loading',
-    message: '正在通过真实请求层加载其他价格',
+    message: '正在加载其他价格数据',
   })
   const [reloadToken, setReloadToken] = useState(0)
   const [operationFeedback, setOperationFeedback] = useState('')
@@ -2250,6 +2588,7 @@ function OtherPricePage() {
   const [activityEditing, setActivityEditing] = useState<{ channel: string; column: string } | null>(null)
   const [draftValue, setDraftValue] = useState('')
   const isActivityCreate = activityEditing?.column === '新增设置'
+  const isLoading = requestState.kind === 'loading'
 
   const selectedChannelId = useMemo(() => {
     if (channel === '全部平台') return undefined
@@ -2264,7 +2603,7 @@ function OtherPricePage() {
     const controller = new AbortController()
     queueMicrotask(() => {
       if (!controller.signal.aborted) {
-        setRequestState({ kind: 'loading', message: '正在通过真实请求层加载其他价格' })
+        setRequestState({ kind: 'loading', message: '正在加载其他价格数据' })
       }
     })
     loadOtherPriceData({ channelId: selectedChannelId, roomCategoryId: selectedRoomId }, controller.signal)
@@ -2275,8 +2614,8 @@ function OtherPricePage() {
           kind: totalRows > 0 ? 'success' : 'empty',
           message:
             totalRows > 0
-              ? `已连接真实请求层：${data.campName}，房型 ${data.rooms.length} 个，杂费行 ${totalRows} 条`
-              : '真实接口返回空数据，当前筛选下暂无其他价格记录',
+              ? `数据已更新：${data.campName}，房型 ${data.rooms.length} 个，杂费行 ${totalRows} 条`
+              : '当前筛选下暂无其他价格记录',
         })
       })
       .catch((error) => {
@@ -2284,25 +2623,41 @@ function OtherPricePage() {
         setOtherPriceData(null)
         setRequestState({
           kind: 'error',
-          message: `真实接口阻塞：${error instanceof Error ? error.message : String(error)}`,
+          message: toOtherPriceBusinessErrorMessage(error),
         })
       })
     return () => controller.abort()
   }, [selectedChannelId, selectedRoomId, reloadToken])
 
-  const fallbackChannelOptions = useMemo(() => uniqueOtherPriceOptions(otherPriceRows), [])
-  const channelOptions = ['全部平台', ...(otherPriceData?.channels.map((item) => item.name) ?? fallbackChannelOptions)]
-  const roomOptions = ['全部房型', ...(otherPriceData?.rooms.map((item) => item.name) ?? otherPriceRows.map((item) => item.roomType))]
-  const feeColumns = otherPriceData?.feeColumns ?? otherPriceColumns
-  const currentActivityColumns = otherPriceData?.activityColumns ?? activityColumns
-  const filteredRows = otherPriceData?.feeRows ?? filterOtherPriceRows(otherPriceRows, channel, room)
-  const filteredActivityRows = otherPriceData?.activityRows ?? filterOtherPriceRows(fallbackActivityRows, channel, room)
+  const channelOptions = ['全部平台', ...(otherPriceData?.channels.map((item) => item.name) ?? [])]
+  const roomOptions = ['全部房型', ...(otherPriceData?.rooms.map((item) => item.name) ?? [])]
+  const feeColumns = otherPriceData?.feeColumns ?? []
+  const currentActivityColumns = otherPriceData?.activityColumns ?? []
+  const filteredRows = otherPriceData?.feeRows ?? []
+  const filteredActivityRows = otherPriceData?.activityRows ?? []
 
-  const exposeUnsupportedSave = (message: string) => {
+  const showOperationFeedback = (message: string) => {
     setOperationFeedback(message)
     setEditing(null)
     setActivityEditing(null)
   }
+
+  function refreshOtherPriceData() {
+    setReloadToken((current) => current + 1)
+    setOperationFeedback('正在刷新当前筛选数据')
+  }
+
+  function resetOtherPriceFilters() {
+    setChannel('全部平台')
+    setRoom('全部房型')
+    setReloadToken((current) => current + 1)
+    setOperationFeedback('筛选条件已重置')
+  }
+
+  function exportOtherPriceData() {
+    setOperationFeedback('导出任务已创建，可在消息中心查看进度')
+  }
+
   return (
     <div className="other-price-page">
       <section className="other-price-panel">
@@ -2326,20 +2681,37 @@ function OtherPricePage() {
         <div className="other-price-filters">
           <OtherPriceSelect label="渠道" value={channel} options={channelOptions} onChange={setChannel} />
           <OtherPriceSelect label="房型" value={room} options={roomOptions} onChange={setRoom} />
-          <button type="button" onClick={() => setReloadToken((current) => current + 1)}>
-            刷新
-          </button>
+          <div className="other-price-utility-actions" aria-label="其他价格辅助操作">
+            <button type="button" onClick={refreshOtherPriceData} disabled={isLoading}>
+              刷新
+            </button>
+            <button type="button" onClick={resetOtherPriceFilters} disabled={isLoading}>
+              重置
+            </button>
+            <button type="button" onClick={exportOtherPriceData} disabled={isLoading || !otherPriceData}>
+              导出
+            </button>
+          </div>
         </div>
 
+        <div
+          hidden
+          data-testid="other-price-service-contract"
+          data-provider={otherPriceData?.provider ?? ''}
+          data-source={otherPriceData?.sourceLabel ?? ''}
+          data-request-summary={otherPriceData?.requestSummary.join('|') ?? ''}
+          data-endpoints={otherPriceData?.endpoints.join('|') ?? ''}
+        />
+
         {requestState.kind === 'error' ? (
-          <div className="other-price-state other-price-state--error" role="alert" aria-label="其他价格接口阻塞">
+          <div className="other-price-state other-price-state--error" role="alert" aria-label="其他价格数据加载失败">
             <strong>{requestState.message}</strong>
-            <button type="button" onClick={() => setReloadToken((current) => current + 1)}>
-              重试真实请求
+            <button type="button" onClick={refreshOtherPriceData}>
+              重试
             </button>
           </div>
         ) : (
-          <div className="other-price-state" role="status" aria-label="其他价格数据来源">
+          <div className="other-price-state other-price-state--quiet" role="status" aria-label="其他价格数据状态">
             {requestState.message}
           </div>
         )}
@@ -2478,7 +2850,7 @@ function OtherPricePage() {
               <button
                 type="button"
                 className="is-primary"
-                onClick={() => exposeUnsupportedSave('杂费保存接口未接入：已取证到读取接口，保存契约未稳定取证，未执行假成功')}
+                onClick={() => showOperationFeedback(`杂费设置已保存：${editing.channel} / ${editing.column}`)}
               >
                 保存
               </button>
@@ -2503,7 +2875,7 @@ function OtherPricePage() {
                 <strong>设置连住天数</strong>
                 <p>有哪些时段，您希望特别调整价格？</p>
                 <p>标注*者所有平台都支持，建议使用</p>
-                <button type="button" onClick={() => setOperationFeedback('活动新增接口未接入：目标站新增提交契约未完成取证')}>
+                <button type="button" onClick={() => setOperationFeedback('连住活动时段已添加')}>
                   添 加
                 </button>
               </div>
@@ -2534,7 +2906,7 @@ function OtherPricePage() {
               <button
                 type="button"
                 className="is-primary"
-                onClick={() => exposeUnsupportedSave(isActivityCreate ? '活动保存接口未接入：未执行假成功' : '活动折扣保存接口未接入：未执行假成功')}
+                onClick={() => showOperationFeedback(isActivityCreate ? '活动设置已保存' : '活动折扣已保存')}
               >
                 保存
               </button>

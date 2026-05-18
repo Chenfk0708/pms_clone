@@ -1,0 +1,105 @@
+{
+  "url": "http://127.0.0.1:5173/order/house-longRental-order/list?longRentalMockState=error",
+  "title": "pms_clone",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 1
+  },
+  "bodyText": "",
+  "headings": [],
+  "controls": [],
+  "tableTexts": [],
+  "selectorMatches": {
+    "body": [
+      {
+        "tag": "body",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "",
+        "placeholder": null,
+        "rect": {
+          "x": 8,
+          "y": 8,
+          "width": 1424,
+          "height": 0
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1424px",
+          "height": "0px",
+          "padding": "0px",
+          "margin": "8px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "zIndex": "auto"
+        }
+      }
+    ],
+    "#root": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "text": "",
+        "placeholder": null,
+        "rect": {
+          "x": 8,
+          "y": 8,
+          "width": 1424,
+          "height": 0
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1424px",
+          "height": "0px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "zIndex": "auto"
+        }
+      }
+    ],
+    ".ant-table": [],
+    ".ant-table-wrapper": [],
+    ".ant-table-thead": [],
+    ".ant-table-tbody": [],
+    ".ant-form": [],
+    ".ant-btn": [],
+    ".ant-tabs": [],
+    ".ant-pagination": [],
+    ".data-table": [],
+    ".toolbar-card": [],
+    ".table-card": [],
+    ".page-content": [],
+    ".page-header": []
+  },
+  "expandedSummary": null,
+  "detailSummary": null,
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\dingdan--zhusu-dingdan--changzu-dingdan\\default-clone-20260518T070006.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\dingdan--zhusu-dingdan--changzu-dingdan\\full-clone-20260518T070006.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\dingdan--zhusu-dingdan--changzu-dingdan\\default-clone-20260518T070006.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\dingdan--zhusu-dingdan--changzu-dingdan\\default-clone-20260518T070006.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\dingdan--zhusu-dingdan--changzu-dingdan\\default-clone-20260518T070006.json"
+  }
+}

@@ -1,5 +1,7 @@
 const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
 const PRICE_BOARD_PRODUCT_CAMP_ID = '64'
+const PRICE_BOARD_MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
+const PRICE_BOARD_MOCK_SOURCE_LABEL = 'POST /houseManage/priceBoard/overview'
 
 type HudsonResponse<T> = {
   success?: boolean
@@ -38,6 +40,25 @@ type PriceBoardRawProduct = {
   }>
 }
 
+type PriceBoardProviderName = 'mock' | 'real'
+type PriceBoardMockMode = 'success' | 'empty' | 'error'
+
+type ApiEnvelope<T> = {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+type PriceBoardOverviewPayload = {
+  camp: { campId: string; campName: string }
+  product: PriceBoardRawProduct | null
+  totalProductCount: number
+  paymentTypeNames: string[]
+  requestSummary: string[]
+}
+
 export type PriceBoardDurationOption = {
   id: string
   label: string
@@ -47,6 +68,11 @@ export type PriceBoardDurationOption = {
 }
 
 export type PriceBoardData = {
+  provider: PriceBoardProviderName
+  responseState: 'success' | 'empty'
+  sourceLabel: string
+  traceId: string
+  timestamp: string
   campId: string
   campName: string
   productName: string
@@ -59,6 +85,10 @@ export type PriceBoardData = {
 }
 
 export async function loadPriceBoardData(signal?: AbortSignal): Promise<PriceBoardData> {
+  if (resolvePriceBoardProviderName() === 'mock') {
+    return loadMockPriceBoardData()
+  }
+
   const campInfo = readCampInfo(await postHudson<CampsResponse>('/camps/get', {}, signal))
   const campId = campInfo.campId
 
@@ -84,6 +114,11 @@ export async function loadPriceBoardData(signal?: AbortSignal): Promise<PriceBoa
   }
 
   return {
+    provider: 'real',
+    responseState: 'success',
+    sourceLabel: '/weiRoomCategories/page/get',
+    traceId: `real-price-board-${campId}`,
+    timestamp: new Date().toISOString(),
     campId,
     campName: campInfo.campName,
     productName: product.channelRoomCategoryName || '电子房价牌',
@@ -100,6 +135,137 @@ export async function loadPriceBoardData(signal?: AbortSignal): Promise<PriceBoa
     ],
     requestedAt: new Date().toISOString(),
   }
+}
+
+function loadMockPriceBoardData(): PriceBoardData {
+  const mode = resolvePriceBoardMockMode()
+  const envelope: ApiEnvelope<PriceBoardOverviewPayload | null> =
+    mode === 'error'
+      ? mockPriceBoardErrorEnvelope()
+      : mode === 'empty'
+        ? mockPriceBoardEmptyEnvelope()
+        : mockPriceBoardSuccessEnvelope()
+
+  if (envelope.code !== 0) {
+    throw new Error(`数据加载失败，请稍后重试（traceId: ${envelope.traceId}）`)
+  }
+  if (!envelope.data) {
+    throw new Error(`数据加载失败，请稍后重试（traceId: ${envelope.traceId}）`)
+  }
+
+  const product = envelope.data.product
+  const durationOptions = product ? normalizeDurationOptions(product) : []
+
+  return {
+    provider: 'mock',
+    responseState: product && durationOptions.length > 0 ? 'success' : 'empty',
+    sourceLabel: PRICE_BOARD_MOCK_SOURCE_LABEL,
+    traceId: envelope.traceId,
+    timestamp: envelope.timestamp,
+    campId: envelope.data.camp.campId,
+    campName: envelope.data.camp.campName,
+    productName: product?.channelRoomCategoryName || '暂无电子房价牌商品配置',
+    description: product?.description || '当前门店暂未配置可购买的电子房价牌商品',
+    totalProductCount: envelope.data.totalProductCount,
+    durationOptions,
+    paymentTypeNames: envelope.data.paymentTypeNames,
+    requestSummary: envelope.data.requestSummary,
+    requestedAt: envelope.timestamp,
+  }
+}
+
+function mockPriceBoardSuccessEnvelope(): ApiEnvelope<{
+  camp: { campId: string; campName: string }
+  product: PriceBoardRawProduct
+  totalProductCount: number
+  paymentTypeNames: string[]
+  requestSummary: string[]
+}> {
+  return {
+    code: 0,
+    message: 'success',
+    traceId: 'mock-fangtai--fangjia-guanli--dianzi-fangjiapai-overview-001',
+    timestamp: PRICE_BOARD_MOCK_TIMESTAMP,
+    data: {
+      camp: { campId: 'mock-camp-price-board', campName: '深圳湾门店' },
+      product: {
+        channelRoomCategoryName: '电子房价牌',
+        description: '可直连路客云系统房价，展示于门店的电子展示牌上面，一目了然',
+        lowestSellingPrice: 49900,
+        lowestOriginalPrice: 89900,
+        roomCategoryProductGetViews: [
+          {
+            roomCategoryProductId: 'mock-price-board-one-year',
+            roomCategoryProductName: '一年',
+            sellingPrice: 49900,
+            originalPrice: 89900,
+            stock: 99847,
+          },
+          {
+            roomCategoryProductId: 'mock-price-board-two-year',
+            roomCategoryProductName: '两年',
+            sellingPrice: 99800,
+            originalPrice: 179800,
+            stock: 99986,
+          },
+        ],
+      },
+      totalProductCount: 1,
+      paymentTypeNames: ['微信支付', '房费'],
+      requestSummary: [
+        'POST /houseManage/priceBoard/overview',
+        'POST /houseManage/priceBoard/payment-config',
+      ],
+    },
+  }
+}
+
+function mockPriceBoardEmptyEnvelope(): ApiEnvelope<{
+  camp: { campId: string; campName: string }
+  product: null
+  totalProductCount: number
+  paymentTypeNames: string[]
+  requestSummary: string[]
+}> {
+  return {
+    code: 0,
+    message: 'success',
+    traceId: 'mock-fangtai--fangjia-guanli--dianzi-fangjiapai-empty-001',
+    timestamp: PRICE_BOARD_MOCK_TIMESTAMP,
+    data: {
+      camp: { campId: 'mock-camp-price-board', campName: '深圳湾门店' },
+      product: null,
+      totalProductCount: 0,
+      paymentTypeNames: [],
+      requestSummary: ['POST /houseManage/priceBoard/overview'],
+    },
+  }
+}
+
+function mockPriceBoardErrorEnvelope(): ApiEnvelope<null> {
+  return {
+    code: 50001,
+    message: '电子房价牌数据服务模拟失败',
+    data: null,
+    traceId: 'mock-fangtai--fangjia-guanli--dianzi-fangjiapai-error-001',
+    timestamp: PRICE_BOARD_MOCK_TIMESTAMP,
+  }
+}
+
+function resolvePriceBoardProviderName(): PriceBoardProviderName {
+  const configured = readRuntimeConfig('pmsPriceBoardProvider') || import.meta.env.VITE_PRICE_BOARD_PROVIDER
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolvePriceBoardMockMode(): PriceBoardMockMode {
+  const configured = readRuntimeConfig('pmsPriceBoardMockMode') || import.meta.env.VITE_PRICE_BOARD_MOCK_MODE
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
 }
 
 async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {

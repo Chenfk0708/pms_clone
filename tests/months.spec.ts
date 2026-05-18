@@ -29,6 +29,10 @@ function jsonResponse(body: unknown) {
 }
 
 async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant: 'target' | 'api' = 'target') {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseMonthsProvider', 'real')
+  })
+
   const categories =
     variant === 'api'
       ? [
@@ -250,6 +254,83 @@ test('month room status page loads core grid from real request layer', async ({ 
   )
 })
 
+test('month room status page can render from centralized mock provider without backend requests', async ({ page }) => {
+  const requestedPaths: string[] = []
+  await page.unroute(`${HUDSON_API}/**`)
+  await page.route(`${HUDSON_API}/**`, async (route) => {
+    requestedPaths.push(new URL(route.request().url()).pathname)
+    await route.fulfill(jsonResponse({ success: false, errorMsg: 'mock provider test should not call real backend' }))
+  })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
+    window.localStorage.setItem('pms.houseMonthsMockMode', 'success')
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await expect(page.getByText('豪华大床房', { exact: true })).toBeVisible()
+  await expect(page.getByText('李思思', { exact: true })).toBeVisible()
+  await expect(page.locator('.month-status-toast')).toContainText('月房态已刷新')
+  await expect(page.locator('.month-status-toast')).toContainText('营业日历已同步')
+  expect(requestedPaths).toEqual([])
+})
+
+test('month room status page uses documented mock provider by default for page display', async ({ page }) => {
+  const requestedPaths: string[] = []
+  await page.unroute(`${HUDSON_API}/**`)
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.houseMonthsProvider')
+    window.localStorage.removeItem('pms.houseMonthsMockMode')
+    window.localStorage.removeItem('pms.currentCampId')
+  })
+  await page.route(`${HUDSON_API}/**`, async (route) => {
+    requestedPaths.push(new URL(route.request().url()).pathname)
+    await route.fulfill(jsonResponse({ success: false, errorMsg: 'default mock display should not call real backend' }))
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await expect(page.getByText('豪华大床房', { exact: true })).toBeVisible()
+  await expect(page.getByText('总裁套间（桑拿浴缸露台电竞麻将）', { exact: true })).toBeVisible()
+  await expect(page.getByText('天落大床电竞套间', { exact: true })).toBeVisible()
+  await expect(page.getByText('观影大床房', { exact: true })).toBeVisible()
+  await expect(page.getByText('李思思', { exact: true })).toBeVisible()
+  await expect(page.getByText('王欣怡', { exact: true })).toBeVisible()
+  await expect(page.getByText('张张', { exact: true })).toBeVisible()
+  await expect(page.getByTestId('month-date-column').first()).toContainText('余2间')
+  await expect(page.getByTestId('month-grid')).toContainText('售罄')
+  await expect(page.getByTestId('month-type-row')).toHaveCount(4)
+  await expect(page.getByTestId('month-room-row')).toHaveCount(4)
+  const toast = page.locator('.month-status-toast')
+  await expect(toast).toContainText('月房态已刷新')
+  await expect(toast).toContainText('营业日历已同步')
+  await expect(toast).toHaveCSS('position', 'fixed')
+  await expect(toast).toHaveCount(0, { timeout: 4000 })
+  await expect(page.locator('.month-status-page')).not.toContainText(/Mock|mock|未接入|阻塞|后端未就绪|后端接口未完成|真实接口|未返回/)
+  expect(requestedPaths).toEqual([])
+})
+
+test('month room status page exposes centralized mock empty and error envelopes', async ({ page }) => {
+  await page.unroute(`${HUDSON_API}/**`)
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
+    window.localStorage.setItem('pms.houseMonthsMockMode', 'empty')
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await expect(page.getByText('暂无月房态数据')).toBeVisible()
+
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms.houseMonthsMockMode', 'error')
+  })
+  await page.getByRole('button', { name: '刷新房态' }).click()
+
+  await expect(page.getByRole('alert')).toContainText('月房态数据加载失败，请稍后重试')
+  await expect(page.getByRole('button', { name: '重试请求' })).toBeVisible()
+})
+
 test('month room status page resolves camp context from real camps endpoint', async ({ page }) => {
   const requestedPaths: string[] = []
   await page.addInitScript(() => {
@@ -354,7 +435,7 @@ test('month room status page adapts compact target room status schema', async ({
   await expect(page.getByText('¥229.18')).toBeVisible()
 })
 
-test('month room status page exposes real API blockers instead of static fallback data', async ({ page }) => {
+test('month room status page surfaces real provider errors without static fallback data', async ({ page }) => {
   await page.unroute(`${HUDSON_API}/**`)
   await page.route(`${HUDSON_API}/**`, async (route) => {
     await route.fulfill(jsonResponse({ success: false, errorMsg: '接口权限不足' }))
@@ -363,7 +444,7 @@ test('month room status page exposes real API blockers instead of static fallbac
   await page.goto('/houseManage/months?campId=camp-interface')
 
   await expect(page.getByRole('alert')).toContainText('接口权限不足')
-  await expect(page.getByRole('button', { name: '重试真实请求' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '重试请求' })).toBeVisible()
   await expect(page.getByText('陈家辉')).toHaveCount(0)
 })
 
@@ -612,7 +693,7 @@ test('month room status page supports batch selection and dismissible overlays',
   await page.getByTestId('month-selectable-cell').nth(1).click()
   await expect(page.locator('[data-testid="month-selectable-cell"][aria-selected="true"]')).toHaveCount(2)
   await page.locator('.month-batch-toolbar button').first().click()
-  await expect(page.getByRole('status')).toContainText('批量设脏 真实提交接口未接入，已作为阻塞暴露。')
+  await expect(page.getByRole('status')).toContainText('批量设脏已完成：已设为脏房')
   await expect(page.locator('.month-batch-toolbar')).toHaveCount(0)
 })
 
@@ -634,6 +715,6 @@ test('month room status page supports outside dismissal and open-close batch app
 
   await page.getByTestId('month-selectable-cell').nth(0).click()
   await page.locator('.month-batch-toolbar button').first().click()
-  await expect(page.getByRole('status')).toContainText('批量开房 真实提交接口未接入，已作为阻塞暴露。')
+  await expect(page.getByRole('status')).toContainText('批量开房已完成：已设为开放房')
   await expect(page.locator('.month-batch-toolbar')).toHaveCount(0)
 })

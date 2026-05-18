@@ -274,19 +274,43 @@
 
 .price-log-table__head {
   display: grid;
-  grid-template-columns: repeat(4, 130px) 300px 200px 100px 130px;
-  min-width: 1250px;
+  grid-template-columns: 210px 110px 300px 110px 140px 110px 110px 150px 92px;
+  min-width: 1332px;
   height: 36px;
   background: #f1f5fb;
   color: #1f2a44;
   font-size: 14px;
 }
 
-.price-log-table__head > div {
+.price-log-table__head > div,
+.price-log-table__row > div {
   display: flex;
   align-items: center;
   padding: 0 10px;
   border-right: 1px solid #e7ecf4;
+}
+
+.price-log-table__row {
+  display: grid;
+  grid-template-columns: 210px 110px 300px 110px 140px 110px 110px 150px 92px;
+  min-width: 1332px;
+  min-height: 40px;
+  border-top: 1px solid #eef1f6;
+  background: #fff;
+  color: #31415d;
+  font-size: 13px;
+}
+
+.price-log-table__row:nth-child(odd) {
+  background: #fbfcff;
+}
+
+.price-log-table__row button {
+  height: 26px;
+  border: 1px solid #d5dcf0;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--blue);
 }
 
 .price-log-empty {
@@ -294,7 +318,7 @@
   place-items: center;
   align-content: center;
   gap: 8px;
-  min-width: 1250px;
+  min-width: 1332px;
   min-height: 156px;
   border-top: 1px solid #eef1f6;
   color: #b6bfce;
@@ -321,6 +345,68 @@
   border-bottom: 0;
   border-radius: 6px 6px 0 0;
   background: #fbfcfe;
+}
+
+.price-log-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.28);
+}
+
+.price-log-dialog {
+  width: min(560px, calc(100vw - 48px));
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.2);
+}
+
+.price-log-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.price-log-dialog h2 {
+  margin: 0;
+  color: #1f2a44;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.price-log-dialog header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 20px;
+}
+
+.price-log-dialog dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 18px;
+}
+
+.price-log-dialog dl > div {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 12px;
+}
+
+.price-log-dialog dt {
+  color: #7a879c;
+}
+
+.price-log-dialog dd {
+  margin: 0;
+  color: #24324a;
 }
 
 @media (max-width: 1480px) {

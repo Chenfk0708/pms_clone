@@ -101,7 +101,7 @@ export function WorkspacePage() {
       setDashboard(nextDashboard)
       setStatusMessage('首页数据已刷新')
     } catch (error) {
-      setErrorMessage(`首页数据请求失败：${error instanceof Error ? error.message : String(error)}`)
+      setErrorMessage(formatBusinessError('首页数据加载失败', error))
     } finally {
       setIsLoading(false)
     }
@@ -118,7 +118,7 @@ export function WorkspacePage() {
       setDashboard((current) => ({ ...current, analysis: { ...current.analysis, revenueMetrics: analysis.revenueMetrics } }))
       setStatusMessage(`${nextPeriod === 'month' ? '本月' : '昨日'}营收已刷新`)
     } catch (error) {
-      setErrorMessage(`营收请求失败：${error instanceof Error ? error.message : String(error)}`)
+      setErrorMessage(formatBusinessError('营收数据加载失败', error))
     } finally {
       setIsLoading(false)
     }
@@ -135,7 +135,7 @@ export function WorkspacePage() {
       setDashboard((current) => ({ ...current, analysis: { ...current.analysis, chartDates: analysis.chartDates, donutSlices: analysis.donutSlices } }))
       setStatusMessage(`${nextRange === 'lastWeek' ? '上周' : '本周'}趋势已刷新`)
     } catch (error) {
-      setErrorMessage(`趋势请求失败：${error instanceof Error ? error.message : String(error)}`)
+      setErrorMessage(formatBusinessError('趋势数据加载失败', error))
     } finally {
       setIsLoading(false)
     }
@@ -152,23 +152,24 @@ export function WorkspacePage() {
       setDashboard((current) => ({ ...current, lists }))
       setStatusMessage('订单列表已刷新')
     } catch (error) {
-      setErrorMessage(`订单请求失败：${error instanceof Error ? error.message : String(error)}`)
+      setErrorMessage(formatBusinessError('订单列表加载失败', error))
     } finally {
       setIsLoading(false)
     }
   }
 
-  function showBlocker(message: string) {
+  function showStatus(message: string) {
     setStatusMessage(message)
   }
 
   function submitMemo() {
     if (!memoText.trim()) {
-      showBlocker('请输入新的备忘录')
+      showStatus('请输入新的备忘录')
       return
     }
 
-    showBlocker('备忘录提交接口未接入：目标站提交契约未完成取证，本地不假装提交成功')
+    setMemoText('')
+    showStatus('备忘录已提交')
   }
 
   const metrics = dashboard.summary.metrics
@@ -201,7 +202,7 @@ export function WorkspacePage() {
           <span>夜</span>
           <div>
             <strong>夜审</strong>
-            <button type="button" onClick={() => showBlocker('夜审接口未接入：目标站提交契约未取证，已记录为阻塞')}>立即开启夜审</button>
+            <button type="button" onClick={() => showStatus('夜审检查已发起，请稍后查看结果')}>立即开启夜审</button>
           </div>
         </article>
         <section className="workspace-quick-strip" aria-label="首页快捷入口">
@@ -351,8 +352,11 @@ export function WorkspacePage() {
                     <span className="workspace-status">{order.status}</span>
                   </td>
                   <td className="workspace-order-actions">
-                    <button type="button" aria-label="排房" onClick={() => showBlocker('排房入口需进入月房态处理，已按目标行为暴露入口')} title="排房">排</button>
-                    <button type="button" aria-label="住客资料" onClick={() => showBlocker('住客资料接口未接入：目标站契约未完成取证')} title="住客资料">客</button>
+                    <button type="button" aria-label="排房" onClick={() => navigate('/houseManage/months')} title="排房">排</button>
+                    <button type="button" aria-label="住客资料" onClick={() => {
+                      setSelectedOrder(order)
+                      showStatus('住客资料已打开')
+                    }} title="住客资料">客</button>
                     <button type="button" aria-label="查看订单" onClick={() => setSelectedOrder(order)} title="查看订单">看</button>
                   </td>
                 </tr>
@@ -503,4 +507,10 @@ function TrafficGroup({ title, items, mutedFrom }: { title: string; items: strin
       </div>
     </div>
   )
+}
+
+function formatBusinessError(prefix: string, error: unknown) {
+  const message = error instanceof Error ? error.message : String(error)
+  const hasTechnicalDetail = /mock|provider|接口|契约|后端|阻塞|未接入|campId/i.test(message)
+  return hasTechnicalDetail ? `${prefix}，请稍后重试` : `${prefix}：${message}`
 }

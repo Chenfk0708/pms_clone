@@ -1,0 +1,2284 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260518-ota-final-log",
+  "url": "http://127.0.0.1:4211/channels/ota/log",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4211/channels/ota/log",
+      "method": "GET",
+      "resourceType": "document",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/main.tsx?t=1779088190112",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088190112"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/@vite/client",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/@react-refresh",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/index.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/App.tsx?t=1779088190112",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088190112"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/components/AppShell.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/BrandWebsitePage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanStatisticsPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/GlobalSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanLogPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CompanyQualificationPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CompanyInfoPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomChannelPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseStatusLogsPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/InformationOverviewPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanStaffPage.tsx?t=1779087943962",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779087943962"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionListPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanTaskPage.tsx?t=1779088188826",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088188826"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseDaysPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionDisplacementPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionOrderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerMarketingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StatisticsDistributionOrderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CampInfoPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerListPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseMonthsPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerTagPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerAddBatchPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StaffListPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/FullMarketingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberPointsPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberEquityPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OtaPage.tsx?t=1779088012933",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088012933"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ImSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/NotificationSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OrdersPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleOrderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PicturesVideosPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PermissionSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/RoomTypeInfoPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleGoodsPage.tsx?t=1779088177416",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088177416"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleSalesReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ApplicationPaymentPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MyBenefitPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HotelPackageOrderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PriceLogPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PrivatePage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ComprehensiveMonthlyReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PricePage.tsx?t=1779088190112",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088190112"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/IncomeReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/LocalsMallPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/LedgerEntryPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ProfitReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleCouponMallReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/RoomSituationPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OrderLedgerPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ShiftSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ShiftRecordPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PrintSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StatementOrderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/TotalLedgerPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SubscriptionDisplacementBenefitPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmGeneralPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SalesReportPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmSidebarPreviewPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmMemberLevelPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ReceptionConfigPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WechatServicePage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/VersionSubscriptionPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/AiRadarPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ApiKeysPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SocialPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CalendarRoomPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WorkspacePage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CouponPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CardVerificationPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HotelProductPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHotelGlobalSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHotelSettingsPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartIdCardReaderPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartSelfCheckinPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ExpendSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PsbLogPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartDoorLockPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PsbPolicePage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WriteExpendSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SortSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PaymentSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/TopNavFloor.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/FinanceSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmsSettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "v": "fb86fc63"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHardwareMallPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/AutoStrategySettingPage.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/data/discovery.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/session.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/data/mock.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanStatisticsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cleanStatistics.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/GlobalSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cleanSetting.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanLogPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cleanLog.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CompanyQualificationPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomChannelPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CompanyInfoPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/components/ChatDock.tsx",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseStatusLogsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/houseStatusLogs.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/InformationOverviewPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/BrandWebsitePage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanStaffPage.css?t=1779087899591",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779087899591"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionListPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cleanTask.ts?t=1779088181161",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088181161"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanTaskPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseDaysPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cleanStaff.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionDisplacementPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/houseDays.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/DistributionOrderPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerMarketingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StatisticsDistributionOrderPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CampInfoPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerListPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/houseMonths.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HouseMonthsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerTagPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberPointsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StaffListPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/FullMarketingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CustomerAddBatchPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/NotificationSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MemberEquityPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OtaPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ImSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/ota.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PicturesVideosPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/houseOrders.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/longRentalOrders.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OrdersPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/presaleOrder.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleOrderPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PermissionSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/presaleGoods.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/RoomTypeInfoPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleGoodsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleSalesReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/MyBenefitPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ApplicationPaymentPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/hotelPackageOrder.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PriceLogPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/privateChannel.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/priceLogs.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/channelPrice.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/priceComparison.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/retailPrice.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PrivatePage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ComprehensiveMonthlyReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/centralPrice.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/otherPrice.ts?t=1779088190112",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088190112"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/priceBoard.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/IncomeReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/LocalsMallPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/LedgerEntryPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PricePage.css?t=1779088010894",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088010894"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ProfitReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PresaleCouponMallReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ShiftSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/OrderLedgerPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/roomSituation.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ShiftRecordPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PrintSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/StatementOrderPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/TotalLedgerPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SubscriptionDisplacementBenefitPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmGeneralPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SalesReportPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ApiKeysPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmSidebarPreviewPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ScrmMemberLevelPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WechatServicePage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ReceptionConfigPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SocialPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/VersionSubscriptionPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/calendarRoom.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CalendarRoomPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WorkspacePage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/social.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CouponPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CardVerificationPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/workspace.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHotelGlobalSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHotelSettingsPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/hotelProduct.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartIdCardReaderPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartSelfCheckinPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/services/cardVerification.ts",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/HotelProductPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/ExpendSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PsbLogPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartDoorLockPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PsbPolicePage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/WriteExpendSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SortSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/PaymentSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/FinanceSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmsSettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/SmartHardwareMallPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/AutoStrategySettingPage.css",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/favicon.svg",
+      "method": "GET",
+      "resourceType": "other",
+      "query": {},
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    },
+    {
+      "url": "http://127.0.0.1:4211/src/pages/CleanStaffPage.tsx?t=1779088199037",
+      "method": "GET",
+      "resourceType": "script",
+      "query": {
+        "t": "1779088199037"
+      },
+      "bodyFields": [],
+      "bodySummary": null,
+      "status": 200,
+      "responseFields": null
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "taskId": "dingdan--zhusu-dingdan--zhusu-dingdan",
+  "pageName": "住宿订单",
+  "providerDefault": "mock",
+  "providerSwitches": {
+    "url": "houseOrderProvider=mock|api",
+    "localStorage": "pms.houseOrderProvider",
+    "environment": "VITE_HOUSE_ORDER_PROVIDER"
+  },
+  "mockStateSwitches": {
+    "url": "houseOrderMockState=success|empty|error",
+    "localStorage": "pms.houseOrderMockState"
+  },
+  "responseEnvelope": {
+    "code": 0,
+    "message": "success",
+    "data": {},
+    "traceId": "mock-dingdan--zhusu-dingdan--zhusu-dingdan-001",
+    "timestamp": "2026-05-18T10:00:00+08:00"
+  },
+  "services": [
+    {
+      "name": "住宿订单统计",
+      "method": "POST",
+      "path": "/order/report/get",
+      "requestFields": ["campId"],
+      "responseFields": [
+        "todayNewOrder",
+        "todayPredictCheckIn",
+        "staying",
+        "todayPredictCheckOut",
+        "tomorrowCheckIn",
+        "tomorrowCheckOut",
+        "pending",
+        "refunding",
+        "exception"
+      ]
+    },
+    {
+      "name": "住宿订单分页列表",
+      "method": "POST",
+      "path": "/orders/page/get",
+      "requestFields": ["campId", "pageNum", "pageSize", "orderType", "isLt", "searchContent"],
+      "orderTypeEnum": {
+        "": "全部",
+        "1": "今日新单",
+        "11": "今日预抵",
+        "10": "今日在住",
+        "12": "今日预离",
+        "4": "明日入住",
+        "5": "明日退房",
+        "6": "待接单",
+        "7": "待退款",
+        "8": "异常订单"
+      },
+      "responseFields": [
+        "list",
+        "pagination",
+        "pageNum",
+        "pageSize",
+        "total",
+        "pages",
+        "orderId",
+        "outOrderId",
+        "channelName",
+        "guestName",
+        "guestMobile",
+        "orderState",
+        "orderDetailViews"
+      ]
+    }
+  ],
+  "verification": {
+    "isolatedTypeScript": "npx tsc --noEmit --ignoreConfig --jsx react-jsx --moduleResolution bundler --module esnext --target es2022 --lib dom,dom.iterable,es2022 --types vite/client,node src/services/houseOrders.ts src/pages/OrdersPage.tsx tests/order-house.spec.ts",
+    "isolatedLint": "npx eslint src/services/houseOrders.ts src/pages/OrdersPage.tsx tests/order-house.spec.ts",
+    "playwright": "npx playwright test tests/order-house.spec.ts --timeout=60000 --workers=1 --reporter=line",
+    "build": "npm run build"
+  }
+}

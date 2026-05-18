@@ -1,0 +1,26 @@
+{
+  "route": "/houseManage/logs/status?mockScenario=empty",
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4173/houseManage/logs/status?mockScenario=empty",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4173/assets/index-CbvGrCq2.js",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4173/assets/index-CrhUParo.css",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "postData": null
+    }
+  ],
+  "hudsonRequestCount": 0
+}

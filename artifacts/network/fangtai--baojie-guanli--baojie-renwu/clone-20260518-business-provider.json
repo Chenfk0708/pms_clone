@@ -1,0 +1,41 @@
+{
+  "mode": "clone",
+  "url": "http://127.0.0.1:4174/cleanManage/cleanTask",
+  "currentUrl": "http://127.0.0.1:4174/cleanManage/cleanTask",
+  "chromePath": "C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe",
+  "storageStateUsed": false,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4174/cleanManage/cleanTask",
+      "resourceType": "document",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4174/assets/index-C-4ih90i.js",
+      "resourceType": "script",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4174/assets/index-By5JU6LF.css",
+      "resourceType": "stylesheet",
+      "postData": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:4174/favicon.svg",
+      "resourceType": "other",
+      "postData": null
+    }
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:4174/cleanManage/cleanTask",
+      "method": "GET",
+      "resourceType": "document"
+    }
+  ]
+}

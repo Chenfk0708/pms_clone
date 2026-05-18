@@ -1,3 +1,9 @@
+export const otherPriceMockSourceLabel = '统一响应包 mock provider'
+export const otherPriceRealBaseUrl = 'https://hudson-prod.localhome.cn'
+
+export type OtherPriceProviderName = 'mock' | 'real'
+type OtherPriceMockMode = 'success' | 'empty' | 'error'
+
 export type OtherPriceOption = {
   id: string
   name: string
@@ -12,6 +18,8 @@ export type OtherPriceTableGroup = {
 export type OtherPriceData = {
   campId: string
   campName: string
+  provider: OtherPriceProviderName
+  sourceLabel: string
   channels: OtherPriceOption[]
   rooms: OtherPriceOption[]
   feeColumns: string[]
@@ -19,12 +27,48 @@ export type OtherPriceData = {
   activityColumns: string[]
   activityRows: OtherPriceTableGroup[]
   endpoints: string[]
+  requestSummary: string[]
   requestedAt: string
 }
 
 export type OtherPriceQuery = {
   channelId?: string
   roomCategoryId?: string
+}
+
+type OtherPriceEnvelope<T> = {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+type OtherPriceEnvelopeData = {
+  camp: {
+    campId: string
+    campName: string
+  }
+  channels: OtherPriceOption[]
+  rooms: OtherPriceOption[]
+  fee: {
+    columns: string[]
+    list: OtherPriceTableGroup[]
+    pagination: {
+      page: number
+      pageSize: number
+      total: number
+    }
+  }
+  activity: {
+    columns: string[]
+    list: OtherPriceTableGroup[]
+    pagination: {
+      page: number
+      pageSize: number
+      total: number
+    }
+  }
 }
 
 type HudsonResponse<T> = {
@@ -34,7 +78,6 @@ type HudsonResponse<T> = {
   errorCode?: string | null
 }
 
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
 const feeEndpoint = '/roomCategoryPricings/get'
 const rulesEndpoint = '/roomCategoryRules/get'
 const defaultFeeColumns = ['押金', '可加客人数', '加人费(每人)', '餐食数量', '佣金率(%)']
@@ -50,30 +93,181 @@ const defaultActivityColumns = [
   '甩卖第二阶段',
 ]
 
-async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
-  const response = await fetch(`${HUDSON_BASE_URL}${endpoint}`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
-    signal,
-  })
+const mockChannels: OtherPriceOption[] = [
+  { id: '4', name: '携程' },
+  { id: '2', name: '途家' },
+  { id: '5', name: '美团酒店' },
+]
 
-  let payload: HudsonResponse<T> | null
-  try {
-    payload = (await response.json()) as HudsonResponse<T>
-  } catch {
-    payload = null
-  }
+const mockRooms: OtherPriceOption[] = [
+  { id: 'room-mock-a', name: '顶层套房（浴缸巨幕电竞麻将）' },
+]
 
-  if (!response.ok || payload?.success === false) {
-    throw new Error(payload?.errorMsg ?? payload?.errorCode ?? `${endpoint} 返回 HTTP ${response.status}`)
-  }
+const mockFeeRows: OtherPriceTableGroup[] = [
+  {
+    roomCategoryId: 'room-mock-a',
+    roomType: '顶层套房（浴缸巨幕电竞麻将）',
+    channels: [
+      ['途家', '设置', '设置', '设置', '设置', '设置'],
+      ['途家', '设置', '设置', '设置', '设置', '设置'],
+      ['小猪', '设置', '设置', '设置', '设置', '设置'],
+      ['小猪', '设置', '设置', '设置', '设置', '设置'],
+      ['携程', '设置', '设置', '设置', '设置', '12'],
+      ['美团酒店', '设置', '设置', '设置', '设置', '15'],
+      ['飞猪淘酒店', '设置', '设置', '设置', '设置', '设置'],
+      ['路客云聚合', '设置', '设置', '设置', '设置', '设置'],
+      ['路客云聚合', '设置', '设置', '设置', '设置', '设置'],
+      ['木鸟', '设置', '设置', '设置', '设置', '设置'],
+    ],
+  },
+]
 
-  return payload?.data as T
-}
+const mockActivityRows: OtherPriceTableGroup[] = [
+  {
+    roomCategoryId: 'room-mock-a',
+    roomType: '顶层套房（浴缸巨幕电竞麻将）',
+    channels: [
+      ['携程', '9.5折', '原价', '原价', '原价', '原价', '原价', '原价', '设置', '设置'],
+      ['途家', '原价', '原价', '原价', '原价', '原价', '原价', '原价', '暂不支持', '暂不支持'],
+    ],
+  },
+]
 
 export async function loadOtherPriceData(query: OtherPriceQuery = {}, signal?: AbortSignal): Promise<OtherPriceData> {
+  if (resolveOtherPriceProviderName() === 'real') {
+    return loadRealOtherPriceData(query, signal)
+  }
+
+  await waitForMockLatency(signal)
+  const response = buildMockOtherPriceEnvelope(query)
+  if (response.code !== 0) {
+    throw new Error(`${response.message}（traceId: ${response.traceId}）`)
+  }
+
+  return adaptOtherPriceEnvelope(response, query, 'mock')
+}
+
+export function getOtherPriceSourceLabel() {
+  return resolveOtherPriceProviderName() === 'mock' ? otherPriceMockSourceLabel : otherPriceRealBaseUrl
+}
+
+function resolveOtherPriceProviderName(): OtherPriceProviderName {
+  const configured = readRuntimeConfig('pms.otherPriceProvider') || import.meta.env.VITE_OTHER_PRICE_PROVIDER
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolveOtherPriceMockMode(): OtherPriceMockMode {
+  const configured = readRuntimeConfig('pms.otherPriceMockMode') || import.meta.env.VITE_OTHER_PRICE_MOCK_MODE
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
+}
+
+async function waitForMockLatency(signal?: AbortSignal) {
+  if (signal?.aborted) throw new DOMException('Aborted', 'AbortError')
+  await new Promise<void>((resolve, reject) => {
+    const timer = window.setTimeout(resolve, 80)
+    signal?.addEventListener(
+      'abort',
+      () => {
+        window.clearTimeout(timer)
+        reject(new DOMException('Aborted', 'AbortError'))
+      },
+      { once: true },
+    )
+  })
+}
+
+function buildMockOtherPriceEnvelope(query: OtherPriceQuery): OtherPriceEnvelope<OtherPriceEnvelopeData | null> {
+  const mode = resolveOtherPriceMockMode()
+  if (mode === 'error') {
+    return {
+      code: 50009,
+      message: 'mock 其他价格接口模拟失败',
+      data: null,
+      traceId: 'mock-fangtai--fangjia-guanli--qita-jiage-error-001',
+      timestamp: '2026-05-18T10:00:00+08:00',
+    }
+  }
+
+  const feeRows = mode === 'empty' ? [] : filterGroups(mockFeeRows, query)
+  const activityRows = mode === 'empty' ? [] : filterGroups(mockActivityRows, query)
+
+  return {
+    code: 0,
+    message: mode === 'empty' ? 'mock 空态' : 'success',
+    data: {
+      camp: {
+        campId: 'mock-camp-other-price',
+        campName: '路客云6TS5的店铺',
+      },
+      channels: mockChannels,
+      rooms: mockRooms,
+      fee: {
+        columns: defaultFeeColumns,
+        list: feeRows,
+        pagination: {
+          page: 1,
+          pageSize: 20,
+          total: feeRows.reduce((sum, group) => sum + group.channels.length, 0),
+        },
+      },
+      activity: {
+        columns: defaultActivityColumns,
+        list: activityRows,
+        pagination: {
+          page: 1,
+          pageSize: 20,
+          total: activityRows.reduce((sum, group) => sum + group.channels.length, 0),
+        },
+      },
+    },
+    traceId: mode === 'empty' ? 'mock-fangtai--fangjia-guanli--qita-jiage-empty-001' : 'mock-fangtai--fangjia-guanli--qita-jiage-list-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function adaptOtherPriceEnvelope(
+  response: OtherPriceEnvelope<OtherPriceEnvelopeData | null>,
+  query: OtherPriceQuery,
+  provider: OtherPriceProviderName,
+): OtherPriceData {
+  if (response.code !== 0 || !response.data) {
+    throw new Error(`${response.message}（traceId: ${response.traceId}）`)
+  }
+
+  return {
+    campId: response.data.camp.campId,
+    campName: response.data.camp.campName,
+    provider,
+    sourceLabel: provider === 'mock' ? otherPriceMockSourceLabel : otherPriceRealBaseUrl,
+    channels: response.data.channels,
+    rooms: response.data.rooms,
+    feeColumns: response.data.fee.columns,
+    feeRows: response.data.fee.list,
+    activityColumns: response.data.activity.columns,
+    activityRows: response.data.activity.list,
+    endpoints:
+      provider === 'mock'
+        ? ['GET /api/houseManage/otherPrice/overview (mock)', 'GET /api/houseManage/otherPrice/activity (mock)']
+        : [
+            'POST /camps/get',
+            'POST /select/calChannel4RoomCategory/get',
+            'POST /roomCategories/page/get',
+            `POST ${feeEndpoint}`,
+            `POST ${rulesEndpoint} discountType=1`,
+            `POST ${rulesEndpoint} discountType=2`,
+          ],
+    requestSummary: buildRequestSummary(query, response.traceId),
+    requestedAt: response.timestamp,
+  }
+}
+
+async function loadRealOtherPriceData(query: OtherPriceQuery = {}, signal?: AbortSignal): Promise<OtherPriceData> {
   const campInfo = readCampId(await postHudson('/camps/get', {}, signal))
   const campId = campInfo.campId
   const roomCategoryIds = query.roomCategoryId ? [query.roomCategoryId] : []
@@ -99,20 +293,24 @@ export async function loadOtherPriceData(query: OtherPriceQuery = {}, signal?: A
   const longStayColumns = readColumns(longStayRules, defaultActivityColumns.slice(0, 7))
   const flashSaleColumns = readColumns(flashSaleRules, defaultActivityColumns.slice(7))
   const activityColumns = [...longStayColumns, ...flashSaleColumns]
+  const feeRows = adaptTableRows(feeData, feeColumns, formatFeeCell)
+  const activityRows = mergeActivityRows(
+    adaptTableRows(longStayRules, longStayColumns, formatActivityCell),
+    adaptTableRows(flashSaleRules, flashSaleColumns, formatActivityCell),
+    longStayColumns.length,
+  )
 
   return {
     campId,
     campName: campInfo.campName,
+    provider: 'real',
+    sourceLabel: otherPriceRealBaseUrl,
     channels: adaptOptions(channelsData, 'channel'),
     rooms: adaptOptions(roomsData, 'room'),
     feeColumns,
-    feeRows: adaptTableRows(feeData, feeColumns, formatFeeCell),
+    feeRows,
     activityColumns,
-    activityRows: mergeActivityRows(
-      adaptTableRows(longStayRules, longStayColumns, formatActivityCell),
-      adaptTableRows(flashSaleRules, flashSaleColumns, formatActivityCell),
-      longStayColumns.length,
-    ),
+    activityRows,
     endpoints: [
       'POST /camps/get',
       'POST /select/calChannel4RoomCategory/get',
@@ -121,8 +319,54 @@ export async function loadOtherPriceData(query: OtherPriceQuery = {}, signal?: A
       `POST ${rulesEndpoint} discountType=1`,
       `POST ${rulesEndpoint} discountType=2`,
     ],
+    requestSummary: buildRequestSummary(query, 'real-hudson-request'),
     requestedAt: new Date().toISOString(),
   }
+}
+
+async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
+  const response = await fetch(`${otherPriceRealBaseUrl}${endpoint}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  let payload: HudsonResponse<T> | null
+  try {
+    payload = (await response.json()) as HudsonResponse<T>
+  } catch {
+    payload = null
+  }
+
+  if (!response.ok || payload?.success === false) {
+    throw new Error(payload?.errorMsg ?? payload?.errorCode ?? `${endpoint} 返回 HTTP ${response.status}`)
+  }
+
+  if (!payload || payload.data === undefined || payload.data === null) {
+    throw new Error(`${endpoint} 响应缺少 data 字段`)
+  }
+
+  return payload.data
+}
+
+function filterGroups(rows: OtherPriceTableGroup[], query: OtherPriceQuery) {
+  return rows
+    .filter((group) => !query.roomCategoryId || group.roomCategoryId === query.roomCategoryId)
+    .map((group) => ({
+      ...group,
+      channels: group.channels.filter((row) => !query.channelId || mockChannels.find((channel) => channel.id === query.channelId)?.name === row[0]),
+    }))
+    .filter((group) => group.channels.length > 0)
+}
+
+function buildRequestSummary(query: OtherPriceQuery, traceId: string) {
+  return [
+    `traceId=${traceId}`,
+    `channelId=${query.channelId ?? '全部平台'}`,
+    `roomCategoryId=${query.roomCategoryId ?? '全部房型'}`,
+  ]
 }
 
 function readCampId(campsData: unknown): { campId: string; campName: string } {

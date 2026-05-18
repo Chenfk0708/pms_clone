@@ -1,0 +1,62 @@
+[
+  {
+    "selector": ".workspace-feedback",
+    "rect": {
+      "x": 16,
+      "y": 1129,
+      "width": 1408,
+      "height": 39
+    },
+    "display": "flex",
+    "color": "rgb(39, 86, 158)",
+    "background": "rgb(241, 247, 255)"
+  },
+  {
+    "selector": ".workspace-top-strip",
+    "rect": {
+      "x": 16,
+      "y": 68,
+      "width": 1408,
+      "height": 96
+    },
+    "display": "grid",
+    "color": "rgb(23, 34, 58)",
+    "background": "rgba(0, 0, 0, 0)"
+  },
+  {
+    "selector": ".workspace-revenue",
+    "rect": {
+      "x": 16,
+      "y": 172,
+      "width": 464,
+      "height": 426
+    },
+    "display": "block",
+    "color": "rgb(23, 34, 58)",
+    "background": "rgb(255, 255, 255)"
+  },
+  {
+    "selector": ".workspace-orders-panel",
+    "rect": {
+      "x": 16,
+      "y": 606,
+      "width": 700,
+      "height": 515
+    },
+    "display": "block",
+    "color": "rgb(23, 34, 58)",
+    "background": "rgb(255, 255, 255)"
+  },
+  {
+    "selector": ".workspace-traffic-panel",
+    "rect": {
+      "x": 1078,
+      "y": 606,
+      "width": 346,
+      "height": 515
+    },
+    "display": "grid",
+    "color": "rgb(23, 34, 58)",
+    "background": "rgba(0, 0, 0, 0)"
+  }
+]

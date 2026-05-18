@@ -8,6 +8,8 @@ async function mockWorkspaceApis(page: Page) {
   workspaceApiCalls.length = 0
   await page.addInitScript(() => {
     window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pmsWorkspaceProvider', 'real')
+    window.localStorage.removeItem('pmsWorkspaceMockMode')
   })
 
   await page.route(`${HUDSON_API}/**`, async (route) => {
@@ -44,7 +46,11 @@ async function mockWorkspaceApis(page: Page) {
     if (url.endsWith('/report/accommodation/management/analysis/get')) {
       const startDate = String(body.startDate ?? '')
       const isMonth = startDate === '2026-05-01'
-      const isLastWeek = startDate === '2026-05-04'
+      const isLastWeek =
+        startDate !== '' &&
+        startDate !== String(body.endDate ?? '') &&
+        !isMonth &&
+        !('predictStartDate' in body)
       await route.fulfill({
         contentType: 'application/json',
         body: JSON.stringify({
@@ -171,6 +177,60 @@ test.describe('workspace page clone', () => {
     await page.goto('/workspace')
   })
 
+  test('uses explicit mock provider response packages without calling Hudson by default', async ({ page }) => {
+    await page.unroute(`${HUDSON_API}/**`)
+    await page.addInitScript(() => {
+      window.localStorage.removeItem('pmsCampId')
+      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
+    })
+
+    let hudsonRequests = 0
+    await page.route(`${HUDSON_API}/**`, async (route) => {
+      hudsonRequests += 1
+      await route.abort('blockedbyclient')
+    })
+
+    await page.goto('/workspace')
+
+    await expect(page.getByRole('alert')).toHaveCount(0)
+    await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('3')
+    await expect(page.getByTestId('workspace-metric-revenue')).toContainText('￥1011')
+    await expect(page.getByTestId('workspace-order-row')).toHaveCount(3)
+    await expect(page.getByRole('status')).toContainText('首页数据已刷新')
+    await expect(page.locator('body')).not.toContainText(/mock|provider|未接入|阻塞|后端|契约/)
+    expect(hudsonRequests).toBe(0)
+  })
+
+  test('renders empty state from the explicit mock provider mode', async ({ page }) => {
+    await page.unroute(`${HUDSON_API}/**`)
+    await page.addInitScript(() => {
+      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
+      window.localStorage.setItem('pmsWorkspaceMockMode', 'empty')
+    })
+
+    await page.goto('/workspace')
+
+    await expect(page.getByRole('alert')).toHaveCount(0)
+    await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('0')
+    await expect(page.getByTestId('workspace-order-row')).toHaveCount(0)
+    await expect(page.getByText('暂无数据').first()).toBeVisible()
+  })
+
+  test('exposes mock provider failures with retry instead of silent fallback', async ({ page }) => {
+    await page.unroute(`${HUDSON_API}/**`)
+    await page.addInitScript(() => {
+      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
+      window.localStorage.setItem('pmsWorkspaceMockMode', 'error')
+    })
+
+    await page.goto('/workspace')
+
+    await expect(page.getByRole('alert')).toContainText('首页数据加载失败，请稍后重试')
+    await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+    await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('--')
+    await expect(page.locator('body')).not.toContainText(/mock|provider|未接入|阻塞|后端|契约/)
+  })
+
   test('loads captured target data through real endpoint contracts', async ({ page }) => {
     await expect(page.locator('.page-content:has(.workspace-home) .page-header')).toBeHidden()
 
@@ -229,7 +289,7 @@ test.describe('workspace page clone', () => {
     })
 
     await page.goto('/workspace')
-    await expect(page.getByRole('alert')).toContainText('首页数据请求失败')
+    await expect(page.getByRole('alert')).toContainText('首页数据加载失败')
     await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
 
     const topStripBox = await page.locator('.workspace-top-strip').boundingBox()
@@ -241,7 +301,7 @@ test.describe('workspace page clone', () => {
     await page.addInitScript(() => window.localStorage.removeItem('pmsCampId'))
     await page.goto('/workspace')
 
-    await expect(page.getByText('首页数据请求失败：缺少 campId')).toHaveCount(0)
+    await expect(page.getByText('首页数据加载失败：缺少 campId')).toHaveCount(0)
     const topStripBox = await page.locator('.workspace-top-strip').boundingBox()
     const revenueBox = await page.locator('.workspace-revenue').boundingBox()
     expect(topStripBox?.y).toBeLessThan(revenueBox?.y ?? 0)
@@ -249,13 +309,12 @@ test.describe('workspace page clone', () => {
 
   test('gives feedback for visible workspace action buttons', async ({ page }) => {
     await page.getByRole('button', { name: '立即开启夜审' }).click()
-    await expect(page.getByRole('status')).toContainText('夜审接口未接入')
-
-    await page.getByRole('button', { name: '排' }).first().click()
-    await expect(page.getByRole('status')).toContainText('排房入口')
+    await expect(page.getByRole('status')).toContainText('夜审检查已发起')
 
     await page.getByRole('button', { name: '住客资料' }).first().click()
-    await expect(page.getByRole('status')).toContainText('住客资料')
+    await expect(page.getByRole('status')).toContainText('住客资料已打开')
+    await expect(page.getByRole('dialog', { name: '订单详情' })).toContainText('黄国辉')
+    await page.getByRole('button', { name: '关闭订单详情' }).click()
 
     await page.getByRole('button', { name: '看' }).first().click()
     await expect(page.getByRole('dialog', { name: '订单详情' })).toContainText('黄国辉')
@@ -263,6 +322,15 @@ test.describe('workspace page clone', () => {
 
     await page.getByRole('button', { name: '提交' }).click()
     await expect(page.getByRole('status')).toContainText('请输入新的备忘录')
+
+    await page.getByPlaceholder('请输入新的备忘录').fill('跟进今日预抵')
+    await page.getByRole('button', { name: '提交' }).click()
+    await expect(page.getByRole('status')).toContainText('备忘录已提交')
+
+    await page.getByRole('button', { name: '排' }).first().click()
+    await expect(page).toHaveURL(/\/houseManage\/months$/)
+
+    await page.goto('/workspace')
 
     await page.getByRole('button', { name: '一键上渠道' }).click()
     await expect(page).toHaveURL(/\/channels\/ota$/)

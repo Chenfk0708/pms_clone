@@ -1,0 +1,484 @@
+{
+  "capturedAt": "20260518-95-contract",
+  "finalUrl": "https://minsubao.localhome.cn/mallManagement/couponMgt/edit",
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1848317056370487297\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"2000745252682776577\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1561601262484840449\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/coupons/page/get",
+      "method": "POST",
+      "postData": "{\"campId\":\"1796067693589061634\",\"pageNum\":1,\"pageSize\":20,\"current\":1}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "total",
+            "size",
+            "current",
+            "extraInfo",
+            "pageNum",
+            "hasNextPage",
+            "pages",
+            "list"
+          ],
+          "sample": {
+            "total": 0,
+            "size": 20,
+            "current": 1,
+            "extraInfo": null,
+            "pageNum": 1,
+            "hasNextPage": false,
+            "pages": 0,
+            "list": {
+              "type": "array",
+              "length": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1754323708553199617\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1876219663445012481\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1947569513926946818\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1953303333244473346\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "postData": "{}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "holidayInfos"
+          ],
+          "sample": {
+            "holidayInfos": {
+              "type": "array",
+              "length": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1848317056370487297\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"2000745252682776577\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "postData": "{\"workStatus\":0}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "holidayInfos"
+          ],
+          "sample": {
+            "holidayInfos": {
+              "type": "array",
+              "length": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channelRoomCategories/page/get/v2",
+      "method": "POST",
+      "postData": "{\"channelIds\":[0],\"roomCategoryTypes\":[0,3],\"campId\":\"1796067693589061634\",\"pageSize\":9999,\"pageNum\":1}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "total",
+            "size",
+            "current",
+            "extraInfo",
+            "pageNum",
+            "hasNextPage",
+            "pages",
+            "list"
+          ],
+          "sample": {
+            "total": 4,
+            "size": 999,
+            "current": 1,
+            "extraInfo": null,
+            "pageNum": 1,
+            "hasNextPage": false,
+            "pages": 1,
+            "list": {
+              "type": "array",
+              "length": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1754323708553199617\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1876219663445012481\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1947569513926946818\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "postData": "{\"menuIds\":[\"1953303333244473346\"]}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "optionJsonViews"
+          ],
+          "sample": {
+            "optionJsonViews": {
+              "type": "array",
+              "length": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "postData": "{}",
+      "status": 200,
+      "contentType": "application/json",
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "object",
+          "keys": [
+            "holidayInfos"
+          ],
+          "sample": {
+            "holidayInfos": {
+              "type": "array",
+              "length": 50
+            }
+          }
+        }
+      }
+    }
+  ]
+}

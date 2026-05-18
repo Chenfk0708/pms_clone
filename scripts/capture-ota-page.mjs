@@ -34,6 +34,63 @@ function stableText(text) {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function safeParseJson(value) {
+  if (!value) return null
+  try {
+    return JSON.parse(value)
+  } catch {
+    return null
+  }
+}
+
+function summarizeObject(value, depth = 0) {
+  if (value === null || value === undefined) return value
+  if (Array.isArray(value)) {
+    const first = value[0]
+    return {
+      type: 'array',
+      length: value.length,
+      first: depth > 1 ? undefined : summarizeObject(first, depth + 1),
+    }
+  }
+  if (typeof value !== 'object') return typeof value
+
+  const entries = Object.entries(value)
+  return {
+    type: 'object',
+    keys: entries.map(([key]) => key).slice(0, 40),
+    fields: Object.fromEntries(entries.slice(0, 12).map(([key, item]) => [key, depth > 1 ? typeof item : summarizeObject(item, depth + 1)])),
+  }
+}
+
+function summarizeRequest(request) {
+  const parsedUrl = new URL(request.url())
+  const postData = request.postData()
+  const parsedPostData = safeParseJson(postData)
+
+  return {
+    url: request.url(),
+    method: request.method(),
+    resourceType: request.resourceType(),
+    query: Object.fromEntries(parsedUrl.searchParams.entries()),
+    bodyFields: parsedPostData && typeof parsedPostData === 'object' ? Object.keys(parsedPostData).slice(0, 60) : [],
+    bodySummary: parsedPostData ? summarizeObject(parsedPostData) : postData ? { type: 'text', length: postData.length } : null,
+  }
+}
+
+async function summarizeResponse(response) {
+  const contentType = response.headers()['content-type'] || ''
+  if (!/json|javascript|text/.test(contentType)) return null
+  if (!/hudson-prod\.localhome\.cn/.test(response.url())) return null
+
+  try {
+    const payload = await response.json()
+    return summarizeObject(payload)
+  } catch {
+    return null
+  }
+}
+
 async function waitForBusinessSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
@@ -215,11 +272,12 @@ async function main() {
     const page = await context.newPage()
     page.on('response', async (response) => {
       const request = response.request()
+      const requestSummary = summarizeRequest(request)
+      const responseSummary = await summarizeResponse(response)
       network.push({
-        url: response.url(),
+        ...requestSummary,
         status: response.status(),
-        method: request.method(),
-        resourceType: request.resourceType(),
+        responseFields: responseSummary,
       })
     })
 

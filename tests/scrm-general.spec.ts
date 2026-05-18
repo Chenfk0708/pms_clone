@@ -1,51 +1,97 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appBaseURL = process.env.PMS_TEST_BASE_URL
+const artifactRoot = path.resolve(
+  __dirname,
+  '../artifacts/screenshots/scrm--kehu-gaikuang--kehu-gaikuang',
+)
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/scrm/general matches captured customer overview state', async ({ page }) => {
+test('/scrm/general renders business data from the customer overview provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/scrm/general'))
 
-  await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.getByRole('link', { name: '客户概况' })).toHaveClass(/is-active/)
-  await expect(page.getByText('企业微信未授权，可能导致部分功能无法使用，请尽快前往授权。')).toBeVisible()
-  await expect(page.getByRole('button', { name: '前往企业微信授权' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '知道了' })).toBeVisible()
+  await expect(page.locator('.sidebar-link[href="/scrm/general"]')).toHaveClass(/active/)
+  await expect(page.getByRole('heading', { name: '客户概况', level: 1 })).toBeVisible()
+  await expect(page.getByTestId('scrm-general-request-state')).toBeHidden()
+  await expect(page.getByTestId('scrm-general-request-state')).toContainText('/scrm/general/overview/get')
+  await expect(page.getByTestId('scrm-general-request-state')).toContainText('"provider":"mock"')
+  await expect(page.getByLabel('客户资产盘点')).toContainText('客户数')
+  await expect(page.getByLabel('客户资产盘点')).toContainText('589')
+  await expect(page.getByLabel('客户资产盘点')).toContainText('会员总数')
+  await expect(page.getByLabel('客户资产盘点')).toContainText('276')
+  await expect(page.getByLabel('客户增长趋势图')).toContainText('06/18')
+  await expect(page.getByLabel('客户运营待办')).toContainText('待跟进客户')
+  await expect(page.getByLabel('客户来源排行')).toContainText('携程民宿')
 
-  const assetSection = page.getByRole('region', { name: '客户资产盘点' })
-  await expect(assetSection).toBeVisible()
-  await expect(assetSection.getByText('客户数')).toBeVisible()
-  await expect(assetSection.getByText('588', { exact: true })).toBeVisible()
-  await expect(assetSection.getByText('粉丝总数')).toBeVisible()
-  await expect(assetSection.getByText('敬请期待', { exact: true })).toBeVisible()
-  await expect(assetSection.getByText('会员总数')).toBeVisible()
-  await expect(assetSection.getByText('275', { exact: true })).toBeVisible()
-  await expect(assetSection.getByText('添加企微人数')).toBeVisible()
-  await expect(assetSection.getByText('前往设置', { exact: true })).toBeVisible()
+  const bodyText = await page.locator('body').innerText()
+  expect(bodyText).not.toMatch(/未接入|阻塞|后端未就绪|后端接口未完成|mock 数据|mock provider|provider=mock/)
 
-  await expect(page.getByLabel('客户增长趋势日期范围').getByPlaceholder('开始日期')).toHaveValue('2026/05/14')
-  await expect(page.getByLabel('客户增长趋势日期范围').getByPlaceholder('结束日期')).toHaveValue('2026/06/14')
-  await expect(page.getByLabel('客户增长趋势图')).toContainText('客户数')
-  await expect(page.getByLabel('客户增长趋势图')).toContainText('会员数')
-  await expect(page.getByLabel('客户增长趋势图')).toContainText('添加企微人数')
-  await expect(page.getByLabel('客户增长趋势图')).toContainText('06/14')
+  await page.screenshot({
+    path: path.join(artifactRoot, 'business-data-clone-20260518-95.png'),
+    fullPage: true,
+  })
+})
 
-  const sceneSection = page.getByRole('region', { name: '推荐场景' })
-  await expect(sceneSection.getByRole('article')).toHaveCount(4)
-  await expect(sceneSection.getByText('智能入住接入企业微信')).toBeVisible()
-  await expect(sceneSection.getByText('聊天工具栏')).toBeVisible()
-  await expect(sceneSection.getByText('品牌小程序接入微信客服')).toBeVisible()
-  await expect(sceneSection.getByText('会员成长体系')).toBeVisible()
-  await expect(sceneSection.getByRole('button', { name: '立即体验' })).toHaveCount(4)
+test('/scrm/general passes filters into the data service and refreshes UI', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/scrm/general'))
 
-  const chatDock = page.locator('.app-shell > .chat-dock')
-  await expect(chatDock).toBeVisible()
-  await expect(chatDock).toHaveCSS('position', 'fixed')
-  const chatBox = await chatDock.boundingBox()
-  expect(chatBox?.x).toBeGreaterThan(1000)
-  expect(chatBox?.y).toBeLessThan(700)
+  await page.getByLabel('开始日期').fill('2026-05-27')
+  await page.getByLabel('结束日期').fill('2026-06-18')
+  await page.getByLabel('门店').selectOption('1796425098638573570')
+  await page.getByLabel('运营维度').selectOption('private')
+  await page.getByRole('button', { name: '查询' }).click()
+
+  await expect(page.getByTestId('scrm-general-request-state')).toContainText('"startDate":"2026-05-27"')
+  await expect(page.getByTestId('scrm-general-request-state')).toContainText('"dimension":"private"')
+  await expect(page.getByRole('status', { name: '客户概况操作反馈' })).toContainText('已按当前条件刷新客户概况')
+
+  await page.getByRole('button', { name: '重置' }).click()
+  await expect(page.getByLabel('运营维度')).toHaveValue('all')
+  await expect(page.getByTestId('scrm-general-request-state')).toContainText('"dimension":"all"')
+})
+
+test('/scrm/general gives feedback for every visible action', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/scrm/general'))
+
+  await page.getByRole('button', { name: '知道了' }).click()
+  await expect(page.getByLabel('企业微信授权提醒')).toHaveCount(0)
+
+  await page.getByRole('button', { name: '刷新' }).click()
+  await expect(page.getByRole('status', { name: '客户概况操作反馈' })).toContainText('客户概况已刷新')
+
+  await page.getByRole('button', { name: '导出' }).click()
+  await expect(page.getByRole('status', { name: '客户概况操作反馈' })).toContainText('已创建客户概况导出任务')
+
+  await page.getByRole('button', { name: '查看客户数详情' }).click()
+  await expect(page.getByRole('dialog', { name: '客户指标详情' })).toContainText('客户数')
+  await page.getByRole('button', { name: '关闭详情' }).click()
+
+  await page.getByRole('button', { name: '体验 智能入住接入企业微信' }).click()
+  await expect(page.getByRole('dialog', { name: '推荐场景详情' })).toContainText('智能入住接入企业微信')
+  await page.getByRole('button', { name: '关闭场景详情' }).click()
+
+  await page.getByRole('link', { name: '客户列表' }).click()
+  await expect(page).toHaveURL(/\/customer\/list$/)
+})
+
+test('/scrm/general exposes empty and error states with retry', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/scrm/general?scenario=empty'))
+  await expect(page.getByLabel('客户运营待办')).toContainText('当前条件暂无待办')
+  await expect(page.getByLabel('客户来源排行')).toContainText('暂无来源数据')
+
+  await page.goto(appUrl('/scrm/general?scenario=error'))
+  await expect(page.getByRole('alert', { name: '客户概况数据错误' })).toContainText('客户概况服务暂时不可用')
+  await page.getByRole('button', { name: '重试' }).click()
+  await expect(page.getByRole('alert', { name: '客户概况数据错误' })).toHaveCount(0)
+  await expect(page.getByLabel('客户资产盘点')).toContainText('589')
 })

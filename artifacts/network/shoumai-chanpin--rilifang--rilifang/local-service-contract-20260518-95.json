@@ -1,0 +1,66 @@
+{
+  "taskId": "shoumai-chanpin--rilifang--rilifang",
+  "pageName": "日历房",
+  "capturedAt": "2026-05-18T14:50:00+08:00",
+  "provider": "mock",
+  "sourceFile": "src/services/calendarRoom.ts",
+  "switch": "VITE_PMS_CALENDAR_ROOM_PROVIDER=mock|real",
+  "mockEndpoint": "/setting/localRoomTypeProductionSetting/products/page",
+  "targetReferenceEndpoints": [
+    {
+      "method": "POST",
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get"
+    },
+    {
+      "method": "POST",
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get"
+    },
+    {
+      "method": "POST",
+      "url": "https://hudson-prod.localhome.cn/select/calChannel4RoomCategory/get"
+    },
+    {
+      "method": "POST",
+      "url": "https://hudson-prod.localhome.cn/roomCategory/channelMappingInfo/get"
+    }
+  ],
+  "requestParams": {
+    "poiIds": ["1796067693589061634"],
+    "keyword": "",
+    "channel": "",
+    "status": "全部",
+    "page": 1,
+    "pageSize": 20
+  },
+  "responseEnvelope": {
+    "code": 0,
+    "message": "success",
+    "data": {
+      "rows": "CalendarRoomRow[]",
+      "pagination": {
+        "page": 1,
+        "pageSize": 20,
+        "total": 4
+      },
+      "routeTargets": {
+        "roomTypeList": "/setting/roomTypeInfo",
+        "roomTypeEdit": "/setting/roomTypeInfo/edit",
+        "price": "/houseManage/houseCale",
+        "createProduct": "/setting/localRoomTypeProductionSetting/channelGoodsSetting"
+      }
+    },
+    "traceId": "mock-shoumai-chanpin--rilifang--rilifang-success-001",
+    "timestamp": "2026-05-18T10:00:00+08:00"
+  },
+  "states": {
+    "success": "default-clone-20260518-95-local-success-*",
+    "empty": "default-clone-20260518-95-local-empty-*",
+    "error": "default-clone-20260518-95-local-error-*"
+  },
+  "hudsonRequestCountInLocalMockCapture": 0,
+  "notes": [
+    "页面组件只消费 CalendarRoomViewModel。",
+    "统一响应包解析、错误暴露和字段适配收敛在 src/services/calendarRoom.ts。",
+    "页面正文不展示 mock/provider/后端/契约等开发态文案。"
+  ]
+}

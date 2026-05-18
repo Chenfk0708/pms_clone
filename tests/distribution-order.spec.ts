@@ -75,3 +75,36 @@ test('/channels/distribution/distributionOrderSettlement supports captured filte
   await expect(page.getByRole('button', { name: '订单筛选 请选择' })).toBeVisible()
   await expect(page.getByLabel('预订开始日期')).toHaveValue('2026-05-01')
 })
+
+test('/channels/distribution/distributionOrderSettlement is driven by the distribution order service', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/channels/distribution/distributionOrderSettlement'))
+
+  const servicePanel = page.getByLabel('聚合分销订单数据服务')
+  await expect(servicePanel).toContainText('provider=mock')
+  await expect(servicePanel).toContainText('/report/flows/get')
+  await expect(servicePanel).toContainText('bookingStartDate=2026-05-01')
+  await expect(servicePanel).toContainText('bookingEndDate=2026-05-31')
+
+  await page.getByLabel('查看订单 2054409001821356034').click()
+  await expect(page.getByRole('dialog', { name: '聚合分销订单详情' })).toContainText('2054409001821356034')
+  await expect(page.getByRole('dialog', { name: '聚合分销订单详情' })).toContainText('待结算')
+  await page.getByRole('button', { name: '关闭详情' }).click()
+  await expect(page.getByRole('dialog', { name: '聚合分销订单详情' })).toBeHidden()
+})
+
+test('/channels/distribution/distributionOrderSettlement handles empty and error envelopes', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  await page.addInitScript(() => window.localStorage.setItem('pms.distributionOrderMockMode', 'empty'))
+  await page.goto(appUrl('/channels/distribution/distributionOrderSettlement'))
+  await expect(page.getByText('当前条件暂无聚合分销订单')).toBeVisible()
+  await expect(page.getByText('第 0-0 条/总共 0 条')).toBeVisible()
+
+  await page.evaluate(() => window.localStorage.setItem('pms.distributionOrderMockMode', 'error'))
+  await page.reload()
+  await expect(page.getByRole('alert')).toContainText('聚合分销订单服务暂不可用，请稍后重试')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
+})

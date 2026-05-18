@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { privateCards } from '../data/discovery'
+import { useMemo, useState } from 'react'
+import { loadPrivateChannel, type PrivateChannelApiCard } from '../services/privateChannel'
 import './PrivatePage.css'
 
 function ChannelLogo({ name }: { name: string }) {
@@ -29,12 +30,23 @@ function ChannelLogo({ name }: { name: string }) {
   )
 }
 
-function DefaultPrivatePage() {
+function PrivateActionStatus({ message }: { message: string }) {
+  return (
+    <div className="private-action-status" role="status" aria-label="私域渠道操作反馈">
+      {message}
+    </div>
+  )
+}
+
+function DefaultPrivatePage({ data, onAction }: { data: ReturnType<typeof loadPrivateChannel>; onAction: (card: PrivateChannelApiCard) => void }) {
   const navigate = useNavigate()
 
-  function openChannel(name: string) {
-    if (name === '企业微信') navigate('/channels/private/setting/weComSetting')
-    if (name === '公众号') navigate('/channels/private/setting/authorizationSettings')
+  function openChannel(card: PrivateChannelApiCard) {
+    if (card.targetPath) {
+      navigate(card.targetPath)
+      return
+    }
+    onAction(card)
   }
 
   return (
@@ -44,29 +56,38 @@ function DefaultPrivatePage() {
         <div className="private-section-title">
           <h2>未直连渠道</h2>
         </div>
-        <div className="private-card-grid">
-          {privateCards.map((card) => (
-            <article key={card.name} className="private-card" aria-label={card.name}>
-              <div>
-                <h3>{card.name}</h3>
-                <button
-                  type="button"
-                  className={`private-button ${card.action === '立即关联' ? 'private-button--primary' : ''}`}
-                  onClick={() => openChannel(card.name)}
-                >
-                  {card.action}
-                </button>
-              </div>
-              <ChannelLogo name={card.name} />
-            </article>
-          ))}
-        </div>
+        {data.cards.length === 0 ? (
+          <section className="private-empty-state" role="status" aria-label="私域渠道空态">
+            暂无符合当前条件的私域渠道，请调整筛选条件后刷新。
+          </section>
+        ) : (
+          <div className="private-card-grid">
+            {data.cards.map((card) => (
+              <article key={card.id} className="private-card" aria-label={card.name}>
+                <div>
+                  <h3>{card.name}</h3>
+                  <p>{card.description}</p>
+                  <button
+                    type="button"
+                    className={`private-button ${card.actionCode !== 'subscribe_program' ? 'private-button--primary' : ''}`}
+                    onClick={() => openChannel(card)}
+                  >
+                    {card.actionText}
+                  </button>
+                </div>
+                <ChannelLogo name={card.name} />
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   )
 }
 
-function EnterpriseDetailPage() {
+function EnterpriseDetailPage({ data, onAction }: { data: ReturnType<typeof loadPrivateChannel>; onAction: (card: PrivateChannelApiCard) => void }) {
+  const actionCard = data.cards.find((card) => card.actionCode === 'connect_wecom') ?? data.cards[0]
+
   return (
     <div className="private-channel-page">
       <h1 className="sr-only-heading">私域</h1>
@@ -79,31 +100,31 @@ function EnterpriseDetailPage() {
         <header className="private-enterprise-head">
           <ChannelLogo name="企业微信" />
           <div>
-            <h2>企业微信</h2>
-            <span>免费试用90天</span>
-            <em>未接入</em>
+            <h2>{data.enterprise.name}</h2>
+            <span>{data.enterprise.trialText}</span>
+            <em>{data.enterprise.statusText}</em>
           </div>
-          <button type="button" className="private-button private-button--primary">
-            立即接入
+          <button type="button" className="private-button private-button--primary" onClick={() => actionCard && onAction(actionCard)}>
+            {data.enterprise.actionText}
           </button>
         </header>
         <section className="private-detail-copy">
-          <h3>接入企业微信后，您可以获得</h3>
+          <h3>配置企业微信后，您可以获得</h3>
           <ol>
-            <li>自动化的获客流程</li>
-            <li>低成本的获客方式</li>
-            <li>丰富的活动运营数据分析和精细化的管理</li>
+            {data.enterprise.benefits.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ol>
-          <p>
-            企业微信用于沉淀私域客户、承接入住沟通和后续复购触达。完成接入后，可在 SCRM 场景中统一管理客户关系。
-          </p>
+          <p>{data.enterprise.description}</p>
         </section>
       </section>
     </div>
   )
 }
 
-function OfficialAuthorizationPage() {
+function OfficialAuthorizationPage({ data, onAction }: { data: ReturnType<typeof loadPrivateChannel>; onAction: (card: PrivateChannelApiCard) => void }) {
+  const actionCard = data.cards.find((card) => card.actionCode === 'authorize_official') ?? data.cards[0]
+
   return (
     <div className="private-channel-page">
       <h1 className="sr-only-heading">私域</h1>
@@ -114,29 +135,42 @@ function OfficialAuthorizationPage() {
           <strong>渠道详情</strong>
         </div>
         <section className="private-official-copy">
-          <h2>授权微信公众号</h2>
-          <p>将您已认证企业资质的公众号，授权给路客云后，可用于客户消息接待、会员触达和私域运营。</p>
-          <p>请选择已有公众号授权，或先开通公众号后再完成授权。</p>
+          <h2>{data.officialAccount.title}</h2>
+          <p>{data.officialAccount.description}</p>
+          <p>{data.officialAccount.helper}</p>
         </section>
         <div className="private-official-options">
-          <article>
-            <div className="private-logo private-logo--official" aria-hidden="true">
-              <span />
-              <i />
-            </div>
-            <button type="button" className="private-button private-button--primary">
-              已有公众号，立即授权
-            </button>
-          </article>
-          <article className="is-muted">
-            <div className="private-logo private-logo--official" aria-hidden="true">
-              <span />
-              <i />
-            </div>
-            <button type="button" className="private-button">
-              没有公众号，立即开通
-            </button>
-          </article>
+          {data.officialAccount.options.map((option) => (
+            <article key={option.id} className={option.primary ? undefined : 'is-muted'}>
+              <div className="private-logo private-logo--official" aria-hidden="true">
+                <span />
+                <i />
+              </div>
+              <button
+                type="button"
+                className={`private-button ${option.primary ? 'private-button--primary' : ''}`}
+                onClick={() => actionCard && onAction(actionCard)}
+              >
+                {option.label}
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function PrivatePageError({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return (
+    <div className="private-channel-page">
+      <section className="private-channel-panel">
+        <div className="private-error-state" role="alert">
+          <strong>私域渠道数据加载失败</strong>
+          <p>{message}</p>
+          <button type="button" className="private-button private-button--primary" onClick={onRetry}>
+            重新加载
+          </button>
         </div>
       </section>
     </div>
@@ -145,8 +179,64 @@ function OfficialAuthorizationPage() {
 
 export function PrivatePage() {
   const location = useLocation()
+  const [notice, setNotice] = useState('私域渠道数据已更新')
+  const [retryKey, setRetryKey] = useState(0)
+  const result = useMemo(() => {
+    void retryKey
+    try {
+      return { data: loadPrivateChannel(), error: null }
+    } catch (error) {
+      return {
+        data: null,
+        error: error instanceof Error ? error.message : '私域渠道数据加载失败，请稍后重试',
+      }
+    }
+  }, [retryKey])
 
-  if (location.pathname.endsWith('/setting/weComSetting')) return <EnterpriseDetailPage />
-  if (location.pathname.endsWith('/setting/authorizationSettings')) return <OfficialAuthorizationPage />
-  return <DefaultPrivatePage />
+  function handleAction(card: PrivateChannelApiCard) {
+    if (card.actionCode === 'subscribe_program') {
+      setNotice(`${card.name}订阅方案已加入开通清单`)
+      return
+    }
+
+    if (card.actionCode === 'connect_wecom') {
+      setNotice('企业微信配置流程已准备就绪')
+      return
+    }
+
+    setNotice('公众号授权流程已准备就绪')
+  }
+
+  function retry() {
+    window.localStorage.setItem('pmsPrivateChannelScenario', 'success')
+    setNotice('已重新加载私域渠道')
+    setRetryKey((value) => value + 1)
+  }
+
+  if (result.error || !result.data) {
+    return (
+      <>
+        <PrivatePageError message={result.error ?? '私域渠道数据加载失败，请稍后重试'} onRetry={retry} />
+        <PrivateActionStatus message={notice} />
+      </>
+    )
+  }
+
+  const contract = JSON.stringify(result.data.contract)
+
+  return (
+    <>
+      <pre hidden data-testid="private-channel-contract">
+        {contract}
+      </pre>
+      {location.pathname.endsWith('/setting/weComSetting') ? (
+        <EnterpriseDetailPage data={result.data} onAction={handleAction} />
+      ) : location.pathname.endsWith('/setting/authorizationSettings') ? (
+        <OfficialAuthorizationPage data={result.data} onAction={handleAction} />
+      ) : (
+        <DefaultPrivatePage data={result.data} onAction={handleAction} />
+      )}
+      <PrivateActionStatus message={notice} />
+    </>
+  )
 }

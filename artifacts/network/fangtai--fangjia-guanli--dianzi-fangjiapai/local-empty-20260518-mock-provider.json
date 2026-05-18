@@ -1,0 +1,914 @@
+{
+  "url": "http://127.0.0.1:55220/houseManage/priceBoard",
+  "mode": "empty",
+  "requests": [
+    {
+      "url": "http://127.0.0.1:55220/houseManage/priceBoard",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/@vite/client",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/main.tsx?t=1779086777155",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/@react-refresh",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/index.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/App.tsx?t=1779086777155",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/vite/dist/client/env.mjs",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/components/AppShell.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/BrandWebsitePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanStatisticsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanStaffPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanTaskPage.tsx?t=1779086738918",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanLogPage.tsx?t=1779086736526",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CompanyInfoPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CompanyQualificationPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomChannelPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/GlobalSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseDaysPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseMonthsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseStatusLogsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CampInfoPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/InformationOverviewPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionListPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionDisplacementPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionOrderPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StatisticsDistributionOrderPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerMarketingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerListPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerTagPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerAddBatchPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StaffListPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/FullMarketingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberEquityPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberPointsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OtaPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/NotificationSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ImSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OrdersPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleOrderPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PicturesVideosPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PermissionSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/RoomTypeInfoPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleGoodsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MyBenefitPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ApplicationPaymentPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HotelPackageOrderPage.tsx?t=1779086731935",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleSalesReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PrivatePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PriceLogPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PricePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ComprehensiveMonthlyReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/IncomeReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/LedgerEntryPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/LocalsMallPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OrderLedgerPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ProfitReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleCouponMallReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/RoomSituationPage.tsx?t=1779086777155",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SalesReportPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ShiftRecordPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ShiftSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PrintSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StatementOrderPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/TotalLedgerPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/VersionSubscriptionPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SubscriptionDisplacementBenefitPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmGeneralPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmMemberLevelPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmSidebarPreviewPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WechatServicePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ReceptionConfigPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SocialPage.tsx?t=1779086668994",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WorkspacePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/AiRadarPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ApiKeysPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CalendarRoomPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CardVerificationPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CouponPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HotelProductPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHotelGlobalSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHotelSettingsPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartSelfCheckinPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHardwareMallPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartDoorLockPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartIdCardReaderPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PsbLogPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PsbPolicePage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ExpendSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/FinanceSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WriteExpendSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SortSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PaymentSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmsSettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/AutoStrategySettingPage.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/TopNavFloor.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/cleanStatistics.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanStatisticsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/BrandWebsitePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/data/discovery.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/data/mock.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/components/ChatDock.tsx",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/session.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanStaffPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/cleanSetting.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/cleanTask.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanTaskPage.css?t=1779086738918",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CompanyInfoPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/cleanLog.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CleanLogPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomChannelPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CompanyQualificationPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/GlobalSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionDisplacementPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/houseDays.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseDaysPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/houseMonths.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseMonthsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CampInfoPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/houseStatusLogs.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HouseStatusLogsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/InformationOverviewPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionListPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerMarketingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/DistributionOrderPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StatisticsDistributionOrderPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerAddBatchPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StaffListPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerTagPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CustomerListPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberPointsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/FullMarketingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MemberEquityPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/NotificationSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/ota.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OtaPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PicturesVideosPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ImSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/presaleOrder.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleOrderPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PermissionSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ApplicationPaymentPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/MyBenefitPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/hotelPackageOrder.ts?t=1779086731935",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleSalesReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/RoomTypeInfoPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/privateChannel.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PrivatePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/houseOrders.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/longRentalOrders.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OrdersPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/presaleGoods.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleGoodsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/priceLogs.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PriceLogPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ComprehensiveMonthlyReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/LedgerEntryPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/IncomeReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/LocalsMallPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ProfitReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PresaleCouponMallReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/OrderLedgerPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/channelPrice.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/centralPrice.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/otherPrice.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/priceBoard.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/priceComparison.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/retailPrice.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PricePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/roomSituation.ts?t=1779086777155",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ShiftRecordPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ShiftSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/StatementOrderPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PrintSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SalesReportPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/TotalLedgerPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/VersionSubscriptionPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SubscriptionDisplacementBenefitPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmGeneralPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WechatServicePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmSidebarPreviewPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ScrmMemberLevelPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ReceptionConfigPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/social.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SocialPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ApiKeysPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/workspace.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WorkspacePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/calendarRoom.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CalendarRoomPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/cardVerification.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CardVerificationPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/CouponPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHotelGlobalSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/services/hotelProduct.ts",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/HotelProductPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHotelSettingsPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartDoorLockPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartIdCardReaderPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartSelfCheckinPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmartHardwareMallPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PsbLogPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SortSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PaymentSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/PsbPolicePage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/SmsSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/ExpendSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/WriteExpendSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/AutoStrategySettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/pages/FinanceSettingPage.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/price-board-assets/brand-price-board-logo.png",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/price-board-assets/brand-promotion-price-card.png",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/price-board-assets/brand-promotion-price-card-2.png",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/price-board-assets/brand-promotion-price-card-3.png",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/favicon.svg",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:55220/src/index.css?t=1779086797211",
+      "method": "GET"
+    }
+  ]
+}

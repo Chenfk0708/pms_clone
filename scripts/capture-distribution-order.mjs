@@ -39,6 +39,56 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
+function summarizeValue(value, depth = 0) {
+  if (value === null) return null
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 2).map((item) => summarizeValue(item, depth + 1)),
+    }
+  }
+  if (typeof value === 'object') {
+    if (depth >= 3) return { type: 'object', keys: Object.keys(value).slice(0, 20) }
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 40)
+        .map(([key, item]) => [key, summarizeValue(item, depth + 1)]),
+    )
+  }
+  if (typeof value === 'string') {
+    if (/token|cookie|authorization|password|passwd|mobile/i.test(value)) return '[redacted]'
+    return value.length > 160 ? `${value.slice(0, 160)}...` : value
+  }
+  return value
+}
+
+function summarizeJson(payload) {
+  return summarizeValue(payload)
+}
+
+function parsePostData(request) {
+  const body = request.postData()
+  if (!body) return null
+  try {
+    return summarizeJson(JSON.parse(body))
+  } catch {
+    return normalizeText(body).slice(0, 300)
+  }
+}
+
+function shouldCapturePayload(url) {
+  return (
+    url.includes('hudson-prod.localhome.cn/order/report/get') ||
+    url.includes('hudson-prod.localhome.cn/report/flows/get') ||
+    url.includes('hudson-prod.localhome.cn/camps/get') ||
+    url.includes('hudson-prod.localhome.cn/channels/get') ||
+    url.includes('hudson-prod.localhome.cn/select/calChannel4Order/get') ||
+    url.includes('hudson-prod.localhome.cn/paymentTypes/get') ||
+    url.includes('hudson-prod.localhome.cn/rooms/get')
+  )
+}
+
 async function waitForBusinessSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 12_000 }).catch(() => {})
@@ -248,14 +298,30 @@ async function main() {
       timezoneId: 'Asia/Shanghai',
     })
     const page = await context.newPage()
-    page.on('response', (response) => {
+    page.on('response', async (response) => {
       const request = response.request()
-      network.push({
+      const entry = {
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
-      })
+        postData: parsePostData(request),
+      }
+
+      if (shouldCapturePayload(response.url())) {
+        try {
+          const contentType = response.headers()['content-type'] || ''
+          if (contentType.includes('application/json')) {
+            entry.responseSummary = summarizeJson(await response.json())
+          } else {
+            entry.responseSummary = normalizeText(await response.text()).slice(0, 500)
+          }
+        } catch (error) {
+          entry.responseSummaryError = error instanceof Error ? error.message : String(error)
+        }
+      }
+
+      network.push(entry)
     })
 
     await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {

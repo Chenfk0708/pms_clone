@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+      "method": "GET",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BIiCuXno.js",
+      "method": "GET",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DzvwD5v-.css",
+      "method": "GET",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "method": "GET",
+      "postData": null
+    }
+  ],
+  "localProvider": "mock",
+  "contractPath": "/api/clean/statistics/dashboard"
+}

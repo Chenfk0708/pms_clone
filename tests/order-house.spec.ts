@@ -84,7 +84,7 @@ const houseOrderPayload = {
   },
 }
 
-async function mockHouseOrderApis(page: Page, payload = houseOrderPayload) {
+async function mockHouseOrderApiProvider(page: Page, payload = houseOrderPayload) {
   const requests: Array<Record<string, unknown>> = []
 
   await page.route('https://hudson-prod.localhome.cn/order/report/get', async (route) => {
@@ -118,20 +118,11 @@ async function mockHouseOrderApis(page: Page, payload = houseOrderPayload) {
   return requests
 }
 
-test('/order/house-order/list loads through the real lodging order request layer', async ({ page }) => {
-  const requests = await mockHouseOrderApis(page)
+test('/order/house-order/list loads through the lodging order data provider envelope', async ({ page }) => {
+  await page.goto('/order/house-order/list')
 
-  await page.goto('/order/house-order/list?campId=test-camp')
-
-  await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过真实接口刷新')
-  await expect.poll(() => requests.length).toBe(1)
-  expect(requests[0]).toMatchObject({
-    campId: 'test-camp',
-    pageNum: 1,
-    pageSize: 20,
-    orderType: '',
-    isLt: 0,
-  })
+  await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过住宿订单数据服务刷新')
+  await expect(page.locator('.order-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成|CORS/i)
 
   const table = page.getByRole('table', { name: '住宿订单列表' })
   await expect(table).toContainText('2055526750698446849')
@@ -142,33 +133,29 @@ test('/order/house-order/list loads through the real lodging order request layer
   await expect(page.locator('.order-pagination')).toContainText('共 2 条')
 
   await page.getByRole('radio', { name: '今日预抵' }).click()
-  await expect.poll(() => requests.length).toBe(2)
-  expect(requests.at(-1)).toMatchObject({ campId: 'test-camp', orderType: '11' })
+  await expect(page.getByRole('radio', { name: '今日预抵' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('共 1 条')
+  await expect(table).toContainText('2055526750698446849')
+  await expect(table).not.toContainText('2055103007337734146')
 })
 
-test('/order/house-order/list exposes request failures and empty data without static fallback', async ({ page }) => {
-  await page.route('https://hudson-prod.localhome.cn/order/report/get', async (route) => {
-    await route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ success: false, errorMsg: 'report failed' }) })
-  })
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
-    await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ success: false, errorMsg: 'orders failed' }) })
-  })
-
-  await page.goto('/order/house-order/list?campId=test-camp')
-  await expect(page.getByRole('alert')).toContainText('真实接口请求失败')
+test('/order/house-order/list exposes provider failures and empty data without static fallback', async ({ page }) => {
+  await page.goto('/order/house-order/list?houseOrderMockState=error')
+  await expect(page.getByRole('alert')).toContainText('数据服务请求失败')
   await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
   await expect(page.getByRole('row').filter({ hasText: '2054409001821356034' })).toHaveCount(0)
 
-  await mockHouseOrderApis(page, { success: true, data: { total: 0, pageNum: 1, pageSize: 20, pages: 0, list: [] } })
+  await page.evaluate(() => {
+    window.history.replaceState({}, '', '/order/house-order/list?houseOrderMockState=empty')
+  })
   await page.getByRole('button', { name: '重试' }).click()
   await expect(page.getByText('暂无数据')).toBeVisible()
   await expect(page.getByRole('alert')).toHaveCount(0)
 })
 
 test('/order/house-order/list matches captured lodging order table', async ({ page }) => {
-  await mockHouseOrderApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/order/house-order/list?campId=test-camp')
+  await page.goto('/order/house-order/list')
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.locator('.order-page')).toBeVisible()
@@ -198,9 +185,8 @@ test('/order/house-order/list matches captured lodging order table', async ({ pa
 })
 
 test('/order/house-order/list supports captured search and detail interactions', async ({ page }) => {
-  await mockHouseOrderApis(page)
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/order/house-order/list?campId=test-camp')
+  await page.goto('/order/house-order/list')
 
   await page.getByRole('button', { name: '展开' }).click()
   await expect(page.locator('.order-advanced-filters').getByText('订单状态')).toBeVisible()
@@ -238,4 +224,25 @@ test('/order/house-order/list supports captured search and detail interactions',
     path: path.join(screenshotDir, 'detail-clone-route.png'),
     fullPage: true,
   })
+})
+
+test('/order/house-order/list can switch to api provider with the captured target request body', async ({ page }) => {
+  const requests = await mockHouseOrderApiProvider(page)
+
+  await page.goto('/order/house-order/list?houseOrderProvider=api&campId=test-camp')
+
+  await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过住宿订单数据服务刷新')
+  await expect.poll(() => requests.length).toBeGreaterThanOrEqual(1)
+  const initialRequestCount = requests.length
+  expect(requests.at(-1)).toMatchObject({
+    campId: 'test-camp',
+    pageNum: 1,
+    pageSize: 20,
+    orderType: '',
+    isLt: 0,
+  })
+
+  await page.getByRole('radio', { name: '今日预抵' }).click()
+  await expect.poll(() => requests.length).toBeGreaterThan(initialRequestCount)
+  expect(requests.at(-1)).toMatchObject({ campId: 'test-camp', orderType: '11' })
 })

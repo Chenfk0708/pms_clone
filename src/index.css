@@ -3803,7 +3803,7 @@ button {
 }
 
 .room-situation-page {
-  gap: 8px;
+  gap: 7px;
   padding-right: 0;
 }
 
@@ -3864,8 +3864,8 @@ button {
 }
 
 .room-store-select > button {
-  min-width: 96px;
-  max-width: 220px;
+  width: 144px;
+  max-width: 144px;
   border-color: #4b63f2;
   color: #4b63f2;
   overflow: hidden;
@@ -3983,14 +3983,16 @@ button {
 }
 
 .room-icon-button {
-  width: 34px;
-  margin-left: 8px;
+  width: 48px;
+  margin-left: 0;
   border-radius: 4px;
   padding: 4px 0;
+  color: #6b7280;
+  font-size: 18px;
 }
 
 .room-metric-help {
-  margin-left: 14px;
+  margin-left: auto;
   border-color: #4b63f2;
   border-radius: 4px;
   background: #4b63f2;
@@ -3999,14 +4001,12 @@ button {
 }
 
 .room-request-status {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 14px;
-  min-height: 34px;
-  margin-top: 8px;
-  color: #53627d;
-  font-size: 13px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .room-data-source,
@@ -4111,8 +4111,8 @@ button {
 .room-situation-table td {
   min-width: 72px;
   height: 45px;
-  padding: 10px 8px;
-  border: 1px solid #eaedf3;
+  padding: 10px 10px;
+  border: 1px solid #edf0f5;
   text-align: left;
   vertical-align: middle;
 }
@@ -4120,8 +4120,8 @@ button {
 .room-situation-table thead th {
   height: 56px;
   background: #f1f5fb;
-  color: #51607a;
-  font-weight: 500;
+  color: #667085;
+  font-weight: 600;
 }
 
 .room-situation-table tbody th {
@@ -4133,8 +4133,8 @@ button {
   position: sticky;
   left: 0;
   z-index: 2;
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 160px;
+  max-width: 160px;
   background: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4175,9 +4175,9 @@ button {
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  padding: 12px 340px 12px 4px;
-  color: #6c7890;
-  font-size: 13px;
+  padding: 12px 0 12px 4px;
+  color: #1f2937;
+  font-size: 15px;
 }
 
 .room-situation-pagination button {

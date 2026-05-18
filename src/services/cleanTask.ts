@@ -1,0 +1,441 @@
+export const cleanTaskListEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/page/get'
+export const cleanTaskCreateEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/create'
+export const cleanTaskNotifyEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/notify'
+export const cleanTaskExportEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/export'
+
+export type CleanTaskProviderMode = 'mock' | 'api'
+export const cleanTaskProviderMode: CleanTaskProviderMode = 'mock'
+
+export type CleanTaskScenario = 'success' | 'empty' | 'error'
+export type CleanTaskType = 'CHECKOUT' | 'STAY' | 'PLAN' | 'TEMPORARY' | 'ALL'
+export type CleanTaskStatus = 'PENDING_ASSIGN' | 'PENDING_CLEAN' | 'CLEANING' | 'DONE' | 'CANCELLED' | 'ALL'
+
+export type CleanTaskFilters = {
+  campId: string
+  poiId: string
+  cleanDate: string
+  roomId: string
+  cleanType: CleanTaskType
+  status: CleanTaskStatus
+  cleanerId: string
+  page: number
+  pageSize: number
+  scenario?: CleanTaskScenario
+}
+
+export type CleanLookupOption = {
+  id: string
+  label: string
+}
+
+export type CleanTaskSummary = {
+  total: number
+  pendingAssign: number
+  pendingClean: number
+  cleaning: number
+  done: number
+  overdue: number
+}
+
+export type CleanTaskRecord = {
+  id: string
+  taskNo: string
+  roomName: string
+  storeName: string
+  cleanType: CleanTaskType
+  cleanTypeLabel: string
+  status: CleanTaskStatus
+  statusLabel: string
+  cleanerId: string
+  cleanerName: string
+  cleanDate: string
+  planTime: string
+  deadline: string
+  sourceOrderNo: string
+  guestName: string
+  remark: string
+  progress: number
+  priority: 'normal' | 'urgent'
+}
+
+export type CleanTaskDashboard = {
+  providerMode: CleanTaskProviderMode
+  listEndpoint: string
+  requestBody: Record<string, unknown>
+  stores: CleanLookupOption[]
+  rooms: CleanLookupOption[]
+  cleanTypes: Array<CleanLookupOption & { id: CleanTaskType }>
+  statuses: Array<CleanLookupOption & { id: CleanTaskStatus }>
+  cleaners: CleanLookupOption[]
+  summary: CleanTaskSummary
+  tasks: CleanTaskRecord[]
+  pagination: {
+    page: number
+    pageSize: number
+    total: number
+  }
+  updatedAt: string
+}
+
+type ApiEnvelope<T> = {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+type RawCleanTask = {
+  taskId?: string
+  taskNo?: string
+  roomName?: string
+  poiName?: string
+  cleanType?: CleanTaskType
+  cleanStatus?: CleanTaskStatus
+  cleanerId?: string
+  cleanerName?: string
+  cleanDate?: string
+  planTime?: string
+  deadline?: string
+  sourceOrderNo?: string
+  guestName?: string
+  remark?: string
+  progress?: number
+  priority?: 'normal' | 'urgent'
+}
+
+type RawDashboardData = {
+  stores: CleanLookupOption[]
+  rooms: CleanLookupOption[]
+  cleanTypes: Array<CleanLookupOption & { id: CleanTaskType }>
+  statuses: Array<CleanLookupOption & { id: CleanTaskStatus }>
+  cleaners: CleanLookupOption[]
+  summary: CleanTaskSummary
+  list: RawCleanTask[]
+  pagination: {
+    page: number
+    pageSize: number
+    total: number
+  }
+}
+
+type CleanTaskProvider = {
+  fetchDashboard(filters: CleanTaskFilters): Promise<CleanTaskDashboard>
+}
+
+const stores: CleanLookupOption[] = [
+  { id: 'ALL', label: '全部门店' },
+  { id: '1796425098638573570', label: '天落会宿公寓(前海壹方城宝安中心店)' },
+]
+
+const cleanTypes: Array<CleanLookupOption & { id: CleanTaskType }> = [
+  { id: 'ALL', label: '全部类型' },
+  { id: 'CHECKOUT', label: '退房保洁' },
+  { id: 'STAY', label: '续住保洁' },
+  { id: 'PLAN', label: '计划保洁' },
+  { id: 'TEMPORARY', label: '临时保洁' },
+]
+
+const statuses: Array<CleanLookupOption & { id: CleanTaskStatus }> = [
+  { id: 'ALL', label: '全部状态' },
+  { id: 'PENDING_ASSIGN', label: '待分配' },
+  { id: 'PENDING_CLEAN', label: '待保洁' },
+  { id: 'CLEANING', label: '保洁中' },
+  { id: 'DONE', label: '已完成' },
+  { id: 'CANCELLED', label: '已取消' },
+]
+
+const cleaners: CleanLookupOption[] = [
+  { id: 'cleaner-zhang', label: '张阿姨' },
+  { id: 'cleaner-li', label: '李师傅' },
+  { id: 'cleaner-wang', label: '王保洁' },
+]
+
+const rooms: CleanLookupOption[] = [
+  { id: 'room-top-1', label: '顶层套房（浴缸巨幕电竞麻将） / 房间1' },
+  { id: 'room-president-1', label: '总裁套间（桑拿浴缸露台电竞麻将） / 房间1' },
+  { id: 'room-sky-1', label: '天落大床电竞套间 / 1' },
+  { id: 'room-movie-1', label: '观影大床房 / 房间1' },
+]
+
+const sourceTasks: RawCleanTask[] = [
+  {
+    taskId: 'task-001',
+    taskNo: 'CT20260518001',
+    roomName: '顶层套房（浴缸巨幕电竞麻将） / 房间1',
+    poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+    cleanType: 'CHECKOUT',
+    cleanStatus: 'PENDING_CLEAN',
+    cleanerId: 'cleaner-zhang',
+    cleanerName: '张阿姨',
+    cleanDate: '2026-05-18',
+    planTime: '12:30-14:00',
+    deadline: '14:00',
+    sourceOrderNo: 'HO202605180301',
+    guestName: '林女士',
+    remark: '退房后优先清洁，需补充浴巾和矿泉水',
+    progress: 20,
+    priority: 'urgent',
+  },
+  {
+    taskId: 'task-002',
+    taskNo: 'CT20260518002',
+    roomName: '总裁套间（桑拿浴缸露台电竞麻将） / 房间1',
+    poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+    cleanType: 'STAY',
+    cleanStatus: 'CLEANING',
+    cleanerId: 'cleaner-li',
+    cleanerName: '李师傅',
+    cleanDate: '2026-05-18',
+    planTime: '15:00-16:30',
+    deadline: '16:30',
+    sourceOrderNo: 'HO202605180417',
+    guestName: '许先生',
+    remark: '续住更换床品，检查投影遥控器电量',
+    progress: 65,
+    priority: 'normal',
+  },
+  {
+    taskId: 'task-003',
+    taskNo: 'CT20260518003',
+    roomName: '观影大床房 / 房间1',
+    poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+    cleanType: 'PLAN',
+    cleanStatus: 'DONE',
+    cleanerId: 'cleaner-wang',
+    cleanerName: '王保洁',
+    cleanDate: '2026-05-18',
+    planTime: '09:00-10:00',
+    deadline: '10:00',
+    sourceOrderNo: 'PLAN20260518001',
+    guestName: '运营巡检',
+    remark: '计划保洁已完成，房间可售',
+    progress: 100,
+    priority: 'normal',
+  },
+]
+
+export function createCleanTaskRequestBody(filters: CleanTaskFilters): Record<string, unknown> {
+  return {
+    campId: filters.campId,
+    poiId: filters.poiId === 'ALL' ? '' : filters.poiId,
+    cleanTime: filters.cleanDate,
+    roomId: filters.roomId === 'ALL' ? null : filters.roomId,
+    cleanType: filters.cleanType === 'ALL' ? '' : filters.cleanType,
+    cleanStatus: filters.status === 'ALL' ? '' : filters.status,
+    cleanerIds: filters.cleanerId === 'ALL' ? [] : [filters.cleanerId],
+    pageNum: filters.page,
+    pageSize: filters.pageSize,
+  }
+}
+
+export async function fetchCleanTaskDashboard(filters: CleanTaskFilters): Promise<CleanTaskDashboard> {
+  return getCleanTaskProvider(cleanTaskProviderMode).fetchDashboard(filters)
+}
+
+function getCleanTaskProvider(mode: CleanTaskProviderMode): CleanTaskProvider {
+  if (mode === 'api') return apiCleanTaskProvider
+  return mockCleanTaskProvider
+}
+
+const mockCleanTaskProvider: CleanTaskProvider = {
+  async fetchDashboard(filters) {
+    await delay(120)
+
+    if (filters.scenario === 'error') {
+      throw new Error('保洁任务服务繁忙，请稍后重试')
+    }
+
+    const requestBody = createCleanTaskRequestBody(filters)
+    const filtered = filters.scenario === 'empty' ? [] : filterTasks(sourceTasks, filters)
+    const envelope = createEnvelope<RawDashboardData>('clean-task-list', {
+      stores,
+      rooms,
+      cleanTypes,
+      statuses,
+      cleaners,
+      list: filtered,
+      summary: summarizeTasks(filtered),
+      pagination: {
+        page: filters.page,
+        pageSize: filters.pageSize,
+        total: filtered.length,
+      },
+    })
+
+    return adaptCleanTaskDashboard(envelope, requestBody)
+  },
+}
+
+const apiCleanTaskProvider: CleanTaskProvider = {
+  async fetchDashboard(filters) {
+    const requestBody = createCleanTaskRequestBody(filters)
+    const response = await fetch(cleanTaskListEndpoint, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+
+    const envelope = (await readJson(response)) as ApiEnvelope<RawDashboardData> | null
+    if (!response.ok) {
+      throw new Error(`${cleanTaskListEndpoint} 返回 HTTP ${response.status}`)
+    }
+    return adaptCleanTaskDashboard(assertEnvelope(envelope), requestBody, 'api')
+  },
+}
+
+function filterTasks(tasks: RawCleanTask[], filters: CleanTaskFilters) {
+  return tasks.filter((task) => {
+    if (filters.poiId !== 'ALL' && task.poiName !== stores.find((store) => store.id === filters.poiId)?.label) return false
+    if (filters.roomId !== 'ALL' && task.roomName !== rooms.find((room) => room.id === filters.roomId)?.label) return false
+    if (filters.cleanType !== 'ALL' && task.cleanType !== filters.cleanType) return false
+    if (filters.status !== 'ALL' && task.cleanStatus !== filters.status) return false
+    if (filters.cleanerId !== 'ALL' && task.cleanerId !== filters.cleanerId) return false
+    return task.cleanDate === filters.cleanDate
+  })
+}
+
+function summarizeTasks(tasks: RawCleanTask[]): CleanTaskSummary {
+  return {
+    total: tasks.length,
+    pendingAssign: tasks.filter((task) => task.cleanStatus === 'PENDING_ASSIGN').length,
+    pendingClean: tasks.filter((task) => task.cleanStatus === 'PENDING_CLEAN').length,
+    cleaning: tasks.filter((task) => task.cleanStatus === 'CLEANING').length,
+    done: tasks.filter((task) => task.cleanStatus === 'DONE').length,
+    overdue: tasks.filter((task) => task.priority === 'urgent' && task.cleanStatus !== 'DONE').length,
+  }
+}
+
+function createEnvelope<T>(traceId: string, data: T): ApiEnvelope<T> {
+  return {
+    code: 0,
+    message: 'success',
+    data,
+    traceId: `mock-fangtai--baojie-guanli--baojie-renwu-${traceId}`,
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function adaptCleanTaskDashboard(
+  envelope: ApiEnvelope<RawDashboardData>,
+  requestBody: Record<string, unknown>,
+  providerMode: CleanTaskProviderMode = cleanTaskProviderMode,
+): CleanTaskDashboard {
+  const payload = assertEnvelope(envelope)
+  const data = payload.data
+  const list = Array.isArray(data.list) ? data.list : []
+
+  return {
+    providerMode,
+    listEndpoint: cleanTaskListEndpoint,
+    requestBody,
+    stores: normalizeOptions(data.stores),
+    rooms: normalizeOptions(data.rooms),
+    cleanTypes,
+    statuses,
+    cleaners: normalizeOptions(data.cleaners),
+    summary: {
+      total: toNumber(data.summary?.total, list.length),
+      pendingAssign: toNumber(data.summary?.pendingAssign, 0),
+      pendingClean: toNumber(data.summary?.pendingClean, 0),
+      cleaning: toNumber(data.summary?.cleaning, 0),
+      done: toNumber(data.summary?.done, 0),
+      overdue: toNumber(data.summary?.overdue, 0),
+    },
+    tasks: list.map(adaptTask),
+    pagination: {
+      page: toNumber(data.pagination?.page, 1),
+      pageSize: toNumber(data.pagination?.pageSize, 20),
+      total: toNumber(data.pagination?.total, list.length),
+    },
+    updatedAt: payload.timestamp,
+  }
+}
+
+function adaptTask(task: RawCleanTask, index: number): CleanTaskRecord {
+  const cleanType = asCleanType(task.cleanType)
+  const status = asCleanStatus(task.cleanStatus)
+
+  return {
+    id: String(task.taskId ?? `clean-task-${index}`),
+    taskNo: String(task.taskNo ?? `CT-${index + 1}`),
+    roomName: String(task.roomName ?? '-'),
+    storeName: String(task.poiName ?? stores[0].label),
+    cleanType,
+    cleanTypeLabel: labelOf(cleanTypes, cleanType),
+    status,
+    statusLabel: labelOf(statuses, status),
+    cleanerId: String(task.cleanerId ?? ''),
+    cleanerName: String(task.cleanerName ?? '待分配'),
+    cleanDate: String(task.cleanDate ?? ''),
+    planTime: String(task.planTime ?? '-'),
+    deadline: String(task.deadline ?? '-'),
+    sourceOrderNo: String(task.sourceOrderNo ?? '-'),
+    guestName: String(task.guestName ?? '-'),
+    remark: String(task.remark ?? ''),
+    progress: toNumber(task.progress, 0),
+    priority: task.priority === 'urgent' ? 'urgent' : 'normal',
+  }
+}
+
+function assertEnvelope<T>(envelope: ApiEnvelope<T> | null): ApiEnvelope<T> {
+  if (!envelope || typeof envelope !== 'object') {
+    throw new Error('保洁任务响应不是 JSON 对象')
+  }
+  if (envelope.code !== 0) {
+    throw new Error(envelope.message || '保洁任务响应返回失败')
+  }
+  if (envelope.data === undefined || envelope.data === null) {
+    throw new Error('保洁任务响应缺少 data 字段')
+  }
+  return envelope
+}
+
+async function readJson(response: Response) {
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
+function normalizeOptions(options: unknown): CleanLookupOption[] {
+  if (!Array.isArray(options)) return []
+  return options.map((option, index) => {
+    const record = asRecord(option)
+    return {
+      id: String(record.id ?? `option-${index}`),
+      label: String(record.label ?? record.name ?? `选项 ${index + 1}`),
+    }
+  })
+}
+
+function asCleanType(value: unknown): CleanTaskType {
+  return cleanTypes.some((item) => item.id === value) ? (value as CleanTaskType) : 'PLAN'
+}
+
+function asCleanStatus(value: unknown): CleanTaskStatus {
+  return statuses.some((item) => item.id === value) ? (value as CleanTaskStatus) : 'PENDING_ASSIGN'
+}
+
+function labelOf<T extends string>(options: Array<CleanLookupOption & { id: T }>, id: T) {
+  return options.find((option) => option.id === id)?.label ?? id
+}
+
+function toNumber(value: unknown, fallback: number) {
+  const numeric = Number(value)
+  return Number.isFinite(numeric) ? numeric : fallback
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms)
+  })
+}

@@ -1,226 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  fetchCalendarRoomProducts,
+  type CalendarRoomProduct,
+  type CalendarRoomQuery,
+  type CalendarRoomRow,
+  type CalendarRoomViewModel,
+} from '../services/calendarRoom'
 import './CalendarRoomPage.css'
 
 type FilterKey = 'channel' | 'status'
+type DialogState =
+  | { type: 'detail'; product: CalendarRoomProduct }
+  | { type: 'price'; product: CalendarRoomProduct }
+  | { type: 'status'; product: CalendarRoomProduct }
+  | null
 
-interface ProductItem {
-  name: string
-  channel: string
-  breakfast: string
-  refund: string
-  actions: string[]
-  status?: 'online' | 'offline'
+const DEFAULT_QUERY: CalendarRoomQuery = {
+  keyword: '',
+  channel: '',
+  status: '全部',
+  page: 1,
+  pageSize: 20,
 }
-
-interface RoomTypeRow {
-  name: string
-  count: number
-  channels: string[]
-  products: ProductItem[]
-}
-
-const storeName = '天落会宿公寓(前海壹方城宝安中心店)'
-
-const channelOptions = ['途家', '美团民宿', '小猪', '携程', '美团酒店', '飞猪淘酒店', '路客云聚合', '木鸟']
-const statusOptions = ['全部', '上架', '下架']
-
-const roomRows: RoomTypeRow[] = [
-  {
-    name: '顶层套房（浴缸巨幕电竞麻将）',
-    count: 11,
-    channels: ['途', '美', '猪', '携', '飞', '聚', '鸟'],
-    products: [
-      {
-        name: '桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心',
-        channel: '途家',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床宝安中心深圳湾欢乐海岸近机场',
-        channel: '途家',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '浴缸可观影可打麻将电竞电脑/顶层近湾区之光摩天轮/聚会派对/近地铁/万元天落床+欧式大床/河流桌宝中深圳湾欢乐海岸近机场',
-        channel: '美团民宿',
-        breakfast: '无早餐',
-        refund: '阶梯退',
-        actions: ['预览', '编辑', '修改价格', '上架'],
-        status: 'offline',
-      },
-      {
-        name: '天落床 真悬浮体验 70寸巨屏4K电视观影',
-        channel: '小猪',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>',
-        channel: '携程',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '修改价格', '下架'],
-      },
-      {
-        name: '顶层套房（浴缸巨幕电竞麻将）',
-        channel: '飞猪淘酒店',
-        breakfast: '无早餐',
-        refund: '未入住任意退',
-        actions: ['预览', '修改价格', '下架'],
-      },
-      {
-        name: '顶层套房（浴缸巨幕电竞麻将）',
-        channel: '路客云聚合',
-        breakfast: '无早餐',
-        refund: '灵活',
-        actions: ['编辑', '修改价格', '下架'],
-      },
-      {
-        name: '浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近机场深圳湾近地铁宝安中心',
-        channel: '木鸟',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-    ],
-  },
-  {
-    name: '总裁套间（桑拿浴缸露台电竞麻将）',
-    count: 9,
-    channels: ['途', '美', '猪', '携', '飞', '聚', '鸟'],
-    products: [
-      {
-        name: '桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心',
-        channel: '途家',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '轰趴浴缸麻将桑拿观',
-        channel: '美团民宿',
-        breakfast: '无早餐',
-        refund: '阶梯退',
-        actions: ['预览', '编辑', '修改价格', '上架'],
-        status: 'offline',
-      },
-      {
-        name: '浴缸桑拿台球乒乓环绕4米巨幕电脑 变形金刚 钢铁侠之家',
-        channel: '小猪',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '总裁套间（桑拿浴缸露台电竞麻将）',
-        channel: '飞猪淘酒店',
-        breakfast: '无早餐',
-        refund: '未入住任意退',
-        actions: ['预览', '修改价格', '下架'],
-      },
-      {
-        name: '百万豪装♛台球乒乓桑拿浴缸百平露台俯瞰摩天轮深圳湾｜三联屏电竞电脑｜会展中心前海',
-        channel: '木鸟',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-    ],
-  },
-  {
-    name: '天落大床电竞套间',
-    count: 8,
-    channels: ['美', '猪', '携', '飞', '聚', '鸟'],
-    products: [
-      {
-        name: '万元天落床｜观影电竞房40寸4K4060显卡升降电脑｜河流桌按摩椅｜俯瞰摩天轮深圳湾欢乐海岸｜宝安中心壹方城机场会展',
-        channel: '美团民宿',
-        breakfast: '无早餐',
-        refund: '阶梯退',
-        actions: ['预览', '编辑', '修改价格', '上架'],
-        status: 'offline',
-      },
-      {
-        name: '天落床真悬浮体验',
-        channel: '小猪',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '天落大床电竞套间',
-        channel: '路客云聚合',
-        breakfast: '无早餐',
-        refund: '阶梯退',
-        actions: ['编辑', '修改价格', '下架'],
-      },
-      {
-        name: '万元天落床｜带鱼屏40寸4K4060升降电竞电脑｜河流桌按摩椅｜俯瞰摩天轮深圳湾',
-        channel: '木鸟',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-    ],
-  },
-  {
-    name: '观影大床房',
-    count: 8,
-    channels: ['途', '美', '携', '飞', '聚', '鸟'],
-    products: [
-      {
-        name: '90寸4K影院｜珍藏河流桌｜深圳湾欢乐海岸宝安中心壹方城前海机场会展中心',
-        channel: '途家',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '90寸4K影院｜珍藏河流桌｜深圳湾欢乐海岸宝安中心壹方城前海机场会展中心',
-        channel: '美团民宿',
-        breakfast: '无早餐',
-        refund: '阶梯退',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-      {
-        name: '观影大床房-不含早-入住当天18点前可免费取消',
-        channel: '美团酒店',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '修改价格', '下架'],
-      },
-      {
-        name: '观影大床房',
-        channel: '路客云聚合',
-        breakfast: '无早餐',
-        refund: '灵活',
-        actions: ['编辑', '修改价格', '下架'],
-      },
-      {
-        name: '特工密室/90寸4K影院｜河流桌｜宝安中心深圳湾欢乐海岸机场前海湾',
-        channel: '木鸟',
-        breakfast: '无早餐',
-        refund: '-',
-        actions: ['预览', '编辑', '修改价格', '下架'],
-      },
-    ],
-  },
-]
-
-const calendarRoomConversations = [
-  ['携程民宿-【M335275070】', '咨询中', '途家', '顶层套房（浴缸巨幕电竞麻将）', '房:加了'],
-  ['携程民宿-【M566739056】', '咨询中', '途家', '总裁套间（桑拿浴缸露台电竞麻将）', '房:已办理退房'],
-  ['携程民宿-【_WECHAT349】', '咨询中', '途家', '总裁套间（桑拿浴缸露台电竞麻将）', ''],
-  ['CqBv9667', '咨询中', '途家', '', '房:不客气哈~'],
-  ['去哪民宿-【去哪儿用户】', '咨询中', '途家 02.19-02.21（2晚）', '总裁套间（桑拿浴缸露台电竞麻将）', '房:亲 有的'],
-  ['携程民宿-【M614718025】', '咨询中', '途家', '顶层套房（浴缸巨幕电竞麻将）', '房:什么时间段呢几号到几…'],
-]
 
 export function CalendarRoomPage() {
   const location = useLocation()
@@ -233,56 +35,132 @@ export function CalendarRoomPage() {
 }
 
 function CalendarRoomListPage() {
+  const location = useLocation()
   const navigate = useNavigate()
+  const locationQuery = useMemo(() => {
+    const params = new URLSearchParams(location.search)
+    const provider = params.get('calendarRoomProvider')
+    const mockState = params.get('calendarRoomMockState')
+
+    return {
+      provider: provider === 'real' || provider === 'mock' ? provider : undefined,
+      mockState: mockState === 'success' || mockState === 'empty' || mockState === 'error' ? mockState : undefined,
+    } satisfies Pick<CalendarRoomQuery, 'provider' | 'mockState'>
+  }, [location.search])
   const [openFilter, setOpenFilter] = useState<FilterKey | null>(null)
-  const [values, setValues] = useState<Record<FilterKey, string>>({
-    channel: '',
-    status: '全部',
-  })
-  const [keyword, setKeyword] = useState('')
+  const [query, setQuery] = useState<CalendarRoomQuery>({ ...DEFAULT_QUERY, ...locationQuery })
+  const [draftKeyword, setDraftKeyword] = useState('')
+  const [viewModel, setViewModel] = useState<CalendarRoomViewModel | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [isExpanded, setIsExpanded] = useState(false)
   const [notice, setNotice] = useState('')
+  const [dialog, setDialog] = useState<DialogState>(null)
 
-  function chooseFilter(value: string) {
-    if (!openFilter) return
-    setValues((current) => ({ ...current, [openFilter]: value }))
-    setOpenFilter(null)
-  }
+  useEffect(() => {
+    const controller = new AbortController()
 
-  function resetFilters() {
-    setValues({ channel: '', status: '全部' })
-    setKeyword('')
-    setOpenFilter(null)
-    setNotice('')
-  }
+    fetchCalendarRoomProducts({ ...query, ...locationQuery }, controller.signal)
+      .then((result) => {
+        setViewModel(result)
+        setNotice((current) => current || '')
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setErrorMessage(error instanceof Error ? error.message.replace(/。real provider.*$/, '') : '日历房数据加载失败，请稍后重试')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [query, locationQuery])
 
   const currentOptions =
     openFilter === 'channel'
-      ? { label: '渠道', options: channelOptions }
+      ? { label: '渠道', options: viewModel?.channelOptions ?? [] }
       : openFilter === 'status'
-        ? { label: '上架状态', options: statusOptions }
+        ? { label: '上架状态', options: viewModel?.statusOptions ?? [] }
         : null
 
+  function applyFilter(key: FilterKey, value: string) {
+    setIsLoading(true)
+    setErrorMessage('')
+    setQuery((current) => ({ ...current, [key]: value, page: 1 }))
+    setOpenFilter(null)
+    setNotice('筛选条件已更新')
+  }
+
+  function submitSearch() {
+    setIsLoading(true)
+    setErrorMessage('')
+    setQuery((current) => ({ ...current, keyword: draftKeyword, page: 1 }))
+    setNotice('已查询日历房售卖产品')
+  }
+
+  function resetFilters() {
+    setDraftKeyword('')
+    setIsLoading(true)
+    setErrorMessage('')
+    setQuery({ ...DEFAULT_QUERY, ...locationQuery })
+    setOpenFilter(null)
+    setNotice('筛选条件已重置')
+  }
+
+  function retryLoad() {
+    setIsLoading(true)
+    setErrorMessage('')
+    setQuery((current) => ({ ...current }))
+  }
+
+  function handleProductAction(action: CalendarRoomProduct['actions'][number], product: CalendarRoomProduct) {
+    if (action === '预览') {
+      setDialog({ type: 'detail', product })
+      return
+    }
+
+    if (action === '编辑') {
+      navigate(viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting')
+      return
+    }
+
+    if (action === '修改价格') {
+      setDialog({ type: 'price', product })
+      return
+    }
+
+    setDialog({ type: 'status', product })
+  }
+
+  const rows = viewModel?.rows ?? []
+  const storeName = viewModel?.storeOptions[1]?.name ?? '天落会宿公寓(前海壹方城宝安中心店)'
+
   return (
-    <div className="calendar-room-page" data-conversation-count={calendarRoomConversations.length}>
+    <div
+      className="calendar-room-page"
+      data-provider={viewModel?.providerMode ?? query.provider ?? 'mock'}
+      data-request-keyword={viewModel?.requestParams.keyword ?? query.keyword}
+      data-request-channel={viewModel?.requestParams.channel ?? query.channel}
+      data-request-status={viewModel?.requestParams.status ?? query.status}
+    >
       <h1 className="sr-only-heading">日历房</h1>
 
       <section className="calendar-room-query" aria-label="日历房筛选">
         <div className="calendar-room-query__top">
           <label className="calendar-room-store">
             <span>全部门店</span>
-            <button type="button" aria-label={`全部门店 ${storeName}`} className="calendar-room-store__select">
+            <button type="button" aria-label={`全部门店 ${storeName}`} className="calendar-room-store__select" onClick={() => setNotice('门店列表已展开')}>
               {storeName}
             </button>
           </label>
           <div className="calendar-room-query__actions">
-            <button type="button" onClick={() => navigate('/setting/roomTypeInfo')}>
+            <button type="button" onClick={() => navigate(viewModel?.routeTargets.roomTypeList ?? '/setting/roomTypeInfo')}>
               房型管理
             </button>
             <button
               type="button"
               className="is-primary"
-              onClick={() => navigate('/setting/localRoomTypeProductionSetting/channelGoodsSetting')}
+              onClick={() => navigate(viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting')}
             >
               新增售卖产品
             </button>
@@ -293,21 +171,24 @@ function CalendarRoomListPage() {
           <label className="calendar-room-field calendar-room-search">
             <span>搜索：</span>
             <input
-              value={keyword}
+              value={draftKeyword}
               placeholder="请输入房型名称"
-              onChange={(event) => setKeyword(event.target.value)}
+              onChange={(event) => setDraftKeyword(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') submitSearch()
+              }}
             />
           </label>
           <FilterButton
             label="渠道"
-            value={values.channel}
+            value={query.channel}
             placeholder="请选择渠道"
             isOpen={openFilter === 'channel'}
             onToggle={() => setOpenFilter(openFilter === 'channel' ? null : 'channel')}
           />
           <FilterButton
             label="上架状态"
-            value={values.status}
+            value={query.status}
             placeholder="全部"
             isOpen={openFilter === 'status'}
             onToggle={() => setOpenFilter(openFilter === 'status' ? null : 'status')}
@@ -318,8 +199,8 @@ function CalendarRoomListPage() {
           <button type="button" className="calendar-room-reset" onClick={resetFilters}>
             重 置
           </button>
-          <button type="button" className="calendar-room-search-button" onClick={() => setNotice('已查询日历房售卖产品')}>
-            搜 索
+          <button type="button" className="calendar-room-search-button" onClick={submitSearch} disabled={isLoading}>
+            {isLoading ? '查询中' : '搜 索'}
           </button>
         </div>
 
@@ -330,8 +211,10 @@ function CalendarRoomListPage() {
                 key={option}
                 type="button"
                 role="option"
-                aria-selected={(openFilter === 'channel' ? values.channel : values.status) === option}
-                onClick={() => chooseFilter(option)}
+                aria-selected={(openFilter === 'channel' ? query.channel : query.status) === option}
+                onClick={() => {
+                  if (openFilter) applyFilter(openFilter, option)
+                }}
               >
                 {option}
               </button>
@@ -340,30 +223,67 @@ function CalendarRoomListPage() {
         ) : null}
       </section>
 
+      {errorMessage ? (
+        <div className="calendar-room-alert" role="alert" aria-label="日历房数据错误">
+          <span>日历房数据加载失败，请稍后重试</span>
+          <button type="button" onClick={retryLoad}>
+            重试
+          </button>
+        </div>
+      ) : null}
+
       {notice ? (
-        <div className="calendar-room-notice" role="status">
+        <div className="calendar-room-notice" role="status" aria-label="日历房操作反馈">
           {notice}
         </div>
       ) : null}
 
-      <section className="calendar-room-table" aria-label="日历房售卖产品列表">
+      <section className={`calendar-room-table${isLoading ? ' is-loading' : ''}`} aria-label="日历房售卖产品列表">
         <div className="calendar-room-table__head">
           {['展开', '房型名称', '关联渠道', '产品数量', '操作'].map((column) => (
             <div key={column}>{column}</div>
           ))}
         </div>
-        {roomRows.map((room) => (
-          <RoomRow key={room.name} room={room} isExpanded={isExpanded} onToggle={() => setIsExpanded((value) => !value)} />
-        ))}
+        {rows.length > 0 ? (
+          rows.map((room) => (
+            <RoomRow
+              key={room.id}
+              room={room}
+              isExpanded={isExpanded}
+              onToggle={() => setIsExpanded((value) => !value)}
+              onProductAction={handleProductAction}
+              onNavigateRoomType={() => navigate(viewModel?.routeTargets.roomTypeEdit ?? '/setting/roomTypeInfo/edit')}
+              onNavigatePrice={() => navigate(viewModel?.routeTargets.price ?? '/houseManage/houseCale')}
+            />
+          ))
+        ) : (
+          <div className="calendar-room-empty" role="status">
+            <strong>暂无售卖产品</strong>
+            <span>当前筛选条件下没有日历房售卖产品，请调整条件后重新查询。</span>
+          </div>
+        )}
       </section>
 
       <div className="calendar-room-pagination" aria-label="日历房分页">
-        <span>第 1-4 条/总共 4 条</span>
+        <span>
+          第 {rows.length > 0 ? 1 : 0}-{rows.length} 条/总共 {viewModel?.pagination.total ?? 0} 条
+        </span>
         <button type="button" className="is-active">
-          1
+          {query.page}
         </button>
-        <button type="button">20 条/页</button>
+        <button type="button">{query.pageSize} 条/页</button>
       </div>
+
+      {dialog ? (
+        <CalendarRoomDialog
+          dialog={dialog}
+          onClose={() => setDialog(null)}
+          onConfirm={(message) => {
+            setDialog(null)
+            setNotice(message)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
@@ -372,13 +292,17 @@ function RoomRow({
   room,
   isExpanded,
   onToggle,
+  onProductAction,
+  onNavigateRoomType,
+  onNavigatePrice,
 }: {
-  room: RoomTypeRow
+  room: CalendarRoomRow
   isExpanded: boolean
   onToggle: () => void
+  onProductAction: (action: CalendarRoomProduct['actions'][number], product: CalendarRoomProduct) => void
+  onNavigateRoomType: () => void
+  onNavigatePrice: () => void
 }) {
-  const navigate = useNavigate()
-
   return (
     <article className="calendar-room-table__group">
       <div className="calendar-room-table__room-row">
@@ -389,32 +313,38 @@ function RoomRow({
         </div>
         <div className="calendar-room-name">{room.name}</div>
         <div className="calendar-room-channels" aria-label={`${room.name}关联渠道`}>
-          {room.channels.map((channel, index) => (
-            <span key={`${room.name}-${channel}-${index}`} style={{ zIndex: room.channels.length - index }}>
+          {room.channelBadges.map((channel, index) => (
+            <span key={`${room.id}-${channel}-${index}`} style={{ zIndex: room.channelBadges.length - index }}>
               {channel}
             </span>
           ))}
         </div>
-        <div>{room.count}</div>
+        <div>{room.products.length}</div>
         <div className="calendar-room-actions">
-          <button type="button" onClick={() => navigate('/setting/roomTypeInfo/edit')}>
+          <button type="button" onClick={onNavigateRoomType}>
             编辑房型
           </button>
-          <button type="button" onClick={() => navigate('/houseManage/houseCale')}>
+          <button type="button" onClick={onNavigatePrice}>
             房价管理
           </button>
         </div>
       </div>
-      {isExpanded ? <ProductDetails room={room} /> : null}
+      {isExpanded ? <ProductDetails room={room} onProductAction={onProductAction} /> : null}
     </article>
   )
 }
 
-function ProductDetails({ room }: { room: RoomTypeRow }) {
+function ProductDetails({
+  room,
+  onProductAction,
+}: {
+  room: CalendarRoomRow
+  onProductAction: (action: CalendarRoomProduct['actions'][number], product: CalendarRoomProduct) => void
+}) {
   return (
     <div className="calendar-room-products" aria-label={`${room.name}产品明细`}>
-      {room.products.map((product, index) => (
-        <article key={`${room.name}-${product.name}-${index}`} className="calendar-room-product-card">
+      {room.products.map((product) => (
+        <article key={product.id} className="calendar-room-product-card">
           <div className="calendar-room-product-card__main">
             <ProductField label="产品名称：" value={product.name} />
             <ProductField label="渠道：" value={product.channel} />
@@ -427,6 +357,7 @@ function ProductDetails({ room }: { room: RoomTypeRow }) {
                 key={action}
                 type="button"
                 className={action === '上架' ? 'is-offline-action' : action === '下架' ? 'is-danger-link' : ''}
+                onClick={() => onProductAction(action, product)}
               >
                 {action}
               </button>
@@ -479,9 +410,87 @@ function FilterButton({
   )
 }
 
+function CalendarRoomDialog({
+  dialog,
+  onClose,
+  onConfirm,
+}: {
+  dialog: NonNullable<DialogState>
+  onClose: () => void
+  onConfirm: (message: string) => void
+}) {
+  if (dialog.type === 'detail') {
+    return (
+      <div className="calendar-room-dialog-mask" role="presentation" onMouseDown={onClose}>
+        <section className="calendar-room-dialog" role="dialog" aria-modal="true" aria-label="售卖产品详情" onMouseDown={(event) => event.stopPropagation()}>
+          <header>
+            <strong>售卖产品详情</strong>
+            <button type="button" aria-label="关闭售卖产品详情" onClick={onClose}>×</button>
+          </header>
+          <dl>
+            <dt>产品名称</dt>
+            <dd>{dialog.product.name}</dd>
+            <dt>渠道</dt>
+            <dd>{dialog.product.channel}</dd>
+            <dt>当前价格计划</dt>
+            <dd>{dialog.product.pricePlan}</dd>
+            <dt>上下架状态</dt>
+            <dd>{dialog.product.status === 'online' ? '上架中' : '已下架'}</dd>
+          </dl>
+        </section>
+      </div>
+    )
+  }
+
+  if (dialog.type === 'price') {
+    return (
+      <div className="calendar-room-dialog-mask" role="presentation" onMouseDown={onClose}>
+        <section className="calendar-room-dialog" role="dialog" aria-modal="true" aria-label="调整售卖价格" onMouseDown={(event) => event.stopPropagation()}>
+          <header>
+            <strong>调整售卖价格</strong>
+            <button type="button" aria-label="关闭调整售卖价格" onClick={onClose}>×</button>
+          </header>
+          <p>当前价格计划：{dialog.product.pricePlan}</p>
+          <label className="calendar-room-dialog-field">
+            <span>基础价</span>
+            <input defaultValue="730" aria-label="基础价" />
+          </label>
+          <footer>
+            <button type="button" onClick={onClose}>取消</button>
+            <button type="button" className="is-primary" onClick={() => onConfirm('售卖价格已保存')}>
+              保存价格
+            </button>
+          </footer>
+        </section>
+      </div>
+    )
+  }
+
+  const nextStatusText = dialog.product.status === 'online' ? '确认下架' : '确认上架'
+
+  return (
+    <div className="calendar-room-dialog-mask" role="presentation" onMouseDown={onClose}>
+      <section className="calendar-room-dialog" role="dialog" aria-modal="true" aria-label="调整上下架状态" onMouseDown={(event) => event.stopPropagation()}>
+        <header>
+          <strong>调整上下架状态</strong>
+          <button type="button" aria-label="关闭调整上下架状态" onClick={onClose}>×</button>
+        </header>
+        <p>{nextStatusText}：{dialog.product.name}</p>
+        <footer>
+          <button type="button" onClick={onClose}>取消</button>
+          <button type="button" className="is-primary" onClick={() => onConfirm('售卖状态已更新')}>
+            确认调整
+          </button>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
 function CalendarRoomEditPage() {
   const navigate = useNavigate()
   const [activeChannel, setActiveChannel] = useState('微信小程序')
+  const [notice, setNotice] = useState('')
 
   return (
     <div className="calendar-room-edit-page">
@@ -501,12 +510,13 @@ function CalendarRoomEditPage() {
           </button>
         ))}
       </div>
+      {notice ? <div className="calendar-room-notice" role="status" aria-label="日历房操作反馈">{notice}</div> : null}
       <section className="calendar-room-edit-card" aria-label="新增产品">
-        <button type="button" className="calendar-room-pick-room">
+        <button type="button" className="calendar-room-pick-room" onClick={() => setNotice('房型选择面板已打开')}>
           选择房型
         </button>
         <EditField label="房型">
-          <button type="button" className="calendar-room-form-select">
+          <button type="button" className="calendar-room-form-select" onClick={() => setNotice('房型选择面板已打开')}>
             请选择
           </button>
         </EditField>
@@ -549,7 +559,7 @@ function CalendarRoomEditPage() {
           <button type="button" onClick={() => navigate('/setting/localRoomTypeProductionSetting')}>
             取 消
           </button>
-          <button type="button" className="is-primary">
+          <button type="button" className="is-primary" onClick={() => setNotice('售卖产品已保存')}>
             确 定
           </button>
         </footer>

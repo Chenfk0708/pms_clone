@@ -33,6 +33,33 @@ function normalizeText(text) {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function tryReadPostData(request) {
+  const raw = request.postData()
+  if (!raw) return null
+  try {
+    return JSON.parse(raw)
+  } catch {
+    return raw.slice(0, 2000)
+  }
+}
+
+function summarizeJson(value, depth = 0) {
+  if (value === null || value === undefined) return value
+  if (depth > 3) return Array.isArray(value) ? `[array:${value.length}]` : typeof value
+  if (Array.isArray(value)) return value.slice(0, 3).map((item) => summarizeJson(item, depth + 1))
+  if (typeof value !== 'object') return value
+
+  const summary = {}
+  for (const [key, child] of Object.entries(value).slice(0, 24)) {
+    summary[key] = summarizeJson(child, depth + 1)
+  }
+  return summary
+}
+
+function shouldCaptureResponseBody(url) {
+  return /promotionPlanProducts\/page\/get|weiRoomCategories\/page\/get|roomCategories\/page\/get|edition\/resource\/get|promotion/i.test(url)
+}
+
 async function clickFirstVisible(page, labels) {
   for (const label of labels) {
     const locators = [
@@ -270,6 +297,7 @@ async function extractFacts(page, interactions) {
 
 async function main() {
   const network = []
+  const responseCaptureTasks = []
   const browser = await chromium.launch({
     executablePath: chromeExecutablePath,
     headless: true,
@@ -286,13 +314,26 @@ async function main() {
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()
-      network.push({
+      const entry = {
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
+        requestBody: tryReadPostData(request),
         contentType: response.headers()['content-type'] ?? '',
-      })
+      }
+      network.push(entry)
+
+      if (shouldCaptureResponseBody(response.url())) {
+        responseCaptureTasks.push(
+          response
+            .json()
+            .then((body) => {
+              entry.responseJsonSummary = summarizeJson(body)
+            })
+            .catch(() => {}),
+        )
+      }
     })
 
     await page.goto(mode === 'target' ? targetUrl : cloneUrl, {
@@ -301,6 +342,7 @@ async function main() {
     })
     await waitForSurface(page)
     const interactions = await applyState(page)
+    await Promise.allSettled(responseCaptureTasks)
 
     await page.screenshot({ path: fileFor(artifactDirs.screenshots, 'viewport', 'png') })
     await page.screenshot({ path: fileFor(artifactDirs.screenshots, 'full', 'png'), fullPage: true })

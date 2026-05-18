@@ -243,7 +243,7 @@ const pages = [
   {
     path: '/cleanManage/cleanSetting',
     title: '保洁设置',
-    contentText: '限时钜惠！智能保洁6折开通',
+    contentText: '退房保洁自动派单',
     screenshot: path.resolve(
       __dirname,
       '../../artifacts/screenshots/fangtai--baojie-guanli--baojie-shezhi/default-clone-route.png',
@@ -406,7 +406,7 @@ const pages = [
   {
     path: '/cleanManage/cleanTask',
     title: '保洁任务',
-    contentText: '限时钜惠！智能保洁6折开通',
+    contentText: 'CT20260518001',
     screenshot: path.resolve(
       __dirname,
       '../../artifacts/screenshots/fangtai--baojie-guanli--baojie-renwu/default-clone-route.png',
@@ -461,19 +461,19 @@ for (const pageDef of pages) {
     } else if (pageDef.path === '/houseManage/priceComparison') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.locator('.price-comparison-page')).toBeVisible()
-      await expect(page.getByRole('button', { name: '立即开通' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: '竞争圈比价' })).toBeVisible()
     } else if (pageDef.path === '/houseManage/otherPrice') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.locator('.other-price-page')).toBeVisible()
       await expect(page.getByRole('tab', { name: '杂费设置' })).toHaveAttribute('aria-selected', 'true')
     } else if (pageDef.path === '/cleanManage/cleanLog') {
       await expect(page.locator('.page-header')).toBeHidden()
-      await expect(page.getByLabel('保洁日志列表')).toContainText('操作内容')
+      await expect(page.locator('.clean-log-table')).toContainText('房间1 已完成保洁并标记为净房')
     } else if (pageDef.path === '/order/house-order/list') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.locator('.order-page')).toBeVisible()
       await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toBeVisible()
-      await expect(page.getByRole('alert')).toContainText('缺少 campId')
+      await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过住宿订单数据服务刷新')
       await expect(page.getByRole('table', { name: '住宿订单列表' }).getByRole('columnheader')).toHaveCount(24)
     } else if (pageDef.path === '/order/house-longRental-order/list') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
@@ -555,7 +555,7 @@ for (const pageDef of pages) {
       await expect(page.getByText('日志总数')).toHaveCount(0)
     }
     if ('contentText' in pageDef) {
-      await expect(page.getByText(pageDef.contentText)).toBeVisible()
+      await expect(page.getByText(pageDef.contentText).first()).toBeVisible()
     }
     if (pageDef.path === '/houseManage/priceBoard') {
       await page.getByText('去开通').click()
@@ -616,10 +616,10 @@ test('/houseManage/days keeps business UI clean and gives feedback for visible a
 
   await page.getByPlaceholder('输入客户姓名/手机/房间/渠道单/备注').fill('房间1')
   await page.keyboard.press('Enter')
-  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('搜索条件已记录')
+  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('已按“房间1”更新日房态')
 
   await page.getByRole('button', { name: '读卡' }).click()
-  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('读卡器未接入')
+  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('请连接读卡器后重试')
   await expect(page.getByText('本地 SPA 目前没有可复用的已认证 PMS API 代理')).toHaveCount(0)
 
   await page.getByRole('button', { name: '更多设置' }).click()
@@ -629,14 +629,18 @@ test('/houseManage/days keeps business UI clean and gives feedback for visible a
 
   await page.getByRole('button', { name: '更多设置' }).click()
   await page.getByRole('menuitem', { name: '房态设置' }).click()
-  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('房态设置真实入口未取证')
+  await expect(page.getByRole('dialog', { name: '房态设置' })).toContainText('自动刷新')
+  await page.getByRole('button', { name: '保存设置' }).click()
+  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('房态设置已保存')
 
   await page.getByRole('button', { name: '批量设脏/净' }).click()
   await page.getByRole('menuitem', { name: '批量设脏' }).click()
-  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('请先选择房间')
+  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('请选择房间后再批量设脏')
 
   await page.getByRole('article', { name: /观影大床房 房间1/ }).click()
-  await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('房间详情实时接口未接入')
+  await expect(page.getByRole('dialog', { name: '房间详情' })).toContainText('胡志深')
+  await expect(page.getByRole('dialog', { name: '房间详情' })).toContainText('办理入住')
+  await page.getByRole('button', { name: '关闭房间详情' }).click()
 
   await page.getByLabel('渠道').selectOption('direct')
   await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('渠道筛选已切换')
@@ -734,16 +738,17 @@ test('/order/house-longRental-order/list exposes data source and blocked actions
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/order/house-longRental-order/list'))
 
-  await expect(page.getByLabel('长租订单数据来源')).toContainText('orders/page/get')
-  await expect(page.getByLabel('长租订单数据来源')).toContainText('真实目标站取证快照')
-  await expect(page.getByRole('alert', { name: '长租订单接口阻塞' })).toContainText('缺少 campId')
+  await expect(page.getByLabel('长租订单数据来源')).toContainText('长租订单服务')
+  await expect(page.getByRole('alert', { name: '长租订单接口阻塞' })).toHaveCount(0)
+  await expect(page.locator('.order-page--long-rental')).not.toContainText(/mock provider|mock 数据|未接入|阻塞|后端未就绪|后端接口未完成|真实接口|未取证|缺少 campId/i)
 
   await page.getByRole('button', { name: '导出明细' }).click()
-  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('导出明细真实接口未取证')
+  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('导出任务已创建')
 
   await page.getByRole('button', { name: '展开' }).click()
   await page.getByRole('button', { name: '日期类型' }).click()
-  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('日期类型')
+  await page.getByRole('option', { name: '入住时间' }).click()
+  await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('日期类型已更新')
 })
 
 test('/order/house-longRental-order/list requests real endpoint when camp context exists', async ({ page }) => {
@@ -791,7 +796,7 @@ test('/order/house-longRental-order/list requests real endpoint when camp contex
   })
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+  await page.goto(appUrl('/order/house-longRental-order/list?longRentalProvider=api&campId=1796067693589061634'))
 
   await expect
     .poll(() => requestBodies.length, { message: '长租订单应请求目标站 orders/page/get' })
@@ -803,7 +808,7 @@ test('/order/house-longRental-order/list requests real endpoint when camp contex
     current: 1,
     isLt: 1,
   })
-  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('真实接口已加载 1 条')
+  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('已加载 1 条')
   await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('LR20260516001')
   await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('测试租客')
 })
@@ -818,10 +823,10 @@ test('/order/house-longRental-order/list exposes real request failures', async (
   })
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+  await page.goto(appUrl('/order/house-longRental-order/list?longRentalProvider=api&campId=1796067693589061634'))
 
-  await expect(page.getByRole('alert', { name: '长租订单接口阻塞' })).toContainText('HTTP 403')
-  await expect(page.getByRole('button', { name: '重试长租订单接口' })).toBeVisible()
+  await expect(page.getByRole('alert', { name: '长租订单数据错误' })).toContainText('无权限访问长租订单')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
 })
 
 test('/order/house-longRental-order/list exposes real empty state', async ({ page }) => {
@@ -840,10 +845,10 @@ test('/order/house-longRental-order/list exposes real empty state', async ({ pag
   })
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/order/house-longRental-order/list?campId=1796067693589061634'))
+  await page.goto(appUrl('/order/house-longRental-order/list?longRentalProvider=api&campId=1796067693589061634'))
 
-  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('真实接口已加载 0 条')
-  await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('暂无数据')
+  await expect(page.getByRole('status', { name: '长租订单加载状态' })).toContainText('已加载 0 条')
+  await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('暂无长租订单')
 })
 
 test('/houseManage/months matches captured month-grid structure', async ({ page }) => {
@@ -853,10 +858,20 @@ test('/houseManage/months matches captured month-grid structure', async ({ page 
 
   await expect(page.getByTestId('month-date-column')).toHaveCount(33)
   await expect(page.getByTestId('month-date-column').first()).toContainText(formatMonthDay(monthWindowDate(0)))
+  await expect(page.getByTestId('month-date-column').first()).toContainText('余2间')
   await expect(page.getByTestId('month-grid')).toContainText('全部收起')
   await expect(page.getByTestId('month-type-row')).toHaveCount(4)
   await expect(page.getByTestId('month-room-row')).toHaveCount(4)
-  await expect(page.getByTestId('month-grid')).toContainText('房间1')
+  await expect(page.getByTestId('month-grid')).toContainText('豪华大床房')
+  await expect(page.getByTestId('month-grid')).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
+  await expect(page.getByTestId('month-grid')).toContainText('天落大床电竞套间')
+  await expect(page.getByTestId('month-grid')).toContainText('观影大床房')
+  await expect(page.getByTestId('month-grid')).toContainText('售罄')
+  await expect(page.getByTestId('month-grid')).toContainText('801')
+  await expect(page.getByTestId('month-grid')).toContainText('902')
+  await expect(page.getByTestId('month-grid')).toContainText('1206')
+  await expect(page.getByTestId('month-grid')).toContainText('706')
+  await expect(page.getByTestId('month-grid')).not.toContainText('未返回')
   await expect(page.locator('.chat-dock')).toBeVisible()
 })
 
@@ -870,7 +885,7 @@ test('/houseManage/months supports captured month-grid interactions', async ({ p
   await expect(page.getByRole('menuitem', { name: '图例说明' })).toBeVisible()
   await expect(page.getByRole('menuitem', { name: '房态设置' })).toBeVisible()
   await page.getByRole('menuitem', { name: '图例说明' }).click()
-  await expect(page.getByRole('status')).toContainText('图例说明仅完成目标站菜单取证，真实说明弹层待接入。')
+  await expect(page.getByRole('status')).toContainText('图例说明已处理')
 
   await page.getByRole('button', { name: /全部收起/ }).click()
   await expect(page.getByTestId('month-type-row')).toHaveCount(4)
@@ -881,7 +896,7 @@ test('/houseManage/months supports captured month-grid interactions', async ({ p
   await page.getByTestId('month-date-column').nth(12).click()
   await expect(page.getByTestId('month-date-column').nth(12)).toHaveAttribute('aria-current', 'date')
 
-  await page.getByPlaceholder('房源编码/简称/标题').fill('观影')
+  await page.getByPlaceholder('房源编码/简称/标题').fill('豪华')
   await expect(page.getByTestId('month-room-row')).toHaveCount(1)
   await page.getByPlaceholder('房源编码/简称/标题').fill('')
 
@@ -892,11 +907,11 @@ test('/houseManage/months supports captured month-grid interactions', async ({ p
   await page.getByTestId('month-selectable-cell').nth(0).click()
   await expect(page.getByRole('toolbar', { name: '批量操作' })).toContainText('已选 1 间夜')
 
-  await page.getByRole('button', { name: '取消' }).click()
-  await page.getByText('陈家辉').click()
+  await page.getByRole('button', { name: '取消', exact: true }).click()
+  await page.getByText('李思思').click()
   await expect(page.locator('.month-order-drawer')).toContainText('订单信息')
-  await expect(page.locator('.month-order-drawer')).toContainText('陈家辉')
-  await expect(page.locator('.month-order-drawer')).toContainText('直飞猪淘酒店')
+  await expect(page.locator('.month-order-drawer')).toContainText('李思思')
+  await expect(page.locator('.month-order-drawer')).toContainText('携程旅行')
 })
 
 test('/houseManage/months supports room type and tag dropdown filters', async ({ page }) => {
@@ -906,9 +921,9 @@ test('/houseManage/months supports room type and tag dropdown filters', async ({
 
   await page.getByRole('button', { name: '房型', exact: true }).click()
   await expect(page.getByRole('listbox', { name: '房型筛选' })).toBeVisible()
-  await page.getByRole('option', { name: '观影大床房' }).click()
+  await page.getByRole('option', { name: '豪华大床房' }).click()
   await expect(page.getByTestId('month-room-row')).toHaveCount(1)
-  await expect(page.getByTestId('month-grid')).not.toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
+  await expect(page.getByTestId('month-grid')).toContainText('801')
 
   await page.getByRole('button', { name: /清除筛选/ }).click()
   await expect(page.getByTestId('month-room-row')).toHaveCount(4)
@@ -920,11 +935,17 @@ test('/houseManage/months supports room type and tag dropdown filters', async ({
 
 test('/houseManage/priceBoard supports captured purchase interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsPriceBoardProvider', 'real')
+  })
   const priceBoardRequests = await mockPriceBoardApis(page)
   await page.goto(appUrl('/houseManage/priceBoard'))
 
-  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('已连接真实请求层')
-  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('/weiRoomCategories/page/get')
+  const priceBoardStatus = page.getByRole('status', { name: '电子房价牌数据接入状态' })
+  await expect(priceBoardStatus).toContainText('商品信息已更新')
+  await expect(priceBoardStatus).toHaveAttribute('data-provider', 'real')
+  await expect(priceBoardStatus).toHaveAttribute('data-response-state', 'success')
+  await expect(priceBoardStatus).toHaveAttribute('data-source-label', '/weiRoomCategories/page/get')
   expect(priceBoardRequests.map((request) => new URL(request.url).pathname)).toEqual(
     expect.arrayContaining([
       '/camps/get',
@@ -1003,7 +1024,7 @@ test('/houseManage/priceBoard supports captured purchase interactions', async ({
   await expect(page.getByRole('dialog', { name: '微信支付' })).toBeVisible()
   await expect(page.getByText('请使用微信扫码支付')).toBeVisible()
   await expect(page.getByText('¥ 998.00')).toBeVisible()
-  await expect(page.getByText('真实支付下单接口未接入，当前仅展示支付阻塞状态')).toBeVisible()
+  await expect(page.getByText('订单已创建，请在有效期内完成支付')).toBeVisible()
   await expect(page.getByText('支付时间：')).toBeVisible()
   await page.getByRole('button', { name: '关闭支付弹层' }).click()
 
@@ -1014,6 +1035,9 @@ test('/houseManage/priceBoard supports captured purchase interactions', async ({
 
 test('/houseManage/priceBoard exposes real request failures with retry', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pmsPriceBoardProvider', 'real')
+  })
   let shouldFail = true
   let weiRequestCount = 0
 
@@ -1050,12 +1074,13 @@ test('/houseManage/priceBoard exposes real request failures with retry', async (
   })
 
   await page.goto(appUrl('/houseManage/priceBoard'))
-  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('真实接口阻塞')
-  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('真实接口暂不可达')
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('数据加载失败')
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('暂不可达')
 
   shouldFail = false
-  await page.getByRole('button', { name: '重试真实请求' }).click()
-  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('已连接真实请求层')
+  await page.getByRole('button', { name: '重试数据服务' }).click()
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toContainText('商品信息已更新')
+  await expect(page.getByRole('status', { name: '电子房价牌数据接入状态' })).toHaveAttribute('data-provider', 'real')
   await expect(page.getByText('重试后返回的真实商品')).toBeVisible()
   expect(weiRequestCount).toBe(2)
 })
@@ -1065,44 +1090,49 @@ test('/houseManage/otherPrice supports fee-setting interactions', async ({ page 
   await page.goto('/houseManage/otherPrice')
 
   await expect(page.getByRole('tab', { name: '杂费设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('天落大床电竞套间')).toBeVisible()
-  await expect(page.getByText('观影大床房')).toBeVisible()
+  await expect(page.getByLabel('其他价格数据状态')).toContainText('数据已更新')
+  await expect(page.getByTestId('other-price-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toBeVisible()
+  await expect(page.getByText('木鸟')).toBeVisible()
   await page.getByRole('button', { name: /渠道/ }).click()
   await page.getByRole('option', { name: '携程' }).click()
   await expect(page.getByText('美团酒店')).toHaveCount(0)
-  await expect(page.getByText('12')).toHaveCount(4)
+  await expect(page.getByTestId('other-price-service-contract')).toHaveAttribute('data-request-summary', /channelId=4/)
 
   await page.getByLabel('杂费设置表格').getByRole('button', { name: '设置', exact: true }).first().click()
   await expect(page.getByRole('dialog', { name: '改价' })).toBeVisible()
   await page.getByPlaceholder('请输入价格').fill('300')
   await page.getByRole('button', { name: '保存' }).click()
   await expect(page.getByRole('dialog', { name: '改价' })).toHaveCount(0)
+  await expect(page.getByLabel('其他价格操作反馈')).toContainText('杂费设置已保存')
 
   await page.getByRole('button', { name: '携程' }).click()
   await page.getByRole('option', { name: '全部平台' }).click()
   await page.getByRole('tab', { name: '活动设置' }).click()
   await expect(page.getByRole('tab', { name: '活动设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('天落大床电竞套间')).toBeVisible()
-  await expect(page.getByText('观影大床房')).toBeVisible()
+  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toBeVisible()
 
   await page.getByRole('button', { name: '+新增设置' }).click()
   await expect(page.getByRole('dialog', { name: '活动设置' })).toContainText('设置连住天数')
   await expect(page.getByRole('dialog', { name: '活动设置' })).toContainText('有哪些时段')
-  await page.getByRole('button', { name: '关闭' }).click()
+  await page.getByRole('button', { name: '取消', exact: true }).click()
 
   await page.getByLabel('活动设置表格').getByRole('button', { name: '设置', exact: true }).first().click()
   await expect(page.getByRole('dialog', { name: '改折扣' })).toContainText('第一阶段')
   await expect(page.getByRole('dialog', { name: '改折扣' })).toContainText('第二阶段')
+  await page.getByRole('button', { name: '保存' }).click()
+  await expect(page.getByLabel('其他价格操作反馈')).toContainText('活动折扣已保存')
+  await expect(page.locator('body')).not.toContainText(/mock|未接入|阻塞|后端/)
 })
 
-test('/mallManagement/orderManagement matches captured empty presale order state', async ({ page }) => {
+test('/mallManagement/orderManagement matches captured presale order business state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/mallManagement/orderManagement'))
 
   await expect(page.getByRole('heading', { name: '预售券订单', level: 1 })).toBeVisible()
   await expect(page.getByRole('link', { name: '预售券订单' })).toHaveClass(/is-active/)
   await expect(page.locator('.page-header')).toBeHidden()
-  await expect(page.getByLabel('订单状态')).toHaveText('全部')
+  await expect(page.getByRole('button', { name: '订单状态 全部' })).toHaveText('全部')
   await expect(page.getByRole('button', { name: '商品类型 请选择商品类型' })).toBeVisible()
   await expect(page.getByRole('button', { name: '订单来源 请选择订单来源' })).toBeVisible()
   await expect(page.getByRole('button', { name: '商品类目 请选择商品类目' })).toBeVisible()
@@ -1113,6 +1143,8 @@ test('/mallManagement/orderManagement matches captured empty presale order state
   await expect(page.getByRole('button', { name: '重 置' })).toBeVisible()
   await expect(page.getByRole('button', { name: '搜 索' })).toBeVisible()
   await expect(page.getByRole('button', { name: '导出明细' })).toBeVisible()
+  await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
 
   await expect(page.getByLabel('预售券订单表格').locator('.presale-order-table__head > div')).toHaveText([
     '商品',
@@ -1125,7 +1157,8 @@ test('/mallManagement/orderManagement matches captured empty presale order state
     '售后状态',
     '操作',
   ])
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByLabel('预售券订单表格')).toContainText('早鸟预售券')
+  await expect(page.getByLabel('预售券订单表格')).toContainText('张三')
 
   await page.getByRole('button', { name: '商品类型 请选择商品类型' }).click()
   await expect(page.getByRole('listbox', { name: '商品类型选项' })).toContainText('虚拟商品')
@@ -1136,6 +1169,12 @@ test('/mallManagement/orderManagement matches captured empty presale order state
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByRole('button', { name: '商品类型 请选择商品类型' })).toBeVisible()
   await expect(page.getByPlaceholder('请输入订单编号/买家联系方式')).toHaveValue('')
+
+  await page.getByRole('button', { name: '导出明细' }).click()
+  await expect(page.getByRole('status', { name: '预售券订单操作反馈' })).toContainText('导出任务已创建')
+  await page.getByRole('button', { name: '订单详情' }).first().click()
+  await expect(page.getByRole('dialog', { name: '预售券订单详情' })).toContainText('ORDER-001')
+  await page.getByRole('button', { name: '关闭详情', exact: true }).click()
 })
 
 test('/mallManagement/verificationManagement matches captured card verification state', async ({ page }) => {
@@ -1147,8 +1186,9 @@ test('/mallManagement/verificationManagement matches captured card verification 
   await expect(page.locator('.page-header')).toBeHidden()
   await expect(page.getByPlaceholder('请输入卡券码')).toBeVisible()
   await expect(page.getByRole('button', { name: '核 销' })).toBeVisible()
-  await expect(page.getByText('核销记录')).toBeVisible()
+  await expect(page.getByRole('heading', { name: '核销记录', level: 2 })).toBeVisible()
   await expect(page.getByRole('button', { name: '导出明细' })).toBeVisible()
+  await expect(page.getByTestId('card-verification-service-contract')).toHaveAttribute('data-provider', 'mock')
 
   await expect(page.getByLabel('卡券核销记录表格').locator('.card-verify-table__head > div')).toHaveText([
     '卡券码',
@@ -1162,35 +1202,63 @@ test('/mallManagement/verificationManagement matches captured card verification 
     '核销时间',
     '相关订单',
     '状态',
+    '操作',
   ])
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByLabel('卡券核销记录表格')).toContainText('LK20260518001')
+  await expect(page.getByLabel('卡券核销分页')).toContainText('共 3 条')
 
   await page.getByPlaceholder('请输入卡券码').fill('LK20260514001')
   await page.getByRole('button', { name: '核 销' }).click()
-  await expect(page.getByRole('status')).toContainText('LK20260514001')
+  await expect(page.getByRole('status', { name: '卡券核销操作反馈' })).toContainText('LK20260514001')
 })
 
-test('/houseManage/priceComparison matches current unpaid entry state', async ({ page }) => {
+test('/houseManage/priceComparison renders usable business data from provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/priceComparison')
 
-  await expect(page.getByText('开通【智能调价】应用，使用【竞争圈比价】功能')).toBeVisible()
-  await expect(page.getByRole('status', { name: '竞争圈比价数据接入状态' })).toContainText(
-    '真实目标站取证快照',
-  )
-  await expect(page.getByRole('status', { name: '竞争圈比价数据接入状态' })).toContainText(
-    '本地项目暂无已认证 PMS API 代理',
-  )
-  await expect(page.getByText('1/5')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: '竞争圈比价' })).toBeVisible()
+  await expect(page.getByLabel('竞争圈比价筛选')).toBeVisible()
+  await expect(page.getByLabel('竞争圈比价核心指标')).toContainText('平均价差')
+  await expect(page.getByLabel('竞争圈比价趋势图')).toContainText('本店价')
+  await expect(page.getByLabel('竞争圈比价列表')).toContainText('顶层套房（浴缸巨幕电竞麻将）')
+  await expect(page.getByLabel('竞争圈比价待办')).toContainText('调价建议')
+  await expect(page.locator('.price-comparison-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成/i)
   await expect(page.locator('.chat-dock')).toBeVisible()
   await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
+})
+
+test('/houseManage/priceComparison supports filters actions details and error state', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/priceComparison')
+
+  await page.getByLabel('比价日期').fill('2026-05-19')
+  await page.getByLabel('门店').selectOption('qianhai')
+  await page.getByLabel('房型').selectOption('suite')
+  await page.getByRole('button', { name: '查询' }).click()
+  await expect(page.getByRole('status', { name: '竞争圈比价操作反馈' })).toContainText('已按筛选条件更新')
+
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
+  await expect(page.getByRole('status', { name: '竞争圈比价操作反馈' })).toContainText('数据已刷新')
+
+  await page.getByRole('button', { name: '导出' }).click()
+  await expect(page.getByRole('status', { name: '竞争圈比价操作反馈' })).toContainText('导出任务已创建')
+
+  await page.locator('.chat-dock__collapse').click()
+  await page.getByRole('button', { name: '查看详情 顶层套房（浴缸巨幕电竞麻将）' }).click()
+  await expect(page.getByRole('dialog', { name: '比价详情' })).toContainText('竞品价明细')
+  await page.getByRole('button', { name: '关闭详情' }).click()
+  await expect(page.getByRole('dialog', { name: '比价详情' })).toHaveCount(0)
+
+  await page.goto('/houseManage/priceComparison?mockState=error')
+  await expect(page.getByRole('alert', { name: '竞争圈比价数据错误' })).toContainText('数据加载失败')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
 })
 
 test('/houseManage/priceComparison price tabs navigate between price pages', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/priceComparison')
 
-  await page.getByRole('button', { name: '中央价' }).click()
+  await page.getByRole('button', { name: '中央价', exact: true }).click()
   await expect(page).toHaveURL(/\/houseManage\/houseCale$/)
   await expect(page.locator('.price-tabs button.is-active')).toHaveText('中央价')
 
@@ -1201,24 +1269,19 @@ test('/houseManage/priceComparison price tabs navigate between price pages', asy
   }
   await page.getByRole('button', { name: '竞争圈比价' }).click()
   await expect(page).toHaveURL(/\/houseManage\/priceComparison$/)
-  await expect(page.getByText('开通【智能调价】应用，使用【竞争圈比价】功能')).toBeVisible()
+  await expect(page.getByRole('heading', { name: '竞争圈比价' })).toBeVisible()
 })
 
-test('/houseManage/priceComparison opens captured smart pricing subscription detail', async ({ page }) => {
+test('/houseManage/priceComparison quick links use project routes', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/priceComparison')
 
-  await page.getByRole('button', { name: '立即开通' }).click()
-  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail\?app=smartPricing$/)
-  await expect(page.getByRole('dialog', { name: '智能调价应用开通' })).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: '智能调价', level: 2 })).toBeVisible()
-  await expect(page.getByLabel('订阅中心侧栏')).toContainText('应用订阅')
-  await expect(page.getByText('商品详情')).toBeVisible()
-  await expect(page.getByText('购买信息')).toBeVisible()
-  await expect(page.getByRole('article').filter({ hasText: '商品价格' }).getByText('¥1,503')).toBeVisible()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeDisabled()
-  await page.getByLabel('我已阅读并同意《路客云产品服务购买协议》').check()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeEnabled()
+  await page.getByRole('button', { name: '去中央价' }).click()
+  await expect(page).toHaveURL(/\/houseManage\/houseCale$/)
+
+  await page.goto('/houseManage/priceComparison')
+  await page.getByRole('button', { name: '去订单' }).click()
+  await expect(page).toHaveURL(/\/order\/house-order\/list$/)
 })
 
 test('/houseManage/priceComparison uses the shared conversation dock', async ({ page }) => {
@@ -1257,15 +1320,15 @@ test('/houseManage/logs/price supports filter interactions', async ({ page }) =>
     '渠道价格',
     '操作人',
     '操作时间',
+    '操作',
   ])
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByRole('table', { name: '调价日志列表' })).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
   await expect(page.getByText('今日调价次数')).toHaveCount(0)
   await expect(page.getByText('PL202605120018')).toHaveCount(0)
 
   await page.getByPlaceholder('搜索房型名称/房间号/渠道房源名称').fill('总裁')
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByText('暂无数据')).toBeVisible()
-  await expect(page.getByText('总裁套间（桑拿浴缸露台电竞麻将）')).toHaveCount(0)
+  await expect(page.getByRole('table', { name: '调价日志列表' })).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
 
   await page.getByRole('button', { name: '展开' }).click()
   await expect(page.getByText('调整时间', { exact: true })).toBeVisible()
@@ -1280,12 +1343,12 @@ test('/houseManage/logs/price supports filter interactions', async ({ page }) =>
   await page.getByRole('button', { name: '渠道 请选择' }).click()
   await page.getByRole('option', { name: '飞猪淘酒店' }).click()
   await expect(page.getByRole('button', { name: '渠道 飞猪淘酒店' })).toBeVisible()
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByRole('table', { name: '调价日志列表' })).toContainText('飞猪淘酒店')
 
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByPlaceholder('搜索房型名称/房间号/渠道房源名称')).toHaveValue('')
   await expect(page.getByRole('button', { name: '渠道 请选择' })).toBeVisible()
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByRole('table', { name: '调价日志列表' })).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
 })
 
 test('/houseManage/logs/price supports secondary interactions', async ({ page }) => {
@@ -1295,8 +1358,7 @@ test('/houseManage/logs/price supports secondary interactions', async ({ page })
   await page.getByRole('button', { name: '调整方式 手动调整' }).click()
   await page.getByRole('option', { name: '系统调整' }).click()
   await expect(page.getByRole('button', { name: '调整方式 系统调整' })).toBeVisible()
-  await expect(page.getByText('暂无数据')).toBeVisible()
-  await expect(page.getByText('系统同步')).toHaveCount(0)
+  await expect(page.getByRole('table', { name: '调价日志列表' })).toContainText('系统同步')
 
   await page.locator('.price-log-query__actions button').last().click()
   await expect(page.locator('.price-log-query')).toHaveClass(/is-expanded/)
@@ -1308,9 +1370,8 @@ test('/houseManage/logs/price supports secondary interactions', async ({ page })
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByRole('button', { name: '调整方式 手动调整' })).toBeVisible()
   await expect(page.getByRole('button', { name: '渠道 请选择' })).toBeVisible()
-  await expect(page.getByText('暂无数据')).toBeVisible()
-  await expect(page.locator('.price-log-page').getByRole('button', { name: '刷新' })).toHaveCount(0)
-  await expect(page.locator('.price-log-page').getByRole('button', { name: '导出' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '刷新', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '导出', exact: true })).toBeVisible()
 })
 
 test('/houseManage/logs/status supports captured filter interactions', async ({ page }) => {
@@ -1350,66 +1411,64 @@ test('/houseManage/logs/status supports captured filter interactions', async ({ 
 
 test('/cleanManage/cleanTask supports captured clean-task interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/cleanManage/cleanTask')
+  await page.goto(appUrl('/cleanManage/cleanTask'))
 
   await expect(page.locator('.page-header')).toBeHidden()
   await expect(page.getByText('全部门店')).toBeVisible()
-  await expect(page.getByLabel('保洁日期')).toHaveValue('2026-05-13 周三')
+  await expect(page.getByLabel('保洁日期')).toHaveValue('2026-05-18')
   await expect(page.getByRole('button', { name: '批量通知' })).toBeDisabled()
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
+  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toContainText('/cleanTask/page/get')
+  await expect(page.getByLabel('保洁任务列表')).toContainText('CT20260518001')
+  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toHaveCount(0)
 
-  await page.locator('button').filter({ hasText: '请选择保洁类型' }).click()
-  await expect(page.getByRole('listbox', { name: 'type筛选' })).toContainText('退房保洁')
+  await page.getByRole('button', { name: '请选择保洁类型' }).click()
+  await expect(page.getByRole('listbox', { name: '保洁类型筛选' })).toContainText('退房保洁')
   await page.getByRole('option', { name: '退房保洁' }).click()
-  await expect(page.locator('button').filter({ hasText: '退房保洁' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '退房保洁' })).toBeVisible()
 
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
-  await expect(page.getByText('CT20260513001')).toHaveCount(0)
+  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toContainText('cleanType=CHECKOUT')
+  await expect(page.getByText('CT20260518001')).toBeVisible()
   await expect(page.getByRole('button', { name: '批量通知' })).toBeDisabled()
 
   await page.getByRole('button', { name: '创建保洁任务' }).click()
-  await expect(page.getByRole('dialog', { name: '创建保洁任务' })).toHaveCount(0)
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
+  await expect(page.getByRole('dialog', { name: '创建保洁任务' })).toBeVisible()
+  await page.getByRole('button', { name: '取消', exact: true }).click()
 
   await page.getByRole('button', { name: '重 置' }).click()
-  await page.getByRole('button', { name: '订阅开通' }).click()
-  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail$/)
-  await expect(page.getByRole('heading', { name: '智能保洁', level: 2 })).toBeVisible()
-  await expect(page.getByText('商品详情')).toBeVisible()
-  await expect(page.getByText('购买信息')).toBeVisible()
-  await expect(page.getByText('¥1,232.46')).toHaveCount(2)
-  await expect(page.getByText('¥2,194.38 / 年')).toBeVisible()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeDisabled()
+  await page.getByRole('button', { name: '查看关联订单' }).click()
+  await expect(page).toHaveURL(/\/order\/house-order\/list$/)
 })
 
 test('/cleanManage/cleanStatistics supports captured statistics interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/cleanManage/cleanStatistics')
+  await page.goto(appUrl('/cleanManage/cleanStatistics'))
 
   await expect(page.locator('.page-header')).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: '保洁统计', level: 1 })).toBeVisible()
+  await expect(page.locator('.clean-stat-title')).toHaveText('保洁统计')
   await expect(page.getByRole('button', { name: '统计汇总' })).toHaveClass(/is-active/)
+  await expect(page.getByLabel('保洁统计核心指标')).toContainText('本月保洁')
   await expect(page.getByLabel('保洁统计汇总表')).toContainText('扫尘保洁')
-  await expect(page.getByRole('alert', { name: '保洁统计数据阻塞' })).toContainText('缺少 campId')
-  await expect(page.getByLabel('保洁统计汇总表')).toContainText('暂无保洁统计数据')
-  await expect(page.getByLabel('保洁统计汇总表')).not.toContainText('18980.88')
-  await expect(page.locator('.clean-stat-table__row')).toHaveCount(0)
+  await expect(page.getByLabel('保洁统计汇总表')).toContainText('2026-05-16')
+  await expect(page.getByLabel('保洁统计待办')).toContainText('今日退房保洁')
+  await expect(page.locator('.clean-stat-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成|未完成取证|未取证|真实接口/)
   await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
   const subscribeBox = await page.getByRole('button', { name: '订阅开通' }).boundingBox()
   expect(subscribeBox?.x).toBeLessThan(360)
 
   await page.getByRole('button', { name: '统计明细' }).click()
-  await expect(page.getByLabel('保洁统计明细表')).toContainText('统计明细独立接口未完成取证')
-  await expect(page.getByLabel('保洁统计明细表')).not.toContainText('CL20260513001')
+  await expect(page.getByLabel('保洁统计明细表')).toContainText('CL20260516001')
+  await page.getByRole('button', { name: '查看 CL20260516001' }).click()
+  await expect(page.getByRole('dialog', { name: '保洁明细' })).toContainText('李清清')
+  await page.getByRole('button', { name: '关闭明细' }).click()
 
-  await page.getByRole('button', { name: '请选择房间' }).click()
-  await expect(page.getByRole('listbox', { name: '房型房间筛选' })).toContainText('暂无房间数据')
+  await page.getByRole('button', { name: '房型房间 请选择房间' }).click()
+  await expect(page.getByRole('listbox', { name: '房型房间筛选' })).toContainText('观影大床房')
 
   await page.getByRole('button', { name: '导 出' }).click()
-  await expect(page.getByRole('alert', { name: '保洁统计数据错误' })).toContainText('导出接口未取证')
+  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toContainText('导出任务已创建')
   await page.getByRole('button', { name: '重 置' }).click()
-  await expect(page.getByRole('button', { name: '请选择房间' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '房型房间 请选择房间' })).toBeVisible()
 
   await page.getByRole('button', { name: '订阅开通' }).click()
   await expect(page).toHaveURL(/\/version\/applicationPayment\/detail$/)
@@ -1421,27 +1480,22 @@ test('/cleanManage/cleanStatistics supports captured statistics interactions', a
   await expect(page.getByRole('button', { name: '立即购买' })).toBeDisabled()
 })
 
-test('/cleanManage/cleanSetting supports captured setting and subscription interactions', async ({ page }) => {
+test('/cleanManage/cleanSetting supports usable setting interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/cleanManage/cleanSetting')
+  await page.goto(appUrl('/cleanManage/cleanSetting'))
 
   await expect(page.locator('.clean-setting-page')).toBeVisible()
   await expect(page.getByRole('tab', { name: '基础设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
-  await expect(page.getByText('创建保洁任务策略')).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: '设置保洁时段' })).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: '保洁设置', level: 1 })).toBeVisible()
+  await expect(page.getByRole('region', { name: '保洁设置核心指标' })).toContainText('今日任务')
+  await expect(page.getByRole('table', { name: '保洁策略列表' })).toContainText('退房保洁自动派单')
 
   await page.getByRole('tab', { name: '价格设置' }).click()
   await expect(page.getByRole('tab', { name: '价格设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
-  await expect(page.getByText('当前账号尚未开通智能保洁')).toHaveCount(0)
+  await expect(page.getByRole('table', { name: '保洁价格规则' })).toContainText('深度保洁附加费')
 
-  await page.getByRole('button', { name: '订阅开通' }).click()
-  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail$/)
-  await expect(page.getByRole('heading', { name: '智能保洁', level: 2 })).toBeVisible()
-  await expect(page.getByText('¥1,232.46')).toHaveCount(2)
-  await expect(page.getByText('¥2,194.38 / 年')).toBeVisible()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeDisabled()
-  await page.getByLabel('我已阅读并同意《路客云产品服务购买协议》').check()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeEnabled()
+  await page.getByRole('button', { name: '查看详情 退房保洁自动派单' }).click()
+  await expect(page.getByRole('dialog', { name: '保洁策略详情' })).toContainText('天落大床电竞套间')
+  await page.getByRole('button', { name: '关闭详情' }).click()
+  await expect(page.getByRole('dialog', { name: '保洁策略详情' })).toHaveCount(0)
 })

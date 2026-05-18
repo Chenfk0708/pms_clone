@@ -34,6 +34,39 @@ function stableText(text) {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function summarizeJson(value, depth = 0) {
+  if (depth > 3) return typeof value
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.length > 0 ? summarizeJson(value[0], depth + 1) : null,
+    }
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 30)
+        .map(([key, item]) => [key, summarizeJson(item, depth + 1)]),
+    )
+  }
+  return {
+    type: typeof value,
+    value,
+  }
+}
+
+async function summarizeResponse(response) {
+  const contentType = response.headers()['content-type'] || ''
+  if (!contentType.includes('application/json')) return null
+  try {
+    const json = await response.json()
+    return summarizeJson(json)
+  } catch {
+    return null
+  }
+}
+
 async function waitForBusinessSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
@@ -227,11 +260,16 @@ async function main() {
     const page = await context.newPage()
     page.on('response', async (response) => {
       const request = response.request()
+      const requestBody = request.postData()
       network.push({
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
+        requestBody: requestBody ? requestBody.slice(0, 5000) : null,
+        responseSummary: response.url().includes('hudson-prod.localhome.cn')
+          ? await summarizeResponse(response)
+          : null,
       })
     })
 

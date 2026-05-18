@@ -1,0 +1,4377 @@
+{
+  "stamp": "20260518-95-contract-target",
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {},
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "camps": [
+            {
+              "campId": "string",
+              "name": "string",
+              "type": "number",
+              "networkNum": "string",
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": null,
+              "joinTime": "number",
+              "roles": "string",
+              "logoPhotoMediaId": null,
+              "logoPhoto": null,
+              "consoleLogoPhotoMediaId": null,
+              "consoleLogoPhotoMediaUrl": null,
+              "contactNumber": null,
+              "description": null,
+              "isOwner": "number",
+              "scaleType": "number"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "traces": [
+          {
+            "pageName": "/customer/list",
+            "extraInfo": "",
+            "actionTime": 1779089232718,
+            "sessionSeq": 1,
+            "sessionId": "a609328d-4ffe-4917-85bb-c3cbd88aac8d",
+            "pageContextId": "a55f0a13-692a-4ade-89ca-936a2db88de5",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          }
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": "boolean",
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {},
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "userId": "string",
+          "mobile": "string",
+          "email": null,
+          "headImages": "string",
+          "nickName": "string",
+          "areaCode": "string",
+          "area": null,
+          "inviter": null,
+          "isBindingMp": "number",
+          "mpQrUrl": "string",
+          "isLoginBindMp": "number",
+          "roles": [],
+          "userIpv4": "string"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "campId": "string",
+          "name": "string",
+          "type": "number",
+          "isModifyConsoleLogo": "number",
+          "networkNum": "string",
+          "nationId": null,
+          "nationName": null,
+          "provinceId": null,
+          "provinceName": null,
+          "cityId": null,
+          "cityName": null,
+          "countyId": null,
+          "countyName": null,
+          "address": null,
+          "qrUrl": "string",
+          "logoPhotoMediaId": null,
+          "logoPhotoMediaUrl": null,
+          "consoleLogoPhotoMediaId": null,
+          "consoleLogoPhotoMediaUrl": null,
+          "contactNumber": null,
+          "description": null,
+          "bizLicenceMediaId": null,
+          "bizLicenceMediaUrl": null,
+          "industryLicenseMediaId": null,
+          "industryLicenseMediaUrl": null,
+          "hasAuditQualification": "boolean",
+          "scaleType": "number",
+          "accounts": [
+            {
+              "accountId": "string",
+              "channelId": "string",
+              "channelName": "string",
+              "accountName": "string",
+              "outAccountId": "string"
+            }
+          ],
+          "accountCamps": [
+            {
+              "accountCampId": "string",
+              "channelId": "string",
+              "accountName": "string",
+              "outAccountId": "string",
+              "outCampName": "string",
+              "accountId": "string",
+              "channelName": "string"
+            }
+          ],
+          "isComplete": "boolean",
+          "campPhotos": []
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "projectMenuId": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "menuId": "string",
+            "parentId": "string",
+            "type": "number",
+            "icon": "string",
+            "code": "string",
+            "name": "string",
+            "path": "string",
+            "uiComponentId": null,
+            "isOpen": "number",
+            "seq": "number",
+            "isShow": "number",
+            "children": [
+              {
+                "menuId": "string",
+                "parentId": "string",
+                "type": "number",
+                "icon": "string",
+                "code": "string",
+                "name": "string",
+                "path": "string",
+                "uiComponentId": "object",
+                "isOpen": "number",
+                "seq": "number",
+                "isShow": "number",
+                "children": "array"
+              }
+            ]
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "141",
+        "param": {
+          "campId": "1796067693589061634",
+          "host": "minsubao.localhome.cn"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": null,
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "editionId": "string",
+          "editionName": "string",
+          "editionType": "number",
+          "editionLevel": "number",
+          "isOwner": "number",
+          "currentVersion": null,
+          "paymentInfo": "string",
+          "isEditionLongTerm": "number",
+          "isEditionTrial": "number",
+          "contractStartDate": "number",
+          "contractEndDate": "number",
+          "expireDay": "string",
+          "storeNum": "number",
+          "storeQuotaNum": "number",
+          "isStoreOverLimit": "number",
+          "poiNum": "number",
+          "poiQuotaNum": "number",
+          "isPoiOverLimit": "number",
+          "inventory": "number",
+          "roomNum": "number",
+          "roomQuotaNum": "number",
+          "isRoomOverLimit": "number",
+          "userRoleNum": "number",
+          "employeeNum": "number",
+          "employeeQuotaNum": "number",
+          "isEmployeeOverLimit": "number",
+          "isEditionReplace": "number",
+          "appVersionInfoViews": [
+            {
+              "tagId": "string",
+              "appVersionName": "string",
+              "userRoleNumLimited": "number",
+              "poiNumLimited": "number",
+              "inventoryLimited": "number",
+              "limitedPrice": "string",
+              "unlimitedPrice": null,
+              "isRecommend": null,
+              "description": "string",
+              "appVersionFunctions": [
+                "object"
+              ]
+            }
+          ],
+          "applyGoodsViews": [
+            {
+              "applyId": "string",
+              "applyName": "string",
+              "isFreeApply": "number",
+              "isLongTerm": null,
+              "applyStartDate": null,
+              "applyEndDate": null
+            }
+          ],
+          "applyRoomCategoryViews": [
+            {
+              "applyId": "string",
+              "applyName": "string",
+              "channelRoomCategoryId": "string"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "hasAllChannel": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "channels": [
+            {
+              "channelId": "string",
+              "channelName": "string",
+              "imageLogo": "string",
+              "image2Logo": null,
+              "isCustom": "number",
+              "isLongRent": "number",
+              "isSupportIcs": null,
+              "isEnable": "number",
+              "seq": "number",
+              "color": "string",
+              "isCal": "number"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "platform": 2
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "isRemind": "number",
+          "remindContent": null,
+          "remindType": null,
+          "editionDailyRemindDataList": []
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "systemConfigs": [
+            {
+              "systemConfigId": "string",
+              "campId": "string",
+              "configCodeDesc": "string",
+              "configCode": "string",
+              "configValue": "string"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": 47,
+        "param": {}
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "channelId": "string",
+            "channelName": "string",
+            "shortChannelName": "string",
+            "color": "string",
+            "imageLogo": "string",
+            "image2Logo": "string",
+            "imageClose": "string",
+            "imageOpen": "string",
+            "isSupportIcs": "number",
+            "isLongRent": "number",
+            "isOpen": "number"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": 48,
+        "param": {}
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "channelId": "string",
+            "channelName": "string",
+            "shortChannelName": "string",
+            "color": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "editionId": "string",
+          "editionName": "string",
+          "editionType": "number",
+          "editionLevel": "number",
+          "isOwner": "number",
+          "currentVersion": null,
+          "paymentInfo": "string",
+          "isEditionLongTerm": "number",
+          "isEditionTrial": "number",
+          "contractStartDate": "number",
+          "contractEndDate": "number",
+          "expireDay": "string",
+          "storeNum": "number",
+          "storeQuotaNum": "number",
+          "isStoreOverLimit": "number",
+          "poiNum": "number",
+          "poiQuotaNum": "number",
+          "isPoiOverLimit": "number",
+          "inventory": "number",
+          "roomNum": "number",
+          "roomQuotaNum": "number",
+          "isRoomOverLimit": "number",
+          "userRoleNum": "number",
+          "employeeNum": "number",
+          "employeeQuotaNum": "number",
+          "isEmployeeOverLimit": "number",
+          "isEditionReplace": "number",
+          "appVersionInfoViews": [
+            {
+              "tagId": "string",
+              "appVersionName": "string",
+              "userRoleNumLimited": "number",
+              "poiNumLimited": "number",
+              "inventoryLimited": "number",
+              "limitedPrice": "string",
+              "unlimitedPrice": null,
+              "isRecommend": null,
+              "description": "string",
+              "appVersionFunctions": [
+                "object"
+              ]
+            }
+          ],
+          "applyGoodsViews": [
+            {
+              "applyId": "string",
+              "applyName": "string",
+              "isFreeApply": "number",
+              "isLongTerm": null,
+              "applyStartDate": null,
+              "applyEndDate": null
+            }
+          ],
+          "applyRoomCategoryViews": [
+            {
+              "applyId": "string",
+              "applyName": "string",
+              "channelRoomCategoryId": "string"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "134",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "isPaid": "string",
+          "isEffectiveEdition": "string"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1779033600000,
+        "queryCode": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "basic": {
+            "preComeNum": "number",
+            "liveNum": "number",
+            "preLeaveNum": "number",
+            "arrangeSameRoomNum": "number",
+            "orderRemarkNum": "number",
+            "ltNum": "number",
+            "debtNum": "number",
+            "hourRoomOrderNum": "number",
+            "roomNum": "number",
+            "soldNum": "number",
+            "idleNum": "number",
+            "occNum": "number",
+            "occ": "number",
+            "idleCleanNum": "number",
+            "idleDirtyNum": "number",
+            "liveCleanNum": "number",
+            "liveDirtyNum": "number",
+            "extendStayNum": "number"
+          },
+          "roomCategories": [
+            {
+              "roomCategoryId": "string",
+              "roomCategoryName": "string",
+              "roomCategorySeq": "number",
+              "rooms": [
+                "object"
+              ],
+              "roomNum": "number",
+              "soldNum": "number",
+              "liveNum": "number",
+              "idleNum": "number",
+              "occNum": "number"
+            }
+          ],
+          "roomViews": [],
+          "floorViews": [],
+          "isInitFloor": null
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "count": "number",
+          "countDetail": {
+            "orderNotificationCount": "number",
+            "campWarnCount": "number",
+            "campDynamicCount": "number"
+          }
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "param": {
+          "campId": "1796067693589061634"
+        },
+        "action": "168"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "isNeedInit": "boolean"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "159",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "hasCardDevice": "boolean",
+          "cardDeviceSystem": "number"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "method": "GET",
+      "resourceType": "image",
+      "postData": null,
+      "status": 200,
+      "responseSummary": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "editionId": "string",
+          "editionName": "string",
+          "editionType": "number",
+          "resourceGetViews": [
+            {
+              "resourceName": "string",
+              "quotaNum": "number",
+              "isUnlimitedQuotaNum": "number",
+              "usedQuotaView": {
+                "usedQuotaNum": "number",
+                "campUsedQuotaViews": "array"
+              },
+              "resourceFrom": {
+                "editionNum": "number",
+                "isUnlimitedEditionNum": "number",
+                "expandQuotaNum": "number",
+                "expandQuotaDetailView": "array"
+              },
+              "editionStatus": "number",
+              "goodsType": "number",
+              "expirationDate": null,
+              "isLongTerm": null
+            }
+          ],
+          "valueAddServices": null
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "overview": "number",
+          "todayNewOrder": "number",
+          "todayCheckOut": "number",
+          "todayCheckIn": "number",
+          "todayPredictCheckIn": null,
+          "todayPredictCheckOut": null,
+          "staying": "number",
+          "tomorrowCheckIn": "number",
+          "tomorrowCheckOut": "number",
+          "pending": "number",
+          "refunding": "number",
+          "exception": "number",
+          "orderBox": null,
+          "arrangeSameRoom": "number",
+          "unArrangeRoom": "number",
+          "arrangeRoom": "number",
+          "unOccupation": "number",
+          "unStatistics": "number",
+          "expiredNotCheckIn": "number",
+          "expiredNotCheckOut": "number"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "appKey": "string",
+          "accid": "string",
+          "token": "string"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "paymentTypes": [
+            {
+              "paymentTypeId": "string",
+              "paymentTypeName": "string",
+              "ignoreOrderGetItem": "number",
+              "isCustom": "number",
+              "isIncome": "number",
+              "isEnable": "number",
+              "bizType": "number",
+              "groupType": "number"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "183",
+        "param": {
+          "campId": "1796067693589061634",
+          "type": "门店"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": null,
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1848317056370487297"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "versionModals": "object"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "hasDigitalProcess": "number",
+          "isComplete": null,
+          "state": null,
+          "failReason": null,
+          "currentProgress": null,
+          "estimatedTime": null,
+          "isHandleRoomCategory": null,
+          "ydPoiId": null,
+          "channelId": null
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "roomCategoryId": "string",
+              "campId": "string",
+              "saleCampId": "string",
+              "upstreamCampId": "string",
+              "downstreamCampId": "string",
+              "fromType": "number",
+              "channelId": "string",
+              "parentId": "string",
+              "mainPhotoMediaId": "string",
+              "mainPhotoMediaUrl": "string",
+              "mainPhoto": "string",
+              "inventory": "number",
+              "checkinGuestCount": "number",
+              "roomCategoryTransferId": null,
+              "checkinGuideId": null,
+              "isCampHasMultiInventoryRoomCategory": null,
+              "isTransfer": "number",
+              "priority": null,
+              "basePrice": "number",
+              "weekendPrice": "number",
+              "holidayPrice": "number",
+              "channelOrderTotalNum": "number",
+              "expectedChannelOrderTotalNum": "number",
+              "roomViews": [
+                "object"
+              ],
+              "isAvailability": "number",
+              "auditStatus": null,
+              "failReason": null,
+              "depositPrice": null,
+              "fullAddress": "string",
+              "waitMappingChannelNum": "number",
+              "poiView": {
+                "poiId": "string",
+                "name": "string"
+              },
+              "icsInfoViews": [],
+              "roomCategoryProductInfoViews": [
+                "object"
+              ],
+              "roomCategorySystemConfigInfos": [],
+              "isSupportHotelProduct": "number",
+              "isCanDelete": "number",
+              "deleteMessage": null,
+              "name": "string",
+              "linkRcs": [],
+              "byLinkRcs": []
+            }
+          ]
+        },
+        "sample": {
+          "roomCategoryId": "1796425099729092609",
+          "campId": "1796067693589061634",
+          "saleCampId": "1796067693589061634",
+          "upstreamCampId": "1796067693589061634",
+          "downstreamCampId": "1796067693589061634",
+          "fromType": 0,
+          "channelId": "0",
+          "parentId": "1796425099729092609",
+          "mainPhotoMediaId": "1801949570256912386",
+          "mainPhotoMediaUrl": "https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg",
+          "mainPhoto": "https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg",
+          "inventory": 1,
+          "checkinGuestCount": 5,
+          "roomCategoryTransferId": null,
+          "checkinGuideId": null,
+          "isCampHasMultiInventoryRoomCategory": null,
+          "isTransfer": 0,
+          "priority": null,
+          "basePrice": 73000,
+          "weekendPrice": 93000,
+          "holidayPrice": 98900,
+          "channelOrderTotalNum": 10,
+          "expectedChannelOrderTotalNum": 8,
+          "roomViews": [
+            {
+              "roomId": "1796425099787812870",
+              "roomName": "房间1",
+              "yuejumaAddress": null
+            }
+          ],
+          "isAvailability": 1,
+          "auditStatus": null,
+          "failReason": null,
+          "depositPrice": null,
+          "fullAddress": "深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国",
+          "waitMappingChannelNum": 0,
+          "poiView": {
+            "poiId": "1796425098638573570",
+            "name": "天落会宿公寓(前海壹方城宝安中心店)"
+          },
+          "icsInfoViews": [],
+          "roomCategoryProductInfoViews": [
+            {
+              "roomCategoryProductId": "1796425099884281858",
+              "roomCategoryProductName": "无早餐不可取消;1小时确认",
+              "saleType": 1,
+              "serialCheckInTime": null,
+              "earliestCheckInTime": 15,
+              "latestCheckInTime": 24,
+              "latestCheckOutTime": 12,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "cancelPolicy": 4,
+              "breakfastCount": 0,
+              "isPerfectRoomCategoryProduct": 1,
+              "normalPrice": 73000,
+              "weekendPrice": 93000,
+              "holidayPrice": 98900,
+              "stockMode": null
+            }
+          ],
+          "roomCategorySystemConfigInfos": [],
+          "isSupportHotelProduct": 1,
+          "isCanDelete": 1,
+          "deleteMessage": null,
+          "name": "顶层套房（浴缸巨幕电竞麻将）",
+          "linkRcs": [],
+          "byLinkRcs": [],
+          "channels": [
+            {
+              "channelId": "5",
+              "channelName": "携程",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4384501156886349.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/7150147454405098.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8981066208472485.png",
+              "seq": 14,
+              "isLongRent": 0,
+              "channelOrderNum": 3,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 1
+            },
+            {
+              "channelId": "18",
+              "channelName": "携程国际",
+              "channelType": 1,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9359488859736707.png",
+              "image2Url": null,
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/0842875468894826.png",
+              "seq": 15,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "6",
+              "channelName": "美团酒店",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/meituanjiudian/16b2e6c6d734d13f7721da9fd993043415845.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4936353986566632.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/WechatIMG671.png",
+              "seq": 3,
+              "isLongRent": 0,
+              "channelOrderNum": 2,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 1
+            },
+            {
+              "channelId": "8",
+              "channelName": "飞猪淘酒店",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu002.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9642506736441108.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png",
+              "seq": 6,
+              "isLongRent": 0,
+              "channelOrderNum": 5,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 1
+            },
+            {
+              "channelId": "3",
+              "channelName": "美团民宿",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/zhenguo-blue.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/5028483343990558.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+              "seq": 2,
+              "isLongRent": 0,
+              "channelOrderNum": 0,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 1
+            },
+            {
+              "channelId": "2",
+              "channelName": "途家",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia-blue.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/1352296265378511.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+              "seq": 4,
+              "isLongRent": 0,
+              "channelOrderNum": 0,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 2
+            },
+            {
+              "channelId": "21",
+              "channelName": "木鸟",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson_app_channels/muniao-blue.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/1592402523680458.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson_app_channels/muniao3.png",
+              "seq": 8,
+              "isLongRent": 0,
+              "channelOrderNum": 0,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 1
+            },
+            {
+              "channelId": "4",
+              "channelName": "小猪",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu-blue.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4027528662349040.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+              "seq": 7,
+              "isLongRent": 0,
+              "channelOrderNum": 0,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 2
+            },
+            {
+              "channelId": "9",
+              "channelName": "Booking",
+              "channelType": 1,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/booking02.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4302720396388208.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/booking004.png",
+              "seq": 33,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "71",
+              "channelName": "同程民宿",
+              "channelType": 1,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/6263442834974589.png",
+              "image2Url": null,
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8346444282052181.png",
+              "seq": 71,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "1",
+              "channelName": "爱彼迎",
+              "channelType": 1,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/airbnb02.png",
+              "image2Url": null,
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/bnb002.png",
+              "seq": 5,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "36",
+              "channelName": "小红书",
+              "channelType": 2,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/xhsClose.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/0128761886031620.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/xhsLogo.png",
+              "seq": 11,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "58",
+              "channelName": "抖音来客",
+              "channelType": 2,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/dy2.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/7024184710037940.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/dy3.png",
+              "seq": 58,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "86",
+              "channelName": "视频号",
+              "channelType": 2,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/8323990495541343.png",
+              "image2Url": null,
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/8323990495541343.png",
+              "seq": 86,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "34",
+              "channelName": "品牌小程序",
+              "channelType": 3,
+              "isOpen": 0,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/2835802538169458.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png",
+              "seq": 9,
+              "isLongRent": 0,
+              "channelOrderNum": null,
+              "expectedChannelOrderNum": 1,
+              "channelRoomCategoryProductNum": 0
+            },
+            {
+              "channelId": "17",
+              "channelName": "路客云聚合",
+              "channelType": 1,
+              "isOpen": 1,
+              "imageUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_open.png",
+              "image2Url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3742240438595839.png",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
+              "seq": 1,
+              "isLongRent": 0,
+              "channelOrderNum": 0,
+              "expectedChannelOrderNum": null,
+              "channelRoomCategoryProductNum": 2
+            }
+          ],
+          "channelInfos": [
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1815374923474182148",
+              "accountId": "1815374921939075073",
+              "account": {
+                "id": "1815374921939075073",
+                "accountName": "CDkZ9934",
+                "outAccountId": "417444802"
+              },
+              "channelId": "2",
+              "isUnmapping": null,
+              "outRoomCategoryId": "71969854",
+              "outRoomCategoryDisplayId": "HN18839636",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://m.tujia.com/detail/71969854.htm",
+              "mainPhotoMediaId": "1815374924220768258",
+              "mainPhoto": "https://pic.tujia.com/upload/landlordunit/day_240702/thumb/202407021659543220_390_390.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "福中福·幸福海岸-D栋",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床宝安中心深圳湾欢乐海岸近机场"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1837477542369128449",
+              "accountId": "1837477541152784386",
+              "account": {
+                "id": "1837477541152784386",
+                "accountName": "aikenchen",
+                "outAccountId": "414127"
+              },
+              "channelId": "21",
+              "isUnmapping": null,
+              "outRoomCategoryId": "1183524",
+              "outRoomCategoryDisplayId": "1183524",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://www.muniao.com/room/1183524.html",
+              "mainPhotoMediaId": "1837477542562066433",
+              "mainPhoto": "https://assets.muniao.com/UploadFiles/root/room/1183524/thumb/a19612dd17d243119d78cc3765a30009.jpeg_610_385.jpeg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "深圳宝安区",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近机场深圳湾近地铁宝安中心"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1873647554571833352",
+              "accountId": "1873647550792806402",
+              "account": {
+                "id": "1873647550792806402",
+                "accountName": "陈泓仰",
+                "outAccountId": "28698039901"
+              },
+              "channelId": "4",
+              "isUnmapping": null,
+              "outRoomCategoryId": "332989151838221",
+              "outRoomCategoryDisplayId": "332989151838221",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://cd.xiaozhu.com/fangzi/332989151838221.html",
+              "mainPhotoMediaId": "1873647563124019201",
+              "mainPhoto": "https://image.xiaozhustatic1.com/12/fs,1,1wyuVBdqB,3892,2927,2,ba93ef1d59b0859dcc0e7512519b8976.jpeg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "广东深圳市宝安区福中福·幸福海岸10栋D座30楼C203",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "浴缸可观影可打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床+欧式大床/河流桌宝安中心深圳湾欢乐海岸近机场"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "2013191272454017025",
+              "accountId": "1719924135336939521",
+              "account": {
+                "id": "1719924135336939521",
+                "accountName": "hotel961894",
+                "outAccountId": "2214957277091"
+              },
+              "channelId": "8",
+              "isUnmapping": null,
+              "outRoomCategoryId": "2013191272454017025",
+              "outRoomCategoryDisplayId": "4417366504788",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://hotel.fliggy.com/hotel_detail2.htm?shid=78810283&_output_charset=utf8",
+              "mainPhotoMediaId": "1801949570256912386",
+              "mainPhoto": "https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "幸福海岸花园十区-D栋10栋D座30C-301",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "顶层套间(独享浴缸麻将巨屏观影电动吊床+欧式大床)"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1873647554571833348",
+              "accountId": "1873647550792806402",
+              "account": {
+                "id": "1873647550792806402",
+                "accountName": "陈泓仰",
+                "outAccountId": "28698039901"
+              },
+              "channelId": "4",
+              "isUnmapping": null,
+              "outRoomCategoryId": "302059052859397",
+              "outRoomCategoryDisplayId": "302059052859397",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://cd.xiaozhu.com/fangzi/302059052859397.html",
+              "mainPhotoMediaId": "1873647563014967297",
+              "mainPhoto": "https://image.xiaozhustatic1.com/12/fs,6,1nLT1wrUh,3689,2027,2,cdefc45b8f16b9f79cd56db4b66b2417.jpeg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "广东深圳市宝安区福中福·幸福海岸10栋D座30C",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "天落床 真悬浮体验 70寸巨屏4K电视观影"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1801949568130400258",
+              "accountId": "1801949566888878081",
+              "account": {
+                "id": "1801949566888878081",
+                "accountName": "天落会宿",
+                "outAccountId": "539df02d98044059ef472eaa2360ee7af477d777a05d0713b9dddb75b3c13c11"
+              },
+              "channelId": "3",
+              "isUnmapping": null,
+              "outRoomCategoryId": "ca84015f43308aa5d14ec384eab2e5f34bcc5b0b9607cbf0ae8608eafac8dc3a",
+              "outRoomCategoryDisplayId": "1065319820",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": false,
+              "url": "https://minsu.meituan.com/housing/1065319820",
+              "mainPhotoMediaId": "1801949570256912386",
+              "mainPhoto": "https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "幸福海岸花园十区-D栋10栋D座30楼 30层 C301",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "浴缸可观影可打麻将电竞电脑/顶层近湾区之光摩天轮/聚会派对/近地铁/万元天落床+欧式大床/河流桌宝中深圳湾欢乐海岸近机场"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1801207884756606980",
+              "accountId": "1801207882877546498",
+              "account": {
+                "id": "1801207882877546498",
+                "accountName": "EHPq0597",
+                "outAccountId": "9825888"
+              },
+              "channelId": "2",
+              "isUnmapping": null,
+              "outRoomCategoryId": "67104810",
+              "outRoomCategoryDisplayId": "HN17065574",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://m.tujia.com/detail/67104810.htm",
+              "mainPhotoMediaId": "1801207885658382338",
+              "mainPhoto": "https://pic.tujia.com/upload/landlordunit/day_240102/thumb/202401020019238947_390_390.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "福中福·幸福海岸-10栋",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1972568316887060482",
+              "accountId": "1691398810818723843",
+              "account": {
+                "id": "1691398810818723843",
+                "accountName": "路客云",
+                "outAccountId": "1607"
+              },
+              "channelId": "5",
+              "isUnmapping": null,
+              "outRoomCategoryId": "118891202-顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）",
+              "outRoomCategoryDisplayId": "118891202-顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://hotels.ctrip.com/hotels/detailPage?hotelId=118891202",
+              "mainPhotoMediaId": "1801828451298353154",
+              "mainPhoto": "https://oss.localhome.cn/localhomeqy/lose-bg.png",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": null,
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1974109546005716999",
+              "accountId": "1974109534311833601",
+              "account": {
+                "id": "1974109534311833601",
+                "accountName": "18123941382",
+                "outAccountId": "194698201"
+              },
+              "channelId": "6",
+              "isUnmapping": null,
+              "outRoomCategoryId": "464689883-1",
+              "outRoomCategoryDisplayId": "464689883-1",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": "https://hotel.meituan.com/574654633",
+              "mainPhotoMediaId": "1801828081021005826",
+              "mainPhoto": "http://p0.meituan.net/tdchoteldark/fbfb5d2eaaf24f5f62c2341071a1311b664887.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "新安街道海裕社区N15区幸福海岸花园10栋",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "顶层套房-独享麻将电竞浴缸-天落大床-欧式大床"
+            },
+            {
+              "campId": null,
+              "parentId": "1796425099729092609",
+              "parentTitle": null,
+              "roomCategoryId": "1869701817173336066",
+              "accountId": "1869701816472887298",
+              "account": {
+                "id": "1869701816472887298",
+                "accountName": "路客云6TS5",
+                "outAccountId": "1869701813359669248"
+              },
+              "channelId": "17",
+              "isUnmapping": null,
+              "outRoomCategoryId": "1869701816904900610",
+              "outRoomCategoryDisplayId": "LPS11GL000",
+              "inventory": 1,
+              "isInventoryLimited": null,
+              "isOnSale": true,
+              "url": null,
+              "mainPhotoMediaId": "1801949570256912386",
+              "mainPhoto": "https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg",
+              "isInit": true,
+              "isInitError": null,
+              "channelRoomCategoryState": null,
+              "isLongRent": false,
+              "hallNum": null,
+              "bathroomNum": null,
+              "kitchenNum": null,
+              "bedroomNum": null,
+              "bedNum": null,
+              "ableArea": null,
+              "personCapacity": null,
+              "description": null,
+              "nationId": null,
+              "nationName": null,
+              "provinceId": null,
+              "provinceName": null,
+              "cityId": null,
+              "cityName": null,
+              "countyId": null,
+              "countyName": null,
+              "address": "深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国",
+              "apt": null,
+              "latitude": null,
+              "longitude": null,
+              "contactNumber": null,
+              "roomCategoryPriceView": null,
+              "roomCategoryPhotoViewList": [],
+              "title": "顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）"
+            }
+          ],
+          "channelProductInfos": [
+            {
+              "channelId": "2",
+              "channelName": "途家",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "2",
+                  "roomCategoryProductId": "1801207884756606981",
+                  "roomCategoryProductName": "桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://m.tujia.com/detail/67104810.htm"
+                },
+                {
+                  "channelId": "2",
+                  "roomCategoryProductId": "1815374923474182149",
+                  "roomCategoryProductName": "浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床宝安中心深圳湾欢乐海岸近机场",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://m.tujia.com/detail/71969854.htm"
+                }
+              ]
+            },
+            {
+              "channelId": "3",
+              "channelName": "美团民宿",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "3",
+                  "roomCategoryProductId": "1801949568352698371",
+                  "roomCategoryProductName": "浴缸可观影可打麻将电竞电脑/顶层近湾区之光摩天轮/聚会派对/近地铁/万元天落床+欧式大床/河流桌宝中深圳湾欢乐海岸近机场",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": 7,
+                  "isAvailability": 0,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://minsu.meituan.com/housing/1065319820"
+                }
+              ]
+            },
+            {
+              "channelId": "4",
+              "channelName": "小猪",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "4",
+                  "roomCategoryProductId": "1873647554571833349",
+                  "roomCategoryProductName": "天落床 真悬浮体验 70寸巨屏4K电视观影",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://cd.xiaozhu.com/fangzi/302059052859397.html"
+                },
+                {
+                  "channelId": "4",
+                  "roomCategoryProductId": "1873647554571833353",
+                  "roomCategoryProductName": "浴缸可观影可打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床+欧式大床/河流桌宝安中心深圳湾欢乐海岸近机场",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://cd.xiaozhu.com/fangzi/332989151838221.html"
+                }
+              ]
+            },
+            {
+              "channelId": "5",
+              "channelName": "携程",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8981066208472485.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "5",
+                  "roomCategoryProductId": "1972568316887060483",
+                  "roomCategoryProductName": "顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": 0,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://hotels.ctrip.com/hotels/detailPage?hotelId=118891202"
+                }
+              ]
+            },
+            {
+              "channelId": "6",
+              "channelName": "美团酒店",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/WechatIMG671.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "6",
+                  "roomCategoryProductId": "1974109546005717000",
+                  "roomCategoryProductName": "顶层套房-独享麻将电竞浴缸-天落大床-欧式大床-不含早-入住当天18:00前免费取消-电竞房未成年禁止订房 成年人带未成年家属入住要报备社区警长",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://hotel.meituan.com/574654633"
+                }
+              ]
+            },
+            {
+              "channelId": "8",
+              "channelName": "飞猪淘酒店",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/channel/feizhu001.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "8",
+                  "roomCategoryProductId": "2013191272470794241",
+                  "roomCategoryProductName": "顶层套房（浴缸巨幕电竞麻将）",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": 0,
+                  "cancelPolicy": 6,
+                  "isAvailability": 1,
+                  "auditStatus": 5,
+                  "parentId": "1796425099884281858",
+                  "url": "https://hotel.fliggy.com/hotel_detail2.htm?shid=78810283&_output_charset=utf8"
+                }
+              ]
+            },
+            {
+              "channelId": "17",
+              "channelName": "路客云聚合",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "17",
+                  "roomCategoryProductId": "1869701817345302529",
+                  "roomCategoryProductName": "顶层套房（浴缸巨幕电竞麻将）",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": 0,
+                  "cancelPolicy": 3,
+                  "isAvailability": 1,
+                  "auditStatus": 5,
+                  "parentId": "1796425099884281858",
+                  "url": null
+                },
+                {
+                  "channelId": "17",
+                  "roomCategoryProductId": "1896577178416943106",
+                  "roomCategoryProductName": "顶层套房（浴缸巨幕电竞麻将）",
+                  "saleType": 1,
+                  "purchaseType": 1,
+                  "breakfastCount": 0,
+                  "cancelPolicy": 3,
+                  "isAvailability": 1,
+                  "auditStatus": 5,
+                  "parentId": "1796425099884281858",
+                  "url": null
+                }
+              ]
+            },
+            {
+              "channelId": "21",
+              "channelName": "木鸟",
+              "channelIcon": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson_app_channels/muniao3.png",
+              "roomCategoryProductInfoViews": [
+                {
+                  "channelId": "21",
+                  "roomCategoryProductId": "1837477542369128450",
+                  "roomCategoryProductName": "浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近机场深圳湾近地铁宝安中心",
+                  "saleType": 1,
+                  "purchaseType": null,
+                  "breakfastCount": null,
+                  "cancelPolicy": null,
+                  "isAvailability": 1,
+                  "auditStatus": null,
+                  "parentId": "1796425099884281858",
+                  "url": "https://www.muniao.com/room/1183524.html"
+                }
+              ]
+            }
+          ],
+          "roomCategoryGroupInfos": []
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": []
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "poiId": "string",
+              "poiName": "string"
+            }
+          ]
+        },
+        "sample": {
+          "poiId": "1796425098638573570",
+          "poiName": "天落会宿公寓(前海壹方城宝安中心店)"
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "isNormalOperation": 0
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "title": null,
+          "content": null,
+          "operationResult": null
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1612358662125522945"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "columns": "array"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "SelectCalChannel",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "value": "string",
+            "label": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "SelectMemberCard",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "label": "string",
+            "value": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "campId": null,
+              "channelRoomCategoryId": "string",
+              "channelRoomCategoryName": "string",
+              "parentRoomCategoryId": "string",
+              "mainPhotoMediaId": "string",
+              "mainPhotoMediaUrl": "string",
+              "mainPhoto": "string",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": [],
+              "lowestSellingPrice": "number",
+              "lowestSettlementPrice": "number",
+              "lowestOriginalPrice": "number",
+              "reducePrice": "number",
+              "isCanBooking": "number",
+              "totalStock": "string",
+              "roomCategoryType": "number",
+              "goodsType": "number",
+              "isLongTermEffective": "number",
+              "effectiveStartTime": null,
+              "effectiveEndTime": "number",
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": "number",
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "string",
+              "isAvailability": "string",
+              "description": "string"
+            }
+          ]
+        },
+        "sample": {
+          "campId": null,
+          "channelRoomCategoryId": "1671102652115400022",
+          "channelRoomCategoryName": "携程直连",
+          "parentRoomCategoryId": "1671102652115400021",
+          "mainPhotoMediaId": "1671102652115400022",
+          "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "bedroomNum": null,
+          "ableArea": null,
+          "hallNum": null,
+          "personCapacity": null,
+          "bedNum": null,
+          "bedMetas": [],
+          "lowestSellingPrice": 246,
+          "lowestSettlementPrice": 246,
+          "lowestOriginalPrice": 246,
+          "reducePrice": 0,
+          "isCanBooking": 1,
+          "totalStock": "10368856",
+          "roomCategoryType": 1,
+          "goodsType": 7,
+          "isLongTermEffective": 1,
+          "effectiveStartTime": null,
+          "effectiveEndTime": 1822060800000,
+          "poiType": null,
+          "parentPoiId": null,
+          "poiTags": null,
+          "channelPoiId": null,
+          "promotionDirectRatio": null,
+          "editionId": null,
+          "editionLevel": null,
+          "editionUpgradeType": null,
+          "isTransitionEdition": null,
+          "isFreeEdition": 0,
+          "giftType": null,
+          "outRuleJson": null,
+          "channelOutRuleJson": null,
+          "applyId": "11",
+          "isAvailability": "1",
+          "description": "开通携程直连，实现房态、房价、订单管理。",
+          "attIds": null,
+          "contractAgreementUrl": null,
+          "bindRoomCategoryViews": null,
+          "bindServiceViews": null,
+          "roomCategoryProductGetViews": [
+            {
+              "roomCategoryProductId": "1671092891498688930",
+              "roomCategoryProductName": "30天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 7380,
+              "originalPrice": 7380,
+              "settlementPrice": 7380,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99999,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688928",
+              "roomCategoryProductName": "1天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 246,
+              "originalPrice": 246,
+              "settlementPrice": 246,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 70197,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688922",
+              "roomCategoryProductName": "一年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 89900,
+              "originalPrice": 159900,
+              "settlementPrice": 89900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 98996,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 2,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688924",
+              "roomCategoryProductName": "两年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 179800,
+              "originalPrice": 379900,
+              "settlementPrice": 179800,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99954,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 3,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688926",
+              "roomCategoryProductName": "无期限",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 449900,
+              "originalPrice": 799900,
+              "settlementPrice": 449900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 9999710,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 4,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "SelectMemberCard",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "label": "string",
+            "value": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "2000745252682776577"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "dailySurvey": "object"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          3
+        ],
+        "isEnable": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "paymentGroups": [
+            {
+              "groupType": "number",
+              "groupTypeName": "string",
+              "paymentTypes": [
+                "object"
+              ]
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "code": "hudson.im.picture.support.channels"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "commons": [
+            {
+              "commonId": "string",
+              "code": null,
+              "value": "string",
+              "codeName": "string",
+              "groupId": "string"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "roomCategoryRooms": [
+            {
+              "roomCategoryId": "string",
+              "roomCategoryName": "string",
+              "rooms": [
+                "object"
+              ]
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/dicts/cascade/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "dictsCascadeGetRequests": [
+          {
+            "code": "member.gender",
+            "dictKey": []
+          },
+          {
+            "code": "member.age",
+            "dictKey": []
+          },
+          {
+            "code": "member.state",
+            "dictKey": []
+          },
+          {
+            "code": "member.memberIdentity",
+            "dictKey": []
+          }
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "list": [
+            {
+              "dictId": "string",
+              "parentDictId": "string",
+              "channelId": "string",
+              "code": "string",
+              "dictKey": "string",
+              "dictValue": "string",
+              "seq": "number",
+              "showType": "number",
+              "iconUrl": null,
+              "tips": null,
+              "fillType": null,
+              "ruleJson": null,
+              "constraintJson": null,
+              "remark": null,
+              "list": []
+            }
+          ]
+        },
+        "sample": {
+          "dictId": "1534376394528306302",
+          "parentDictId": "1534376394528306301",
+          "channelId": "0",
+          "code": "member.gender",
+          "dictKey": "1",
+          "dictValue": "男",
+          "seq": 1,
+          "showType": 2,
+          "iconUrl": null,
+          "tips": null,
+          "fillType": null,
+          "ruleJson": null,
+          "constraintJson": null,
+          "remark": null,
+          "list": []
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "bizTypes": [
+          2
+        ],
+        "isEnable": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "paymentGroups": [
+            {
+              "groupType": "number",
+              "groupTypeName": "string",
+              "paymentTypes": [
+                "object"
+              ]
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1754323708553199617"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "dailySurvey": "object"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1876219663445012481"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "dailySurvey": "object"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "paymentWays": [
+            {
+              "paymentWayId": "string",
+              "paymentWayName": "string",
+              "isCustom": "number",
+              "isEnable": "number"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/member/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "memberSearchType": "mobile",
+        "breakTemp": false,
+        "memberTagIds": []
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "memberId": "string",
+              "campId": "string",
+              "memberNo": "string",
+              "headImage": null,
+              "nickName": "string",
+              "mobile": "string",
+              "name": "string",
+              "gender": null,
+              "area": null,
+              "birthday": null,
+              "weChat": null,
+              "email": null,
+              "qq": null,
+              "firstMemberTime": "number",
+              "isJoinWxCp": null,
+              "memberIdentity": null,
+              "lastFollowTime": null,
+              "isJoinWx": null,
+              "isJoinGroup": null,
+              "memberCardName": "string",
+              "firstMemberCardTime": "number",
+              "lastConsumeTime": "number",
+              "lastConsumePrice": "number",
+              "totalConsumePrice": "number",
+              "totalConsumeCount": "number",
+              "avgConsumePrice": "number",
+              "channelId": "string",
+              "channelName": "string",
+              "outDecryptUserId": null,
+              "memberCardId": "string",
+              "remark": null,
+              "memberTagViews": [],
+              "memberTagValues": null
+            }
+          ]
+        },
+        "sample": {
+          "memberId": "1810493396951339010",
+          "campId": "1796067693589061634",
+          "memberNo": "1810493396951339010",
+          "headImage": null,
+          "nickName": "任清明",
+          "mobile": "13141204230",
+          "name": "任清明",
+          "gender": null,
+          "area": null,
+          "birthday": null,
+          "weChat": null,
+          "email": null,
+          "qq": null,
+          "firstMemberTime": 1720490237827,
+          "isJoinWxCp": null,
+          "memberIdentity": null,
+          "lastFollowTime": null,
+          "isJoinWx": null,
+          "isJoinGroup": null,
+          "memberCardName": "普通会员",
+          "firstMemberCardTime": 1720490237844,
+          "lastConsumeTime": 1720490237394,
+          "lastConsumePrice": 63720,
+          "totalConsumePrice": 63720,
+          "totalConsumeCount": 1,
+          "avgConsumePrice": 63720,
+          "channelId": "5",
+          "channelName": "携程",
+          "outDecryptUserId": null,
+          "memberCardId": "1796067693727473665",
+          "remark": null,
+          "memberTagViews": [],
+          "memberTagValues": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "campId": "string",
+          "expectedChannelOrderTotalNum": "number",
+          "isOpenFlow": "number",
+          "orderMobile": "string",
+          "isStopFlow": "number",
+          "stopType": "number",
+          "channelInfos": [
+            {
+              "channelId": "string",
+              "channelName": "string",
+              "expectedChannelOrderNum": "number",
+              "imageLogo": "string",
+              "isStopFlow": "number",
+              "isApplyOpen": "number"
+            }
+          ],
+          "isEnableEbk": "number"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "isSupport": 1
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "name": "string",
+            "currency": "string",
+            "symbol": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "campId": "string",
+          "expectedChannelOrderTotalNum": "number",
+          "isOpenFlow": "number",
+          "orderMobile": "string",
+          "isStopFlow": "number",
+          "stopType": "number",
+          "channelInfos": [
+            {
+              "channelId": "string",
+              "channelName": "string",
+              "expectedChannelOrderNum": "number",
+              "imageLogo": "string",
+              "isStopFlow": "number",
+              "isApplyOpen": "number"
+            }
+          ],
+          "isEnableEbk": "number"
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "campId": null,
+              "channelRoomCategoryId": "string",
+              "channelRoomCategoryName": "string",
+              "parentRoomCategoryId": "string",
+              "mainPhotoMediaId": "string",
+              "mainPhotoMediaUrl": "string",
+              "mainPhoto": "string",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": [],
+              "lowestSellingPrice": "number",
+              "lowestSettlementPrice": "number",
+              "lowestOriginalPrice": "number",
+              "reducePrice": "number",
+              "isCanBooking": "number",
+              "totalStock": "string",
+              "roomCategoryType": "number",
+              "goodsType": "number",
+              "isLongTermEffective": "number",
+              "effectiveStartTime": null,
+              "effectiveEndTime": "number",
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": "number",
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "string",
+              "isAvailability": "string",
+              "description": "string"
+            }
+          ]
+        },
+        "sample": {
+          "campId": null,
+          "channelRoomCategoryId": "1671102652115400022",
+          "channelRoomCategoryName": "携程直连",
+          "parentRoomCategoryId": "1671102652115400021",
+          "mainPhotoMediaId": "1671102652115400022",
+          "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "bedroomNum": null,
+          "ableArea": null,
+          "hallNum": null,
+          "personCapacity": null,
+          "bedNum": null,
+          "bedMetas": [],
+          "lowestSellingPrice": 246,
+          "lowestSettlementPrice": 246,
+          "lowestOriginalPrice": 246,
+          "reducePrice": 0,
+          "isCanBooking": 1,
+          "totalStock": "10368856",
+          "roomCategoryType": 1,
+          "goodsType": 7,
+          "isLongTermEffective": 1,
+          "effectiveStartTime": null,
+          "effectiveEndTime": 1822060800000,
+          "poiType": null,
+          "parentPoiId": null,
+          "poiTags": null,
+          "channelPoiId": null,
+          "promotionDirectRatio": null,
+          "editionId": null,
+          "editionLevel": null,
+          "editionUpgradeType": null,
+          "isTransitionEdition": null,
+          "isFreeEdition": 0,
+          "giftType": null,
+          "outRuleJson": null,
+          "channelOutRuleJson": null,
+          "applyId": "11",
+          "isAvailability": "1",
+          "description": "开通携程直连，实现房态、房价、订单管理。",
+          "attIds": null,
+          "contractAgreementUrl": null,
+          "bindRoomCategoryViews": null,
+          "bindServiceViews": null,
+          "roomCategoryProductGetViews": [
+            {
+              "roomCategoryProductId": "1671092891498688930",
+              "roomCategoryProductName": "30天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 7380,
+              "originalPrice": 7380,
+              "settlementPrice": 7380,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99999,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688928",
+              "roomCategoryProductName": "1天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 246,
+              "originalPrice": 246,
+              "settlementPrice": 246,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 70197,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688922",
+              "roomCategoryProductName": "一年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 89900,
+              "originalPrice": 159900,
+              "settlementPrice": 89900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 98996,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 2,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688924",
+              "roomCategoryProductName": "两年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 179800,
+              "originalPrice": 379900,
+              "settlementPrice": 179800,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99954,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 3,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688926",
+              "roomCategoryProductName": "无期限",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 449900,
+              "originalPrice": 799900,
+              "settlementPrice": 449900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 9999710,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 4,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": [
+          1
+        ],
+        "goodsTypes": [
+          7
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "campId": null,
+              "channelRoomCategoryId": "string",
+              "channelRoomCategoryName": "string",
+              "parentRoomCategoryId": "string",
+              "mainPhotoMediaId": "string",
+              "mainPhotoMediaUrl": "string",
+              "mainPhoto": "string",
+              "bedroomNum": null,
+              "ableArea": null,
+              "hallNum": null,
+              "personCapacity": null,
+              "bedNum": null,
+              "bedMetas": [],
+              "lowestSellingPrice": "number",
+              "lowestSettlementPrice": "number",
+              "lowestOriginalPrice": "number",
+              "reducePrice": "number",
+              "isCanBooking": "number",
+              "totalStock": "string",
+              "roomCategoryType": "number",
+              "goodsType": "number",
+              "isLongTermEffective": "number",
+              "effectiveStartTime": null,
+              "effectiveEndTime": "number",
+              "poiType": null,
+              "parentPoiId": null,
+              "poiTags": null,
+              "channelPoiId": null,
+              "promotionDirectRatio": null,
+              "editionId": null,
+              "editionLevel": null,
+              "editionUpgradeType": null,
+              "isTransitionEdition": null,
+              "isFreeEdition": "number",
+              "giftType": null,
+              "outRuleJson": null,
+              "channelOutRuleJson": null,
+              "applyId": "string",
+              "isAvailability": "string",
+              "description": "string"
+            }
+          ]
+        },
+        "sample": {
+          "campId": null,
+          "channelRoomCategoryId": "1671102652115400022",
+          "channelRoomCategoryName": "携程直连",
+          "parentRoomCategoryId": "1671102652115400021",
+          "mainPhotoMediaId": "1671102652115400022",
+          "mainPhotoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "mainPhoto": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png",
+          "bedroomNum": null,
+          "ableArea": null,
+          "hallNum": null,
+          "personCapacity": null,
+          "bedNum": null,
+          "bedMetas": [],
+          "lowestSellingPrice": 246,
+          "lowestSettlementPrice": 246,
+          "lowestOriginalPrice": 246,
+          "reducePrice": 0,
+          "isCanBooking": 1,
+          "totalStock": "10368856",
+          "roomCategoryType": 1,
+          "goodsType": 7,
+          "isLongTermEffective": 1,
+          "effectiveStartTime": null,
+          "effectiveEndTime": 1822060800000,
+          "poiType": null,
+          "parentPoiId": null,
+          "poiTags": null,
+          "channelPoiId": null,
+          "promotionDirectRatio": null,
+          "editionId": null,
+          "editionLevel": null,
+          "editionUpgradeType": null,
+          "isTransitionEdition": null,
+          "isFreeEdition": 0,
+          "giftType": null,
+          "outRuleJson": null,
+          "channelOutRuleJson": null,
+          "applyId": "11",
+          "isAvailability": "1",
+          "description": "开通携程直连，实现房态、房价、订单管理。",
+          "attIds": null,
+          "contractAgreementUrl": null,
+          "bindRoomCategoryViews": null,
+          "bindServiceViews": null,
+          "roomCategoryProductGetViews": [
+            {
+              "roomCategoryProductId": "1671092891498688930",
+              "roomCategoryProductName": "30天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 7380,
+              "originalPrice": 7380,
+              "settlementPrice": 7380,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99999,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688928",
+              "roomCategoryProductName": "1天",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 246,
+              "originalPrice": 246,
+              "settlementPrice": 246,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 70197,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 1,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688922",
+              "roomCategoryProductName": "一年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 89900,
+              "originalPrice": 159900,
+              "settlementPrice": 89900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 98996,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 2,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688924",
+              "roomCategoryProductName": "两年",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 179800,
+              "originalPrice": 379900,
+              "settlementPrice": 179800,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 99954,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 3,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            },
+            {
+              "roomCategoryProductId": "1671092891498688926",
+              "roomCategoryProductName": "无期限",
+              "saleType": null,
+              "stockType": null,
+              "sellingPrice": 449900,
+              "originalPrice": 799900,
+              "settlementPrice": 449900,
+              "reducePrice": null,
+              "isCanBooking": 1,
+              "stock": 9999710,
+              "stockMode": 1,
+              "photoMediaId": "1534423790783582210",
+              "photoMediaUrl": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg",
+              "cancelPolicy": null,
+              "breakfastCount": null,
+              "lunchCount": null,
+              "dinnerCount": null,
+              "curDayBookingTime": null,
+              "earliestCheckInTime": null,
+              "latestCheckInTime": null,
+              "latestCheckOutTime": null,
+              "hourCheckInTime": null,
+              "hourCheckOutTime": null,
+              "hourSerialCheckTime": null,
+              "isHourLimit": null,
+              "seq": 4,
+              "expandQuotaExpireTime": null,
+              "bindRoomCategoryProductViews": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1947569513926946818"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "trail": "array"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1953303333244473346"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "trail": "array"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": 47,
+        "param": {}
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "channelId": "string",
+            "channelName": "string",
+            "shortChannelName": "string",
+            "color": "string",
+            "imageLogo": "string",
+            "image2Logo": "string",
+            "imageClose": "string",
+            "imageOpen": "string",
+            "isSupportIcs": "number",
+            "isLongRent": "number",
+            "isOpen": "number"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "userId": "1796067693261905922"
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "userShortcuts": [
+            {
+              "code": "number",
+              "name": "string",
+              "win": null,
+              "mac": null,
+              "isOpen": "number"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": 48,
+        "param": {}
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "channelId": "string",
+            "channelName": "string",
+            "shortChannelName": "string",
+            "color": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {},
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "holidayInfos": [
+            {
+              "date": "string",
+              "type": "number",
+              "workStatus": "number",
+              "name": "string",
+              "holiday": "string"
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1612358662125522945"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "columns": "array"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "SelectMemberCard",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "label": "string",
+            "value": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/dicts/cascade/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "dictsCascadeGetRequests": [
+          {
+            "code": "member.gender",
+            "dictKey": []
+          },
+          {
+            "code": "member.age",
+            "dictKey": []
+          },
+          {
+            "code": "member.state",
+            "dictKey": []
+          },
+          {
+            "code": "member.memberIdentity",
+            "dictKey": []
+          }
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "list": [
+            {
+              "dictId": "string",
+              "parentDictId": "string",
+              "channelId": "string",
+              "code": "string",
+              "dictKey": "string",
+              "dictValue": "string",
+              "seq": "number",
+              "showType": "number",
+              "iconUrl": null,
+              "tips": null,
+              "fillType": null,
+              "ruleJson": null,
+              "constraintJson": null,
+              "remark": null,
+              "list": []
+            }
+          ]
+        },
+        "sample": {
+          "dictId": "1534376394528306302",
+          "parentDictId": "1534376394528306301",
+          "channelId": "0",
+          "code": "member.gender",
+          "dictKey": "1",
+          "dictValue": "男",
+          "seq": 1,
+          "showType": 2,
+          "iconUrl": null,
+          "tips": null,
+          "fillType": null,
+          "ruleJson": null,
+          "constraintJson": null,
+          "remark": null,
+          "list": []
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "traces": [
+          {
+            "pageName": "/customer/list",
+            "extraInfo": "",
+            "actionCode": "modal_strongReminder",
+            "actionTime": 1779089236780,
+            "sessionSeq": 2,
+            "sessionId": "a609328d-4ffe-4917-85bb-c3cbd88aac8d",
+            "pageContextId": "a55f0a13-692a-4ade-89ca-936a2db88de5",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/customer/list",
+            "extraInfo": "",
+            "actionCode": "workspace_ad_show",
+            "actionTime": 1779089237350,
+            "sessionSeq": 3,
+            "sessionId": "a609328d-4ffe-4917-85bb-c3cbd88aac8d",
+            "pageContextId": "a55f0a13-692a-4ade-89ca-936a2db88de5",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/customer/list",
+            "extraInfo": "{\"current\":1,\"pageSize\":20,\"memberSearchType\":\"mobile\",\"breakTemp\":false}",
+            "actionCode": "customerList_check",
+            "actionTime": 1779089238074,
+            "sessionSeq": 4,
+            "sessionId": "a609328d-4ffe-4917-85bb-c3cbd88aac8d",
+            "pageContextId": "a55f0a13-692a-4ade-89ca-936a2db88de5",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          },
+          {
+            "pageName": "/customer/list",
+            "extraInfo": "16234.40000000596",
+            "actionCode": "global-init-speed",
+            "actionTime": 1779089248397,
+            "sessionSeq": 5,
+            "sessionId": "a609328d-4ffe-4917-85bb-c3cbd88aac8d",
+            "pageContextId": "a55f0a13-692a-4ade-89ca-936a2db88de5",
+            "screenHeight": 900,
+            "screenWidth": 1440
+          }
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": "boolean",
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/member/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "memberSearchType": "mobile",
+        "breakTemp": false,
+        "memberTagIds": []
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "memberId": "string",
+              "campId": "string",
+              "memberNo": "string",
+              "headImage": null,
+              "nickName": "string",
+              "mobile": "string",
+              "name": "string",
+              "gender": null,
+              "area": null,
+              "birthday": null,
+              "weChat": null,
+              "email": null,
+              "qq": null,
+              "firstMemberTime": "number",
+              "isJoinWxCp": null,
+              "memberIdentity": null,
+              "lastFollowTime": null,
+              "isJoinWx": null,
+              "isJoinGroup": null,
+              "memberCardName": "string",
+              "firstMemberCardTime": "number",
+              "lastConsumeTime": "number",
+              "lastConsumePrice": "number",
+              "totalConsumePrice": "number",
+              "totalConsumeCount": "number",
+              "avgConsumePrice": "number",
+              "channelId": "string",
+              "channelName": "string",
+              "outDecryptUserId": null,
+              "memberCardId": "string",
+              "remark": null,
+              "memberTagViews": [],
+              "memberTagValues": null
+            }
+          ]
+        },
+        "sample": {
+          "memberId": "1810493396951339010",
+          "campId": "1796067693589061634",
+          "memberNo": "1810493396951339010",
+          "headImage": null,
+          "nickName": "任清明",
+          "mobile": "13141204230",
+          "name": "任清明",
+          "gender": null,
+          "area": null,
+          "birthday": null,
+          "weChat": null,
+          "email": null,
+          "qq": null,
+          "firstMemberTime": 1720490237827,
+          "isJoinWxCp": null,
+          "memberIdentity": null,
+          "lastFollowTime": null,
+          "isJoinWx": null,
+          "isJoinGroup": null,
+          "memberCardName": "普通会员",
+          "firstMemberCardTime": 1720490237844,
+          "lastConsumeTime": 1720490237394,
+          "lastConsumePrice": 63720,
+          "totalConsumePrice": 63720,
+          "totalConsumeCount": 1,
+          "avgConsumePrice": 63720,
+          "channelId": "5",
+          "channelName": "携程",
+          "outDecryptUserId": null,
+          "memberCardId": "1796067693727473665",
+          "remark": null,
+          "memberTagViews": [],
+          "memberTagValues": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "menuIds": [
+          "1612358662125522945"
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "optionJsonViews": [
+            {
+              "menuId": "string",
+              "optionJson": {
+                "columns": "array"
+              }
+            }
+          ]
+        },
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/member/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "memberSearchType": "mobile",
+        "breakTemp": false,
+        "memberTagIds": []
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": null,
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": [
+            {
+              "memberId": "string",
+              "campId": "string",
+              "memberNo": "string",
+              "headImage": null,
+              "nickName": "string",
+              "mobile": "string",
+              "name": "string",
+              "gender": null,
+              "area": null,
+              "birthday": null,
+              "weChat": null,
+              "email": null,
+              "qq": null,
+              "firstMemberTime": "number",
+              "isJoinWxCp": null,
+              "memberIdentity": null,
+              "lastFollowTime": null,
+              "isJoinWx": null,
+              "isJoinGroup": null,
+              "memberCardName": "string",
+              "firstMemberCardTime": "number",
+              "lastConsumeTime": "number",
+              "lastConsumePrice": "number",
+              "totalConsumePrice": "number",
+              "totalConsumeCount": "number",
+              "avgConsumePrice": "number",
+              "channelId": "string",
+              "channelName": "string",
+              "outDecryptUserId": null,
+              "memberCardId": "string",
+              "remark": null,
+              "memberTagViews": [],
+              "memberTagValues": null
+            }
+          ]
+        },
+        "sample": {
+          "memberId": "1810493396951339010",
+          "campId": "1796067693589061634",
+          "memberNo": "1810493396951339010",
+          "headImage": null,
+          "nickName": "任清明",
+          "mobile": "13141204230",
+          "name": "任清明",
+          "gender": null,
+          "area": null,
+          "birthday": null,
+          "weChat": null,
+          "email": null,
+          "qq": null,
+          "firstMemberTime": 1720490237827,
+          "isJoinWxCp": null,
+          "memberIdentity": null,
+          "lastFollowTime": null,
+          "isJoinWx": null,
+          "isJoinGroup": null,
+          "memberCardName": "普通会员",
+          "firstMemberCardTime": 1720490237844,
+          "lastConsumeTime": 1720490237394,
+          "lastConsumePrice": 63720,
+          "totalConsumePrice": 63720,
+          "totalConsumeCount": 1,
+          "avgConsumePrice": 63720,
+          "channelId": "5",
+          "channelName": "携程",
+          "outDecryptUserId": null,
+          "memberCardId": "1796067693727473665",
+          "remark": null,
+          "memberTagViews": [],
+          "memberTagValues": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "action": "SelectMemberCard",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": [
+          {
+            "label": "string",
+            "value": "string"
+          }
+        ],
+        "sample": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/dicts/cascade/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": {
+        "dictsCascadeGetRequests": [
+          {
+            "code": "member.gender",
+            "dictKey": []
+          },
+          {
+            "code": "member.age",
+            "dictKey": []
+          },
+          {
+            "code": "member.state",
+            "dictKey": []
+          },
+          {
+            "code": "member.memberIdentity",
+            "dictKey": []
+          }
+        ]
+      },
+      "status": 200,
+      "responseSummary": {
+        "topKeys": [
+          "success",
+          "errorCode",
+          "errorMsg",
+          "errorDetail",
+          "data"
+        ],
+        "dataShape": {
+          "list": [
+            {
+              "dictId": "string",
+              "parentDictId": "string",
+              "channelId": "string",
+              "code": "string",
+              "dictKey": "string",
+              "dictValue": "string",
+              "seq": "number",
+              "showType": "number",
+              "iconUrl": null,
+              "tips": null,
+              "fillType": null,
+              "ruleJson": null,
+              "constraintJson": null,
+              "remark": null,
+              "list": []
+            }
+          ]
+        },
+        "sample": {
+          "dictId": "1534376394528306302",
+          "parentDictId": "1534376394528306301",
+          "channelId": "0",
+          "code": "member.gender",
+          "dictKey": "1",
+          "dictValue": "男",
+          "seq": 1,
+          "showType": 2,
+          "iconUrl": null,
+          "tips": null,
+          "fillType": null,
+          "ruleJson": null,
+          "constraintJson": null,
+          "remark": null,
+          "list": []
+        }
+      }
+    }
+  ]
+}

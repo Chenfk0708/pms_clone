@@ -9,6 +9,10 @@ function appUrl(routePath: string) {
 test('/houseManage/logs/status sends captured real endpoint params and renders rows', async ({ page }) => {
   let requestBody: Record<string, unknown> | undefined
 
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseStatusLogsProvider', 'real')
+  })
+
   await page.route('https://hudson-prod.localhome.cn/roomStatusOperationLog/page/get/v2', async (route) => {
     requestBody = route.request().postDataJSON()
     await route.fulfill({
@@ -73,8 +77,43 @@ test('/houseManage/logs/status sends captured real endpoint params and renders r
   })
 })
 
+test('/houseManage/logs/status uses explicit mock provider by default', async ({ page }) => {
+  let realRequestCount = 0
+
+  await page.route('https://hudson-prod.localhome.cn/roomStatusOperationLog/page/get/v2', async (route) => {
+    realRequestCount += 1
+    await route.abort('failed')
+  })
+
+  await page.goto(appUrl('/houseManage/logs/status'))
+  await page.getByRole('button', { name: '查 询' }).click()
+
+  await expect(page.getByRole('status')).toContainText('已加载 2 条房态日志')
+  await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('总裁套间')
+  await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('途家直连')
+  expect(realRequestCount).toBe(0)
+})
+
+test('/houseManage/logs/status mock provider exposes empty and error states', async ({ page }) => {
+  await page.goto(appUrl('/houseManage/logs/status?mockScenario=empty'))
+  await page.getByRole('button', { name: '查 询' }).click()
+  await expect(page.getByRole('status')).toContainText('暂无符合条件的房态日志')
+  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByText('mock 接口')).toHaveCount(0)
+
+  await page.goto(appUrl('/houseManage/logs/status?mockScenario=error'))
+  await page.getByRole('button', { name: '查 询' }).click()
+  await expect(page.getByRole('alert')).toContainText('房态日志服务暂不可用，请稍后重试')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+  await expect(page.getByText('mock 接口')).toHaveCount(0)
+})
+
 test('/houseManage/logs/status exposes missing context and real request failures', async ({ page }) => {
   let requestCount = 0
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseStatusLogsProvider', 'real')
+  })
 
   await page.route('https://hudson-prod.localhome.cn/roomStatusOperationLog/page/get/v2', async (route) => {
     requestCount += 1
@@ -83,12 +122,12 @@ test('/houseManage/logs/status exposes missing context and real request failures
 
   await page.goto(appUrl('/houseManage/logs/status'))
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByRole('alert')).toContainText('缺少门店上下文 campId')
+  await expect(page.getByRole('alert')).toContainText('缺少门店上下文，无法查询房态日志')
   expect(requestCount).toBe(0)
 
   await page.goto(appUrl('/houseManage/logs/status?campId=1796067693589061634'))
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByRole('alert')).toContainText('真实接口请求失败')
+  await expect(page.getByRole('alert')).toContainText('房态日志查询暂时失败，请稍后重试')
   await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
   expect(requestCount).toBe(1)
 })

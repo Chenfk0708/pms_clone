@@ -1,10 +1,72 @@
 import { expect, test } from '@playwright/test'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
+const forbiddenDevelopmentCopy = /mock|provider|未接入|阻塞|后端|契约/
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
+
+test('/setting/localRoomTypeProductionSetting loads through explicit calendar-room mock provider', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
+
+  await expect(page.getByRole('alert', { name: '日历房数据错误' })).toHaveCount(0)
+  await expect(page.getByLabel('日历房售卖产品列表')).toContainText('顶层套房（浴缸巨幕电竞麻将）')
+  await expect(page.getByText('第 1-4 条/总共 4 条')).toBeVisible()
+  await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-request-channel', '')
+  await expect(page.locator('body')).not.toContainText(forbiddenDevelopmentCopy)
+
+  await page.getByPlaceholder('请输入房型名称').fill('观影')
+  await page.getByRole('button', { name: '搜 索' }).click()
+  await expect(page.getByRole('status', { name: '日历房操作反馈' })).toContainText('已查询日历房售卖产品')
+  await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-request-keyword', '观影')
+  await expect(page.locator('.calendar-room-table__room-row')).toHaveCount(1)
+  await expect(page.getByLabel('日历房售卖产品列表')).toContainText('观影大床房')
+})
+
+test('/setting/localRoomTypeProductionSetting renders empty and failure response states', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomMockState=empty'))
+  await expect(page.getByText('暂无售卖产品')).toBeVisible()
+  await expect(page.getByText('当前筛选条件下没有日历房售卖产品，请调整条件后重新查询。')).toBeVisible()
+  await expect(page.getByLabel('日历房售卖产品列表')).not.toContainText('顶层套房')
+  await expect(page.locator('body')).not.toContainText(forbiddenDevelopmentCopy)
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomMockState=error'))
+  await expect(page.getByRole('alert', { name: '日历房数据错误' })).toContainText('日历房数据加载失败')
+  await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(forbiddenDevelopmentCopy)
+})
+
+test('/setting/localRoomTypeProductionSetting gives feedback for all visible product actions', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
+
+  await page.getByRole('button', { name: '展开' }).first().click()
+  const firstProductGroup = page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')
+  await page.getByRole('button', { name: '预览' }).first().click()
+  await expect(page.getByRole('dialog', { name: '售卖产品详情' })).toContainText('产品名称')
+  await page.getByRole('button', { name: '关闭售卖产品详情' }).click()
+
+  await firstProductGroup.getByRole('button', { name: '编辑' }).first().click()
+  await expect(page).toHaveURL(/\/setting\/localRoomTypeProductionSetting\/channelGoodsSetting$/)
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
+  await page.getByRole('button', { name: '展开' }).first().click()
+  await page.getByRole('button', { name: '修改价格' }).first().click()
+  await expect(page.getByRole('dialog', { name: '调整售卖价格' })).toContainText('当前价格计划')
+  await page.getByRole('button', { name: '保存价格' }).click()
+  await expect(page.getByRole('status', { name: '日历房操作反馈' })).toContainText('售卖价格已保存')
+
+  await page.getByRole('button', { name: '下架' }).first().click()
+  await expect(page.getByRole('dialog', { name: '调整上下架状态' })).toContainText('确认下架')
+  await page.getByRole('button', { name: '确认调整' }).click()
+  await expect(page.getByRole('status', { name: '日历房操作反馈' })).toContainText('售卖状态已更新')
+  await expect(page.locator('body')).not.toContainText(forbiddenDevelopmentCopy)
+})
 
 test('/setting/localRoomTypeProductionSetting matches captured calendar-room list', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })

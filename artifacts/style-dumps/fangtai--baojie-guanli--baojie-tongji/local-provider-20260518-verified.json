@@ -1,0 +1,55 @@
+{
+  "title": "pms_clone",
+  "url": "http://127.0.0.1:4173/cleanManage/cleanStatistics",
+  "textLength": 844,
+  "forbiddenEnglishCopyVisible": false,
+  "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n房态管理\n房价管理\n房情表\n保洁管理\n保洁任务\n保洁统计\n保洁人员\n保洁设置\n保洁日志\n保洁统计\n保洁统计\n统计汇总\n统计明细\n?\n全部门店\n天落会宿…\n⚙\n日期：\n本 月\n上 月\n至\n导 出\n房型房间：\n房型房间 请选择房间\n保洁员：\n保洁员 请选择保洁员\n重 置\n查 询\n本月保洁\n186次\n较上月 +12%\n保洁费用\n12,886.00元\n费用率 8.4%\n验收通过率\n96.8%\n连续 7 天稳定\n待处理\n7项\n今日需跟进\n扫尘保洁\n续住保洁\n退房保洁\n深度保洁\n合计\n保洁日期\n数量\n费用\n数量\n费用\n数量\n费用\n数量\n费用\n数量\n费用\n合计\n68\n4488.00\n74\n4218.00\n38\n3420.00\n6\n760.00\n186\n12886.00\n2026-05-16\n1\n66.00\n2\n122.00\n0\n0.00\n0\n0.00\n3\n188.00\n2026-05-17\n2\n132.00\n1\n61.00\n2\n163.00\n0\n0.00\n5\n356.00\n今日退房保洁\n5\n查看房态\n待验收任务\n2\n查看明细\n保洁员排班\n3\n查看人员\n限时钜惠！智能保洁6折开通\n\n自动派单 ｜ 实时提醒 ｜ 报表清晰\n\n订阅开通\n保洁统计已加载\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "boxes": {
+    "title": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 24,
+      "display": "block",
+      "color": "rgb(32, 41, 68)",
+      "background": "rgba(0, 0, 0, 0)"
+    },
+    "page": {
+      "x": 172,
+      "y": 68,
+      "width": 1252,
+      "height": 852,
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0)"
+    },
+    "metrics": {
+      "x": 180,
+      "y": 226,
+      "width": 1236,
+      "height": 125.5,
+      "display": "grid",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0)"
+    },
+    "table": {
+      "x": 180,
+      "y": 367.5,
+      "width": 1236,
+      "height": 202,
+      "display": "block",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgb(255, 255, 255)"
+    },
+    "todos": {
+      "x": 180,
+      "y": 583.5,
+      "width": 1236,
+      "height": 88,
+      "display": "grid",
+      "color": "rgb(36, 50, 74)",
+      "background": "rgba(0, 0, 0, 0)"
+    }
+  },
+  "requestBody": "{\"pageNum\":1,\"pageSize\":20,\"campId\":\"mock-camp-main\",\"storeId\":\"all\",\"roomIds\":[],\"cleanerIds\":[],\"cleanStartTime\":1777564800000,\"cleanEndTime\":1779119999999}"
+}

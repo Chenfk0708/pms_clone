@@ -217,6 +217,7 @@
 }
 
 .order-advanced-filters label {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -247,6 +248,40 @@
   right: 9px;
   top: 3px;
   color: rgba(0, 0, 0, 0.38);
+}
+
+.order-select-field {
+  position: relative;
+}
+
+.order-select-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 8;
+  display: grid;
+  min-width: 210px;
+  padding: 4px;
+  border: 1px solid #dfe5f2;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(31, 42, 68, 0.14);
+}
+
+.order-select-menu button {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  border: 0;
+  border-radius: 3px;
+  background: #fff;
+  color: #35425c;
+  padding: 0 8px;
+  text-align: left;
+}
+
+.order-select-menu button:hover {
+  background: #f1f5fb;
 }
 
 .order-advanced-filters--long-rental {
@@ -718,6 +753,64 @@
 }
 
 .order-detail-footer button:nth-last-child(-n + 4) {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.order-create-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 45;
+  display: grid;
+  gap: 14px;
+  width: min(420px, calc(100vw - 40px));
+  padding: 18px;
+  border: 1px solid #dfe5f2;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(31, 42, 68, 0.22);
+  transform: translate(-50%, -50%);
+}
+
+.order-create-modal header,
+.order-create-modal footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.order-create-modal header strong {
+  color: #17213a;
+  font-size: 17px;
+}
+
+.order-create-modal label {
+  display: grid;
+  gap: 6px;
+  color: #34415a;
+  font-size: 13px;
+}
+
+.order-create-modal input {
+  height: 34px;
+  border: 1px solid #d9dde8;
+  border-radius: 4px;
+  padding: 0 10px;
+}
+
+.order-create-modal button {
+  height: 30px;
+  border: 1px solid #d5dcf0;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 12px;
+}
+
+.order-create-modal .order-primary-action {
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;

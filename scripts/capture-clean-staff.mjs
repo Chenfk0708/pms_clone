@@ -225,13 +225,23 @@ function interactionActions() {
     },
     {
       slug: 'add-member',
-      label: '添加成员',
-      run: async (page) => clickByText(page, '添加成员'),
+      label: '新增保洁员',
+      run: async (page) => clickFirstByText(page, ['新增保洁员', '添加成员']),
     },
     {
-      slug: 'subscribe-click',
-      label: '订阅开通',
-      run: async (page) => clickByText(page, '订阅开通'),
+      slug: 'export-members',
+      label: '导出',
+      run: async (page) => clickByText(page, '导出'),
+    },
+    {
+      slug: 'detail-entry',
+      label: '查看详情',
+      run: async (page) => clickByText(page, '查看详情'),
+    },
+    {
+      slug: 'task-entry',
+      label: '查看保洁任务',
+      run: async (page) => clickByText(page, '查看保洁任务'),
     },
   ]
 }
@@ -264,6 +274,14 @@ async function clickByText(page, label) {
   }
 
   return { found: false, clicked: false, label }
+}
+
+async function clickFirstByText(page, labels) {
+  for (const label of labels) {
+    const result = await clickByText(page, label)
+    if (result.found) return result
+  }
+  return { found: false, clicked: false, label: labels.join(' / ') }
 }
 
 async function extractState(page) {

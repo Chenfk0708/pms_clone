@@ -1,5 +1,15 @@
 export type HouseOrderStatus = '进行中' | '已完成' | '已取消' | '已预订'
 export type HouseLiveStatus = '入住中' | '已退房' | '已取消' | '待入住'
+export type HouseOrderProviderMode = 'mock' | 'api'
+export type HouseOrderMockState = 'success' | 'empty' | 'error'
+
+export interface ApiResponseEnvelope<T> {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
 
 export interface HouseOrderRow {
   orderNo: string
@@ -32,7 +42,7 @@ export interface HouseOrderRow {
 }
 
 export interface HouseOrderFilters {
-  campId: string
+  campId?: string
   pageNum: number
   pageSize: number
   orderType: string
@@ -59,9 +69,22 @@ export interface HouseOrderData {
   pages: number
   report: HouseOrderReport
   requestPaths: string[]
+  providerMode: HouseOrderProviderMode
+  traceIds: string[]
+}
+
+interface HouseOrderListData {
+  list: unknown[]
+  total: number
+  pageNum: number
+  pageSize: number
+  pages: number
 }
 
 const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn'
+const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
+const DEFAULT_MOCK_CAMP_ID = 'mock-camp-qianhai-001'
+const REQUEST_PATHS = ['/order/report/get', '/orders/page/get']
 
 export class HouseOrderRequestError extends Error {
   constructor(message: string) {
@@ -72,19 +95,86 @@ export class HouseOrderRequestError extends Error {
 
 export function resolveHouseOrderCampId() {
   const params = new URLSearchParams(window.location.search)
-  const fromQuery = params.get('campId')
-  const fromStorage = window.localStorage.getItem('pmsCampId')
-  const fromEnv = import.meta.env.VITE_PMS_CAMP_ID as string | undefined
-  const campId = fromQuery || fromStorage || fromEnv
+  return (
+    params.get('campId') ||
+    window.localStorage.getItem('pmsCampId') ||
+    window.localStorage.getItem('pms.currentCampId') ||
+    (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) ||
+    ''
+  )
+}
 
-  if (!campId) {
-    throw new HouseOrderRequestError('缺少 campId：请通过 URL query、localStorage.pmsCampId 或 VITE_PMS_CAMP_ID 提供当前门店上下文')
-  }
+export function resolveHouseOrderProviderMode(): HouseOrderProviderMode {
+  const params = new URLSearchParams(window.location.search)
+  const configured =
+    params.get('houseOrderProvider') ||
+    window.localStorage.getItem('pms.houseOrderProvider') ||
+    (import.meta.env.VITE_HOUSE_ORDER_PROVIDER as string | undefined) ||
+    'mock'
 
-  return campId
+  if (configured === 'mock' || configured === 'api') return configured
+  throw new HouseOrderRequestError(`住宿订单数据源配置无效：${configured}`)
 }
 
 export async function fetchHouseOrders(filters: HouseOrderFilters, signal?: AbortSignal): Promise<HouseOrderData> {
+  const providerMode = resolveHouseOrderProviderMode()
+
+  if (providerMode === 'mock') {
+    return fetchMockHouseOrders(filters, resolveHouseOrderMockState(), signal)
+  }
+
+  if (!filters.campId) {
+    throw new HouseOrderRequestError('缺少 campId：api 数据源需要明确的门店上下文')
+  }
+
+  return fetchApiHouseOrders(filters, signal)
+}
+
+function resolveHouseOrderMockState(): HouseOrderMockState {
+  const params = new URLSearchParams(window.location.search)
+  const state = params.get('houseOrderMockState') || window.localStorage.getItem('pms.houseOrderMockState') || 'success'
+  if (state === 'success' || state === 'empty' || state === 'error') return state
+  throw new HouseOrderRequestError(`住宿订单数据状态配置无效：${state}`)
+}
+
+async function fetchMockHouseOrders(
+  filters: HouseOrderFilters,
+  state: HouseOrderMockState,
+  signal?: AbortSignal,
+): Promise<HouseOrderData> {
+  await waitForMockLatency(signal)
+
+  const reportEnvelope = buildSuccessEnvelope<HouseOrderReport>(
+    'mock-dingdan--zhusu-dingdan--zhusu-dingdan-report-001',
+    state === 'empty' ? emptyReport() : MOCK_REPORT,
+  )
+
+  if (state === 'error') {
+    const failedEnvelope = buildEnvelope<HouseOrderListData>(
+      503,
+      '住宿订单数据服务暂时不可用',
+      { list: [], total: 0, pageNum: filters.pageNum, pageSize: filters.pageSize, pages: 0 },
+      'mock-dingdan--zhusu-dingdan--zhusu-dingdan-list-error-001',
+    )
+    return adaptHouseOrderEnvelopes(reportEnvelope, failedEnvelope, 'mock')
+  }
+
+  const rows = state === 'empty' ? [] : filterMockRows(filters)
+  const listEnvelope = buildSuccessEnvelope<HouseOrderListData>(
+    'mock-dingdan--zhusu-dingdan--zhusu-dingdan-list-001',
+    {
+      list: rows,
+      total: rows.length,
+      pageNum: filters.pageNum,
+      pageSize: filters.pageSize,
+      pages: rows.length ? 1 : 0,
+    },
+  )
+
+  return adaptHouseOrderEnvelopes(reportEnvelope, listEnvelope, 'mock')
+}
+
+async function fetchApiHouseOrders(filters: HouseOrderFilters, signal?: AbortSignal): Promise<HouseOrderData> {
   const orderBody = {
     campId: filters.campId,
     pageNum: filters.pageNum,
@@ -99,14 +189,62 @@ export async function fetchHouseOrders(filters: HouseOrderFilters, signal?: Abor
     postHudson<unknown>('/orders/page/get', orderBody, signal),
   ])
 
+  const reportEnvelope = buildSuccessEnvelope<HouseOrderReport>(
+    'api-dingdan--zhusu-dingdan--zhusu-dingdan-report-001',
+    adaptHouseOrderReport(reportPayload),
+  )
+  const listEnvelope = buildSuccessEnvelope<HouseOrderListData>(
+    'api-dingdan--zhusu-dingdan--zhusu-dingdan-list-001',
+    {
+      list: readArray(readPath(orderPayload, ['list'])),
+      total: readNumber(readPath(orderPayload, ['total']), 0),
+      pageNum: readNumber(readPath(orderPayload, ['pageNum']), filters.pageNum),
+      pageSize: readNumber(readPath(orderPayload, ['pageSize']), filters.pageSize),
+      pages: readNumber(readPath(orderPayload, ['pages']), 0),
+    },
+  )
+
+  return adaptHouseOrderEnvelopes(reportEnvelope, listEnvelope, 'api')
+}
+
+function adaptHouseOrderEnvelopes(
+  reportEnvelope: ApiResponseEnvelope<HouseOrderReport>,
+  listEnvelope: ApiResponseEnvelope<HouseOrderListData>,
+  providerMode: HouseOrderProviderMode,
+): HouseOrderData {
+  assertEnvelopeOk(reportEnvelope, '住宿订单统计')
+  assertEnvelopeOk(listEnvelope, '住宿订单列表')
+
   return {
-    rows: adaptHouseOrderRows(readArray(readPath(orderPayload, ['list']))),
-    total: readNumber(readPath(orderPayload, ['total']), 0),
-    pageNum: readNumber(readPath(orderPayload, ['pageNum']), filters.pageNum),
-    pageSize: readNumber(readPath(orderPayload, ['pageSize']), filters.pageSize),
-    pages: readNumber(readPath(orderPayload, ['pages']), 0),
-    report: adaptHouseOrderReport(reportPayload),
-    requestPaths: ['/order/report/get', '/orders/page/get'],
+    rows: adaptHouseOrderRows(readArray(listEnvelope.data.list)),
+    total: readNumber(listEnvelope.data.total, 0),
+    pageNum: readNumber(listEnvelope.data.pageNum, 1),
+    pageSize: readNumber(listEnvelope.data.pageSize, 20),
+    pages: readNumber(listEnvelope.data.pages, 0),
+    report: reportEnvelope.data,
+    requestPaths: REQUEST_PATHS,
+    providerMode,
+    traceIds: [reportEnvelope.traceId, listEnvelope.traceId],
+  }
+}
+
+function assertEnvelopeOk<T>(envelope: ApiResponseEnvelope<T>, label: string) {
+  if (envelope.code !== 0) {
+    throw new HouseOrderRequestError(`${label}返回失败：${envelope.message}（traceId=${envelope.traceId}）`)
+  }
+}
+
+function buildSuccessEnvelope<T>(traceId: string, data: T): ApiResponseEnvelope<T> {
+  return buildEnvelope(0, 'success', data, traceId)
+}
+
+function buildEnvelope<T>(code: number, message: string, data: T, traceId: string): ApiResponseEnvelope<T> {
+  return {
+    code,
+    message,
+    data,
+    traceId,
+    timestamp: MOCK_TIMESTAMP,
   }
 }
 
@@ -121,7 +259,7 @@ async function postHudson<T>(endpoint: string, body: Record<string, unknown>, si
       signal,
     })
   } catch (error) {
-    throw new HouseOrderRequestError(`真实接口请求失败：${endpoint}，${error instanceof Error ? error.message : String(error)}`)
+    throw new HouseOrderRequestError(`api 数据源请求失败：${endpoint}，${error instanceof Error ? error.message : String(error)}`)
   }
 
   let payload: HudsonResponse<T> | null
@@ -132,16 +270,16 @@ async function postHudson<T>(endpoint: string, body: Record<string, unknown>, si
   }
 
   if (!response.ok) {
-    throw new HouseOrderRequestError(`真实接口请求失败：${endpoint}，HTTP ${response.status}`)
+    throw new HouseOrderRequestError(`api 数据源请求失败：${endpoint}，HTTP ${response.status}`)
   }
   if (!payload || typeof payload !== 'object') {
-    throw new HouseOrderRequestError(`真实接口响应不可解析：${endpoint}`)
+    throw new HouseOrderRequestError(`api 数据源响应不可解析：${endpoint}`)
   }
   if (payload.success === false) {
-    throw new HouseOrderRequestError(String(payload.errorMsg || payload.errorDetail || `真实接口业务失败：${endpoint}`))
+    throw new HouseOrderRequestError(String(payload.errorMsg || payload.errorDetail || `api 数据源业务失败：${endpoint}`))
   }
   if (payload.data === undefined || payload.data === null) {
-    throw new HouseOrderRequestError(`真实接口响应缺少 data 字段：${endpoint}`)
+    throw new HouseOrderRequestError(`api 数据源响应缺少 data 字段：${endpoint}`)
   }
 
   return payload.data
@@ -152,6 +290,48 @@ interface HudsonResponse<T> {
   errorMsg?: unknown
   errorDetail?: unknown
   data?: T
+}
+
+function filterMockRows(filters: HouseOrderFilters) {
+  const keyword = filters.keyword.trim().toLowerCase()
+  return MOCK_ORDER_ROWS.filter((item) => {
+    const detail = readArray(readPath(item, ['orderDetailViews']))[0]
+    const orderType = String(readPath(item, ['mockOrderType']) ?? '')
+    if (filters.orderType && orderType !== filters.orderType) return false
+    if (!keyword) return true
+
+    return [
+      readPath(item, ['orderId']),
+      readPath(item, ['outOrderId']),
+      readPath(item, ['channelName']),
+      readPath(item, ['guestName']),
+      readPath(item, ['guestMobile']),
+      readPath(detail, ['roomName']),
+      readPath(detail, ['roomCategoryName']),
+      readPath(detail, ['poiName']),
+    ]
+      .join(' ')
+      .toLowerCase()
+      .includes(keyword)
+  })
+}
+
+function waitForMockLatency(signal?: AbortSignal) {
+  return new Promise<void>((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException('Aborted', 'AbortError'))
+      return
+    }
+    const timer = window.setTimeout(resolve, 80)
+    signal?.addEventListener(
+      'abort',
+      () => {
+        window.clearTimeout(timer)
+        reject(new DOMException('Aborted', 'AbortError'))
+      },
+      { once: true },
+    )
+  })
 }
 
 function adaptHouseOrderRows(items: unknown[]): HouseOrderRow[] {
@@ -190,6 +370,8 @@ function adaptHouseOrderRows(items: unknown[]): HouseOrderRow[] {
       planFlag: readNumber(readPath(detail, ['isStatistics']), 1) ? '1' : '',
       needsRoomAssignment,
       collected: formatMoney(readPath(item, ['totalPayPrice'])),
+      commission: formatMoney(readPath(item, ['commissionPrice'])),
+      confirmNo: readString(readPath(item, ['confirmNo'])),
     }
   })
 }
@@ -205,6 +387,20 @@ function adaptHouseOrderReport(data: unknown): HouseOrderReport {
     pending: readNumber(readPath(data, ['pending']), 0),
     refunding: readNumber(readPath(data, ['refunding']), 0),
     exception: readNumber(readPath(data, ['exception']), 0),
+  }
+}
+
+function emptyReport(): HouseOrderReport {
+  return {
+    todayNewOrder: 0,
+    todayPredictCheckIn: 0,
+    staying: 0,
+    todayPredictCheckOut: 0,
+    tomorrowCheckIn: 0,
+    tomorrowCheckOut: 0,
+    pending: 0,
+    refunding: 0,
+    exception: 0,
   }
 }
 
@@ -286,3 +482,90 @@ function formatDateTime(value: unknown) {
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }
+
+const MOCK_REPORT: HouseOrderReport = {
+  todayNewOrder: 2,
+  todayPredictCheckIn: 1,
+  staying: 0,
+  todayPredictCheckOut: 0,
+  tomorrowCheckIn: 1,
+  tomorrowCheckOut: 0,
+  pending: 0,
+  refunding: 0,
+  exception: 1,
+}
+
+const MOCK_ORDER_ROWS = [
+  {
+    orderId: '2055526750698446849',
+    outOrderId: '1128147967607231',
+    channelName: '携程',
+    guestName: '蔡勇君',
+    guestMobile: null,
+    orderState: 1,
+    refundDisplayState: 0,
+    type: 1,
+    isLt: 0,
+    mockOrderType: '11',
+    campId: DEFAULT_MOCK_CAMP_ID,
+    includeCommissionRoomPrice: 395,
+    totalRoomPrice: 308,
+    otherPrice: 0,
+    orderTotalIncomePrice: 395,
+    totalPayPrice: 395,
+    commissionPrice: 87,
+    debtPrice: 0,
+    bookedTime: 1778910741000,
+    confirmNo: '1128147967607231',
+    orderDetailViews: [
+      {
+        poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+        roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
+        roomCategoryProductName: '全日房',
+        roomName: '房间1',
+        checkInDate: 1778943600000,
+        checkOutDate: 1779019200000,
+        duration: '1晚',
+        orderDetailDisplayState: 4,
+        isArrangeRoom: 1,
+        isOccupation: 1,
+        isStatistics: 1,
+      },
+    ],
+  },
+  {
+    orderId: '2055103007337734146',
+    outOrderId: '5115623835635087439',
+    channelName: '飞猪淘酒店',
+    guestName: '黄国辉',
+    guestMobile: '+8617328513805',
+    orderState: 1,
+    type: 1,
+    isLt: 0,
+    mockOrderType: '4',
+    campId: DEFAULT_MOCK_CAMP_ID,
+    includeCommissionRoomPrice: 2116.53,
+    totalRoomPrice: 1980.85,
+    otherPrice: 0,
+    orderTotalIncomePrice: 2116.53,
+    totalPayPrice: 2116.53,
+    commissionPrice: 135.68,
+    debtPrice: 0,
+    bookedTime: 1778809710000,
+    orderDetailViews: [
+      {
+        poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+        roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
+        roomCategoryProductName: '全日房',
+        roomName: '',
+        checkInDate: 1778943600000,
+        checkOutDate: 1779547200000,
+        duration: '7晚',
+        orderDetailDisplayState: 1,
+        isArrangeRoom: 0,
+        isOccupation: 1,
+        isStatistics: 1,
+      },
+    ],
+  },
+]

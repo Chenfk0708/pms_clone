@@ -1,0 +1,105 @@
+{
+  "taskId": "fangtai--baojie-guanli--baojie-shezhi",
+  "mode": "clone",
+  "stamp": "20260518-95-provider",
+  "url": "http://127.0.0.1:4173/cleanManage/cleanSetting?mockState=error",
+  "requestCount": 12,
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4173/cleanManage/cleanSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DzvwD5v-.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BIiCuXno.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/cleanManage/cleanSetting?mockState=empty",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BIiCuXno.js",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DzvwD5v-.css",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/cleanManage/cleanSetting?mockState=error",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-BIiCuXno.js",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DzvwD5v-.css",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "",
+      "requestPostData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestPostData": ""
+    }
+  ]
+}

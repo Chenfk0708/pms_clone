@@ -4,8 +4,11 @@ import {
   fetchDailyRoomSituation,
   fetchForwardRoomSituation,
   fetchRoomSituationStores,
+  formatRoomSituationDataSource,
+  formatRoomSituationFeedback,
   forwardRoomSituationEndpoint,
   resolveRoomSituationCampId,
+  resolveRoomSituationProvider,
   type DailyRoomSituationRow,
   type ForwardRoomSituationRow,
   type RoomSituationStore,
@@ -63,10 +66,11 @@ export function RoomSituationPage() {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [feedback, setFeedback] = useState('等待真实请求')
+  const [feedback, setFeedback] = useState('等待加载')
   const [reloadKey, setReloadKey] = useState(0)
   const activeEndpoint = mode === 'day' ? dailyRoomSituationEndpoint : forwardRoomSituationEndpoint
-  const displayEndpoint = activeEndpoint.replace(/^\//, '')
+  const dataSourceLabel = formatRoomSituationDataSource(activeEndpoint)
+  const providerName = resolveRoomSituationProvider()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -93,6 +97,7 @@ export function RoomSituationPage() {
     async function loadTableData() {
       setLoading(true)
       setError('')
+      setFeedback(formatRoomSituationFeedback('loading'))
 
       try {
         const campId = resolveRoomSituationCampId()
@@ -114,11 +119,11 @@ export function RoomSituationPage() {
           setTotal(nextData.total)
         }
 
-        setFeedback('真实请求已完成')
+        setFeedback(formatRoomSituationFeedback('success'))
       } catch (caught) {
         if (isAbortError(caught)) return
         setError(toErrorMessage(caught))
-        setFeedback('真实请求失败')
+        setFeedback(formatRoomSituationFeedback('failure'))
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false)
@@ -168,7 +173,7 @@ export function RoomSituationPage() {
               </div>
             ) : null}
           </div>
-          <button type="button" className="room-icon-button" aria-label="设置" onClick={() => showTooltip('当前房情表列设置沿用目标站展示')}>
+          <button type="button" className="room-icon-button" aria-label="设置" onClick={() => showTooltip('列设置已应用')}>
             ⚙
           </button>
           <button type="button" className="room-metric-help" onClick={() => setShowMetricHelp(true)}>
@@ -176,14 +181,14 @@ export function RoomSituationPage() {
           </button>
         </div>
 
-        <div className="room-request-status" aria-live="polite">
+        <div className="room-request-status" aria-live="polite" data-provider={providerName} data-endpoint={activeEndpoint}>
           <div className="room-data-source" aria-label="房情表数据来源">
-            数据来源：POST {displayEndpoint}
+            数据来源：{dataSourceLabel}
           </div>
           <div className="room-feedback" aria-label="房情表操作反馈">
-            {loading ? '真实请求加载中' : feedback}
+            {loading ? formatRoomSituationFeedback('loading') : feedback}
           </div>
-          {storeError ? <div className="room-store-warning">门店请求阻塞：{storeError}</div> : null}
+          {storeError ? <div className="room-store-warning">门店加载失败：{storeError}</div> : null}
         </div>
       </section>
 
@@ -197,7 +202,7 @@ export function RoomSituationPage() {
           </div>
         ) : null}
 
-        {loading ? <div className="room-loading">正在加载真实房情表数据...</div> : null}
+        {loading ? <div className="room-loading">正在加载房情表数据...</div> : null}
 
         {!loading && !error && rowsInView === 0 ? <div className="room-empty">暂无房情表数据</div> : null}
 

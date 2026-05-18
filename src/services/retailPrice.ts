@@ -15,6 +15,8 @@ export interface RetailSalePriceSetting {
 }
 
 export interface RetailPriceData {
+  providerName: RetailPriceProviderName
+  mockMode?: RetailPriceMockMode
   campId: string
   campName: string
   stores: RetailStore[]
@@ -23,6 +25,8 @@ export interface RetailPriceData {
   storesPriceShow: unknown
   statuses: unknown
   requestedAt: string
+  traceIds: string[]
+  requestSummary: string[]
 }
 
 export interface RetailPriceQuery {
@@ -38,7 +42,27 @@ interface HudsonResponse<T> {
   errorCode?: string | null
 }
 
+export type RetailPriceProviderName = 'mock' | 'real'
+type RetailPriceMockMode = 'success' | 'empty' | 'error'
+
+interface RetailPriceApiEnvelope<T> {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
 const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
+const REAL_REQUEST_PATHS = [
+  '/camps/get',
+  '/select/poi/page/get',
+  '/roomCategories/page/get',
+  '/roomCategoryPrice/salePriceSetting/get',
+  '/systemConfig/price/storesPriceShow/get',
+  '/roomCategoryStatuses/roomCategory/get',
+] as const
 
 async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
   const response = await fetch(`${HUDSON_BASE_URL}${endpoint}`, {
@@ -61,6 +85,49 @@ async function postHudson<T>(endpoint: string, body: Record<string, unknown>, si
   return payload.data as T
 }
 
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
+}
+
+function resolveRetailPriceProviderName(): RetailPriceProviderName {
+  const configured = readRuntimeConfig('pmsRetailPriceProvider') || import.meta.env.VITE_RETAIL_PRICE_PROVIDER
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolveRetailPriceMockMode(): RetailPriceMockMode {
+  const configured = readRuntimeConfig('pmsRetailPriceMockMode') || import.meta.env.VITE_RETAIL_PRICE_MOCK_MODE
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function envelope<T>(traceId: string, data: T): RetailPriceApiEnvelope<T> {
+  return {
+    code: 0,
+    message: 'success',
+    data,
+    traceId,
+    timestamp: MOCK_TIMESTAMP,
+  }
+}
+
+function errorEnvelope(): RetailPriceApiEnvelope<null> {
+  return {
+    code: 50001,
+    message: '门市价数据加载失败',
+    data: null,
+    traceId: 'mock-fangtai--fangjia-guanli--menshijia-error-001',
+    timestamp: MOCK_TIMESTAMP,
+  }
+}
+
+function unwrapEnvelope<T>(response: RetailPriceApiEnvelope<T>) {
+  if (response.code !== 0) {
+    throw new Error(`${response.message}（traceId: ${response.traceId}）`)
+  }
+  return response.data
+}
+
 function asList<T>(value: unknown): T[] {
   if (!value || typeof value !== 'object') return []
   const list = (value as { list?: unknown }).list
@@ -77,6 +144,10 @@ function readCampId(campsData: unknown): { campId: string; campName: string } {
 }
 
 export async function loadRetailPriceData(query: RetailPriceQuery = {}, signal?: AbortSignal): Promise<RetailPriceData> {
+  if (resolveRetailPriceProviderName() === 'mock') {
+    return loadMockRetailPriceData(query)
+  }
+
   const campInfo = readCampId(await postHudson('/camps/get', {}, signal))
   const campId = campInfo.campId
   const keyword = query.keyword ?? ''
@@ -114,6 +185,7 @@ export async function loadRetailPriceData(query: RetailPriceQuery = {}, signal?:
   ])
 
   return {
+    providerName: 'real',
     campId,
     campName: campInfo.campName,
     stores: asList<RetailStore>(storesData),
@@ -122,5 +194,120 @@ export async function loadRetailPriceData(query: RetailPriceQuery = {}, signal?:
     storesPriceShow,
     statuses,
     requestedAt: new Date().toISOString(),
+    traceIds: ['real-hudson-response'],
+    requestSummary: REAL_REQUEST_PATHS.map((path) => `POST ${path}`),
+  }
+}
+
+function loadMockRetailPriceData(query: RetailPriceQuery = {}): RetailPriceData {
+  const mode = resolveRetailPriceMockMode()
+  if (mode === 'error') {
+    unwrapEnvelope(errorEnvelope())
+  }
+
+  const bundle = mode === 'empty' ? mockEmptyBundle() : mockSuccessBundle(query)
+  const camp = unwrapEnvelope(bundle.camp)
+  const storesData = unwrapEnvelope(bundle.stores)
+  const roomsData = unwrapEnvelope(bundle.rooms)
+  const salePriceSetting = unwrapEnvelope(bundle.salePriceSetting)
+  const storesPriceShow = unwrapEnvelope(bundle.storesPriceShow)
+  const statuses = unwrapEnvelope(bundle.statuses)
+
+  return {
+    providerName: 'mock',
+    mockMode: mode,
+    campId: camp.campId,
+    campName: camp.campName,
+    stores: storesData.list,
+    rooms: roomsData.list,
+    salePriceSetting,
+    storesPriceShow,
+    statuses,
+    requestedAt: MOCK_TIMESTAMP,
+    traceIds: [
+      bundle.stores.traceId,
+      bundle.camp.traceId,
+      bundle.rooms.traceId,
+      bundle.salePriceSetting.traceId,
+      bundle.storesPriceShow.traceId,
+      bundle.statuses.traceId,
+    ],
+    requestSummary: [
+      'mock provider: POST /houseManage/retailPrice/overview',
+      'mock provider: POST /houseManage/retailPrice/rooms',
+      'mock provider: POST /houseManage/retailPrice/statuses',
+    ],
+  }
+}
+
+function mockSuccessBundle(query: RetailPriceQuery) {
+  const rooms = [
+    { roomCategoryId: '1796425099729092609', roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）' },
+    { roomCategoryId: '1796425099485822977', roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）' },
+  ].filter((room) => {
+    const keyword = query.keyword?.trim()
+    if (!keyword) return true
+    return room.roomCategoryName.includes(keyword) || room.roomCategoryId.includes(keyword)
+  })
+
+  return {
+    camp: envelope('mock-fangtai--fangjia-guanli--menshijia-camp-001', {
+      campId: 'mock-camp-001',
+      campName: '路客云6TS5的店铺',
+    }),
+    stores: envelope('mock-fangtai--fangjia-guanli--menshijia-overview-001', {
+      list: [
+        { poiId: '1796425098638573570', poiName: '天落会宿公寓(前海壹方城宝安中心店)' },
+        { poiId: '1796425098638573571', poiName: '天落会宿公寓(深圳湾科技园店)' },
+      ],
+      pagination: { page: 1, pageSize: 20, total: 2 },
+    }),
+    rooms: envelope('mock-fangtai--fangjia-guanli--menshijia-rooms-001', {
+      list: rooms,
+      pagination: { page: 1, pageSize: 20, total: rooms.length },
+    }),
+    salePriceSetting: envelope('mock-fangtai--fangjia-guanli--menshijia-setting-001', {
+      isInitPriceDisplay: 1,
+      pricePriceInterfaceDisplayType: '2',
+      priceSalePriceSettings: [],
+    }),
+    storesPriceShow: envelope('mock-fangtai--fangjia-guanli--menshijia-store-show-001', {
+      displayMode: 'allStores',
+    }),
+    statuses: envelope('mock-fangtai--fangjia-guanli--menshijia-statuses-001', {
+      dateRange: { startDate: '2026-05-18', days: 30 },
+      selectedPoiIds: query.poiIds ?? [],
+      selectedRoomCategoryIds: query.roomCategoryIds ?? [],
+    }),
+  }
+}
+
+function mockEmptyBundle() {
+  return {
+    camp: envelope('mock-fangtai--fangjia-guanli--menshijia-camp-empty-001', {
+      campId: 'mock-camp-empty',
+      campName: '空态门店组',
+    }),
+    stores: envelope('mock-fangtai--fangjia-guanli--menshijia-overview-empty-001', {
+      list: [],
+      pagination: { page: 1, pageSize: 20, total: 0 },
+    }),
+    rooms: envelope('mock-fangtai--fangjia-guanli--menshijia-rooms-empty-001', {
+      list: [],
+      pagination: { page: 1, pageSize: 20, total: 0 },
+    }),
+    salePriceSetting: envelope('mock-fangtai--fangjia-guanli--menshijia-setting-empty-001', {
+      isInitPriceDisplay: 1,
+      pricePriceInterfaceDisplayType: '2',
+      priceSalePriceSettings: [],
+    }),
+    storesPriceShow: envelope('mock-fangtai--fangjia-guanli--menshijia-store-show-empty-001', {
+      displayMode: 'empty',
+    }),
+    statuses: envelope('mock-fangtai--fangjia-guanli--menshijia-statuses-empty-001', {
+      dateRange: { startDate: '2026-05-18', days: 30 },
+      selectedPoiIds: [],
+      selectedRoomCategoryIds: [],
+    }),
   }
 }

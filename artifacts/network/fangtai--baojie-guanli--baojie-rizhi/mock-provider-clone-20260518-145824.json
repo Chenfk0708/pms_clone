@@ -1,0 +1,16 @@
+{
+  "side": "clone",
+  "url": "http://127.0.0.1:54917/cleanManage/cleanLog?campId=1796067693589061634",
+  "hudsonRequests": [],
+  "diagnostics": {
+    "endpoint": "/cleanManage/cleanLog/list",
+    "provider": "mock",
+    "state": "success",
+    "traceId": "mock-fangtai--baojie-guanli--baojie-rizhi-list-001",
+    "request": {
+      "campId": "1796067693589061634",
+      "pageNum": 1,
+      "pageSize": 10
+    }
+  }
+}

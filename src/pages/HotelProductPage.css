@@ -216,14 +216,63 @@
   padding: 0 8px;
 }
 
+.hotel-product-state {
+  margin-right: auto;
+  color: #3f526f;
+  font-size: 13px;
+}
+
+.hotel-product-state.is-error {
+  color: #b42318;
+}
+
+.hotel-product-notice,
+.hotel-product-alert {
+  margin: 0 12px 10px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.hotel-product-notice {
+  border: 1px solid #b7ebc6;
+  background: #f0fff4;
+  color: #137333;
+}
+
+.hotel-product-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ffd4c7;
+  background: #fff6f3;
+  color: #9f3412;
+}
+
+.hotel-product-alert span {
+  flex: 1;
+}
+
+.hotel-product-alert button {
+  height: 28px;
+  border: 1px solid #f97316;
+  border-radius: 4px;
+  background: #fff;
+  color: #c2410c;
+}
+
 .hotel-product-table {
   overflow: auto;
 }
 
-.hotel-product-table__head {
+.hotel-product-table__head,
+.hotel-product-table__row {
   display: grid;
   grid-template-columns: 54px 230px 180px 150px 96px 110px 110px 180px 180px 110px;
   min-width: 1400px;
+}
+
+.hotel-product-table__head {
   height: 36px;
   border-top: 1px solid #edf0f6;
   background: #f1f5fb;
@@ -232,7 +281,8 @@
   font-weight: 600;
 }
 
-.hotel-product-table__head > div {
+.hotel-product-table__head > div,
+.hotel-product-table__row > div {
   display: flex;
   align-items: center;
   min-width: 0;
@@ -240,6 +290,31 @@
   border-right: 1px solid #e8edf5;
   border-bottom: 1px solid #e8edf5;
   overflow-wrap: anywhere;
+}
+
+.hotel-product-table__row {
+  min-height: 48px;
+  background: #fff;
+}
+
+.hotel-product-table__row:hover {
+  background: #fbfcff;
+}
+
+.hotel-product-table__row > div {
+  min-height: 48px;
+  font-size: 13px;
+}
+
+.hotel-product-row-actions {
+  gap: 8px;
+}
+
+.hotel-product-row-actions button {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0;
 }
 
 .hotel-product-empty {
@@ -481,6 +556,46 @@
   display: grid;
   gap: 18px;
   padding: 24px 32px;
+}
+
+.hotel-product-detail {
+  display: grid;
+  gap: 10px;
+  padding: 22px 32px;
+}
+
+.hotel-product-detail p {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 14px;
+  margin: 0;
+}
+
+.hotel-product-detail strong {
+  color: #66748d;
+  text-align: right;
+}
+
+.hotel-product-room-options {
+  display: grid;
+  gap: 8px;
+  padding: 20px 32px;
+}
+
+.hotel-product-room-options button {
+  height: 34px;
+  border: 1px solid #dce2ef;
+  border-radius: 4px;
+  background: #fff;
+  color: #31415d;
+  text-align: left;
+}
+
+.hotel-product-room-options button.is-active,
+.hotel-product-room-options button:hover {
+  border-color: #4d65f6;
+  background: #eef2ff;
+  color: #4d65f6;
 }
 
 .hotel-product-strategy-row {

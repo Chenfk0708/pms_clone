@@ -1,9 +1,18 @@
+import { mkdirSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 
 const roomSituationPath = '/statistics/roomSituation'
 const roomSituationUrl = process.env.PMS_TEST_BASE_URL
   ? `${process.env.PMS_TEST_BASE_URL}${roomSituationPath}`
   : roomSituationPath
+const roomSituationHouseStatusUrl = process.env.PMS_TEST_BASE_URL
+  ? `${process.env.PMS_TEST_BASE_URL}/houseManage/houseStatus`
+  : '/houseManage/houseStatus'
+const artifactDir = 'artifacts/screenshots/fangtai--fangqingbiao--fangqingbiao'
+
+test.beforeAll(() => {
+  mkdirSync(artifactDir, { recursive: true })
+})
 
 function appDate(offset = 0) {
   const today = new Date()
@@ -67,6 +76,41 @@ async function seedCampId(page: import('@playwright/test').Page) {
   await page.addInitScript(() => window.localStorage.setItem('pmsCampId', 'camp-test-1'))
 }
 
+test('/statistics/roomSituation uses explicit mock provider by default without development copy', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(roomSituationUrl)
+
+  await expect(page.locator('.topnav-link.is-active')).toHaveCount(1)
+  await expect(page.locator('.sidebar-link.is-active')).toHaveCount(1)
+  await expect(page.locator('.room-request-status')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.getByLabel('房情表操作反馈')).toContainText('房情表数据已更新')
+  await expect(page.locator('.room-situation-table tbody tr').first()).toContainText('合计 4 0 2 2 2 0 0 0 1 0 1 0 3 1')
+  await expect(page.locator('.room-situation-table tbody tr')).toHaveCount(5)
+  await expect(page.getByText(/mock provider|mock 数据|阻塞|未接入|后端未就绪|后端接口未完成/)).toHaveCount(0)
+
+  await page.screenshot({ path: `${artifactDir}/mock-default-clone.png`, fullPage: true })
+})
+
+test('/houseManage/houseStatus also enters room situation with the same business state', async ({ page }) => {
+  await page.goto(roomSituationHouseStatusUrl)
+
+  await expect(page.locator('.sidebar-link.is-active')).toContainText('房情表')
+  await expect(page.getByRole('button', { name: '单日房情表' })).toHaveClass(/is-active/)
+  await expect(page.locator('.room-request-status')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('.room-situation-table tbody tr').first()).toContainText('合计')
+})
+
+test('/statistics/roomSituation mock provider exposes empty and failure states', async ({ page }) => {
+  await page.goto(`${roomSituationUrl}?roomSituationMockScenario=empty`)
+  await expect(page.locator('.room-request-status')).toHaveAttribute('data-provider', 'mock')
+  await expect(page.locator('.room-empty')).toContainText('暂无房情表数据')
+
+  await page.goto(`${roomSituationUrl}?roomSituationMockScenario=error`)
+  await expect(page.getByRole('alert')).toContainText('房情表数据加载失败，请重试')
+  await expect(page.getByLabel('房情表操作反馈')).toContainText('房情表数据加载失败')
+  await page.screenshot({ path: `${artifactDir}/mock-error-clone.png`, fullPage: true })
+})
+
 test('/statistics/roomSituation loads through the real request contract and refreshes parameters', async ({ page }) => {
   await seedCampId(page)
   const dailyBodies: unknown[] = []
@@ -102,12 +146,13 @@ test('/statistics/roomSituation loads through the real request contract and refr
   })
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(roomSituationUrl)
+  await page.goto(`${roomSituationUrl}?roomSituationProvider=real`)
 
   await expect(page.locator('.topnav-link.is-active')).toHaveCount(1)
   await expect(page.locator('.sidebar-link.is-active')).toHaveCount(1)
-  await expect(page.getByLabel('房情表数据来源')).toContainText('report/dailyRoomStatus/get')
-  await expect(page.getByLabel('房情表操作反馈')).toContainText('真实请求已完成')
+  await expect(page.locator('.room-request-status')).toHaveAttribute('data-provider', 'real')
+  await expect(page.locator('.room-request-status')).toHaveAttribute('data-endpoint', '/report/dailyRoomStatus/get')
+  await expect(page.getByLabel('房情表操作反馈')).toContainText('房情表数据已更新')
   await expect(page.locator('.room-situation-table tbody tr').first()).toContainText('合计 4 3 1 0 0 0 0 0 4 4 0 0 3 1')
   expect(dailyBodies[0]).toMatchObject({ campId: 'camp-test-1', date: appDate(), poiIds: [], pageNum: 1, pageSize: 20 })
 
@@ -148,9 +193,9 @@ test('/statistics/roomSituation exposes request failure instead of fake success'
     await route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ success: false, errorMsg: 'server down' }) })
   })
 
-  await page.goto(roomSituationUrl)
+  await page.goto(`${roomSituationUrl}?roomSituationProvider=real`)
   await expect(page.getByRole('alert')).toContainText('report/dailyRoomStatus/get 返回 HTTP 500')
-  await expect(page.getByLabel('房情表操作反馈')).toContainText('真实请求失败')
+  await expect(page.getByLabel('房情表操作反馈')).toContainText('房情表数据加载失败')
 
   await page.getByRole('button', { name: '重试' }).click()
   await expect.poll(() => requestCount).toBeGreaterThan(1)

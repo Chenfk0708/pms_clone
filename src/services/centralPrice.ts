@@ -1,4 +1,8 @@
 export const centralPriceEndpoint = 'https://hudson-prod.localhome.cn/roomCategoryStatuses/central/get'
+export const centralPriceBusinessSourceLabel = '中央价格服务'
+
+export type CentralPriceProviderName = 'mock' | 'real'
+type CentralPriceMockMode = 'success' | 'empty' | 'error'
 
 export type CentralPriceFilters = {
   selectedStore: string
@@ -46,6 +50,8 @@ export type CentralPriceData = {
   }
   requestBody: Record<string, unknown>
   endpoint: string
+  provider: CentralPriceProviderName
+  sourceLabel: string
 }
 
 export type CentralPriceLoadResult =
@@ -94,6 +100,10 @@ export function createCentralPriceRequestBody(filters: CentralPriceFilters): Rec
 export async function fetchCentralPrices(filters: CentralPriceFilters, signal?: AbortSignal): Promise<CentralPriceLoadResult> {
   const requestBody = createCentralPriceRequestBody(filters)
 
+  if (resolveCentralPriceProviderName() === 'mock') {
+    return fetchMockCentralPrices(requestBody)
+  }
+
   try {
     const response = await fetch(centralPriceEndpoint, {
       method: 'POST',
@@ -136,7 +146,7 @@ export async function fetchCentralPrices(filters: CentralPriceFilters, signal?: 
       }
     }
 
-    return { ok: true, data: adaptCentralPriceResponse(payload, requestBody) }
+    return { ok: true, data: adaptCentralPriceResponse(payload, requestBody, 'real') }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error
 
@@ -149,7 +159,190 @@ export async function fetchCentralPrices(filters: CentralPriceFilters, signal?: 
   }
 }
 
-export function adaptCentralPriceResponse(payload: unknown, requestBody: Record<string, unknown>): CentralPriceData {
+export function getCentralPriceSourceLabel() {
+  return centralPriceBusinessSourceLabel
+}
+
+function resolveCentralPriceProviderName(): CentralPriceProviderName {
+  const configured = readRuntimeConfig('pms.centralPriceProvider') || import.meta.env.VITE_CENTRAL_PRICE_PROVIDER
+  return configured === 'real' ? 'real' : 'mock'
+}
+
+function resolveCentralPriceMockMode(): CentralPriceMockMode {
+  const configured = readRuntimeConfig('pms.centralPriceMockMode') || import.meta.env.VITE_CENTRAL_PRICE_MOCK_MODE
+  if (configured === 'empty' || configured === 'error') return configured
+  return 'success'
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
+}
+
+function fetchMockCentralPrices(requestBody: Record<string, unknown>): CentralPriceLoadResult {
+  const mode = resolveCentralPriceMockMode()
+  const response =
+    mode === 'error'
+      ? mockCentralPriceErrorEnvelope()
+      : mode === 'empty'
+        ? mockCentralPriceEmptyEnvelope(requestBody)
+        : mockCentralPriceSuccessEnvelope(requestBody)
+
+  if (response.code !== 0) {
+    return {
+      ok: false,
+      endpoint: 'central-price-mock-provider',
+      requestBody,
+      status: response.code,
+      message: `${response.message}（traceId: ${response.traceId}）`,
+    }
+  }
+
+  return { ok: true, data: adaptCentralPriceResponse(response, requestBody, 'mock') }
+}
+
+interface CentralPriceApiEnvelope<T> {
+  code: number
+  message: string
+  data: T
+  traceId: string
+  timestamp: string
+}
+
+function successEnvelope<T>(traceId: string, data: T): CentralPriceApiEnvelope<T> {
+  return {
+    code: 0,
+    message: 'success',
+    data,
+    traceId,
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockCentralPriceErrorEnvelope(): CentralPriceApiEnvelope<null> {
+  return {
+    code: 50001,
+    message: 'mock 中央价接口模拟失败',
+    data: null,
+    traceId: 'mock-fangtai--fangjia-guanli--zhongyang-jiage-error-001',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+function mockCentralPriceEmptyEnvelope(requestBody: Record<string, unknown>) {
+  return successEnvelope('mock-fangtai--fangjia-guanli--zhongyang-jiage-empty-001', {
+    list: [],
+    pagination: {
+      page: toNumber(requestBody.pageNum, 1),
+      pageSize: toNumber(requestBody.pageSize, 15),
+      total: 0,
+    },
+    roomStatusViews: [],
+    pageX: {
+      total: 0,
+      pageNum: toNumber(requestBody.pageNum, 1),
+      pageSize: toNumber(requestBody.pageSize, 15),
+      hasNextPage: false,
+    },
+  })
+}
+
+function mockCentralPriceSuccessEnvelope(requestBody: Record<string, unknown>) {
+  const startDate = String(requestBody.date ?? getCentralPriceRequestDate())
+  const dates = Array.from({ length: 30 }, (_, index) => addDays(startDate, index))
+
+  return successEnvelope('mock-fangtai--fangjia-guanli--zhongyang-jiage-list-001', {
+    list: [],
+    pagination: {
+      page: toNumber(requestBody.pageNum, 1),
+      pageSize: toNumber(requestBody.pageSize, 15),
+      total: 2,
+    },
+    roomStatusViews: [
+      buildMockRoom({
+        roomCategoryId: 'central-deluxe-suite',
+        roomCategoryName: '臻选豪华套房',
+        normalPrice: 73000,
+        normalActualSalePrice: 73000,
+        totalStock: 2,
+        dates,
+        channelName: '中央直连',
+        expressValue: '1.00',
+      }),
+      buildMockRoom({
+        roomCategoryId: 'central-cinema-room',
+        roomCategoryName: '观影大床房',
+        normalPrice: 29800,
+        normalActualSalePrice: 29800,
+        totalStock: 3,
+        dates,
+        channelName: '途家',
+        expressValue: '0.95',
+      }),
+    ],
+    pageX: {
+      total: 2,
+      pageNum: toNumber(requestBody.pageNum, 1),
+      pageSize: toNumber(requestBody.pageSize, 15),
+      hasNextPage: false,
+    },
+  })
+}
+
+function buildMockRoom({
+  roomCategoryId,
+  roomCategoryName,
+  normalPrice,
+  normalActualSalePrice,
+  totalStock,
+  dates,
+  channelName,
+  expressValue,
+}: {
+  roomCategoryId: string
+  roomCategoryName: string
+  normalPrice: number
+  normalActualSalePrice: number
+  totalStock: number
+  dates: string[]
+  channelName: string
+  expressValue: string
+}) {
+  const statusViews = dates.map((date, index) => ({
+    date,
+    totalStock: Math.max(totalStock - (index % 3 === 2 ? 1 : 0), 0),
+    price: normalActualSalePrice + (index % 7 >= 5 ? 20000 : 0),
+  }))
+
+  return {
+    roomCategoryId,
+    roomCategoryName,
+    normalPrice,
+    normalActualSalePrice,
+    statusViews,
+    channelRoomCategoryStatuses: [
+      {
+        channelId: channelName === '途家' ? '2' : 'mock-channel-central',
+        channelName,
+        channelRoomCategoryName: `${roomCategoryName}<无早>`,
+        expressValue,
+        normalPrice,
+        normalActualSalePrice,
+        statusViews: statusViews.map((item) => ({
+          date: item.date,
+          price: item.price,
+          salePrice: Math.round(item.price * Number(expressValue)),
+        })),
+      },
+    ],
+  }
+}
+
+export function adaptCentralPriceResponse(
+  payload: unknown,
+  requestBody: Record<string, unknown>,
+  provider: CentralPriceProviderName = 'real',
+): CentralPriceData {
   const root = asRecord(payload)
   const data = asRecord(root.data)
   const roomStatusViews = Array.isArray(data.roomStatusViews) ? data.roomStatusViews.map(asRecord) : []
@@ -157,7 +350,9 @@ export function adaptCentralPriceResponse(payload: unknown, requestBody: Record<
   const pageX = asRecord(data.pageX)
 
   return {
-    endpoint: centralPriceEndpoint,
+    endpoint: provider === 'mock' ? 'central-price-mock-provider' : centralPriceEndpoint,
+    provider,
+    sourceLabel: centralPriceBusinessSourceLabel,
     requestBody,
     dates,
     rooms: roomStatusViews.map((room, index) => adaptRoom(room, dates, index)),

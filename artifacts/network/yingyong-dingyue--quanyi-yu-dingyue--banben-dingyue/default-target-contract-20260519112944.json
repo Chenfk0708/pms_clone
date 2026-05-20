@@ -1,0 +1,923 @@
+{
+  "stamp": "20260519112944",
+  "requests": [
+    {
+      "url": "https://minsubao.localhome.cn/version/subscriptionCenter",
+      "method": "GET",
+      "resourceType": "document",
+      "postData": null
+    },
+    {
+      "url": "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js",
+      "method": "GET",
+      "resourceType": "script",
+      "postData": null
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log1&Data=byAgDBTTWK6iQ63aLnMRvywYbJ50c453wUz9CdNf4pWB%2BH4EOu7koqzwbASi1Zy3zgHU8sTKNHpOkNOGqQFYFiCpOJ3LalCqYbFhgZ4XnXghkXEopFso2Vh4IzTDRTPtJYSMMGWfCx8pPxsr6oCgxZN3SDxRpIk6y5QgH%2FKJd%2FE%3D&SignatureNonce=392931a2-cb5b-4516-9ed2-7b09eb49748d&Signature=8EqbB4daHVcXKsBQ41DzcBDuCHQ%3D"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"traces\":[{\"pageName\":\"/version/subscriptionCenter\",\"extraInfo\":\"\",\"actionTime\":1779190188751,\"sessionSeq\":1,\"sessionId\":\"1f69d79b-a699-4dd8-8a9e-05473cf06ee4\",\"pageContextId\":\"9a50dee9-8b82-443a-b895-9999010ecc43\",\"screenHeight\":900,\"screenWidth\":1440}]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"projectMenuId\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"141\",\"param\":{\"campId\":\"1796067693589061634\",\"host\":\"minsubao.localhome.cn\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"104\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-web-base-zh.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "postData": null
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log2&Data=0blQ85dGJrY0HYY8GlS4tTBVuksZpLI2N7miYiBeU9tqrF25GMdM0UG1kR%2BdhzyfjUqtZ7blc8nQ7HPWUJR7Vg%2BxV8WTbl6NA4zUQ8cOcbTS2AGeTx4ihx5S9xvM8ctuF%2FTXg3EnZ94B2nnl%2B973qKmJQmR7ssqcAt3dqFJqDSngC12GvtHpnFzjggU6%2BaBDtBCApBOAjvxPJcSpj%2Ftby6CJDnEEJMvr5ofDTDhdw%2FkzP%2Fc9lGpezuP1MnSbS3wUnT4LsV0lL9FQWwTgTnjPpidtkDqXaGjO74NDACY%2BU%2FTNHhMSZ4CivT4u3TXxwFSBDf2vrZxUiAE%2FaxZaPtsWLqVTqiUJ%2Fm39t79Q%2BFO9AIJrW1AvBC2jLMcXS%2FeqihzOa7yAwocRk218DQmY2BGCQWyQOOSsfzzs1%2Fz%2B%2B53Fhn6TSWyetpVRFRWBF0WZZC8SCO00lFW9soSsyPSSNNxeCGvqd8P3JCsdEXW5uK18nnFJNxZMe14kf%2FitVeVpiyouNUeprATS86wmPkiPWvHfKxp2TO4zbT3DxpY7acMDg87NPXqsAZCY%2BQFJAHcGfB%2BiyjN%2FGnWEfqXljzwcyLn%2Fj%2BV1wwwcZat6E1j%2BOjxW6vi4qUoMLzxzkgUzQFONFNu1RsP6Qa3EaE%2BGuLEbXWpwhHvDGs2za4ZPllrBok13yZ7Ie7Ib1ZjhDJcE8p5l9GkYibL%2FpF2yx90EdM4MiNv33VDMkGfXP7IGUtm3TC6abrsdKMwCoNlyp21rpmc8IvseLdKN%2F1BFRGE7E2TlL2MxhMlmzWyWi%2B%2FPKAzRyEWTUYbXV%2FjsqFdnG3cBViNxVV%2FZUOy6HwBlQnPrbUK64K1X3yvnRWANlm4hjcaPykKzAXTuPMaO0%2F2leZplRlMloVA6MZclEu%2F9G1ZE36cAXlque8BUkcdOz2Tr2Q1hOX8p3C02xEX%2B74gnvRDrzFnzXK5Bk4IffJ0GtyvZRLHlwcdlfJJqm9%2BzRcyPPjOO5%2B5d2Uo2LFP%2B9bY5ctNDxfUsmRc3Ca5CG6TAQ%2FROosyTePmTVCcTsj6Gn9KkdQrn1tnriNjYqNKR8lIhEKXG9DU0Yf3hpV1GHPw8kXpVmhk%2FthBP9fvzsnYOhlrm10BnjFxg4MH53g8FIeX0retq8UdXGJDqtUvuaDIoLhMBwjnRSFa6rfcFuo2syiOBL4r1n%2FN5zro4vQxahPKZDTbPF6pltae4LZYUCj6d5ILIZf8lJE9rGrSG6Igemzs8awfK9yAV5aTE3dYPp3DsbXzeXJzlxFeNi%2F6m9A2O6mqy3SwS0naC%2BP0I67T3Eu2eQIGNZn1I0zOLRPZeTKrjM3KSTfgQYXaPzc9BHaBhKO4YGooyOgnkGYW%2FKulFzQ5kJi8DH3knKcAXQ6pSYRH0RmYba3dlVS7YNrRP0CJdU6IqteV99j0RhTKsuhWTvIhSHxtxUM%2FdTEmFvNz2zh1fYQXwKerxYRSpaUk%2FrtBy%2BDzmMSPPkQFgJBMiFum4FxvLTj2Dr83JEjQWcWi2m%2FNeS6p3Vlt8p5ZvnSM14lshf%2BC1n3YYSkLS9E10kvq6p83dHUjAtfnXZnwUIzlqVusJcNTzHA9qZwm4nkDn1%2B%2B3MybttoaZchDIb3YE5dzHGlrAWrFvXkoSCYtpfFtL3buWfYdqk9k9E0GK1Y1ntLmh%2Fczei%2Bg12S0FDGU9PWlmM1EF44z5QuYwJZZJCeuRXoVNuz6KlyYEVDNlIZnM%2FgjMscEtndBSuG3etB3l0BYOnh4Nhm0xzzlen6da8XBid6vh7akhbBLXberwc8PDowWyS2bw8wGYk8xE7eaOolkEqKank4LKSxWs29sg%2BLMvxa9ZqHVCpMa2AD1ojqswfk0JXrRIDYGuqZ74jLlvexxAZFirHHEBokwEDnU3nxazMdL7SMjHVghadpbR08Q8IzsnWPyFUp8aVkAs4FGKLi1ItX0QzdStQNZ%2FjHQl0%2FHCu8rE%2FmvntFUs3NtDZuwtaRpp%2FIlB7hmin3dbSImB%2F8wxsGURjCu9KX6cINwV3K6goAxEENTZ7drfek%2BS8xc41L%2FZl8AXeit3mpjjFOavzYf31iLwJfP65dsb1FPYsappk%2BpvkEtgUXALnPBnDFdtgdrOHqt%2F125%2BTX%2F%2FNFraG44G%2BYlMtva83WkQhFO5sDvZw8ny4Jy86b%2BQPN7Gpp7TAzgUD1mS4UBsyBm8MK92VXtdU%2FUe3Dw5umgbOo4L3RH0kI8MqCsVNSMLGJ27gCLKF4nghXkLr70uGA6tgEOlXebupdSGh2LbvPev%2B2Ie4a6lzLYGPfHCj7hq2CFqo0mifiimq54jtZPmwkitMxP%2BYxGwYKwXla%2F%2FJSrg%2BTK%2BFu1hVKSTZI%2BCjmxDLdCnLqB%2BDhubWPc%2BD0snuLiVN1o%2Bzn80ia2s9RTrcfD%2BxzCu89PtPAb9FJtYvJwTDeCxuuPyh5xVWaa9gwaoooYmHBaudIxSIxZRM7d%2FtmZgOL5TzbqRmEevJNqVBnJHuGbuVQxrSP0NXrCOr1%2F5KFoovpUDLw%2Bfw3u03gA5eDVaSv2fx%2BY2xv6M5lXJmjEJ%2BnVvdbiN4ju8MGo3gVriG8EH0ai9M1FI5gBHoHrIxf7RDwhIsy1iuIoy7uv4sUPIqcr3UMdYzHlw0KLozDDaSpY6dpG7EjUm2GH4iZty56pWpRQEbnu6ZRpq98t%2FB4po2e5%2BsdTSQNuQakFdGiLu36CCLnw4fZNWEHC3CEXzNSfpX1lDU9T0sq7RPsmEcG%2BRMIejSbwv5W4UKuZoMmN5YyEjDjaoG%2BEJ%2BKgoV88hl6W9Rf7ZWoJ53XxGO1j74goOAVZEWQPkhAJvAyF3NN%2Fc%2BZEEJrdMJ0VfBvcNefO992q3guU1B4SNZKaQcMqDgk4NZqePSrR4ei6F2e8d%2BhwlKmnEzDamm%2B0Ax4t%2FrMXEAtL1OfAzTuFy6hUU6J%2FLM0oDQ9grUrpADfAJDlCeTPZhBCdMivjKllArY5%2FUgCQcdYX1IICHUag3GO47urGu%2FGMo3ucRHBZpqCYNCHvSpJhEszaMWvXobGzO8gIToERs8DtOFbZtk3pgy0WORY6v%2BEUiKkVmeAE%2BB%2BFcEQy5I6c5wkORhVFDXdBV%2FJGvmFLs%2FlHME6cvfGIJjUiAKLqaoHQNiNVnKMFZ%2BQ%2BMakX9%2Fkq88yuC0yIGXC0R9H2sdIuJ5Jpl1ARYNi9Y92wnf3ITKWayjQ%2Bfw4C8ZHz6glFL2tVeBSKmYVjpI6aonqRtyjqXaPTtPFmT1TAsbIGqlpSWlCBHer%2FLBdBET%2Fee7VPw%2B3pv4HaVwTMJBRGC0nlO4pypZF3zQG0HCs0RB2ncdNZripNC5BXQL4YRS1HcaieCPwzMsnvd76tGFbgahuhEjR2q8oaMtZmI8jzCI%2FqfC0pTAQr8A%2Feldd0C%2FcF5B1tHFMLTg%2BTQ8CwGt7LHdUEHEINSLk%2B8XlvQVsXT%2FMyFd%2B573aLQM9KFtxyjBpBas0eUZck9WohPryxzb4bfzzHyRt4i2bslFA8cGkwJ0VDZVHYcpBAJuSiLHTvmDSxXeel%2F3a4J8HR8KI49fTYU%2FGQrq3bgdoKDVlGEOuhIMkQDsmTbagqCl4ZyAiD9A6eD%2BpbQkDzJZgOWMlYHAytNd7Qb%2Fn5Np4uOgcq2AE7bPWIM0XcDNmdEOsbuixmYk6QqM%2BugmXIkxjlWEsPi2qoiwUPsYdfObij54bm2%2B%2Fy0caohI6kiE%2F0yeZhNefZzffey02oXm1%2BV45udYGRFAD6ywkSQOb6sirAMInohI8hIpRQcTPRb73IgjmbT5ziNMvMGPLmIUk9lGY299Q%2FSdmQoeKxzt1PGWNjMZpCKe%2Fa3M4dfsQsdTWFeRxkfwt1pP0O5sDb%2FREYLwO1UDB3usQUX7H0vPjLvvH5Fem0APLzgzaTzqpFEDs033Rrow9CixwmK%2Bl%2B8xtpBm3JR9vvY3F8i3jtgQM1hrOdxpjSgsl%2BK7KnxCZf%2Fv1lsVSnRE7gP6kv1UFiMFNMBDfizqJfqcb2rscdTkDxUQ0DcfkM4TvHMYSdN9o8EsJLqh%2ByaNAWT9aWWi8%2BmAleK5j9IUzXb6PcxMyxoMDjIf3j%2FF3BHJ0F33nzj6HP%2FGWD1ainRD%2BiS0gorwB3DaCqFWWbvzwtMRLEoRPXBHEneNArSY7e5HaNUIgqUOk3RSUD6WP1xiI1SRNx4A62Gyhyl6qocw%2Blsii%2BqpFqCfPS4cVJOLPriqzqqtoSwGuVBK%2FranuhhPn2ghMaFIWFVtPh2LVrz7os7wLMuWNPutjLf7McKOw5STOdnhX9JfcyA%2FBLE%2F96QUnClg8LpQ4aykCL01JvIxxp4GEN4%2B5HnL3zS1n0wqe6q%2FDhfwNSTNMkhh54S94LbSvn%2BeoGfUFtPsJIbv3rHzf%2BnMWFymFkvm9Qb%2FsaDNlQVM2HgO3LOTsJGtJuK2Z4y0wZ3Wd6rMebTmJflcXExouRE0PtesKc8k8kjPe6GpCMHolTgMYt00QHY7GwgtPi7TdLl5SqRnhXMbOvfano7QXHlWsX5phjC2CVX8Na26I4dtCFs%2FsbPtsu2DqsYMSOcMp%2BIGJqFEPrOXAdRyONVzmRSyTV4iilMi8NFr2EF73YjSIRPvFLrr%2F0CGy7I96pfvrU4PCopiMmnCJa3QZ3mpG09ONoAu00aY2rZDx7Qk6g079YDjuPEoOJgVBbfYL%2FKR5H1rDZYUSzE5%2B8IWAu%2BFGPGB0vaJQPuuAnAleKCXEg%2FprFL%2FHBrDFxAzJildyTmgK4nXndhWf7GZvEu4BX37XYFkqQuO%2FASP2LmBapvEEd0ul32pqEavdiPcv8%2BKmBvIM%2FwPwYv19PElgWVJhdP3Dx6h0QzMIdAiJQkcqSH85NQ%2FqMPez%2FZkCTLtuk32vIvwwiMU1s6y4mBWV75oihki8FVlXePuhM8l6ihi92d0cdLT6w6N2TsLtwBRyopXhR0aj5Ubd7YAFSq49dPzO%2BD2w%3D%3D&SignatureNonce=16c2b281-7733-44e7-a79d-7c8d8b7d3cc5&Signature=xavmmK3FTQDM2uSuSSEJf58iAek%3D"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"hasAllChannel\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"platform\":2}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"channelIds\":null,\"roomCategoryGroupIds\":null,\"roomCategoryIds\":null,\"poiIds\":null,\"cleanStatus\":null,\"date\":1779120000000,\"queryCode\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":47,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":48,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"104\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"134\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"param\":{\"campId\":\"1796067693589061634\"},\"action\":\"168\"}"
+    },
+    {
+      "url": "http://localhost:7032/sys/accredit",
+      "method": "GET",
+      "resourceType": "fetch",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"159\",\"param\":{\"campId\":\"1796067693589061634\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"roomCategoryName\":\"\",\"keyword\":\"\",\"cityIds\":[],\"channelId\":\"\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "postData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-19T11%3A29%3A52Z&Version=2023-03-05&Action=InitCaptchaV3&SceneId=m9m5hmjm&Language=cn&Mode=embed&DeviceToken=V0VCI2FiMDM0ZWMwNjQzZjkxMzk5ZWIzM2UwNjJkYzdmYWUxLWgtMTc3OTE5MDIxMjkzOC0zYTg1YzM5OWZkYWE0NzIzYjNlNjMxNTU4ZjI3ODI4OSNWMWMvZytkbTBTV1A0bVkzRUlOUTR0dGZiVVpleGxHNWg0MUhkdU9rT2laTnJpZExNckliVGZMeFlpRGhWcCtEVU11c3R6eDRlSUZueXV0SXFVS0dUN3BVUThxZ3VweHovSG1iUUx0T2tJMjYyejVpNWhrTW5NSEliOFRQempEL2dtY2R5WWJPRkxXaXl4NFRpdUVQSS9RaXhmZWJYYTV5NVl5ZWNXMXo5ZmVGSWtmSDJRWDhZMy8zc1Y2YjRTZWZwZEQzQmdRZjVRL2xMSk1LaTlYY2tLOHlSRmZiNGJzNTdObHVOcGhtUU9TQjJqU2lTVHF1UTNFN25pQjh4cmEwWmV5RGZsaHoxdGI1bXdYS2JkOEJPM2l2SWlDZ1RRWkhoUEp3eUEwcFFqaGxRQWZLQ0RsRHBtVDdUd1JGdE5pYlpsbkUwei9QdFJIZnZta0Fkd1llYlg3OW4yMkZ0VEt3d0VMRUY0d0lvL0pLemJqU25zY0xrWEFZb3pHZzRsYk43RlNwRUsvQ0Y5UktFM2MwdHdJU1Ayd05naWNUUmJJZjM2dFlvTEJydDhGVXlYL2QrcEtPbG4rYnpFeDQ5bTdrZUFWUXdubjFvZWg0OGxBWS9QSzVTWHowM2RhWTdCODdjZThqYkxFSm5VTHZLNjZWdW1GVGtCa2NOSkhFMk9IQXBSUk1vWU82bDY3L0poTFc2YW9Fb3g5OWpFZjlaWlczMzhtNlRmSmp3c2Q5UnhTL1EvZ3N0TTl0NE9iVW1TRUJwTmw2bDhYL1BBVitwdXJPMVFvdHpRMGFRdWN1bVVzMGd0YTh5Z3p5OVpWcnFUOVFGSG5ZTytCSHFRNXpXRko5dStEVTl5Z2ZlTDVsQWxqQitIaHNTSGRxMzFLMVVpbUpsYnBqOVNnNGtsVjZVVC9MUko0dlNGdFN2WG9uMTJKUzQ2WUhleUY1dlNKNkpSSnRURTR0Um5xK091a1M1MW9ycUJPSC9Db0tDZVJ2aXM5a0V0cHlGUjIwSWQrYUg2elNPZmJkdThJZXk3Z0poWmk3cFhQTytyRXgvcFZmZWM5ZXNDMjUxbWNocWdNPSM3NDUjNjk2ZGVmMjE5M2M1NjU0OGY3YmU4M2FhMThmZjE1MzA%3D&SignatureNonce=4434e0e4-f9c4-43c3-b15d-c5ca413983b1&Signature=uDbvhh7jyMqX9%2BB3avnIPuyiHyk%3D"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"1848317056370487297\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":\"183\",\"param\":{\"campId\":\"1796067693589061634\",\"type\":\"门店\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"channelId\":0,\"isAvailability\":\"1\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"isNormalOperation\":0}"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "method": "GET",
+      "resourceType": "image",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "method": "GET",
+      "resourceType": "image",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"goodsTypes\":[2],\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1]}"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/version/undefined",
+      "method": "GET",
+      "resourceType": "image",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"code\":\"hudson.im.picture.support.channels\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"2000745252682776577\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[3],\"isEnable\":1}"
+    },
+    {
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=7f7908193994a9e119d490f641d2b18c&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=8d0514326dbd437d73cf9dc837543884",
+      "method": "GET",
+      "resourceType": "xhr",
+      "postData": null
+    },
+    {
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "method": "GET",
+      "resourceType": "xhr",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"roomCategoryIds\":[\"1796425099729092609\",\"1796425099485822977\",\"1796425099242553345\",\"1796425098965729282\"],\"saleType\":1}"
+    },
+    {
+      "url": "https://weblink-bgp.netease.im/socket.io/1/?t=1779190193113",
+      "method": "GET",
+      "resourceType": "xhr",
+      "postData": null
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "method": "POST",
+      "resourceType": "xhr",
+      "postData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-19T11%3A29%3A53Z&Version=2023-03-05&Action=UploadLog&log=%7B%22sId%22%3A%22m9m5hmjm%22%2C%22pfx%22%3A%22x0xnm7%22%2C%22mInit%22%3A%7B%22t%22%3A1779190192900%2C%22s%22%3Atrue%2C%22msg%22%3A%22INIT_SUCCESS%22%2C%22rt%22%3A296%7D%2C%22hst%22%3A%22captcha-open.aliyuncs.com%22%2C%22cId%22%3A%22bch8icgx6y%22%2C%22js%22%3A%7B%22t%22%3A1779190193119%2C%22s%22%3Atrue%2C%22msg%22%3A%22DYNAMICJS_LOADED%22%2C%22rt%22%3A217%7D%2C%22rt%22%3A522%7D&SignatureNonce=73b97036-b378-4dd3-82ee-7aed6f520e2a&Signature=d9cE8Oi%2F%2BhPLYYfYDYRa2ES6O80%3D"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[2],\"isEnable\":1}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"isSupport\":1}"
+    },
+    {
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=8d0514326dbd437d73cf9dc837543884&uid=prod_0_1796067702522908674&os=web&session=&ver=90500&type=im&platform=chrome148",
+      "method": "GET",
+      "resourceType": "xhr",
+      "postData": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":47,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"userId\":\"1796067693261905922\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"action\":48,\"param\":{}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"1754323708553199617\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"1876219663445012481\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"1947569513926946818\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"menuIds\":[\"1953303333244473346\"]}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "method": "POST",
+      "resourceType": "fetch",
+      "postData": "{\"campId\":\"1796067693589061634\",\"traces\":[{\"pageName\":\"/version/subscriptionCenter\",\"extraInfo\":\"\",\"actionCode\":\"modal_strongReminder\",\"actionTime\":1779190192618,\"sessionSeq\":2,\"sessionId\":\"1f69d79b-a699-4dd8-8a9e-05473cf06ee4\",\"pageContextId\":\"9a50dee9-8b82-443a-b895-9999010ecc43\",\"screenHeight\":900,\"screenWidth\":1440},{\"pageName\":\"/version/subscriptionCenter\",\"extraInfo\":\"\",\"actionCode\":\"workspace_ad_show\",\"actionTime\":1779190192984,\"sessionSeq\":3,\"sessionId\":\"1f69d79b-a699-4dd8-8a9e-05473cf06ee4\",\"pageContextId\":\"9a50dee9-8b82-443a-b895-9999010ecc43\",\"screenHeight\":900,\"screenWidth\":1440},{\"pageName\":\"/version/subscriptionCenter\",\"extraInfo\":\"12562.300000000745\",\"actionCode\":\"global-init-speed\",\"actionTime\":1779190200751,\"sessionSeq\":4,\"sessionId\":\"1f69d79b-a699-4dd8-8a9e-05473cf06ee4\",\"pageContextId\":\"9a50dee9-8b82-443a-b895-9999010ecc43\",\"screenHeight\":900,\"screenWidth\":1440}]}"
+    }
+  ],
+  "responses": [
+    {
+      "url": "https://minsubao.localhome.cn/version/subscriptionCenter",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/x-javascript",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8",
+      "bodySnippet": "{\"ResultObject\":{\"DeviceConfig\":\"w8OtS0iOU9Eei6LO0mlGK92b9vm+r5rRiT61VfAPGk6tJmaAEz566IR91XuD2zlxVgVCBnLRQmw/M2xEoxTbSjJaBDPmHg17WTUwR+jektFuGqO3tbAUV4ZJgF1oh/QIgMk3u1+NeoeR/t45P2CF41mamep3cOkvYIU+MRPVTbjLKMLttPN5HDp56pvJCkQHmvO6upxBD3vvyDVTn7xw8kQm4Nx39XfVcyXiMOJrA0PDqvEANJrFykKhHMd6LmOWey38VY6jyzgPRVOatXmvYtMDj+Js8WkPrR60ugAQXEg=\"},\"Message\":\"success\",\"RequestId\":\"5A963B03-EDC8-539C-8C0B-53BAFAE7EC55\",\"Code\":\"200\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"camps\":[{\"campId\":\"1796067693589061634\",\"name\":\"路客云6TS5的店铺\",\"type\":1,\"networkNum\":\"835466\",\"nationId\":null,\"nationName\":null,\"provinceId\":null,\"provinceName\":null,\"cityId\":null,\"cityName\":null,\"countyId\":null,\"countyName\":null,\"address\":null,\"joinTime\":1717050882188,\"roles\":\"1,2\",\"logoPhotoMediaId\":null,\"logoPhoto\":null,\"consoleLogoPhotoMediaId\":null,\"consoleLogoPhotoMediaUrl\":null,\"contactNumber\":null,\"description\":null,\"isOwner\":1,\"scaleType\":2}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"userId\":\"1796067693261905922\",\"mobile\":\"18123941382\",\"email\":null,\"headImages\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg\",\"nickName\":\"路客云6TS5\",\"areaCode\":\"+86\",\"area\":null,\"inviter\":null,\"isBindingMp\":0,\"mpQrUrl\":\"data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/wAALCAGuAa4BAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/AP1ToooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooorlPil8UvDHwW8Can4y8Zan/Y3hvTfK+13v2eWfy/MlSJPkiVnOXkQcKcZyeATXgH/D0f9mL/AKKb/wCUDVP/AJGo/wCHo/7MX/RTf/KBqn/yNR/w9H/Zi/6Kb/5QNU/+RqP+Ho/7MX/RTf8Aygap/wDI1H/D0f8AZi/6Kb/5QNU/+RqP+Ho/7MX/AEU3/wAoGqf/ACNR/wAPR/2Yv+im/wDlA1T/AORqP+Ho/wCzF/0U3/ygap/8jV6r8C/2o/hh+0p"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":true}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"campId\":\"1796067693589061634\",\"name\":\"路客云6TS5的店铺\",\"type\":1,\"isModifyConsoleLogo\":0,\"networkNum\":\"835466\",\"nationId\":null,\"nationName\":null,\"provinceId\":null,\"provinceName\":null,\"cityId\":null,\"cityName\":null,\"countyId\":null,\"countyName\":null,\"address\":null,\"qrUrl\":\"https://hudson-prod.localhome.cn/qr?text=https://hudson-prod.localhome.cn/camp/invite/qr?networkNum=835466%26inviteUserId=1796067693261905922\",\"logoPhotoMediaId\":null,\"logoPhotoMediaUrl\":null,\"consoleLogoPhotoMediaId\":null,\"consoleLogoPhotoMediaUrl\":null,\"contactNumber\":null,\"description\":null,\"bizLicenceMediaId\":null,\"bizLicenceMediaUrl\":null,\"industryLicenseMediaId\":null,\"industryLicenseMediaUrl\":null,\"hasAuditQualification\":false,\"scaleType\":2,\"accounts\":[{\"accountId\":\"1801207882877546498\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"EHPq0597\",\"outAccountId\":\"9825888\"},{\"accountId\":\"1801948373101887489\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"BvYy9331\",\"outAccountId\":\"134923302\"},{\"accountId\":\"1815374921939075073\",\"channelId\":\"2\",\"channelName\":\"途家\",\"accountName\":\"CDkZ9934\",\"outAccountId\":\"417444802\"},{\"accountId\":\"18019495668888"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"menuId\":\"1\",\"parentId\":\"0\",\"type\":1,\"icon\":\"#\",\"code\":\"hudson-pc\",\"name\":\"民宿宝PC端\",\"path\":\"#\",\"uiComponentId\":null,\"isOpen\":0,\"seq\":1,\"isShow\":0,\"children\":[{\"menuId\":\"1392316245805981697\",\"parentId\":\"1\",\"type\":2,\"icon\":\"https://oss.localhome.cn/localhomeqy/hudson_pc/icon1.png;https://oss.localhome.cn/localhomeqy/hudson_pc/icon11.png\",\"code\":\"workspace\",\"name\":\"首页\",\"path\":\"/workspace\",\"uiComponentId\":null,\"isOpen\":0,\"seq\":1,\"isShow\":0,\"children\":[{\"menuId\":\"1392677419489255425\",\"parentId\":\"1392316245805981697\",\"type\":3,\"icon\":\"\",\"code\":\"workspace_check\",\"name\":\"首页-查看\",\"path\":\"\",\"uiComponentId\":null,\"isOpen\":0,\"seq\":999,\"isShow\":0,\"children\":[]},{\"menuId\":\"1394580008123469826\",\"parentId\":\"1392316245805981697\",\"type\":3,\"icon\":\"\",\"code\":\"workspace_action\",\"name\":\"首页-操作\",\"path\":\"\",\"uiComponentId\":null,\"isOpen\":0,\"seq\":999,\"isShow\":0,\"children\":[]},{\"menuId\":\"1636648923842932737\",\"parentId\":\"1392316245805981697\",\"type\":3,\"icon\":\"\",\"code\":\"workspace_swiper\",\"name\":\"首页-轮播图\",\"path\":\"\",\"uiComponentId\":null,\"isOpen\":0,\"seq\":999,\"isShow\":0,\"children\":[]},{\"menuId\":\"1754323708553199617\",\"parentId\":\"1392316245805981697"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":null}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"editionId\":\"9\",\"editionName\":\"畅享版\",\"editionType\":1,\"editionLevel\":1,\"isOwner\":1,\"currentVersion\":null,\"paymentInfo\":\"1615234787452768257\",\"isEditionLongTerm\":0,\"isEditionTrial\":0,\"contractStartDate\":1758988800000,\"contractEndDate\":1822060800000,\"expireDay\":\"497\",\"storeNum\":1,\"storeQuotaNum\":1,\"isStoreOverLimit\":0,\"poiNum\":1,\"poiQuotaNum\":1,\"isPoiOverLimit\":0,\"inventory\":4,\"roomNum\":4,\"roomQuotaNum\":10,\"isRoomOverLimit\":0,\"userRoleNum\":1,\"employeeNum\":1,\"employeeQuotaNum\":3,\"isEmployeeOverLimit\":0,\"isEditionReplace\":0,\"appVersionInfoViews\":[{\"tagId\":\"1615233485865803778\",\"appVersionName\":\"标准版\",\"userRoleNumLimited\":3,\"poiNumLimited\":1,\"inventoryLimited\":10,\"limitedPrice\":\"0\",\"unlimitedPrice\":null,\"isRecommend\":null,\"description\":\"\",\"appVersionFunctions\":[{\"isCanUse\":1,\"functionName\":\"住宿类型\",\"description\":\"乡村客栈、城市民宿\"},{\"isCanUse\":1,\"functionName\":\"渠道直连\",\"description\":\"携程、美团、飞猪、抖音和小红书等10+酒店民宿渠道及社交媒体API直连\"},{\"isCanUse\":1,\"functionName\":\"核心功能\",\"description\":\"中央房价、中央房态、渠道直连、IM汇集、点评汇集、住客管理\"},{\"isCanUse\":0,\"functionName\":\"特色功能\",\"description\":\"钱包/分账、会员中心、商城、团购预售核销营销工具\"},{\"isCanUse\":0,\"functionName\":\"品牌小程序\",\"descripti"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-web-base-zh.json",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8",
+      "bodySnippet": "{\"ResultObject\":true,\"RequestId\":\"14BD174D-6BAE-5DC0-8CBF-DA16AFC756FC\",\"Code\":\"200\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"channels\":[{\"channelId\":\"0\",\"channelName\":\"自来客\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3502071786857692.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":0,\"color\":\"#6985cd\",\"isCal\":1},{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png\",\"image2Logo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":1,\"color\":\"#274080\",\"isCal\":1},{\"channelId\":\"3\",\"channelName\":\"美团民宿\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":2,\"color\":\"#ffc506\",\"isCal\":1},{\"channelId\":\"6\",\"channelName\":\"美团酒店\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/WechatIMG671.png\",\"image2Logo\":null,\"isCustom\":0,\"isLongRent\":0,\"isSupportIcs\":null,\"isEnable\":1,\"seq\":3,\"color\":\"#00AFD6\",\"isCal\":1},{\"channelId\":"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"isRemind\":0,\"remindContent\":null,\"remindType\":null,\"editionDailyRemindDataList\":[]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"systemConfigs\":[{\"systemConfigId\":\"1537377889846255619\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"全网同步\",\"configCode\":\"hudson.basic.isWholeNetworkSync\",\"configValue\":\"true\"},{\"systemConfigId\":\"1537377889846255620\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"全网同步渠道\",\"configCode\":\"hudson.basic.wholeNetworkSyncChannelIds\",\"configValue\":\"[33,34,35,36,58,69,71]\"},{\"systemConfigId\":\"1537380552803340207\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"全网初始化渠道\",\"configCode\":\"hudson.basic.wholeNetworkInsertChannelIds\",\"configValue\":\"[33,34,35,36,58,69]\"},{\"systemConfigId\":\"1537380552803340208\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"全网更新渠道\",\"configCode\":\"hudson.basic.wholeNetworkUpdateChannelIds\",\"configValue\":\"[33,34,35,36,58,69,71,86,17]\"},{\"systemConfigId\":\"1321624877401366530\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"自动办理入住和退房\",\"configCode\":\"hudson.basic.isAutoCheckInAndCheckOut\",\"configValue\":\"0\"},{\"systemConfigId\":\"2034097561288077313\",\"campId\":\"1796067693589061634\",\"configCodeDesc\":\"自动办理入住\",\"configCode\":\"hudson.basic.isAutoCheckIn\",\"configValue\":\"1\"},{\"systemConfigId\":\"2034097559"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"shortChannelName\":\"路客云\",\"color\":\"#274080\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png\",\"image2Logo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"imageClose\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_close.png\",\"imageOpen\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_open.png\",\"isSupportIcs\":1,\"isLongRent\":0,\"isOpen\":1},{\"channelId\":\"34\",\"channelName\":\"品牌小程序\",\"shortChannelName\":\"品牌小程序\",\"color\":\"#7fd53e\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png\",\"imageClose\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png\",\"imageOpen\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8355758831771595.png\",\"isSupportIcs\":0,\"isLongRent\":0,\"isOpen\":1},{\"channelId\":\"33\",\"channelName\":\"抖音小程序\",\"shortChannelName\":\"抖音小程序\",\"color\":\"#7b1b69\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"channelId\":\"1763419426095210497\",\"channelName\":\"线下自来客\",\"shortChannelName\":\"线下自来客\",\"color\":\"#3E7EFF\"},{\"channelId\":\"1763515441183764482\",\"channelName\":\"携程\",\"shortChannelName\":\"携程\",\"color\":\"#170B99\"},{\"channelId\":\"1764368144203890690\",\"channelName\":\"线下到店\",\"shortChannelName\":\"线下到店\",\"color\":\"#7AA553\"},{\"channelId\":\"1764926077607915521\",\"channelName\":\"客堂\",\"shortChannelName\":\"客堂\",\"color\":\"#0081DE\"},{\"channelId\":\"1765011365813989378\",\"channelName\":\"携程\",\"shortChannelName\":\"携程\",\"color\":\"#B00000\"},{\"channelId\":\"1765267754573926401\",\"channelName\":\"美团\",\"shortChannelName\":\"美团\",\"color\":\"#F0B368\"},{\"channelId\":\"1767055388744163329\",\"channelName\":\"管家\",\"shortChannelName\":\"管家\",\"color\":\"#7AA553\"},{\"channelId\":\"1793223499499966465\",\"channelName\":\"钱多多\",\"shortChannelName\":\"钱多多\",\"color\":\"#936565\"},{\"channelId\":\"1767734071028498435\",\"channelName\":\"知行天下\",\"shortChannelName\":\"知行天下\",\"color\":\"#170B99\"},{\"channelId\":\"1768195640783290369\",\"channelName\":\"老顾客\",\"shortChannelName\":\"老顾客\",\"color\":\"#7AA553\"},{\"channelId\":\"1768209076745420801\",\"channelName\":\"雪山之音\",\"shortChannelName\":\"雪山之音\",\"color\":\"#EE7C7C\"},{\"channelId\":\"1768269085793599489\","
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"editionId\":\"9\",\"editionName\":\"畅享版\",\"editionType\":1,\"editionLevel\":1,\"isOwner\":1,\"currentVersion\":null,\"paymentInfo\":\"1615234787452768257\",\"isEditionLongTerm\":0,\"isEditionTrial\":0,\"contractStartDate\":1758988800000,\"contractEndDate\":1822060800000,\"expireDay\":\"497\",\"storeNum\":1,\"storeQuotaNum\":1,\"isStoreOverLimit\":0,\"poiNum\":1,\"poiQuotaNum\":1,\"isPoiOverLimit\":0,\"inventory\":4,\"roomNum\":4,\"roomQuotaNum\":10,\"isRoomOverLimit\":0,\"userRoleNum\":1,\"employeeNum\":1,\"employeeQuotaNum\":3,\"isEmployeeOverLimit\":0,\"isEditionReplace\":0,\"appVersionInfoViews\":[{\"tagId\":\"1615233485865803778\",\"appVersionName\":\"标准版\",\"userRoleNumLimited\":3,\"poiNumLimited\":1,\"inventoryLimited\":10,\"limitedPrice\":\"0\",\"unlimitedPrice\":null,\"isRecommend\":null,\"description\":\"\",\"appVersionFunctions\":[{\"isCanUse\":1,\"functionName\":\"住宿类型\",\"description\":\"乡村客栈、城市民宿\"},{\"isCanUse\":1,\"functionName\":\"渠道直连\",\"description\":\"携程、美团、飞猪、抖音和小红书等10+酒店民宿渠道及社交媒体API直连\"},{\"isCanUse\":1,\"functionName\":\"核心功能\",\"description\":\"中央房价、中央房态、渠道直连、IM汇集、点评汇集、住客管理\"},{\"isCanUse\":0,\"functionName\":\"特色功能\",\"description\":\"钱包/分账、会员中心、商城、团购预售核销营销工具\"},{\"isCanUse\":0,\"functionName\":\"品牌小程序\",\"descripti"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"isPaid\":\"1\",\"isEffectiveEdition\":\"1\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"basic\":{\"preComeNum\":0,\"liveNum\":1,\"preLeaveNum\":0,\"arrangeSameRoomNum\":0,\"orderRemarkNum\":1,\"ltNum\":0,\"debtNum\":0,\"hourRoomOrderNum\":0,\"roomNum\":4,\"soldNum\":1,\"idleNum\":1,\"occNum\":2,\"occ\":0.5000,\"idleCleanNum\":0,\"idleDirtyNum\":1,\"liveCleanNum\":1,\"liveDirtyNum\":0,\"extendStayNum\":0},\"roomCategories\":[{\"roomCategoryId\":\"1796425099729092609\",\"roomCategoryName\":\"顶层套房（浴缸巨幕电竞麻将）\",\"roomCategorySeq\":0,\"rooms\":[{\"roomId\":\"1796425099787812870\",\"roomName\":\"房间1\",\"roomSeq\":1,\"isDirty\":0,\"roomCategoryId\":\"1796425099729092609\",\"roomCategoryName\":\"顶层套房（浴缸巨幕电竞麻将）\",\"floorId\":null,\"isOcc\":1,\"isLive\":0,\"isIdle\":0,\"isPreCome\":0,\"isPreLeave\":0,\"isLinkCardDevice\":0,\"isLinkPasswordDevice\":0,\"passwordDeviceId\":null,\"isArrangeSameRoom\":0,\"isOrderRemark\":null,\"isLt\":null,\"isDebt\":null,\"isHourRoomOrder\":null,\"isExtendStay\":null,\"isInvitationExtendStay\":null,\"occupationType\":1,\"occupationRemark\":\"\",\"guestName\":\"\",\"orders\":[],\"roomCategorySeq\":0}],\"roomNum\":1,\"soldNum\":0,\"liveNum\":0,\"idleNum\":0,\"occNum\":1},{\"roomCategoryId\":\"1796425099485822977\",\"roomCategoryName\":\"总裁套间（桑拿浴缸露台电竞麻将）\",\"roomCategorySeq\":0,\"rooms\":[{\"roomId\":\"1796425099544"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"count\":0,\"countDetail\":{\"orderNotificationCount\":0,\"campWarnCount\":0,\"campDynamicCount\":0}}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"isNeedInit\":false}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"hasCardDevice\":false,\"cardDeviceSystem\":0}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://minsubao.localhome.cn/version/undefined",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "text/html",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"editionId\":\"9\",\"editionName\":\"畅享版\",\"editionType\":1,\"resourceGetViews\":[{\"resourceName\":\"门店\",\"quotaNum\":1,\"isUnlimitedQuotaNum\":0,\"usedQuotaView\":{\"usedQuotaNum\":1,\"campUsedQuotaViews\":[{\"campId\":\"1796067693589061634\",\"campName\":\"路客云6TS5的店铺\",\"usedQuotaNum\":1}]},\"resourceFrom\":{\"editionNum\":1,\"isUnlimitedEditionNum\":0,\"expandQuotaNum\":0,\"expandQuotaDetailView\":[]},\"editionStatus\":1,\"goodsType\":2,\"expirationDate\":null,\"isLongTerm\":null},{\"resourceName\":\"企业\",\"quotaNum\":1,\"isUnlimitedQuotaNum\":0,\"usedQuotaView\":{\"usedQuotaNum\":1,\"campUsedQuotaViews\":[{\"campId\":\"1796067693589061634\",\"campName\":\"路客云6TS5的店铺\",\"usedQuotaNum\":1}]},\"resourceFrom\":{\"editionNum\":1,\"isUnlimitedEditionNum\":0,\"expandQuotaNum\":0,\"expandQuotaDetailView\":[]},\"editionStatus\":1,\"goodsType\":2,\"expirationDate\":null,\"isLongTerm\":null},{\"resourceName\":\"库存\",\"quotaNum\":10,\"isUnlimitedQuotaNum\":0,\"usedQuotaView\":{\"usedQuotaNum\":4,\"campUsedQuotaViews\":[{\"campId\":\"1796067693589061634\",\"campName\":\"路客云6TS5的店铺\",\"usedQuotaNum\":4}]},\"resourceFrom\":{\"editionNum\":10,\"isUnlimitedEditionNum\":0,\"expandQuotaNum\":0,\"expandQuotaDetailView\":[]},\"editionStatus\":1,\"goo"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"overview\":4,\"todayNewOrder\":1,\"todayCheckOut\":1,\"todayCheckIn\":1,\"todayPredictCheckIn\":null,\"todayPredictCheckOut\":null,\"staying\":2,\"tomorrowCheckIn\":0,\"tomorrowCheckOut\":1,\"pending\":0,\"refunding\":0,\"exception\":0,\"orderBox\":null,\"arrangeSameRoom\":0,\"unArrangeRoom\":0,\"arrangeRoom\":3,\"unOccupation\":0,\"unStatistics\":0,\"expiredNotCheckIn\":0,\"expiredNotCheckOut\":0}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"appKey\":\"8d0514326dbd437d73cf9dc837543884\",\"accid\":\"prod_0_1796067702522908674\",\"token\":\"f23849932f3c47e7b741537900571ccd\"}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentTypes\":[{\"paymentTypeId\":\"1\",\"paymentTypeName\":\"房费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"2\",\"paymentTypeName\":\"清洁费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"3\",\"paymentTypeName\":\"平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"4\",\"paymentTypeName\":\"押金\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"5\",\"paymentTypeName\":\"取消平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"6\",\"paymentTypeName\":\"加床\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"7\",\"paymentTypeName\":\"加人\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"8\",\"paymentTypeName\":\"退订扣款\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"9\",\"paymentType"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"1848317056370487297\",\"optionJson\":{\"versionModals\":{\"startData\":\"2024-10-21 00:00:00\",\"buttons\":[{\"buttonText\":\"咨询优惠\",\"type\":\"default\",\"action\":\"2\"},{\"buttonText\":\"立即修改\",\"type\":\"default\",\"action\":\"0\"},{\"buttonText\":\"续费/升级\",\"type\":\"primary\",\"action\":\"1\"}],\"endDate\":\"2024-10-31 23:59:59\",\"title\":\"畅享版全新上线！\",\"campIds\":[],\"info\":\"路客云4.0 版本，中央房价模式、日房态、scrm、系统交互等数十项新功能升级。为使用全面功能，即日起房间数量 6-10 间（畅享版）的用户需付费使用，原价1588元，双 11限时享899优惠升级！ 请在{10月31日}前完成付费，否则系统将冻结并解除渠道直连，您也可以修改门店/房间/账户以继续使用「标准版」。\"}}}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":null}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"hasDigitalProcess\":0,\"isComplete\":null,\"state\":null,\"failReason\":null,\"currentProgress\":null,\"estimatedTime\":null,\"isHandleRoomCategory\":null,\"ydPoiId\":null,\"channelId\":null}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":0,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":0,\"list\":[]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":1,\"size\":999,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":1,\"list\":[{\"poiId\":\"1796425098638573570\",\"poiName\":\"天落会宿公寓(前海壹方城宝安中心店)\"}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"title\":null,\"content\":null,\"operationResult\":null}}"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "bodySnippet": "{\"CertifyId\":\"bch8icgx6y\",\"Message\":\"success\",\"RequestId\":\"02CE7CE6-3D10-41DF-9B8A-06B2730782F3\",\"Code\":\"Success\",\"LimitFlow\":false,\"Success\":true,\"StaticPath\":\"3.25.1/sg.046.5a47cc0d7fe89381\",\"CaptchaType\":\"SLIDING\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":4,\"size\":999,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":1,\"list\":[{\"roomCategoryId\":\"1796425099729092609\",\"campId\":\"1796067693589061634\",\"saleCampId\":\"1796067693589061634\",\"upstreamCampId\":\"1796067693589061634\",\"downstreamCampId\":\"1796067693589061634\",\"fromType\":0,\"channelId\":\"0\",\"parentId\":\"1796425099729092609\",\"mainPhotoMediaId\":\"1801949570256912386\",\"mainPhotoMediaUrl\":\"https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg\",\"mainPhoto\":\"https://img.meituan.net/phoenix/e9d955f7557067a77cd4d06a51ce47641892785.jpg\",\"inventory\":1,\"checkinGuestCount\":5,\"roomCategoryTransferId\":null,\"checkinGuideId\":null,\"isCampHasMultiInventoryRoomCategory\":null,\"isTransfer\":0,\"priority\":null,\"basePrice\":73000,\"weekendPrice\":93000,\"holidayPrice\":98900,\"channelOrderTotalNum\":10,\"expectedChannelOrderTotalNum\":8,\"roomViews\":[{\"roomId\":\"1796425099787812870\",\"roomName\":\"房间1\",\"yuejumaAddress\":null}],\"isAvailability\":1,\"auditStatus\":null,\"failReason\":null,\"depositPrice\":null,\"fullAddress\":\"深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国\",\"waitMappingChannelNum\":0,\"poiView\":{\"poiId\":\"179642509"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"2000745252682776577\",\"optionJson\":{\"dailySurvey\":{\"img\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/ad/app-bg-img%402x%20(1)%20(1).png\",\"endDate\":\"1767233374000\",\"editionIds\":[\"3\",\"4\",\"5\"],\"link\":\"WorkbenchList\",\"pcImg\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/ad/%E5%BC%B9%E7%AA%97%402x%20(1).png\",\"title\":\"保洁功能\",\"uri\":\"/cleanManage/cleanTask\",\"times\":1,\"adId\":1001,\"startDate\":\"1750659256000\"}}}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"commons\":[{\"commonId\":\"46\",\"code\":null,\"value\":\"1\",\"codeName\":\"爱彼迎IM支持发送图片\",\"groupId\":\"45\"},{\"commonId\":\"47\",\"code\":null,\"value\":\"2\",\"codeName\":\"途家IM支持发送图片\",\"groupId\":\"45\"},{\"commonId\":\"49\",\"code\":null,\"value\":\"49\",\"codeName\":\"途家KaIM支持发送图片\",\"groupId\":\"45\"},{\"commonId\":\"53\",\"code\":null,\"value\":\"64\",\"codeName\":\"lkyIM支持发送图片\",\"groupId\":\"45\"},{\"commonId\":\"54\",\"code\":null,\"value\":\"41\",\"codeName\":\"企微IM支持发送图片\",\"groupId\":\"45\"},{\"commonId\":\"55\",\"code\":null,\"value\":\"68\",\"codeName\":\"企微IM支持发送图片\",\"groupId\":\"45\"}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10367953\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channel"
+    },
+    {
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=7f7908193994a9e119d490f641d2b18c&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=8d0514326dbd437d73cf9dc837543884",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "bodySnippet": "{\"code\":200,\"data\":{\"maxDelay\":300,\"endpoint\":\"https://statistic.live.126.net\",\"logfetch\":false,\"minInterval\":10,\"maxSize\":100,\"maxInterval\":30},\"requestId\":\"9d8b15ca-6a05-4b6b-a29d-c2642bd812ac\"}"
+    },
+    {
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json",
+      "bodySnippet": "{\"common\":{\"tlslink\":[],\"lbs.backup\":[\"https://lbs-sdk.netease.im/lbs/webconf.jsp\"],\"link\":[\"weblink02.yunxinfw.com:443\",\"weblink04.yunxinfw.com:443\",\"weblink03.yunxinfw.com:443\",\"weblink-bgp.netease.im:443\",\"weblink-bgp.netease.im:443\",\"chatwl01.yunxinfw.com:443\",\"chatwl01.yunxinfw.com:443\",\"weblink-bgp.netease.im:443\",\"weblink-bgp.netease.im:443\"],\"weblink\":[],\"quiclink\":[],\"lbs\":\"https://lbs.netease.im/lbs/webconf.jsp\",\"link.default\":[\"weblink.netease.im:443\"],\"desc\":\"online public env\"},\"nos-chunk\":\"https://wanproxy-web.127.net\"}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":6,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":false,\"pages\":1,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1679031201310629895\",\"channelRoomCategoryName\":\"标准版\",\"parentRoomCategoryId\":\"1679031201310629894\",\"mainPhotoMediaId\":\"1534423790783582210\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/locals_1652264142753de3ab2416dcf76c26bf5896f377ab75.jpg\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":0,\"lowestSettlementPrice\":0,\"lowestOriginalPrice\":3000,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"2846\",\"roomCategoryType\":1,\"goodsType\":2,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":null,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":\"1\",\"editionLevel\":0,\"editionUpgradeType\":3,\"isTransitionEdition\":null,\"isFreeEdition\":1,\"giftType\":null,\"outRuleJson\":\"{\\\"editionBaseFunction"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentGroups\":[{\"groupType\":1,\"groupTypeName\":\"住宿\",\"paymentTypes\":[{\"paymentTypeId\":\"1\",\"paymentTypeName\":\"房费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"2\",\"paymentTypeName\":\"清洁费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"3\",\"paymentTypeName\":\"平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"4\",\"paymentTypeName\":\"押金\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"5\",\"paymentTypeName\":\"取消平台服务费\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":3,\"groupType\":1},{\"paymentTypeId\":\"6\",\"paymentTypeName\":\"加床\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"7\",\"paymentTypeName\":\"加人\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"8\",\"paymentTypeName\":\"退订扣款\",\"ignoreOrderGetItem\":1,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizTyp"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"roomCategoryRooms\":[{\"roomCategoryId\":\"1796425099729092609\",\"roomCategoryName\":\"顶层套房（浴缸巨幕电竞麻将）\",\"rooms\":[{\"roomCategoryId\":\"1796425099729092609\",\"roomId\":\"1796425099787812870\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425099485822977\",\"roomCategoryName\":\"总裁套间（桑拿浴缸露台电竞麻将）\",\"rooms\":[{\"roomCategoryId\":\"1796425099485822977\",\"roomId\":\"1796425099544543234\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425099242553345\",\"roomCategoryName\":\"天落大床电竞套间\",\"rooms\":[{\"roomCategoryId\":\"1796425099242553345\",\"roomId\":\"1796425099301273602\",\"roomName\":\"1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]},{\"roomCategoryId\":\"1796425098965729282\",\"roomCategoryName\":\"观影大床房\",\"rooms\":[{\"roomCategoryId\":\"1796425098965729282\",\"roomId\":\"1796425099032838145\",\"roomName\":\"房间1\",\"isDirty\":null,\"isCanBooking\":null,\"floorId\":null,\"floorName\":null,\"seq\":1,\"deviceViews\":[]}]}]}}"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8",
+      "bodySnippet": "{\"Code\":\"Success\",\"Success\":true}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentGroups\":[{\"groupType\":1,\"groupTypeName\":\"住宿\",\"paymentTypes\":[{\"paymentTypeId\":\"6\",\"paymentTypeName\":\"加床\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"7\",\"paymentTypeName\":\"加人\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"9\",\"paymentTypeName\":\"损坏赔偿\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"10\",\"paymentTypeName\":\"其他收入\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"20\",\"paymentTypeName\":\"其他支出\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":0,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"34\",\"paymentTypeName\":\"加时(延迟退房)\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"35\",\"paymentTypeName\":\"餐饮\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1,\"bizType\":1,\"groupType\":1},{\"paymentTypeId\":\"36\",\"paymentTypeName\":\"旅游服务\",\"ignoreOrderGetItem\":0,\"isCustom\":0,\"isIncome\":1,\"isEnable\":1"
+    },
+    {
+      "url": "https://weblink-bgp.netease.im/socket.io/1/?t=1779190193113",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "text/plain; charset=UTF-8",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"paymentWays\":[{\"paymentWayId\":\"1\",\"paymentWayName\":\"平台代收\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"2\",\"paymentWayName\":\"微信\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"3\",\"paymentWayName\":\"支付宝\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"4\",\"paymentWayName\":\"其他\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"5\",\"paymentWayName\":\"现金\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"6\",\"paymentWayName\":\"银行转帐\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"7\",\"paymentWayName\":\"信用卡\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"11\",\"paymentWayName\":\"通联\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"12\",\"paymentWayName\":\"储值金\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"13\",\"paymentWayName\":\"暂未收款\",\"isCustom\":0,\"isEnable\":1},{\"paymentWayId\":\"14\",\"paymentWayName\":\"现场收款\",\"isCustom\":0,\"isEnable\":1}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"name\":\"港币\",\"currency\":\"HKD\",\"symbol\":\"HK$\"},{\"name\":\"新加坡元\",\"currency\":\"SGD\",\"symbol\":\"S$\"},{\"name\":\"英镑\",\"currency\":\"GBP\",\"symbol\":\"£\"},{\"name\":\"人民币\",\"currency\":\"CNY\",\"symbol\":\"¥\"},{\"name\":\"新西兰元\",\"currency\":\"NZD\",\"symbol\":\"NZ$\"},{\"name\":\"欧元\",\"currency\":\"EUR\",\"symbol\":\"€\"},{\"name\":\"加元\",\"currency\":\"CAD\",\"symbol\":\"C$\"},{\"name\":\"日元\",\"currency\":\"JPY\",\"symbol\":\"円\"},{\"name\":\"新台币\",\"currency\":\"TWD\",\"symbol\":\"NT$\"},{\"name\":\"瑞士法郎\",\"currency\":\"CHF\",\"symbol\":\"₣\"},{\"name\":\"美元\",\"currency\":\"USD\",\"symbol\":\"$\"},{\"name\":\"泰铢\",\"currency\":\"THB\",\"symbol\":\"฿\"}]}"
+    },
+    {
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=8d0514326dbd437d73cf9dc837543884&uid=prod_0_1796067702522908674&os=web&session=&ver=90500&type=im&platform=chrome148",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "image/gif",
+      "bodySnippet": null
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"shortChannelName\":\"路客云\",\"color\":\"#274080\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png\",\"image2Logo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"imageClose\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_close.png\",\"imageOpen\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_open.png\",\"isSupportIcs\":1,\"isLongRent\":0,\"isOpen\":1},{\"channelId\":\"34\",\"channelName\":\"品牌小程序\",\"shortChannelName\":\"品牌小程序\",\"color\":\"#7fd53e\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png\",\"imageClose\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png\",\"imageOpen\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8355758831771595.png\",\"isSupportIcs\":0,\"isLongRent\":0,\"isOpen\":1},{\"channelId\":\"33\",\"channelName\":\"抖音小程序\",\"shortChannelName\":\"抖音小程序\",\"color\":\"#7b1b69\",\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"userShortcuts\":[{\"code\":0,\"name\":\"推荐激活键\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":1,\"name\":\"上一条对话\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":2,\"name\":\"下一条对话\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":3,\"name\":\"客户画像\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":4,\"name\":\"快捷回复\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":5,\"name\":\"订单记录\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":6,\"name\":\"房源详情\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":7,\"name\":\"特别优惠\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":8,\"name\":\"房价计算\",\"win\":null,\"mac\":null,\"isOpen\":1},{\"code\":9,\"name\":\"推荐房源\",\"win\":null,\"mac\":null,\"isOpen\":0},{\"code\":10,\"name\":\"房态\",\"win\":null,\"mac\":null,\"isOpen\":0},{\"code\":11,\"name\":\"历史消息\",\"win\":null,\"mac\":null,\"isOpen\":1}]}}"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":[{\"channelId\":\"1763419426095210497\",\"channelName\":\"线下自来客\",\"shortChannelName\":\"线下自来客\",\"color\":\"#3E7EFF\"},{\"channelId\":\"1763515441183764482\",\"channelName\":\"携程\",\"shortChannelName\":\"携程\",\"color\":\"#170B99\"},{\"channelId\":\"1764368144203890690\",\"channelName\":\"线下到店\",\"shortChannelName\":\"线下到店\",\"color\":\"#7AA553\"},{\"channelId\":\"1764926077607915521\",\"channelName\":\"客堂\",\"shortChannelName\":\"客堂\",\"color\":\"#0081DE\"},{\"channelId\":\"1765011365813989378\",\"channelName\":\"携程\",\"shortChannelName\":\"携程\",\"color\":\"#B00000\"},{\"channelId\":\"1765267754573926401\",\"channelName\":\"美团\",\"shortChannelName\":\"美团\",\"color\":\"#F0B368\"},{\"channelId\":\"1767055388744163329\",\"channelName\":\"管家\",\"shortChannelName\":\"管家\",\"color\":\"#7AA553\"},{\"channelId\":\"1793223499499966465\",\"channelName\":\"钱多多\",\"shortChannelName\":\"钱多多\",\"color\":\"#936565\"},{\"channelId\":\"1767734071028498435\",\"channelName\":\"知行天下\",\"shortChannelName\":\"知行天下\",\"color\":\"#170B99\"},{\"channelId\":\"1768195640783290369\",\"channelName\":\"老顾客\",\"shortChannelName\":\"老顾客\",\"color\":\"#7AA553\"},{\"channelId\":\"1768209076745420801\",\"channelName\":\"雪山之音\",\"shortChannelName\":\"雪山之音\",\"color\":\"#EE7C7C\"},{\"channelId\":\"1768269085793599489\","
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"1754323708553199617\",\"optionJson\":{\"dailySurvey\":{\"img\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250623/%E8%81%9A%E5%88%B0%E5%88%86%E9%94%80-bg%402x%202.png\",\"endDate\":\"1752720558000\",\"uri\":\"/channels/distribution\",\"times\":7,\"campIds\":[\"1565866399843123202\",\"1818444804164714498\",\"1501513448539439106\",\"1928687748322193410\",\"1705556961450336258\",\"1835651653849989122\",\"1333162394990288897\",\"1891706642231767041\",\"1698982028725833730\",\"1900566164530696193\",\"1900182935025913857\",\"1768647908201078785\",\"1864595453733642241\",\"1885923984406335489\",\"1689488907235991553\",\"1770410706435276801\",\"1789945721588707330\",\"1748537122063540225\",\"1923302384292712449\",\"1811963592892035073\",\"1667519493017313281\",\"1554871114371715074\",\"1911629050401574914\",\"1543847439650496513\",\"1928119713525374978\",\"1914909173728100353\",\"1928283094152617986\",\"1748165769120047106\",\"1891448273281527810\",\"1665922500775821314\",\"1925802347092217858\",\"1915347889358299137\",\"1718522373923475457\",\"1687388792984293377\",\"1387282745228308482\",\"1844267729875177473\",\"1742947977932853250\",\"1895022823439"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"1876219663445012481\",\"optionJson\":{\"dailySurvey\":{\"img\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240911/modal.png\",\"endDate\":\"1707098034865\",\"uri\":\"/channels/distribution\",\"times\":1,\"campIds\":[\"1895298823024562178\",\"1920067332499402753\",\"1899117084141748225\",\"1900110809132589058\",\"1879494694020804610\",\"1777205294973272065\",\"1915959402877784065\",\"1852256582318247937\",\"1669303339509239810\",\"1557267449544945665\",\"1700008358880567298\",\"1829641047103291394\",\"1911608257244258305\",\"1811963592892035073\",\"1927315494994382850\",\"1925777969470029825\",\"1846010548237815809\",\"1905618834462916609\",\"1523179373393801217\",\"1819388893618536449\",\"1919269661596237825\",\"1731703772874326017\",\"1688123438716698626\",\"1904724971991994370\",\"1709838628185493505\",\"1740199249463533569\",\"1920636066330931202\",\"1915347889358299137\",\"1650160332760612865\",\"1912027628309164033\",\"1934439266649763841\",\"1783060719378214914\",\"1912847482819772417\",\"1689935693617291265\",\"1672981168410296322\",\"1731587068278128641\",\"1894319585596887041\",\"1886963011477618690\",\"1554871114371715074\",\"190004886736"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"campId\":\"1796067693589061634\",\"expectedChannelOrderTotalNum\":60,\"isOpenFlow\":1,\"orderMobile\":\"17688251357\",\"isStopFlow\":0,\"stopType\":0,\"channelInfos\":[{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"60\",\"channelName\":\"飞猪酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/5720510102870952.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"56\",\"channelName\":\"同程酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8323990495541341.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"75\",\"channelName\":\"去哪儿酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/6456964298628947.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"101\",\"channelName\":\"京东酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8211818326630759.png\",\"isStopFlow\":"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"campId\":\"1796067693589061634\",\"expectedChannelOrderTotalNum\":60,\"isOpenFlow\":1,\"orderMobile\":\"17688251357\",\"isStopFlow\":0,\"stopType\":0,\"channelInfos\":[{\"channelId\":\"17\",\"channelName\":\"路客云聚合\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"60\",\"channelName\":\"飞猪酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/5720510102870952.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"56\",\"channelName\":\"同程酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8323990495541341.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"75\",\"channelName\":\"去哪儿酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/6456964298628947.png\",\"isStopFlow\":0,\"isApplyOpen\":1},{\"channelId\":\"101\",\"channelName\":\"京东酒店直连\",\"expectedChannelOrderNum\":1,\"imageLogo\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8211818326630759.png\",\"isStopFlow\":"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10367953\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channel"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"total\":21,\"size\":20,\"current\":1,\"extraInfo\":null,\"pageNum\":1,\"hasNextPage\":true,\"pages\":2,\"list\":[{\"campId\":null,\"channelRoomCategoryId\":\"1671102652115400022\",\"channelRoomCategoryName\":\"携程直连\",\"parentRoomCategoryId\":\"1671102652115400021\",\"mainPhotoMediaId\":\"1671102652115400022\",\"mainPhotoMediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"mainPhoto\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/application/1671102652115400022.png\",\"bedroomNum\":null,\"ableArea\":null,\"hallNum\":null,\"personCapacity\":null,\"bedNum\":null,\"bedMetas\":[],\"lowestSellingPrice\":246,\"lowestSettlementPrice\":246,\"lowestOriginalPrice\":246,\"reducePrice\":0,\"isCanBooking\":1,\"totalStock\":\"10367953\",\"roomCategoryType\":1,\"goodsType\":7,\"isLongTermEffective\":1,\"effectiveStartTime\":null,\"effectiveEndTime\":1822060800000,\"poiType\":null,\"parentPoiId\":null,\"poiTags\":null,\"channelPoiId\":null,\"promotionDirectRatio\":null,\"editionId\":null,\"editionLevel\":null,\"editionUpgradeType\":null,\"isTransitionEdition\":null,\"isFreeEdition\":0,\"giftType\":null,\"outRuleJson\":null,\"channel"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"1947569513926946818\",\"optionJson\":{\"trail\":[{\"effectiveTime\":\"2026-04-21 00:00:00\",\"campIds\":[\"2020176447067516929\"],\"name\":\"13079918872 抖音\",\"roomCategoryProductIds\":[\"1949754819202805762\"],\"days\":365,\"startTime\":\"2026-04-21 00:00:00\",\"endTime\":\"2027-04-21 00:00:00\",\"id\":\"9\"},{\"effectiveTime\":\"2026-03-30 17:25:07\",\"campIds\":[\"1971496751212658690\"],\"name\":\"18128843122保洁\",\"roomCategoryProductIds\":[\"1671092891498612804\"],\"days\":365,\"startTime\":\"2026-03-30 17:25:07\",\"endTime\":\"2027-03-31 00:00:00\",\"id\":\"20\"},{\"effectiveTime\":\"2026-03-20 15:54:42\",\"campIds\":[\"2034868912526544897\"],\"name\":\"13984025777＋抖音赠送2年直连\",\"roomCategoryProductIds\":[\"1949754819202805764\"],\"days\":730,\"startTime\":\"2026-03-20 15:54:42\",\"endTime\":\"2028-03-20 00:00:00\",\"id\":\"9\"},{\"effectiveTime\":\"2026-01-14 14:45:16\",\"campIds\":[\"2008368961843916801\"],\"name\":\"19307891879美团酒店\",\"roomCategoryProductIds\":[\"1671092891498688932\"],\"days\":365,\"startTime\":\"2026-01-14 14:45:16\",\"endTime\":\"2027-01-14 00:00:00\",\"id\":\"12\"},{\"effectiveTime\":\"2025-11-24 12:24:30\",\"campIds\":[\"1992479013616291841\"],\"name\":\"15364704479 抖音\",\"roomCategory"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"optionJsonViews\":[{\"menuId\":\"1953303333244473346\",\"optionJson\":{\"trail\":[{\"effectiveTime\":\"2026-05-19 00:00:00\",\"campIds\":[\"1965053905154748418\"],\"name\":\"17508519527 小程序\",\"roomCategoryProductIds\":[\"1671092891498688880\"],\"days\":140,\"startTime\":\"2026-05-19 00:00:00\",\"endTime\":\"2026-09-30 00:00:00\",\"id\":\"5\"},{\"effectiveTime\":\"2026-05-19 00:00:00\",\"campIds\":[\"1965053905154748418\"],\"name\":\"17508519527 抖音直连\",\"roomCategoryProductIds\":[\"1949754819202805770\"],\"days\":140,\"startTime\":\"2026-05-19 00:00:00\",\"endTime\":\"2026-09-30 00:00:00\",\"id\":\"9\"},{\"effectiveTime\":\"2026-05-19 10:37:02\",\"campIds\":[\"1724793028772864002\"],\"name\":\"13145185089抖音直连\",\"roomCategoryProductIds\":[\"1949754819202805766\"],\"days\":27418,\"startTime\":\"2026-05-19 10:37:02\",\"endTime\":\"2027-05-19 00:00:00\",\"id\":\"9\"},{\"effectiveTime\":\"2026-05-19 10:31:23\",\"campIds\":[\"1785184432980910081\"],\"name\":\"18604878019＋赠送a全域雷达\",\"roomCategoryProductIds\":[\"1671092891498456454\"],\"days\":365,\"startTime\":\"2026-05-19 10:31:23\",\"endTime\":\"2026-06-18 00:00:00\",\"id\":\"21\"},{\"effectiveTime\":\"2026-05-18 15:44:17\",\"campIds\":[\"2042928124352651266\"],\"name\":\"13993160226携程直连\",\"roomCat"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"holidayInfos\":[{\"date\":\"2026-04-04\",\"type\":1,\"workStatus\":0,\"name\":\"清明\",\"holiday\":\"清明\"},{\"date\":\"2026-04-05\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"清明\"},{\"date\":\"2026-04-06\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"清明\"},{\"date\":\"2026-05-01\",\"type\":1,\"workStatus\":0,\"name\":\"劳动节\",\"holiday\":\"劳动节\"},{\"date\":\"2026-05-02\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"劳动节\"},{\"date\":\"2026-05-03\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"劳动节\"},{\"date\":\"2026-05-04\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"劳动节\"},{\"date\":\"2026-05-05\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"劳动节\"},{\"date\":\"2026-06-19\",\"type\":1,\"workStatus\":0,\"name\":\"端午\",\"holiday\":\"端午\"},{\"date\":\"2026-06-20\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"端午\"},{\"date\":\"2026-06-21\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"端午\"},{\"date\":\"2026-09-25\",\"type\":1,\"workStatus\":0,\"name\":\"中秋\",\"holiday\":\"中秋\"},{\"date\":\"2026-09-26\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"中秋\"},{\"date\":\"2026-09-27\",\"type\":2,\"workStatus\":0,\"name\":\"假\",\"holiday\":\"中秋\"},{\"date\":\"2026-10-01\",\"type\":1,\"workStatus\":0,\"name\":\"国庆\",\"holiday\":\"国庆\"},{\"date\":\"2026-10-"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "bodySnippet": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":true}"
+    }
+  ]
+}

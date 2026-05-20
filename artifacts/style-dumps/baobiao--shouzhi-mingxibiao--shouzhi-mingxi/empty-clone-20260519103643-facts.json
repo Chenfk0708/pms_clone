@@ -1,0 +1,27 @@
+{
+  "label": "empty",
+  "url": "http://127.0.0.1:4195/statistics/orderLedger?mockState=empty",
+  "diagnostics": {
+    "provider": "mock",
+    "state": "empty",
+    "request": {
+      "campId": "1796067693589061634",
+      "pageNum": 1,
+      "pageSize": 10,
+      "beginTime": "2026-05-18",
+      "endTime": "2026-05-19",
+      "paymentTypeIds": [],
+      "paymentWayIds": [],
+      "roomIds": [],
+      "poiIds": [],
+      "keyword": "",
+      "isIncome": null,
+      "type": null,
+      "state": "empty"
+    }
+  },
+  "assertions": [
+    "mockState=empty -> 空态与零汇总"
+  ],
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n统计报表\n收支明细表\n收支汇总\n收支明细\n记一笔明细\n结算表\n预售券数据\n交接班\n收支明细\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n昨天\n今天\n上周\n本周\n上月\n本月\n至\n类型：\n全部类型\n来源：\n全部来源\n项目：\n请选择项目\n搜索：\n关联房间\n全部\n支付方式：\n请选择支付方式\n重置\n导出\n账本概括\n¥\n\n净收入\n\n¥ 0.00\n¥\n\n总收入\n\n¥ 0.00\n¥\n\n总支出\n\n¥ 0.00\n当前筛选条件下暂无收支流水\n\n请调整类型、来源、项目、房间或日期条件后重新查看。\n\n账本明细\n类型\t来源\t订单号\t项目\t金额\t欠款\t支付方式\t支付流水号\t支付时间\t创建时间\t关联房型/房间\t备注\t操作人\t操作\n暂无数据\n第 0-0 条，共 0 条\n<\n1\n>\n10 条/页"
+}

@@ -1,0 +1,261 @@
+﻿{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519-complete",
+  "url": "http://127.0.0.1:4188/statistics/shift/record?mockState=error",
+  "isLoginBlocked": false,
+  "hasBusinessText": true,
+  "hiddenServiceContract": "",
+  "bodyLength": 670,
+  "buttons": [
+    {
+      "text": "首页",
+      "href": "/workspace",
+      "className": "topnav-link"
+    },
+    {
+      "text": "房态",
+      "href": "/houseManage/months",
+      "className": "topnav-link"
+    },
+    {
+      "text": "房价",
+      "href": "/houseManage/houseCale",
+      "className": "topnav-link"
+    },
+    {
+      "text": "订单",
+      "href": "/order/house-order/list",
+      "className": "topnav-link"
+    },
+    {
+      "text": "售卖/产品",
+      "href": "/setting/localRoomTypeProductionSetting",
+      "className": "topnav-link"
+    },
+    {
+      "text": "OTA",
+      "href": "/channels/ota",
+      "className": "topnav-link"
+    },
+    {
+      "text": "社媒",
+      "href": "/channels/social",
+      "className": "topnav-link"
+    },
+    {
+      "text": "私域",
+      "href": "/channels/private",
+      "className": "topnav-link"
+    },
+    {
+      "text": "聚合分销HOT",
+      "href": "/channels/distribution/distributionSecond",
+      "className": "topnav-link"
+    },
+    {
+      "text": "SCRM",
+      "href": "/scrm/general",
+      "className": "topnav-link"
+    },
+    {
+      "text": "AI全域雷达",
+      "href": "/channels/globalRadar/globalData",
+      "className": "topnav-link"
+    },
+    {
+      "text": "智慧酒店",
+      "href": "/smartHotel/smartHome",
+      "className": "topnav-link"
+    },
+    {
+      "text": "报表",
+      "href": "/statistics/report",
+      "className": "topnav-link is-active"
+    },
+    {
+      "text": "设置",
+      "href": "/InformationMaintenance/informationOverview",
+      "className": "topnav-link"
+    },
+    {
+      "text": "应用订阅 限时试用",
+      "href": "/version/applicationPayment",
+      "className": "topbar-app-entry"
+    },
+    {
+      "text": "消息",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--message"
+    },
+    {
+      "text": "收款",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--payment"
+    },
+    {
+      "text": "接待",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--reception"
+    },
+    {
+      "text": "门锁",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--key"
+    },
+    {
+      "text": "客服",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--service"
+    },
+    {
+      "text": "通知",
+      "href": null,
+      "className": "topbar-tool-button topbar-tool-button--notice"
+    },
+    {
+      "text": "用户菜单",
+      "href": null,
+      "className": "topbar-user-menu"
+    },
+    {
+      "text": "统计报表",
+      "href": null,
+      "className": "sidebar-group-title"
+    },
+    {
+      "text": "收支明细表",
+      "href": null,
+      "className": "sidebar-group-title"
+    },
+    {
+      "text": "结算表",
+      "href": null,
+      "className": "sidebar-group-title"
+    },
+    {
+      "text": "预售券数据",
+      "href": null,
+      "className": "sidebar-group-title"
+    },
+    {
+      "text": "交接班",
+      "href": "/statistics/shift/record",
+      "className": "sidebar-group-title sidebar-group-title--link sidebar-link is-active"
+    },
+    {
+      "text": "查询",
+      "href": null,
+      "className": "is-primary"
+    },
+    {
+      "text": "重置",
+      "href": null,
+      "className": ""
+    },
+    {
+      "text": "导出",
+      "href": null,
+      "className": ""
+    },
+    {
+      "text": "设 置",
+      "href": null,
+      "className": "is-setting"
+    },
+    {
+      "text": "重试",
+      "href": null,
+      "className": ""
+    },
+    {
+      "text": "↻",
+      "href": null,
+      "className": ""
+    },
+    {
+      "text": "收起",
+      "href": null,
+      "className": ""
+    },
+    {
+      "text": "收起",
+      "href": null,
+      "className": "chat-dock__collapse"
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "date",
+      "placeholder": null,
+      "ariaLabel": "开始日期",
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "type": "date",
+      "placeholder": null,
+      "ariaLabel": "结束日期",
+      "value": ""
+    },
+    {
+      "tag": "select",
+      "type": null,
+      "placeholder": null,
+      "ariaLabel": "门店",
+      "value": "all"
+    },
+    {
+      "tag": "select",
+      "type": null,
+      "placeholder": null,
+      "ariaLabel": "交班人",
+      "value": "all"
+    },
+    {
+      "tag": "select",
+      "type": null,
+      "placeholder": null,
+      "ariaLabel": "接班人",
+      "value": "all"
+    }
+  ],
+  "tableHeaders": [
+    "交班日期",
+    "交班班次",
+    "交班人",
+    "交班时间",
+    "接班人",
+    "接班时间",
+    "交接状态",
+    "交班备注",
+    "接班备注",
+    "系统生成时间",
+    "操作"
+  ],
+  "tableRows": [
+    "暂无数据 当前筛选条件暂无交接班记录"
+  ],
+  "options": [],
+  "interactions": [],
+  "matchedContracts": [],
+  "componentScreenshots": [
+    {
+      "selector": ".shift-record-query",
+      "outputPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-component-filters.png"
+    },
+    {
+      "selector": ".shift-record-table-wrap",
+      "outputPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-component-table.png"
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-viewport.png",
+    "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-full.png"
+  ],
+  "dom": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-page.html",
+  "styles": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-facts.json",
+  "network": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\baobiao--jiaojieban--jiaojieban\\error-clone-20260519-complete-responses.json",
+  "bodySample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 统计报表 收支明细表 结算表 预售券数据 交接班 交接班 交接班记录 按门店、时间和交接班人追踪班次交接结果，核对备注与系统生成记录。 开始日期 结束日期 门店 全部门店 天落会宿公寓(前海壹方城宝安中心店) 交班人 全部员工 路客云6TS5 陈早班 接班人 全部员工 路客云6TS5 陈早班 查询 重置 导出 设 置 全部门店 开始日期不限 结束日期不限 全部交班人 全部接班人 第 1 页 交接班数据异常 交接班记录加载失败，请稍后重试 重试 共 0 条交接记录 当前请求：1796067693589061634 / pageSize 20 交班日期 交班班次 交班人 交班时间 接班人 接班时间 交接状态 交班备注 接班备注 系统生成时间 操作 暂无数据 当前筛选条件暂无交接班记录 全部会话 ↻ 收起 携程民宿-【M335275070】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 加了 携程民宿-【M566739056】 咨询中 途家总裁套间（桦拿淞缇露台电竞麻将） 我 已办理退房 去哪民宿-【去哪儿用户】 咨询中 途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将） 我 人 有的 携程民宿-【M614718025】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 什么时间段呢几号到几... 收起"
+}

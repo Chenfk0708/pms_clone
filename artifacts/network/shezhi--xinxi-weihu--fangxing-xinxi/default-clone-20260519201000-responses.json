@@ -1,0 +1,37 @@
+{
+  "taskId": "shezhi--xinxi-weihu--fangxing-xinxi",
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519201000",
+  "url": "http://127.0.0.1:45210/setting/roomTypeInfo",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:45210/setting/roomTypeInfo",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:45210/assets/index-0bmw1Fb_.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:45210/assets/index-Cr6Vn_7P.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:45210/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

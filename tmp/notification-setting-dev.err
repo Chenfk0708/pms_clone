@@ -1,0 +1,202 @@
+[2m21:12:06[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/App.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m21:22:12[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:22:12[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+[2m21:22:12[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:22:12[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+[2m21:22:12[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+[2m21:22:44[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:22:44[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+[2m21:22:44[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:23:11[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+[2m21:23:11[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/ApplicationPaymentPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:4:39
+[33m  2  |  import { AppShell } from "./components/AppShell";
+  3  |  import { ApplicationPaymentDetailPage } from "./pages/ApplicationPaymentDetailPage";
+  4  |  import { ApplicationPaymentPage } from "./pages/ApplicationPaymentPage";
+     |                                          ^
+  5  |  import { CleanSettingPage } from "./pages/CleanSettingPage";
+  6  |  import { CompanyInfoPage } from "./pages/CompanyInfoPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:26:10[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to load url /src/pages/SubscriptionDisplacementBenefitPage.tsx (resolved id: C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx) in C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx. Does the file exist?
+[2m21:26:49[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m21:26:49[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m21:26:49[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m21:26:49[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m21:26:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m21:26:55[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./SubscriptionDisplacementBenefitPage.css" from "src/pages/SubscriptionDisplacementBenefitPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m:13:7
+[33m  2  |  import { NavLink } from "react-router-dom";
+  3  |  import { defaultSubscriptionDisplacementBenefitFilters, exportSubscriptionDisplacementBenefitData, loadSubscriptionDi...
+  4  |  import "./SubscriptionDisplacementBenefitPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)

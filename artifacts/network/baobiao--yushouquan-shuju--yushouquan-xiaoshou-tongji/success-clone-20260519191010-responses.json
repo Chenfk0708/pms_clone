@@ -1,0 +1,40 @@
+{
+  "mode": "clone",
+  "state": "success",
+  "stamp": "20260519191010",
+  "url": "http://127.0.0.1:4201/statistics/presale?mockState=success",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4201/statistics/presale?mockState=success",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4201/assets/index-Bdvhue3A.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4201/assets/index-BQ2gFKzM.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:4201/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "postData": null
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519-business-provider-error",
+  "url": "http://127.0.0.1:5642/customer/addBatch?customerAddBatchMockState=error",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:5642/customer/addBatch?customerAddBatchMockState=error",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:5642/assets/index-ByseTS_n.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:5642/assets/index-5LdYC872.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:5642/scrm-add-batch-assets/brandScrmLogo.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:5642/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

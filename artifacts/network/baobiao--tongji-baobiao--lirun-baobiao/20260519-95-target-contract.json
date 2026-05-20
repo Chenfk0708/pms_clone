@@ -1,0 +1,340 @@
+{
+  "url": "https://minsubao.localhome.cn/statistics/profitReport",
+  "interactions": [
+    "open-description",
+    "close-description",
+    "open-first-combobox",
+    "pick-second-option",
+    "query",
+    "export"
+  ],
+  "requests": [
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 1,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/roomCategory/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 9999,
+        "isAvailability": 1,
+        "channelId": 0
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 4,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "roomCategoryRooms": {
+            "type": "array",
+            "length": 4,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/calChannel4Order/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "select": {
+            "type": "array",
+            "length": 9,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryGroups/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "roomCategoryGroups": {
+            "type": "array",
+            "length": 0,
+            "sample": null
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 9999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 1,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/profit/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-31",
+        "breakTemp": false,
+        "isCleanCost": 0
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/profit/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 9999,
+        "current": 1,
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-31",
+        "breakTemp": false,
+        "isCleanCost": 0,
+        "exportExcelMenuId": "1744634863299338249"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": "https://oss.localhome.cn/temp/download/路客云-利润报表1779179925373.xlsx"
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 9999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 1,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/profit/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-31",
+        "breakTemp": false,
+        "isCleanCost": 0
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/report/profit/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 20,
+        "current": 1,
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-31",
+        "breakTemp": false,
+        "isCleanCost": 0
+      },
+      "responseSummary": {
+        "success": "boolean",
+        "errorCode": "object",
+        "errorMsg": "object",
+        "errorDetail": "object",
+        "data": {
+          "total": "number",
+          "size": "number",
+          "current": "number",
+          "extraInfo": "object",
+          "pageNum": "number",
+          "hasNextPage": "boolean",
+          "pages": "number",
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": "object"
+          }
+        }
+      }
+    }
+  ],
+  "bodySample": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n统计报表\n\n统计概览\n\n收入报表\n\n销况报表\n\n利润报表\n\n综合月报\n\n收支明细表\n\n收支汇总\n\n收支明细\n\n记一笔明细\n\n结算表\n\n品牌小程序订单\n\n聚合分销订单\n\n预售券数据\n\n预售券销售统计\n\n预售券核销明细\n\n交接班\n版本号：v4.10.7\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n日期\n至\n房型\n请选择\n渠道\n请选择\n房型分组\n请选择\n包含保洁费用\n重 置\n查 询\n导 出\n说 明\n收起\n\t收入\t支出\t利润\n日期\t房费(减佣)\t门票\t餐饮\t其他消费\t记一笔收入\t总收入\t记一笔支出\t利润\t利润率\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\t\n \n\n合计\t11362.58\t0\t0\t0\t0\t11362.58\t0\t11362.58\t100.00%\n2026-05-01\t966.87\t0\t0\t0\t0\t966.87\t0\t966.87\t100.00%\n2026-05-02\t682\t0\t0\t0\t0\t682\t0\t682\t100.00%\n2026-05-03\t791.8\t0\t0\t0\t0\t791.8\t0\t791.8\t100.00%\n2026-05-04\t895.3\t0\t0\t0\t0\t895.3\t0\t895.3\t100.00%\n2026-05-05\t623.21\t0\t0\t0\t0\t623.21\t0\t623.21\t100.00%\n2026-05-06\t160.28\t0\t0\t0\t0\t160.28\t0\t160.28\t100.00%\n2026-05-07\t163.94\t0\t0\t0\t0\t163.94\t0\t163.94\t100.00%\n2026-05-08\t182.81\t0\t0\t0\t0\t182.81\t0\t182.81\t100.00%\n2026-05-09\t182.81\t0\t0\t0\t0\t182.81\t0\t182.81\t100.00%\n2026-05-10\t302.59\t0\t0\t0\t0\t302.59\t0\t302.59\t100.00%\n2026-05-11\t327.88\t0\t0\t0\t0\t327.88\t0\t327.88\t100.00%\n2026-05-12\t497.7\t0\t0\t0\t0\t497.7\t0\t497.7\t100.00%\n2026-05-13\t819.13\t0\t0\t0\t0\t819.13\t0\t819.13\t100.00%\n2026-05-14\t505.82\t0\t0\t0\t0\t505.82\t0\t505.82\t100.00%\n2026-05-15\t249.52\t0\t0\t0\t0\t249.52\t0\t249.52\t100.00%\n2026-05-16\t1262.15\t0\t0\t0\t0\t1262.15\t0\t1262.15\t100.00%\n2026-05-17\t595.18\t0\t0\t0\t0\t595.18\t0\t595.18\t100.00%\n2026-05-18\t510.93\t0\t0\t0\t0\t510.93\t0\t510.93\t100.00%\n2026-05-19\t508.29\t0\t0\t0\t0\t508.29\t0\t508.29\t100.00%\n第 1-20 条/总共 32 条\n1\n2\n20 条/页\n全部会话\n携程民宿-【M335275070】\n咨询中\n途家 \n顶层套房（浴缸巨幕电竞麻将）\n房:加了\n携程民宿-【M566739056】\n咨询中\n途家 \n总裁套间（桑拿浴缸露台电竞麻将）\n房:已办理退房\n携程民宿-【_WECHAT349】\n咨询中\n途家 \n总裁套间（桑拿浴缸露台电竞麻将）\nCqBv9667\n咨询中\n途家 \n房:不客气哈~\n携程民宿-【M500370348】\n咨询中\n途家 \n总裁套间（桑拿浴缸露台电竞麻将）\n房:是的 楼顶\n去哪民宿-【dukx6737】\n咨询中\n途家 02.03-02.05（2晚）\n顶层套房（浴缸巨幕电竞麻将）\n房:您留个绿色号加您\n去哪民宿-【去哪儿用户】\n咨询中\n途家 02.19-02.21（2晚）\n总裁套间（桑拿浴缸露台电竞麻将）\n房:亲 有的\n携程民宿-【M614718025】\n咨询中\n途家 \n顶层套房（浴缸巨幕电竞麻将）\n房:什么时间段呢几号到几…\nEBCU1529\n咨询中\n途家 01.21-01.22（1晚）\n顶层套房（浴缸巨幕电竞麻将）\n房:要 会给卡 也可以客…\nCsDy6465\n咨询中\n途家 01.23-01.24（1晚）\n总裁套间（桑拿浴缸露台电竞麻将）\n房:您好平台上发送不了视…\n去哪民宿-【owen9629】\n咨询中\n途家 01.19-01.20（1晚）\n总裁套间（桑拿浴缸露台电竞麻将）\n房:是cut000吗 或…\n携程民宿-【M127640447】\n咨询中"
+}

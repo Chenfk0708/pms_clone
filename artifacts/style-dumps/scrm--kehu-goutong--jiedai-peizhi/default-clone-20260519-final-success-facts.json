@@ -1,0 +1,29 @@
+{
+  "slug": "default-clone-20260519-final-success",
+  "url": "http://127.0.0.1:4307/scrm/wechatService/receptionConfig",
+  "diagnostics": {
+    "dataset": {
+      "provider": "mock",
+      "responseState": "success",
+      "requestGroup": "",
+      "requestStatus": "",
+      "requestKeyword": ""
+    },
+    "feedback": "",
+    "error": "",
+    "lastRequest": {
+      "endpoint": "/scrm/wechatService/receptionConfig/dashboard",
+      "provider": "mock",
+      "state": "success",
+      "traceId": "mock-scrm--kehu-goutong--jiedai-peizhi-dashboard-001",
+      "request": {
+        "storeId": "1796067693589061634",
+        "staffGroup": "",
+        "configStatus": "",
+        "keyword": ""
+      }
+    }
+  },
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nSCRM\n客户管理\n会员中心\n增长获客\n营销推广\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\nSCRM / 客户沟通\n接待配置中心\n\n统一配置企业微信接待员工、欢迎语、客户备注和自动分配规则，让夜班与会员场景的接待动作可复用、可回溯。\n\n预览欢迎语\n立即开通\n接待分组\n全部分组\n规则状态\n全部规则\n规则关键词\n查询\n重置\n刷新\n保存配置\n导出配置\n接待员工\n12\n欢迎语模板\n6\n已启用规则\n2\n覆盖门店\n5\n接待规则列表\n2026-05-19T16:45:00+08:00\n新客入住欢迎规则\n已启用\n夜班接待组\n新订单支付成功后 3 分钟内自动发送\n\n覆盖夜间到店和晚到提醒，附带停车与门锁说明。\n\n高价值会员复购关怀\n已启用\nVIP接待组\n会员再次咨询或复购房型时发送专属权益说明\n\n自动补充会员权益、早餐与升级房型说明。\n\n退房后追评提醒\n草稿中\n复购关怀组\n离店后 2 小时触发追评与复购券提醒\n\n当前处于草稿态，待补充五一档期权益文案。\n\n停车与门锁说明兜底\n已停用\n夜班接待组\n房客在 22:00 后首次发起咨询时触发\n\n历史版本，已由新客入住欢迎规则合并承接。\n\n接待员工列表\n按当前条件同步接待分组与模板分工\n陈雨晴\n夜班接待组\n\n22:00 - 08:00 / 晚到、停车、门锁咨询\n\n负责夜班兜底接待和入住提醒。\n李之南\n夜班接待组\n\n20:00 - 02:00 / 订单确认、会话分流\n\n负责夜班会话分流与紧急问题升级。\n赵敏\nVIP接待组\n\n09:00 - 18:00 / 会员关怀、复购优惠\n\n负责高价值会员和私域复购咨询。\n顾嘉禾\n复购关怀组\n\n10:00 - 19:00 / 追评、优惠券跟进\n\n负责退房关怀和追评邀约。\n快捷入口\n按现有项目路由承接客服、员工和客户标签协作链路\n微信客服\n\n回到客服运营台查看当前会话与接待表现。\n\n企微员工列表\n\n查看员工状态、班次和接待分工。\n\n客户标签\n\n同步查看标签命中情况与欢迎语分流条件。",
+  "bodyLength": 932
+}

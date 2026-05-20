@@ -1,0 +1,209 @@
+{
+  "state": "default",
+  "url": "http://127.0.0.1:4308/psb/list",
+  "title": "pms_clone",
+  "bodyLength": 674,
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\nPSB公安对接\n版本号：v4.10.7\n公安登记\n\n入住客人登记的信息同步到当地合法监管部门\n\n新 增\n公安登记数据已加载\n共 0 条登记记录\n登记系统/机构\n酒店旅业编码/ID\n类型\n商户名称\n关联门店\n关联房间数\n操作\n暂无数据\nprovider: mock | list: /account/roomPoliceSubmission/page/get | stores: /select/poi/page/get | rooms: /roomCategories/page/get | traceId: mock-zhihui-jiudian--zhizhu-yu-yingjian--psb-gongan-duijie-success-001\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+  "topNavActive": [
+    "智慧酒店"
+  ],
+  "sideNavActive": [
+    "PSB公安对接"
+  ],
+  "headers": [
+    "登记系统/机构",
+    "酒店旅业编码/ID",
+    "类型",
+    "商户名称",
+    "关联门店",
+    "关联房间数",
+    "操作"
+  ],
+  "visibleButtons": [
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "消息",
+      "className": "topbar-tool-button topbar-tool-button--message",
+      "text": "",
+      "rect": {
+        "x": 1048,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "收款",
+      "className": "topbar-tool-button topbar-tool-button--payment",
+      "text": "",
+      "rect": {
+        "x": 1076,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "接待",
+      "className": "topbar-tool-button topbar-tool-button--reception",
+      "text": "",
+      "rect": {
+        "x": 1104,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "门锁",
+      "className": "topbar-tool-button topbar-tool-button--key",
+      "text": "",
+      "rect": {
+        "x": 1132,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "客服",
+      "className": "topbar-tool-button topbar-tool-button--service",
+      "text": "",
+      "rect": {
+        "x": 1160,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "通知",
+      "className": "topbar-tool-button topbar-tool-button--notice",
+      "text": "",
+      "rect": {
+        "x": 1188,
+        "y": 16,
+        "width": 20,
+        "height": 20
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "用户菜单",
+      "className": "topbar-user-menu",
+      "text": "",
+      "rect": {
+        "x": 1216,
+        "y": 10,
+        "width": 56,
+        "height": 32
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": null,
+      "className": "sidebar-group-title",
+      "text": "智住管理",
+      "rect": {
+        "x": 0,
+        "y": 64,
+        "width": 155,
+        "height": 44
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": null,
+      "className": "sidebar-group-title",
+      "text": "智能硬件",
+      "rect": {
+        "x": 0,
+        "y": 114,
+        "width": 155,
+        "height": 44
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": null,
+      "className": "sidebar-group-title is-active",
+      "text": "公安对接",
+      "rect": {
+        "x": 0,
+        "y": 164,
+        "width": 155,
+        "height": 44
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": null,
+      "className": "psb-primary-button",
+      "text": "新 增",
+      "rect": {
+        "x": 1192,
+        "y": 103,
+        "width": 64,
+        "height": 28
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "更新会话列表",
+      "className": "",
+      "text": "↻",
+      "rect": {
+        "x": 1211,
+        "y": 271,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": "收起会话",
+      "className": "",
+      "text": "收起",
+      "rect": {
+        "x": 1237,
+        "y": 271,
+        "width": 22,
+        "height": 22
+      }
+    },
+    {
+      "tag": "button",
+      "role": null,
+      "ariaLabel": null,
+      "className": "chat-dock__collapse",
+      "text": "收起",
+      "rect": {
+        "x": 1190,
+        "y": 678,
+        "width": 80,
+        "height": 32
+      }
+    }
+  ],
+  "dialogs": [],
+  "inputs": [],
+  "interactions": []
+}

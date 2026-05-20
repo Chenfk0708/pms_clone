@@ -1,0 +1,50 @@
+{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519110602",
+  "url": "http://127.0.0.1:4188/statistics/shift/record?mockState=error",
+  "hiddenServiceContract": "",
+  "matchedContracts": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4188/statistics/shift/record?mockState=error",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-BNr4d8AG.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-DyOfm_ld.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    }
+  ]
+}

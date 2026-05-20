@@ -1,0 +1,29 @@
+{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519T0530.942",
+  "facts": {
+    "state": "error",
+    "url": "http://127.0.0.1:4196/statistics/stay",
+    "title": "pms_clone",
+    "bodyLength": 517,
+    "bodyTextSample": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 统计报表 统计概览 收入报表 销况报表 利润报表 综合月报 收支明细表 结算表 预售券数据 交接班 收入报表 开始日期 结束日期 房型 请选择 渠道 请选择 房型分组 请选择 重 置 查 询 导出 说明 收起 收入报表加载失败 收入报表加载失败，请稍后重试 重新加载 日期 房费(减佣) 佣金 房费(含佣) 其他消费 订单总收入 记一笔收入 总营收(含佣) 总营收(减佣) 操作 暂无数据 全部会话 ↻ 收起 携程民宿-【M335275070】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 加了 携程民宿-【M566739056】 咨询中 途家总裁套间（桦拿淞缇露台电竞麻将） 我 已办理退房 去哪民宿-【去哪儿用户】 咨询中 途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将） 我 人 有的 携程民宿-【M614718025】 咨询中 途家顶层套房（淞缇巨幕电竞麻将） 我 什么时间段呢几号到几... 收起",
+    "hasIncomeReport": false,
+    "hasDialog": false,
+    "componentScreenshots": [
+      {
+        "selector": ".income-report-query",
+        "outputPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--tongji-baobiao--shouru-baobiao\\error-clone-20260519T0530.942-component-filters.png"
+      },
+      {
+        "selector": ".income-report-table-wrap",
+        "outputPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\baobiao--tongji-baobiao--shouru-baobiao\\error-clone-20260519T0530.942-component-table.png"
+      }
+    ],
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "dpr": 1
+    }
+  }
+}

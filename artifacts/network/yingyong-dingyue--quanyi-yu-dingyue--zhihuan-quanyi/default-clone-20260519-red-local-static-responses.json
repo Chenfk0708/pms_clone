@@ -1,0 +1,236 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-red-local-static",
+  "url": "http://127.0.0.1:4318/version/displacementBenefit",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4318/version/displacementBenefit",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4318/@vite/client",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/@react-refresh",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/main.tsx?t=1779191329102",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/vite/dist/client/env.mjs",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/index.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/App.tsx?t=1779191329102",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/components/AppShell.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ExpendSettingPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ImSettingPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/IncomeReportPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/TopNavFloor.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/OrderLedgerPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/data/discovery.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/data/mock.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/session.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/components/ChatDock.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ShiftRecordPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/expendSetting.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ExpendSettingPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/imSetting.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ImSettingPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/IncomeReportPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/incomeReport.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/OrderLedgerPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/orderLedger.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ShiftSettingPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ShiftRecordPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/shiftRecord.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/pages/ShiftSettingPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/src/services/shiftSetting.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4318/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

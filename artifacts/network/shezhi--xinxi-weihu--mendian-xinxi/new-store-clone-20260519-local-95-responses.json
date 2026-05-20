@@ -1,0 +1,148 @@
+{
+  "mode": "clone",
+  "state": "new-store",
+  "stamp": "20260519-local-95",
+  "url": "http://127.0.0.1:4311/InformationMaintenance/campInfo",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4311/InformationMaintenance/campInfo",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4311/main.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@vite/client",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react.js?v=22bed444",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@react-refresh",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react-dom_client.js?v=89983f8a",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/components/AppShell.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react-router-dom.js?v=fbc799c5",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TopNavFloor.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/index.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/CampInfoPage.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/client/env.mjs",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=22bed444",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react-BejDdLFV.js?v=6491bb1d",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/data/discovery.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/.vite/deps/react-dom.js?v=22bed444",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/services/session.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/data/mock.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/CampInfoPage.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4311/@fs/C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/services/campInfo.ts",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    }
+  ]
+}

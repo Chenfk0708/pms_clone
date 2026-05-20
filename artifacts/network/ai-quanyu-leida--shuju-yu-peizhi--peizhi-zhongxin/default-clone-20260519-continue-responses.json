@@ -1,0 +1,32 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-continue",
+  "url": "http://127.0.0.1:43421/channels/globalRadar/globalSetting",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43421/channels/globalRadar/globalSetting",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "url": "http://127.0.0.1:43421/assets/index-VWGoS0ll.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:43421/assets/index-r_SMEiww.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "url": "http://127.0.0.1:43421/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other"
+    }
+  ]
+}

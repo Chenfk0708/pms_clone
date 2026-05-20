@@ -1,0 +1,16 @@
+{
+  "title": "API keys Harness",
+  "url": "http://127.0.0.1:4306/CompanySetting/Apikeys",
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\nAPI keys\n\n此API keys用于Locals AI使用，请妥善保存。不要与他人共享你的 API key，或将其暴露在浏览器中。\n\n查看企业信息\n暂未生成 API keys\n\n暂未生成路客云API keys，点击下方按钮获取API Keys\n\n获取API keys\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途",
+  "diagnostics": {
+    "provider": "mock",
+    "action": "get",
+    "state": "empty",
+    "endpoint": "https://hudson-prod.localhome.cn/user/secret/get",
+    "requestBody": {
+      "campId": "1796067693589061634"
+    },
+    "traceId": "mock-shezhi--qiye-shezhi--api-keys-get-empty-001",
+    "timestamp": "2026-05-19T10:00:00+08:00"
+  }
+}

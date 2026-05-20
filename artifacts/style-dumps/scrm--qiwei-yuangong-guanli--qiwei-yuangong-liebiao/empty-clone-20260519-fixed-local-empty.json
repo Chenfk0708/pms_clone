@@ -1,0 +1,671 @@
+{
+  "side": "clone",
+  "mode": "clone",
+  "state": "empty",
+  "stamp": "20260519-fixed-local-empty",
+  "finalUrl": "http://127.0.0.1:4175/customer/staffList",
+  "states": {
+    "default": {
+      "url": "http://127.0.0.1:4175/customer/staffList",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nSCRM\n客户管理\n会员中心\n增长获客\n营销推广\n客户沟通\n企微员工管理\n企微员工列表\n暂未配置企微员工管理订阅信息\n\n当前门店暂未配置企微员工管理订阅信息，请先前往订阅中心完成上架或续费。\n\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+      "contract": {
+        "provider": "mock",
+        "responseState": "empty",
+        "endpoint": "/customer/staffList/bootstrap",
+        "traceId": "mock-scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao-empty-001",
+        "timestamp": "2026-05-19T10:00:00+08:00",
+        "request": {
+          "campId": "1796067693589061634",
+          "scene": "subscription-gate",
+          "productCode": "scrm"
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--message",
+          "role": null,
+          "ariaLabel": "消息",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1208,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--payment",
+          "role": null,
+          "ariaLabel": "收款",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1236,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--reception",
+          "role": null,
+          "ariaLabel": "接待",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1264,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--key",
+          "role": null,
+          "ariaLabel": "门锁",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1292,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--service",
+          "role": null,
+          "ariaLabel": "客服",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1320,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-tool-button topbar-tool-button--notice",
+          "role": null,
+          "ariaLabel": "通知",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1348,
+            "y": 16,
+            "width": 20,
+            "height": 20
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "20px",
+            "height": "20px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(52, 57, 66)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(52, 57, 66)",
+            "borderRadius": "4px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "20px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "topbar-user-menu",
+          "role": null,
+          "ariaLabel": "用户菜单",
+          "placeholder": null,
+          "text": "",
+          "rect": {
+            "x": 1376,
+            "y": 10,
+            "width": 56,
+            "height": 32
+          },
+          "styles": {
+            "display": "flex",
+            "position": "static",
+            "width": "56px",
+            "height": "32px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(51, 57, 67)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(51, 57, 67)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "SCRM",
+          "rect": {
+            "x": 0,
+            "y": 64,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "客户管理",
+          "rect": {
+            "x": 0,
+            "y": 114,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "会员中心",
+          "rect": {
+            "x": 0,
+            "y": 164,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "增长获客",
+          "rect": {
+            "x": 0,
+            "y": 214,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "营销推广",
+          "rect": {
+            "x": 0,
+            "y": 264,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "客户沟通",
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(31, 41, 55)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(31, 41, 55)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "sidebar-group-title is-active",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "企微员工管理",
+          "rect": {
+            "x": 0,
+            "y": 364,
+            "width": 155,
+            "height": 44
+          },
+          "styles": {
+            "display": "grid",
+            "position": "static",
+            "width": "155px",
+            "height": "44px",
+            "padding": "0px 14px 0px 18px",
+            "margin": "0px",
+            "fontSize": "15px",
+            "fontWeight": "400",
+            "lineHeight": "22.5px",
+            "color": "rgb(70, 100, 244)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(70, 100, 244)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "26px 81px 16px"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "刷新会话",
+          "placeholder": null,
+          "text": "↻",
+          "rect": {
+            "x": 1371,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "role": null,
+          "ariaLabel": "收起会话",
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1397,
+            "y": 451,
+            "width": 22,
+            "height": 22
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "22px",
+            "height": "22px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(75, 85, 99)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgb(75, 85, 99)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "button",
+          "className": "chat-dock__collapse",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "收起",
+          "rect": {
+            "x": 1350,
+            "y": 858,
+            "width": 80,
+            "height": 32
+          },
+          "styles": {
+            "display": "block",
+            "position": "fixed",
+            "width": "80px",
+            "height": "32px",
+            "padding": "1px 6px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgb(255, 255, 255)",
+            "backgroundColor": "rgb(77, 101, 246)",
+            "border": "0px none rgb(255, 255, 255)",
+            "borderRadius": "4px 4px 0px 0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "none"
+          }
+        }
+      ],
+      "inputs": [],
+      "buttons": [
+        "消息",
+        "收款",
+        "接待",
+        "门锁",
+        "客服",
+        "通知",
+        "用户菜单",
+        "SCRM",
+        "客户管理",
+        "会员中心",
+        "增长获客",
+        "营销推广",
+        "客户沟通",
+        "企微员工管理",
+        "↻",
+        "收起",
+        "收起"
+      ],
+      "tableHeaders": [],
+      "keyElements": [
+        {
+          "tag": "main",
+          "className": "page-content",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "暂未配置企微员工管理订阅信息 当前门店暂未配置企微员工管理订阅信息，请先前往订阅中心完成上架或续费。",
+          "rect": {
+            "x": 156,
+            "y": 52,
+            "width": 1284,
+            "height": 848
+          },
+          "styles": {
+            "display": "block",
+            "position": "static",
+            "width": "1284px",
+            "height": "848px",
+            "padding": "8px 8px 0px",
+            "margin": "0px",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px",
+            "color": "rgb(36, 50, 74)",
+            "backgroundColor": "rgb(244, 247, 251)",
+            "border": "0px none rgb(36, 50, 74)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "hidden",
+            "gridTemplateColumns": "none"
+          }
+        },
+        {
+          "tag": "div",
+          "className": "staff-list-page",
+          "role": null,
+          "ariaLabel": null,
+          "placeholder": null,
+          "text": "暂未配置企微员工管理订阅信息 当前门店暂未配置企微员工管理订阅信息，请先前往订阅中心完成上架或续费。",
+          "rect": {
+            "x": 164,
+            "y": 60,
+            "width": 1268,
+            "height": 840
+          },
+          "styles": {
+            "display": "grid",
+            "position": "relative",
+            "width": "1268px",
+            "height": "840px",
+            "padding": "0px",
+            "margin": "0px",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "21px",
+            "color": "rgba(0, 0, 0, 0.85)",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "border": "0px none rgba(0, 0, 0, 0.85)",
+            "borderRadius": "0px",
+            "boxShadow": "none",
+            "overflow": "visible",
+            "gridTemplateColumns": "1268px"
+          }
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\empty-clone-20260519-fixed-local-empty.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\full-empty-clone-20260519-fixed-local-empty.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\empty-clone-20260519-fixed-local-empty.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\empty-clone-20260519-fixed-local-empty.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao\\empty-clone-20260519-fixed-local-empty.json"
+  }
+}

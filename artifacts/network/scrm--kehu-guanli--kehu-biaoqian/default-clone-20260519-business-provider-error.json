@@ -1,0 +1,1301 @@
+{
+  "capturedAt": "20260519-business-provider-error",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43135/customer/tag?customerTagMockState=error",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/@vite/client",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/main.tsx?t=1779158718409",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/@react-refresh",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/index.css?t=1779100710015",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/App.tsx?t=1779158718409",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/components/AppShell.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/BrandWebsitePage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanStatisticsPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanStaffPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanTaskPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanLogPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CompanyInfoPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/GlobalSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomChannelPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CompanyQualificationPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseDaysPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseStatusLogsPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CampInfoPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/InformationOverviewPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/DistributionListPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/StatisticsDistributionOrderPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/DistributionOrderPage.tsx?t=1779090510046",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerTagPage.tsx?t=1779158515253",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerMarketingPage.tsx?t=1779158409119",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseMonthsPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/StaffListPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/FullMarketingPage.tsx?t=1779158666948",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerAddBatchPage.tsx?t=1779158588858",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberEquityPage.tsx?t=1779090336470",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberPointsPage.tsx?t=1779090392723",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/OtaPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/NotificationSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ImSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PresaleOrderPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PicturesVideosPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/OrdersPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/DistributionDisplacementPage.tsx?t=1779158713754",
+      "method": "GET",
+      "status": 404,
+      "resourceType": "script",
+      "contentType": "",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PermissionSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MyBenefitPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ApplicationPaymentPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PresaleGoodsPage.tsx?t=1779102369772",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HotelPackageOrderPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/LocalsMallPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/OrderLedgerPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ProfitReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PrivatePage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/LedgerEntryPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PriceLogPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PresaleSalesReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PresaleCouponMallReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/IncomeReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PricePage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ComprehensiveMonthlyReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/RoomTypeInfoPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ShiftRecordPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PrintSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SalesReportPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/TotalLedgerPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/StatementOrderPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ShiftSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/VersionSubscriptionPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/RoomSituationPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SubscriptionDisplacementBenefitPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ScrmGeneralPage.tsx?t=1779158409117",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ScrmMemberLevelPage.tsx?t=1779090629727",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ReceptionConfigPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ScrmSidebarPreviewPage.tsx?t=1779090524298",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/WechatServicePage.tsx?t=1779090624630",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SocialPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/AiRadarPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ApiKeysPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CalendarRoomPage.tsx?t=1779102126005",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CardVerificationPage.tsx?t=1779101402736",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/WorkspacePage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartHotelSettingsPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartHardwareMallPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartIdCardReaderPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PsbLogPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HotelProductPage.tsx?t=1779102507200",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ExpendSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartHotelGlobalSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/FinanceSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/TopNavFloor.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CouponPage.tsx?t=1779090600907",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SortSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/WriteExpendSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/AutoStrategySettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/data/discovery.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/session.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanStatisticsPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/BrandWebsitePage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/components/ChatDock.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanStaffPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/data/mock.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanTaskPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/cleanSetting.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanSettingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/GlobalSettingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CompanyInfoPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomChannelPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/cleanStaff.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CompanyQualificationPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/cleanStatistics.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/cleanTask.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/cleanLog.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartDoorLockPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmsSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CleanLogPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PaymentSettingPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/brandWebsite.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/SmartSelfCheckinPage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PsbPolicePage.tsx",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/houseDays.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseDaysPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/houseStatusLogs.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseStatusLogsPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CampInfoPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/InformationOverviewPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerListPage.tsx?t=1779158718409",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/distributionList.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/DistributionOrderPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/StatisticsDistributionOrderPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/DistributionListPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/distributionOrder.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/customerTag.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/customerMarketing.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerMarketingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/StaffListPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/HouseMonthsPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/houseMonths.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerTagPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/FullMarketingPage.css?t=1779158666948",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/fullMarketing.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/CustomerAddBatchPage.css?t=1779090321615",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/customerAddBatch.ts?t=1779158409115",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberPointsPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberEquityPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/memberEquity.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/MemberSettingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/memberPoints.ts?t=1779090385561",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/ota.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/OtaPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/NotificationSettingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/ImSettingPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/presaleOrder.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PresaleOrderPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/PicturesVideosPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/houseOrders.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/pages/OrdersPage.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/src/services/longRentalOrders.ts",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "postData": null
+    },
+    {
+      "url": "http://127.0.0.1:43135/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "postData": null
+    }
+  ]
+}

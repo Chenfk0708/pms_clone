@@ -1,0 +1,75 @@
+{
+  "mode": "clone",
+  "state": "primary-action",
+  "stamp": "20260519134344",
+  "facts": {
+    "url": "http://127.0.0.1:4173/setting/balanceAndTemplate",
+    "title": "pms_clone",
+    "bodyLength": 0,
+    "bodyTextSample": "",
+    "isLoginBlocked": false,
+    "hasBusinessText": false,
+    "interactions": [
+      {
+        "action": "click-primary-action",
+        "clicked": null
+      }
+    ],
+    "componentScreenshots": [],
+    "controls": [],
+    "buttons": [],
+    "inputs": [],
+    "tableHeaders": [],
+    "tableRows": [],
+    "dialogs": [],
+    "dropdowns": [],
+    "options": [],
+    "keyElements": [],
+    "visibleElements": [
+      {
+        "tag": "vite-error-overlay",
+        "className": "",
+        "id": null,
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "width": "1440px",
+          "height": "900px",
+          "minHeight": "0px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none",
+          "alignItems": "normal",
+          "justifyContent": "normal",
+          "gap": "normal"
+        }
+      }
+    ],
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    }
+  }
+}

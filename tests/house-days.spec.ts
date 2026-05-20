@@ -21,6 +21,52 @@ test('/houseManage/days loads through the explicit mock provider', async ({ page
   await expect(page.getByRole('status', { name: '日房态操作反馈' })).toContainText('日房态已刷新')
 })
 
+test('/houseManage/days filters the left room list when a right-side status is checked', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  const roomCards = page.locator('.day-room-card')
+  const arrivalGroup = page.locator('.day-filter-group').first()
+  const roomStatusGroup = page.locator('.day-filter-group').nth(1)
+
+  await expect(roomCards).toHaveCount(4)
+  await expect(arrivalGroup).toContainText('预抵1')
+  await expect(arrivalGroup).toContainText('预离2')
+  await expect(arrivalGroup).toContainText('在住2')
+  await expect(roomStatusGroup).toContainText('空净2')
+  await expect(roomStatusGroup).toContainText('住净1')
+  await expect(roomStatusGroup).toContainText('住脏1')
+
+  const firstStatusCheckbox = arrivalGroup.locator('input[type="checkbox"]').first()
+  await firstStatusCheckbox.check()
+
+  await expect(page.locator('.day-feedback')).toBeHidden()
+  await expect(page.locator('.day-filter-tags')).toBeHidden()
+  await expect(roomCards).toHaveCount(1)
+  await expect(arrivalGroup).toContainText('预抵1')
+  await expect(arrivalGroup).toContainText('预离2')
+  await expect(arrivalGroup).toContainText('在住2')
+  await expect(roomStatusGroup).toContainText('空净2')
+  await expect(roomStatusGroup).toContainText('住净1')
+  await expect(roomStatusGroup).toContainText('住脏1')
+})
+
+test('/houseManage/days reuses the month toolbar shell without month-only filters', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  const toolbar = page.locator('.day-toolbar.month-toolbar')
+  await expect(toolbar).toBeVisible()
+  await expect(toolbar.locator('.month-store-control')).toHaveCount(1)
+  await expect(toolbar.locator('.month-store-switch')).toHaveCount(1)
+  await expect(toolbar.locator('.month-store-chip')).toBeVisible()
+  await expect(toolbar.locator('.month-settings')).toHaveCount(1)
+  await expect(toolbar.locator('.month-batch-action')).toHaveCount(2)
+  await expect(toolbar.locator('.month-refresh-action')).toHaveCount(2)
+  await expect(toolbar.locator('.month-filter-menu')).toHaveCount(0)
+  await expect(toolbar.locator('.month-filter-search-wrap')).toHaveCount(0)
+})
+
 test('/houseManage/days exposes mock provider failures and retry', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/houseManage/days?houseDaysMockState=error'))

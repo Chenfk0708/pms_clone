@@ -1,0 +1,50 @@
+{
+  "mode": "clone",
+  "state": "settings",
+  "stamp": "20260519-settingsfix",
+  "url": "http://127.0.0.1:4188/statistics/shift/record",
+  "hiddenServiceContract": "",
+  "matchedContracts": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4188/statistics/shift/record",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-0bmw1Fb_.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-Cr6Vn_7P.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    }
+  ]
+}

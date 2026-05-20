@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260520-preview-audit",
+  "url": "http://127.0.0.1:4315/psb/list",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4315/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4315/assets/index-Bdvhue3A.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4315/assets/index-BQ2gFKzM.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4315/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

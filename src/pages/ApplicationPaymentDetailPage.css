@@ -1,0 +1,282 @@
+.page-content:has(.application-payment-detail-page) {
+  padding: 8px 8px 0;
+  background: #f3f6fb;
+}
+
+.page-content:has(.application-payment-detail-page) > .page-header {
+  display: none;
+}
+
+.application-payment-detail-page {
+  display: grid;
+  grid-template-columns: 156px minmax(0, 1fr);
+  min-height: calc(100vh - 58px);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.application-payment-detail-sidebar {
+  position: relative;
+  min-height: calc(100vh - 58px);
+  border-right: 1px solid #e9edf5;
+  background: #fff;
+}
+
+.application-payment-detail-sidebar__root {
+  padding: 17px 20px 13px;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.application-payment-detail-sidebar nav {
+  display: grid;
+  gap: 4px;
+  padding: 0 10px;
+}
+
+.application-payment-detail-link {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  color: rgba(0, 0, 0, 0.74);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.application-payment-detail-link.is-active {
+  background: #4d65f6;
+  color: #fff;
+  font-weight: 500;
+}
+
+.application-payment-detail-build {
+  position: absolute;
+  left: 32px;
+  bottom: 8px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+}
+
+.application-payment-detail-main {
+  min-width: 0;
+  padding: 12px 12px 48px;
+  background: #fff;
+}
+
+.application-payment-detail-contract {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: pre-wrap;
+}
+
+.application-payment-detail-feedback {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: #f5f8ff;
+  color: #3750d6;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.application-payment-detail-state {
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  background: #fafcff;
+  padding: 24px;
+}
+
+.application-payment-detail-state strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.application-payment-detail-state p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.7;
+}
+
+.application-payment-detail-state--error button {
+  margin-top: 16px;
+  height: 36px;
+  border: 1px solid #4d65f6;
+  border-radius: 6px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.application-payment-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+}
+
+.application-payment-detail-product {
+  display: grid;
+  gap: 16px;
+}
+
+.application-payment-detail-hero,
+.application-payment-detail-card,
+.application-payment-detail-purchase {
+  border: 1px solid #e8ecf3;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.application-payment-detail-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.application-payment-detail-hero h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.application-payment-detail-hero p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.8;
+}
+
+.application-payment-detail-icon {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border-radius: 18px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.application-payment-detail-icon--douyin {
+  background: #101010;
+  color: #fff;
+}
+
+.application-payment-detail-icon--price,
+.application-payment-detail-icon--radar,
+.application-payment-detail-icon--clean {
+  background: #edf3ff;
+  color: #4d65f6;
+  border: 1px solid #dce5ff;
+}
+
+.application-payment-detail-icon--scrm {
+  background: #eaf7ef;
+  color: #14a35b;
+  border: 1px solid #d2eddc;
+}
+
+.application-payment-detail-card {
+  padding: 20px 24px;
+}
+
+.application-payment-detail-card h2,
+.application-payment-detail-purchase h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.application-payment-detail-summary strong {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.application-payment-detail-summary p {
+  margin: 0 0 10px;
+  color: #475467;
+  line-height: 1.8;
+}
+
+.application-payment-detail-purchase {
+  padding: 20px 24px;
+}
+
+.application-payment-detail-row {
+  display: grid;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.application-payment-detail-row span {
+  color: #667085;
+  font-size: 14px;
+}
+
+.application-payment-detail-row strong {
+  font-size: 28px;
+  color: #101828;
+}
+
+.application-payment-detail-row--duration strong {
+  font-size: 18px;
+}
+
+.application-payment-detail-row em {
+  color: #98a2b3;
+  font-style: normal;
+}
+
+.application-payment-detail-agreement {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 20px;
+  color: #344054;
+  line-height: 1.7;
+}
+
+.application-payment-detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.application-payment-detail-actions button {
+  flex: 1;
+  height: 42px;
+  border: 1px solid #4d65f6;
+  border-radius: 8px;
+  background: #4d65f6;
+  color: #fff;
+  font-size: 15px;
+}
+
+.application-payment-detail-actions .is-secondary {
+  background: #fff;
+  color: #4d65f6;
+}
+
+.application-payment-detail-actions button:disabled {
+  border-color: #d0d5dd;
+  background: #f2f4f7;
+  color: #98a2b3;
+}
+
+@media (max-width: 1100px) {
+  .application-payment-detail-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .application-payment-detail-sidebar {
+    display: none;
+  }
+
+  .application-payment-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "capturedAt": "20260519-95-local",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:42173/customer/list",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:42173/assets/index-DnsJ2XGI.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:42173/assets/index-BPZrE06k.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:42173/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

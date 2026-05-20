@@ -1,0 +1,35 @@
+{
+  "checkpoints": {
+    "initialCount": 6,
+    "refreshText": {
+      "ok": false,
+      "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('????', { exact: true })\u001b[22m\n",
+      "delta": []
+    },
+    "followedText": {
+      "ok": false,
+      "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('?????', { exact: true })\u001b[22m\n",
+      "delta": []
+    },
+    "firstSwitch": {
+      "ok": true,
+      "error": null,
+      "delta": [
+        {
+          "phase": "request",
+          "t": 33826,
+          "url": "https://hudson-prod.localhome.cn/userAuthority/notification/get",
+          "method": "POST",
+          "postData": "{}"
+        },
+        {
+          "phase": "response",
+          "t": 33975,
+          "url": "https://hudson-prod.localhome.cn/userAuthority/notification/get",
+          "status": 200,
+          "body": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"modules\":[{\"moduleName\":\"钉钉通知\",\"isSelected\":null,\"authorityId\":null,\"authorityName\":null,\"remark\":null,\"seq\":9999,\"isSensitive\":0,\"children\":[{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"856\",\"authorityName\":\"订单通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"857\",\"authorityName\":\"人员变更通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"858\",\"authorityName\":\"账号过期通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]}]},{\"moduleName\":\"企微通知\",\"isSelected\":null,\"authorityId\":null,\"authorityName\":null,\"remark\":null,\"seq\":9999,\"isSensitive\":0,\"children\":[{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"1190\",\"authorityName\":\"订单通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"1191\",\"authorityName\":\"人员变更通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":1,\"authorityId\":\"1192\",\"authorityName\":\"账号过期通知\",\"remark\":null,\"seq\":null,\"isSensitive\":null,\"children\":[]}]},{\"moduleName\":\"PC\\\\APP推送\",\"isSelected\":null,\"authorityId\":null,\"authorityName\":null,\"remark\":null,\"seq\":1,\"isSensitive\":0,\"children\":[{\"moduleName\":null,\"isSelected\":0,\"authorityId\":\"1624\",\"authorityName\":\"订单通知\",\"remark\":\"新订单/取消订单/待接单/退款申请等提醒；\",\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":0,\"authorityId\":\"1625\",\"authorityName\":\"门店预警\",\"remark\":\"渠道账号过期/渠道账号即将过期/退款失败/渠道房源关联异常/房态房价同步渠道失败/重单等提醒；\",\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":0,\"authorityId\":\"1626\",\"authorityName\":\"门店动态\",\"remark\":\"人员变更/自定义设置变更/交接班等提醒\",\"seq\":null,\"isSensitive\":null,\"children\":[]},{\"moduleName\":null,\"isSelected\":0,\"authorityId\":\"1627\",\"authorityName\":\"IM消息通知\",\"remark\":\"有新IM会话消息时，有小红点和系统弹框提醒\",\"seq\":null,\"isSensitive\":null,\"children\":[]}]},{\"moduleName\":\"公众号推送\",\"isSelecte"
+        }
+      ]
+    }
+  }
+}

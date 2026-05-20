@@ -1,0 +1,32 @@
+{
+  "targetUrl": "https://minsubao.localhome.cn/CompanySetting/CompanyInfo",
+  "openedAt": "2026-05-19T11:28:44.960Z",
+  "default": {
+    "editButtonCount": 5,
+    "permissionVisible": false,
+    "memberVisible": false
+  },
+  "edit": {
+    "clicked": true,
+    "url": "https://minsubao.localhome.cn/CompanySetting/CompanyInfo",
+    "cancelVisible": false,
+    "saveVisible": false,
+    "uploadVisible": false,
+    "inputCount": 11,
+    "textareaCount": 4,
+    "selectCount": 0
+  },
+  "routes": {
+    "permission": {
+      "clicked": false,
+      "url": "https://minsubao.localhome.cn/CompanySetting/CompanyInfo",
+      "matched": false
+    },
+    "member": {
+      "clicked": false,
+      "url": "https://minsubao.localhome.cn/CompanySetting/CompanyInfo",
+      "matched": false
+    }
+  },
+  "defaultDomPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\shezhi--qiye-shezhi--qiye-xinxi\\interaction-target-20260519-112830-page.html"
+}

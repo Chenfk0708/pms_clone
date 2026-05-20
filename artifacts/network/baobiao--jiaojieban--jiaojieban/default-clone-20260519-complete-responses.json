@@ -1,0 +1,50 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-complete",
+  "url": "http://127.0.0.1:4188/statistics/shift/record",
+  "hiddenServiceContract": "provider=mock;listPath=/shiftWorkReport/page/get;storePath=/select/poi/page/get;employeePath=/campRoles/get;campId=1796067693589061634;startDate=all;endDate=all;poiId=all;handoverUserId=all;receiverUserId=all;pageSize=20;total=3;storeCount=2;employeeCount=3;traceId=mock-baobiao--jiaojieban--jiaojieban-success-001",
+  "matchedContracts": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4188/statistics/shift/record",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-BcwT-nU0.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/assets/index-ChRF7X-E.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    },
+    {
+      "url": "http://127.0.0.1:4188/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml",
+      "requestBody": null,
+      "responseSummary": null,
+      "responseBodySample": ""
+    }
+  ]
+}

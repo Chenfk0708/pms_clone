@@ -1,0 +1,106 @@
+[2m21:42:29[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SubscriptionDisplacementBenefitPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:28:52
+[33m  26 |  import { SmartHotelSettingsPage } from "./pages/SmartHotelSettingsPage";
+  27 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  28 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+     |                                                       ^
+  29 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  30 |  import { WriteExpendSettingPage } from "./pages/WriteExpendSettingPage";[39m
+[2m21:42:29[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SubscriptionDisplacementBenefitPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:28:52
+[33m  26 |  import { SmartHotelSettingsPage } from "./pages/SmartHotelSettingsPage";
+  27 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  28 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+     |                                                       ^
+  29 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  30 |  import { WriteExpendSettingPage } from "./pages/WriteExpendSettingPage";[39m
+[2m21:42:29[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SubscriptionDisplacementBenefitPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:28:52
+[33m  26 |  import { SmartHotelSettingsPage } from "./pages/SmartHotelSettingsPage";
+  27 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  28 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+     |                                                       ^
+  29 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  30 |  import { WriteExpendSettingPage } from "./pages/WriteExpendSettingPage";[39m
+[2m21:43:39[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+[2m21:43:39[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+[2m21:43:50[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+[2m21:44:51[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+[2m21:45:53[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+[2m21:46:01[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Expected a semicolon or an implicit semicolon after a statement, but found none
+ -  in src/pages/SubscriptionDisplacementBenefitPage.tsx at 42..42
+ [38;5;240m │[0m 
+ [38;5;240m │[0m [38;5;115mHelp[0m: Try inserting a semicolon here
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SubscriptionDisplacementBenefitPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)

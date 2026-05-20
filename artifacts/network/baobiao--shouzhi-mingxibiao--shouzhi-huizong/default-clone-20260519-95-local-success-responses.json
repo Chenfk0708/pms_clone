@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-95-local-success",
+  "url": "http://127.0.0.1:43042/statistics/totalLedger",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43042/statistics/totalLedger",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43042/assets/index-_G3siDlc.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43042/assets/index-Du7crFjc.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43042/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

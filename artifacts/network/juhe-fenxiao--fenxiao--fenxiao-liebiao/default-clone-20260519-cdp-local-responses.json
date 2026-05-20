@@ -1,0 +1,1919 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-cdp-local",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:56030/channels/distribution/distributionSecond",
+      "method": "GET",
+      "type": "Document",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:56030/@vite/client",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/main.tsx?t=1779160450567",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/@react-refresh",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react-dom_client.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/index.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/App.tsx?t=1779160450567",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react-BejDdLFV.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/node_modules/.vite/deps/react-dom.js?v=fb86fc63",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/components/AppShell.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/BrandWebsitePage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanStatisticsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanStaffPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanTaskPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanLogPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CompanyInfoPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CompanyQualificationPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomChannelPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/GlobalSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseDaysPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseMonthsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseStatusLogsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CampInfoPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/InformationOverviewPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionListPage.tsx?t=1779160411745",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionDisplacementPage.tsx?t=1779160427351",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionOrderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StatisticsDistributionOrderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerMarketingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerListPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerTagPage.tsx?t=1779160278114",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerAddBatchPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StaffListPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/FullMarketingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberEquityPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberPointsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OtaPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/NotificationSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ImSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OrdersPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleOrderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PicturesVideosPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PermissionSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/RoomTypeInfoPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleGoodsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MyBenefitPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ApplicationPaymentPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HotelPackageOrderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleSalesReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PrivatePage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PriceLogPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PricePage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ComprehensiveMonthlyReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/IncomeReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/LedgerEntryPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/LocalsMallPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OrderLedgerPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ProfitReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleCouponMallReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/RoomSituationPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SalesReportPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ShiftRecordPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ShiftSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PrintSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StatementOrderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/TotalLedgerPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/VersionSubscriptionPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SubscriptionDisplacementBenefitPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmGeneralPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmMemberLevelPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmSidebarPreviewPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WechatServicePage.tsx?t=1779160450567",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ReceptionConfigPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SocialPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WorkspacePage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/AiRadarPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ApiKeysPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CalendarRoomPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CardVerificationPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CouponPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HotelProductPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHotelGlobalSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHotelSettingsPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartSelfCheckinPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHardwareMallPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartDoorLockPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartIdCardReaderPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PsbLogPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PsbPolicePage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ExpendSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/FinanceSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WriteExpendSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SortSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PaymentSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmsSettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/AutoStrategySettingPage.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/TopNavFloor.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/data/discovery.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/data/mock.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/components/ChatDock.tsx",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/session.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/brandWebsite.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/BrandWebsitePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cleanStatistics.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanStatisticsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cleanSetting.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cleanStaff.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanStaffPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cleanTask.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanTaskPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cleanLog.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CleanLogPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CompanyInfoPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CompanyQualificationPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomChannelPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/GlobalSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/houseStatusLogs.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseStatusLogsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/InformationOverviewPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/houseDays.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseDaysPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/houseMonths.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HouseMonthsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CampInfoPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/distributionList.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionListPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/distributionDisplacement.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionDisplacementPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/DistributionOrderPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StatisticsDistributionOrderPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/distributionOrder.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/customerMarketing.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerMarketingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/customerList.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerListPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/customerTag.ts?t=1779160278114",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerTagPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/customerAddBatch.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CustomerAddBatchPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/memberEquity.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberEquityPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/NotificationSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StaffListPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/memberPoints.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MemberPointsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/fullMarketing.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/FullMarketingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/ota.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OtaPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ImSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/houseOrders.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/longRentalOrders.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OrdersPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/presaleOrder.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleOrderPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PicturesVideosPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PermissionSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleSalesReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/RoomTypeInfoPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/presaleGoods.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleGoodsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/MyBenefitPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ApplicationPaymentPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/hotelPackageOrder.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/priceLogs.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PriceLogPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/privateChannel.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PrivatePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ComprehensiveMonthlyReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/channelPrice.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/centralPrice.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/otherPrice.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/priceBoard.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/priceComparison.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/retailPrice.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PricePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/LedgerEntryPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/LocalsMallPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/IncomeReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/OrderLedgerPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ProfitReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PresaleCouponMallReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/roomSituation.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PrintSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SalesReportPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ShiftRecordPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/StatementOrderPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ShiftSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/scrmSidebarPreview.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmSidebarPreviewPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/TotalLedgerPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/VersionSubscriptionPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SubscriptionDisplacementBenefitPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/scrmGeneral.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmGeneralPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/scrmMemberLevel.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ScrmMemberLevelPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/wechatService.ts?t=1779160436417",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WechatServicePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ReceptionConfigPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/workspace.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WorkspacePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/social.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SocialPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/calendarRoom.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CalendarRoomPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ApiKeysPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/cardVerification.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CardVerificationPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/coupon.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/CouponPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/services/hotelProduct.ts",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/HotelProductPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHotelGlobalSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHotelSettingsPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartSelfCheckinPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartHardwareMallPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartDoorLockPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/FinanceSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SortSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmartIdCardReaderPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PsbLogPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PsbPolicePage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/ExpendSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/WriteExpendSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/PaymentSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/SmsSettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/src/pages/AutoStrategySettingPage.css",
+      "method": "GET",
+      "type": "Script",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:56030/favicon.svg",
+      "method": "GET",
+      "type": "Other",
+      "status": "finished",
+      "statusCode": 200,
+      "mime": "image/svg+xml"
+    }
+  ]
+}

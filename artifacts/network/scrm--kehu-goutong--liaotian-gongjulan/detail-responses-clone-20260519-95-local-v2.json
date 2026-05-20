@@ -1,0 +1,35 @@
+{
+  "mode": "clone",
+  "stamp": "20260519-95-local-v2",
+  "url": "http://127.0.0.1:43322/scrm/sidebarPreview",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:43322/scrm/sidebarPreview",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:43322/assets/index-DnsJ2XGI.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:43322/assets/index-BPZrE06k.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:43322/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

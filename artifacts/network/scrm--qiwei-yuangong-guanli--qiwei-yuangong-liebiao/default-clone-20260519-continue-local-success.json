@@ -1,0 +1,86 @@
+{
+  "capturedAt": "20260519-continue-local-success",
+  "side": "clone",
+  "state": "default",
+  "diagnostics": null,
+  "forbiddenTermsFound": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/customer/staffList",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DKdFEbd6.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DQbnE9VY.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-scrm-logo.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-hero.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-auto.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-wechat.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-auto-v2.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-hero-v2.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "http://127.0.0.1:4173/scrm-assets/brand-promotion-scrm-wechat-v2.png",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "image",
+      "contentType": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "targetUrl": "https://minsubao.localhome.cn/CompanySetting/CompanyInfo",
+  "stamp": "20260519-113117",
+  "default": {
+    "headerPrimaryVisible": false,
+    "permissionVisible": false,
+    "memberVisible": false
+  },
+  "edit": {
+    "headerButtonCount": 2,
+    "cancelVisible": true,
+    "saveVisible": true,
+    "uploadVisible": true,
+    "inputCount": 4,
+    "textareaCount": 3,
+    "cascaderVisible": true
+  },
+  "routes": {
+    "permission": {
+      "url": "https://minsubao.localhome.cn/setting/role",
+      "matched": true
+    },
+    "member": {
+      "url": "https://minsubao.localhome.cn/setting/member",
+      "matched": true
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "error-clone-20260519-final-error",
+  "url": "http://127.0.0.1:4307/scrm/wechatService/receptionConfig?receptionConfigMockState=error",
+  "diagnostics": {
+    "dataset": {
+      "provider": "mock",
+      "responseState": "error",
+      "requestGroup": "",
+      "requestStatus": "",
+      "requestKeyword": ""
+    },
+    "feedback": "",
+    "error": "接待配置数据加载失败，请重试重试",
+    "lastRequest": {
+      "endpoint": "/scrm/wechatService/receptionConfig/dashboard",
+      "provider": "mock",
+      "state": "error",
+      "traceId": "mock-scrm--kehu-goutong--jiedai-peizhi-error-001",
+      "request": {
+        "storeId": "1796067693589061634",
+        "staffGroup": "",
+        "configStatus": "",
+        "keyword": ""
+      }
+    }
+  },
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nSCRM\n客户管理\n会员中心\n增长获客\n营销推广\n客户沟通\n聊天工具栏\n微信客服\n接待配置\n企微员工管理\nSCRM / 客户沟通\n接待配置中心\n\n统一配置企业微信接待员工、欢迎语、客户备注和自动分配规则，让夜班与会员场景的接待动作可复用、可回溯。\n\n预览欢迎语\n立即开通\n接待分组\n全部分组\n规则状态\n全部规则\n规则关键词\n查询\n重置\n刷新\n保存配置\n导出配置\n接待配置数据加载失败，请重试\n重试\n接待规则列表\n等待加载\n暂无接待规则\n接待员工列表\n按当前条件同步接待分组与模板分工\n当前筛选条件下暂无接待员工配置，请调整条件后重试。\n快捷入口\n按现有项目路由承接客服、员工和客户标签协作链路",
+  "bodyLength": 389
+}

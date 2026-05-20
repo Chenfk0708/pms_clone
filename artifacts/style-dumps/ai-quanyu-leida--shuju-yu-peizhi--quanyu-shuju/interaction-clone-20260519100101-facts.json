@@ -1,0 +1,388 @@
+{
+  "taskId": "ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju",
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260519100101",
+  "interactions": [
+    {
+      "action": "query",
+      "feedback": "已按当前条件刷新全域数据"
+    },
+    {
+      "action": "open-metric-dialog",
+      "ok": true
+    },
+    {
+      "action": "postpone-reminder",
+      "feedback": "已延后提醒并保留在今日待办"
+    },
+    {
+      "action": "open-room-dialog",
+      "ok": true
+    },
+    {
+      "action": "refresh-and-export",
+      "feedback": "全域数据导出任务已创建"
+    }
+  ],
+  "diagnostics": "{\"endpoint\":\"/globalRadar/export/create\",\"provider\":\"mock\",\"state\":\"success\",\"traceId\":\"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-export-001\",\"request\":{\"campId\":\"1796067693589061635\",\"channel\":\"meituan\",\"attention\":\"high\",\"roomKeyword\":\"大床\"}}",
+  "facts": {
+    "url": "http://127.0.0.1:4173/channels/globalRadar/globalData",
+    "title": "pms_clone",
+    "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\nAI全域雷达\n全域数据\n配置中心\n\nAI全域雷达 / 数据与配置\n\n全域数据\n2 / 3 门店已接入连接器\n刷新\n导出快照\n立即开通\n门店范围\nUP智谷店\n广州市天河电竞公寓\n渠道视图\n全部渠道\n携程酒店\n美团酒店\n关注级别\n全部级别\n高优先级\n中优先级\n低优先级\n房型关键字\n查询\n重置\n全域数据导出任务已创建\n今日新增订单\n13单\n今日新增并已入池的订单数\n今日入住\n9单\n今日应入住且已完成状态推进的订单\n今日退房\n6单\n今日应退房并完成房态释放的订单\n在住订单\n26单\n当前所有在住客人的有效订单\n待处理提醒\n4条\n需要跟进的强提醒、巡检与未排房事项\n异常订单\n1条\n退款、未入住超时与连接器异常汇总\n强提醒列表\n\n待处理提醒\n\n待处理提醒\n刘佩琪 · 海珠·行政大床房LH20260519032 · 17:55 · 已延后\n\n客人已确认到店，但订单仍处于待入住状态。\n\n查看订单\n稍后提醒\n标记完成\n渠道接入状态\n\n连接器与授权健康度\n\n广州市海珠智选店\n携程酒店\n连接器延迟\n采集延迟\n2026-05-19 17:56\n查看配置\n经营节奏\n\n按关键经营动作聚合的今日节奏分布\n\n新增\n13\n8 单明日入住\n入住\n9\n9 单已推进\n退房\n6\n6 单待复盘\n风险\n6\n1 条退款关注\n快捷入口\n\n统一复用项目已有业务路由\n\n房态\n订单\n报表\n配置中心\n房型经营看板\n\n房型经营数据来自房型契约、渠道契约和经营提醒统一适配。\n\n房型\n库存 / 在住\n基础价\n周末价\n节假日价\n入住率\n待处理\n操作\n海珠·行政大床房\n广州 · 美团酒店\n15 / 12\n￥398\n￥458\n￥518\n80%\n2 单\n房态\n查看详情\n\n全域雷达\n\n全域雷达\n￥1,908.48 / 年\n\n门店经营数据连接器 已对齐真实站采集到的订单、强提醒、门店与房型契约，可直接承接经营闭环。\n\n2 / 3 门店已接入连接器\n支付方式：微信支付、支付宝\n立即开通",
+    "bodyLength": 910,
+    "isLoginBlocked": false,
+    "hasBusinessText": true,
+    "forbiddenTermsFound": [],
+    "rootDataset": {
+      "provider": "mock",
+      "responseState": "success",
+      "requestCamp": "camp-haizhu",
+      "requestChannel": "meituan",
+      "requestAttention": "high",
+      "requestRoomKeyword": "大床"
+    },
+    "contractText": "{\n  \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-dashboard-001\",\n  \"provider\": \"mock\",\n  \"requestContracts\": {\n    \"overview\": {\n      \"endpoint\": \"/order/report/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\"\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-overview-001\"\n    },\n    \"reminders\": {\n      \"endpoint\": \"/orders/strongReminder/page/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\",\n        \"pageNum\": 1,\n        \"pageSize\": 10\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-reminders-001\"\n    },\n    \"poi\": {\n      \"endpoint\": \"/select/poi/page/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\",\n        \"pageSize\": 999,\n        \"pageNum\": 1,\n        \"channelId\": 2,\n        \"isAvailability\": \"1\"\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-poi-001\"\n    },\n    \"rooms\": {\n      \"endpoint\": \"/roomCategories/page/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\",\n        \"pageSize\": 999,\n        \"pageNum\": 1,\n        \"roomCategoryName\": \"大床\",\n        \"keyword\": \"大床\",\n        \"cityIds\": [],\n        \"channelId\": \"meituan\"\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-rooms-001\"\n    },\n    \"shops\": {\n      \"endpoint\": \"/radarConfig/shop/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\",\n        \"status\": 1\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-shops-001\"\n    },\n    \"edition\": {\n      \"endpoint\": \"/edition/resource/get\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\"\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-edition-001\"\n    },\n    \"payment\": {\n      \"endpoint\": \"/paymentTypes/get/v2\",\n      \"request\": {\n        \"campId\": \"1796067693589061635\",\n        \"bizTypes\": [\n          3\n        ],\n        \"isEnable\": 1\n      },\n      \"traceId\": \"mock-ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju-payment-001\"\n    }\n  }\n}",
+    "buttons": [
+      {
+        "text": "首页",
+        "ariaLabel": "首页",
+        "className": "topnav-link",
+        "href": "/workspace"
+      },
+      {
+        "text": "房态",
+        "ariaLabel": "房态",
+        "className": "topnav-link",
+        "href": "/houseManage/months"
+      },
+      {
+        "text": "房价",
+        "ariaLabel": "房价",
+        "className": "topnav-link",
+        "href": "/houseManage/houseCale"
+      },
+      {
+        "text": "订单",
+        "ariaLabel": "订单",
+        "className": "topnav-link",
+        "href": "/order/house-order/list"
+      },
+      {
+        "text": "售卖/产品",
+        "ariaLabel": "售卖/产品",
+        "className": "topnav-link",
+        "href": "/setting/localRoomTypeProductionSetting"
+      },
+      {
+        "text": "OTA",
+        "ariaLabel": "OTA",
+        "className": "topnav-link",
+        "href": "/channels/ota"
+      },
+      {
+        "text": "社媒",
+        "ariaLabel": "社媒",
+        "className": "topnav-link",
+        "href": "/channels/social"
+      },
+      {
+        "text": "私域",
+        "ariaLabel": "私域",
+        "className": "topnav-link",
+        "href": "/channels/private"
+      },
+      {
+        "text": "聚合分销HOT",
+        "ariaLabel": "聚合分销",
+        "className": "topnav-link",
+        "href": "/channels/distribution/distributionSecond"
+      },
+      {
+        "text": "SCRM",
+        "ariaLabel": "SCRM",
+        "className": "topnav-link",
+        "href": "/scrm/general"
+      },
+      {
+        "text": "AI全域雷达",
+        "ariaLabel": "AI全域雷达",
+        "className": "topnav-link is-active",
+        "href": "/channels/globalRadar/globalData"
+      },
+      {
+        "text": "智慧酒店",
+        "ariaLabel": "智慧酒店",
+        "className": "topnav-link",
+        "href": "/smartHotel/smartHome"
+      },
+      {
+        "text": "报表",
+        "ariaLabel": "报表",
+        "className": "topnav-link",
+        "href": "/statistics/report"
+      },
+      {
+        "text": "设置",
+        "ariaLabel": "设置",
+        "className": "topnav-link",
+        "href": "/InformationMaintenance/informationOverview"
+      },
+      {
+        "text": "应用订阅限时试用",
+        "ariaLabel": "应用订阅",
+        "className": "topbar-app-entry",
+        "href": "/version/applicationPayment"
+      },
+      {
+        "text": "消息",
+        "ariaLabel": "消息",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "href": null
+      },
+      {
+        "text": "收款",
+        "ariaLabel": "收款",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "href": null
+      },
+      {
+        "text": "接待",
+        "ariaLabel": "接待",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "href": null
+      },
+      {
+        "text": "门锁",
+        "ariaLabel": "门锁",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "href": null
+      },
+      {
+        "text": "客服",
+        "ariaLabel": "客服",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "href": null
+      },
+      {
+        "text": "通知",
+        "ariaLabel": "通知",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "href": null
+      },
+      {
+        "text": "用户菜单",
+        "ariaLabel": "用户菜单",
+        "className": "topbar-user-menu",
+        "href": null
+      },
+      {
+        "text": "AI全域雷达",
+        "ariaLabel": null,
+        "className": "sidebar-group-title is-active",
+        "href": null
+      },
+      {
+        "text": "全域数据",
+        "ariaLabel": "全域数据",
+        "className": "sidebar-link is-active",
+        "href": "/channels/globalRadar/globalData"
+      },
+      {
+        "text": "配置中心",
+        "ariaLabel": "配置中心",
+        "className": "sidebar-link",
+        "href": "/channels/globalRadar/globalSetting"
+      },
+      {
+        "text": "刷新",
+        "ariaLabel": "刷新",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "导出快照",
+        "ariaLabel": "导出快照",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "立即开通",
+        "ariaLabel": "立即开通",
+        "className": "is-primary",
+        "href": null
+      },
+      {
+        "text": "查询",
+        "ariaLabel": "查询",
+        "className": "is-primary",
+        "href": null
+      },
+      {
+        "text": "重置",
+        "ariaLabel": "重置",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "今日新增订单13单今日新增并已入池的订单数",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-blue",
+        "href": null
+      },
+      {
+        "text": "今日入住9单今日应入住且已完成状态推进的订单",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-teal",
+        "href": null
+      },
+      {
+        "text": "今日退房6单今日应退房并完成房态释放的订单",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-gold",
+        "href": null
+      },
+      {
+        "text": "在住订单26单当前所有在住客人的有效订单",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-green",
+        "href": null
+      },
+      {
+        "text": "待处理提醒4条需要跟进的强提醒、巡检与未排房事项",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-orange",
+        "href": null
+      },
+      {
+        "text": "异常订单1条退款、未入住超时与连接器异常汇总",
+        "ariaLabel": null,
+        "className": "ai-global-data-summary-card is-red",
+        "href": null
+      },
+      {
+        "text": "查看订单",
+        "ariaLabel": "查看订单",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "稍后提醒",
+        "ariaLabel": "稍后提醒",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "标记完成",
+        "ariaLabel": "标记完成",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "查看配置",
+        "ariaLabel": "查看配置",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "新增138 单明日入住",
+        "ariaLabel": null,
+        "className": "ai-global-data-trend__item is-book",
+        "href": null
+      },
+      {
+        "text": "入住99 单已推进",
+        "ariaLabel": null,
+        "className": "ai-global-data-trend__item is-checkin",
+        "href": null
+      },
+      {
+        "text": "退房66 单待复盘",
+        "ariaLabel": null,
+        "className": "ai-global-data-trend__item is-checkout",
+        "href": null
+      },
+      {
+        "text": "风险61 条退款关注",
+        "ariaLabel": null,
+        "className": "ai-global-data-trend__item is-risk",
+        "href": null
+      },
+      {
+        "text": "房态",
+        "ariaLabel": "房态",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "订单",
+        "ariaLabel": "订单",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "报表",
+        "ariaLabel": "报表",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "配置中心",
+        "ariaLabel": "配置中心",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "房态",
+        "ariaLabel": "房态",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "查看详情",
+        "ariaLabel": "查看详情",
+        "className": "",
+        "href": null
+      },
+      {
+        "text": "立即开通",
+        "ariaLabel": "立即开通",
+        "className": "is-primary",
+        "href": null
+      },
+      {
+        "text": "打开全部会话",
+        "ariaLabel": "打开全部会话",
+        "className": "chat-dock-launcher",
+        "href": null
+      }
+    ],
+    "fields": [
+      {
+        "tag": "select",
+        "id": "ai-global-data-filter-camp",
+        "ariaLabel": "门店范围",
+        "value": "camp-up-valley"
+      },
+      {
+        "tag": "select",
+        "id": "ai-global-data-filter-channel",
+        "ariaLabel": "渠道视图",
+        "value": "meituan"
+      },
+      {
+        "tag": "select",
+        "id": "ai-global-data-filter-attention",
+        "ariaLabel": "关注级别",
+        "value": "high"
+      },
+      {
+        "tag": "input",
+        "id": "ai-global-data-filter-room-keyword",
+        "ariaLabel": "房型关键字",
+        "value": "大床"
+      }
+    ],
+    "dialogs": []
+  }
+}

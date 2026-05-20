@@ -1,0 +1,37 @@
+{
+  "taskId": "ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju",
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519-preview-error",
+  "url": "http://127.0.0.1:4275/channels/globalRadar/globalData",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4275/channels/globalRadar/globalData",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "document",
+      "postData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4275/assets/index-CPeZujBc.css",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "stylesheet",
+      "postData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4275/assets/index-ByC6YFZc.js",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "script",
+      "postData": ""
+    },
+    {
+      "url": "http://127.0.0.1:4275/favicon.svg",
+      "method": "GET",
+      "status": 200,
+      "resourceType": "other",
+      "postData": ""
+    }
+  ]
+}

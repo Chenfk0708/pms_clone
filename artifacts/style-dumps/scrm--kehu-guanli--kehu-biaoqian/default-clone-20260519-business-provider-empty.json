@@ -1,0 +1,31 @@
+{
+  "side": "clone",
+  "mode": "clone",
+  "stamp": "20260519-business-provider-empty",
+  "finalUrl": "http://127.0.0.1:43135/customer/tag?customerTagMockState=empty",
+  "states": {
+    "default": {
+      "url": "http://127.0.0.1:43135/customer/tag?customerTagMockState=empty",
+      "title": "pms_clone",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1
+      },
+      "bodyText": "",
+      "controls": [],
+      "inputs": [],
+      "buttons": [],
+      "tableHeaders": [],
+      "tableTexts": [],
+      "keyElements": []
+    }
+  },
+  "artifacts": {
+    "defaultScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260519-business-provider-empty.png",
+    "fullScreenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\scrm--kehu-guanli--kehu-biaoqian\\full-clone-20260519-business-provider-empty.png",
+    "domPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\dom-snapshots\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260519-business-provider-empty.html",
+    "stylePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\style-dumps\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260519-business-provider-empty.json",
+    "networkPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\network\\scrm--kehu-guanli--kehu-biaoqian\\default-clone-20260519-business-provider-empty.json"
+  }
+}

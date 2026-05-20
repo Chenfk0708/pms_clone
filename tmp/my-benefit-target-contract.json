@@ -1,0 +1,1464 @@
+{
+  "capturedAt": "2026-05-19T11:26:24.714Z",
+  "records": [
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "method": "POST",
+      "status": 200,
+      "requestHeaders": {
+        "app_device": "web",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "https://minsubao.localhome.cn/",
+        "app_system": "v4.10.7",
+        "accept-language": "zh-CN",
+        "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+        "app_platform": "2",
+        "hudson-access-token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVkIjoxNzc4NTY1NjA1MDc1LCJpZCI6MTc5NjA2NzY5MzI2M7TkwNTkyMiwi6ZXhwIjoxNzc5aOD30Y7cxaNa5jA81d6fQ.04p9fA1c03cQc988dcd9McW37bd6i5h2247Tc7VGIyGe_RS8JektWqy9RV1tQgOloHi3jCRXsYo_mm5bUvODwCBhzRNNywN6-IwYGY1Zg",
+        "sec-ch-ua-mobile": "?0",
+        "app_version": "4.10.7",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "app_source": "1"
+      },
+      "requestBody": "{\"campId\":\"1796067693589061634\"}",
+      "responseHeaders": {
+        "access-control-expose-headers": "hudsonLogKey, isNewRegisterUser",
+        "content-encoding": "gzip",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://minsubao.localhome.cn",
+        "date": "Tue, 19 May 2026 11:26:37 GMT",
+        "content-type": "application/json",
+        "hudsonlogkey": "6a0c48ede4b02ee3e3580a01",
+        "vary": "origin,access-control-request-method,access-control-request-headers,accept-encoding"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "editionId": "9",
+          "editionName": "畅享版",
+          "editionType": 1,
+          "resourceGetViews": [
+            {
+              "resourceName": "门店",
+              "quotaNum": 1,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 1,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "企业",
+              "quotaNum": 1,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 1,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "库存",
+              "quotaNum": 10,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 4,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 4
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 10,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "成员账号",
+              "quotaNum": 3,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 3,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "携程直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "木鸟直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "美团民宿直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "途家直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "飞猪直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "Booking",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 2,
+                    "giftType": 2,
+                    "num": 730
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "美团酒店直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "小猪直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "线上付款",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "抖音直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 2,
+                    "giftType": 2,
+                    "num": 730
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            }
+          ],
+          "valueAddServices": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "method": "POST",
+      "status": 200,
+      "requestHeaders": {
+        "app_device": "web",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "https://minsubao.localhome.cn/",
+        "app_system": "v4.10.7",
+        "accept-language": "zh-CN",
+        "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+        "app_platform": "2",
+        "hudson-access-token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVkIjoxNzc4NTY1NjA1MDc1LCJpZCI6MTc5NjA2NzY5MzI2M7TkwNTkyMiwi6ZXhwIjoxNzc5aOD30Y7cxaNa5jA81d6fQ.04p9fA1c03cQc988dcd9McW37bd6i5h2247Tc7VGIyGe_RS8JektWqy9RV1tQgOloHi3jCRXsYo_mm5bUvODwCBhzRNNywN6-IwYGY1Zg",
+        "sec-ch-ua-mobile": "?0",
+        "app_version": "4.10.7",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "app_source": "1"
+      },
+      "requestBody": "{\"campId\":\"1796067693589061634\"}",
+      "responseHeaders": {
+        "access-control-expose-headers": "hudsonLogKey, isNewRegisterUser",
+        "content-encoding": "gzip",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://minsubao.localhome.cn",
+        "date": "Tue, 19 May 2026 11:26:37 GMT",
+        "content-type": "application/json",
+        "hudsonlogkey": "6a0c48ede4b02ee3081f1c86",
+        "vary": "origin,access-control-request-method,access-control-request-headers,accept-encoding"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "editionId": "9",
+          "editionName": "畅享版",
+          "editionType": 1,
+          "resourceGetViews": [
+            {
+              "resourceName": "门店",
+              "quotaNum": 1,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 1,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "企业",
+              "quotaNum": 1,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 1,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "库存",
+              "quotaNum": 10,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 4,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 4
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 10,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "成员账号",
+              "quotaNum": 3,
+              "isUnlimitedQuotaNum": 0,
+              "usedQuotaView": {
+                "usedQuotaNum": 1,
+                "campUsedQuotaViews": [
+                  {
+                    "campId": "1796067693589061634",
+                    "campName": "路客云6TS5的店铺",
+                    "usedQuotaNum": 1
+                  }
+                ]
+              },
+              "resourceFrom": {
+                "editionNum": 3,
+                "isUnlimitedEditionNum": 0,
+                "expandQuotaNum": 0,
+                "expandQuotaDetailView": []
+              },
+              "editionStatus": 1,
+              "goodsType": 2,
+              "expirationDate": null,
+              "isLongTerm": null
+            },
+            {
+              "resourceName": "携程直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "木鸟直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "美团民宿直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "途家直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "飞猪直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "Booking",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 2,
+                    "giftType": 2,
+                    "num": 730
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "美团酒店直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "小猪直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 1,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 4102329600000,
+              "isLongTerm": 1
+            },
+            {
+              "resourceName": "线上付款",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": null,
+                    "giftType": null,
+                    "num": 1
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            },
+            {
+              "resourceName": "抖音直连",
+              "quotaNum": null,
+              "isUnlimitedQuotaNum": null,
+              "usedQuotaView": null,
+              "resourceFrom": {
+                "editionNum": null,
+                "isUnlimitedEditionNum": null,
+                "expandQuotaNum": null,
+                "expandQuotaDetailView": [
+                  {
+                    "payType": 2,
+                    "giftType": 2,
+                    "num": 730
+                  }
+                ]
+              },
+              "editionStatus": 1,
+              "goodsType": 7,
+              "expirationDate": 1822060800000,
+              "isLongTerm": 0
+            }
+          ],
+          "valueAddServices": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestHeaders": {
+        "app_device": "web",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "https://minsubao.localhome.cn/",
+        "app_system": "v4.10.7",
+        "accept-language": "zh-CN",
+        "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+        "app_platform": "2",
+        "hudson-access-token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVkIjoxNzc4NTY1NjA1MDc1LCJpZCI6MTc5NjA2NzY5MzI2M7TkwNTkyMiwi6ZXhwIjoxNzc5aOD30Y7cxaNa5jA81d6fQ.04p9fA1c03cQc988dcd9McW37bd6i5h2247Tc7VGIyGe_RS8JektWqy9RV1tQgOloHi3jCRXsYo_mm5bUvODwCBhzRNNywN6-IwYGY1Zg",
+        "sec-ch-ua-mobile": "?0",
+        "app_version": "4.10.7",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "app_source": "1"
+      },
+      "requestBody": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[3],\"isEnable\":1}",
+      "responseHeaders": {
+        "access-control-expose-headers": "hudsonLogKey, isNewRegisterUser",
+        "content-encoding": "gzip",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://minsubao.localhome.cn",
+        "date": "Tue, 19 May 2026 11:26:37 GMT",
+        "content-type": "application/json",
+        "hudsonlogkey": "6a0c48ede4b02ee3ad39d607",
+        "vary": "origin,access-control-request-method,access-control-request-headers,accept-encoding"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": [
+            {
+              "groupType": 1,
+              "groupTypeName": "住宿",
+              "paymentTypes": [
+                {
+                  "paymentTypeId": "1",
+                  "paymentTypeName": "房费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "2",
+                  "paymentTypeName": "清洁费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "3",
+                  "paymentTypeName": "平台服务费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "4",
+                  "paymentTypeName": "押金",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "5",
+                  "paymentTypeName": "取消平台服务费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "6",
+                  "paymentTypeName": "加床",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "7",
+                  "paymentTypeName": "加人",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "8",
+                  "paymentTypeName": "退订扣款",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "9",
+                  "paymentTypeName": "损坏赔偿",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "10",
+                  "paymentTypeName": "其他收入",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "11",
+                  "paymentTypeName": "保洁费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "12",
+                  "paymentTypeName": "佣金支出",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "13",
+                  "paymentTypeName": "房租",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "14",
+                  "paymentTypeName": "水费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "15",
+                  "paymentTypeName": "电费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "16",
+                  "paymentTypeName": "物业费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "17",
+                  "paymentTypeName": "维修费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "18",
+                  "paymentTypeName": "员工薪资",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "19",
+                  "paymentTypeName": "运营费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "20",
+                  "paymentTypeName": "其他支出",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "21",
+                  "paymentTypeName": "长租租金",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "22",
+                  "paymentTypeName": "长租押金",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "34",
+                  "paymentTypeName": "加时(延迟退房)",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "35",
+                  "paymentTypeName": "餐饮",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "36",
+                  "paymentTypeName": "旅游服务",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "37",
+                  "paymentTypeName": "宽带费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "38",
+                  "paymentTypeName": "燃气费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "39",
+                  "paymentTypeName": "日常耗材",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "40",
+                  "paymentTypeName": "软装费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "41",
+                  "paymentTypeName": "硬裝费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "42",
+                  "paymentTypeName": "押金扣款",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "43",
+                  "paymentTypeName": "钟点房",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "44",
+                  "paymentTypeName": "洗布草费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "46",
+                  "paymentTypeName": "活动折扣",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "49",
+                  "paymentTypeName": "开票金额",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "50",
+                  "paymentTypeName": "退房费",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "51",
+                  "paymentTypeName": "支付手续费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "52",
+                  "paymentTypeName": "全员分销费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "53",
+                  "paymentTypeName": "优惠金额",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "54",
+                  "paymentTypeName": "其他佣金支出",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "55",
+                  "paymentTypeName": "系统服务费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "56",
+                  "paymentTypeName": "押金扣款通道费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "57",
+                  "paymentTypeName": "长租宽带费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "58",
+                  "paymentTypeName": "长租公摊费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "59",
+                  "paymentTypeName": "长租卫生费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "60",
+                  "paymentTypeName": "长租物管费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "61",
+                  "paymentTypeName": "长租停车费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "62",
+                  "paymentTypeName": "长租钥匙费用",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "63",
+                  "paymentTypeName": "长租水费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "64",
+                  "paymentTypeName": "长租电费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "65",
+                  "paymentTypeName": "长租逾期费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "66",
+                  "paymentTypeName": "长租账单",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "67",
+                  "paymentTypeName": "押金逾期费",
+                  "ignoreOrderGetItem": 1,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 3,
+                  "groupType": 1
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "method": "POST",
+      "status": 200,
+      "requestHeaders": {
+        "app_device": "web",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "https://minsubao.localhome.cn/",
+        "app_system": "v4.10.7",
+        "accept-language": "zh-CN",
+        "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+        "app_platform": "2",
+        "hudson-access-token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVkIjoxNzc4NTY1NjA1MDc1LCJpZCI6MTc5NjA2NzY5MzI2M7TkwNTkyMiwi6ZXhwIjoxNzc5aOD30Y7cxaNa5jA81d6fQ.04p9fA1c03cQc988dcd9McW37bd6i5h2247Tc7VGIyGe_RS8JektWqy9RV1tQgOloHi3jCRXsYo_mm5bUvODwCBhzRNNywN6-IwYGY1Zg",
+        "sec-ch-ua-mobile": "?0",
+        "app_version": "4.10.7",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "app_source": "1"
+      },
+      "requestBody": "{\"campId\":\"1796067693589061634\",\"bizTypes\":[2],\"isEnable\":1}",
+      "responseHeaders": {
+        "access-control-expose-headers": "hudsonLogKey, isNewRegisterUser",
+        "content-encoding": "gzip",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://minsubao.localhome.cn",
+        "date": "Tue, 19 May 2026 11:26:38 GMT",
+        "content-type": "application/json",
+        "hudsonlogkey": "6a0c48eee4b02ee3294c963b",
+        "vary": "origin,access-control-request-method,access-control-request-headers,accept-encoding"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": [
+            {
+              "groupType": 1,
+              "groupTypeName": "住宿",
+              "paymentTypes": [
+                {
+                  "paymentTypeId": "6",
+                  "paymentTypeName": "加床",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "7",
+                  "paymentTypeName": "加人",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "9",
+                  "paymentTypeName": "损坏赔偿",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "10",
+                  "paymentTypeName": "其他收入",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "20",
+                  "paymentTypeName": "其他支出",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "34",
+                  "paymentTypeName": "加时(延迟退房)",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "35",
+                  "paymentTypeName": "餐饮",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "36",
+                  "paymentTypeName": "旅游服务",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 1,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "50",
+                  "paymentTypeName": "退房费",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                },
+                {
+                  "paymentTypeId": "54",
+                  "paymentTypeName": "其他佣金支出",
+                  "ignoreOrderGetItem": 0,
+                  "isCustom": 0,
+                  "isIncome": 0,
+                  "isEnable": 1,
+                  "bizType": 1,
+                  "groupType": 1
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interactions": []
+}

@@ -1,0 +1,39 @@
+{
+  "label": "interaction",
+  "url": "http://127.0.0.1:4195/statistics/orderLedger",
+  "diagnostics": {
+    "provider": "mock",
+    "state": "success",
+    "request": {
+      "campId": "1796067693589061634",
+      "pageNum": 1,
+      "pageSize": 10,
+      "beginTime": "2026-05-18",
+      "endTime": "2026-05-19",
+      "paymentTypeIds": [
+        "1"
+      ],
+      "paymentWayIds": [
+        "2"
+      ],
+      "roomIds": [
+        "1796425099544543234"
+      ],
+      "poiIds": [],
+      "keyword": "",
+      "isIncome": 1,
+      "type": 1,
+      "state": "success"
+    }
+  },
+  "assertions": [
+    "类型=支出 -> isIncome=0",
+    "重置 -> isIncome/type 复位",
+    "来源=住宿订单 -> type=1",
+    "类型=收入 + 项目=房费 -> paymentTypeIds=[\"1\"]",
+    "支付方式=微信 -> paymentWayIds=[\"2\"]",
+    "房间 -> roomIds=[\"1796425099544543234\"]",
+    "导出 -> mock taskId 返回"
+  ],
+  "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n统计报表\n收支明细表\n收支汇总\n收支明细\n记一笔明细\n结算表\n预售券数据\n交接班\n收支明细\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n⚙\n昨天\n今天\n上周\n本周\n上月\n本月\n至\n类型：\n收入\n来源：\n住宿订单\n项目：\n房费\n搜索：\n关联房间\n总裁套间（桑拿浴缸露台电竞麻将） 房间1\n支付方式：\n微信\n重置\n导出\n导出任务已创建：order-ledger-export-20260519-001\n账本概括\n¥\n\n净收入\n\n¥ 0.00\n¥\n\n总收入\n\n¥ 0.00\n¥\n\n总支出\n\n¥ 0.00\n当前筛选条件下暂无收支流水\n\n请调整类型、来源、项目、房间或日期条件后重新查看。\n\n账本明细\n类型\t来源\t订单号\t项目\t金额\t欠款\t支付方式\t支付流水号\t支付时间\t创建时间\t关联房型/房间\t备注\t操作人\t操作\n暂无数据\n第 0-0 条，共 0 条\n<\n1\n>\n10 条/页"
+}

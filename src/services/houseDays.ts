@@ -29,6 +29,7 @@ export type HouseDaysRoomCard = {
   roomName: string
   status: 'cleanVacant' | 'dirtyVacant' | 'occupiedClean' | 'occupiedDirty' | 'closed'
   hasTag?: boolean
+  filterLabels?: string[]
   booking?: {
     guest: string
     channel: string
@@ -124,17 +125,18 @@ async function fetchMockHouseDays(
     return {
       code: 5001,
       message: 'mock provider 返回业务失败：日房态接口模拟错误',
-      data: createMockData(query, []),
+      data: createMockData(query, [], []),
       traceId: `mock-${TASK_ID}-error-001`,
       timestamp: MOCK_TIMESTAMP,
     }
   }
 
-  const rooms = responseState === 'empty' ? [] : filterRooms(mockRooms, query)
+  const baseRooms = responseState === 'empty' ? [] : filterRooms(mockRooms, query, false)
+  const rooms = responseState === 'empty' ? [] : filterRooms(baseRooms, query, true)
   return {
     code: 0,
     message: 'success',
-    data: createMockData(query, rooms),
+    data: createMockData(query, rooms, baseRooms),
     traceId: `mock-${TASK_ID}-${responseState}-001`,
     timestamp: MOCK_TIMESTAMP,
   }
@@ -152,10 +154,14 @@ async function fetchRealHouseDays(
   )
 }
 
-function createMockData(query: HouseDaysQuery, rooms: HouseDaysRoomCard[]): HouseDaysBackendData {
+function createMockData(
+  query: HouseDaysQuery,
+  rooms: HouseDaysRoomCard[],
+  statusGroupRooms: HouseDaysRoomCard[],
+): HouseDaysBackendData {
   return {
     requestParams: buildRequestParams(query),
-    statusGroups: buildStatusGroups(rooms),
+    statusGroups: buildStatusGroups(statusGroupRooms),
     rooms,
     viewModes: ['按房型', '按房间号', '按楼层'],
     storeOptions: [
@@ -204,7 +210,7 @@ function buildRequestParams(query: HouseDaysQuery) {
   }
 }
 
-function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery) {
+function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery, includeStatusFilters: boolean) {
   return rooms.filter((room) => {
     const keyword = query.keyword.trim()
     const matchesKeyword =
@@ -216,8 +222,12 @@ function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery) {
     const matchesChannel = !query.channel || query.channel === 'ota' || room.booking?.channel === '直营渠道'
     const matchesRoomType = !query.roomType || room.roomType === query.roomType
     const matchesTag = !query.tag || room.hasTag
+    const matchesStatus =
+      !includeStatusFilters ||
+      query.statusFilters.length === 0 ||
+      query.statusFilters.some((filterLabel) => room.filterLabels?.includes(filterLabel))
 
-    return matchesKeyword && matchesChannel && matchesRoomType && matchesTag
+    return matchesKeyword && matchesChannel && matchesRoomType && matchesTag && matchesStatus
   })
 }
 
@@ -301,6 +311,7 @@ const mockRooms: HouseDaysRoomCard[] = [
     roomName: '房间1',
     status: 'cleanVacant',
     hasTag: true,
+    filterLabels: ['绌哄噣', '澶囨敞'],
   },
   {
     id: 'room-president-1',
@@ -308,12 +319,14 @@ const mockRooms: HouseDaysRoomCard[] = [
     roomName: '房间1',
     status: 'cleanVacant',
     hasTag: true,
+    filterLabels: ['绌哄噣', '澶囨敞'],
   },
   {
     id: 'room-sky-1',
     roomType: '天落大床电竞套间',
     roomName: '1',
     status: 'occupiedClean',
+    filterLabels: ['棰勬姷', '浣忓噣'],
     booking: {
       guest: '张祯',
       channel: '携程',
@@ -327,6 +340,7 @@ const mockRooms: HouseDaysRoomCard[] = [
     roomName: '房间1',
     status: 'occupiedDirty',
     hasTag: true,
+    filterLabels: ['鍦ㄤ綇', '棰勭', '浣忚剰', '澶囨敞'],
     booking: {
       guest: '胡志深',
       channel: '美团酒店',
@@ -335,3 +349,8 @@ const mockRooms: HouseDaysRoomCard[] = [
     },
   },
 ]
+
+mockRooms[0]!.filterLabels = ['\u7a7a\u51c0', '\u5907\u6ce8']
+mockRooms[1]!.filterLabels = ['\u7a7a\u51c0', '\u5907\u6ce8']
+mockRooms[2]!.filterLabels = ['\u9884\u62b5', '\u4f4f\u51c0']
+mockRooms[3]!.filterLabels = ['\u5728\u4f4f', '\u9884\u79bb', '\u4f4f\u810f', '\u5907\u6ce8']

@@ -22,6 +22,7 @@ export function HouseDaysPage() {
   const [showStatusSettings, setShowStatusSettings] = useState(false)
   const [selectedRoom, setSelectedRoom] = useState<HouseDaysRoomCard | null>(null)
   const [keyword, setKeyword] = useState('')
+  const [activeStoreChip, setActiveStoreChip] = useState('全部门店')
   const [feedback, setFeedback] = useState('')
   const [data, setData] = useState<HouseDaysViewModel | null>(null)
   const [loading, setLoading] = useState(false)
@@ -120,7 +121,7 @@ export function HouseDaysPage() {
 
   return (
     <div className="page-stack day-status-page">
-      <section className="toolbar-card day-toolbar">
+      <section className="toolbar-card day-toolbar month-toolbar">
         {error ? (
           <div className="day-data-error" role="alert" aria-label="日房态数据错误">
             <span>{error}</span>
@@ -138,7 +139,7 @@ export function HouseDaysPage() {
           <button type="button">忽略</button>
           <button type="button">立即调价</button>
         </div>
-        <div className="toolbar-row">
+        <div className="month-toolbar__primary">
           <div className="segmented">
             <button type="button" onClick={() => navigate(routeTargets.months)}>
               月房态
@@ -147,7 +148,7 @@ export function HouseDaysPage() {
               日房态
             </button>
           </div>
-          <div className="toolbar-actions day-toolbar__search">
+          <div className="month-toolbar__actions">
             <input
               type="text"
               placeholder="输入客户姓名/手机/房间/渠道单/备注"
@@ -161,7 +162,8 @@ export function HouseDaysPage() {
             <button type="button" className="primary-action" onClick={() => navigate(routeTargets.price)}>
               房价管理
             </button>
-            <button
+            <div className="month-settings">
+              <button
               type="button"
               className="primary-action"
               onClick={() => setOpenMenu(openMenu === 'settings' ? null : 'settings')}
@@ -169,7 +171,7 @@ export function HouseDaysPage() {
               更多设置
             </button>
             {openMenu === 'settings' ? (
-              <div className="day-popover-menu" role="menu" aria-label="更多设置">
+              <div className="day-popover-menu month-settings__menu" role="menu" aria-label="更多设置">
                 <button
                   type="button"
                   role="menuitem"
@@ -194,26 +196,45 @@ export function HouseDaysPage() {
                 </button>
               </div>
             ) : null}
+            </div>
           </div>
         </div>
-        <div className="toolbar-row toolbar-filters">
-          <button type="button" className="chip is-active">
+        <div className="month-toolbar__filters">
+          <div className="month-store-control">
+            <div className="month-store-switch" aria-label="闂ㄥ簵鑼冨洿">
+          <button
+            type="button"
+            className={`chip month-store-chip${activeStoreChip === '鍏ㄩ儴闂ㄥ簵' ? ' is-active' : ''}`}
+            aria-pressed={activeStoreChip === '鍏ㄩ儴闂ㄥ簵'}
+            onClick={() => setActiveStoreChip((current) => (current === '鍏ㄩ儴闂ㄥ簵' ? '' : '鍏ㄩ儴闂ㄥ簵'))}
+          >
             全部门店
-          </button>
-          <button type="button" className="chip">
-            天落会宿公寓(前海壹方城宝安中心店)
           </button>
           <button
             type="button"
-            className="icon-chip"
+            className={`chip${activeStoreChip === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)' ? ' is-active' : ''}`}
+            aria-pressed={activeStoreChip === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)'}
+            onClick={() =>
+              setActiveStoreChip((current) =>
+                current === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)' ? '' : '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)'
+              )
+            }
+          >
+            天落会宿公寓(前海壹方城宝安中心店)
+          </button>
+            </div>
+          <button
+            type="button"
+            className="month-store-settings"
             aria-label="门店设置"
             onClick={() => navigate(routeTargets.storeSettings)}
           >
             ⚙
           </button>
+          </div>
           <div className="toolbar-actions">
-            <div className="day-action-popover">
-              <button type="button" onClick={() => setOpenMenu(openMenu === 'clean' ? null : 'clean')}>
+            <div className="day-action-popover month-batch-action month-batch-action--first">
+              <button type="button" className="month-outline-action" onClick={() => setOpenMenu(openMenu === 'clean' ? null : 'clean')}>
                 批量设脏/净
               </button>
               {openMenu === 'clean' ? (
@@ -227,8 +248,8 @@ export function HouseDaysPage() {
                 </div>
               ) : null}
             </div>
-            <div className="day-action-popover">
-              <button type="button" onClick={() => setOpenMenu(openMenu === 'openClose' ? null : 'openClose')}>
+            <div className="day-action-popover month-batch-action">
+              <button type="button" className="month-outline-action" onClick={() => setOpenMenu(openMenu === 'openClose' ? null : 'openClose')}>
                 批量开/关房
               </button>
               {openMenu === 'openClose' ? (
@@ -242,10 +263,10 @@ export function HouseDaysPage() {
                 </div>
               ) : null}
             </div>
-            <button type="button" aria-label="刷新" onClick={resetFilters}>
+            <button type="button" className="month-refresh-action" aria-label="刷新" onClick={resetFilters}>
               ↻
             </button>
-            <button type="button" aria-label="重新加载" onClick={resetFilters}>
+            <button type="button" className="month-refresh-action" aria-label="重新加载" onClick={resetFilters}>
               ⟳
             </button>
           </div>
@@ -332,7 +353,10 @@ export function HouseDaysPage() {
                       type="checkbox"
                       aria-label={item.label}
                       checked={selectedFilters.includes(item.label)}
-                      onChange={() => toggleFilter(item.label)}
+                      onChange={() => {
+                        toggleFilter(item.label)
+                        setFeedback('')
+                      }}
                     />
                   </label>
                 ))}

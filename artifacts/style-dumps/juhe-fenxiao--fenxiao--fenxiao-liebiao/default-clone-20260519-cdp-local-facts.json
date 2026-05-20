@@ -1,0 +1,57 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519-cdp-local",
+  "facts": {
+    "url": "http://127.0.0.1:56030/channels/distribution/distributionSecond",
+    "title": "pms_clone",
+    "readyState": "complete",
+    "rootCount": 1,
+    "provider": "mock",
+    "request": "{\"campFlow\":{\"campId\":\"1796067693589061634\"},\"roomCategories\":{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"roomCategoryName\":\"\",\"keyword\":\"\",\"cityIds\":[],\"channelId\":\"\"},\"undistributedRoomCategories\":{\"campId\":\"1796067693589061634\",\"pageNum\":1,\"pageSize\":20,\"current\":1,\"poiId\":\"\",\"filterSyncChannelId\":17,\"isAvailability\":1,\"channelId\":0,\"isFilterAlreadyFlow\":1},\"importedRoomCategories\":{\"campId\":\"64\",\"buyCampId\":\"1796067693589061634\",\"roomCategoryTypes\":[1],\"goodsTypes\":[7]},\"stores\":{\"campId\":\"1796067693589061634\",\"pageSize\":999,\"pageNum\":1,\"channelId\":0,\"isAvailability\":\"1\"}}",
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n聚合分销\n分销列表\n聚合分销订单\n置换权益\n已分销\n未分销\n门店\n全部门店\n天落会宿公寓(前海壹方城宝安中心店)\n房型\n查询\n重置\n刷新\n导出\n预计渠道订单\n60\n来自 campFlow/get expectedChannelOrderTotalNum\n已分销房型\n4\n来自 roomCategories/page/get list\n待完善房型\n2\n来自 select/roomCategory/page/get list\n房型同步率\n67%\n已分销房型 / 全部分销房型\n路客云聚合\n已开通\n28单\n途家\n已开通\n12单\n小猪\n已开通\n8单\n携程民宿\n申请中\n12单\n提现教程\n房态管理\n房价管理\n房型管理\n分销配置\n房型\t门店\t渠道\t状态/原因\t库存\t价格\t操作\n顶层套房（浴缸巨幕电竞麻将）\t天落会宿公寓(前海壹方城宝安中心店)\t路客云聚合\t已同步，渠道同步正常\t2\t¥699\t详情\n总裁套间（桑拿浴缸露台电竞麻将）\t天落会宿公寓(前海壹方城宝安中心店)\t途家\t已同步，渠道同步正常\t1\t¥899\t详情\n天落大床电竞套间\t天落会宿公寓(前海壹方城宝安中心店)\t小猪\t待完善，等待运营完善\t1\t¥499\t详情\n观影大床房\t天落会宿公寓(前海壹方城宝安中心店)\t携程民宿\t已同步，渠道同步正常\t3\t¥399\t详情\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "buttons": [
+      "聚合分销",
+      "已分销",
+      "未分销",
+      "查询",
+      "重置",
+      "刷新",
+      "导出",
+      "预计渠道订单\n60\n来自 campFlow/get expectedChannelOrderTotalNum",
+      "已分销房型\n4\n来自 roomCategories/page/get list",
+      "待完善房型\n2\n来自 select/roomCategory/page/get list",
+      "房型同步率\n67%\n已分销房型 / 全部分销房型",
+      "路客云聚合\n已开通\n28单",
+      "途家\n已开通\n12单",
+      "小猪\n已开通\n8单",
+      "携程民宿\n申请中\n12单",
+      "提现教程",
+      "房态管理",
+      "房价管理",
+      "房型管理",
+      "分销配置",
+      "详情",
+      "详情",
+      "详情",
+      "详情",
+      "↻",
+      "收起",
+      "收起"
+    ],
+    "inputs": [
+      {
+        "tag": "select",
+        "value": "ALL",
+        "text": "全部门店\n天落会宿公寓(前海壹方城宝安中心店)",
+        "placeholder": null
+      },
+      {
+        "tag": "input",
+        "value": "",
+        "text": "",
+        "placeholder": "搜索房型或原因"
+      }
+    ]
+  }
+}

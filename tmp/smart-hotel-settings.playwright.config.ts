@@ -1,0 +1,28 @@
+import { defineConfig, devices } from '@playwright/test'
+
+const chromeExecutablePath =
+  process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+
+export default defineConfig({
+  testDir: '../tests',
+  timeout: 30_000,
+  use: {
+    baseURL: 'http://127.0.0.1:4199',
+    trace: 'on-first-retry',
+    headless: true,
+    launchOptions: {
+      executablePath: chromeExecutablePath,
+    },
+  },
+  webServer: {
+    command: 'npx vite --config smart-hotel-settings.vite.config.ts --host 127.0.0.1 --port 4199',
+    url: 'http://127.0.0.1:4199/smartHotel/smartSettings',
+    reuseExistingServer: true,
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+})

@@ -1,0 +1,6000 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi",
+  "mode": "clone",
+  "state": "interaction",
+  "stamp": "20260519-clone-interaction",
+  "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+  "isLoginBlocked": false,
+  "interactions": [
+    {
+      "slug": "expanded-filters",
+      "labels": [
+        "展开",
+        "更多筛选",
+        "高级筛选"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "展开",
+          "更多筛选",
+          "高级筛选"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-expanded-filters.png"
+    },
+    {
+      "slug": "log-type-dropdown",
+      "labels": [
+        "上报类型",
+        "日志类型",
+        "上报状态",
+        "状态"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "上报类型",
+        "text": "上报类型",
+        "box": {
+          "x": 808,
+          "y": 114,
+          "width": 56,
+          "height": 21
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-log-type-dropdown.png"
+    },
+    {
+      "slug": "date-picker",
+      "labels": [
+        "上报时间",
+        "创建时间",
+        "时间"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "上报时间",
+        "text": "上报时间",
+        "box": {
+          "x": 494,
+          "y": 114,
+          "width": 56,
+          "height": 21
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-date-picker.png"
+    },
+    {
+      "slug": "query-action",
+      "labels": [
+        "查 询",
+        "查询",
+        "搜 索"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "查询",
+        "text": "查询",
+        "box": {
+          "x": 1296,
+          "y": 110,
+          "width": 60,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-query-action.png"
+    },
+    {
+      "slug": "reset-action",
+      "labels": [
+        "重 置",
+        "重置"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "重置",
+        "text": "重置",
+        "box": {
+          "x": 1364,
+          "y": 110,
+          "width": 60,
+          "height": 28
+        }
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-reset-action.png"
+    },
+    {
+      "slug": "table-action",
+      "labels": [
+        "查看",
+        "详情",
+        "重试",
+        "重新上报"
+      ],
+      "result": {
+        "found": false,
+        "clicked": false,
+        "labels": [
+          "查看",
+          "详情",
+          "重试",
+          "重新上报"
+        ]
+      },
+      "urlChanged": false,
+      "textChanged": false,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-table-action.png"
+    },
+    {
+      "slug": "chat-collapse",
+      "labels": [
+        "收 起",
+        "收起"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "收起",
+        "text": "收起",
+        "box": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "智慧酒店",
+          "公安对接",
+          "上报日志",
+          "全部门店"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi\\interaction-clone-20260519-clone-interaction-chat-collapse.png"
+    }
+  ],
+  "facts": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:4174/psb/log?campId=1796067693589061634",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n智住管理\n智能硬件\n公安对接\nPSB公安对接\n上报日志\n上报日志\n版本号：v4.10.7\n全部门店\n天鹅会宿公寓(前海壹方城宝安中心店)\n搜索\n上报时间\n请选择\n上报类型\n请选择\n上报状态\n请选择\n查询\n重置\n已加载 3 条上报日志\n姓名\n手机号\n证件号码\n房间号\n订单来源\n订单号\n旅客云订单号\n上报时间\n上报类型\n上报状态\n备注\n刘诗雨\n13800138001\n440301199401011286\nA-1801\n携程\n2053550785075990529\nctrip-2053550785075990529\n2026-05-18 09:12:44\n退房\n失败\n公安回执：证件照片缺失\n周醒醒\n13800138002\n440301199210193218\nA-1203\n美团民宿\n2053550785075990530\nmeituan-2053550785075990530\n2026-05-19 11:30:00\n入住\n成功\n公安回执：上报成功\n陈北望\n13800138003\n440301198805265419\nA-903\n旅客云\n2053550785075990531\nlk-2053550785075990531\n2026-05-17 20:18:09\n续住\n成功\n公安回执：续住同步完成",
+    "isLoginBlocked": false,
+    "buttons": [
+      "首页",
+      "房态",
+      "房价",
+      "订单",
+      "售卖/产品",
+      "OTA",
+      "社媒",
+      "私域",
+      "聚合分销HOT",
+      "SCRM",
+      "AI全域雷达",
+      "智慧酒店",
+      "报表",
+      "设置",
+      "应用订阅限时试用",
+      "消息",
+      "收款",
+      "接待",
+      "门锁",
+      "客服",
+      "通知",
+      "用户菜单",
+      "智住管理",
+      "智能硬件",
+      "公安对接",
+      "PSB公安对接",
+      "上报日志",
+      "请选择",
+      "请选择",
+      "请选择",
+      "查询",
+      "重置",
+      "2053550785075990529",
+      "2053550785075990530",
+      "2053550785075990531",
+      "打开全部会话"
+    ],
+    "headings": [
+      "智住管理",
+      "智能硬件",
+      "公安对接",
+      "上报日志"
+    ],
+    "inputs": [
+      {
+        "type": "radio",
+        "placeholder": null,
+        "ariaLabel": "全部门店",
+        "value": "on",
+        "rect": {
+          "x": 173,
+          "y": 71,
+          "width": 94,
+          "height": 26
+        }
+      },
+      {
+        "type": "radio",
+        "placeholder": null,
+        "ariaLabel": "天鹅会宿公寓(前海壹方城宝安中心店)",
+        "value": "on",
+        "rect": {
+          "x": 277,
+          "y": 71,
+          "width": 257,
+          "height": 26
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入订单号/手机号/房号",
+        "ariaLabel": "搜索",
+        "value": "",
+        "rect": {
+          "x": 208,
+          "y": 110,
+          "width": 268,
+          "height": 28
+        }
+      }
+    ],
+    "selects": [
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型请选择",
+        "rect": {
+          "x": 808,
+          "y": 110,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态请选择",
+        "rect": {
+          "x": 1046,
+          "y": 110,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ],
+    "tableHeaders": [
+      "姓名",
+      "手机号",
+      "证件号码",
+      "房间号",
+      "订单来源",
+      "订单号",
+      "旅客云订单号",
+      "上报时间",
+      "上报类型",
+      "上报状态",
+      "备注"
+    ],
+    "rows": [
+      "姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注",
+      "刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失",
+      "周醒醒13800138002440301199210193218A-1203美团民宿2053550785075990530meituan-20535507850759905302026-05-19 11:30:00入住成功公安回执：上报成功",
+      "陈北望13800138003440301198805265419A-903旅客云2053550785075990531lk-20535507850759905312026-05-17 20:18:09续住成功公安回执：续住同步完成"
+    ],
+    "elementSamples": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用智住管理智能硬件公安对接PSB公安对接上报日志上报日志版本号：v4.10.7全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-2053",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 934
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用智住管理智能硬件公安对接PSB公安对接上报日志上报日志版本号：v4.10.7全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-2053",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 934
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 52
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "250px 828px 314px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-block",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 8,
+          "y": 10,
+          "width": 250,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-mark",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS",
+        "rect": {
+          "x": 8,
+          "y": 10,
+          "width": 48,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 68,
+          "y": 13,
+          "width": 193,
+          "height": 26
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺",
+        "rect": {
+          "x": 68,
+          "y": 15,
+          "width": 127,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "畅享版",
+        "rect": {
+          "x": 205,
+          "y": 13,
+          "width": 56,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "4px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(68, 105, 228)",
+          "backgroundColor": "rgb(232, 241, 255)",
+          "border": "0px none rgb(68, 105, 228)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "role": null,
+        "ariaLabel": "顶部导航",
+        "placeholder": null,
+        "text": "首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置",
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 828,
+          "height": 50
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "首页",
+        "placeholder": null,
+        "text": "首页",
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "房态",
+        "placeholder": null,
+        "text": "房态",
+        "rect": {
+          "x": 320,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "房价",
+        "placeholder": null,
+        "text": "房价",
+        "rect": {
+          "x": 366,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "订单",
+        "placeholder": null,
+        "text": "订单",
+        "rect": {
+          "x": 412,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "售卖/产品",
+        "placeholder": null,
+        "text": "售卖/产品",
+        "rect": {
+          "x": 458,
+          "y": 1,
+          "width": 62,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "OTA",
+        "placeholder": null,
+        "text": "OTA",
+        "rect": {
+          "x": 538,
+          "y": 1,
+          "width": 27,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "社媒",
+        "placeholder": null,
+        "text": "社媒",
+        "rect": {
+          "x": 583,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "私域",
+        "placeholder": null,
+        "text": "私域",
+        "rect": {
+          "x": 629,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "聚合分销",
+        "placeholder": null,
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 675,
+          "y": 1,
+          "width": 91,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "HOT",
+        "rect": {
+          "x": 735,
+          "y": 21,
+          "width": 31,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 0px 0px 4px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 92, 82)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "SCRM",
+        "placeholder": null,
+        "text": "SCRM",
+        "rect": {
+          "x": 785,
+          "y": 1,
+          "width": 40,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "AI全域雷达",
+        "placeholder": null,
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 843,
+          "y": 1,
+          "width": 70,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "role": null,
+        "ariaLabel": "智慧酒店",
+        "placeholder": null,
+        "text": "智慧酒店",
+        "rect": {
+          "x": 931,
+          "y": 1,
+          "width": 56,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "报表",
+        "placeholder": null,
+        "text": "报表",
+        "rect": {
+          "x": 1005,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "设置",
+        "placeholder": null,
+        "text": "设置",
+        "rect": {
+          "x": 1051,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "role": null,
+        "ariaLabel": "顶部工具栏",
+        "placeholder": null,
+        "text": "应用订阅限时试用",
+        "rect": {
+          "x": 1118,
+          "y": 10,
+          "width": 314,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topbar-app-entry",
+        "role": null,
+        "ariaLabel": "应用订阅",
+        "placeholder": null,
+        "text": "应用订阅限时试用",
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 80,
+          "height": 20
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px 2px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "topbar-grid-icon",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1120,
+          "y": 32,
+          "width": 4,
+          "height": 4
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(43, 48, 56)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "2px",
+          "boxShadow": "rgb(43, 48, 56) 7px 0px 0px 0px, rgb(43, 48, 56) 14px 0px 0px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1142,
+          "y": 15,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "限时试用",
+        "rect": {
+          "x": 1149,
+          "y": 11,
+          "width": 50,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "10px",
+          "fontWeight": "700",
+          "lineHeight": "14px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 77, 79)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px 999px 999px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "role": null,
+        "ariaLabel": "消息",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1212,
+          "y": 21,
+          "width": 12,
+          "height": 10
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "role": null,
+        "ariaLabel": "收款",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1240,
+          "y": 20,
+          "width": 12,
+          "height": 12
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1243,
+          "y": 22,
+          "width": 7,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "role": null,
+        "ariaLabel": "接待",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1271,
+          "y": 18,
+          "width": 7,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1267,
+          "y": 28,
+          "width": 9,
+          "height": 5
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1277,
+          "y": 27,
+          "width": 4,
+          "height": 4
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "role": null,
+        "ariaLabel": "门锁",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1295,
+          "y": 18,
+          "width": 14,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1304,
+          "y": 22,
+          "width": 4,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "circle",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1298,
+          "y": 26,
+          "width": 2,
+          "height": 2
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "role": null,
+        "ariaLabel": "客服",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1324,
+          "y": 19,
+          "width": 12,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1324,
+          "y": 26,
+          "width": 12,
+          "height": 4
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1330,
+          "y": 31,
+          "width": 3,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "role": null,
+        "ariaLabel": "通知",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1353,
+          "y": 21,
+          "width": 10,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-user-menu",
+        "role": null,
+        "ariaLabel": "用户菜单",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "topbar-user-avatar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 32,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgb(241, 242, 245)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "32px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1378,
+          "y": 12,
+          "width": 28,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "circle",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1387,
+          "y": 16,
+          "width": 9,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1383,
+          "y": 29,
+          "width": 18,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1420,
+          "y": 20,
+          "width": 12,
+          "height": 12
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1424,
+          "y": 24,
+          "width": 5,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理智能硬件公安对接PSB公安对接上报日志上报日志版本号：v4.10.7全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失周醒醒1380013800244030119921",
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 1440,
+          "height": 882
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(243, 246, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "156px 1284px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "role": null,
+        "ariaLabel": "上报日志侧边导航",
+        "placeholder": null,
+        "text": "智住管理智能硬件公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 156,
+          "height": 848
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "12px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-collapsed",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 77,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 80,
+          "width": 11,
+          "height": 12
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 25,
+          "y": 85,
+          "width": 5,
+          "height": 8
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管理",
+        "rect": {
+          "x": 44,
+          "y": 75,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 79,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 85,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-collapsed",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "6px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 127,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 130,
+          "width": 11,
+          "height": 12
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 25,
+          "y": 135,
+          "width": 5,
+          "height": 8
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智能硬件",
+        "rect": {
+          "x": 44,
+          "y": 125,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 129,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 135,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-expanded is-active-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 150
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "6px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接",
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 177,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 180,
+          "width": 11,
+          "height": 12
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 25,
+          "y": 185,
+          "width": 5,
+          "height": 8
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安对接",
+        "rect": {
+          "x": 44,
+          "y": 175,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 179,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 184,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "PSB公安对接上报日志",
+        "rect": {
+          "x": 0,
+          "y": 208,
+          "width": 155,
+          "height": 106
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "2px 0px 4px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": "PSB公安对接",
+        "placeholder": null,
+        "text": "PSB公安对接",
+        "rect": {
+          "x": 0,
+          "y": 210,
+          "width": 155,
+          "height": 61
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "role": null,
+        "ariaLabel": "上报日志",
+        "placeholder": null,
+        "text": "上报日志",
+        "rect": {
+          "x": 0,
+          "y": 271,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志版本号：v4.10.7全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失周醒醒13800138002440301199210193218A-1203美团民宿205355",
+        "rect": {
+          "x": 156,
+          "y": 52,
+          "width": 1284,
+          "height": 882
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-page",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志版本号：v4.10.7全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失周醒醒13800138002440301199210193218A-1203美团民宿205355",
+        "rect": {
+          "x": 156,
+          "y": 52,
+          "width": 1284,
+          "height": 882
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "8px 8px 32px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgb(240, 242, 245)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h1",
+        "className": "psb-log-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报日志",
+        "rect": {
+          "x": 164,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "28px",
+          "fontWeight": "700",
+          "lineHeight": "42px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-version",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "版本号：v4.10.7",
+        "rect": {
+          "x": 0,
+          "y": 880,
+          "width": 156,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(156, 163, 175)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(156, 163, 175)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "psb-log-panel",
+        "role": null,
+        "ariaLabel": "上报日志",
+        "placeholder": null,
+        "text": "全部门店天鹅会宿公寓(前海壹方城宝安中心店)搜索上报时间请选择上报类型请选择上报状态请选择查询重置已加载 3 条上报日志姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失周醒醒13800138002440301199210193218A-1203美团民宿2053550785075990530me",
+        "rect": {
+          "x": 164,
+          "y": 60,
+          "width": 1268,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "10px 8px 20px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "8px 8px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-store-row",
+        "role": "radiogroup",
+        "ariaLabel": "门店范围",
+        "placeholder": null,
+        "text": "全部门店天鹅会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 172,
+          "y": 70,
+          "width": 1252,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 12px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-store is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部门店",
+        "rect": {
+          "x": 172,
+          "y": 70,
+          "width": 96,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": "全部门店",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 173,
+          "y": 71,
+          "width": 94,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部门店",
+        "rect": {
+          "x": 185,
+          "y": 74,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(77, 101, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "天鹅会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 276,
+          "y": 70,
+          "width": 259,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": "天鹅会宿公寓(前海壹方城宝安中心店)",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 277,
+          "y": 71,
+          "width": 257,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "天鹅会宿公寓(前海壹方城宝安中心店)",
+        "rect": {
+          "x": 289,
+          "y": 74,
+          "width": 233,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-toolbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索上报时间请选择上报类型请选择上报状态请选择查询重置",
+        "rect": {
+          "x": 172,
+          "y": 110,
+          "width": 1252,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 18px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "304px 296px 220px 220px 140px"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "psb-log-field psb-log-field--keyword",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索",
+        "rect": {
+          "x": 172,
+          "y": 110,
+          "width": 304,
+          "height": 28
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "36px 268px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "搜索",
+        "rect": {
+          "x": 172,
+          "y": 114,
+          "width": 28,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": "搜索",
+        "placeholder": "请输入订单号/手机号/房号",
+        "text": "",
+        "rect": {
+          "x": 208,
+          "y": 110,
+          "width": 268,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--date",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间请选择",
+        "rect": {
+          "x": 494,
+          "y": 110,
+          "width": 296,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间",
+        "rect": {
+          "x": 494,
+          "y": 114,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-control-button",
+        "role": null,
+        "ariaLabel": "上报时间 请选择",
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 558,
+          "y": 110,
+          "width": 232,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 570,
+          "y": 114,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 770,
+          "y": 119,
+          "width": 10,
+          "height": 10
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 0px 10px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型请选择",
+        "rect": {
+          "x": 808,
+          "y": 110,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型",
+        "rect": {
+          "x": 808,
+          "y": 114,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-control-button",
+        "role": null,
+        "ariaLabel": "上报类型 请选择",
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 872,
+          "y": 110,
+          "width": 156,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 884,
+          "y": 114,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1008,
+          "y": 119,
+          "width": 10,
+          "height": 10
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 0px 10px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-field psb-log-field--select",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态请选择",
+        "rect": {
+          "x": 1046,
+          "y": 110,
+          "width": 220,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态",
+        "rect": {
+          "x": 1046,
+          "y": 114,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 8px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-control-button",
+        "role": null,
+        "ariaLabel": "上报状态 请选择",
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 1110,
+          "y": 110,
+          "width": 156,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px 11px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择",
+        "rect": {
+          "x": 1122,
+          "y": 114,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1246,
+          "y": 119,
+          "width": 10,
+          "height": 10
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 0px 10px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "查询重置",
+        "rect": {
+          "x": 1284,
+          "y": 110,
+          "width": 140,
+          "height": 28
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-button is-primary",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "查询",
+        "rect": {
+          "x": 1296,
+          "y": 110,
+          "width": 60,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-button is-ghost",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "重置",
+        "rect": {
+          "x": 1364,
+          "y": 110,
+          "width": 60,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 15px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(77, 101, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-status",
+        "role": "status",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "已加载 3 条上报日志",
+        "rect": {
+          "x": 172,
+          "y": 156,
+          "width": 1252,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px 0px 10px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(102, 102, 102)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(102, 102, 102)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "psb-log-table",
+        "role": null,
+        "ariaLabel": "上报日志列表",
+        "placeholder": null,
+        "text": "姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失周醒醒13800138002440301199210193218A-1203美团民宿2053550785075990530meituan-20535507850759905302026-05-19 11:30:00入住成功公安回执：上报成功陈北望",
+        "rect": {
+          "x": 172,
+          "y": 188,
+          "width": 1252,
+          "height": 182
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(240, 240, 240)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__head",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "姓名手机号证件号码房间号订单来源订单号旅客云订单号上报时间上报类型上报状态备注",
+        "rect": {
+          "x": 173,
+          "y": 189,
+          "width": 1672,
+          "height": 36
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgb(243, 248, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "100px 132px 170px 110px 110px 190px 210px 170px 100px 100px 280px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "姓名",
+        "rect": {
+          "x": 173,
+          "y": 189,
+          "width": 100,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "手机号",
+        "rect": {
+          "x": 273,
+          "y": 189,
+          "width": 132,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "证件号码",
+        "rect": {
+          "x": 405,
+          "y": 189,
+          "width": 170,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "房间号",
+        "rect": {
+          "x": 575,
+          "y": 189,
+          "width": 110,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单来源",
+        "rect": {
+          "x": 685,
+          "y": 189,
+          "width": 110,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "订单号",
+        "rect": {
+          "x": 795,
+          "y": 189,
+          "width": 190,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "旅客云订单号",
+        "rect": {
+          "x": 985,
+          "y": 189,
+          "width": 210,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报时间",
+        "rect": {
+          "x": 1195,
+          "y": 189,
+          "width": 170,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报类型",
+        "rect": {
+          "x": 1365,
+          "y": 189,
+          "width": 100,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "上报状态",
+        "rect": {
+          "x": 1465,
+          "y": 189,
+          "width": 100,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "columnheader",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "备注",
+        "rect": {
+          "x": 1565,
+          "y": 189,
+          "width": 280,
+          "height": 36
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__row",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "刘诗雨13800138001440301199401011286A-1801携程2053550785075990529ctrip-20535507850759905292026-05-18 09:12:44退房失败公安回执：证件照片缺失",
+        "rect": {
+          "x": 173,
+          "y": 225,
+          "width": 1672,
+          "height": 48
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "100px 132px 170px 110px 110px 190px 210px 170px 100px 100px 280px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "刘诗雨",
+        "rect": {
+          "x": 173,
+          "y": 226,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "13800138001",
+        "rect": {
+          "x": 273,
+          "y": 226,
+          "width": 132,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "440301199401011286",
+        "rect": {
+          "x": 405,
+          "y": 226,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "A-1801",
+        "rect": {
+          "x": 575,
+          "y": 226,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程",
+        "rect": {
+          "x": 685,
+          "y": 226,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2053550785075990529",
+        "rect": {
+          "x": 795,
+          "y": 226,
+          "width": 190,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-link-button",
+        "role": null,
+        "ariaLabel": "查看订单 2053550785075990529",
+        "placeholder": null,
+        "text": "2053550785075990529",
+        "rect": {
+          "x": 805,
+          "y": 237,
+          "width": 160,
+          "height": 25
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "2px outset rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "ctrip-2053550785075990529",
+        "rect": {
+          "x": 985,
+          "y": 226,
+          "width": 210,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2026-05-18 09:12:44",
+        "rect": {
+          "x": 1195,
+          "y": 226,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "退房",
+        "rect": {
+          "x": 1365,
+          "y": 226,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "失败",
+        "rect": {
+          "x": 1465,
+          "y": 226,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-state-badge is-error",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "失败",
+        "rect": {
+          "x": 1475,
+          "y": 238,
+          "width": 54,
+          "height": 24
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(207, 19, 34)",
+          "backgroundColor": "rgb(255, 242, 240)",
+          "border": "0px none rgb(207, 19, 34)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安回执：证件照片缺失",
+        "rect": {
+          "x": 1565,
+          "y": 226,
+          "width": 280,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__row",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "周醒醒13800138002440301199210193218A-1203美团民宿2053550785075990530meituan-20535507850759905302026-05-19 11:30:00入住成功公安回执：上报成功",
+        "rect": {
+          "x": 173,
+          "y": 273,
+          "width": 1672,
+          "height": 48
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "100px 132px 170px 110px 110px 190px 210px 170px 100px 100px 280px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "周醒醒",
+        "rect": {
+          "x": 173,
+          "y": 274,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "13800138002",
+        "rect": {
+          "x": 273,
+          "y": 274,
+          "width": 132,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "440301199210193218",
+        "rect": {
+          "x": 405,
+          "y": 274,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "A-1203",
+        "rect": {
+          "x": 575,
+          "y": 274,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "美团民宿",
+        "rect": {
+          "x": 685,
+          "y": 274,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2053550785075990530",
+        "rect": {
+          "x": 795,
+          "y": 274,
+          "width": 190,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-link-button",
+        "role": null,
+        "ariaLabel": "查看订单 2053550785075990530",
+        "placeholder": null,
+        "text": "2053550785075990530",
+        "rect": {
+          "x": 805,
+          "y": 285,
+          "width": 160,
+          "height": 25
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "2px outset rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "meituan-2053550785075990530",
+        "rect": {
+          "x": 985,
+          "y": 274,
+          "width": 210,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2026-05-19 11:30:00",
+        "rect": {
+          "x": 1195,
+          "y": 274,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "入住",
+        "rect": {
+          "x": 1365,
+          "y": 274,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "成功",
+        "rect": {
+          "x": 1465,
+          "y": 274,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-state-badge is-success",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "成功",
+        "rect": {
+          "x": 1475,
+          "y": 286,
+          "width": 54,
+          "height": 24
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(56, 158, 13)",
+          "backgroundColor": "rgb(246, 255, 237)",
+          "border": "0px none rgb(56, 158, 13)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安回执：上报成功",
+        "rect": {
+          "x": 1565,
+          "y": 274,
+          "width": 280,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "psb-log-table__row",
+        "role": "row",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "陈北望13800138003440301198805265419A-903旅客云2053550785075990531lk-20535507850759905312026-05-17 20:18:09续住成功公安回执：续住同步完成",
+        "rect": {
+          "x": 173,
+          "y": 321,
+          "width": 1672,
+          "height": 48
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "100px 132px 170px 110px 110px 190px 210px 170px 100px 100px 280px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "陈北望",
+        "rect": {
+          "x": 173,
+          "y": 322,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "13800138003",
+        "rect": {
+          "x": 273,
+          "y": 322,
+          "width": 132,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "440301198805265419",
+        "rect": {
+          "x": 405,
+          "y": 322,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "A-903",
+        "rect": {
+          "x": 575,
+          "y": 322,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "旅客云",
+        "rect": {
+          "x": 685,
+          "y": 322,
+          "width": 110,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2053550785075990531",
+        "rect": {
+          "x": 795,
+          "y": 322,
+          "width": 190,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "psb-log-link-button",
+        "role": null,
+        "ariaLabel": "查看订单 2053550785075990531",
+        "placeholder": null,
+        "text": "2053550785075990531",
+        "rect": {
+          "x": 805,
+          "y": 333,
+          "width": 160,
+          "height": 25
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(77, 101, 246)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "2px outset rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "lk-2053550785075990531",
+        "rect": {
+          "x": 985,
+          "y": 322,
+          "width": 210,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2026-05-17 20:18:09",
+        "rect": {
+          "x": 1195,
+          "y": 322,
+          "width": 170,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "续住",
+        "rect": {
+          "x": 1365,
+          "y": 322,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "成功",
+        "rect": {
+          "x": 1465,
+          "y": 322,
+          "width": 100,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "psb-log-state-badge is-success",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "成功",
+        "rect": {
+          "x": 1475,
+          "y": 334,
+          "width": 54,
+          "height": 24
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(56, 158, 13)",
+          "backgroundColor": "rgb(246, 255, 237)",
+          "border": "0px none rgb(56, 158, 13)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": "cell",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "公安回执：续住同步完成",
+        "rect": {
+          "x": 1565,
+          "y": 322,
+          "width": 280,
+          "height": 47
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.88)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.88)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock-launcher",
+        "role": null,
+        "ariaLabel": "打开全部会话",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1377,
+          "y": 822,
+          "width": 46,
+          "height": 46
+        },
+        "styles": {
+          "display": "grid",
+          "position": "fixed",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "50%",
+          "boxShadow": "rgba(77, 101, 246, 0.28) 0px 4px 12px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "34px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1389,
+          "y": 836,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "2px solid rgb(255, 255, 255)",
+          "borderRadius": "6px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ]
+  }
+}

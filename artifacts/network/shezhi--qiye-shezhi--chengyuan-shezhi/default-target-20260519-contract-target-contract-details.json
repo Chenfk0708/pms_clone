@@ -1,0 +1,207 @@
+{
+  "state": "default",
+  "url": "https://minsubao.localhome.cn/setting/member",
+  "captures": [
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": [],
+        "channelId": ""
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 4,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 4,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 1,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 1,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/role/camp/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campRoles": {
+            "type": "array",
+            "length": 7,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campRoles/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "employees": {
+            "type": "array",
+            "length": 1,
+            "sample": "object"
+          },
+          "usedEmployeeNum": 1,
+          "employeeNum": 3
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campEmployeeFlows/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campEmployeeFlows": {
+            "type": "array",
+            "length": 0,
+            "sample": null
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryGroups/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "roomCategoryGroups": {
+            "type": "array",
+            "length": 0,
+            "sample": null
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": [
+          "1796425099729092609",
+          "1796425099485822977",
+          "1796425099242553345",
+          "1796425098965729282"
+        ],
+        "saleType": 1
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "roomCategoryRooms": {
+            "type": "array",
+            "length": 4,
+            "sample": "object"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campEmployeeFlows/get",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseBody": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campEmployeeFlows": {
+            "type": "array",
+            "length": 0,
+            "sample": null
+          }
+        }
+      }
+    }
+  ]
+}

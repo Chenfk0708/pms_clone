@@ -1,0 +1,36 @@
+{
+  "mode": "clone",
+  "state": "error",
+  "stamp": "20260519093006",
+  "url": "http://127.0.0.1:4173/statistics/Comprehensive?mockState=error",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4173/statistics/Comprehensive?mockState=error",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-0RHVR-LH.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CP2rm5Ep.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4173/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,5979 @@
+{
+  "taskId": "shezhi--qiye-shezhi--quanxian-shezhi",
+  "mode": "clone",
+  "state": "add",
+  "stamp": "20260520-local-add",
+  "url": "http://127.0.0.1:4309/setting/role",
+  "isLoginBlocked": false,
+  "interactions": [
+    {
+      "slug": "add-role",
+      "labels": [
+        "新增角色",
+        "添加角色",
+        "新建角色"
+      ],
+      "result": {
+        "found": true,
+        "clicked": true,
+        "label": "新增角色",
+        "text": "新增角色",
+        "box": {
+          "x": 344,
+          "y": 81,
+          "width": 86,
+          "height": 32
+        }
+      },
+      "urlChanged": false,
+      "textChanged": true,
+      "before": {
+        "url": "http://127.0.0.1:4309/setting/role",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n权限设置\nprovider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAuthority/camp/get;campId=1796067693589061634;roleId=\n店铺角色\n共 7 个角色\n新增角色\n角色名称搜索\n管理员\n3 人\n管家\n8 人\n投资人\n2 人\n保洁员\n6 人\n智住管家\n4 人\n业主\n5 人\nlocalsAI\n1 人\n请选择角色\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业设置",
+          "权限设置"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:4309/setting/role",
+        "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n权限设置\nprovider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAuthority/camp/get;campId=1796067693589061634;roleId=\n店铺角色\n共 7 个角色\n新增角色\n角色名称搜索\n管理员\n3 人\n管家\n8 人\n投资人\n2 人\n保洁员\n6 人\n智住管家\n4 人\n业主\n5 人\nlocalsAI\n1 人\n请选择角色\n新增角色\n×\n\n提示：此操作有纪录，请谨慎添加、编辑和删除。\n\n角色名称（必填）\n描述\n取 消\n确 定\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+        "dialogs": [
+          "新增角色×提示：此操作有纪录，请谨慎添加、编辑和删除。角色名称（必填）描述取 消确 定"
+        ],
+        "dropdowns": [],
+        "active": [
+          "设置",
+          "企业设置",
+          "权限设置"
+        ]
+      },
+      "screenshotPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--qiye-shezhi--quanxian-shezhi\\add-clone-20260520-local-add-add-role.png"
+    }
+  ],
+  "facts": {
+    "title": "pms_clone",
+    "location": "http://127.0.0.1:4309/setting/role",
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    },
+    "bodyText": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n企业设置\n企业信息\n权限设置\n成员设置\n企业资质\nAPI keys\n通用设置\n权限设置\nprovider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAuthority/camp/get;campId=1796067693589061634;roleId=\n店铺角色\n共 7 个角色\n新增角色\n角色名称搜索\n管理员\n3 人\n管家\n8 人\n投资人\n2 人\n保洁员\n6 人\n智住管家\n4 人\n业主\n5 人\nlocalsAI\n1 人\n请选择角色\n新增角色\n×\n\n提示：此操作有纪录，请谨慎添加、编辑和删除。\n\n角色名称（必填）\n描述\n取 消\n确 定\n全部会话\n↻\n收起\n携程民宿-【M335275070】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 加了\n携程民宿-【M566739056】\n咨询中\n\n途家总裁套间（桦拿淞缇露台电竞麻将）\n\n我 已办理退房\n去哪民宿-【去哪儿用户】\n咨询中\n\n途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）\n\n我 人 有的\n携程民宿-【M614718025】\n咨询中\n\n途家顶层套房（淞缇巨幕电竞麻将）\n\n我 什么时间段呢几号到几...\n收起",
+    "hasBusinessText": true,
+    "isLoginBlocked": false,
+    "buttons": [
+      "首页",
+      "房态",
+      "房价",
+      "订单",
+      "售卖/产品",
+      "OTA",
+      "社媒",
+      "私域",
+      "聚合分销HOT",
+      "SCRM",
+      "AI全域雷达",
+      "智慧酒店",
+      "报表",
+      "设置",
+      "应用订阅限时试用",
+      "消息",
+      "收款",
+      "接待",
+      "门锁",
+      "客服",
+      "通知",
+      "用户菜单",
+      "信息维护",
+      "企业设置",
+      "企业信息",
+      "权限设置",
+      "成员设置",
+      "企业资质",
+      "API keys",
+      "通用设置",
+      "新增角色",
+      "管理员3 人",
+      "管家8 人",
+      "投资人2 人",
+      "保洁员6 人",
+      "智住管家4 人",
+      "业主5 人",
+      "localsAI1 人",
+      "×",
+      "取 消",
+      "确 定",
+      "↻",
+      "收起",
+      "收起"
+    ],
+    "inputs": [
+      {
+        "type": null,
+        "placeholder": "请输入名称",
+        "ariaLabel": "角色名称搜索",
+        "value": "",
+        "rect": {
+          "x": 185,
+          "y": 158,
+          "width": 245,
+          "height": 32
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入角色名称",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 407,
+          "y": 256,
+          "width": 627,
+          "height": 34
+        }
+      },
+      {
+        "type": null,
+        "placeholder": "请输入描述",
+        "ariaLabel": null,
+        "value": "",
+        "rect": {
+          "x": 407,
+          "y": 337,
+          "width": 627,
+          "height": 111
+        }
+      }
+    ],
+    "tableHeaders": [],
+    "rows": [],
+    "dialogs": [
+      {
+        "tag": "section",
+        "className": "permission-modal",
+        "role": "dialog",
+        "ariaLabel": "新增角色",
+        "placeholder": null,
+        "text": "新增角色×提示：此操作有纪录，请谨慎添加、编辑和删除。角色名称（必填）描述取 消确 定",
+        "rect": {
+          "x": 383,
+          "y": 100,
+          "width": 675,
+          "height": 420
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "6px",
+          "boxShadow": "rgba(15, 23, 42, 0.22) 0px 12px 34px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ],
+    "elementSamples": [
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用信息维护企业设置企业信息权限设置成员设置企业资质API keys通用设置权限设置provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=179606769358906",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用信息维护企业设置企业信息权限设置成员设置企业资质API keys通用设置权限设置provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=179606769358906",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置应用订阅限时试用",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 52
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "250px 828px 314px"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-block",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 8,
+          "y": 10,
+          "width": 250,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-mark",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "LOCALS",
+        "rect": {
+          "x": 8,
+          "y": 10,
+          "width": 48,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "brand-store",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺畅享版",
+        "rect": {
+          "x": 68,
+          "y": 13,
+          "width": 193,
+          "height": 26
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "路客云 6TS5 的店铺",
+        "rect": {
+          "x": 68,
+          "y": 15,
+          "width": 127,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "600",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "畅享版",
+        "rect": {
+          "x": 205,
+          "y": 13,
+          "width": 56,
+          "height": 26
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "4px 10px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(68, 105, 228)",
+          "backgroundColor": "rgb(232, 241, 255)",
+          "border": "0px none rgb(68, 105, 228)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "role": null,
+        "ariaLabel": "顶部导航",
+        "placeholder": null,
+        "text": "首页房态房价订单售卖/产品OTA社媒私域聚合分销HOTSCRMAI全域雷达智慧酒店报表设置",
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 828,
+          "height": 50
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "首页",
+        "placeholder": null,
+        "text": "首页",
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "房态",
+        "placeholder": null,
+        "text": "房态",
+        "rect": {
+          "x": 320,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "房价",
+        "placeholder": null,
+        "text": "房价",
+        "rect": {
+          "x": 366,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "订单",
+        "placeholder": null,
+        "text": "订单",
+        "rect": {
+          "x": 412,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "售卖/产品",
+        "placeholder": null,
+        "text": "售卖/产品",
+        "rect": {
+          "x": 458,
+          "y": 1,
+          "width": 62,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "OTA",
+        "placeholder": null,
+        "text": "OTA",
+        "rect": {
+          "x": 538,
+          "y": 1,
+          "width": 27,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "社媒",
+        "placeholder": null,
+        "text": "社媒",
+        "rect": {
+          "x": 583,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "私域",
+        "placeholder": null,
+        "text": "私域",
+        "rect": {
+          "x": 629,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "聚合分销",
+        "placeholder": null,
+        "text": "聚合分销HOT",
+        "rect": {
+          "x": 675,
+          "y": 1,
+          "width": 91,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "HOT",
+        "rect": {
+          "x": 735,
+          "y": 21,
+          "width": 31,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 0px 0px 4px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 92, 82)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "SCRM",
+        "placeholder": null,
+        "text": "SCRM",
+        "rect": {
+          "x": 785,
+          "y": 1,
+          "width": 40,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "AI全域雷达",
+        "placeholder": null,
+        "text": "AI全域雷达",
+        "rect": {
+          "x": 843,
+          "y": 1,
+          "width": 70,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "智慧酒店",
+        "placeholder": null,
+        "text": "智慧酒店",
+        "rect": {
+          "x": 931,
+          "y": 1,
+          "width": 56,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "role": null,
+        "ariaLabel": "报表",
+        "placeholder": null,
+        "text": "报表",
+        "rect": {
+          "x": 1005,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "role": null,
+        "ariaLabel": "设置",
+        "placeholder": null,
+        "text": "设置",
+        "rect": {
+          "x": 1051,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "role": null,
+        "ariaLabel": "顶部工具栏",
+        "placeholder": null,
+        "text": "应用订阅限时试用",
+        "rect": {
+          "x": 1118,
+          "y": 10,
+          "width": 314,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topbar-app-entry",
+        "role": null,
+        "ariaLabel": "应用订阅",
+        "placeholder": null,
+        "text": "应用订阅限时试用",
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 80,
+          "height": 20
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px 2px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "topbar-grid-icon",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "relative",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "i",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1120,
+          "y": 32,
+          "width": 4,
+          "height": 4
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgb(43, 48, 56)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "2px",
+          "boxShadow": "rgb(43, 48, 56) 7px 0px 0px 0px, rgb(43, 48, 56) 14px 0px 0px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "应用订阅",
+        "rect": {
+          "x": 1142,
+          "y": 15,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "限时试用",
+        "rect": {
+          "x": 1149,
+          "y": 11,
+          "width": 50,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "10px",
+          "fontWeight": "700",
+          "lineHeight": "14px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 77, 79)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px 999px 999px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "role": null,
+        "ariaLabel": "消息",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1212,
+          "y": 21,
+          "width": 12,
+          "height": 10
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "role": null,
+        "ariaLabel": "收款",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1240,
+          "y": 20,
+          "width": 12,
+          "height": 12
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1243,
+          "y": 22,
+          "width": 7,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "role": null,
+        "ariaLabel": "接待",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1271,
+          "y": 18,
+          "width": 7,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1267,
+          "y": 28,
+          "width": 9,
+          "height": 5
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1277,
+          "y": 27,
+          "width": 4,
+          "height": 4
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "role": null,
+        "ariaLabel": "门锁",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1295,
+          "y": 18,
+          "width": 14,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1304,
+          "y": 22,
+          "width": 4,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "circle",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1298,
+          "y": 26,
+          "width": 2,
+          "height": 2
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "role": null,
+        "ariaLabel": "客服",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1324,
+          "y": 19,
+          "width": 12,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1324,
+          "y": 26,
+          "width": 12,
+          "height": 4
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1330,
+          "y": 31,
+          "width": 3,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "role": null,
+        "ariaLabel": "通知",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "20px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1353,
+          "y": 21,
+          "width": 10,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-user-menu",
+        "role": null,
+        "ariaLabel": "用户菜单",
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "topbar-user-avatar",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 32,
+          "height": 32
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgb(241, 242, 245)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "32px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1378,
+          "y": 12,
+          "width": 28,
+          "height": 28
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "circle",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1387,
+          "y": 16,
+          "width": 9,
+          "height": 9
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1383,
+          "y": 29,
+          "width": 18,
+          "height": 7
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(214, 218, 226)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(214, 218, 226)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1420,
+          "y": 20,
+          "width": 12,
+          "height": 12
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1424,
+          "y": 24,
+          "width": 5,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护企业设置企业信息权限设置成员设置企业资质API keys通用设置权限设置provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;trac",
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 1440,
+          "height": 848
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(243, 246, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "156px 1284px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "role": null,
+        "ariaLabel": "权限设置侧边导航",
+        "placeholder": null,
+        "text": "信息维护企业设置企业信息权限设置成员设置企业资质API keys通用设置",
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 156,
+          "height": 848
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "12px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-collapsed",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护",
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 77,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 24,
+          "y": 83,
+          "width": 5,
+          "height": 5
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 20,
+          "y": 81,
+          "width": 14,
+          "height": 11
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "信息维护",
+        "rect": {
+          "x": 44,
+          "y": 75,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 79,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 85,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-expanded is-active-group",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置企业信息权限设置成员设置企业资质API keys",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 243
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "6px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title is-active",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置",
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 127,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 24,
+          "y": 133,
+          "width": 5,
+          "height": 5
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 20,
+          "y": 131,
+          "width": 14,
+          "height": 11
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业设置",
+        "rect": {
+          "x": 44,
+          "y": 125,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 129,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 134,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "企业信息权限设置成员设置企业资质API keys",
+        "rect": {
+          "x": 0,
+          "y": 158,
+          "width": 155,
+          "height": 199
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "2px 0px 4px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "155px"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": "企业信息",
+        "placeholder": null,
+        "text": "企业信息",
+        "rect": {
+          "x": 0,
+          "y": 160,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "role": null,
+        "ariaLabel": "权限设置",
+        "placeholder": null,
+        "text": "权限设置",
+        "rect": {
+          "x": 0,
+          "y": 199,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": "成员设置",
+        "placeholder": null,
+        "text": "成员设置",
+        "rect": {
+          "x": 0,
+          "y": 237,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": "企业资质",
+        "placeholder": null,
+        "text": "企业资质",
+        "rect": {
+          "x": 0,
+          "y": 276,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "role": null,
+        "ariaLabel": "API keys",
+        "placeholder": null,
+        "text": "API keys",
+        "rect": {
+          "x": 0,
+          "y": 314,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-collapsed",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置",
+        "rect": {
+          "x": 0,
+          "y": 363,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "6px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置",
+        "rect": {
+          "x": 0,
+          "y": 363,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "26px 81px 16px"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 18,
+          "y": 376,
+          "width": 18,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 24,
+          "y": 382,
+          "width": 5,
+          "height": 5
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 20,
+          "y": 379,
+          "width": 14,
+          "height": 11
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "role": "heading",
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "通用设置",
+        "rect": {
+          "x": 44,
+          "y": 373,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "svg",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 127,
+          "y": 378,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "path",
+        "className": "[object SVGAnimatedString]",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 131,
+          "y": 383,
+          "width": 6,
+          "height": 3
+        },
+        "styles": {
+          "display": "inline",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "权限设置provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAu",
+        "rect": {
+          "x": 156,
+          "y": 52,
+          "width": 1284,
+          "height": 848
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(244, 246, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-setting-page",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "权限设置provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAu",
+        "rect": {
+          "x": 156,
+          "y": 52,
+          "width": 1284,
+          "height": 842
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(244, 246, 251)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h1",
+        "className": "permission-sr-only",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "权限设置",
+        "rect": {
+          "x": 167,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "-1px",
+          "fontSize": "32px",
+          "fontWeight": "700",
+          "lineHeight": "48px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-setting-diagnostics",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "provider=mock;mockState=success;traceId=mock-shezhi--qiye-shezhi--quanxian-shezhi-role-list-success-001;path=/role/camp/get;campId=1796067693589061634;keyword=;pageNum=1;pageSize=50;|;provider=mock;mockState=success;traceId=pending-role-detail;path=/roleAuthor",
+        "rect": {
+          "x": 167,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "-1px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "permission-role-shell",
+        "role": null,
+        "ariaLabel": "权限设置",
+        "placeholder": null,
+        "text": "店铺角色共 7 个角色新增角色角色名称搜索管理员3 人管家8 人投资人2 人保洁员6 人智住管家4 人业主5 人localsAI1 人请选择角色",
+        "rect": {
+          "x": 168,
+          "y": 64,
+          "width": 1260,
+          "height": 686
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(237, 240, 246)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "278px 980px"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "permission-role-list",
+        "role": null,
+        "ariaLabel": "店铺角色",
+        "placeholder": null,
+        "text": "店铺角色共 7 个角色新增角色角色名称搜索管理员3 人管家8 人投资人2 人保洁员6 人智住管家4 人业主5 人localsAI1 人",
+        "rect": {
+          "x": 169,
+          "y": 65,
+          "width": 278,
+          "height": 684
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-role-list__header",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "店铺角色共 7 个角色新增角色",
+        "rect": {
+          "x": 169,
+          "y": 65,
+          "width": 277,
+          "height": 79
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "16px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "店铺角色共 7 个角色",
+        "rect": {
+          "x": 185,
+          "y": 81,
+          "width": 64,
+          "height": 46
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "店铺角色",
+        "rect": {
+          "x": 185,
+          "y": 81,
+          "width": 64,
+          "height": 24
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "共 7 个角色",
+        "rect": {
+          "x": 185,
+          "y": 109,
+          "width": 64,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(122, 134, 152)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(122, 134, 152)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "permission-primary-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "新增角色",
+        "rect": {
+          "x": 344,
+          "y": 81,
+          "width": 86,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 14px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(49, 92, 246)",
+          "border": "1px solid rgb(49, 92, 246)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "permission-role-search-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "角色名称搜索",
+        "rect": {
+          "x": 169,
+          "y": 144,
+          "width": 277,
+          "height": 46
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "14px 16px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "permission-sr-only",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "角色名称搜索",
+        "rect": {
+          "x": 184,
+          "y": 157,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "padding": "0px",
+          "margin": "-1px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "permission-role-search",
+        "role": null,
+        "ariaLabel": "角色名称搜索",
+        "placeholder": "请输入名称",
+        "text": "",
+        "rect": {
+          "x": 185,
+          "y": 158,
+          "width": 245,
+          "height": 32
+        },
+        "styles": {
+          "display": "inline-block",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 223, 233)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-role-buttons",
+        "role": null,
+        "ariaLabel": "角色列表",
+        "placeholder": null,
+        "text": "管理员3 人管家8 人投资人2 人保洁员6 人智住管家4 人业主5 人localsAI1 人",
+        "rect": {
+          "x": 169,
+          "y": 190,
+          "width": 277,
+          "height": 358
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "12px 8px 16px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "261px"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "管理员",
+        "placeholder": null,
+        "text": "管理员3 人",
+        "rect": {
+          "x": 177,
+          "y": 202,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "管理员",
+        "rect": {
+          "x": 189,
+          "y": 213,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "3 人",
+        "rect": {
+          "x": 403,
+          "y": 214,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "管家",
+        "placeholder": null,
+        "text": "管家8 人",
+        "rect": {
+          "x": 177,
+          "y": 250,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "管家",
+        "rect": {
+          "x": 189,
+          "y": 261,
+          "width": 28,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "8 人",
+        "rect": {
+          "x": 403,
+          "y": 262,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "投资人",
+        "placeholder": null,
+        "text": "投资人2 人",
+        "rect": {
+          "x": 177,
+          "y": 298,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "投资人",
+        "rect": {
+          "x": 189,
+          "y": 309,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "2 人",
+        "rect": {
+          "x": 403,
+          "y": 310,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "保洁员",
+        "placeholder": null,
+        "text": "保洁员6 人",
+        "rect": {
+          "x": 177,
+          "y": 346,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "保洁员",
+        "rect": {
+          "x": 189,
+          "y": 357,
+          "width": 42,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "6 人",
+        "rect": {
+          "x": 403,
+          "y": 358,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "智住管家",
+        "placeholder": null,
+        "text": "智住管家4 人",
+        "rect": {
+          "x": 177,
+          "y": 394,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "智住管家",
+        "rect": {
+          "x": 189,
+          "y": 405,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "4 人",
+        "rect": {
+          "x": 403,
+          "y": 406,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "业主",
+        "placeholder": null,
+        "text": "业主5 人",
+        "rect": {
+          "x": 177,
+          "y": 442,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "业主",
+        "rect": {
+          "x": 189,
+          "y": 453,
+          "width": 28,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "5 人",
+        "rect": {
+          "x": 403,
+          "y": 454,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "localsAI",
+        "placeholder": null,
+        "text": "localsAI1 人",
+        "rect": {
+          "x": 177,
+          "y": 490,
+          "width": 261,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 12px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "localsAI",
+        "rect": {
+          "x": 189,
+          "y": 501,
+          "width": 52,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 64, 84)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "1 人",
+        "rect": {
+          "x": 403,
+          "y": 502,
+          "width": 23,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "permission-detail-panel",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择角色",
+        "rect": {
+          "x": 447,
+          "y": 65,
+          "width": 980,
+          "height": 684
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-empty-state",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择角色",
+        "rect": {
+          "x": 447,
+          "y": 65,
+          "width": 980,
+          "height": 684
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "980px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "请选择角色",
+        "rect": {
+          "x": 902,
+          "y": 397,
+          "width": 70,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-modal-backdrop",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "新增角色×提示：此操作有纪录，请谨慎添加、编辑和删除。角色名称（必填）描述取 消确 定",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "grid",
+          "position": "fixed",
+          "padding": "100px 0px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0.45)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "1440px"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "permission-modal",
+        "role": "dialog",
+        "ariaLabel": "新增角色",
+        "placeholder": null,
+        "text": "新增角色×提示：此操作有纪录，请谨慎添加、编辑和删除。角色名称（必填）描述取 消确 定",
+        "rect": {
+          "x": 383,
+          "y": 100,
+          "width": 675,
+          "height": 420
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "6px",
+          "boxShadow": "rgba(15, 23, 42, 0.22) 0px 12px 34px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-modal__header",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "新增角色×",
+        "rect": {
+          "x": 383,
+          "y": 100,
+          "width": 675,
+          "height": 68
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 24px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "新增角色",
+        "rect": {
+          "x": 407,
+          "y": 122,
+          "width": 64,
+          "height": 24
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "关闭新增角色",
+        "placeholder": null,
+        "text": "×",
+        "rect": {
+          "x": 1005,
+          "y": 122,
+          "width": 28,
+          "height": 24
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "22px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(138, 149, 165)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(138, 149, 165)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-modal__body",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "提示：此操作有纪录，请谨慎添加、编辑和删除。角色名称（必填）描述",
+        "rect": {
+          "x": 383,
+          "y": 168,
+          "width": 675,
+          "height": 296
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "20px 24px 16px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "627px"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "permission-modal__notice",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "提示：此操作有纪录，请谨慎添加、编辑和删除。",
+        "rect": {
+          "x": 407,
+          "y": 188,
+          "width": 627,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "permission-form-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "角色名称（必填）",
+        "rect": {
+          "x": 407,
+          "y": 227,
+          "width": 627,
+          "height": 63
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "627px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "角色名称（必填）",
+        "rect": {
+          "x": 407,
+          "y": 227,
+          "width": 627,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入角色名称",
+        "text": "",
+        "rect": {
+          "x": 407,
+          "y": 256,
+          "width": 627,
+          "height": 34
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 223, 233)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "clip",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "permission-form-row",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "描述",
+        "rect": {
+          "x": 407,
+          "y": 308,
+          "width": 627,
+          "height": 140
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "627px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "描述",
+        "rect": {
+          "x": 407,
+          "y": 308,
+          "width": 627,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(95, 107, 125)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(95, 107, 125)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "textarea",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": "请输入描述",
+        "text": "",
+        "rect": {
+          "x": 407,
+          "y": 337,
+          "width": 627,
+          "height": 111
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "8px 10px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(217, 223, 233)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "permission-modal__footer",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "取 消确 定",
+        "rect": {
+          "x": 383,
+          "y": 464,
+          "width": 675,
+          "height": 56
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "4px 24px 20px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(23, 35, 61)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(23, 35, 61)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "取 消",
+        "rect": {
+          "x": 901,
+          "y": 468,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 14px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(214, 222, 235)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "permission-primary-button",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "确 定",
+        "rect": {
+          "x": 971,
+          "y": 468,
+          "width": 62,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px 14px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(52, 64, 84)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(214, 222, 235)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "chat-dock",
+        "role": null,
+        "ariaLabel": "全部会话",
+        "placeholder": null,
+        "text": "全部会话↻收起携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...收起",
+        "rect": {
+          "x": 1104,
+          "y": 440,
+          "width": 326,
+          "height": 410
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "1px solid rgb(229, 231, 239)",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(15, 23, 42, 0.08) 0px 4px 14px 0px",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "chat-dock__header",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部会话↻收起",
+        "rect": {
+          "x": 1105,
+          "y": 441,
+          "width": 324,
+          "height": 42
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "全部会话",
+        "rect": {
+          "x": 1115,
+          "y": 451,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-dock__actions",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "↻收起",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 48,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "更新会话列表",
+        "placeholder": null,
+        "text": "↻",
+        "rect": {
+          "x": 1371,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "",
+        "role": null,
+        "ariaLabel": "收起会话",
+        "placeholder": null,
+        "text": "收起",
+        "rect": {
+          "x": 1397,
+          "y": 451,
+          "width": 22,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(75, 85, 99)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(75, 85, 99)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-dock__list",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1105,
+          "y": 483,
+          "width": 324,
+          "height": 366
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden auto",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了",
+        "rect": {
+          "x": 1105,
+          "y": 483,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar ",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 494,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(108, 167, 255)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 加了",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M335275070】",
+        "rect": {
+          "x": 1165,
+          "y": 494,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 495,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家顶层套房（淞缇巨幕电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 519,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 521,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 加了",
+        "rect": {
+          "x": 1165,
+          "y": 542,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房",
+        "rect": {
+          "x": 1105,
+          "y": 579,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-sky",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 590,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(128, 184, 232)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中途家总裁套间（桦拿淞缇露台电竞麻将）我 已办理退房",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M566739056】",
+        "rect": {
+          "x": 1165,
+          "y": 590,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 591,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家总裁套间（桦拿淞缇露台电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 615,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 617,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 已办理退房",
+        "rect": {
+          "x": 1165,
+          "y": 638,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的",
+        "rect": {
+          "x": 1105,
+          "y": 675,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 322.891px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-amber",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 686,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(242, 193, 78)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）我 人 有的",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 323,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 323,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "去哪民宿-【去哪儿用户】",
+        "rect": {
+          "x": 1165,
+          "y": 686,
+          "width": 160,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1439,
+          "y": 687,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家 02.19-02.21（2晚）总裁套间（桦拿淞缇露台电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 711,
+          "width": 323,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家 02.19-02.21（2晚）",
+        "rect": {
+          "x": 1165,
+          "y": 713,
+          "width": 125,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 人 有的",
+        "rect": {
+          "x": 1165,
+          "y": 734,
+          "width": 323,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "article",
+        "className": "chat-item",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1105,
+          "y": 771,
+          "width": 324,
+          "height": 96
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "padding": "11px 10px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "42px 254px"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "chat-item__avatar is-pink",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "",
+        "rect": {
+          "x": 1115,
+          "y": 782,
+          "width": 36,
+          "height": 36
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(243, 182, 202)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "50%",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中途家顶层套房（淞缇巨幕电竞麻将）我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 254,
+          "height": 73
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "chat-item__title",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】咨询中",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 254,
+          "height": 21
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "strong",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "携程民宿-【M614718025】",
+        "rect": {
+          "x": 1165,
+          "y": 782,
+          "width": 168,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "21px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "咨询中",
+        "rect": {
+          "x": 1370,
+          "y": 783,
+          "width": 49,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "1px 8px",
+          "margin": "0px",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "16.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(9, 185, 35)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家顶层套房（淞缇巨幕电竞麻将）",
+        "rect": {
+          "x": 1165,
+          "y": 807,
+          "width": 254,
+          "height": 19
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "em",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "途家",
+        "rect": {
+          "x": 1165,
+          "y": 809,
+          "width": 30,
+          "height": 17
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "padding": "1px 5px",
+          "margin": "0px 6px 0px 0px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "lineHeight": "15px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(255, 122, 46)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "small",
+        "className": "",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "我 什么时间段呢几号到几...",
+        "rect": {
+          "x": 1165,
+          "y": 830,
+          "width": 254,
+          "height": 18
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px",
+          "color": "rgb(154, 163, 178)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(154, 163, 178)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden",
+          "gridTemplateColumns": "none"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock__collapse",
+        "role": null,
+        "ariaLabel": null,
+        "placeholder": null,
+        "text": "收起",
+        "rect": {
+          "x": 1350,
+          "y": 858,
+          "width": 80,
+          "height": 32
+        },
+        "styles": {
+          "display": "block",
+          "position": "fixed",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "4px 4px 0px 0px",
+          "boxShadow": "none",
+          "overflow": "visible",
+          "gridTemplateColumns": "none"
+        }
+      }
+    ]
+  }
+}

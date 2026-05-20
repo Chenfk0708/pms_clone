@@ -1,0 +1,262 @@
+{
+  "poi": {
+    "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+    "requestBody": {
+      "campId": "1796067693589061634",
+      "pageSize": 999,
+      "pageNum": 1,
+      "channelId": 0,
+      "isAvailability": "1"
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "total",
+      "size",
+      "current",
+      "extraInfo",
+      "pageNum",
+      "hasNextPage",
+      "pages",
+      "list"
+    ],
+    "sampleKeys": [
+      "poiId",
+      "poiName"
+    ],
+    "sample": {
+      "poiId": "1796425098638573570",
+      "poiName": "天落会宿公寓(前海壹方城宝安中心店)"
+    }
+  },
+  "rooms": {
+    "url": "https://hudson-prod.localhome.cn/rooms/get",
+    "requestBody": {
+      "campId": "1796067693589061634",
+      "roomCategoryIds": [
+        "1796425099729092609",
+        "1796425099485822977",
+        "1796425099242553345",
+        "1796425098965729282"
+      ],
+      "saleType": 1
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "roomCategoryRooms"
+    ],
+    "sampleKeys": [
+      "roomCategoryId",
+      "roomCategoryName",
+      "rooms"
+    ],
+    "sample": {
+      "roomCategoryId": "1796425099729092609",
+      "roomCategoryName": "顶层套房（浴缸巨幕电竞麻将）",
+      "rooms": [
+        {
+          "roomCategoryId": "1796425099729092609",
+          "roomId": "1796425099787812870",
+          "roomName": "房间1",
+          "isDirty": null,
+          "isCanBooking": null,
+          "floorId": null,
+          "floorName": null,
+          "seq": 1,
+          "deviceViews": []
+        }
+      ]
+    }
+  },
+  "roomCategory": {
+    "url": "https://hudson-prod.localhome.cn/select/roomCategory/page/get",
+    "requestBody": {
+      "campId": "1796067693589061634",
+      "pageNum": 1,
+      "pageSize": 9999,
+      "isAvailability": 1,
+      "channelId": 0
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "total",
+      "size",
+      "current",
+      "extraInfo",
+      "pageNum",
+      "hasNextPage",
+      "pages",
+      "list"
+    ],
+    "sampleKeys": [
+      "channelRoomCategoryId",
+      "calendarRoomCategoryId",
+      "calendarRoomCategoryName",
+      "appCalendarRoomCategories",
+      "name",
+      "parentRoomCategoryId",
+      "parentRoomCategoryName",
+      "campId",
+      "channelId",
+      "accountId",
+      "outDecryptAccountId",
+      "accountName",
+      "poiId",
+      "isAvailability",
+      "mainPhotoMediaId",
+      "mainPhotoMediaUrl",
+      "categoryName",
+      "poiName",
+      "reason",
+      "syncChannelRoomCategoryId",
+      "syncChannelRoomCategoryName",
+      "bedMetas",
+      "bedType",
+      "bedMetaJson",
+      "isUnmapping",
+      "isInited",
+      "isInitError",
+      "initErrorReason",
+      "bedroomNum",
+      "hallNum"
+    ],
+    "sample": {
+      "channelRoomCategoryId": "1796425098965729282",
+      "calendarRoomCategoryId": null,
+      "calendarRoomCategoryName": null,
+      "appCalendarRoomCategories": null,
+      "name": "观影大床房",
+      "parentRoomCategoryId": "1796425098965729282",
+      "parentRoomCategoryName": "观影大床房",
+      "campId": "1796067693589061634",
+      "channelId": "0",
+      "accountId": null,
+      "outDecryptAccountId": null,
+      "accountName": null,
+      "poiId": "1796425098638573570",
+      "isAvailability": 1,
+      "mainPhotoMediaId": "1801949570353381378",
+      "mainPhotoMediaUrl": "https://img.meituan.net/phoenix/a57d6bb6af984ef44046113864bb2e521839762.jpg",
+      "categoryName": null,
+      "poiName": "天落会宿公寓(前海壹方城宝安中心店)",
+      "reason": null,
+      "syncChannelRoomCategoryId": null
+    }
+  },
+  "channel": {
+    "url": "https://hudson-prod.localhome.cn/select/calChannel4Order/get",
+    "requestBody": {
+      "campId": "1796067693589061634"
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "select"
+    ],
+    "sampleKeys": [
+      "channelId",
+      "channelName"
+    ],
+    "sample": {
+      "channelId": "0",
+      "channelName": "自来客"
+    }
+  },
+  "roomGroup": {
+    "url": "https://hudson-prod.localhome.cn/roomCategoryGroups/get",
+    "requestBody": {
+      "campId": "1796067693589061634"
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "roomCategoryGroups"
+    ],
+    "sampleKeys": null
+  },
+  "profit": {
+    "url": "https://hudson-prod.localhome.cn/report/profit/get/v2",
+    "requestBody": {
+      "campId": "1796067693589061634",
+      "pageNum": 1,
+      "pageSize": 20,
+      "current": 1,
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-31",
+      "breakTemp": false,
+      "isCleanCost": 0
+    },
+    "envelopeKeys": [
+      "success",
+      "errorCode",
+      "errorMsg",
+      "errorDetail",
+      "data"
+    ],
+    "dataKeys": [
+      "total",
+      "size",
+      "current",
+      "extraInfo",
+      "pageNum",
+      "hasNextPage",
+      "pages",
+      "list"
+    ],
+    "sampleKeys": [
+      "date",
+      "isTotal",
+      "roomFeeMinusCommission",
+      "otherOrderExpense",
+      "ticketPrice",
+      "cateringPrice",
+      "writeDownIncome",
+      "totalIncome",
+      "writeDownExpenses",
+      "cleanCost",
+      "profitPrice",
+      "profitRate"
+    ],
+    "sample": {
+      "date": "合计",
+      "isTotal": 1,
+      "roomFeeMinusCommission": 11362.58,
+      "otherOrderExpense": 0,
+      "ticketPrice": 0,
+      "cateringPrice": 0,
+      "writeDownIncome": 0,
+      "totalIncome": 11362.58,
+      "writeDownExpenses": 0,
+      "cleanCost": null,
+      "profitPrice": 11362.58,
+      "profitRate": "100.00%"
+    }
+  }
+}

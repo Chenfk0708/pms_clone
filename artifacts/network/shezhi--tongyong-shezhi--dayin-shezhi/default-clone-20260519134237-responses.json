@@ -1,0 +1,29 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260519134237",
+  "url": "http://127.0.0.1:4177/setting/print",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4177/setting/print",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:4177/assets/index-CHpPlxGC.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:4177/assets/index-P7hjKFbs.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript; charset=utf-8"
+    }
+  ]
+}

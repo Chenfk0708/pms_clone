@@ -1,0 +1,442 @@
+{
+  "mode": "clone",
+  "state": "primary-action",
+  "stamp": "20260519-psb-local-primary",
+  "url": "http://127.0.0.1:4308/psb/list",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:4308/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@react-refresh",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/main.tsx",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@vite/client",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/App.tsx",
+      "status": 500,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/vite/dist/client/env.mjs",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4308/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/main.tsx?t=1779182040501",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@react-refresh",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/@vite/client",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/index.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/vite/dist/client/env.mjs",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-router-dom.js?v=e19d70fc",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom_client.js?v=dba7fb0b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-BejDdLFV.js?v=1b3c3c8b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/App.tsx?t=1779182040501",
+      "status": 500,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4308/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@vite/client",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/main.tsx?t=1779182058788",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom_client.js?v=dba7fb0b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-router-dom.js?v=e19d70fc",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-BejDdLFV.js?v=1b3c3c8b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@react-refresh",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/vite/dist/client/env.mjs",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/index.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/App.tsx?t=1779182058788",
+      "status": 500,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4308/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@vite/client",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/@react-refresh",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/main.tsx?t=1779182065230",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom_client.js?v=dba7fb0b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-router-dom.js?v=e19d70fc",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-BejDdLFV.js?v=1b3c3c8b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/vite/dist/client/env.mjs",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/index.css",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/App.tsx?t=1779182065230",
+      "status": 500,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/favicon.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "other",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:4308/psb/list",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "http://127.0.0.1:4308/@vite/client",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/@react-refresh",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/main.tsx?t=1779182065786",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom_client.js?v=dba7fb0b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-router-dom.js?v=e19d70fc",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-BejDdLFV.js?v=1b3c3c8b",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/.vite/deps/react-dom.js?v=4bf5b397",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "http://127.0.0.1:4308/node_modules/vite/dist/client/env.mjs",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/index.css",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    },
+    {
+      "url": "http://127.0.0.1:4308/src/App.tsx?t=1779182065786",
+      "status": 500,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": ""
+    }
+  ]
+}

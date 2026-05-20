@@ -1,0 +1,139 @@
+{
+  "dialogs": [
+    {
+      "index": 0,
+      "text": "邀请成员加入店铺扫描二维码 下载二维码1、分享二维码给新成员2、新成员打开App，进入我的，点击右上角‘扫一扫’按钮3、管理员审核，通过即成功加入",
+      "className": "ant-modal"
+    },
+    {
+      "index": 1,
+      "text": "添加收款记录应收款¥0已收款¥0待收款¥0类型请选择类型支付方式请选择支付方式日期金额(¥)备注在线收款提 交",
+      "className": "ant-modal"
+    },
+    {
+      "index": 2,
+      "text": "账号登录+86 请按住滑块，拖动到最右边 登 录其他登录方式新用户立即体验新用户忘记密码",
+      "className": "ant-modal"
+    },
+    {
+      "index": 3,
+      "text": "添加渠道渠道名称渠道颜色请选择渠道颜色取 消确 定",
+      "className": "ant-modal"
+    }
+  ],
+  "inputs": [
+    {
+      "index": 0,
+      "placeholder": "请输入您的问题",
+      "ariaLabel": null,
+      "type": null
+    },
+    {
+      "index": 1,
+      "placeholder": null,
+      "ariaLabel": null,
+      "type": "search"
+    },
+    {
+      "index": 2,
+      "placeholder": null,
+      "ariaLabel": null,
+      "type": "search"
+    },
+    {
+      "index": 3,
+      "placeholder": "请选择日期",
+      "ariaLabel": null,
+      "type": null
+    },
+    {
+      "index": 4,
+      "placeholder": "请输入金额",
+      "ariaLabel": null,
+      "type": null
+    },
+    {
+      "index": 5,
+      "placeholder": "请输入备注",
+      "ariaLabel": null,
+      "type": null
+    },
+    {
+      "index": 6,
+      "placeholder": "手机号码",
+      "ariaLabel": null,
+      "type": "number"
+    },
+    {
+      "index": 7,
+      "placeholder": "请输入密码",
+      "ariaLabel": null,
+      "type": "password"
+    },
+    {
+      "index": 8,
+      "placeholder": null,
+      "ariaLabel": null,
+      "type": null
+    },
+    {
+      "index": 9,
+      "placeholder": "请输入渠道名称",
+      "ariaLabel": null,
+      "type": "text"
+    }
+  ],
+  "topButtons": [
+    {
+      "index": 0,
+      "text": "",
+      "className": "ant-modal-close"
+    },
+    {
+      "index": 1,
+      "text": "发 送",
+      "className": "ant-btn ant-btn-primary sendButton___2H8-Q"
+    },
+    {
+      "index": 2,
+      "text": "编 辑",
+      "className": "ant-btn ant-btn-primary"
+    },
+    {
+      "index": 3,
+      "text": "添加渠道",
+      "className": "ant-btn ant-btn-default"
+    },
+    {
+      "index": 4,
+      "text": "",
+      "className": "ant-modal-close"
+    },
+    {
+      "index": 5,
+      "text": "提 交",
+      "className": "ant-btn ant-btn-primary"
+    },
+    {
+      "index": 6,
+      "text": "登 录",
+      "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait"
+    },
+    {
+      "index": 7,
+      "text": "",
+      "className": "ant-modal-close"
+    },
+    {
+      "index": 8,
+      "text": "取 消",
+      "className": "ant-btn ant-btn-default"
+    },
+    {
+      "index": 9,
+      "text": "确 定",
+      "className": "ant-btn ant-btn-primary"
+    }
+  ],
+  "bodyText": "路客云6TS5的店铺\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n\n信息概览\n\n门店信息\n\n房型信息\n\n图片视频\n\n企业设置\n\n企业信息\n\n权限设置\n\n成员设置\n\n企业资质\n\nAPI keys\n\n通用设置\n\n会话设置\n\n自定义渠道\n\n支付方式设置\n\n收入/支出设置\n\n记一笔设置\n\n排序设置\n\n通知设置\n\n短信设置\n\n财务设置\n\n自动策略设置\n\n交接班设置\n\n打印设置\n\n版本号：v4.10.7\n系统默认渠道不支持编辑和删除。点击“编辑”按钮，可停用或启用渠道，停用后不能在列表选项看到。\n\n系统默认渠道\n\n编 辑\n自来客\n路客云聚合\n美团民宿\n美团酒店\n途家\n途家直连\n爱彼迎\n飞猪淘酒店\n飞猪民宿直连\n飞猪酒店直连\n小猪\n木鸟\n品牌小程序\n抖音小程序\n小红书\n百度\n微店\n携程\n携程国际\n58同城\n贝壳\n安居客\n艺龙\n京东直连\n房多多\n住多多\n云客赞\n千里马\n联联\n享库\n千千惠\n侠侣\n抖音\nAgoda\nBooking\nExpidia\nHomeaway\nVerbo\n其他\n高德酒店直连\n秋果\n轻住\n旅划算\n昇途\n尚美\n同程酒店直连\n抖音来客\n同程民宿直连\n路客云\n凤悦\n自助机RW\n同程民宿\n去哪儿酒店直连\n自助机YZ\n自助机ZD\n自助机PY\n自助机CQ\n锦江\n抖音来客直连\n自助机微住\n华住MO\n自助机PC\n视频号\n美酒分销\n自助机YK\n自营\n深圳捷旅\nHotelbeds\nMG\n自助机KT\n自助机LM\n\n自定义渠道\n\n添加渠道\n添加渠道\n渠道名称\n渠道颜色\n请选择渠道颜色\n取 消\n确 定"
+}

@@ -1,0 +1,29 @@
+﻿
+## 2026-05-19 23:58 +08:00 / `baobiao--tongji-baobiao--shouru-baobiao` / 收入报表 95 分收口补记
+
+- 继续执行并复核：
+  - `D:\pms_ui\95prompt\prompts111\058-baobiao--tongji-baobiao--shouru-baobiao.md`
+  - `D:\pms_ui\95prompt\prompts\058-baobiao--tongji-baobiao--shouru-baobiao.md`
+- 当前关键事实：
+  - 本轮阻塞点不在收入报表页面本身，而在共享工作树中的 `src/App.tsx` 被并行任务收窄。
+  - 为避免覆盖他人改动，本轮不恢复历史完整路由表，只保留本任务需要的最小承接：`/statistics/stay`、`/statistics/orderLedger` 及相关 placeholder。
+- 本轮补齐：
+  - 更新 `scripts/capture-income-report.mjs`，让 clone capture 在本地页加载前显式设置 `pms.incomeReport.provider=mock` 与 `pms.incomeReport.state`，确保 `default / empty / error` 三态取证稳定复现。
+  - 重新构建最小路由壳：`npx vite build --config tmp/income-order-ledger.vite.config.ts --outDir tmp/income-order-ledger-build --emptyOutDir true`
+  - 重新启动静态验证服务：`node tmp/serve-spa.mjs tmp/income-order-ledger-build 4206`
+- fresh 本地取证：
+  - `artifacts/screenshots/baobiao--tongji-baobiao--shouru-baobiao/default-clone-20260519-fresh-local-default-viewport.png`
+  - `artifacts/screenshots/baobiao--tongji-baobiao--shouru-baobiao/empty-clone-20260519-fresh-local-empty-viewport.png`
+  - `artifacts/screenshots/baobiao--tongji-baobiao--shouru-baobiao/error-clone-20260519-fresh-local-error-viewport.png`
+  - `artifacts/screenshots/baobiao--tongji-baobiao--shouru-baobiao/download-detail-clone-20260519-fresh-local-download-detail-viewport.png`
+  - 对应 DOM / style / network 已同步落盘。
+- fresh 验证：
+  - `node --check scripts/capture-income-report.mjs` -> `0`
+  - `npx tsc --noEmit --pretty false --ignoreConfig --jsx react-jsx --moduleResolution bundler --module esnext --target es2022 --lib dom,dom.iterable,es2022 --types vite/client,node src/App.tsx src/pages/IncomeReportPage.tsx src/services/incomeReport.ts src/pages/OrderLedgerPage.tsx src/services/orderLedger.ts tests/income-report.spec.ts tests/order-ledger.spec.ts` -> `0`
+  - `$env:PMS_TEST_BASE_URL='http://127.0.0.1:4206'; npx playwright test tests/income-report.spec.ts --config tmp/income-report.playwright.config.ts --timeout=60000 --workers=1 --reporter=line` -> `5 passed`
+  - `$env:PMS_TEST_BASE_URL='http://127.0.0.1:4206'; npx playwright test tests/order-ledger.spec.ts --config tmp/income-report.playwright.config.ts --timeout=60000 --workers=1 --reporter=line` -> `4 passed`
+  - `npx eslint scripts/capture-income-report.mjs src/App.tsx src/pages/OrderLedgerPage.css tests/income-report.spec.ts tests/order-ledger.spec.ts --no-cache` -> `0 error, 1 warning`
+- 说明：
+  - 唯一 lint warning 为 `src/pages/OrderLedgerPage.css` 的 “File ignored because no matching configuration was supplied”，不是 blocker。
+  - 当前可以宣称的是“收入报表 + 收支明细”专项链路、三态取证与 fixed Chrome 回归闭环通过；不能外推为全仓 build / 全仓路由全部通过。
+- 本轮自评：96/100

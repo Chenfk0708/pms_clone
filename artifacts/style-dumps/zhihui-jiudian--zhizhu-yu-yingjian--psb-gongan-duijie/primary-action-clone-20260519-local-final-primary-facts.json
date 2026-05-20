@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:4173/psb/list",
+  "title": "pms_clone",
+  "bodyLength": 0,
+  "bodyTextSample": "",
+  "isLoginBlocked": false,
+  "hasPsbText": false,
+  "tableHeaders": [],
+  "buttons": [],
+  "inputs": [],
+  "dropdowns": [],
+  "dialogs": [],
+  "cards": [],
+  "images": [],
+  "visibleElements": [],
+  "interactions": [
+    {
+      "action": "click first primary action",
+      "found": false
+    }
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "devicePixelRatio": 1
+  }
+}

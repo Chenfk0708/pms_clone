@@ -1,0 +1,176 @@
+{
+  "results": [
+    {
+      "action": "default",
+      "tabs": [
+        "图片管理",
+        "附件管理"
+      ],
+      "selectedTab": "图片管理",
+      "totalText": "共 1 条",
+      "searchVisible": true,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "",
+        "bizTypes": [
+          1
+        ]
+      }
+    },
+    {
+      "action": "search-image-tab",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "bed",
+        "bizTypes": [
+          1
+        ]
+      },
+      "totalText": "共 0 条"
+    },
+    {
+      "action": "upload-dialog",
+      "dialogVisible": true,
+      "dialogTitle": null,
+      "dialogText": "上传到：全部附件上传指引：1. 为了保证附件的正常使用，单个附件最大支持10M；2. jpg、jpeg、png格式附件上传；3. 支持选择多张图片上传，支持拖拽文件夹上传；上传附件上传文件夹"
+    },
+    {
+      "action": "new-folder",
+      "dialogTitles": [],
+      "inlineInputCount": 2
+    },
+    {
+      "action": "switch-tab-attachment",
+      "selectedTab": "附件管理",
+      "searchVisible": false,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "bed",
+        "bizTypes": [
+          1
+        ]
+      }
+    }
+  ],
+  "mediasRequests": [
+    {
+      "url": "https://hudson-prod.localhome.cn/medias/page/get",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "",
+        "bizTypes": [
+          1
+        ]
+      },
+      "responseJson": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 1,
+          "size": 50,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": [
+            {
+              "mediaId": "2056681222674485249",
+              "campId": "1796067693589061634",
+              "isDir": 1,
+              "path": "/",
+              "name": "新建文件夹",
+              "format": null,
+              "size": null,
+              "width": null,
+              "height": null,
+              "url": null,
+              "createTime": 1779185989431
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/medias/page/get",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "bed",
+        "bizTypes": [
+          1
+        ]
+      },
+      "responseJson": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 0,
+          "size": 50,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 0,
+          "list": []
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/medias/page/get",
+      "status": 200,
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageNum": 1,
+        "pageSize": 50,
+        "path": "/",
+        "orderBy": "create_time desc",
+        "name": "bed",
+        "bizTypes": [
+          1
+        ]
+      },
+      "responseJson": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 0,
+          "size": 50,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 0,
+          "list": []
+        }
+      }
+    }
+  ]
+}

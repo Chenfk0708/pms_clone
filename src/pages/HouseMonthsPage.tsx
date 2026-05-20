@@ -31,6 +31,22 @@ type MonthOrderDialog = 'noshow' | 'checkout' | 'modify-fee' | 'reminder' | null
 type MonthOrderState = 'pending' | 'checked-in' | 'checked-out'
 type MonthOrderOverlay = 'edit-order' | null
 type EditOrderRoomMode = 'all-day' | 'hourly' | 'long-stay'
+type MonthOrderActionFlow =
+  | 'invite'
+  | 'early-checkin'
+  | 'invite-renew'
+  | 'late-checkout'
+  | 'change-room'
+  | 'cancel-arrange'
+  | 'skip-stock'
+  | 'skip-report'
+  | 'continue'
+  | 'cancel-order'
+  | 'clean'
+  | 'print'
+  | 'credit-checkout'
+  | 'checkin'
+  | 'renew'
 
 interface UploadedAttachment {
   id: string
@@ -41,6 +57,13 @@ interface MonthOrderAction {
   key: string
   label: string
   icon: string
+  testId: string
+}
+
+interface MonthOrderActionDialogConfig {
+  title: string
+  confirmLabel: string
+  actionLabel: string
   testId: string
 }
 
@@ -67,6 +90,146 @@ const monthDates: MonthDateColumn[] = Array.from({ length: 33 }, (_, index) => {
   }
 })
 
+const monthPickerWeekdays = ['\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d', '\u65e5']
+const MONTH_WINDOW_DAYS = 33
+const DEFAULT_SELECTED_DATE_INDEX = 3
+
+interface MonthPickerCell {
+  isoDate: string
+  label: string
+  inViewMonth: boolean
+  isSelected: boolean
+}
+
+function toLocalDate(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function shiftDate(date: Date, days: number) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days)
+}
+
+function formatIsoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function formatFullDate(date: Date) {
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
+}
+
+function formatMonthDay(date: Date) {
+  return `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
+}
+
+function parseIsoDate(isoDate: string) {
+  const [year, month, day] = isoDate.split('-').map(Number)
+  return new Date(year, (month || 1) - 1, day || 1)
+}
+
+function getStayNightCount(stayRange: string) {
+  const [startPart, endPart] = stayRange.split('-')
+  if (!startPart || !endPart) return 2
+
+  const [startYear, startMonth, startDay] = startPart.split('.').map(Number)
+  const endParts = endPart.split('.').map(Number)
+  if (!startYear || !startMonth || !startDay || endParts.length < 2) return 2
+
+  const [endMonth, endDay] = endParts.length === 3 ? [endParts[1], endParts[2]] : [endParts[0], endParts[1]]
+  const endYear = endParts.length === 3 ? endParts[0] : endMonth < startMonth ? startYear + 1 : startYear
+  if (!endMonth || !endDay) return 2
+
+  const startDate = new Date(startYear, startMonth - 1, startDay)
+  const endDate = new Date(endYear, endMonth - 1, endDay)
+  const diffDays = Math.round((toLocalDate(endDate).getTime() - toLocalDate(startDate).getTime()) / DAY_MS)
+
+  return diffDays > 0 ? diffDays : 2
+}
+
+function getStayRangeDetails(stayRange: string) {
+  const [startPart, endPart] = stayRange.split('-')
+  if (!startPart || !endPart) {
+    return {
+      checkinDate: '2026-05-20',
+      checkoutDate: '2026-05-21',
+      nights: 1,
+    }
+  }
+
+  const [startYear, startMonth, startDay] = startPart.split('.').map(Number)
+  const endParts = endPart.split('.').map(Number)
+  if (!startYear || !startMonth || !startDay || endParts.length < 2) {
+    return {
+      checkinDate: startPart.replace(/\./g, '-'),
+      checkoutDate: endPart.replace(/\./g, '-'),
+      nights: getStayNightCount(stayRange),
+    }
+  }
+
+  const [endMonth, endDay] = endParts.length === 3 ? [endParts[1], endParts[2]] : [endParts[0], endParts[1]]
+  const endYear = endParts.length === 3 ? endParts[0] : endMonth < startMonth ? startYear + 1 : startYear
+
+  return {
+    checkinDate: `${String(startYear).padStart(4, '0')}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+    checkoutDate: `${String(endYear).padStart(4, '0')}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
+    nights: getStayNightCount(stayRange),
+  }
+}
+
+function copyText(text: string) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text)
+  }
+
+  if (typeof document !== 'undefined') {
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.setAttribute('readonly', 'true')
+    textarea.style.position = 'fixed'
+    textarea.style.opacity = '0'
+    textarea.style.pointerEvents = 'none'
+    document.body.appendChild(textarea)
+    textarea.select()
+    try {
+      document.execCommand('copy')
+    } finally {
+      document.body.removeChild(textarea)
+    }
+  }
+
+  return Promise.resolve()
+}
+
+function createMonthDateColumns(startDate: Date): MonthDateColumn[] {
+  return Array.from({ length: MONTH_WINDOW_DAYS }, (_, index) => {
+    const date = shiftDate(startDate, index)
+
+    return {
+      fullDate: formatFullDate(date),
+      isoDate: formatIsoDate(date),
+      date: formatMonthDay(date),
+      weekday: weekdays[date.getDay()],
+      remain: monthDates[0]?.remain ?? '',
+      hot: date.getDay() === 5 || date.getDay() === 6,
+    }
+  })
+}
+
+function createMonthPickerCells(cursorMonth: Date, selectedDate: Date): MonthPickerCell[] {
+  const monthStart = new Date(cursorMonth.getFullYear(), cursorMonth.getMonth(), 1)
+  const firstGridDate = shiftDate(monthStart, -((monthStart.getDay() + 6) % 7))
+  const selectedIsoDate = formatIsoDate(selectedDate)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = shiftDate(firstGridDate, index)
+    return {
+      isoDate: formatIsoDate(date),
+      label: String(date.getDate()),
+      inViewMonth: date.getMonth() === cursorMonth.getMonth(),
+      isSelected: formatIsoDate(date) === selectedIsoDate,
+    }
+  })
+}
+
 const batchConfig: Record<BatchMode, { title: string; enter: string; apply: string; result: string }> = {
   dirty: { title: '批量设脏', enter: '已进入批量设脏模式', apply: '设为脏房', result: '脏房' },
   clean: { title: '批量设净', enter: '已进入批量设净模式', apply: '设为净房', result: '净房' },
@@ -79,9 +242,13 @@ export function HouseMonthsPage() {
   const location = useLocation()
   const monthBoardRef = useRef<HTMLElement | null>(null)
   const toastTimerRef = useRef<number | null>(null)
+  const today = useMemo(() => toLocalDate(new Date()), [])
   const [collapsed, setCollapsed] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [selectedDateIndex, setSelectedDateIndex] = useState(3)
+  const [datePickerOpen, setDatePickerOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(today)
+  const [windowStartDate, setWindowStartDate] = useState(() => shiftDate(today, WINDOW_START_OFFSET_DAYS))
+  const [pickerMonth, setPickerMonth] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1))
   const [toastMessage, setToastMessage] = useState('')
   const [activeChip, setActiveChip] = useState('')
   const [query, setQuery] = useState('')
@@ -96,7 +263,16 @@ export function HouseMonthsPage() {
   const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [loadError, setLoadError] = useState('')
   const [roomGroups, setRoomGroups] = useState<MonthRoomGroup[]>([])
-  const [dateColumns, setDateColumns] = useState<MonthDateColumn[]>(monthDates)
+  const [dateColumns, setDateColumns] = useState<MonthDateColumn[]>(() => createMonthDateColumns(shiftDate(today, WINDOW_START_OFFSET_DAYS)))
+
+  const selectedDateIso = useMemo(() => formatIsoDate(selectedDate), [selectedDate])
+  const selectedDateIndex = useMemo(
+    () => dateColumns.findIndex((column) => column.isoDate === selectedDateIso),
+    [dateColumns, selectedDateIso],
+  )
+  const activeSelectedDateIndex = selectedDateIndex >= 0 ? selectedDateIndex : DEFAULT_SELECTED_DATE_INDEX
+  const monthPickerCells = useMemo(() => createMonthPickerCells(pickerMonth, selectedDate), [pickerMonth, selectedDate])
+  const pickerMonthLabel = `${pickerMonth.getFullYear()}\u5e74 ${pickerMonth.getMonth() + 1}\u6708`
 
   useEffect(() => {
     if (!toastMessage) return undefined
@@ -116,8 +292,9 @@ export function HouseMonthsPage() {
   }, [toastMessage])
 
   useEffect(() => {
+    setDateColumns(createMonthDateColumns(windowStartDate))
     if (monthBoardRef.current) monthBoardRef.current.scrollLeft = 184
-  }, [])
+  }, [windowStartDate])
 
   const initialCampId = useMemo(() => {
     const queryCampId = new URLSearchParams(location.search).get('campId')?.trim()
@@ -130,6 +307,7 @@ export function HouseMonthsPage() {
     setLoadState('loading')
     setLoadError('')
     try {
+      const requestColumns = createMonthDateColumns(windowStartDate)
       let activeCampId = initialCampId || resolvedCampIdRef.current
       if (!activeCampId) {
         activeCampId = await fetchHouseMonthsDefaultCampId()
@@ -140,12 +318,12 @@ export function HouseMonthsPage() {
       const snapshot = await fetchHouseMonthsSnapshot(
         {
           campId: activeCampId,
-          startDate: monthDates[0].isoDate,
-          days: monthDates.length,
+          startDate: requestColumns[0].isoDate,
+          days: requestColumns.length,
           roomCategoryId: nextRoomType || undefined,
           queryCode: nextQuery.trim() || undefined,
         },
-        monthDates,
+        requestColumns,
       )
       setRoomGroups(snapshot.rows)
       setDateColumns(snapshot.columns)
@@ -156,7 +334,7 @@ export function HouseMonthsPage() {
       setLoadState('error')
       setLoadError(error instanceof Error ? error.message : String(error))
     }
-  }, [initialCampId, query, roomType])
+  }, [initialCampId, query, roomType, windowStartDate])
 
   useEffect(() => {
     let cancelled = false
@@ -176,6 +354,7 @@ export function HouseMonthsPage() {
       setSettingsOpen(false)
       setFilterMenu(null)
       setBatchMenu(null)
+      setDatePickerOpen(false)
       setSelectedBooking(null)
     }
 
@@ -185,6 +364,7 @@ export function HouseMonthsPage() {
       if (!target.closest('.month-settings')) setSettingsOpen(false)
       if (!target.closest('.month-filter-menu')) setFilterMenu(null)
       if (!target.closest('.month-batch-action')) setBatchMenu(null)
+      if (!target.closest('.month-calendar-title') && !target.closest('.month-date-picker')) setDatePickerOpen(false)
       if (!target.closest('.month-order-drawer') && !target.closest('.tone-booking-blue, .tone-booking-gold, .tone-booking-teal')) {
         setSelectedBooking(null)
       }
@@ -216,6 +396,23 @@ export function HouseMonthsPage() {
     })
   }, [query, roomGroups, roomType])
 
+  const setDateFromPicker = (date: Date) => {
+    const nextDate = toLocalDate(date)
+    setSelectedDate(nextDate)
+    setWindowStartDate(shiftDate(nextDate, WINDOW_START_OFFSET_DAYS))
+    setPickerMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1))
+    setDatePickerOpen(false)
+  }
+
+  const toggleDatePicker = () => {
+    setPickerMonth(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))
+    setDatePickerOpen((open) => !open)
+  }
+
+  const shiftPickerMonth = (months: number) => {
+    setPickerMonth((current) => new Date(current.getFullYear(), current.getMonth() + months, 1))
+  }
+
   const startBatch = (mode: BatchMode) => {
     setBatchMode(mode)
     setBatchMenu(null)
@@ -233,7 +430,7 @@ export function HouseMonthsPage() {
   }
 
   const showActionResult = (action: string) => {
-    setToastMessage(`${action}已处理`)
+    setToastMessage(action === '复制成功' ? action : `${action}已处理`)
   }
 
   const toggleKey = (key: string) => {
@@ -244,6 +441,12 @@ export function HouseMonthsPage() {
     setQuery('')
     setRoomType('')
     void loadSnapshot('', '')
+  }
+
+  const clearRoomTypeFilter = () => {
+    setRoomType('')
+    setFilterMenu(null)
+    void loadSnapshot('', query)
   }
 
   const hasFilters = Boolean(query || roomType)
@@ -352,10 +555,33 @@ export function HouseMonthsPage() {
             </button>
           </div>
 
-          <div className="month-filter-menu">
-            <button type="button" className="chip" onClick={() => setFilterMenu(filterMenu === 'room' ? null : 'room')}>
-              房型
+          <div className={`month-filter-menu month-filter-menu--room${roomType ? ' has-value' : ''}`}>
+            <button
+              type="button"
+              className="chip month-room-filter-trigger"
+              aria-expanded={filterMenu === 'room'}
+              data-testid="month-room-filter-trigger"
+              onClick={() => setFilterMenu(filterMenu === 'room' ? null : 'room')}
+            >
+              {roomType ? (
+                <span className="month-room-filter-trigger__value" data-testid="month-room-filter-value" title={roomType}>
+                  {roomType}
+                </span>
+              ) : (
+                <span className="month-room-filter-trigger__placeholder">房型</span>
+              )}
             </button>
+            {roomType ? (
+              <button
+                type="button"
+                className="month-room-filter-clear"
+                aria-label="清除房型筛选"
+                data-testid="month-room-filter-clear"
+                onClick={clearRoomTypeFilter}
+              >
+                ×
+              </button>
+            ) : null}
             {filterMenu === 'room' ? (
               <div className="month-filter-menu__panel" role="listbox" aria-label="房型筛选">
                 {roomGroups.map((row) => (
@@ -464,7 +690,11 @@ export function HouseMonthsPage() {
         ) : null}
 
         {toastMessage ? (
-          <div className="month-status-toast" role="status" data-batch-result={batchResult ?? undefined}>
+          <div
+            className={`month-status-toast${toastMessage === '复制成功' ? ' month-status-toast--top' : ''}`}
+            role="status"
+            data-batch-result={batchResult ?? undefined}
+          >
             {toastMessage}
           </div>
         ) : null}
@@ -486,11 +716,68 @@ export function HouseMonthsPage() {
       <section ref={monthBoardRef} className="timeline-board month-board" aria-label="月房态日历矩阵" data-testid="month-grid">
         <div className="month-grid-row month-board__head">
           <div className="month-calendar-title">
-            <div className="month-calendar-date">
-              <strong>{dateColumns[selectedDateIndex]?.fullDate}</strong>
-              <span aria-hidden="true">▣</span>
-            </div>
-            <button type="button" onClick={() => setCollapsed((value) => !value)}>
+            <button
+              type="button"
+              className="month-calendar-date"
+              aria-haspopup="dialog"
+              aria-expanded={datePickerOpen}
+              onClick={toggleDatePicker}
+            >
+              <strong>{dateColumns[activeSelectedDateIndex]?.fullDate}</strong>
+              <span className="month-calendar-date__icon" aria-hidden="true" />
+            </button>
+            {datePickerOpen ? (
+              <div className="month-date-picker" role="dialog" aria-label="日期选择">
+                <div className="month-date-picker__header">
+                  <div className="month-date-picker__nav">
+                    <button type="button" aria-label="上一年" onClick={() => shiftPickerMonth(-12)}>
+                      {'<<'}
+                    </button>
+                    <button type="button" aria-label="上一月" onClick={() => shiftPickerMonth(-1)}>
+                      {'<'}
+                    </button>
+                  </div>
+                  <strong>{pickerMonthLabel}</strong>
+                  <div className="month-date-picker__nav">
+                    <button type="button" aria-label="下一月" onClick={() => shiftPickerMonth(1)}>
+                      {'>'}
+                    </button>
+                    <button type="button" aria-label="下一年" onClick={() => shiftPickerMonth(12)}>
+                      {'>>'}
+                    </button>
+                  </div>
+                </div>
+                <div className="month-date-picker__weekdays">
+                  {monthPickerWeekdays.map((weekday) => (
+                    <span key={weekday}>{weekday}</span>
+                  ))}
+                </div>
+                <div className="month-date-picker__grid">
+                  {monthPickerCells.map((cell) => (
+                    <button
+                      key={cell.isoDate}
+                      type="button"
+                      data-date={cell.isoDate}
+                      className={`month-date-picker__cell${cell.inViewMonth ? ' is-in-view' : ''}${cell.isSelected ? ' is-selected' : ''}`}
+                      onClick={() => setDateFromPicker(parseIsoDate(cell.isoDate))}
+                    >
+                      <span>{cell.label}</span>
+                    </button>
+                  ))}
+                </div>
+                <button type="button" className="month-date-picker__today" onClick={() => setDateFromPicker(today)}>
+                  今天
+                </button>
+              </div>
+            ) : null}
+            <button
+              type="button"
+              className="month-calendar-toggle"
+              onClick={() => {
+                setDatePickerOpen(false)
+                setCollapsed((value) => !value)
+              }}
+            >
               {collapsed ? '全部展开' : '全部收起'}
             </button>
           </div>
@@ -500,11 +787,14 @@ export function HouseMonthsPage() {
               key={date.date}
               type="button"
               data-testid="month-date-column"
-              className={`timeline-date${index === selectedDateIndex ? ' is-highlight' : ''}${date.hot ? ' is-hot' : ''}`}
-              aria-current={index === selectedDateIndex ? 'date' : undefined}
-              onClick={() => setSelectedDateIndex(index)}
+              className={`timeline-date${index === activeSelectedDateIndex ? ' is-highlight' : ''}${date.hot ? ' is-hot' : ''}`}
+              aria-current={index === activeSelectedDateIndex ? 'date' : undefined}
+              onClick={() => {
+                setSelectedDate(parseIsoDate(date.isoDate))
+                setDatePickerOpen(false)
+              }}
             >
-              {index === selectedDateIndex ? <i aria-hidden="true">◆</i> : null}
+              {index === activeSelectedDateIndex ? <i aria-hidden="true" /> : null}
               <strong>{date.date}</strong>
               <span>{date.weekday}</span>
               <em>{date.remain}</em>
@@ -627,6 +917,7 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
   const [tagDraftSelection, setTagDraftSelection] = useState<string[]>([])
   const [uploadedAttachments, setUploadedAttachments] = useState<UploadedAttachment[]>([])
   const [overlayPanel, setOverlayPanel] = useState<MonthOrderOverlay>(null)
+  const [actionFlow, setActionFlow] = useState<MonthOrderActionFlow | null>(null)
   const [editOrderRoomMode, setEditOrderRoomMode] = useState<EditOrderRoomMode>('all-day')
   const [checkoutType, setCheckoutType] = useState<'normal' | 'early'>('normal')
   const orderState = resolveMonthOrderState(selectedBooking.cell.liveStatus)
@@ -640,11 +931,12 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
   const totalIncomeAmount = parseCurrencyNumber(totalIncome)
   const nightlyAmount = formatCurrencyFromNumber(parseCurrencyNumber(roomFee) / 2, '¥298.80')
   const stayRange = selectedBooking.cell.stayRange ?? '2026.05.18-05.20'
+  const { checkinDate, checkoutDate, nights: stayNights } = getStayRangeDetails(stayRange)
   const channelName = selectedBooking.cell.subtitle ?? '飞猪酒店'
   const orderId = selectedBooking.cell.orderId ?? '5116035240226051843'
   const channelOrderNo = '5116035240226051843'
   const phone = selectedBooking.cell.phone ?? '-'
-  const remark = selectedBooking.cell.remark ?? '到店后补押金'
+  const remark = selectedBooking.cell.remark ?? '-'
   const [selectedOrderTags, setSelectedOrderTags] = useState<string[]>([])
   const collectedAmount = 387
   const outstandingRoomFee = 0
@@ -652,7 +944,6 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
   const recommendedInvoiceAmount = 387
   const quickActions = useMemo<MonthOrderAction[]>(() => {
     const commonActions: MonthOrderAction[] = [
-      { key: 'guest', label: '入住人', icon: '住', testId: 'month-order-action-guest' },
       { key: 'change-room', label: '换房', icon: '换', testId: 'month-order-action-change-room' },
       { key: 'cancel-arrange', label: '取消排房', icon: '排', testId: 'month-order-action-cancel-arrange' },
       { key: 'skip-stock', label: '不占库存', icon: '库', testId: 'month-order-action-skip-stock' },
@@ -679,12 +970,54 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
     return [
       { key: 'invite', label: '邀请登记', icon: '邀', testId: 'month-order-action-invite' },
       { key: 'guest', label: '入住人', icon: '住', testId: 'month-order-action-guest' },
+      { key: 'early-checkin', label: '提前入住', icon: '提', testId: 'month-order-action-early-checkin' },
       { key: 'noshow', label: '置为noshow', icon: 'N', testId: 'month-order-action-noshow' },
       ...commonActions,
     ]
   }, [orderState])
   const roomDisplayName = `${selectedBooking.roomType} ${selectedBooking.roomLabel}`
   const orderKey = `${selectedBooking.cell.orderId ?? selectedBooking.cell.title}-${selectedBooking.roomLabel}`
+  const channelBlocks = [
+    {
+      key: 'basic',
+      title: '基础信息',
+      testId: 'month-channel-section-basic',
+      items: [
+        { label: '渠道单号', value: channelOrderNo, noWrap: true, wide: true },
+        { label: '入住人', value: '-' },
+        { label: '渠道订单状态', value: '-' },
+        { label: '手机号', value: '-' },
+        { label: '入住人数', value: '-' },
+        { label: '房间数量', value: '1间', noWrap: true },
+        { label: '预计到店时间', value: '-' },
+        { label: '预定入离日期', value: `${checkinDate}至${checkoutDate}，共${stayNights}晚`, noWrap: true },
+        { label: '预定房型', value: roomDisplayName },
+      ],
+    },
+    {
+      key: 'fee',
+      title: '费用信息',
+      testId: 'month-channel-section-fee',
+      items: [
+        { label: '订单总收入', value: totalIncomeAmount > 0 ? totalIncome : '¥0', noWrap: true },
+        { label: '房费(减佣)', value: roomFee, noWrap: true },
+        { label: '折扣信息', value: '-' },
+        { label: '支付方式', value: '-' },
+        { label: '发票要求', value: '-' },
+      ],
+    },
+    {
+      key: 'other',
+      title: '其他信息',
+      testId: 'month-channel-section-other',
+      items: [
+        { label: '预定人', value: selectedBooking.cell.title },
+        { label: '预定人手机号', value: phone },
+        { label: '预定时间', value: '2026-05-19 21:33:51', noWrap: true },
+        { label: '渠道备注信息', value: remark || '-' },
+      ],
+    },
+  ]
   const footerActions =
     orderState === 'checked-out'
       ? [
@@ -723,6 +1056,7 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
     setTagDraftSelection([])
     setSelectedOrderTags([])
     setUploadedAttachments([])
+    setActionFlow(null)
     setOverlayPanel(null)
     setEditOrderRoomMode('all-day')
     setCheckoutType('normal')
@@ -762,6 +1096,66 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
       setOpenDialog('checkout')
       return
     }
+    if (action === '邀请登记') {
+      setActionFlow('invite')
+      return
+    }
+    if (action === '提前入住') {
+      setActionFlow('early-checkin')
+      return
+    }
+    if (action === '邀请续住') {
+      setActionFlow('invite-renew')
+      return
+    }
+    if (action === '延迟退房') {
+      setActionFlow('late-checkout')
+      return
+    }
+    if (action === '换房') {
+      setActionFlow('change-room')
+      return
+    }
+    if (action === '取消排房') {
+      setActionFlow('cancel-arrange')
+      return
+    }
+    if (action === '不占库存') {
+      setActionFlow('skip-stock')
+      return
+    }
+    if (action === '不计入统计') {
+      setActionFlow('skip-report')
+      return
+    }
+    if (action === '设为续住单') {
+      setActionFlow('continue')
+      return
+    }
+    if (action === '取消房单') {
+      setActionFlow('cancel-order')
+      return
+    }
+    if (action === '保洁') {
+      setActionFlow('clean')
+      return
+    }
+    if (action === '打印') {
+      setActionFlow('print')
+      return
+    }
+    if (action === '信用住结账') {
+      setActionFlow('credit-checkout')
+      return
+    }
+    if (action === '入住') {
+      setActionFlow('checkin')
+      return
+    }
+    if (action === '续住') {
+      setActionFlow('renew')
+      return
+    }
     onAction(action)
   }
 
@@ -776,6 +1170,12 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
       return
     }
     onAction(action)
+  }
+
+  const handleChannelOrderCopy = () => {
+    void copyText(channelOrderNo).catch(() => undefined).finally(() => {
+      onAction('复制成功')
+    })
   }
 
   const confirmDialog = () => {
@@ -797,6 +1197,12 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
   const confirmCollectDialog = () => {
     onAction('添加收款记录')
     setCollectDialogOpen(false)
+  }
+
+  const confirmActionFlow = () => {
+    if (!actionFlow) return
+    onAction(resolveMonthOrderActionDialogConfig(actionFlow).actionLabel)
+    setActionFlow(null)
   }
 
   const visibleTagOptions = ORDER_TAG_OPTIONS.filter((tag) => tag.includes(tagDialogKeyword.trim()))
@@ -848,6 +1254,8 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
   const removeAttachment = (attachmentId: string) => {
     setUploadedAttachments((current) => current.filter((attachment) => attachment.id !== attachmentId))
   }
+
+  const actionDialogConfig = actionFlow ? resolveMonthOrderActionDialogConfig(actionFlow) : null
 
   return (
     <aside className="month-order-drawer" role="dialog" aria-label="订单详情" onClick={(event) => event.stopPropagation()}>
@@ -1449,14 +1857,40 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
         ) : null}
 
         {overlayPanel === null && activeTab === 'channel' ? (
-          <section className="month-info-block month-info-block--plain">
-            <h3>渠道信息</h3>
-            <div className="month-info-grid">
-              <span>渠道来源: {channelName}</span>
-              <span>渠道单号: {channelOrderNo}</span>
-              <span>佣金: {commission}</span>
-              <span>结算方式: 线上预付</span>
-            </div>
+          <section className="month-channel-panel" data-testid="month-channel-panel">
+            {channelBlocks.map((section) => (
+              <section key={section.key} className="month-channel-section" data-testid={section.testId}>
+                <div className="month-channel-section__header">
+                  <h3>{section.title}</h3>
+                </div>
+                <div className={`month-channel-grid${section.key === 'fee' ? ' month-channel-grid--compact' : ''}`}>
+                  {section.items.map((item, itemIndex) => (
+                    <div
+                      key={item.label}
+                      className={`month-channel-kv${item.wide || item.label === '预定房型' || item.label === '发票要求' || item.label === '渠道备注信息' ? ' month-channel-kv--wide' : ''}${
+                        item.noWrap ? ' month-channel-kv--no-wrap' : ''
+                      }${
+                        itemIndex === 0 && section.key === 'basic' ? ' month-channel-kv--with-copy' : ''
+                      }`}
+                    >
+                      <span>{item.label}:</span>
+                      <strong>{item.value}</strong>
+                      {itemIndex === 0 && section.key === 'basic' ? (
+                        <button
+                          type="button"
+                          className="month-channel-copy"
+                          aria-label="复制渠道订单号"
+                          data-testid="month-channel-copy-order-no"
+                          onClick={handleChannelOrderCopy}
+                        >
+                          <span aria-hidden="true" />
+                        </button>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
           </section>
         ) : null}
 
@@ -1933,6 +2367,214 @@ function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDraw
           </section>
         </div>
       ) : null}
+
+      {actionDialogConfig ? (
+        <div className="month-order-dialog-scrim" onClick={() => setActionFlow(null)}>
+          <section
+            className="month-order-dialog month-order-dialog--medium"
+            role="dialog"
+            aria-modal="true"
+            aria-label={actionDialogConfig.title}
+            data-testid={actionDialogConfig.testId}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <header className="month-order-dialog__header">
+              <strong>{actionDialogConfig.title}</strong>
+              <button type="button" aria-label={`关闭${actionDialogConfig.title}`} onClick={() => setActionFlow(null)}>
+                ×
+              </button>
+            </header>
+            <div className="month-order-dialog__body">
+              {actionFlow === 'invite' || actionFlow === 'invite-renew' ? (
+                <div className="month-order-dialog__form-grid month-order-dialog__form-grid--single">
+                  <label>
+                    <span>{actionFlow === 'invite' ? '邀请方式' : '续住方式'}</span>
+                    <select className="month-order-dialog__select" defaultValue="短信链接">
+                      <option value="短信链接">短信链接</option>
+                      <option value="微信发送">微信发送</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>目标手机号</span>
+                    <input className="month-order-dialog__input" defaultValue={phone === '-' ? '' : phone} placeholder="请输入手机号" />
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>发送内容</span>
+                    <textarea
+                      className="month-order-dialog__textarea"
+                      defaultValue={
+                        actionFlow === 'invite'
+                          ? `请完成 ${roomDisplayName} 的入住登记，入住日期 ${stayRange}`
+                          : `请确认 ${roomDisplayName} 的续住申请，当前入住周期 ${stayRange}`
+                      }
+                    />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'early-checkin' || actionFlow === 'late-checkout' || actionFlow === 'renew' || actionFlow === 'continue' ? (
+                <div className="month-order-dialog__form-grid month-order-dialog__form-grid--single">
+                  <label>
+                    <span>{actionFlow === 'late-checkout' ? '延退至' : actionFlow === 'renew' || actionFlow === 'continue' ? '续住至' : '提前入住时间'}</span>
+                    <input
+                      className="month-order-dialog__input"
+                      defaultValue={
+                        actionFlow === 'late-checkout'
+                          ? '2026-05-21 14:00'
+                          : actionFlow === 'renew' || actionFlow === 'continue'
+                            ? '2026-05-22'
+                            : '2026-05-20 12:00'
+                      }
+                      readOnly
+                    />
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>备注</span>
+                    <textarea
+                      className="month-order-dialog__textarea"
+                      defaultValue={
+                        actionFlow === 'late-checkout'
+                          ? '客户已确认延迟退房，需要同步房态与清扫时间。'
+                          : actionFlow === 'renew' || actionFlow === 'continue'
+                            ? '续住后沿用当前房间与价格策略。'
+                            : '提前入住后请同步门锁密码和入住提醒。'
+                      }
+                    />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'change-room' ? (
+                <div className="month-order-dialog__form-grid">
+                  <label>
+                    <span>当前房间</span>
+                    <input className="month-order-dialog__input" value={roomDisplayName} readOnly />
+                  </label>
+                  <label>
+                    <span>调整至</span>
+                    <select className="month-order-dialog__select" defaultValue="房间2">
+                      <option value="房间2">{selectedBooking.roomType} 房间2</option>
+                      <option value="房间3">{selectedBooking.roomType} 房间3</option>
+                    </select>
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>换房原因</span>
+                    <textarea className="month-order-dialog__textarea" defaultValue="客户需要更高楼层，保持原订单价格不变。" />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'clean' ? (
+                <div className="month-order-dialog__form-grid">
+                  <label>
+                    <span>保洁房间</span>
+                    <input className="month-order-dialog__input" value={roomDisplayName} readOnly />
+                  </label>
+                  <label>
+                    <span>优先级</span>
+                    <select className="month-order-dialog__select" defaultValue="普通">
+                      <option value="普通">普通</option>
+                      <option value="加急">加急</option>
+                    </select>
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>任务说明</span>
+                    <textarea className="month-order-dialog__textarea" defaultValue="退房后安排保洁，检查布草和 minibar 消耗。" />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'print' ? (
+                <div className="month-order-dialog__form-grid month-order-dialog__form-grid--single">
+                  <label>
+                    <span>打印类型</span>
+                    <select className="month-order-dialog__select" defaultValue="订单详情单">
+                      <option value="订单详情单">订单详情单</option>
+                      <option value="入住单">入住单</option>
+                      <option value="账单">账单</option>
+                    </select>
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>打印说明</span>
+                    <textarea className="month-order-dialog__textarea" defaultValue="打印将按当前订单信息生成单据，提交后进入打印流程。" />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'credit-checkout' ? (
+                <div className="month-order-dialog__stats">
+                  <div className="month-order-dialog__stat">
+                    <span>信用住房费</span>
+                    <strong>{roomFee}</strong>
+                  </div>
+                  <div className="month-order-dialog__stat">
+                    <span>佣金</span>
+                    <strong>{commission}</strong>
+                  </div>
+                  <div className="month-order-dialog__stat month-order-dialog__stat--pending">
+                    <span>待结金额</span>
+                    <strong>{totalIncome}</strong>
+                  </div>
+                </div>
+              ) : null}
+
+              {actionFlow === 'checkin' ? (
+                <div className="month-order-dialog__form-grid month-order-dialog__form-grid--single">
+                  <label>
+                    <span>入住房间</span>
+                    <input className="month-order-dialog__input" value={roomDisplayName} readOnly />
+                  </label>
+                  <label>
+                    <span>入住人</span>
+                    <input className="month-order-dialog__input" value={selectedBooking.cell.title} readOnly />
+                  </label>
+                  <label className="month-order-dialog__form-grid-full">
+                    <span>办理说明</span>
+                    <textarea className="month-order-dialog__textarea" defaultValue="确认证件、房费与押金信息后即可办理入住。" />
+                  </label>
+                </div>
+              ) : null}
+
+              {actionFlow === 'cancel-arrange' || actionFlow === 'skip-stock' || actionFlow === 'skip-report' || actionFlow === 'cancel-order' ? (
+                <div className="month-order-dialog__grid month-order-dialog__grid--inputs">
+                  <span>房间信息: {roomDisplayName}</span>
+                  <span>订单编号: {orderId}</span>
+                  <span>当前状态: {statusLabel}</span>
+                  <span>
+                    {actionFlow === 'cancel-arrange'
+                      ? '确认后将移除当前排房记录。'
+                      : actionFlow === 'skip-stock'
+                        ? '确认后该订单将不再占用房态库存。'
+                        : actionFlow === 'skip-report'
+                          ? '确认后该订单将不再计入统计口径。'
+                          : '确认后将取消当前房单并保留操作记录。'}
+                  </span>
+                </div>
+              ) : null}
+            </div>
+            <footer className="month-order-dialog__footer">
+              <button type="button" onClick={() => setActionFlow(null)}>
+                取消
+              </button>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => {
+                  if (actionFlow === 'checkin') {
+                    setActionFlow(null)
+                    setGuestEditorOpen(true)
+                    onAction('办理入住')
+                    return
+                  }
+                  confirmActionFlow()
+                }}
+              >
+                {actionFlow === 'checkin' ? '登记入住人' : actionDialogConfig.confirmLabel}
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
     </aside>
   )
 }
@@ -1956,4 +2598,101 @@ function formatCurrency(value: string | undefined, fallback: string) {
 function formatCurrencyFromNumber(value: number, fallback: string) {
   if (!Number.isFinite(value) || value <= 0) return fallback
   return `¥${value.toFixed(2)}`
+}
+
+function resolveMonthOrderActionDialogConfig(action: MonthOrderActionFlow): MonthOrderActionDialogConfig {
+  const mapping: Record<MonthOrderActionFlow, MonthOrderActionDialogConfig> = {
+    invite: {
+      title: '邀请登记',
+      confirmLabel: '发送邀请',
+      actionLabel: '发送入住登记邀请',
+      testId: 'month-order-dialog-invite',
+    },
+    'early-checkin': {
+      title: '提前入住',
+      confirmLabel: '确认提前入住',
+      actionLabel: '提前入住',
+      testId: 'month-order-dialog-early-checkin',
+    },
+    'invite-renew': {
+      title: '邀请续住',
+      confirmLabel: '发送续住邀请',
+      actionLabel: '邀请续住',
+      testId: 'month-order-dialog-invite-renew',
+    },
+    'late-checkout': {
+      title: '延迟退房',
+      confirmLabel: '确认延退',
+      actionLabel: '延迟退房',
+      testId: 'month-order-dialog-late-checkout',
+    },
+    'change-room': {
+      title: '换房',
+      confirmLabel: '确认换房',
+      actionLabel: '换房',
+      testId: 'month-order-dialog-change-room',
+    },
+    'cancel-arrange': {
+      title: '取消排房',
+      confirmLabel: '确认取消',
+      actionLabel: '取消排房',
+      testId: 'month-order-dialog-cancel-arrange',
+    },
+    'skip-stock': {
+      title: '不占库存',
+      confirmLabel: '确认设置',
+      actionLabel: '设置不占库存',
+      testId: 'month-order-dialog-skip-stock',
+    },
+    'skip-report': {
+      title: '不计入统计',
+      confirmLabel: '确认设置',
+      actionLabel: '设置不计入统计',
+      testId: 'month-order-dialog-skip-report',
+    },
+    continue: {
+      title: '设为续住单',
+      confirmLabel: '确认续住',
+      actionLabel: '设为续住单',
+      testId: 'month-order-dialog-continue',
+    },
+    'cancel-order': {
+      title: '取消房单',
+      confirmLabel: '确认取消',
+      actionLabel: '取消房单',
+      testId: 'month-order-dialog-cancel-order',
+    },
+    clean: {
+      title: '保洁',
+      confirmLabel: '创建保洁任务',
+      actionLabel: '创建保洁任务',
+      testId: 'month-order-dialog-clean',
+    },
+    print: {
+      title: '打印',
+      confirmLabel: '进入打印',
+      actionLabel: '打印订单',
+      testId: 'month-order-dialog-print',
+    },
+    'credit-checkout': {
+      title: '信用住结账',
+      confirmLabel: '确认结账',
+      actionLabel: '信用住结账',
+      testId: 'month-order-dialog-credit-checkout',
+    },
+    checkin: {
+      title: '办理入住',
+      confirmLabel: '办理入住',
+      actionLabel: '办理入住',
+      testId: 'month-order-dialog-checkin',
+    },
+    renew: {
+      title: '续住',
+      confirmLabel: '确认续住',
+      actionLabel: '续住',
+      testId: 'month-order-dialog-renew',
+    },
+  }
+
+  return mapping[action]
 }

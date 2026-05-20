@@ -507,6 +507,32 @@ test('month room status page matches measured target calendar chrome', async ({ 
   expect(selectedDateBox?.x).toBeLessThanOrEqual(455)
 })
 
+test('month room status page opens target-style month picker and syncs the selected date', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  const today = monthWindowDate(3)
+  const nextDate = monthWindowDate(4)
+  const monthTrigger = page.locator('.month-calendar-date')
+  const datePicker = page.locator('.month-date-picker')
+
+  await monthTrigger.click()
+  await expect(datePicker).toBeVisible()
+  await expect(datePicker.locator('.month-date-picker__cell')).toHaveCount(42)
+  await expect(datePicker.getByRole('button', { name: '今天' })).toBeVisible()
+
+  await datePicker.locator(`.month-date-picker__cell[data-date="${formatIsoDate(nextDate)}"]`).click()
+  await expect(datePicker).toHaveCount(0)
+  await expect(page.locator('.month-calendar-title')).toContainText(formatFullDate(nextDate))
+  await expect(page.getByTestId('month-date-column').nth(3)).toContainText(formatMonthDay(nextDate))
+  await expect(page.getByTestId('month-date-column').nth(3)).toHaveAttribute('aria-current', 'date')
+
+  await monthTrigger.click()
+  await datePicker.getByRole('button', { name: '今天' }).click()
+  await expect(datePicker).toHaveCount(0)
+  await expect(page.locator('.month-calendar-title')).toContainText(formatFullDate(today))
+})
+
 test('month room status page keeps booking content inside target-sized cells', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
@@ -610,8 +636,22 @@ test('month room status page opens target right order drawer and closes from bla
   await expect(drawer).toContainText('信用住结账')
 
   await page.getByRole('button', { name: '渠道信息' }).click()
-  await expect(drawer).toContainText('渠道来源: 飞猪淘酒店')
-  await expect(drawer).toContainText('结算方式: 线上预付')
+  await expect(page.getByTestId('month-channel-section-basic')).toContainText('基础信息')
+  await expect(page.getByTestId('month-channel-section-basic')).toContainText('渠道单号')
+  await expect(page.getByTestId('month-channel-section-basic')).toContainText('房间数量')
+  await expect(page.getByTestId('month-channel-section-basic')).toContainText('预定入离日期')
+  await expect(page.getByTestId('month-channel-section-basic')).toContainText('预定房型')
+  await page.getByTestId('month-channel-copy-order-no').click()
+  const toast = page.locator('.month-status-toast')
+  await expect(toast).toContainText('复制成功')
+  await expect(toast).toHaveClass(/month-status-toast--top/)
+  await expect(page.getByTestId('month-channel-section-fee')).toContainText('费用信息')
+  await expect(page.getByTestId('month-channel-section-fee')).toContainText('订单总收入')
+  await expect(page.getByTestId('month-channel-section-fee')).toContainText('房费(减佣)')
+  await expect(page.getByTestId('month-channel-section-fee')).toContainText('支付方式')
+  await expect(page.getByTestId('month-channel-section-other')).toContainText('其他信息')
+  await expect(page.getByTestId('month-channel-section-other')).toContainText('预定人')
+  await expect(page.getByTestId('month-channel-section-other')).toContainText('渠道备注信息')
 
   await page.getByRole('button', { name: '操作日志' }).click()
   await expect(drawer).toContainText('系统创建订单')
@@ -859,6 +899,55 @@ test('month room status page supports target drawer secondary dialogs and sectio
   await expect(checkoutDialog).toHaveCount(0)
 })
 
+test('month room status page wires pending drawer quick actions to real follow-up panels', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await page.locator('.tone-booking-gold').first().click()
+
+  await expect(page.getByTestId('month-order-action-guest')).toHaveCount(1)
+  await expect(page.getByTestId('month-order-action-early-checkin')).toBeVisible()
+
+  const quickActionDialogs = [
+    ['month-order-action-invite', 'month-order-dialog-invite', '邀请登记'],
+    ['month-order-action-early-checkin', 'month-order-dialog-early-checkin', '提前入住'],
+    ['month-order-action-change-room', 'month-order-dialog-change-room', '换房'],
+    ['month-order-action-cancel-arrange', 'month-order-dialog-cancel-arrange', '取消排房'],
+    ['month-order-action-skip-stock', 'month-order-dialog-skip-stock', '不占库存'],
+    ['month-order-action-skip-report', 'month-order-dialog-skip-report', '不计入统计'],
+    ['month-order-action-continue', 'month-order-dialog-continue', '设为续住单'],
+    ['month-order-action-cancel-order', 'month-order-dialog-cancel-order', '取消房单'],
+    ['month-order-action-clean', 'month-order-dialog-clean', '保洁'],
+    ['month-order-action-print', 'month-order-dialog-print', '打印'],
+  ] as const
+
+  for (const [triggerId, dialogId, title] of quickActionDialogs) {
+    await page.getByTestId(triggerId).click()
+    const dialog = page.getByTestId(dialogId)
+    await expect(dialog).toBeVisible()
+    await expect(dialog).toContainText(title)
+    await dialog.getByRole('button', { name: '取消', exact: true }).click()
+    await expect(dialog).toHaveCount(0)
+  }
+
+  await page.getByTestId('month-order-footer-credit-checkout').click()
+  const creditDialog = page.getByTestId('month-order-dialog-credit-checkout')
+  await expect(creditDialog).toBeVisible()
+  await expect(creditDialog).toContainText('信用住结账')
+  await creditDialog.getByRole('button', { name: '取消', exact: true }).click()
+  await expect(creditDialog).toHaveCount(0)
+
+  await page.getByTestId('month-order-footer-checkin').click()
+  const checkinDialog = page.getByTestId('month-order-dialog-checkin')
+  await expect(checkinDialog).toBeVisible()
+  await expect(checkinDialog).toContainText('办理入住')
+  await checkinDialog.getByRole('button', { name: '登记入住人' }).click()
+  const guestEditor = page.getByTestId('month-order-guest-editor')
+  await expect(guestEditor).toBeVisible()
+  await guestEditor.getByRole('button', { name: '取消' }).click()
+  await expect(guestEditor).toHaveCount(0)
+})
+
 test('month room status page adapts drawer actions to occupied target order state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
@@ -895,11 +984,11 @@ test('month room status page supports key matrix interactions', async ({ page })
   await expect(page.locator('.month-board__row')).toHaveCount(0)
   await roomSearch.fill('')
 
-  await page.locator('.month-calendar-title button').click()
+  await page.locator('.month-calendar-toggle').click()
   await expect(page.getByTestId('month-type-row')).toHaveCount(4)
   await expect(page.getByTestId('month-room-row')).toHaveCount(0)
 
-  await page.locator('.month-calendar-title button').click()
+  await page.locator('.month-calendar-toggle').click()
   await expect(page.getByTestId('month-room-row')).toHaveCount(4)
 
   await page.locator('.tone-booking-blue').first().click()
@@ -915,6 +1004,17 @@ test('month room status page supports key matrix interactions', async ({ page })
 test('month room status page supports toolbar menus and date actions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/months')
+
+  await page.getByTestId('month-room-filter-trigger').click()
+  const firstRoomOption = page.getByRole('option').first()
+  const firstRoomLabel = (await firstRoomOption.textContent())?.trim() ?? ''
+  await firstRoomOption.click()
+  await expect(page.getByTestId('month-room-filter-value')).toContainText(firstRoomLabel)
+  await expect(page.getByTestId('month-type-row')).toHaveCount(1)
+  await page.getByTestId('month-room-filter-clear').click()
+  await expect(page.getByTestId('month-room-filter-value')).toHaveCount(0)
+  await expect(page.getByTestId('month-room-filter-trigger')).toContainText('房型')
+  await expect(page.getByTestId('month-type-row')).toHaveCount(4)
 
   await page.locator('.month-settings > button').click()
   await expect(page.locator('.month-settings__menu')).toBeVisible()

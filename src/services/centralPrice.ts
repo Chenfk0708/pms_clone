@@ -3,6 +3,12 @@ export const centralPriceBusinessSourceLabel = '中央价格服务'
 
 export type CentralPriceProviderName = 'mock' | 'real'
 type CentralPriceMockMode = 'success' | 'empty' | 'error'
+type MockCentralChannel = {
+  channelId: string
+  channelName: string
+  expressValue: string
+  priceDelta?: number
+}
 
 export type CentralPriceFilters = {
   selectedStore: string
@@ -250,6 +256,15 @@ function mockCentralPriceEmptyEnvelope(requestBody: Record<string, unknown>) {
 function mockCentralPriceSuccessEnvelope(requestBody: Record<string, unknown>) {
   const startDate = String(requestBody.date ?? getCentralPriceRequestDate())
   const dates = Array.from({ length: 30 }, (_, index) => addDays(startDate, index))
+  const commonChannels: MockCentralChannel[] = [
+    { channelId: '2', channelName: '途家', expressValue: '0.95', priceDelta: 0 },
+    { channelId: '3', channelName: '小猪', expressValue: '1.00', priceDelta: 0 },
+    { channelId: '4', channelName: '携程', expressValue: '1.00', priceDelta: -3000 },
+    { channelId: '5', channelName: '美团酒店', expressValue: '1.00', priceDelta: -2000 },
+    { channelId: '6', channelName: '飞猪淘酒店', expressValue: '1.00', priceDelta: 1000 },
+    { channelId: '7', channelName: '路客云聚合', expressValue: '1.00', priceDelta: 0 },
+    { channelId: '8', channelName: '木鸟', expressValue: '0.90', priceDelta: 5000 },
+  ]
 
   return successEnvelope('mock-fangtai--fangjia-guanli--zhongyang-jiage-list-001', {
     list: [],
@@ -266,8 +281,7 @@ function mockCentralPriceSuccessEnvelope(requestBody: Record<string, unknown>) {
         normalActualSalePrice: 73000,
         totalStock: 2,
         dates,
-        channelName: '中央直连',
-        expressValue: '1.00',
+        channels: commonChannels,
       }),
       buildMockRoom({
         roomCategoryId: 'central-cinema-room',
@@ -276,8 +290,7 @@ function mockCentralPriceSuccessEnvelope(requestBody: Record<string, unknown>) {
         normalActualSalePrice: 29800,
         totalStock: 3,
         dates,
-        channelName: '途家',
-        expressValue: '0.95',
+        channels: commonChannels,
       }),
     ],
     pageX: {
@@ -296,8 +309,7 @@ function buildMockRoom({
   normalActualSalePrice,
   totalStock,
   dates,
-  channelName,
-  expressValue,
+  channels,
 }: {
   roomCategoryId: string
   roomCategoryName: string
@@ -305,8 +317,7 @@ function buildMockRoom({
   normalActualSalePrice: number
   totalStock: number
   dates: string[]
-  channelName: string
-  expressValue: string
+  channels: MockCentralChannel[]
 }) {
   const statusViews = dates.map((date, index) => ({
     date,
@@ -320,21 +331,22 @@ function buildMockRoom({
     normalPrice,
     normalActualSalePrice,
     statusViews,
-    channelRoomCategoryStatuses: [
-      {
-        channelId: channelName === '途家' ? '2' : 'mock-channel-central',
-        channelName,
-        channelRoomCategoryName: `${roomCategoryName}<无早>`,
-        expressValue,
-        normalPrice,
-        normalActualSalePrice,
-        statusViews: statusViews.map((item) => ({
+    channelRoomCategoryStatuses: channels.map((channel, channelIndex) => ({
+      channelId: channel.channelId,
+      channelName: channel.channelName,
+      channelRoomCategoryName: `${roomCategoryName}<无早>`,
+      expressValue: channel.expressValue,
+      normalPrice,
+      normalActualSalePrice,
+      statusViews: statusViews.map((item, statusIndex) => {
+        const adjustedPrice = item.price + (channel.priceDelta ?? 0) + ((channelIndex + statusIndex) % 3 === 0 ? 1000 : 0)
+        return {
           date: item.date,
-          price: item.price,
-          salePrice: Math.round(item.price * Number(expressValue)),
-        })),
-      },
-    ],
+          price: adjustedPrice,
+          salePrice: Math.round(adjustedPrice * Number(channel.expressValue)),
+        }
+      }),
+    })),
   }
 }
 

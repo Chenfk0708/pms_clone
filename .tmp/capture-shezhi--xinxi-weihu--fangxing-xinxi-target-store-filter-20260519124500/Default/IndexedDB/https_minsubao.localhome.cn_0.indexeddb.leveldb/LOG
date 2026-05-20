@@ -1,0 +1,17 @@
+2026/05/19-19:09:07.374 63d0 Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-target-store-filter-20260519124500\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/19-19:09:07.374 63d0 Recovering log #4
+2026/05/19-19:09:07.375 63d0 Reusing old log C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-target-store-filter-20260519124500\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/000004.log 
+2026/05/19-19:09:07.423 11a1c Level-0 table #8: started
+2026/05/19-19:09:07.446 11a1c Level-0 table #8: 9418 bytes OK
+2026/05/19-19:09:07.461 11a1c Delete type=0 #4
+2026/05/19-19:09:07.475 63d0 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/19-19:09:07.478 63d0 Level-0 table #10: started
+2026/05/19-19:09:07.489 63d0 Level-0 table #10: 662 bytes OK
+2026/05/19-19:09:07.497 63d0 Delete type=0 #7
+2026/05/19-19:09:07.512 63d0 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at '\x00\x03\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 801 : 0
+2026/05/19-19:09:07.512 63d0 Compacting 1@0 + 1@1 files
+2026/05/19-19:09:07.522 63d0 Generated table #11@0: 602 keys, 8148 bytes
+2026/05/19-19:09:07.522 63d0 Compacted 1@0 + 1@1 files => 8148 bytes
+2026/05/19-19:09:07.533 63d0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/19-19:09:07.534 63d0 Delete type=2 #10
+2026/05/19-19:09:07.559 63d0 Manual compaction at level-0 from '\x00\x03\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 801 : 0 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)

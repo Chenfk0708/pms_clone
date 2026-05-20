@@ -1,4 +1,4 @@
-import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type FormEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { priceDates, priceRows } from '../data/mock'
 import { fetchChannelPriceRows, type ChannelPriceProviderName, type ChannelPriceRow } from '../services/channelPrice'
@@ -143,6 +143,40 @@ function makePriceDates(offset: number, startDay = 12) {
       isToday: index === 0 && offset === 0,
       weekday: weekdays[date.getDay()],
       key: date.toISOString().slice(0, 10),
+    }
+  })
+}
+
+const calendarWeekLabels = ['一', '二', '三', '四', '五', '六', '日']
+
+function parseDateValue(value: string) {
+  const [yearText, monthText, dayText] = value.split('-')
+  const year = Number(yearText)
+  const month = Number(monthText)
+  const day = Number(dayText)
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return new Date(2026, 4, 20)
+  }
+  return new Date(year, month - 1, day)
+}
+
+function formatHeaderDateValue(date: Date) {
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
+}
+
+function buildCalendarCells(anchor: Date) {
+  const year = anchor.getFullYear()
+  const month = anchor.getMonth()
+  const monthStart = new Date(year, month, 1)
+  const leadingDays = (monthStart.getDay() + 6) % 7
+  const gridStart = new Date(year, month, 1 - leadingDays)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const cellDate = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index)
+    return {
+      key: `${cellDate.getFullYear()}-${String(cellDate.getMonth() + 1).padStart(2, '0')}-${String(cellDate.getDate()).padStart(2, '0')}`,
+      day: cellDate.getDate(),
+      isMuted: cellDate.getMonth() !== month,
     }
   })
 }
@@ -460,6 +494,7 @@ export function ChannelGuideOverlay({ step, onNext, onClose }: { step: number; o
 
 function SharedToolbar({
   active,
+  renderAsCentral = false,
   selectedStore = '全部门店',
   selectedChannel: controlledSelectedChannel,
   selectedRoom = '全部房型',
@@ -472,6 +507,8 @@ function SharedToolbar({
   onActionBlocked = () => {},
 }: {
   active: string
+  mode?: string
+  renderAsCentral?: boolean
   selectedStore?: string
   selectedChannel?: string
   selectedRoom?: string
@@ -495,8 +532,8 @@ function SharedToolbar({
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [guideStep, setGuideStep] = useState(0)
   const [openFilter, setOpenFilter] = useState('')
-  const isCentral = active === '中央价'
-  const isChannelRp = active === '渠道RP价'
+  const isCentral = renderAsCentral || active === '\u4e2d\u592e\u4ef7'
+  const isChannelRp = !renderAsCentral && active === '\u6e20\u9053RP\u4ef7'
   const selectedChannel = controlledSelectedChannel ?? localSelectedChannel
 
   function showToast(message: string) {
@@ -940,9 +977,12 @@ function SharedToolbar({
 
 function PriceMatrix({
   mode,
+  renderAsCentral = false,
   channelRows,
   channelState,
   channelDate,
+  centralRequestDate,
+  onCentralDateChange,
   onRetryChannelRequest,
   centralData,
   centralState,
@@ -950,22 +990,33 @@ function PriceMatrix({
   onActionBlocked,
 }: {
   mode: string
+  renderAsCentral?: boolean
   channelRows?: PriceMatrixRow[]
   channelState?: ChannelPriceRequestState
   channelDate?: string
+  centralRequestDate?: string
+  onCentralDateChange?: (date: string) => void
   onRetryChannelRequest?: () => void
   centralData?: CentralPriceData
   centralState?: CentralPriceRequestState
   onRetryCentralRequest?: () => void
   onActionBlocked?: (message: string) => void
 }) {
+  const centralHeaderScrollRef = useRef<HTMLDivElement | null>(null)
   const [selectedCell, setSelectedCell] = useState('')
   const [selectedDetail, setSelectedDetail] = useState<{ price: string; date: string } | null>(null)
   const [modalCell, setModalCell] = useState<string | null>(null)
+  const [editMode, setEditMode] = useState<'fixed' | 'increase' | 'percent'>('fixed')
+  const [editValue, setEditValue] = useState('')
   const [collapsed, setCollapsed] = useState(false)
+  const [collapsedRooms, setCollapsedRooms] = useState<Record<string, boolean>>({})
+  const [summarySwitchStates, setSummarySwitchStates] = useState<Record<string, boolean>>({})
+  const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false)
+  const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
   const [dateOffset, setDateOffset] = useState(0)
-  const isChannelRp = mode === '渠道RP价'
-  const isCentral = mode === '中央价'
+  const isChannelRp = !renderAsCentral && mode === '\u6e20\u9053RP\u4ef7'
+  const isCentral = renderAsCentral || mode === '\u4e2d\u592e\u4ef7'
+  const isChannelRpCentralReuse = renderAsCentral && mode === '\u6e20\u9053RP\u4ef7'
 
   const rows: PriceMatrixRow[] =
     isChannelRp
@@ -988,49 +1039,216 @@ function PriceMatrix({
       : priceDates.map((item) => ({ ...item, label: item.date, key: item.date }))
   const gridTemplateColumns = `${mode === '中央价' || isChannelRp ? '170px' : '150px'} 76px 76px repeat(${visibleDates.length}, 88px)`
   const minWidth = 322 + visibleDates.length * 88
+  const centralFrozenPaneTemplate = '154px 48px 79px'
+  const centralDateColumnWidth = 88
+  const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`
+  const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth
   const formatDateLabel = (key: string) => key.slice(5).replace('-', '.')
   const centralRoomGroups = centralData?.rooms ?? []
-  const firstVisibleDate = visibleDates[0]
-  const firstVisibleDateLabel = firstVisibleDate
-    ? 'dateLabel' in firstVisibleDate
-      ? firstVisibleDate.dateLabel
-      : formatDateLabel(firstVisibleDate.key)
-    : `05.${String(calendarStartDay + dateOffset).padStart(2, '0')}`
+  const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
+  const centralCalendarCells = buildCalendarCells(centralCalendarMonth)
+  const todayDateValue = getCentralPriceRequestDate()
+
+  useEffect(() => {
+    if (!isCentral || !centralRequestDate) return
+    setCentralCalendarMonth(parseDateValue(centralRequestDate))
+  }, [centralRequestDate, isCentral])
+
+  useEffect(() => {
+    if (!modalCell) return
+    setSelectedCell('')
+    setEditMode('fixed')
+    setEditValue(selectedDetail?.price ?? '')
+  }, [modalCell, selectedDetail])
+
+  function closePriceEditor() {
+    setModalCell(null)
+    setSelectedCell('')
+    setSelectedDetail(null)
+  }
+
+  function toggleRoomCollapsed(roomId: string) {
+    setCollapsedRooms((current) => ({
+      ...current,
+      [roomId]: !current[roomId],
+    }))
+  }
+
+  function isRoomCollapsed(roomId: string) {
+    return Boolean(collapsedRooms[roomId])
+  }
+
+  function toggleAllCentralRooms() {
+    setCollapsed((current) => {
+      const next = !current
+      setCollapsedRooms(next ? Object.fromEntries(centralRoomGroups.map((room) => [room.id, true])) : {})
+      return next
+    })
+  }
+
+  function getCentralBaseComparePrice(row: PriceMatrixRow) {
+    return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice
+  }
+
+  function handleCentralDatePicked(dateValue: string) {
+    onCentralDateChange?.(dateValue)
+    setIsCentralCalendarOpen(false)
+  }
+
+  function isSummarySwitchOn(cellKey: string) {
+    return summarySwitchStates[cellKey] !== false
+  }
+
+  function toggleSummarySwitch(cellKey: string) {
+    setSummarySwitchStates((current) => ({
+      ...current,
+      [cellKey]: current[cellKey] === false,
+    }))
+  }
+
+  function renderCentralDateMetric({
+    key,
+    roomName,
+    dateLabel,
+    price,
+    stock,
+  }: {
+    key: string
+    roomName: string
+    dateLabel: string
+    price: string
+    stock: string
+  }) {
+    const switchOn = isSummarySwitchOn(key)
+
+    return (
+      <div
+        key={key}
+        data-testid="central-summary-date-cell"
+        className={`price-cell price-cell-button price-cell-button--summary ${selectedCell === key ? 'is-selected' : ''} ${
+          switchOn ? '' : 'is-switch-off'
+        }`}
+      >
+        <button
+          type="button"
+          data-testid="central-summary-stock-switch"
+          className={`central-price-grid__metric-stock ${switchOn ? 'is-on' : 'is-off'}`}
+          aria-label={`${dateLabel}库存开关`}
+          aria-pressed={switchOn}
+          onClick={() => toggleSummarySwitch(key)}
+        >
+          <i aria-hidden="true" />
+          <em>{stock}</em>
+        </button>
+        <button
+          type="button"
+          className="central-price-grid__metric-price-button"
+          aria-label={`${price} ${dateLabel}`}
+          onClick={() => {
+            setSelectedCell(key)
+            setSelectedDetail({ price, date: dateLabel })
+            setModalCell(`${roomName} / ${dateLabel}`)
+          }}
+        >
+          <strong className="central-price-grid__metric-price">{price}</strong>
+        </button>
+      </div>
+    )
+  }
+
+  function renderCentralStockOnlyMetric(key: string, stock: string) {
+    return (
+      <div key={key} data-testid="channel-rp-summary-stock-cell" className="price-cell central-price-grid__stock-only-cell">
+        <em>{stock}</em>
+      </div>
+    )
+  }
+
+  function renderCentralBasePriceCell(actualPrice: string, comparePrice: string, testId?: string) {
+    return (
+      <div className="central-price-grid__base-price" data-testid={testId}>
+        <span className="central-price-grid__tag-price">
+          <i className="central-price-grid__tag">实</i>
+          <strong>{actualPrice}</strong>
+        </span>
+        <span className="central-price-grid__tag-price central-price-grid__tag-price--muted">
+          <i className="central-price-grid__tag">划</i>
+          <em>{comparePrice}</em>
+        </span>
+      </div>
+    )
+  }
+
+  function renderCentralChannelDateCell({
+    key,
+    row,
+    dateLabel,
+    price,
+    comparePrice,
+  }: {
+    key: string
+    row: PriceMatrixRow
+    dateLabel: string
+    price: string
+    comparePrice: string
+  }) {
+    return (
+      <button
+        key={key}
+        type="button"
+        className={`price-cell price-cell-button ${selectedCell === key ? 'is-selected' : ''}`}
+        aria-label={`${price} ${dateLabel}`}
+        onClick={() => {
+          setSelectedCell(key)
+          setSelectedDetail({ price, date: dateLabel })
+          setModalCell(`${row.channel} / ${dateLabel}`)
+        }}
+      >
+        <strong>{price}</strong>
+        <span>{comparePrice}</span>
+      </button>
+    )
+  }
 
   function renderCentralGroupRow(room: CentralPriceRoom) {
+    const roomCollapsed = collapsed || isRoomCollapsed(room.id)
+
     return (
-      <div key={`${room.name}-summary`} className="price-grid__row price-grid__group-row" style={{ gridTemplateColumns, minWidth }}>
-        <div className="price-room-header price-room-header--group">
-          <strong>{room.name}</strong>
-          <span>{room.stock}</span>
+      <div
+        key={`${room.name}-summary`}
+        className="price-grid__row price-grid__row--central price-grid__group-row"
+        style={{ gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }}
+      >
+        <div className="central-price-grid__frozen-cell central-price-grid__frozen-cell--group" data-testid="central-price-matrix-row-header">
+          <div className="central-price-grid__frozen-inner" style={{ gridTemplateColumns: centralFrozenPaneTemplate }}>
+            <button type="button" className="central-price-grid__group-toggle" aria-expanded={!roomCollapsed} onClick={() => toggleRoomCollapsed(room.id)}>
+              <span className="central-price-grid__group-copy">
+                <strong>{room.name}</strong>
+              </span>
+              <i className={roomCollapsed ? 'is-collapsed' : ''} aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <div>
-          <span className="price-coeff-badge price-coeff-badge--central">中</span>
+          <span className="price-coeff-badge price-coeff-badge--central central-price-grid__summary-icon" aria-hidden="true">
+            {isChannelRpCentralReuse ? '\u4e2d' : '+'}
+          </span>
         </div>
-        <div>{room.basePrice}</div>
+        <div>{isChannelRpCentralReuse ? '-' : room.basePrice}</div>
         {visibleDates.map((dateItem, index) => {
           const status = room.prices[index] ?? { price: '-', stock: '-' }
-          const price = status.price
-          const stock = status.stock
           const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key)
           const key = `${room.id}-summary-${dateItem.key}`
 
-          return (
-            <button
-              key={key}
-              type="button"
-              className={`price-cell price-cell-button price-cell-button--summary ${selectedCell === key ? 'is-selected' : ''}`}
-              aria-label={`${price} ${dateLabel}`}
-              onClick={() => {
-                setSelectedCell(key)
-                setSelectedDetail({ price, date: dateLabel })
-                setModalCell(`${room.name} / ${dateLabel}`)
-              }}
-            >
-              <strong>{price}</strong>
-              <span>{stock}</span>
-            </button>
-          )
+          return isChannelRpCentralReuse
+            ? renderCentralStockOnlyMetric(key, status.stock)
+            : renderCentralDateMetric({
+                key,
+                roomName: room.name,
+                dateLabel,
+                price: status.price,
+                stock: status.stock,
+              })
         })}
       </div>
     )
@@ -1038,10 +1256,40 @@ function PriceMatrix({
 
   function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
     const product = 'product' in row && typeof row.product === 'string' ? row.product : ''
+    const rowClassName = isCentral ? 'price-grid__row price-grid__row--central' : 'price-grid__row'
+
+    if (isCentral) {
+      const compareBasePrice = getCentralBaseComparePrice(row)
+
+      return (
+        <div
+          key={`${keyPrefix}${row.channel}`}
+          data-testid="central-channel-row"
+          className={rowClassName}
+          style={{ gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }}
+        >
+          <div className="price-room-header price-room-header--central" data-testid="central-price-matrix-row-header">
+            <strong>{row.channel}</strong>
+            {product ? <span>{product}</span> : null}
+          </div>
+          <div>
+            <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
+          </div>
+          <div>{renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price')}</div>
+          {visibleDates.map((dateItem, index) => {
+            const price = row.prices[index % row.prices.length]
+            const comparePrice = row.comparePrices[index % row.comparePrices.length]
+            const key = `${keyPrefix}${row.channel}-${dateItem.key}`
+            const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key)
+            return renderCentralChannelDateCell({ key, row, dateLabel, price, comparePrice })
+          })}
+        </div>
+      )
+    }
 
     return (
-      <div key={`${keyPrefix}${row.channel}`} className="price-grid__row" style={{ gridTemplateColumns, minWidth }}>
-        <div className="price-room-header">
+      <div key={`${keyPrefix}${row.channel}`} className={rowClassName} style={{ gridTemplateColumns, minWidth }}>
+        <div className="price-room-header" data-testid={isCentral ? 'central-price-matrix-row-header' : undefined}>
           <strong>{row.channel}</strong>
           {product ? <span>{product}</span> : null}
         </div>
@@ -1069,6 +1317,128 @@ function PriceMatrix({
             </button>
           )
         })}
+      </div>
+    )
+  }
+
+  function renderCentralHeaderLeft() {
+    return (
+      <div className="central-price-grid__head-static" style={{ gridTemplateColumns: centralFrozenPaneTemplate }}>
+        <div className="central-price-grid__date-head">
+          <button
+            type="button"
+            data-testid="central-date-trigger"
+            className="central-price-grid__date-trigger"
+            onClick={() => setIsCentralCalendarOpen((current) => !current)}
+          >
+            <strong>{centralHeaderDateLabel}</strong>
+            <i aria-hidden="true" />
+          </button>
+          <button type="button" className="price-grid__collapse-button" onClick={toggleAllCentralRooms}>
+            <span>{collapsed ? '\u5168\u90e8\u5c55\u5f00' : '\u5168\u90e8\u6536\u8d77'}</span>
+          </button>
+          {isCentralCalendarOpen ? (
+            <div className="central-price-grid__calendar-popover" role="dialog" aria-label="中央价日期选择">
+              <header className="central-price-grid__calendar-header">
+                <button type="button" aria-label="上个月" onClick={() => setCentralCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}>
+                  ‹
+                </button>
+                <strong>{`${centralCalendarMonth.getFullYear()}年 ${centralCalendarMonth.getMonth() + 1}月`}</strong>
+                <button type="button" aria-label="下个月" onClick={() => setCentralCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}>
+                  ›
+                </button>
+              </header>
+              <div className="central-price-grid__calendar-weekdays">
+                {calendarWeekLabels.map((label) => (
+                  <span key={label}>{label}</span>
+                ))}
+              </div>
+              <div className="central-price-grid__calendar-days">
+                {centralCalendarCells.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    aria-label={item.key}
+                    className={[
+                      item.isMuted ? 'is-muted' : '',
+                      item.key === (centralRequestDate ?? todayDateValue) ? 'is-picked' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    onClick={() => handleCentralDatePicked(item.key)}
+                  >
+                    {item.day}
+                  </button>
+                ))}
+              </div>
+              <footer className="central-price-grid__calendar-footer">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextToday = getCentralPriceRequestDate()
+                    setCentralCalendarMonth(parseDateValue(nextToday))
+                    handleCentralDatePicked(nextToday)
+                  }}
+                >
+                  今天
+                </button>
+              </footer>
+            </div>
+          ) : null}
+        </div>
+        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <div>{'\u57fa\u7840\u4ef7'}</div>
+      </div>
+    )
+  }
+
+  function renderCentralHeaderDates() {
+    return (
+      <div className="central-price-grid__head-scroll-track">
+        {visibleDates.map((item) => {
+          const day = new Date(item.key).getDay()
+          const className = [day === 0 || day === 6 ? 'is-weekend' : '', 'isToday' in item && item.isToday ? 'is-today' : '']
+            .filter(Boolean)
+            .join(' ')
+
+          return (
+            <div key={`${item.key}-${item.weekday}`} className={className}>
+              <strong>{formatDateLabel(item.key)}</strong>
+              <span>{item.weekday}</span>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  function renderCentralMatrix() {
+    return (
+      <div className="central-price-grid">
+        <div className="central-price-grid__head-shell" data-testid="central-price-matrix-header">
+          {renderCentralHeaderLeft()}
+          <div ref={centralHeaderScrollRef} className="central-price-grid__head-scroll">
+            {renderCentralHeaderDates()}
+          </div>
+        </div>
+        <div
+          className="central-price-grid__scroll"
+          data-testid="central-price-matrix-scroll"
+          onScroll={(event) => {
+            if (centralHeaderScrollRef.current) {
+              centralHeaderScrollRef.current.scrollLeft = event.currentTarget.scrollLeft
+            }
+          }}
+        >
+          {centralState?.kind === 'success'
+            ? centralRoomGroups.map((room) => (
+                <div key={room.id} className="price-grid__section">
+                  {renderCentralGroupRow(room)}
+                  {!collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`)) : null}
+                </div>
+              ))
+            : null}
+        </div>
       </div>
     )
   }
@@ -1135,94 +1505,479 @@ function PriceMatrix({
           </div>
         ) : null}
 
-        <div className="price-grid">
-          <div className="price-grid__head" style={{ gridTemplateColumns, minWidth }}>
-            <div>
-              {isCentral ? (
-                <button type="button" className="price-grid__collapse-button" onClick={() => setCollapsed((value) => !value)}>
-                  <strong>{firstVisibleDateLabel}</strong>
-                  <span>{collapsed ? '全部展开' : '全部收起'}</span>
-                </button>
-              ) : isChannelRp ? (
-                '全部收起'
-              ) : (
-                '房型'
-              )}
+        {isCentral ? (
+          renderCentralMatrix()
+        ) : (
+          <div className="price-grid">
+            <div className="price-grid__head" style={{ gridTemplateColumns, minWidth }}>
+              <div>{isChannelRp ? '\u5168\u90e8\u6536\u8d77' : '\u623f\u578b'}</div>
+              <div>{isChannelRp ? '\u4ea7\u54c1\u7cfb\u6570' : '\u7cfb\u6570'}</div>
+              <div>{isChannelRp ? '\u57fa\u7840\u4ef7' : '\u5e95\u4ef7'}</div>
+              {visibleDates.map((item) => (
+                <div key={`${item.key}-${item.weekday}`} className={['\u516d', '\u65e5'].includes(item.weekday) ? 'is-weekend' : ''}>
+                  <strong>{item.label}</strong>
+                  <span>{item.weekday}</span>
+                </div>
+              ))}
             </div>
-            <div>{isChannelRp ? '产品系数' : isCentral ? '渠道系数' : '系数'}</div>
-            <div>{isChannelRp ? '基础价' : isCentral ? '基础价' : '底价'}</div>
-            {visibleDates.map((item) => (
-              <div key={`${item.key}-${item.weekday}`} className={['六', '日'].includes(item.weekday) ? 'is-weekend' : ''}>
-                <strong>{item.label}</strong>
-                <span>{item.weekday}</span>
-              </div>
-            ))}
+            {!collapsed && channelState?.kind !== 'error' && channelState?.kind !== 'empty'
+              ? rows.map((row) => renderPriceRow(row))
+              : null}
           </div>
-          {!collapsed && isCentral && centralState?.kind === 'success'
+        )}
+      </section>
+
+      {modalCell && (
+        <div className="price-edit-drawer-backdrop" role="presentation" onClick={closePriceEditor}>
+          <section className="price-edit-drawer" role="dialog" aria-modal="true" aria-label={'\u6539\u4ef7'} onClick={(event) => event.stopPropagation()}>
+            <header>
+              <strong>{'\u6539\u4ef7'}</strong>
+              <button type="button" aria-label={'\u5173\u95ed\u6539\u4ef7'} onClick={closePriceEditor}>
+                {'\u00d7'}
+              </button>
+            </header>
+            <div className="price-edit-drawer__body">
+              <p className="price-edit-drawer__selection">{'\u5df2\u90091\u9879'}</p>
+              <section className="price-edit-card">
+                <div className="price-edit-card__title">{'\u4ef7\u683c'}</div>
+                <div className="price-edit-options" role="radiogroup" aria-label={'\u6539\u4ef7\u65b9\u5f0f'}>
+                  {[
+                    { value: 'fixed', label: '\u7edd\u5bf9\u503c\u6539\u4ef7' },
+                    { value: 'increase', label: '\u5dee\u503c\u6539\u4ef7' },
+                    { value: 'percent', label: '\u767e\u5206\u6bd4\u6539\u4ef7' },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={editMode === option.value}
+                      className={`price-edit-option${editMode === option.value ? ' is-active' : ''}`}
+                      onClick={() => setEditMode(option.value as 'fixed' | 'increase' | 'percent')}
+                    >
+                      <i aria-hidden="true" />
+                      <span>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+                <label className="price-edit-input">
+                  <span className="sr-only-heading">{'\u6539\u4ef7\u503c'}</span>
+                  <input type="text" aria-label={'\u6539\u4ef7\u503c'} placeholder={'\u8bf7\u8f93\u5165'} value={editValue} onChange={(event) => setEditValue(event.target.value)} autoFocus />
+                </label>
+              </section>
+            </div>
+            <footer>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => {
+                  closePriceEditor()
+                  if (isCentral) onActionBlocked?.('\u4ef7\u683c\u8c03\u6574\u5df2\u4fdd\u5b58\uff0c\u5f53\u524d\u4ef7\u683c\u77e9\u9635\u5df2\u66f4\u65b0')
+                }}
+              >
+                {'\u4fdd\u5b58'}
+              </button>
+              <button type="button" onClick={closePriceEditor}>
+                {'\u53d6\u6d88'}
+              </button>
+            </footer>
+          </section>
+        </div>
+      )}
+    </>
+  )
+}
+
+function ChannelRpPriceMatrix({
+  centralRequestDate,
+  onCentralDateChange,
+  centralData,
+  centralState,
+  onRetryCentralRequest,
+  onActionBlocked,
+}: {
+  centralRequestDate?: string
+  onCentralDateChange?: (date: string) => void
+  centralData?: CentralPriceData
+  centralState?: CentralPriceRequestState
+  onRetryCentralRequest?: () => void
+  onActionBlocked?: (message: string) => void
+}) {
+  const centralHeaderScrollRef = useRef<HTMLDivElement | null>(null)
+  const [editorCell, setEditorCell] = useState<{ title: string; price: string } | null>(null)
+  const [editMode, setEditMode] = useState<'fixed' | 'increase' | 'percent'>('fixed')
+  const [editValue, setEditValue] = useState('')
+  const [collapsed, setCollapsed] = useState(false)
+  const [collapsedRooms, setCollapsedRooms] = useState<Record<string, boolean>>({})
+  const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false)
+  const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
+  const visibleDates = centralData?.dates ?? makePriceDates(0, 13)
+  const centralFrozenPaneTemplate = '154px 48px 79px'
+  const centralDateColumnWidth = 88
+  const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`
+  const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth
+  const centralRoomGroups = centralData?.rooms ?? []
+  const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
+  const centralCalendarCells = buildCalendarCells(centralCalendarMonth)
+  const todayDateValue = getCentralPriceRequestDate()
+
+  useEffect(() => {
+    if (!centralRequestDate) return
+    setCentralCalendarMonth(parseDateValue(centralRequestDate))
+  }, [centralRequestDate])
+
+  useEffect(() => {
+    if (!editorCell) return
+    setEditMode('fixed')
+    setEditValue(editorCell.price)
+  }, [editorCell])
+
+  function formatDateLabel(key: string) {
+    return key.slice(5).replace('-', '.')
+  }
+
+  function closePriceEditor() {
+    setEditorCell(null)
+  }
+
+  function toggleRoomCollapsed(roomId: string) {
+    setCollapsedRooms((current) => ({
+      ...current,
+      [roomId]: !current[roomId],
+    }))
+  }
+
+  function isRoomCollapsed(roomId: string) {
+    return Boolean(collapsedRooms[roomId])
+  }
+
+  function toggleAllCentralRooms() {
+    setCollapsed((current) => {
+      const next = !current
+      setCollapsedRooms(next ? Object.fromEntries(centralRoomGroups.map((room) => [room.id, true])) : {})
+      return next
+    })
+  }
+
+  function handleCentralDatePicked(dateValue: string) {
+    onCentralDateChange?.(dateValue)
+    setIsCentralCalendarOpen(false)
+  }
+
+  function getCentralBaseComparePrice(row: PriceMatrixRow) {
+    return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice
+  }
+
+  function renderCentralStockOnlyMetric(key: string, stock: string) {
+    return (
+      <div key={key} data-testid="channel-rp-summary-stock-cell" className="price-cell central-price-grid__stock-only-cell">
+        <em>{stock}</em>
+      </div>
+    )
+  }
+
+  function renderCentralBasePriceCell(actualPrice: string, comparePrice: string, testId?: string) {
+    return (
+      <div className="central-price-grid__base-price" data-testid={testId}>
+        <span className="central-price-grid__tag-price">
+          <i className="central-price-grid__tag">{'\u5b9e'}</i>
+          <strong>{actualPrice}</strong>
+        </span>
+        <span className="central-price-grid__tag-price central-price-grid__tag-price--muted">
+          <i className="central-price-grid__tag">{'\u5212'}</i>
+          <em>{comparePrice}</em>
+        </span>
+      </div>
+    )
+  }
+
+  function renderChannelDateCell({
+    key,
+    row,
+    dateLabel,
+    price,
+    comparePrice,
+  }: {
+    key: string
+    row: PriceMatrixRow
+    dateLabel: string
+    price: string
+    comparePrice: string
+  }) {
+    return (
+      <button
+        key={key}
+        type="button"
+        className="price-cell price-cell-button"
+        aria-label={`${price} ${dateLabel}`}
+        onClick={() => setEditorCell({ title: `${row.channel} / ${dateLabel}`, price })}
+      >
+        <strong>{price}</strong>
+        <span>{comparePrice}</span>
+      </button>
+    )
+  }
+
+  function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
+    const product = 'product' in row && typeof row.product === 'string' ? row.product : ''
+    const compareBasePrice = getCentralBaseComparePrice(row)
+
+    return (
+      <div
+        key={`${keyPrefix}${row.channel}`}
+        data-testid="central-channel-row"
+        className="price-grid__row price-grid__row--central"
+        style={{ gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }}
+      >
+        <div className="price-room-header price-room-header--central" data-testid="central-price-matrix-row-header">
+          <strong>{row.channel}</strong>
+          {product ? <span>{product}</span> : null}
+        </div>
+        <div>
+          <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
+        </div>
+        <div>{renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price')}</div>
+        {visibleDates.map((dateItem, index) => {
+          const price = row.prices[index % row.prices.length]
+          const comparePrice = row.comparePrices[index % row.comparePrices.length]
+          const dateKey = (dateItem as { key: string }).key
+          const key = `${keyPrefix}${row.channel}-${dateKey}`
+          const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateKey)
+          return renderChannelDateCell({ key, row, dateLabel, price, comparePrice })
+        })}
+      </div>
+    )
+  }
+
+  function renderCentralGroupRow(room: CentralPriceRoom) {
+    const roomCollapsed = collapsed || isRoomCollapsed(room.id)
+
+    return (
+      <div
+        key={`${room.name}-summary`}
+        className="price-grid__row price-grid__row--central price-grid__group-row"
+        style={{ gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }}
+      >
+        <div className="central-price-grid__frozen-cell central-price-grid__frozen-cell--group" data-testid="central-price-matrix-row-header">
+          <div className="central-price-grid__frozen-inner" style={{ gridTemplateColumns: centralFrozenPaneTemplate }}>
+            <button type="button" className="central-price-grid__group-toggle" aria-expanded={!roomCollapsed} onClick={() => toggleRoomCollapsed(room.id)}>
+              <span className="central-price-grid__group-copy">
+                <strong>{room.name}</strong>
+              </span>
+              <i className={roomCollapsed ? 'is-collapsed' : ''} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+        <div>
+          <span className="price-coeff-badge price-coeff-badge--central central-price-grid__summary-icon" aria-hidden="true">
+            {'\u4e2d'}
+          </span>
+        </div>
+        <div>-</div>
+        {visibleDates.map((dateItem, index) => {
+          const status = room.prices[index] ?? { price: '-', stock: '-' }
+          const key = `${room.id}-summary-${dateItem.key}`
+          return renderCentralStockOnlyMetric(key, status.stock)
+        })}
+      </div>
+    )
+  }
+
+  function renderCentralHeaderLeft() {
+    return (
+      <div className="central-price-grid__head-static" style={{ gridTemplateColumns: centralFrozenPaneTemplate }}>
+        <div className="central-price-grid__date-head">
+          <button
+            type="button"
+            data-testid="central-date-trigger"
+            className="central-price-grid__date-trigger"
+            onClick={() => setIsCentralCalendarOpen((current) => !current)}
+          >
+            <strong>{centralHeaderDateLabel}</strong>
+            <i aria-hidden="true" />
+          </button>
+          <button type="button" className="price-grid__collapse-button" onClick={toggleAllCentralRooms}>
+            <span>{collapsed ? '\u5168\u90e8\u5c55\u5f00' : '\u5168\u90e8\u6536\u8d77'}</span>
+          </button>
+          {isCentralCalendarOpen ? (
+            <div className="central-price-grid__calendar-popover" role="dialog" aria-label={'\u4e2d\u592e\u4ef7\u65e5\u671f\u9009\u62e9'}>
+              <header className="central-price-grid__calendar-header">
+                <button type="button" aria-label={'\u4e0a\u4e2a\u6708'} onClick={() => setCentralCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}>
+                  {'\u2039'}
+                </button>
+                <strong>{`${centralCalendarMonth.getFullYear()}\u5e74 ${centralCalendarMonth.getMonth() + 1}\u6708`}</strong>
+                <button type="button" aria-label={'\u4e0b\u4e2a\u6708'} onClick={() => setCentralCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}>
+                  {'\u203a'}
+                </button>
+              </header>
+              <div className="central-price-grid__calendar-weekdays">
+                {calendarWeekLabels.map((label) => (
+                  <span key={label}>{label}</span>
+                ))}
+              </div>
+              <div className="central-price-grid__calendar-days">
+                {centralCalendarCells.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    aria-label={item.key}
+                    className={[
+                      item.isMuted ? 'is-muted' : '',
+                      item.key === (centralRequestDate ?? todayDateValue) ? 'is-picked' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    onClick={() => handleCentralDatePicked(item.key)}
+                  >
+                    {item.day}
+                  </button>
+                ))}
+              </div>
+              <footer className="central-price-grid__calendar-footer">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextToday = getCentralPriceRequestDate()
+                    setCentralCalendarMonth(parseDateValue(nextToday))
+                    handleCentralDatePicked(nextToday)
+                  }}
+                >
+                  {'\u4eca\u5929'}
+                </button>
+              </footer>
+            </div>
+          ) : null}
+        </div>
+        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <div>{'\u57fa\u7840\u4ef7'}</div>
+      </div>
+    )
+  }
+
+  function renderCentralHeaderDates() {
+    return (
+      <div className="central-price-grid__head-scroll-track">
+        {visibleDates.map((item) => {
+          const day = new Date(item.key).getDay()
+          const className = [day === 0 || day === 6 ? 'is-weekend' : '', 'isToday' in item && item.isToday ? 'is-today' : '']
+            .filter(Boolean)
+            .join(' ')
+
+          return (
+            <div key={`${item.key}-${item.weekday}`} className={className}>
+              <strong>{formatDateLabel(item.key)}</strong>
+              <span>{item.weekday}</span>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  function renderMatrix() {
+    return (
+      <div className="central-price-grid">
+        <div className="central-price-grid__head-shell" data-testid="central-price-matrix-header">
+          {renderCentralHeaderLeft()}
+          <div ref={centralHeaderScrollRef} className="central-price-grid__head-scroll">
+            {renderCentralHeaderDates()}
+          </div>
+        </div>
+        <div
+          className="central-price-grid__scroll"
+          data-testid="central-price-matrix-scroll"
+          onScroll={(event) => {
+            if (centralHeaderScrollRef.current) {
+              centralHeaderScrollRef.current.scrollLeft = event.currentTarget.scrollLeft
+            }
+          }}
+        >
+          {centralState?.kind === 'success'
             ? centralRoomGroups.map((room) => (
                 <div key={room.id} className="price-grid__section">
                   {renderCentralGroupRow(room)}
-                  {room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`))}
+                  {!collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`)) : null}
                 </div>
               ))
             : null}
-          {!collapsed && !isCentral && channelState?.kind !== 'error' && channelState?.kind !== 'empty'
-            ? rows.map((row) => renderPriceRow(row))
-            : null}
         </div>
-      </section>
+      </div>
+    )
+  }
 
-      {selectedDetail && (
-        <div className="price-toast">
-          <span>已选价格：{selectedDetail.price}</span>
-          <span>日期：{selectedDetail.date}</span>
-        </div>
-      )}
-      {modalCell && (
-        <div
-          className={isChannelRp ? 'price-floating-editor' : 'price-modal-backdrop'}
-          role={isChannelRp ? 'dialog' : undefined}
-          aria-modal={isChannelRp ? 'false' : undefined}
-          aria-label={isChannelRp ? '改价' : undefined}
-        >
-          <section className="price-modal">
+  return (
+    <>
+      {centralState?.kind === 'loading' ? (
+        <section className="price-loading-state" role="status" aria-label="涓ぎ浠峰姞杞界姸鎬?>">
+          姝ｅ湪鍔犺浇涓ぎ浠锋暟鎹?..
+        </section>
+      ) : null}
+      {centralState?.kind === 'error' ? (
+        <section className="price-error-state" role="alert" aria-label="涓ぎ浠锋暟鎹姞杞藉け璐?>">
+          <strong>涓ぎ浠锋牸鏁版嵁鍔犺浇澶辫触</strong>
+          <span>{centralState.message}</span>
+          <button type="button" onClick={onRetryCentralRequest}>
+            閲嶆柊鍔犺浇
+          </button>
+        </section>
+      ) : null}
+      {centralState?.kind === 'empty' ? (
+        <section className="price-empty-state" role="status" aria-label="涓ぎ浠风┖鐘舵€?>">
+          鏆傛棤涓ぎ浠锋暟鎹?
+        </section>
+      ) : null}
+      <section className="table-card">{renderMatrix()}</section>
+
+      {editorCell && (
+        <div className="price-edit-drawer-backdrop" role="presentation" onClick={closePriceEditor}>
+          <section className="price-edit-drawer" role="dialog" aria-modal="true" aria-label={'\u6539\u4ef7'} onClick={(event) => event.stopPropagation()}>
             <header>
-              <div>
-                <p>价格调整</p>
-                <h2>{modalCell}</h2>
-              </div>
-              <button type="button" aria-label={isChannelRp ? '关闭改价' : '关闭'} onClick={() => setModalCell(null)}>
-                ×
+              <strong>{'\u6539\u4ef7'}</strong>
+              <button type="button" aria-label={'\u5173\u95ed\u6539\u4ef7'} onClick={closePriceEditor}>
+                {'\u00d7'}
               </button>
             </header>
-            <div className="price-modal__form">
-              {isChannelRp ? <strong>已选1项</strong> : null}
-              <label>
-                调整类型
-                <select defaultValue="fixed">
-                  <option value="fixed">固定价格</option>
-                  <option value="increase">上调金额</option>
-                  {isChannelRp ? <option value="percent">按百分比</option> : null}
-                </select>
-              </label>
-              <label>
-                新价格
-                <input type="text" defaultValue={selectedDetail?.price ?? '730'} />
-              </label>
-              {isChannelRp ? <span>百分比改价</span> : null}
+            <div className="price-edit-drawer__body">
+              <p className="price-edit-drawer__selection">{'\u5df2\u90091\u9879'}</p>
+              <section className="price-edit-card">
+                <div className="price-edit-card__title">{'\u4ef7\u683c'}</div>
+                <div className="price-edit-options" role="radiogroup" aria-label={'\u6539\u4ef7\u65b9\u5f0f'}>
+                  {[
+                    { value: 'fixed', label: '\u7edd\u5bf9\u503c\u6539\u4ef7' },
+                    { value: 'increase', label: '\u5dee\u503c\u6539\u4ef7' },
+                    { value: 'percent', label: '\u767e\u5206\u6bd4\u6539\u4ef7' },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={editMode === option.value}
+                      className={`price-edit-option${editMode === option.value ? ' is-active' : ''}`}
+                      onClick={() => setEditMode(option.value as 'fixed' | 'increase' | 'percent')}
+                    >
+                      <i aria-hidden="true" />
+                      <span>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+                <label className="price-edit-input">
+                  <span className="sr-only-heading">{'\u6539\u4ef7\u503c'}</span>
+                  <input type="text" aria-label={'\u6539\u4ef7\u503c'} placeholder={'\u8bf7\u8f93\u5165'} value={editValue} onChange={(event) => setEditValue(event.target.value)} autoFocus />
+                </label>
+              </section>
             </div>
             <footer>
-              <button type="button" onClick={() => setModalCell(null)}>
-                取消
-              </button>
               <button
                 type="button"
+                className="is-primary"
                 onClick={() => {
-                  setModalCell(null)
-                  if (isCentral) onActionBlocked?.('价格调整已保存，当前价格矩阵已更新')
+                  closePriceEditor()
+                  onActionBlocked?.('\u4ef7\u683c\u8c03\u6574\u5df2\u4fdd\u5b58\uff0c\u5f53\u524d\u4ef7\u683c\u77e9\u9635\u5df2\u66f4\u65b0')
                 }}
               >
-                确定
+                {'\u4fdd\u5b58'}
+              </button>
+              <button type="button" onClick={closePriceEditor}>
+                {'\u53d6\u6d88'}
               </button>
             </footer>
           </section>
@@ -1234,12 +1989,14 @@ function PriceMatrix({
 
 function RegularPricePage({ active }: { active: string }) {
   const location = useLocation()
-  const isCentral = active === '中央价'
-  const isChannelRp = active === '渠道RP价'
+  const reuseCentralLayout = location.pathname.includes('channelPrice')
+  const isCentral = active === '\u4e2d\u592e\u4ef7' || reuseCentralLayout
+  const isChannelRp = active === '\u6e20\u9053RP\u4ef7' && !reuseCentralLayout
   const [selectedStore, setSelectedStore] = useState('全部门店')
   const [selectedChannel, setSelectedChannel] = useState('渠道')
   const [selectedRoom, setSelectedRoom] = useState('全部房型')
   const [selectedTag, setSelectedTag] = useState('房型标签')
+  const [centralRequestDate, setCentralRequestDate] = useState(() => getCentralPriceRequestDate())
   const [reloadKey, setReloadKey] = useState(0)
   const [centralReloadKey, setCentralReloadKey] = useState(0)
   const [actionFeedback, setActionFeedback] = useState('')
@@ -1265,11 +2022,11 @@ function RegularPricePage({ active }: { active: string }) {
       selectedChannel,
       selectedRoom,
       selectedTag,
-      date: getCentralPriceRequestDate(),
+      date: centralRequestDate,
       pageNum: 1,
       pageSize: 15,
     }),
-    [selectedChannel, selectedRoom, selectedStore, selectedTag],
+    [centralRequestDate, selectedChannel, selectedRoom, selectedStore, selectedTag],
   )
 
   function normalizeChannelPriceErrorMessage(error: unknown) {
@@ -1362,6 +2119,7 @@ function RegularPricePage({ active }: { active: string }) {
     <div className={`page-stack price-page${isCentral ? ' price-page--central' : ''}`}>
       <SharedToolbar
         active={active}
+        renderAsCentral={reuseCentralLayout}
         selectedStore={selectedStore}
         selectedChannel={selectedChannel}
         selectedRoom={selectedRoom}
@@ -1373,17 +2131,30 @@ function RegularPricePage({ active }: { active: string }) {
         onTagChange={setSelectedTag}
         onActionBlocked={setActionFeedback}
       />
-      <PriceMatrix
-        mode={active}
-        channelRows={channelRequestState.rows}
-        channelState={isChannelRp ? channelRequestState : undefined}
-        channelDate={channelDate}
-        onRetryChannelRequest={() => setReloadKey((value) => value + 1)}
-        centralData={centralData}
-        centralState={isCentral ? centralRequestState : undefined}
-        onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
-        onActionBlocked={setActionFeedback}
-      />
+      {reuseCentralLayout ? (
+        <ChannelRpPriceMatrix
+          centralRequestDate={centralRequestDate}
+          onCentralDateChange={setCentralRequestDate}
+          centralData={centralData}
+          centralState={isCentral ? centralRequestState : undefined}
+          onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
+          onActionBlocked={setActionFeedback}
+        />
+      ) : (
+        <PriceMatrix
+          mode={active}
+          channelRows={channelRequestState.rows}
+          channelState={isChannelRp ? channelRequestState : undefined}
+          channelDate={channelDate}
+          centralRequestDate={centralRequestDate}
+          onCentralDateChange={setCentralRequestDate}
+          onRetryChannelRequest={() => setReloadKey((value) => value + 1)}
+          centralData={centralData}
+          centralState={isCentral ? centralRequestState : undefined}
+          onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
+          onActionBlocked={setActionFeedback}
+        />
+      )}
     </div>
   )
 }

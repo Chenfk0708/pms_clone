@@ -1,0 +1,333 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/App.tsx");const _jsxDEV = __vite__cjsImport6_react_jsxDevRuntime["jsxDEV"];import { Navigate, Route, Routes, useLocation } from "/node_modules/.vite/deps/react-router-dom.js?v=fb86fc63";
+import { AppShell } from "/src/components/AppShell.tsx";
+import { ImSettingPage } from "/src/pages/ImSettingPage.tsx";
+import { IncomeReportPage } from "/src/pages/IncomeReportPage.tsx";
+import { OrderLedgerPage } from "/src/pages/OrderLedgerPage.tsx";
+import "/src/pages/TopNavFloor.css";
+var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx";
+import __vite__cjsImport6_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb86fc63";
+var _s = $RefreshSig$();
+function RoutedApp() {
+	_s();
+	const location = useLocation();
+	const pageTitle = resolvePageTitle(location.pathname);
+	return /* @__PURE__ */ _jsxDEV(AppShell, {
+		path: location.pathname,
+		pageTitle,
+		children: /* @__PURE__ */ _jsxDEV(Routes, { children: [
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/",
+				element: /* @__PURE__ */ _jsxDEV(Navigate, {
+					to: "/setting/imSetting",
+					replace: true
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 20,
+					columnNumber: 34
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 20,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/workspace",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "首页工作台",
+					description: "当前测试会话只保留会话设置链路所需路由。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 21,
+					columnNumber: 43
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 21,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/setting/imSetting",
+				element: /* @__PURE__ */ _jsxDEV(ImSettingPage, {}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 22,
+					columnNumber: 51
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 22,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/report",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "统计总览",
+					description: "当前路由已保留，用于承接报表导航与侧栏进入收入报表的入口。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 25,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 23,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/stay",
+				element: /* @__PURE__ */ _jsxDEV(IncomeReportPage, {}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 27,
+					columnNumber: 49
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 27,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/orderLedger",
+				element: /* @__PURE__ */ _jsxDEV(OrderLedgerPage, {}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 28,
+					columnNumber: 56
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 28,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/ledger",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "记一笔明细",
+					description: "当前路由已保留，用于承接收入报表与收支明细相关跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 31,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 29,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/totalLedger",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "收支汇总",
+					description: "当前路由已保留，用于承接收支明细侧栏导航。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 35,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 33,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/statistics/roomSituation",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "房情表",
+					description: "当前路由已保留，用于承接收支明细中的业务跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 39,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 37,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/order/house-order/list",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "住宿订单",
+					description: "当前路由已保留，用于承接收支明细中的业务跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 43,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 41,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/scrm/wechatService/manage",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "微信客服运营台",
+					description: "当前路由已保留，用于验证会话设置页的协同跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 47,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 45,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/scrm/wechatService/receptionConfig",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "接待配置",
+					description: "当前路由已保留，用于验证会话设置页的协同跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 51,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 49,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "/scrm/sidebarPreview",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: "聊天工具栏",
+					description: "当前路由已保留，用于验证会话设置页的协同跳转。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 55,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 53,
+				columnNumber: 9
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Route, {
+				path: "*",
+				element: /* @__PURE__ */ _jsxDEV(PlaceholderPage, {
+					title: pageTitle,
+					description: "当前任务聚焦会话设置页面，其它路由暂时回落为稳定占位视图。"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 59,
+					columnNumber: 20
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 57,
+				columnNumber: 9
+			}, this)
+		] }, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 19,
+			columnNumber: 7
+		}, this)
+	}, void 0, false, {
+		fileName: _jsxFileName,
+		lineNumber: 18,
+		columnNumber: 5
+	}, this);
+}
+_s(RoutedApp, "pkHmaVRPskBaU4tMJuJJpV42k1I=", false, function() {
+	return [useLocation];
+});
+_c = RoutedApp;
+function PlaceholderPage({ title, description }) {
+	return /* @__PURE__ */ _jsxDEV("section", {
+		style: {
+			minHeight: "calc(100vh - 58px)",
+			padding: "32px",
+			borderRadius: "16px",
+			background: "#fff"
+		},
+		children: [
+			/* @__PURE__ */ _jsxDEV("p", {
+				style: {
+					margin: 0,
+					color: "#667085",
+					fontSize: "12px",
+					letterSpacing: "0.08em",
+					textTransform: "uppercase"
+				},
+				children: "PMS Clone"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 76,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ _jsxDEV("h1", {
+				style: {
+					margin: "12px 0 0",
+					fontSize: "32px"
+				},
+				children: title
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 79,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ _jsxDEV("p", {
+				style: {
+					margin: "12px 0 0",
+					maxWidth: "720px",
+					color: "#475467",
+					lineHeight: 1.7
+				},
+				children: description
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 80,
+				columnNumber: 7
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 68,
+		columnNumber: 5
+	}, this);
+}
+_c2 = PlaceholderPage;
+function resolvePageTitle(pathname) {
+	if (pathname === "/statistics/report") return "统计总览";
+	if (pathname === "/statistics/stay") return "收入报表";
+	if (pathname === "/statistics/orderLedger") return "收支明细";
+	if (pathname === "/statistics/ledger") return "记一笔明细";
+	if (pathname === "/statistics/totalLedger") return "收支汇总";
+	if (pathname === "/statistics/roomSituation") return "房情表";
+	if (pathname === "/order/house-order/list") return "住宿订单";
+	if (pathname === "/setting/imSetting") return "会话设置";
+	if (pathname === "/scrm/wechatService/manage") return "微信客服";
+	if (pathname === "/scrm/wechatService/receptionConfig") return "接待配置";
+	if (pathname === "/scrm/sidebarPreview") return "聊天工具栏";
+	if (pathname === "/workspace") return "首页工作台";
+	if (pathname.startsWith("/setting/")) return "设置";
+	if (pathname.startsWith("/scrm/")) return "SCRM";
+	return "PMS 页面";
+}
+export default RoutedApp;
+var _c, _c2;
+$RefreshReg$(_c, "RoutedApp");
+$RefreshReg$(_c2, "PlaceholderPage");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
+import * as __vite_react_currentExports from "/src/App.tsx";
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+
+  const currentExports = __vite_react_currentExports;
+  queueMicrotask(() => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) { return RefreshRuntime.register(type, "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx" + ' ' + id); }
+function $RefreshSig$() { return RefreshRuntime.createSignatureFunctionForTransform(); }
+
+//# sourceMappingURL=data:application/json;base64,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QUFXLFlBQVk7S0FBSztjQUFHO0lBQWdCOzs7OztHQUNqRzs7Ozs7Ozs7QUFJZCxTQUFTLGlCQUFpQixVQUFrQjtDQUMxQyxJQUFJLGFBQWEsc0JBQXNCLE9BQU87Q0FDOUMsSUFBSSxhQUFhLG9CQUFvQixPQUFPO0NBQzVDLElBQUksYUFBYSwyQkFBMkIsT0FBTztDQUNuRCxJQUFJLGFBQWEsc0JBQXNCLE9BQU87Q0FDOUMsSUFBSSxhQUFhLDJCQUEyQixPQUFPO0NBQ25ELElBQUksYUFBYSw2QkFBNkIsT0FBTztDQUNyRCxJQUFJLGFBQWEsMkJBQTJCLE9BQU87Q0FDbkQsSUFBSSxhQUFhLHNCQUFzQixPQUFPO0NBQzlDLElBQUksYUFBYSw4QkFBOEIsT0FBTztDQUN0RCxJQUFJLGFBQWEsdUNBQXVDLE9BQU87Q0FDL0QsSUFBSSxhQUFhLHdCQUF3QixPQUFPO0NBQ2hELElBQUksYUFBYSxjQUFjLE9BQU87Q0FDdEMsSUFBSSxTQUFTLFdBQVcsWUFBWSxFQUFFLE9BQU87Q0FDN0MsSUFBSSxTQUFTLFdBQVcsU0FBUyxFQUFFLE9BQU87Q0FDMUMsT0FBTzs7QUFHVCxlQUFlIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIkFwcC50c3giXSwidmVyc2lvbiI6Mywic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTmF2aWdhdGUsIFJvdXRlLCBSb3V0ZXMsIHVzZUxvY2F0aW9uIH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSdcbmltcG9ydCB7IEFwcFNoZWxsIH0gZnJvbSAnLi9jb21wb25lbnRzL0FwcFNoZWxsJ1xuaW1wb3J0IHsgSW1TZXR0aW5nUGFnZSB9IGZyb20gJy4vcGFnZXMvSW1TZXR0aW5nUGFnZSdcbmltcG9ydCB7IEluY29tZVJlcG9ydFBhZ2UgfSBmcm9tICcuL3BhZ2VzL0luY29tZVJlcG9ydFBhZ2UnXG5pbXBvcnQgeyBPcmRlckxlZGdlclBhZ2UgfSBmcm9tICcuL3BhZ2VzL09yZGVyTGVkZ2VyUGFnZSdcbmltcG9ydCAnLi9wYWdlcy9Ub3BOYXZGbG9vci5jc3MnXG5cbnR5cGUgUGxhY2Vob2xkZXJQYWdlUHJvcHMgPSB7XG4gIHRpdGxlOiBzdHJpbmdcbiAgZGVzY3JpcHRpb246IHN0cmluZ1xufVxuXG5mdW5jdGlvbiBSb3V0ZWRBcHAoKSB7XG4gIGNvbnN0IGxvY2F0aW9uID0gdXNlTG9jYXRpb24oKVxuICBjb25zdCBwYWdlVGl0bGUgPSByZXNvbHZlUGFnZVRpdGxlKGxvY2F0aW9uLnBhdGhuYW1lKVxuXG4gIHJldHVybiAoXG4gICAgPEFwcFNoZWxsIHBhdGg9e2xvY2F0aW9uLnBhdGhuYW1lfSBwYWdlVGl0bGU9e3BhZ2VUaXRsZX0+XG4gICAgICA8Um91dGVzPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9cIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvc2V0dGluZy9pbVNldHRpbmdcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi93b3Jrc3BhY2VcIiBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi6aaW6aG15bel5L2c5Y+wXCIgZGVzY3JpcHRpb249XCLlvZPliY3mtYvor5XkvJror53lj6rkv53nlZnkvJror53orr7nva7pk77ot6/miYDpnIDot6/nlLHjgIJcIiAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCIvc2V0dGluZy9pbVNldHRpbmdcIiBlbGVtZW50PXs8SW1TZXR0aW5nUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9zdGF0aXN0aWNzL3JlcG9ydFwiXG4gICAgICAgICAgZWxlbWVudD17PFBsYWNlaG9sZGVyUGFnZSB0aXRsZT1cIue7n+iuoeaAu+iniFwiIGRlc2NyaXB0aW9uPVwi5b2T5YmN6Lev55Sx5bey5L+d55WZ77yM55So5LqO5om/5o6l5oql6KGo5a+86Iiq5LiO5L6n5qCP6L+b5YWl5pS25YWl5oql6KGo55qE5YWl5Y+j44CCXCIgLz59XG4gICAgICAgIC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL3N0YXRpc3RpY3Mvc3RheVwiIGVsZW1lbnQ9ezxJbmNvbWVSZXBvcnRQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9zdGF0aXN0aWNzL29yZGVyTGVkZ2VyXCIgZWxlbWVudD17PE9yZGVyTGVkZ2VyUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9zdGF0aXN0aWNzL2xlZGdlclwiXG4gICAgICAgICAgZWxlbWVudD17PFBsYWNlaG9sZGVyUGFnZSB0aXRsZT1cIuiusOS4gOeslOaYjue7hlwiIGRlc2NyaXB0aW9uPVwi5b2T5YmN6Lev55Sx5bey5L+d55WZ77yM55So5LqO5om/5o6l5pS25YWl5oql6KGo5LiO5pS25pSv5piO57uG55u45YWz6Lez6L2s44CCXCIgLz59XG4gICAgICAgIC8+XG4gICAgICAgIDxSb3V0ZVxuICAgICAgICAgIHBhdGg9XCIvc3RhdGlzdGljcy90b3RhbExlZGdlclwiXG4gICAgICAgICAgZWxlbWVudD17PFBsYWNlaG9sZGVyUGFnZSB0aXRsZT1cIuaUtuaUr+axh+aAu1wiIGRlc2NyaXB0aW9uPVwi5b2T5YmN6Lev55Sx5bey5L+d55WZ77yM55So5LqO5om/5o6l5pS25pSv5piO57uG5L6n5qCP5a+86Iiq44CCXCIgLz59XG4gICAgICAgIC8+XG4gICAgICAgIDxSb3V0ZVxuICAgICAgICAgIHBhdGg9XCIvc3RhdGlzdGljcy9yb29tU2l0dWF0aW9uXCJcbiAgICAgICAgICBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi5oi/5oOF6KGoXCIgZGVzY3JpcHRpb249XCLlvZPliY3ot6/nlLHlt7Lkv53nlZnvvIznlKjkuo7mib/mjqXmlLbmlK/mmI7nu4bkuK3nmoTkuJrliqHot7PovazjgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9vcmRlci9ob3VzZS1vcmRlci9saXN0XCJcbiAgICAgICAgICBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi5L2P5a6/6K6i5Y2VXCIgZGVzY3JpcHRpb249XCLlvZPliY3ot6/nlLHlt7Lkv53nlZnvvIznlKjkuo7mib/mjqXmlLbmlK/mmI7nu4bkuK3nmoTkuJrliqHot7PovazjgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9zY3JtL3dlY2hhdFNlcnZpY2UvbWFuYWdlXCJcbiAgICAgICAgICBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi5b6u5L+h5a6i5pyN6L+Q6JCl5Y+wXCIgZGVzY3JpcHRpb249XCLlvZPliY3ot6/nlLHlt7Lkv53nlZnvvIznlKjkuo7pqozor4HkvJror53orr7nva7pobXnmoTljY/lkIzot7PovazjgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9zY3JtL3dlY2hhdFNlcnZpY2UvcmVjZXB0aW9uQ29uZmlnXCJcbiAgICAgICAgICBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi5o6l5b6F6YWN572uXCIgZGVzY3JpcHRpb249XCLlvZPliY3ot6/nlLHlt7Lkv53nlZnvvIznlKjkuo7pqozor4HkvJror53orr7nva7pobXnmoTljY/lkIzot7PovazjgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9zY3JtL3NpZGViYXJQcmV2aWV3XCJcbiAgICAgICAgICBlbGVtZW50PXs8UGxhY2Vob2xkZXJQYWdlIHRpdGxlPVwi6IGK5aSp5bel5YW35qCPXCIgZGVzY3JpcHRpb249XCLlvZPliY3ot6/nlLHlt7Lkv53nlZnvvIznlKjkuo7pqozor4HkvJror53orr7nva7pobXnmoTljY/lkIzot7PovazjgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIipcIlxuICAgICAgICAgIGVsZW1lbnQ9ezxQbGFjZWhvbGRlclBhZ2UgdGl0bGU9e3BhZ2VUaXRsZX0gZGVzY3JpcHRpb249XCLlvZPliY3ku7vliqHogZrnhKbkvJror53orr7nva7pobXpnaLvvIzlhbblroPot6/nlLHmmoLml7blm57okL3kuLrnqLPlrprljaDkvY3op4blm77jgIJcIiAvPn1cbiAgICAgICAgLz5cbiAgICAgIDwvUm91dGVzPlxuICAgIDwvQXBwU2hlbGw+XG4gIClcbn1cblxuZnVuY3Rpb24gUGxhY2Vob2xkZXJQYWdlKHsgdGl0bGUsIGRlc2NyaXB0aW9uIH06IFBsYWNlaG9sZGVyUGFnZVByb3BzKSB7XG4gIHJldHVybiAoXG4gICAgPHNlY3Rpb25cbiAgICAgIHN0eWxlPXt7XG4gICAgICAgIG1pbkhlaWdodDogJ2NhbGMoMTAwdmggLSA1OHB4KScsXG4gICAgICAgIHBhZGRpbmc6ICczMnB4JyxcbiAgICAgICAgYm9yZGVyUmFkaXVzOiAnMTZweCcsXG4gICAgICAgIGJhY2tncm91bmQ6ICcjZmZmJyxcbiAgICAgIH19XG4gICAgPlxuICAgICAgPHAgc3R5bGU9e3sgbWFyZ2luOiAwLCBjb2xvcjogJyM2NjcwODUnLCBmb250U2l6ZTogJzEycHgnLCBsZXR0ZXJTcGFjaW5nOiAnMC4wOGVtJywgdGV4dFRyYW5zZm9ybTogJ3VwcGVyY2FzZScgfX0+XG4gICAgICAgIFBNUyBDbG9uZVxuICAgICAgPC9wPlxuICAgICAgPGgxIHN0eWxlPXt7IG1hcmdpbjogJzEycHggMCAwJywgZm9udFNpemU6ICczMnB4JyB9fT57dGl0bGV9PC9oMT5cbiAgICAgIDxwIHN0eWxlPXt7IG1hcmdpbjogJzEycHggMCAwJywgbWF4V2lkdGg6ICc3MjBweCcsIGNvbG9yOiAnIzQ3NTQ2NycsIGxpbmVIZWlnaHQ6IDEuNyB9fT57ZGVzY3JpcHRpb259PC9wPlxuICAgIDwvc2VjdGlvbj5cbiAgKVxufVxuXG5mdW5jdGlvbiByZXNvbHZlUGFnZVRpdGxlKHBhdGhuYW1lOiBzdHJpbmcpIHtcbiAgaWYgKHBhdGhuYW1lID09PSAnL3N0YXRpc3RpY3MvcmVwb3J0JykgcmV0dXJuICfnu5/orqHmgLvop4gnXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zdGF0aXN0aWNzL3N0YXknKSByZXR1cm4gJ+aUtuWFpeaKpeihqCdcbiAgaWYgKHBhdGhuYW1lID09PSAnL3N0YXRpc3RpY3Mvb3JkZXJMZWRnZXInKSByZXR1cm4gJ+aUtuaUr+aYjue7hidcbiAgaWYgKHBhdGhuYW1lID09PSAnL3N0YXRpc3RpY3MvbGVkZ2VyJykgcmV0dXJuICforrDkuIDnrJTmmI7nu4YnXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zdGF0aXN0aWNzL3RvdGFsTGVkZ2VyJykgcmV0dXJuICfmlLbmlK/msYfmgLsnXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zdGF0aXN0aWNzL3Jvb21TaXR1YXRpb24nKSByZXR1cm4gJ+aIv+aDheihqCdcbiAgaWYgKHBhdGhuYW1lID09PSAnL29yZGVyL2hvdXNlLW9yZGVyL2xpc3QnKSByZXR1cm4gJ+S9j+Wuv+iuouWNlSdcbiAgaWYgKHBhdGhuYW1lID09PSAnL3NldHRpbmcvaW1TZXR0aW5nJykgcmV0dXJuICfkvJror53orr7nva4nXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zY3JtL3dlY2hhdFNlcnZpY2UvbWFuYWdlJykgcmV0dXJuICflvq7kv6HlrqLmnI0nXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zY3JtL3dlY2hhdFNlcnZpY2UvcmVjZXB0aW9uQ29uZmlnJykgcmV0dXJuICfmjqXlvoXphY3nva4nXG4gIGlmIChwYXRobmFtZSA9PT0gJy9zY3JtL3NpZGViYXJQcmV2aWV3JykgcmV0dXJuICfogYrlpKnlt6XlhbfmoI8nXG4gIGlmIChwYXRobmFtZSA9PT0gJy93b3Jrc3BhY2UnKSByZXR1cm4gJ+mmlumhteW3peS9nOWPsCdcbiAgaWYgKHBhdGhuYW1lLnN0YXJ0c1dpdGgoJy9zZXR0aW5nLycpKSByZXR1cm4gJ+iuvue9ridcbiAgaWYgKHBhdGhuYW1lLnN0YXJ0c1dpdGgoJy9zY3JtLycpKSByZXR1cm4gJ1NDUk0nXG4gIHJldHVybiAnUE1TIOmhtemdoidcbn1cblxuZXhwb3J0IGRlZmF1bHQgUm91dGVkQXBwXG4iXX0=

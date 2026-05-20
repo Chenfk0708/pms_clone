@@ -1,0 +1,19 @@
+2026/05/19-18:37:57.464 21e8 Creating DB C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-target-room-first-20260519123500\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb since it was missing.
+2026/05/19-18:38:51.866 21e8 Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-target-room-first-20260519123500\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/19-18:38:55.323 b470 Level-0 table #5: started
+2026/05/19-18:38:55.330 b470 Level-0 table #5: 2355 bytes OK
+2026/05/19-18:38:55.340 b470 Delete type=0 #3
+2026/05/19-18:38:55.345 b470 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/19-18:38:55.502 11b1c Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/19-18:38:55.502 b470 Manual compaction at level-1 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/19-18:38:55.504 7ab0 Level-0 table #7: started
+2026/05/19-18:38:55.525 7ab0 Level-0 table #7: 888 bytes OK
+2026/05/19-18:38:55.537 7ab0 Delete type=0 #4
+2026/05/19-18:38:55.541 7ab0 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/19-18:38:55.542 7ab0 Manual compaction at level-1 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at '\x00\x04\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 236 : 0
+2026/05/19-18:38:55.542 7ab0 Compacting 1@1 + 1@2 files
+2026/05/19-18:38:55.556 7ab0 Generated table #8@1: 23 keys, 616 bytes
+2026/05/19-18:38:55.556 7ab0 Compacted 1@1 + 1@2 files => 616 bytes
+2026/05/19-18:38:55.571 7ab0 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/05/19-18:38:59.690 7ab0 Delete type=2 #7
+2026/05/19-18:38:59.697 7ab0 Manual compaction at level-1 from '\x00\x04\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 236 : 0 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)

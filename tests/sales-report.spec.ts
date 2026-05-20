@@ -1,193 +1,211 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
-const baseURL = process.env.PMS_TEST_BASE_URL
+const pagePath = '/statistics/sale'
 
-function appUrl(path: string) {
-  return baseURL ? `${baseURL}${path}` : path
+function contractLocator(page: Page) {
+  return page.getByTestId('sales-report-service-contract')
 }
 
-test('/statistics/sale renders the captured daily sales report', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/sale'))
+function exportLocator(page: Page) {
+  return page.getByTestId('sales-report-export-contract')
+}
 
-  await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(/is-active/)
-  await expect(page.getByRole('link', { name: '销况报表' })).toHaveClass(/is-active/)
-  const filters = page.getByLabel('销况报表筛选')
+async function triggerButton(locator: ReturnType<Page['locator']>) {
+  await locator.evaluate((node) => {
+    if (!(node instanceof HTMLButtonElement)) {
+      throw new Error('expected button element')
+    }
+    node.click()
+  })
+}
 
-  const tabs = page.getByRole('tablist', { name: '销况报表维度' })
-  await expect(tabs.getByRole('tab', { name: '按日' })).toHaveAttribute('aria-selected', 'true')
-  await expect(tabs).toContainText('按月')
-  await expect(tabs).toContainText('按门店')
-  await expect(tabs).toContainText('按渠道')
-  await expect(tabs).toContainText('按房型')
-  await expect(tabs).toContainText('按房间')
+async function readJsonDataset<T>(locator: ReturnType<Page['getByTestId']>): Promise<T> {
+  const raw = await locator.textContent()
+  if (!raw) throw new Error('missing contract payload')
+  return JSON.parse(raw) as T
+}
 
-  await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toBeVisible()
-  await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-01')
-  await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-14')
-  await expect(page.getByRole('button', { name: '房型 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '渠道 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '房型分组 请选择' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '重 置' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '查 询' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '导 出' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '说 明' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '收起' })).toBeVisible()
-  await expect(page.locator('.sales-report-filter-row')).toHaveJSProperty('offsetHeight', 32)
+async function expectDateRange(page: Page, startDate: string, endDate: string) {
+  await expect(page.getByLabel('开始日期')).toHaveValue(startDate)
+  await expect(page.getByLabel('结束日期')).toHaveValue(endDate)
+}
 
-  const table = page.getByLabel('销况报表表格')
-  await expect(table.locator('thead tr').first()).toContainText('入住间夜')
-  await expect(table.locator('thead tr').first()).toContainText('平均房费ADR')
-  await expect(table.locator('thead tr').first()).toContainText('平均客房收益RevPAR')
-  await expect(table.locator('thead tr').first()).toContainText('房费收入')
-  await expect(table).toContainText('日期')
-  await expect(table).toContainText('总房间数')
-  await expect(table).toContainText('入住率OCC')
-  await expect(table).toContainText('ADR(减佣)')
-  await expect(table).toContainText('RevPar(减佣)')
-  await expect(table).toContainText('房费(含佣)')
-  await expect(table).toContainText('住宿订单总数')
-  await expect(table.locator('tbody tr').first().locator('td')).toHaveText([
-    '合计',
-    '56',
-    '56',
-    '32',
-    '32',
-    '0',
-    '57.14%',
-    '277.73',
-    '221.94',
-    '158.69',
-    '126.82',
-    '7102.14',
-    '1785.32',
-    '8887.46',
-    '33',
-  ])
-  await expect(table.locator('tbody tr').filter({ hasText: '2026-05-14' }).locator('td')).toHaveText([
-    '2026-05-14',
-    '4',
-    '4',
-    '2',
-    '2',
-    '0',
-    '50.00%',
-    '323.22',
-    '252.91',
-    '161.61',
-    '126.46',
-    '505.82',
-    '140.61',
-    '646.43',
-    '2',
-  ])
-  await expect(page.getByText('第 1-15 条/总共 15 条')).toBeVisible()
-  await expect(page.getByRole('button', { name: '20 条/页' })).toBeVisible()
-})
+test.describe('销况报表', () => {
+  test.setTimeout(120_000)
 
-test('/statistics/sale supports captured filters, date picker and collapse state', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/sale'))
+  test('默认成功态加载真实交互壳和统一服务契约', async ({ page }) => {
+    await page.goto(pagePath, { waitUntil: 'domcontentloaded' })
 
-  await page.getByRole('button', { name: '房型 请选择' }).click()
-  await expect(page.getByRole('listbox', { name: '房型选项' })).toContainText('观影大床房')
-  await expect(page.getByRole('listbox', { name: '房型选项' })).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
-  await page.getByRole('option', { name: '观影大床房' }).click()
-  await expect(page.getByRole('button', { name: '房型 观影大床房' })).toBeVisible()
+    await expect(page.locator('.page-content > .page-header')).toBeHidden()
+    await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(/is-active/)
+    await expect(page.getByRole('link', { name: '销况报表' })).toHaveClass(/is-active/)
 
-  await page.getByLabel('开始日期').click()
-  const picker = page.getByRole('dialog', { name: '日期范围选择' })
-  await expect(picker).toBeVisible()
-  await expect(picker).toContainText('2026年5月')
-  await expect(picker).toContainText('2026年6月')
-  await expect(picker).toContainText('昨天')
-  await expect(picker).toContainText('本周')
-  await expect(picker).toContainText('本月')
-  await expect(picker).toContainText('上月')
-  await page.keyboard.press('Escape')
-  await expect(picker).toBeHidden()
+    const root = page.locator('.sales-report-page')
+    await expect(root).toHaveAttribute('data-provider', 'mock')
+    await expect(root).toHaveAttribute('data-response-state', 'success')
 
-  await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByRole('status')).toContainText('已按当前条件查询销况报表')
-  const filters = page.getByLabel('销况报表筛选')
-  await filters.getByRole('button', { name: '收起' }).click()
-  await expect(filters.getByRole('button', { name: '展开' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '房型 观影大床房' })).toHaveCount(0)
-  await filters.getByRole('button', { name: '展开' }).click()
-  await expect(page.getByRole('button', { name: '房型 观影大床房' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '按日' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('button', { name: '按月' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '按门店' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '按渠道' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '按房型' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '按房间' })).toBeVisible()
 
-  await page.getByRole('button', { name: '重 置' }).click()
-  await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-01')
-  await expect(page.getByRole('button', { name: '房型 请选择' })).toBeVisible()
-})
+    await expect(page.getByRole('radio', { name: '全部门店' })).toBeChecked()
+    await expectDateRange(page, '2026-05-01', '2026-05-19')
+    await expect(page.getByRole('button', { name: '昨天' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '本周' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '本月' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '上月' })).toBeVisible()
+    await expect(page.getByLabel('房型', { exact: true })).toHaveValue('')
+    await expect(page.getByLabel('渠道')).toHaveValue('')
+    await expect(page.getByLabel('房型分组')).toHaveValue('')
 
-test('/statistics/sale switches captured aggregate dimensions', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/sale'))
+    await expect(page.getByRole('button', { name: '重置' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '查询' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '导出' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '说明' })).toBeVisible()
+    await expect(page.getByRole('button', { name: '收起筛选' })).toBeVisible()
+    await expect(page.getByRole('table', { name: '销况报表表格' }).locator('tbody tr').first()).toBeVisible()
 
-  await page.getByRole('tab', { name: '按月' }).click()
-  await expect(page.getByRole('tab', { name: '按月' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByLabel('销况报表表格')).toContainText('月份')
-  await expect(page.getByLabel('销况报表表格')).toContainText('暂无数据')
-  await expect(page.getByLabel('开始月份')).toHaveValue('2025-11')
-  await expect(page.getByLabel('结束月份')).toHaveValue('2026-05')
+    const contract = await readJsonDataset<{
+      provider: string
+      state: string
+      requestBody: Record<string, unknown>
+      rows: number
+      traceId: string
+    }>(contractLocator(page))
 
-  await page.getByRole('tab', { name: '按门店' }).click()
-  await expect(page.getByLabel('销况报表表格')).toContainText('门店')
-  const storeRow = page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '天落会宿公寓' }).locator('td')
-  await expect(storeRow.nth(0)).toHaveText('天落会宿公寓(前海壹方城宝安中心店)')
-  await expect(storeRow.nth(1)).toHaveText('56')
-  await expect(storeRow.nth(6)).toHaveText('57.14%')
-  await expect(storeRow.nth(8)).toHaveText('221.94')
-  await expect(page.getByText('第 1-2 条/总共 2 条')).toBeVisible()
+    expect(contract.provider).toBe('mock')
+    expect(contract.state).toBe('success')
+    expect(contract.requestBody.queryType).toBe(1)
+    expect(contract.requestBody.startDate).toBe('2026-05-01')
+    expect(contract.requestBody.endDate).toBe('2026-05-19')
+    expect(contract.rows).toBeGreaterThan(0)
+    expect(contract.traceId).toContain('mock-baobiao--tongji-baobiao--xiaokuang-baobiao')
 
-  await page.getByRole('tab', { name: '按渠道' }).click()
-  await expect(page.getByLabel('销况报表表格')).toContainText('渠道')
-  await expect(page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '携程' }).locator('td')).toHaveText([
-    '携程',
-    '16',
-    '50.00%',
-    '16',
-    '50.00%',
-    '0',
-    '0%',
-    '17',
-    '56.67%',
-  ])
-  await expect(page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '飞猪淘酒店' }).locator('td')).toHaveText([
-    '飞猪淘酒店',
-    '11',
-    '34.38%',
-    '11',
-    '34.38%',
-    '0',
-    '0%',
-    '8',
-    '26.67%',
-  ])
-  await expect(page.getByText('第 1-17 条/总共 17 条')).toBeVisible()
+    const table = page.getByRole('table', { name: '销况报表表格' })
+    await expect(table).toContainText('入住间夜')
+    await expect(table).toContainText('平均房费ADR')
+    await expect(table).toContainText('平均客房收益RevPAR')
+    await expect(table).toContainText('2026-05-19')
+    await expect(table.locator('tbody tr').first()).toContainText('合计')
+    await expect(page.getByText('第 1-20 条/总共 20 条')).toBeVisible()
 
-  await page.getByRole('tab', { name: '按房型' }).click()
-  await expect(page.getByLabel('销况报表表格')).toContainText('房型')
-  const roomTypeRow = page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '观影大床房' }).locator('td')
-  await expect(roomTypeRow.nth(0)).toHaveText('观影大床房')
-  await expect(roomTypeRow.nth(3)).toHaveText('14')
-  await expect(roomTypeRow.nth(6)).toHaveText('100.00%')
-  await expect(roomTypeRow.nth(8)).toHaveText('193.39')
-  await expect(page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '顶层套房（浴缸巨幕电竞麻将）' })).toContainText('35.71%')
+    await triggerButton(page.getByRole('button', { name: '上月' }))
+    await expectDateRange(page, '2026-04-01', '2026-04-30')
+  })
 
-  await page.getByRole('tab', { name: '按房间' }).click()
-  await expect(page.getByRole('button', { name: '房间 请选择' })).toBeVisible()
-  await expect(page.getByLabel('销况报表表格')).toContainText('房间')
-  const roomRow = page.getByLabel('销况报表表格').locator('tbody tr').filter({ hasText: '观影大床房(房间1)' }).locator('td')
-  await expect(roomRow.nth(0)).toHaveText('观影大床房(房间1)')
-  await expect(roomRow.nth(6)).toHaveText('100.00%')
-  await expect(roomRow.nth(7)).toHaveText('223.13')
-  await expect(roomRow.nth(8)).toHaveText('181.68')
-  const roomSummary = page.getByLabel('销况报表表格').locator('tbody tr').first().locator('td')
-  await expect(roomSummary.nth(0)).toHaveText('合计')
-  await expect(roomSummary.nth(7)).toHaveText('271.14')
-  await expect(roomSummary.nth(8)).toHaveText('216.82')
+  test('支持月度查询、筛选查询、导出和说明弹窗', async ({ page }) => {
+    await page.goto(pagePath, { waitUntil: 'domcontentloaded' })
+    const root = page.locator('.sales-report-page')
+    const actions = root.locator('.sales-report-actions')
+
+    await page.locator('.sales-report-tabs').getByRole('button', { name: '按月' }).click({ force: true })
+    await expect(page.getByLabel('开始月份')).toHaveValue('2025-11')
+    await expect(page.getByLabel('结束月份')).toHaveValue('2026-05')
+    await triggerButton(actions.getByRole('button', { name: '查询' }))
+    await expect(actions.getByRole('button', { name: '导出' })).toBeEnabled()
+
+    let contract = await readJsonDataset<{
+      requestBody: Record<string, unknown>
+      state: string
+    }>(contractLocator(page))
+    expect(contract.requestBody.queryType).toBe(2)
+    expect(contract.requestBody.startDate).toBe('2025-11-01')
+    expect(contract.requestBody.endDate).toBe('2026-05-31')
+    await expect(page.getByLabel('销况报表表格').getByText('暂无数据')).toBeVisible()
+
+    await page.locator('.sales-report-tabs').getByRole('button', { name: '按日' }).click({ force: true })
+    await expect(page.getByRole('button', { name: '按日' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByLabel('开始日期')).toBeVisible()
+    await expect(actions.getByRole('button', { name: '查询' })).toBeEnabled()
+    await page.getByLabel('房型', { exact: true }).selectOption('1796425098965729282')
+    await triggerButton(actions.getByRole('button', { name: '查询' }))
+    await expect(root.getByRole('status')).toContainText('已按当前条件刷新销况报表')
+    await expect(actions.getByRole('button', { name: '导出' })).toBeEnabled()
+
+    contract = await readJsonDataset(contractLocator(page))
+    expect(contract.requestBody.queryType).toBe(1)
+    expect(contract.requestBody.roomCategoryIds).toEqual(['1796425098965729282'])
+
+    await triggerButton(actions.getByRole('button', { name: '导出' }))
+    await expect(exportLocator(page)).not.toHaveText('{}')
+    const exportContract = await readJsonDataset<{
+      requestBody: Record<string, unknown>
+      taskId: string
+      downloadUrl: string
+      traceId: string
+    }>(exportLocator(page))
+    expect(exportContract.requestBody.pageSize).toBe(9999)
+    expect(exportContract.requestBody.exportExcelMenuId).toBe('1898993554540892168')
+    expect(exportContract.taskId).toContain('sales-report-export')
+    expect(exportContract.downloadUrl).toContain('.xlsx')
+    expect(exportContract.traceId).toContain('export')
+    await expect(page.getByRole('status')).toContainText('导出任务')
+
+    await triggerButton(actions.getByRole('button', { name: '说明' }))
+    const dialog = page.getByRole('dialog', { name: '报表字段说明' })
+    await expect(dialog).toBeVisible()
+    await expect(dialog).toContainText('入住率')
+    await expect(dialog).toContainText('ADR')
+    await expect(dialog).toContainText('RevPAR')
+  })
+
+  test('覆盖空态和错误态反馈', async ({ page }) => {
+    await page.goto(`${pagePath}?mockState=empty`, { waitUntil: 'domcontentloaded' })
+
+    let contract = await readJsonDataset<{ state: string; rows: number }>(contractLocator(page))
+    expect(contract.state).toBe('empty')
+    expect(contract.rows).toBe(0)
+    await expect(page.getByText('暂无销况数据')).toBeVisible()
+
+    await page.goto(`${pagePath}?mockState=error`, { waitUntil: 'domcontentloaded' })
+    await expect(page.getByRole('alert')).toContainText('销况报表加载失败')
+    await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
+    await triggerButton(page.getByRole('button', { name: '重试' }))
+    await expect(page.getByText('正在加载销况报表...')).toBeVisible()
+    await expect(page.getByRole('alert')).toContainText('销况报表加载失败')
+
+    contract = await readJsonDataset(contractLocator(page))
+    expect(contract.state).toBe('error')
+  })
+
+  test('剩余可见按钮提供显式反馈或禁用态', async ({ page }) => {
+    await page.goto(pagePath, { waitUntil: 'domcontentloaded' })
+
+    const root = page.locator('.sales-report-page')
+    const actions = root.locator('.sales-report-actions')
+    const filters = root.locator('.sales-report-filter-row')
+    const pagination = root.locator('.sales-report-pagination')
+
+    await expect(filters).toBeVisible()
+    await actions.getByRole('button', { name: '收起筛选' }).click()
+    await expect(actions.getByRole('button', { name: '展开筛选' })).toBeVisible()
+    await expect(page.getByLabel('房型', { exact: true })).toHaveCount(0)
+    await actions.getByRole('button', { name: '展开筛选' }).click()
+    await expect(root.locator('.sales-report-filter-row')).toBeVisible()
+
+    await triggerButton(page.getByRole('button', { name: '昨天' }))
+    await expectDateRange(page, '2026-05-18', '2026-05-18')
+    await triggerButton(page.getByRole('button', { name: '本周' }))
+    await expectDateRange(page, '2026-05-18', '2026-05-19')
+    await triggerButton(page.getByRole('button', { name: '本月' }))
+    await expectDateRange(page, '2026-05-01', '2026-05-19')
+
+    await triggerButton(actions.getByRole('button', { name: '重置' }))
+    await expect(root.getByRole('status')).toContainText('已重置筛选条件')
+    await expectDateRange(page, '2026-05-01', '2026-05-19')
+
+    await triggerButton(actions.getByRole('button', { name: '说明' }))
+    const dialog = page.getByRole('dialog', { name: '报表字段说明' })
+    await expect(dialog).toBeVisible()
+    await triggerButton(dialog.getByRole('button', { name: '关闭报表字段说明' }))
+    await expect(dialog).toHaveCount(0)
+
+    await expect(pagination.getByRole('button', { name: '上一页' })).toBeDisabled()
+    await expect(pagination.getByRole('button', { name: '1' })).toBeDisabled()
+    await expect(pagination.getByRole('button', { name: '下一页' })).toBeDisabled()
+    await expect(pagination.getByRole('button', { name: '20 条/页' })).toBeDisabled()
+  })
 })

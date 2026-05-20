@@ -1,136 +1,371 @@
+.page-content:has(.smart-door-lock-page),
 .page-content:has(.smart-lock-page) {
   padding: 0;
-  background: #f0f2f5;
+  background: #eef2f6;
 }
 
+.page-content:has(.smart-door-lock-page) > .page-header,
 .page-content:has(.smart-lock-page) > .page-header {
   display: none;
 }
 
+.smart-door-lock-page,
 .smart-lock-page {
   min-height: calc(100vh - 58px);
-  background: #f0f2f5;
-  color: #333;
+  background:
+    radial-gradient(circle at top right, rgba(77, 101, 246, 0.08), transparent 26%),
+    linear-gradient(180deg, #f7f9fc 0%, #eef2f6 100%);
+  color: #24324a;
   font-size: 14px;
 }
 
 .smart-lock-version {
   position: fixed;
-  left: 0;
-  bottom: 2px;
-  z-index: 1;
-  width: 156px;
-  padding: 4px 0;
-  color: #a9a9a9;
+  left: 12px;
+  bottom: 8px;
+  z-index: 2;
+  color: #9aa6bc;
   font-size: 12px;
-  text-align: center;
   pointer-events: none;
 }
 
-.smart-lock-surface {
+.smart-door-lock-surface {
   min-height: calc(100vh - 74px);
   margin: 8px 8px 0;
-  padding: 8px 12px 40px;
-  border-radius: 8px 8px 0 0;
-  background: #fff;
+  padding: 18px 20px 56px;
+  border-radius: 14px 14px 0 0;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 36px rgba(32, 50, 84, 0.08);
 }
 
-.smart-lock-tabs {
-  display: inline-flex;
-  height: 32px;
-  margin-bottom: 10px;
-}
-
-.smart-lock-tabs button {
-  min-width: 80px;
-  height: 32px;
-  border: 1px solid #4d65f6;
-  background: #fff;
-  color: #4d65f6;
-  padding: 0 12px;
-  font-size: 14px;
-  line-height: 30px;
-}
-
-.smart-lock-tabs button:first-child {
-  border-radius: 4px 0 0 4px;
-}
-
-.smart-lock-tabs button:last-child {
-  border-left: 0;
-  border-radius: 0 4px 4px 0;
-}
-
-.smart-lock-tabs button.is-active {
-  background: #4d65f6;
-  color: #fff;
-  font-weight: 500;
-}
-
-.smart-lock-lead {
-  margin: 0 0 6px;
-  color: #333;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.smart-lock-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 240px);
-  gap: 11px 12px;
-  align-items: start;
-}
-
-.smart-lock-card {
+.smart-door-lock-header,
+.smart-door-lock-statusbar,
+.smart-door-lock-layout,
+.smart-door-lock-panel__head,
+.smart-door-lock-account-card__head,
+.smart-door-lock-account-card__footer,
+.smart-door-lock-header__actions,
+.smart-door-lock-shortcuts,
+.smart-door-lock-link-list,
+.smart-door-lock-modal__footer {
   display: flex;
+}
+
+.smart-door-lock-header,
+.smart-door-lock-statusbar {
   align-items: center;
-  justify-content: center;
-  gap: 36px;
-  width: 240px;
-  height: 111px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #e9e9e9;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.smart-lock-brand {
-  display: grid;
-  justify-items: center;
+.smart-door-lock-header {
+  margin-bottom: 18px;
+}
+
+.smart-door-lock-header h1 {
+  margin: 0;
+  color: #16243b;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.smart-door-lock-header p {
+  max-width: 720px;
+  margin: 8px 0 0;
+  color: #60708d;
+  line-height: 1.6;
+}
+
+.smart-door-lock-header__actions {
+  align-items: center;
   gap: 10px;
-  min-width: 62px;
-  border: 0;
-  background: transparent;
-  color: #333;
-  padding: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.smart-door-lock-requested-at {
+  color: #6d7a92;
+  font-size: 13px;
+}
+
+.smart-door-lock-page button {
+  border: 1px solid #ccd5e7;
+  border-radius: 10px;
+  background: #fff;
+  color: #1e2b43;
+  padding: 0 14px;
+  font-size: 14px;
   cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
 }
 
-.smart-lock-brand strong {
-  display: block;
+.smart-door-lock-page button:hover:not(:disabled) {
+  border-color: #4d65f6;
+  color: #2740da;
+  transform: translateY(-1px);
+}
+
+.smart-door-lock-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.smart-door-lock-page button.is-primary {
+  border-color: #4d65f6;
+  background: linear-gradient(135deg, #4d65f6 0%, #6278ff 100%);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(77, 101, 246, 0.2);
+}
+
+.smart-door-lock-tabs {
+  display: inline-flex;
+  margin-bottom: 14px;
+  padding: 4px;
+  border-radius: 12px;
+  background: #edf1ff;
+  gap: 4px;
+}
+
+.smart-door-lock-tabs button {
+  min-width: 96px;
+  height: 38px;
+  border-color: transparent;
+  background: transparent;
+  border-radius: 10px;
+  padding: 0 16px;
+}
+
+.smart-door-lock-tabs button.is-active {
+  background: linear-gradient(135deg, #4d65f6 0%, #6278ff 100%);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(77, 101, 246, 0.2);
+}
+
+.smart-door-lock-statusbar {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid #e1e7f2;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(77, 101, 246, 0.08), rgba(255, 255, 255, 0.92));
+}
+
+.smart-door-lock-lead {
+  color: #24324a;
   font-size: 16px;
-  font-weight: 500;
-  line-height: 22px;
-  white-space: nowrap;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
-.smart-lock-brand:hover strong {
-  color: #4d65f6;
+.smart-door-lock-shortcuts {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.smart-door-lock-loading,
+.smart-door-lock-alert,
+.smart-door-lock-empty {
+  border-radius: 16px;
+  border: 1px solid #e1e7f2;
+  background: #fff;
+}
+
+.smart-door-lock-loading {
+  padding: 24px;
+  color: #60708d;
+}
+
+.smart-door-lock-alert {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  border-color: #ffd7d7;
+  background: #fff7f7;
+}
+
+.smart-door-lock-alert strong {
+  color: #bc3030;
+}
+
+.smart-door-lock-layout {
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.smart-door-lock-main {
+  display: grid;
+  gap: 18px;
+  flex: 1 1 auto;
+}
+
+.smart-door-lock-aside {
+  display: grid;
+  gap: 18px;
+  width: 300px;
+  flex: 0 0 300px;
+}
+
+.smart-door-lock-panel {
+  border: 1px solid #e1e7f2;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.smart-door-lock-panel--compact {
+  padding-bottom: 16px;
+}
+
+.smart-door-lock-panel__head {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.smart-door-lock-panel__head h2 {
+  margin: 0;
+  color: #1c2942;
+  font-size: 18px;
+}
+
+.smart-door-lock-panel__head span {
+  max-width: 460px;
+  color: #6d7a92;
+  line-height: 1.5;
+}
+
+.smart-door-lock-account-grid,
+.smart-door-lock-brand-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.smart-door-lock-account-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.smart-door-lock-brand-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.smart-door-lock-account-card,
+.smart-door-lock-brand,
+.smart-door-lock-mall-card {
+  border-radius: 16px;
+}
+
+.smart-door-lock-account-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #dde5f3;
+  background: #fff;
+}
+
+.smart-door-lock-account-card__head {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.smart-door-lock-account-card__head strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.smart-door-lock-account-card p,
+.smart-door-lock-account-card small,
+.smart-door-lock-empty p,
+.smart-door-lock-detail p,
+.smart-door-lock-detail dd,
+.smart-door-lock-aside p,
+.smart-door-lock-meta-list {
+  margin: 0;
+  color: #60708d;
+  line-height: 1.6;
+}
+
+.smart-door-lock-account-card__footer,
+.smart-door-lock-modal__footer {
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.smart-door-lock-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  border-radius: 999px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.smart-door-lock-tag--connected {
+  background: rgba(24, 179, 116, 0.14);
+  color: #198754;
+}
+
+.smart-door-lock-tag--attention {
+  background: rgba(255, 170, 47, 0.16);
+  color: #b36b00;
+}
+
+.smart-door-lock-empty {
+  display: grid;
+  gap: 10px;
+  place-items: start;
+  padding: 22px;
+  background: linear-gradient(135deg, rgba(77, 101, 246, 0.05), rgba(255, 255, 255, 0.96));
+}
+
+.smart-door-lock-empty strong {
+  color: #24324a;
+  font-size: 16px;
+}
+
+.smart-door-lock-brand {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  min-height: 132px;
+  padding: 16px;
+  border: 1px solid #dde5f3;
+  background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+  text-align: left;
+}
+
+.smart-door-lock-brand strong {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.smart-lock-logo,
+.smart-lock-mall-logo {
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  font-weight: 700;
 }
 
 .smart-lock-logo {
-  display: grid;
-  place-items: center;
-  width: 47px;
-  height: 47px;
-  border-radius: 10px;
+  width: 54px;
+  height: 54px;
   color: #fff;
   font-size: 16px;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .smart-lock-logo--blue {
-  background: linear-gradient(135deg, #1f86ff, #00b1ff);
+  background: linear-gradient(135deg, #1677ff, #35b6ff);
 }
 
 .smart-lock-logo--cyan {
@@ -138,78 +373,72 @@
 }
 
 .smart-lock-logo--black {
-  background: #202326;
+  background: linear-gradient(135deg, #202326, #454c59);
 }
 
 .smart-lock-logo--dark {
-  background: #202020;
-  font-size: 14px;
+  background: linear-gradient(135deg, #202020, #434343);
 }
 
 .smart-lock-logo--sky {
-  background: #0aa6f5;
+  background: linear-gradient(135deg, #0aa6f5, #58cbff);
 }
 
 .smart-lock-logo--red {
   background: #fff;
   color: #d82032;
-  box-shadow: inset 0 0 0 1px rgba(220, 220, 220, 0.8);
+  box-shadow: inset 0 0 0 1px rgba(220, 220, 220, 0.85);
 }
 
-.smart-lock-card--mall {
+.smart-door-lock-mall-card {
   display: grid;
-  grid-template-rows: 68px 43px;
-  gap: 0;
-  border: 1px solid #4d65f6;
-  background: #fff;
+  gap: 14px;
+  align-content: space-between;
+  min-height: 132px;
+  padding: 16px;
+  border: 1px dashed #91a4ff;
+  background: linear-gradient(135deg, rgba(77, 101, 246, 0.08), rgba(255, 255, 255, 0.95));
 }
 
 .smart-lock-mall-logo {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 68px;
-  background: #4d65f6;
+  min-height: 54px;
+  padding: 0 12px;
+  background: linear-gradient(135deg, #4d65f6, #6278ff);
   color: #fff;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-size: 22px;
 }
 
-.smart-lock-card--mall button {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 43px;
-  border: 0;
-  background: #fff;
-  color: #4d65f6;
-  font-size: 16px;
-  line-height: 22px;
-  cursor: pointer;
+.smart-door-lock-link-list {
+  gap: 10px;
+  flex-direction: column;
 }
 
-.smart-lock-card--mall button:hover {
-  background: #f4f6ff;
+.smart-door-lock-link-list button,
+.smart-door-lock-modal__footer button,
+.smart-door-lock-header__actions button,
+.smart-door-lock-shortcuts button {
+  height: 38px;
 }
 
-.smart-lock-status {
+.smart-door-lock-meta-list {
+  padding-left: 18px;
+}
+
+.smart-door-lock-status {
   position: fixed;
-  right: 70px;
-  bottom: 38px;
-  z-index: 35;
-  min-width: 1px;
-  min-height: 1px;
+  right: 24px;
+  bottom: 26px;
+  z-index: 40;
   pointer-events: none;
 }
 
-.smart-lock-status:not(:empty) {
-  max-width: 320px;
-  padding: 9px 12px;
-  border-radius: 4px;
-  background: rgba(31, 41, 55, 0.92);
+.smart-door-lock-status:not(:empty) {
+  max-width: 340px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(21, 31, 51, 0.92);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(31, 42, 68, 0.18);
+  box-shadow: 0 18px 36px rgba(20, 30, 46, 0.22);
 }
 
 .smart-lock-modal-backdrop {
@@ -218,105 +447,144 @@
   z-index: 70;
   display: grid;
   place-items: center;
-  background: rgba(0, 0, 0, 0.36);
+  background: rgba(14, 22, 36, 0.38);
+  padding: 20px;
 }
 
 .smart-lock-modal {
-  width: 468px;
-  border-radius: 6px;
+  width: min(560px, calc(100vw - 24px));
+  border-radius: 18px;
   background: #fff;
-  box-shadow: 0 12px 36px rgba(31, 42, 68, 0.24);
+  box-shadow: 0 24px 60px rgba(20, 30, 46, 0.24);
 }
 
 .smart-lock-modal header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
-  padding: 0 18px 0 24px;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid #edf1f7;
 }
 
 .smart-lock-modal h2 {
   margin: 0;
-  color: rgba(0, 0, 0, 0.85);
-  font-size: 16px;
-  font-weight: 500;
+  color: #16243b;
+  font-size: 18px;
 }
 
 .smart-lock-modal header button {
-  width: 26px;
-  height: 26px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: transparent;
-  color: rgba(0, 0, 0, 0.45);
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
+  border-radius: 50%;
+  background: #f2f5fb;
+  color: #637087;
+  font-size: 16px;
+  padding: 0;
 }
 
 .smart-lock-modal__body {
   display: grid;
   gap: 18px;
-  padding: 24px 38px 18px;
+  padding: 20px;
 }
 
-.smart-lock-modal__body label {
+.smart-door-lock-form,
+.smart-door-lock-detail,
+.smart-door-lock-detail dl {
   display: grid;
-  grid-template-columns: 82px 1fr;
-  align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
-.smart-lock-modal__body span {
-  color: rgba(0, 0, 0, 0.78);
-  text-align: right;
-}
-
-.smart-lock-modal__body input {
-  height: 32px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  padding: 0 11px;
-  color: rgba(0, 0, 0, 0.85);
-  font-size: 14px;
-}
-
-.smart-lock-modal__body input::placeholder {
-  color: rgba(0, 0, 0, 0.25);
-}
-
-.smart-lock-modal footer {
-  display: flex;
-  justify-content: flex-end;
+.smart-door-lock-field {
+  display: grid;
   gap: 8px;
-  padding: 12px 24px 20px;
 }
 
-.smart-lock-modal footer button {
-  min-width: 64px;
-  height: 32px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.85);
-  padding: 0 15px;
+.smart-door-lock-field span {
+  color: #44536c;
+  font-size: 13px;
+}
+
+.smart-door-lock-field input {
+  height: 40px;
+  border: 1px solid #d6deec;
+  border-radius: 10px;
+  padding: 0 12px;
+  color: #1e2b43;
   font-size: 14px;
-  cursor: pointer;
 }
 
-.smart-lock-modal footer button.is-primary {
-  border-color: #4d65f6;
-  background: #4d65f6;
-  color: #fff;
+.smart-door-lock-field input::placeholder {
+  color: #98a4ba;
 }
 
-@media (max-width: 1180px) {
-  .smart-lock-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.smart-door-lock-detail dl {
+  margin: 0;
+}
+
+.smart-door-lock-detail div {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.smart-door-lock-detail div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.smart-door-lock-detail dt {
+  color: #44536c;
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .smart-door-lock-layout {
+    flex-direction: column;
   }
 
-  .smart-lock-card {
+  .smart-door-lock-aside {
     width: 100%;
+    flex-basis: auto;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .smart-door-lock-surface {
+    margin: 0;
+    border-radius: 0;
+    padding: 16px 14px 54px;
+  }
+
+  .smart-door-lock-header,
+  .smart-door-lock-statusbar,
+  .smart-door-lock-panel__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .smart-door-lock-header__actions,
+  .smart-door-lock-shortcuts,
+  .smart-door-lock-modal__footer {
+    justify-content: stretch;
+  }
+
+  .smart-door-lock-header__actions button,
+  .smart-door-lock-shortcuts button,
+  .smart-door-lock-modal__footer button,
+  .smart-door-lock-link-list button {
+    width: 100%;
+  }
+
+  .smart-door-lock-account-grid,
+  .smart-door-lock-brand-grid,
+  .smart-door-lock-aside {
+    grid-template-columns: 1fr;
   }
 }

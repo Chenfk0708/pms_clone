@@ -17,15 +17,6 @@
   display: none;
 }
 
-.page-body:has(.other-price-page) {
-  grid-template-columns: 208px 1fr;
-  padding-top: 22px;
-}
-
-.page-body:has(.other-price-page) .sidebar {
-  width: 208px;
-  height: calc(100vh - 74px);
-}
 
 .app-shell:has(.other-price-page) .chat-dock {
   display: none;

@@ -268,6 +268,17 @@ async function main() {
       })
     })
 
+    if (mode === 'clone') {
+      await page.addInitScript((captureState) => {
+        window.localStorage.setItem('pms.wechatServiceProvider', 'mock')
+        if (captureState === 'empty' || captureState === 'error') {
+          window.localStorage.setItem('pms.wechatServiceMockState', captureState)
+        } else {
+          window.localStorage.removeItem('pms.wechatServiceMockState')
+        }
+      }, state)
+    }
+
     await page.goto(mode === 'target' ? targetUrl : cloneUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
@@ -280,10 +291,16 @@ async function main() {
     await fs.writeFile(fileFor(artifactDirs.dom, 'page', 'html'), await page.content(), 'utf8')
 
     const facts = await extractFacts(page, interactions)
+    const diagnostics = await page.evaluate(() => {
+      const rawValue = window.localStorage.getItem('pms.wechatService.lastRequest')
+      return rawValue ? JSON.parse(rawValue) : null
+    }).catch(() => null)
+    const forbiddenTerms = ['mock 数据', 'mock provider', 'provider=mock', '未接入', '阻塞', '后端未就绪', '后端接口未完成']
+    const forbiddenTermsFound = forbiddenTerms.filter((term) => facts.bodyTextSample.includes(term))
     await fs.writeFile(fileFor(artifactDirs.styles, 'facts', 'json'), JSON.stringify(facts, null, 2), 'utf8')
     await fs.writeFile(
       fileFor(artifactDirs.network, 'responses', 'json'),
-      JSON.stringify({ mode, state, stamp, url: page.url(), responses: network }, null, 2),
+      JSON.stringify({ mode, state, stamp, url: page.url(), diagnostics, forbiddenTermsFound, responses: network }, null, 2),
       'utf8',
     )
 
@@ -302,6 +319,8 @@ async function main() {
           inputs: facts.inputs.slice(0, 25),
           dialogCount: facts.dialogs.length,
           dropdownCount: facts.dropdowns.length,
+          forbiddenTermsFound,
+          diagnostics,
           screenshots: [
             fileFor(artifactDirs.screenshots, 'viewport', 'png'),
             fileFor(artifactDirs.screenshots, 'full', 'png'),

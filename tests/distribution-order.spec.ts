@@ -68,7 +68,7 @@ test('/channels/distribution/distributionOrderSettlement supports captured filte
   await page.getByRole('option', { name: '待结算' }).click()
   await expect(page.getByRole('button', { name: '订单筛选 待结算' })).toBeVisible()
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByRole('status')).toContainText('已查询聚合分销订单')
+  await expect(page.locator('.distribution-order-notice')).toContainText('已查询聚合分销订单')
 
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByPlaceholder('请输入订单编号/预订人/手机号')).toHaveValue('')
@@ -82,7 +82,7 @@ test('/channels/distribution/distributionOrderSettlement is driven by the distri
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/channels/distribution/distributionOrderSettlement'))
 
-  const servicePanel = page.getByLabel('聚合分销订单数据服务')
+  const servicePanel = page.locator('[aria-label="聚合分销订单数据服务"]')
   await expect(servicePanel).toContainText('provider=mock')
   await expect(servicePanel).toContainText('/report/flows/get')
   await expect(servicePanel).toContainText('bookingStartDate=2026-05-01')
@@ -98,13 +98,11 @@ test('/channels/distribution/distributionOrderSettlement is driven by the distri
 test('/channels/distribution/distributionOrderSettlement handles empty and error envelopes', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
-  await page.addInitScript(() => window.localStorage.setItem('pms.distributionOrderMockMode', 'empty'))
-  await page.goto(appUrl('/channels/distribution/distributionOrderSettlement'))
+  await page.goto(appUrl('/channels/distribution/distributionOrderSettlement?mockState=empty'))
   await expect(page.getByText('当前条件暂无聚合分销订单')).toBeVisible()
   await expect(page.getByText('第 0-0 条/总共 0 条')).toBeVisible()
 
-  await page.evaluate(() => window.localStorage.setItem('pms.distributionOrderMockMode', 'error'))
-  await page.reload()
+  await page.goto(appUrl('/channels/distribution/distributionOrderSettlement?mockState=error'))
   await expect(page.getByRole('alert')).toContainText('聚合分销订单服务暂不可用，请稍后重试')
   await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
 })

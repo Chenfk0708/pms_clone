@@ -8,6 +8,7 @@ const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/scrm/member
 const storageState = path.resolve('playwright/.auth/pms-user.json')
 const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const useBundledChromium = process.env.PMS_USE_BUNDLED_CHROMIUM === '1'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
@@ -21,6 +22,13 @@ const artifactDirs = {
   network: path.resolve('artifacts/network', taskId),
 }
 
+function targetForMode() {
+  if (mode === 'target') return targetUrl
+  const url = new URL(cloneUrl)
+  if (state === 'empty' || state === 'error') url.searchParams.set('mockState', state)
+  return url.toString()
+}
+
 for (const directory of Object.values(artifactDirs)) {
   await fs.mkdir(directory, { recursive: true })
 }
@@ -31,6 +39,22 @@ function fileFor(root, suffix, extension) {
 
 function normalizeText(text) {
   return text.replace(/\s+/g, ' ').trim()
+}
+
+async function closeWithTimeout(target, label) {
+  try {
+    await Promise.race([
+      target.close(),
+      new Promise((resolve) =>
+        setTimeout(() => {
+          console.warn(`${label} close timed out after capture artifacts were written`)
+          resolve()
+        }, 10_000),
+      ),
+    ])
+  } catch (error) {
+    console.warn(`${label} close failed after capture artifacts were written: ${error.message.split('\n')[0]}`)
+  }
 }
 
 async function waitForSurface(page) {
@@ -227,7 +251,7 @@ async function extractFacts(page, interactions) {
       bodyTextSample: bodyText.slice(0, 9000),
       isLoginBlocked: location.href.includes('/login') || location.href.includes('passport') || passwordInput,
       hasBusinessText:
-        location.href.includes('/scrm/memberCenter/integrate') && bodyText.length > 1000 && !passwordInput,
+        location.href.includes('/scrm/memberCenter/integrate') && bodyText.includes('会员积分运营台') && !passwordInput,
       interactions: capturedInteractions,
       controls,
       buttons,
@@ -247,11 +271,11 @@ async function extractFacts(page, interactions) {
 }
 
 async function main() {
-  await fs.access(chromeExecutablePath)
+  if (!useBundledChromium) await fs.access(chromeExecutablePath)
   if (mode === 'target') await fs.access(storageState)
 
   const browser = await chromium.launch({
-    executablePath: chromeExecutablePath,
+    ...(useBundledChromium ? {} : { executablePath: chromeExecutablePath }),
     headless: true,
   })
   const network = []
@@ -276,7 +300,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? targetUrl : cloneUrl, {
+    await page.goto(targetForMode(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -325,9 +349,9 @@ async function main() {
       ),
     )
 
-    await context.close()
+    await closeWithTimeout(context, 'context')
   } finally {
-    await browser.close()
+    await closeWithTimeout(browser, 'browser')
   }
 }
 

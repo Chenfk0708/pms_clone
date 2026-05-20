@@ -1,234 +1,593 @@
-import { useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import {
+  AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT,
+  AutoStrategySettingServiceError,
+  createDefaultAutoStrategySettingQuery,
+  loadAutoStrategySettingViewModel,
+  resolveAutoStrategySettingRuntimeConfig,
+  updateNegotiateRefundAutomaticAcceptStrategy,
+  updateOrderAutoPendingStrategy,
+  updateOrderAutoSettleStrategy,
+  type AutoStrategySettingMockState,
+  type AutoStrategySettingQuery,
+  type AutoStrategySettingResponseState,
+  type AutoStrategySettingTabKey,
+  type AutoStrategySettingViewModel,
+  type NegotiateRefundValue,
+  type OrderAutoPendingValue,
+} from '../services/autoStrategySetting'
 import './AutoStrategySettingPage.css'
 
-type StrategyTab = 'order' | 'room' | 'stock'
-type OrderTimeoutAction = 'none' | 'approve' | 'reject'
-type CancelAction = 'approve' | 'reject'
+type ContractState = {
+  provider: string
+  responseState: AutoStrategySettingResponseState
+  endpoint: string
+  mockState: AutoStrategySettingMockState
+  requestBody: Record<string, unknown>
+  traceId: string
+  timestamp: string
+  lastAction: string
+  lastRequestBody: Record<string, unknown> | null
+}
 
-const tabs: Array<{ id: StrategyTab; label: string }> = [
-  { id: 'order', label: '接单规则' },
-  { id: 'room', label: '房态自动化' },
-  { id: 'stock', label: '库存占用规则' },
-]
+type LoadState =
+  | { kind: 'loading'; contract: ContractState }
+  | { kind: 'ready'; data: AutoStrategySettingViewModel; contract: ContractState }
+  | { kind: 'error'; message: string; contract: ContractState }
+
+const defaultContract: ContractState = {
+  provider: 'mock',
+  responseState: 'loading',
+  endpoint: AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT,
+  mockState: 'success',
+  requestBody: {},
+  traceId: '',
+  timestamp: '',
+  lastAction: '',
+  lastRequestBody: null,
+}
 
 export function AutoStrategySettingPage() {
-  const [activeTab, setActiveTab] = useState<StrategyTab>('order')
-  const [orderAction, setOrderAction] = useState<OrderTimeoutAction>('none')
-  const [checkoutEnabled, setCheckoutEnabled] = useState(true)
-  const [cancelAction, setCancelAction] = useState<CancelAction>('reject')
-  const [status, setStatus] = useState('')
+  const location = useLocation()
+  const runtimeConfig = useMemo(
+    () => resolveAutoStrategySettingRuntimeConfig({ search: location.search }),
+    [location.search],
+  )
+  const query = useMemo(() => createDefaultAutoStrategySettingQuery(runtimeConfig), [runtimeConfig])
+  const queryKey = JSON.stringify(query)
 
-  function updateCheckout() {
-    setCheckoutEnabled((enabled) => !enabled)
-    setStatus('修改成功')
+  return <AutoStrategySettingSurface key={queryKey} query={query} />
+}
+
+function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery }) {
+  const [reloadKey, setReloadKey] = useState(0)
+  const [mockStateOverride, setMockStateOverride] = useState<AutoStrategySettingMockState | null>(null)
+  const [activeTab, setActiveTab] = useState<AutoStrategySettingTabKey>('orderRules')
+  const [busyKey, setBusyKey] = useState('')
+  const [feedback, setFeedback] = useState('正在加载自动策略设置...')
+  const [orderAutoPendingValue, setOrderAutoPendingValue] = useState<OrderAutoPendingValue>('1')
+  const [orderAutoSettleChecked, setOrderAutoSettleChecked] = useState(false)
+  const [negotiateRefundValue, setNegotiateRefundValue] = useState<NegotiateRefundValue>('0')
+  const [state, setState] = useState<LoadState>({
+    kind: 'loading',
+    contract: {
+      ...defaultContract,
+      provider: query.provider ?? 'mock',
+      mockState: query.mockState ?? 'success',
+      requestBody: { campId: query.campId },
+    },
+  })
+
+  const requestQuery = useMemo(
+    () => ({
+      ...query,
+      mockState: mockStateOverride ?? query.mockState,
+    }),
+    [mockStateOverride, query],
+  )
+
+  useEffect(() => {
+    const abort = new AbortController()
+
+    setState({
+      kind: 'loading',
+      contract: {
+        ...defaultContract,
+        provider: requestQuery.provider ?? 'mock',
+        mockState: requestQuery.mockState ?? 'success',
+        requestBody: { campId: requestQuery.campId },
+      },
+    })
+
+    loadAutoStrategySettingViewModel(requestQuery, abort.signal)
+      .then((data) => {
+        setOrderAutoPendingValue(data.orderRules.orderAutoPending.value)
+        setOrderAutoSettleChecked(data.orderRules.orderAutoSettle.checked)
+        setNegotiateRefundValue(data.orderRules.negotiateRefund.value)
+        setState({
+          kind: 'ready',
+          data,
+          contract: toContract(data),
+        })
+        setActiveTab('orderRules')
+        setFeedback(data.state === 'empty' ? '' : '自动策略设置已同步')
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+
+        const message = error instanceof Error ? error.message : '自动策略设置加载失败，请稍后重试'
+        setState({
+          kind: 'error',
+          message,
+          contract: toErrorContract(error, requestQuery),
+        })
+        setFeedback(message)
+      })
+
+    return () => abort.abort()
+  }, [reloadKey, requestQuery])
+
+  const readyData = state.kind === 'ready' ? state.data : null
+
+  async function runMutation(
+    busyLabel: string,
+    task: () => Promise<{
+      viewModel: AutoStrategySettingViewModel
+      statusMessage: string
+      lastAction: string
+      endpoint: string
+      requestBody: Record<string, unknown>
+    }>,
+    callbacks?: {
+      onMutate?: () => void
+      onSuccess?: (viewModel: AutoStrategySettingViewModel) => void
+      onError?: () => void
+    },
+  ) {
+    setBusyKey(busyLabel)
+    callbacks?.onMutate?.()
+
+    try {
+      const result = await task()
+      setState({
+        kind: 'ready',
+        data: result.viewModel,
+        contract: {
+          ...toContract(result.viewModel),
+          endpoint: result.endpoint,
+          lastAction: result.lastAction,
+          lastRequestBody: result.requestBody,
+        },
+      })
+      setFeedback(result.statusMessage)
+      callbacks?.onSuccess?.(result.viewModel)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '自动策略设置保存失败，请稍后重试'
+      setFeedback(message)
+      callbacks?.onError?.()
+      setState((current) => {
+        if (current.kind !== 'ready') {
+          return {
+            kind: 'error',
+            message,
+            contract: toErrorContract(error, requestQuery),
+          }
+        }
+
+        return {
+          ...current,
+          contract: {
+            ...toErrorContract(error, requestQuery, current.contract.lastAction, current.contract.lastRequestBody),
+          },
+        }
+      })
+    } finally {
+      setBusyKey('')
+    }
+  }
+
+  function handleRetry() {
+    setMockStateOverride('success')
+    setReloadKey((current) => current + 1)
+    setFeedback('正在重新加载自动策略设置...')
   }
 
   return (
     <div className="auto-strategy-page">
-      <h1 className="auto-strategy-sr-title">自动策略设置</h1>
+      <h1 className="auto-strategy-page__sr-title">自动策略设置</h1>
 
-      <div className="auto-strategy-tabs" role="tablist" aria-label="自动策略设置">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            className={activeTab === tab.id ? 'is-active' : ''}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      <div
+        hidden
+        data-testid="auto-strategy-setting-service-contract"
+        data-provider={state.contract.provider}
+        data-endpoint={state.contract.endpoint}
+        data-response-state={state.contract.responseState}
+        data-mock-state={state.contract.mockState}
+        data-request-body={JSON.stringify(state.contract.requestBody)}
+        data-last-action={state.contract.lastAction}
+        data-last-request-body={JSON.stringify(state.contract.lastRequestBody ?? {})}
+      />
 
-      <div className="auto-strategy-panel">
-        {activeTab === 'order' ? (
-          <OrderRules
-            orderAction={orderAction}
-            setOrderAction={setOrderAction}
-            checkoutEnabled={checkoutEnabled}
-            updateCheckout={updateCheckout}
-            cancelAction={cancelAction}
-            setCancelAction={setCancelAction}
-          />
+      <section className="auto-strategy-page__shell" aria-label="自动策略设置">
+        {feedback ? (
+          <div className="auto-strategy-page__status" role="status">
+            {feedback}
+          </div>
         ) : null}
-        {activeTab === 'room' ? <RoomAutomationRules /> : null}
-        {activeTab === 'stock' ? <StockRules /> : null}
-      </div>
 
-      {status ? <div className="auto-strategy-toast" role="status">{status}</div> : null}
+        {state.kind === 'error' ? (
+          <section className="auto-strategy-page__state auto-strategy-page__state--error" role="alert">
+            <h2>自动策略设置加载失败，请稍后重试</h2>
+            <p>{state.message}</p>
+            <button type="button" className="auto-strategy-page__primary" onClick={handleRetry}>
+              重新加载
+            </button>
+          </section>
+        ) : null}
+
+        {state.kind === 'loading' ? (
+          <section className="auto-strategy-page__state" role="status" aria-label="自动策略设置加载中">
+            <h2>自动策略设置加载中</h2>
+            <p>正在同步接单规则、房态自动化与库存占用规则，请稍候。</p>
+          </section>
+        ) : null}
+
+        {readyData?.state === 'empty' ? (
+          <section className="auto-strategy-page__state auto-strategy-page__state--empty" aria-label="自动策略设置空状态">
+            <h2>{readyData.emptyState.title}</h2>
+            <p>{readyData.emptyState.description}</p>
+            <button type="button" className="auto-strategy-page__primary" onClick={handleRetry}>
+              {readyData.emptyState.actionText}
+            </button>
+          </section>
+        ) : null}
+
+        {readyData?.state === 'success' ? (
+          <>
+            <div className="auto-strategy-tabs" role="tablist" aria-label="自动策略设置标签页">
+              {readyData.tabs.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab.key}
+                  aria-controls={`auto-strategy-panel-${tab.key}`}
+                  id={`auto-strategy-tab-${tab.key}`}
+                  className={`auto-strategy-tabs__button${activeTab === tab.key ? ' is-active' : ''}`}
+                  onClick={() => setActiveTab(tab.key)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <div
+              id="auto-strategy-panel-orderRules"
+              role="tabpanel"
+              aria-labelledby="auto-strategy-tab-orderRules"
+              aria-label="接单规则"
+              hidden={activeTab !== 'orderRules'}
+            >
+              <StrategyCard title={readyData.orderRules.orderAutoPending.title} description={readyData.orderRules.orderAutoPending.description}>
+                <RadioGroup
+                  name="order-auto-pending"
+                  options={readyData.orderRules.orderAutoPending.options}
+                  value={orderAutoPendingValue}
+                  disabled={busyKey === 'order-auto-pending'}
+                  onChange={(nextValue) => {
+                    const previousValue = orderAutoPendingValue
+                    void runMutation(
+                      'order-auto-pending',
+                      () => updateOrderAutoPendingStrategy(requestQuery, nextValue as OrderAutoPendingValue),
+                      {
+                      onMutate: () => setOrderAutoPendingValue(nextValue as OrderAutoPendingValue),
+                      onSuccess: (viewModel) => setOrderAutoPendingValue(viewModel.orderRules.orderAutoPending.value),
+                      onError: () => setOrderAutoPendingValue(previousValue),
+                      },
+                    )
+                  }}
+                />
+              </StrategyCard>
+
+              <StrategyCard title={readyData.orderRules.orderAutoSettle.title} description={readyData.orderRules.orderAutoSettle.description}>
+                <div className="auto-strategy-switch-row">
+                  <span>{readyData.orderRules.orderAutoSettle.switchLabel}</span>
+                  <SwitchButton
+                    label={readyData.orderRules.orderAutoSettle.switchLabel}
+                    checked={orderAutoSettleChecked}
+                    disabled={busyKey === 'order-auto-settle'}
+                    onToggle={() => {
+                      const previousValue = orderAutoSettleChecked
+                      const nextValue = !orderAutoSettleChecked
+                      void runMutation(
+                        'order-auto-settle',
+                        () => updateOrderAutoSettleStrategy(requestQuery, nextValue),
+                        {
+                        onMutate: () => setOrderAutoSettleChecked(nextValue),
+                        onSuccess: (viewModel) => setOrderAutoSettleChecked(viewModel.orderRules.orderAutoSettle.checked),
+                        onError: () => setOrderAutoSettleChecked(previousValue),
+                        },
+                      )
+                    }}
+                  />
+                </div>
+              </StrategyCard>
+
+              <StrategyCard title={readyData.orderRules.negotiateRefund.title} description={readyData.orderRules.negotiateRefund.description}>
+                <RadioGroup
+                  name="negotiate-refund"
+                  options={readyData.orderRules.negotiateRefund.options}
+                  value={negotiateRefundValue}
+                  disabled={busyKey === 'negotiate-refund'}
+                  onChange={(nextValue) => {
+                    const previousValue = negotiateRefundValue
+                    void runMutation(
+                      'negotiate-refund',
+                      () => updateNegotiateRefundAutomaticAcceptStrategy(requestQuery, nextValue as NegotiateRefundValue),
+                      {
+                      onMutate: () => setNegotiateRefundValue(nextValue as NegotiateRefundValue),
+                      onSuccess: (viewModel) => setNegotiateRefundValue(viewModel.orderRules.negotiateRefund.value),
+                      onError: () => setNegotiateRefundValue(previousValue),
+                      },
+                    )
+                  }}
+                />
+              </StrategyCard>
+            </div>
+
+            <div
+              id="auto-strategy-panel-roomAutomation"
+              role="tabpanel"
+              aria-labelledby="auto-strategy-tab-roomAutomation"
+              aria-label="房态自动化"
+              hidden={activeTab !== 'roomAutomation'}
+            >
+              <StrategyCard title={readyData.roomAutomation.roomAssign.title}>
+                <div className="auto-strategy-stack">
+                  <div className="auto-strategy-inline-copy">
+                    <span className="auto-strategy-inline-copy__label">{readyData.roomAutomation.roomAssign.strategyLabel}</span>
+                  </div>
+                  <RadioGroup
+                    name="room-assign-strategy"
+                    options={readyData.roomAutomation.roomAssign.options}
+                    value={readyData.roomAutomation.roomAssign.value}
+                    disabled
+                    onChange={() => undefined}
+                  />
+                  <div className="auto-strategy-advanced">
+                    <span className="auto-strategy-advanced__title">高级功能</span>
+                    {readyData.roomAutomation.roomAssign.advancedOptions.map((item) => (
+                      <CheckboxRow key={item.label} label={item.label} checked={item.checked} />
+                    ))}
+                  </div>
+                </div>
+              </StrategyCard>
+
+              <StrategyCard title={readyData.roomAutomation.autoCheckIn.title}>
+                <div className="auto-strategy-vertical-switch">
+                  <div className="auto-strategy-switch-row">
+                    <span>{readyData.roomAutomation.autoCheckIn.timeLabel}</span>
+                    <SwitchButton
+                      label={readyData.roomAutomation.autoCheckIn.switchLabel}
+                      checked={readyData.roomAutomation.autoCheckIn.checked}
+                      disabled
+                    />
+                  </div>
+                  <div className="auto-strategy-time-chip">{readyData.roomAutomation.autoCheckIn.time}</div>
+                </div>
+              </StrategyCard>
+
+              <StrategyCard title={readyData.roomAutomation.autoCheckOut.title}>
+                <div className="auto-strategy-vertical-switch">
+                  <div className="auto-strategy-switch-row">
+                    <span>{readyData.roomAutomation.autoCheckOut.timeLabel}</span>
+                    <SwitchButton
+                      label={readyData.roomAutomation.autoCheckOut.switchLabel}
+                      checked={readyData.roomAutomation.autoCheckOut.checked}
+                      disabled
+                    />
+                  </div>
+                  <div className="auto-strategy-time-chip">{readyData.roomAutomation.autoCheckOut.time}</div>
+                </div>
+              </StrategyCard>
+
+              <StrategyCard title={readyData.roomAutomation.dirtyRoom.title}>
+                <RadioGroup
+                  name="dirty-room-strategy"
+                  options={readyData.roomAutomation.dirtyRoom.options}
+                  value={readyData.roomAutomation.dirtyRoom.value}
+                  disabled
+                  onChange={() => undefined}
+                />
+              </StrategyCard>
+
+              <StrategyCard title={readyData.roomAutomation.cleanRoom.title}>
+                <div className="auto-strategy-switch-row">
+                  <span>{readyData.roomAutomation.cleanRoom.switchLabel}</span>
+                  <SwitchButton
+                    label={readyData.roomAutomation.cleanRoom.switchLabel}
+                    checked={readyData.roomAutomation.cleanRoom.checked}
+                    disabled
+                  />
+                </div>
+              </StrategyCard>
+            </div>
+
+            <div
+              id="auto-strategy-panel-inventoryOccupation"
+              role="tabpanel"
+              aria-labelledby="auto-strategy-tab-inventoryOccupation"
+              aria-label="库存占用规则"
+              hidden={activeTab !== 'inventoryOccupation'}
+            >
+              <StrategyCard title={readyData.inventoryOccupation.pendingOrder.title}>
+                <RadioGroup
+                  name="pending-order-occupation"
+                  options={readyData.inventoryOccupation.pendingOrder.options}
+                  value={readyData.inventoryOccupation.pendingOrder.value}
+                  disabled
+                  onChange={() => undefined}
+                />
+              </StrategyCard>
+
+              <StrategyCard title={readyData.inventoryOccupation.unpaidOrder.title}>
+                <RadioGroup
+                  name="unpaid-order-occupation"
+                  options={readyData.inventoryOccupation.unpaidOrder.options}
+                  value={readyData.inventoryOccupation.unpaidOrder.value}
+                  disabled
+                  onChange={() => undefined}
+                />
+              </StrategyCard>
+
+              <StrategyCard title={readyData.inventoryOccupation.hourlyRoom.title}>
+                <RadioGroup
+                  name="hourly-room-occupation"
+                  options={readyData.inventoryOccupation.hourlyRoom.options}
+                  value={readyData.inventoryOccupation.hourlyRoom.value}
+                  disabled
+                  onChange={() => undefined}
+                />
+              </StrategyCard>
+            </div>
+          </>
+        ) : null}
+      </section>
     </div>
   )
 }
 
-function OrderRules({
-  orderAction,
-  setOrderAction,
-  checkoutEnabled,
-  updateCheckout,
-  cancelAction,
-  setCancelAction,
+function StrategyCard({
+  title,
+  description,
+  children,
 }: {
-  orderAction: OrderTimeoutAction
-  setOrderAction: (action: OrderTimeoutAction) => void
-  checkoutEnabled: boolean
-  updateCheckout: () => void
-  cancelAction: CancelAction
-  setCancelAction: (action: CancelAction) => void
+  title: string
+  description?: string
+  children: ReactNode
 }) {
   return (
-    <>
-      <section className="auto-rule-card" role="region" aria-label="住宿订单接单规则">
-        <h2>住宿订单接单规则</h2>
-        <p>设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单</p>
-        <div className="auto-rule-options">
-          <RadioOption
-            name="order-timeout-action"
-            label="不操作"
-            checked={orderAction === 'none'}
-            onChange={() => setOrderAction('none')}
-          />
-          <RadioOption
-            name="order-timeout-action"
-            label="逾期前自动同意"
-            checked={orderAction === 'approve'}
-            onChange={() => setOrderAction('approve')}
-          />
-          <RadioOption
-            name="order-timeout-action"
-            label="逾期前自动拒绝"
-            checked={orderAction === 'reject'}
-            onChange={() => setOrderAction('reject')}
-          />
-        </div>
-      </section>
-
-      <section className="auto-rule-card auto-rule-card--switch" role="region" aria-label="飞猪自动结账">
-        <div>
-          <h2>飞猪自动结账</h2>
-          <p>开启设置后，客人离店当日自动发起结账</p>
-        </div>
-        <div className="auto-rule-switch-line">
-          <span>信用住自动结账</span>
-          <button
-            type="button"
-            role="switch"
-            aria-label="信用住自动结账"
-            aria-checked={checkoutEnabled}
-            className={`auto-rule-switch${checkoutEnabled ? ' is-on' : ''}`}
-            onClick={updateCheckout}
-          >
-            <span />
-          </button>
-        </div>
-      </section>
-
-      <section className="auto-rule-card" role="region" aria-label="携程规则外取消订单设置">
-        <h2>携程规则外取消订单设置</h2>
-        <p>超过25分钟后未确认，将自动按设置处理</p>
-        <div className="auto-rule-options">
-          <RadioOption
-            name="cancel-action"
-            label="同意取消"
-            checked={cancelAction === 'approve'}
-            onChange={() => setCancelAction('approve')}
-          />
-          <RadioOption
-            name="cancel-action"
-            label="不同意取消"
-            checked={cancelAction === 'reject'}
-            onChange={() => setCancelAction('reject')}
-          />
-        </div>
-      </section>
-    </>
-  )
-}
-
-function RoomAutomationRules() {
-  return (
-    <section className="auto-rule-card auto-rule-card--room" role="region" aria-label="房态自动化策略">
-      <h2>房态自动化策略</h2>
-      <p>开启后，系统会在订单、房态和清洁任务发生变化时自动同步相关状态。</p>
-      <div className="auto-rule-list">
-        <ToggleRow title="入住中订单换房后自动创建" detail="换房完成后，自动为新房间创建待清洁任务" enabled={false} />
-        <ToggleRow title="退房后自动创建保洁任务" detail="订单办理退房后，自动生成保洁任务并释放后续流程" enabled={false} />
-        <ToggleRow title="订单取消后自动恢复房态" detail="取消订单后恢复可售库存，避免手工遗漏" enabled={false} />
-      </div>
+    <section className="auto-strategy-card" role="region" aria-label={title}>
+      <header className="auto-strategy-card__header">
+        <h2>{title}</h2>
+        {description ? <p>{description}</p> : null}
+      </header>
+      <div className="auto-strategy-card__body">{children}</div>
     </section>
   )
 }
 
-function StockRules() {
-  return (
-    <section className="auto-rule-card auto-rule-card--stock" role="region" aria-label="库存占用规则">
-      <h2>库存占用规则</h2>
-      <p>用于控制不同订单状态是否占用房型库存，确保渠道库存与 PMS 房态保持一致。</p>
-      <div className="auto-stock-grid" role="table" aria-label="库存占用规则表">
-        <div role="row" className="auto-stock-grid__head">
-          <span role="columnheader">订单状态</span>
-          <span role="columnheader">是否占用库存</span>
-          <span role="columnheader">说明</span>
-        </div>
-        <StockRow status="待处理订单" checked detail="渠道已推送但尚未确认，默认占用库存" />
-        <StockRow status="待入住订单" checked detail="确认后持续占用对应房型库存" />
-        <StockRow status="已取消订单" checked={false} detail="取消后不继续占用库存" />
-      </div>
-    </section>
-  )
-}
-
-function ToggleRow({ title, detail, enabled }: { title: string; detail: string; enabled: boolean }) {
-  const [checked, setChecked] = useState(enabled)
-
-  return (
-    <div className="auto-rule-list__item">
-      <div>
-        <strong>{title}</strong>
-        <p>{detail}</p>
-      </div>
-      <button
-        type="button"
-        role="switch"
-        aria-label={title}
-        aria-checked={checked}
-        className={`auto-rule-switch${checked ? ' is-on' : ''}`}
-        onClick={() => setChecked((value) => !value)}
-      >
-        <span />
-      </button>
-    </div>
-  )
-}
-
-function StockRow({ status, checked, detail }: { status: string; checked: boolean; detail: string }) {
-  return (
-    <div role="row" className="auto-stock-grid__row">
-      <span role="cell">{status}</span>
-      <span role="cell">
-        <input type="checkbox" aria-label={`${status}占用库存`} checked={checked} readOnly />
-      </span>
-      <span role="cell">{detail}</span>
-    </div>
-  )
-}
-
-function RadioOption({
+function RadioGroup({
   name,
-  label,
-  checked,
+  options,
+  value,
+  disabled,
   onChange,
 }: {
   name: string
-  label: string
-  checked: boolean
-  onChange: () => void
+  options: Array<{ label: string; value: string }>
+  value: string
+  disabled?: boolean
+  onChange: (nextValue: string) => void
 }) {
   return (
-    <label className="auto-rule-radio">
-      <input type="radio" name={name} aria-label={label} checked={checked} onChange={onChange} />
+    <div className="auto-strategy-radio-group">
+      {options.map((option) => (
+        <label key={option.value} className={`auto-strategy-radio${disabled ? ' is-disabled' : ''}`}>
+          <input
+            type="radio"
+            name={name}
+            aria-label={option.label}
+            checked={value === option.value}
+            disabled={disabled}
+            onChange={() => onChange(option.value)}
+          />
+          <span>{option.label}</span>
+        </label>
+      ))}
+    </div>
+  )
+}
+
+function SwitchButton({
+  label,
+  checked,
+  disabled,
+  onToggle,
+}: {
+  label: string
+  checked: boolean
+  disabled?: boolean
+  onToggle?: () => void
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-label={label}
+      aria-checked={checked}
+      disabled={disabled}
+      className={`auto-strategy-switch${checked ? ' is-on' : ''}`}
+      onClick={onToggle}
+    >
+      <span />
+    </button>
+  )
+}
+
+function CheckboxRow({ label, checked }: { label: string; checked: boolean }) {
+  return (
+    <label className="auto-strategy-checkbox">
+      <input type="checkbox" aria-label={label} checked={checked} readOnly />
       <span>{label}</span>
     </label>
   )
+}
+
+function toContract(data: AutoStrategySettingViewModel): ContractState {
+  return {
+    provider: data.provider,
+    responseState: data.state,
+    endpoint: data.endpoint,
+    mockState: data.state,
+    requestBody: data.requestBody,
+    traceId: data.traceId,
+    timestamp: data.timestamp,
+    lastAction: '',
+    lastRequestBody: null,
+  }
+}
+
+function toErrorContract(
+  error: unknown,
+  query: AutoStrategySettingQuery,
+  lastAction = '',
+  lastRequestBody: Record<string, unknown> | null = null,
+): ContractState {
+  if (error instanceof AutoStrategySettingServiceError) {
+    return {
+      provider: error.provider,
+      responseState: 'error',
+      endpoint: error.endpoint,
+      mockState: query.mockState ?? 'error',
+      requestBody: error.requestBody,
+      traceId: error.response.traceId,
+      timestamp: error.response.timestamp,
+      lastAction,
+      lastRequestBody,
+    }
+  }
+
+  return {
+    provider: query.provider ?? 'mock',
+    responseState: 'error',
+    endpoint: AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT,
+    mockState: query.mockState ?? 'error',
+    requestBody: { campId: query.campId },
+    traceId: '',
+    timestamp: '',
+    lastAction,
+    lastRequestBody,
+  }
 }

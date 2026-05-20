@@ -1,23 +1,17 @@
-.page-content:has(.my-benefit-page),
-.page-content:has(.my-benefit-upgrade) {
+.page-content:has(.my-benefit-page) {
   padding: 8px 8px 0;
   background: #f3f6fb;
 }
 
-.page-content:has(.my-benefit-page) > .page-header,
-.page-content:has(.my-benefit-upgrade) > .page-header {
+.page-content:has(.my-benefit-page) > .page-header {
   display: none;
-}
-
-.my-benefit-page,
-.my-benefit-upgrade {
-  min-height: calc(100vh - 58px);
-  color: rgba(0, 0, 0, 0.85);
 }
 
 .my-benefit-page {
   display: grid;
   grid-template-columns: 168px minmax(0, 1fr);
+  min-height: calc(100vh - 58px);
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .my-benefit-sidebar {
@@ -67,12 +61,14 @@
 
 .my-benefit-main {
   min-width: 0;
+  padding-bottom: 28px;
 }
 
 .my-benefit-tabs {
   display: flex;
   align-items: center;
-  height: 44px;
+  gap: 0;
+  min-height: 44px;
   border-radius: 8px 8px 0 0;
   background: #fff;
   padding: 8px 8px 0;
@@ -103,20 +99,121 @@
   color: #fff;
 }
 
+.my-benefit-toolbar {
+  display: flex;
+  gap: 10px;
+  margin: 0 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #edf0f4;
+  border-bottom: 1px solid #edf0f4;
+  background: #fff;
+}
+
+.my-benefit-toolbar button,
+.my-benefit-record button,
+.my-benefit-service-card button,
+.my-benefit-dialog__close,
+.my-benefit-error button,
+.my-benefit-version__actions button,
+.my-benefit-version p button,
+.my-benefit-table button,
+.my-benefit-upgrade__actions button {
+  cursor: pointer;
+}
+
+.my-benefit-toolbar button {
+  height: 32px;
+  border: 1px solid #d7def0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0 14px;
+  color: #41506f;
+  font-size: 14px;
+}
+
+.my-benefit-notice,
+.my-benefit-loading,
+.my-benefit-error,
+.my-benefit-version,
+.my-benefit-overview,
+.my-benefit-table,
+.my-benefit-services,
+.my-benefit-records,
+.my-benefit-upgrade,
+.my-benefit-empty-state {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.my-benefit-notice {
+  margin-top: 12px;
+  border: 1px solid #cfe2ff;
+  border-radius: 10px;
+  background: #edf4ff;
+  padding: 12px 16px;
+  color: #3152ab;
+  font-size: 14px;
+}
+
+.my-benefit-loading,
+.my-benefit-error,
+.my-benefit-empty-state {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  min-height: 240px;
+  margin-top: 16px;
+  border-radius: 14px;
+  background: #fff;
+  text-align: center;
+}
+
+.my-benefit-loading__dot {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #d9e3ff;
+  border-top-color: #4e63ff;
+  border-radius: 50%;
+  animation: my-benefit-spin 1s linear infinite;
+}
+
+.my-benefit-loading strong,
+.my-benefit-error strong,
+.my-benefit-empty-state strong {
+  font-size: 18px;
+}
+
+.my-benefit-loading p,
+.my-benefit-error p,
+.my-benefit-empty-state span {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.56);
+  font-size: 14px;
+}
+
+.my-benefit-error button {
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: #4e63ff;
+  padding: 0 18px;
+  color: #fff;
+}
+
 .my-benefit-version {
   display: flex;
   align-items: center;
+  gap: 18px;
   min-height: 96px;
-  margin: 0 8px 16px;
-  padding: 18px 8px 18px 24px;
-  border-radius: 8px;
+  margin-top: 16px;
+  padding: 20px 24px;
+  border-radius: 12px;
   background: linear-gradient(105deg, #eef9fd 0%, #e5f1ff 55%, #d7e3fb 100%);
 }
 
 .my-benefit-version__icon {
   width: 62px;
   height: 62px;
-  margin-right: 18px;
   border-radius: 18px;
   background:
     radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.95) 0 13px, transparent 14px),
@@ -125,11 +222,18 @@
   transform: rotate(45deg);
 }
 
+.my-benefit-version__eyebrow {
+  margin: 0 0 6px;
+  color: #3d5ccc;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
 .my-benefit-version h1 {
   margin: 0 0 8px;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
 }
 
 .my-benefit-version p {
@@ -151,46 +255,86 @@
   margin-left: auto;
 }
 
-.my-benefit-version__actions button {
+.my-benefit-version__actions button,
+.my-benefit-upgrade__actions button {
   height: 32px;
-  min-width: 62px;
-  border-radius: 4px;
+  min-width: 82px;
+  border-radius: 6px;
   padding: 0 16px;
   font-size: 14px;
 }
 
-.my-benefit-version__actions .is-outline {
+.my-benefit-version__actions .is-outline,
+.my-benefit-upgrade__actions .is-outline {
   border: 1px solid #4e63ff;
   background: transparent;
   color: #4e63ff;
 }
 
 .my-benefit-version__actions .is-primary,
-.my-benefit-upgrade__header button {
+.my-benefit-upgrade__actions button:not(.is-outline) {
   border: 1px solid #4e63ff;
   background: #4e63ff;
   color: #fff;
 }
 
+.my-benefit-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.my-benefit-overview__card {
+  min-height: 124px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 18px 18px 16px;
+  box-shadow: 0 8px 18px rgba(20, 42, 112, 0.06);
+}
+
+.my-benefit-overview__card span {
+  display: block;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+}
+
+.my-benefit-overview__card strong {
+  display: block;
+  margin: 12px 0 10px;
+  color: #25324d;
+  font-size: 28px;
+  line-height: 34px;
+}
+
+.my-benefit-overview__card p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.58);
+  font-size: 13px;
+  line-height: 20px;
+}
+
 .my-benefit-table {
   width: calc(100% - 16px);
-  margin: 0 8px;
+  margin-top: 16px;
   table-layout: fixed;
   border-collapse: collapse;
   background: #fff;
   font-size: 14px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .my-benefit-table th,
 .my-benefit-table td {
-  height: 40px;
-  padding: 8px 10px;
+  height: 44px;
+  padding: 10px 12px;
   border: 1px solid #edf0f4;
   text-align: left;
 }
 
 .my-benefit-table th {
-  height: 39px;
+  height: 42px;
   background: #f1f5fb;
   color: rgba(0, 0, 0, 0.68);
   font-weight: 400;
@@ -210,11 +354,11 @@
 }
 
 .my-benefit-table th:nth-child(5) {
-  width: 7%;
+  width: 9%;
 }
 
 .my-benefit-table th:nth-child(6) {
-  width: 15%;
+  width: 13%;
 }
 
 .my-benefit-table button {
@@ -227,43 +371,157 @@
   color: #20a014;
 }
 
-.my-benefit-eye {
-  display: inline-block;
-  width: 18px;
-  height: 12px;
-  margin-left: 6px;
-  border: 2px solid #4e63ff;
-  border-radius: 50%;
-  vertical-align: -1px;
+.my-benefit-services,
+.my-benefit-records,
+.my-benefit-upgrade {
+  margin-top: 16px;
 }
 
-.my-benefit-eye::after {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 4px;
-  margin: 2px auto;
-  border-radius: 50%;
-  background: #4e63ff;
-}
-
-.my-benefit-empty-state {
+.my-benefit-services {
   display: grid;
-  min-height: 240px;
-  place-items: center;
-  gap: 8px;
-  margin: 0 8px;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.45);
+  gap: 16px;
 }
 
-.my-benefit-empty-state strong {
-  color: rgba(0, 0, 0, 0.85);
+.my-benefit-service-group {
+  border-radius: 14px;
+  background: #fff;
+  padding: 18px 18px 20px;
+}
+
+.my-benefit-service-group header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.my-benefit-service-group h2,
+.my-benefit-subscription-list h2,
+.my-benefit-service-list h2,
+.my-benefit-feature-grid > h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.my-benefit-service-group header span {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+}
+
+.my-benefit-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.my-benefit-service-card {
+  min-height: 152px;
+  border: 1px solid #e7edf9;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+  padding: 16px;
+}
+
+.my-benefit-service-card div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.my-benefit-service-card strong {
   font-size: 16px;
 }
 
+.my-benefit-service-card em {
+  border-radius: 999px;
+  background: #eef3ff;
+  padding: 2px 8px;
+  color: #4863ca;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.my-benefit-service-card p {
+  min-height: 44px;
+  margin: 12px 0 16px;
+  color: rgba(0, 0, 0, 0.58);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.my-benefit-service-card button,
+.my-benefit-record button {
+  height: 32px;
+  border: 1px solid #d1dbf5;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0 14px;
+  color: #44526f;
+}
+
+.my-benefit-records {
+  display: grid;
+  gap: 12px;
+}
+
+.my-benefit-record {
+  border-radius: 12px;
+  background: #fff;
+  padding: 18px;
+}
+
+.my-benefit-record > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.my-benefit-record > div strong {
+  font-size: 16px;
+}
+
+.my-benefit-record > div span {
+  border-radius: 999px;
+  background: #eef3ff;
+  padding: 4px 10px;
+  color: #4e63ff;
+  font-size: 12px;
+}
+
+.my-benefit-record p {
+  margin: 12px 0 14px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.my-benefit-record dl,
+.my-benefit-dialog__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.my-benefit-record dt,
+.my-benefit-dialog__meta dt {
+  color: rgba(0, 0, 0, 0.42);
+  font-size: 12px;
+}
+
+.my-benefit-record dd,
+.my-benefit-dialog__meta dd {
+  margin: 6px 0 0;
+  color: #26334d;
+  font-size: 14px;
+}
+
 .my-benefit-upgrade {
-  padding: 28px 16px 0;
+  padding: 24px 16px 18px;
+  border-radius: 16px;
   background: linear-gradient(110deg, #fbfdff 0%, #eef8fb 48%, #dfedff 100%);
 }
 
@@ -271,7 +529,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  min-height: 58px;
+  gap: 16px;
 }
 
 .my-benefit-upgrade__header h1,
@@ -280,34 +538,34 @@
 }
 
 .my-benefit-upgrade__header h1 {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   line-height: 32px;
 }
 
 .my-benefit-upgrade__header p {
-  margin-top: 4px;
+  margin-top: 6px;
+  color: rgba(0, 0, 0, 0.6);
   font-size: 14px;
 }
 
-.my-benefit-upgrade__header button {
-  height: 28px;
-  min-width: 88px;
-  border-radius: 4px;
+.my-benefit-upgrade__actions {
+  display: flex;
+  gap: 10px;
 }
 
 .my-benefit-plan-row {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 34px;
+  margin-top: 24px;
 }
 
 .my-benefit-plan {
   position: relative;
   min-height: 118px;
   padding: 18px 16px;
-  border-radius: 6px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -345,7 +603,7 @@
 .my-benefit-plan strong {
   margin-bottom: 20px;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .my-benefit-plan em {
@@ -392,19 +650,17 @@
   min-height: 604px;
   margin-top: 16px;
   border: 2px solid #66bfdf;
-  border-radius: 6px;
+  border-radius: 10px;
   background: #fff;
 }
 
-.my-benefit-feature-board h2 {
-  margin: 0 0 24px;
-  font-size: 18px;
-  font-weight: 500;
+.my-benefit-subscription-list,
+.my-benefit-service-list {
+  padding: 22px 18px;
 }
 
 .my-benefit-subscription-list {
   background: #e5f7fc;
-  padding: 22px 18px;
 }
 
 .my-benefit-subscription-list p,
@@ -416,20 +672,16 @@
 
 .my-benefit-feature-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px 40px;
   padding: 22px 36px 18px;
-}
-
-.my-benefit-feature-grid > h2 {
-  grid-column: 1 / -1;
 }
 
 .my-benefit-feature-grid h3 {
   margin: 0 0 14px;
   color: rgba(0, 0, 0, 0.78);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .my-benefit-feature-grid p::before,
@@ -439,15 +691,112 @@
   color: rgba(0, 0, 0, 0.82);
 }
 
-.my-benefit-feature-grid .is-muted {
-  color: rgba(0, 0, 0, 0.38);
+.my-benefit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(22, 34, 59, 0.42);
+  padding: 24px;
 }
 
-.my-benefit-feature-grid .is-muted::before {
-  content: '';
+.my-benefit-dialog {
+  position: relative;
+  width: min(560px, 100%);
+  border-radius: 16px;
+  background: #fff;
+  padding: 24px 24px 22px;
+  box-shadow: 0 24px 60px rgba(16, 33, 88, 0.18);
+}
+
+.my-benefit-dialog h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.my-benefit-dialog p {
+  margin: 0 0 16px;
+  color: rgba(0, 0, 0, 0.62);
+  line-height: 22px;
+}
+
+.my-benefit-dialog__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: #eef3ff;
+  color: #435ac0;
+  font-size: 18px;
+}
+
+.my-benefit-dialog__meta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.my-benefit-dialog__list {
   margin: 0;
+  padding-left: 18px;
+  color: rgba(0, 0, 0, 0.68);
+  line-height: 24px;
 }
 
-.my-benefit-service-list {
-  padding: 22px 22px;
+@keyframes my-benefit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1180px) {
+  .my-benefit-overview,
+  .my-benefit-service-grid,
+  .my-benefit-plan-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .my-benefit-feature-board {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .my-benefit-page {
+    grid-template-columns: 1fr;
+  }
+
+  .my-benefit-sidebar {
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e9edf5;
+  }
+
+  .my-benefit-build {
+    position: static;
+    display: block;
+    padding: 16px 20px 18px;
+  }
+
+  .my-benefit-version,
+  .my-benefit-upgrade__header,
+  .my-benefit-version__actions,
+  .my-benefit-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .my-benefit-overview,
+  .my-benefit-service-grid,
+  .my-benefit-plan-row,
+  .my-benefit-record dl,
+  .my-benefit-dialog__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .my-benefit-tabs {
+    overflow-x: auto;
+  }
 }

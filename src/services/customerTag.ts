@@ -101,6 +101,7 @@ export const defaultCustomerTagFilters: CustomerTagFilters = {
 }
 
 const timestamp = '2026-05-18T10:00:00+08:00'
+const mockLatencyMs = 260
 
 const rows: CustomerTagApiRow[] = [
   {
@@ -166,7 +167,7 @@ async function loadCustomerTagResponse(
   filters: CustomerTagFilters,
   state: CustomerTagScenario,
 ): Promise<CustomerTagResponse> {
-  await delay(120)
+  await delay(mockLatencyMs)
 
   const request: CustomerTagResponseData['request'] = {
     provider: customerTagProvider,

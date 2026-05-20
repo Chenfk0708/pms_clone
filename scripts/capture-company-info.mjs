@@ -12,7 +12,7 @@ const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
-const state = process.argv.includes('--interaction') ? 'interaction' : 'default'
+const state = resolveCaptureState()
 const stamp =
   process.env.PMS_CAPTURE_STAMP ??
   new Intl.DateTimeFormat('en-CA', {
@@ -57,6 +57,31 @@ function safeName(label) {
 
 function stableText(text) {
   return String(text || '').replace(/\s+/g, ' ').trim()
+}
+
+function resolveCaptureState() {
+  if (process.argv.includes('--interaction')) return 'interaction'
+  if (process.argv.includes('--empty')) return 'empty'
+  if (process.argv.includes('--error')) return 'error'
+  if (process.argv.includes('--success')) return 'success'
+  return mode === 'clone' ? 'success' : 'default'
+}
+
+function captureUrl() {
+  return mode === 'target' ? TARGET_URL : LOCAL_URL
+}
+
+async function prepareRuntime(page) {
+  if (mode !== 'clone') return
+  const mockMode = state === 'empty' || state === 'error' ? state : 'success'
+  await page.addInitScript(
+    ({ nextMockMode }) => {
+      window.localStorage.setItem('pms.companyInfo.provider', 'mock')
+      window.localStorage.setItem('pms.companyInfo.mockMode', nextMockMode)
+      window.localStorage.setItem('pms.companyInfo.mockLatencyMs', '0')
+    },
+    { nextMockMode: mockMode },
+  )
 }
 
 async function waitForSurface(page) {
@@ -265,7 +290,7 @@ async function runInteractionSweep(page) {
   const interactions = []
   const labels = ['编 辑', '保存', '保 存', '取消', '取 消', '企业Logo', '上传', '权限设置', '成员设置']
   for (const label of labels) {
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(captureUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -314,6 +339,7 @@ async function main() {
       timezoneId: 'Asia/Shanghai',
     })
     const page = await context.newPage()
+    await prepareRuntime(page)
     page.on('response', (response) => {
       const request = response.request()
       network.push({
@@ -325,7 +351,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(captureUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -333,7 +359,7 @@ async function main() {
 
     const interactions = state === 'interaction' ? await runInteractionSweep(page) : []
     if (state === 'interaction') {
-      await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+      await page.goto(captureUrl(), {
         waitUntil: 'domcontentloaded',
         timeout: 45_000,
       })

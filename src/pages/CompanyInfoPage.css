@@ -9,21 +9,21 @@
 
 .company-info-page {
   min-height: calc(100vh - 58px);
-  background: #fff;
   color: #17233d;
 }
 
 .company-info-panel {
   min-height: calc(100vh - 66px);
-  padding: 0 8px 40px;
+  padding: 0 20px 40px;
   background: #fff;
 }
 
 .company-info-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  height: 45px;
+  gap: 16px;
+  padding: 14px 0 12px;
   border-bottom: 1px solid #dcdfe6;
 }
 
@@ -47,10 +47,18 @@
   background: #4d63f4;
 }
 
+.company-info-header p {
+  margin: 6px 0 0;
+  color: #667085;
+  font-size: 13px;
+  line-height: 20px;
+}
+
 .company-info-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-top: 2px;
 }
 
 .company-info-button {
@@ -61,6 +69,11 @@
   font-size: 14px;
   line-height: 26px;
   cursor: pointer;
+}
+
+.company-info-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
 }
 
 .company-info-button--primary {
@@ -75,10 +88,66 @@
   color: #4d63f4;
 }
 
+.company-info-feedback {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #f5f7ff;
+  color: #3850d7;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.company-info-contract {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.company-info-state {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #d9e0ff;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f8f9ff 0%, #fdfdff 100%);
+}
+
+.company-info-state strong {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.company-info-state span {
+  color: #667085;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.company-info-state--error {
+  border-color: #f4c0c0;
+  background: #fff7f7;
+  color: #bb3c3c;
+}
+
+.company-info-content {
+  padding-top: 18px;
+}
+
+.company-info-content.is-loading {
+  opacity: 0.86;
+}
+
 .company-info-readonly {
   display: grid;
   gap: 18px;
-  padding-top: 12px;
   font-size: 14px;
 }
 
@@ -91,19 +160,75 @@
 
 .company-info-label {
   color: #17233d;
+  font-weight: 500;
 }
 
 .company-info-value {
   color: #344054;
+  line-height: 22px;
 }
 
-.company-info-row--image {
-  min-height: 220px;
+.company-info-row--images {
+  align-items: start;
+}
+
+.company-info-image-column {
+  display: grid;
+  gap: 12px;
+}
+
+.company-info-image-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.company-info-image-list--compact {
+  min-height: 72px;
+}
+
+.company-info-image-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 220px;
+  padding: 10px 12px;
+  border: 1px solid #e6e9f0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.company-info-image-card__preview {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4d63f4 0%, #7a8dff 100%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.company-info-image-card strong,
+.company-info-image-card span {
+  display: block;
+}
+
+.company-info-image-card strong {
+  color: #1d2939;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.company-info-image-card span {
+  color: #667085;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .company-info-empty-image {
   width: 240px;
-  padding-top: 22px;
   color: #9aa4b2;
   text-align: center;
 }
@@ -168,24 +293,38 @@
 
 .company-info-form {
   display: grid;
-  gap: 15px;
-  padding-top: 10px;
+  gap: 18px;
   font-size: 14px;
 }
 
 .company-info-form-row {
   display: grid;
-  grid-template-columns: 90px max-content;
-  align-items: center;
+  grid-template-columns: 90px minmax(0, 520px);
+  align-items: start;
+  gap: 0;
 }
 
 .company-info-form-row > span {
+  padding-top: 7px;
   color: #17233d;
+  font-weight: 500;
+}
+
+.company-info-field {
+  display: grid;
+  gap: 6px;
+}
+
+.company-info-field small {
+  color: #d64747;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .company-info-form input,
-.company-info-form textarea {
-  width: 200px;
+.company-info-form textarea,
+.company-info-form select {
+  width: 100%;
   border: 1px solid #d8dce3;
   border-radius: 4px;
   background: #fff;
@@ -194,55 +333,32 @@
   outline: none;
 }
 
-.company-info-form input {
-  height: 28px;
+.company-info-form input,
+.company-info-form select {
+  height: 32px;
   padding: 0 12px;
 }
 
 .company-info-form textarea {
-  width: 500px;
-  height: 55px;
+  min-height: 88px;
   padding: 8px 12px;
   resize: none;
 }
 
-.company-info-form input::placeholder,
-.company-info-form textarea::placeholder {
-  color: #a6afbd;
-}
-
-.company-info-form-row--wide input {
-  width: 400px;
-}
-
-.company-info-form-row--select {
-  position: relative;
-}
-
-.company-info-form-row--select::after {
-  content: "⌄";
-  position: absolute;
-  left: 270px;
-  top: 4px;
-  color: #a6afbd;
-  font-size: 15px;
-  pointer-events: none;
-}
-
-.company-info-form-row--wide.company-info-form-row--select::after {
-  left: 470px;
-}
-
-.company-info-form-row--textarea {
-  align-items: start;
-}
-
-.company-info-form-row--textarea > span {
-  padding-top: 6px;
+.company-info-form input:disabled,
+.company-info-form textarea:disabled,
+.company-info-form select:disabled {
+  background: #f7f7fa;
+  color: #98a2b3;
 }
 
 .company-info-form-row--upload {
   align-items: start;
+}
+
+.company-info-upload-panel {
+  display: grid;
+  gap: 14px;
 }
 
 .company-info-upload {
@@ -266,19 +382,33 @@
   font-weight: 300;
 }
 
+.company-info-upload-hint {
+  display: grid;
+  place-items: center;
+  min-height: 72px;
+  padding: 12px;
+  border: 1px dashed #e2e8f0;
+  border-radius: 10px;
+  color: #667085;
+  font-size: 13px;
+}
+
 @media (max-width: 900px) {
-  .company-info-form-row {
-    grid-template-columns: 86px minmax(0, 1fr);
+  .company-info-panel {
+    padding: 0 14px 28px;
   }
 
-  .company-info-form input,
-  .company-info-form textarea,
-  .company-info-form-row--wide input {
-    width: min(100%, 500px);
+  .company-info-header {
+    flex-direction: column;
   }
 
-  .company-info-form-row--select::after,
-  .company-info-form-row--wide.company-info-form-row--select::after {
-    display: none;
+  .company-info-form-row,
+  .company-info-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .company-info-form-row > span {
+    padding-top: 0;
   }
 }

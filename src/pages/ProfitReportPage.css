@@ -8,7 +8,6 @@
 }
 
 .profit-report-page {
-  position: relative;
   min-height: 845px;
   padding: 0 8px 68px;
   overflow: auto;
@@ -19,14 +18,12 @@
 }
 
 .profit-report-query {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
     'stores actions'
     'filters actions';
   gap: 8px 12px;
-  min-height: 88px;
   padding: 10px 12px 8px 0;
   background: #fff;
 }
@@ -35,17 +32,17 @@
   grid-area: stores;
   display: inline-flex;
   align-items: center;
-  height: 28px;
+  min-height: 28px;
 }
 
 .profit-report-store-row button {
   height: 28px;
   max-width: 230px;
+  padding: 0 12px;
+  overflow: hidden;
   border: 1px solid #d9d9d9;
   background: #fff;
   color: rgb(0 0 0 / 85%);
-  padding: 0 12px;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -63,7 +60,7 @@
 }
 
 .profit-report-store-row .is-active {
-  position: relative;
+  background: #eef2ff;
 }
 
 .profit-report-filter-row {
@@ -93,9 +90,9 @@
 .profit-date-range input {
   width: 132px;
   height: 28px;
+  padding: 0 10px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  padding: 0 10px;
   color: rgb(0 0 0 / 85%);
   font-size: 13px;
 }
@@ -123,23 +120,24 @@
   position: relative;
   width: 180px;
   height: 28px;
+  padding: 0 30px 0 11px;
+  overflow: hidden;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   background: #fff;
   color: rgb(0 0 0 / 45%);
-  padding: 0 30px 0 11px;
-  overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .profit-select-wrap > button::after {
-  content: '⌄';
+  content: '▼';
   position: absolute;
   top: 3px;
   right: 9px;
   color: rgb(0 0 0 / 35%);
+  font-size: 10px;
 }
 
 .profit-options {
@@ -158,18 +156,23 @@
   box-shadow: 0 8px 24px rgb(31 42 68 / 14%);
 }
 
-.profit-options button {
+.profit-options button,
+.profit-options__empty {
   min-height: 32px;
+  padding: 6px 10px;
   border: 0;
   border-radius: 4px;
   background: transparent;
   color: #31415d;
-  padding: 6px 10px;
   text-align: left;
 }
 
+.profit-options__empty {
+  color: rgb(0 0 0 / 45%);
+}
+
 .profit-options button:hover,
-.profit-options [aria-selected='true'] {
+.profit-options button[aria-selected='true'] {
   background: #eef2ff;
   color: #4d65f6;
 }
@@ -189,10 +192,10 @@
 }
 
 .profit-report-actions button {
-  height: 28px;
   min-width: 64px;
-  border-radius: 4px;
+  height: 28px;
   padding: 0 15px;
+  border-radius: 4px;
   font-size: 14px;
   line-height: 22px;
 }
@@ -211,19 +214,46 @@
 
 .profit-report-actions .is-link {
   min-width: 52px;
+  padding: 0 2px;
   border: 0;
   background: transparent;
   color: #4d65f6;
-  padding: 0 2px;
 }
 
 .profit-report-actions .is-link::after {
-  content: '⌃';
+  content: '▾';
   margin-left: 6px;
 }
 
 .profit-report-query:not(:has(.profit-report-filter-row)) .is-link::after {
-  content: '⌄';
+  content: '▴';
+}
+
+.profit-report-actions button:disabled,
+.profit-report-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.profit-report-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border: 1px solid #ffd8d8;
+  border-radius: 6px;
+  background: #fff5f5;
+  color: #b42318;
+}
+
+.profit-report-alert button {
+  padding: 0 12px;
+  border: 1px solid #f2a5a5;
+  border-radius: 4px;
+  background: #fff;
+  color: #b42318;
 }
 
 .profit-report-notice {
@@ -231,6 +261,7 @@
   top: 68px;
   right: 356px;
   z-index: 36;
+  max-width: 420px;
   padding: 8px 14px;
   border: 1px solid #dce5ff;
   border-radius: 6px;
@@ -243,6 +274,14 @@
   width: calc(100% - 334px);
   overflow: auto;
   border-top: 1px solid #edf0f5;
+}
+
+.profit-report-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 112px;
+  color: rgb(0 0 0 / 45%);
 }
 
 .profit-report-table {
@@ -290,18 +329,8 @@
   z-index: 3;
 }
 
-.profit-report-table tbody tr:nth-child(odd) {
-  background: #fff;
-}
-
 .profit-report-table tbody tr:nth-child(even) {
   background: #fdfefe;
-}
-
-.profit-report-table tbody tr.is-summary {
-  background: #fff;
-  color: rgb(0 0 0 / 85%);
-  font-weight: 400;
 }
 
 .profit-report-table tbody tr.is-summary td:first-child {
@@ -322,16 +351,11 @@
 .profit-report-pagination button {
   min-width: 28px;
   height: 26px;
+  padding: 0 8px;
   border: 1px solid transparent;
   border-radius: 4px;
   background: #fff;
   color: rgb(0 0 0 / 45%);
-  padding: 0 8px;
-}
-
-.profit-report-pagination button:disabled {
-  color: rgb(0 0 0 / 25%);
-  cursor: not-allowed;
 }
 
 .profit-report-pagination .is-current {
@@ -435,6 +459,11 @@
 
   .profit-report-actions {
     padding-top: 0;
+  }
+
+  .profit-report-notice {
+    position: static;
+    margin: 0 0 12px;
   }
 
   .profit-report-table-wrap,

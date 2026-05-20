@@ -33,6 +33,16 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
+function resolveVisitUrl() {
+  if (mode === 'target') return TARGET_URL
+
+  const url = new URL(LOCAL_URL)
+  if (state === 'empty' || state === 'error') {
+    url.searchParams.set('mockState', state)
+  }
+  return url.toString()
+}
+
 async function locatorVisible(locator) {
   return (await locator.count().catch(() => 0)) > 0 && (await locator.first().isVisible().catch(() => false))
 }
@@ -63,6 +73,12 @@ async function clickFirstVisible(page, labels) {
 async function waitForBusinessSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 45_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
+  await page
+    .waitForSelector(
+      '[data-testid="comprehensive-monthly-service-state"], [data-testid="comprehensive-monthly-report-table"], [data-testid="comprehensive-monthly-detail"]',
+      { timeout: 30_000 },
+    )
+    .catch(() => {})
   await page
     .waitForFunction(
       () => {
@@ -354,7 +370,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(resolveVisitUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })

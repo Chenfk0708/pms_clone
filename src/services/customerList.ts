@@ -142,7 +142,9 @@ type RawCustomer = {
   channelId: string
   channelName: string
   memberCardId: string | null
+  memberStatus: CustomerStatus
   remark: string | null
+  age: number | null
   memberTagViews: Array<{ tagName?: string }>
 }
 
@@ -205,18 +207,114 @@ export const customerAgeOptions: CustomerOption[] = [
 ]
 
 const rawCustomers: RawCustomer[] = [
-  rawCustomer('1810493396951339010', '任清明', '13141204230', '携程', 63720, 1, '2024-07-09 09:57:17'),
-  rawCustomer('1862465040109776897', 'izu262346024', '0110', '美团民宿', null, null, '2024-11-29 19:54:03'),
-  rawCustomer('1796067694142693378', '路客云6TS5', '18123941382', '自来客', null, null, '2024-05-30 14:34:42', null),
-  rawCustomer('1801949715195166722', 'GHq721352403', '8788', '美团民宿', 1980, 3, '2024-06-15 20:07:45', normalMemberCardId, 5940),
-  rawCustomer('1801949723525050371', 'gUM25201527', '6595', '美团民宿', 108702, 1, '2024-06-15 20:07:47'),
-  rawCustomer('1801949727954239490', 'pTu748894801', '2729', '美团民宿', 1980, 1, '2024-06-15 20:07:48'),
-  rawCustomer('1801949777824514050', 'shB710890387', '2772', '美团民宿', 3762, 1, '2024-06-15 20:08:00'),
-  rawCustomer('1801949732022714369', 'pCG136191587', '1479', '美团民宿', 1683, 2, '2024-06-15 20:07:49', normalMemberCardId, 3663),
-  rawCustomer('1801949753279447041', '是七啊838', '1974', '美团民宿', 1683, 1, '2024-06-15 20:07:54'),
-  rawCustomer('1801949735889862657', 'bQm125435443', '7025', '美团民宿', 72720, 1, '2024-06-15 20:07:50'),
-  rawCustomer('1801949739694108674', 'lily937', '8231', '小猪', 32800, 2, '2024-06-18 12:10:22'),
-  rawCustomer('1801949743028576258', 'M614718025', '4518', '途家', 45800, 2, '2024-06-20 09:45:18'),
+  rawCustomer('1810493396951339010', '任清明', '13141204230', '携程', 63720, 1, '2024-07-09 09:57:17', {
+    memberIdentity: 'WECHAT',
+    isJoinWxCp: 1,
+    isJoinWx: 1,
+    isJoinGroup: 0,
+    gender: 1,
+    age: 31,
+    lastFollowTime: '2024-07-09 13:20:00',
+    remark: '高价值会员',
+    tagNames: ['高净值', '近期消费'],
+  }),
+  rawCustomer('1862465040109776897', 'izu262346024', '0110', '美团民宿', null, null, '2024-11-29 19:54:03', {
+    memberIdentity: 'CHANNEL',
+    memberStatus: 'FROZEN',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 2,
+    age: 24,
+  }),
+  rawCustomer('1796067694142693378', '路客云6TS5', '18100001382', '自来客', null, null, '2024-05-30 14:34:42', {
+    memberCardId: null,
+    memberIdentity: 'MEMBER',
+    memberStatus: 'NORMAL',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 1,
+    age: 42,
+  }),
+  rawCustomer('1801949715195166722', 'GHq721352403', '8788', '美团民宿', 1980, 3, '2024-06-15 20:07:45', {
+    totalConsumePrice: 5940,
+    memberIdentity: 'MEMBER',
+    isJoinWxCp: 1,
+    isJoinWx: 1,
+    isJoinGroup: 1,
+    gender: 2,
+    age: 29,
+    lastFollowTime: '2024-06-16 08:10:00',
+  }),
+  rawCustomer('1801949723525050371', 'gUM25201527', '6595', '美团民宿', 108702, 1, '2024-06-15 20:07:47', {
+    memberIdentity: 'CHANNEL',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 1,
+    age: 37,
+  }),
+  rawCustomer('1801949727954239490', 'pTu748894801', '2729', '美团民宿', 1980, 1, '2024-06-15 20:07:48', {
+    memberIdentity: 'MEMBER',
+    isJoinWxCp: 1,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 1,
+    age: 22,
+  }),
+  rawCustomer('1801949777824514050', 'shB710890387', '2772', '美团民宿', 3762, 1, '2024-06-15 20:08:00', {
+    memberIdentity: 'WECHAT',
+    memberStatus: 'BLACKLIST',
+    isJoinWxCp: 1,
+    isJoinWx: 1,
+    isJoinGroup: 1,
+    gender: 2,
+    age: 46,
+  }),
+  rawCustomer('1801949732022714369', 'pCG136191587', '1479', '美团民宿', 1683, 2, '2024-06-15 20:07:49', {
+    totalConsumePrice: 3663,
+    memberIdentity: 'MEMBER',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 2,
+    age: 34,
+  }),
+  rawCustomer('1801949753279447041', '是七啊838', '1974', '美团民宿', 1683, 1, '2024-06-15 20:07:54', {
+    memberIdentity: 'CHANNEL',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 2,
+    age: 27,
+  }),
+  rawCustomer('1801949735889862657', 'bQm125435443', '7025', '美团民宿', 72720, 1, '2024-06-15 20:07:50', {
+    memberIdentity: 'WECHAT',
+    isJoinWxCp: 1,
+    isJoinWx: 1,
+    isJoinGroup: 1,
+    gender: 1,
+    age: 33,
+    lastFollowTime: '2024-06-17 20:30:00',
+  }),
+  rawCustomer('1801949739694108674', 'lily937', '8231', '小猪', 32800, 2, '2024-06-18 12:10:22', {
+    memberIdentity: 'MEMBER',
+    isJoinWxCp: 0,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 2,
+    age: 25,
+  }),
+  rawCustomer('1801949743028576258', 'M614718025', '4518', '途家', 45800, 2, '2024-06-20 09:45:18', {
+    memberIdentity: 'CHANNEL',
+    isJoinWxCp: 1,
+    isJoinWx: 0,
+    isJoinGroup: 0,
+    gender: 1,
+    age: 39,
+    lastFollowTime: '2024-06-21 09:00:00',
+  }),
 ]
 
 export function createDefaultCustomerListQuery(): CustomerListQuery {
@@ -323,6 +421,7 @@ export async function saveCustomer(input: CustomerSaveInput, signal?: AbortSigna
 
 async function fetchMockCustomerList(query: CustomerListQuery, signal?: AbortSignal): Promise<CustomerListDashboard> {
   await delay(120, signal)
+  validateCustomerListQuery(query)
   if (query.scenario === 'error') {
     throw new Error('客户列表加载失败：/member/page/get 返回业务失败')
   }
@@ -433,9 +532,20 @@ function adaptCustomer(raw: RawCustomer): CustomerRecord {
 function filterCustomers(query: CustomerListQuery) {
   const keyword = query.keyword.trim().toLowerCase()
   return rawCustomers.filter((customer) => {
-    if (query.status === 'FROZEN' || query.status === 'BLACKLIST') return false
-    if (query.identity === 'WECHAT' && customer.isJoinWxCp !== 1) return false
+    if (query.status && customer.memberStatus !== query.status) return false
+    if (query.identity && customer.memberIdentity !== query.identity) return false
     if (query.memberCardId && customer.memberCardId !== query.memberCardId) return false
+    if (query.wechatState === 'JOINED' && customer.isJoinWxCp !== 1) return false
+    if (query.wechatState === 'NOT_JOINED' && customer.isJoinWxCp !== 0) return false
+    if (query.gender && genderToEnum(customer.gender) !== query.gender) return false
+    if (query.ageRange && !matchesAgeRange(customer.age, query.ageRange)) return false
+    if (!matchesDateRange(customer.firstMemberTime, query.firstMemberStartTime, query.firstMemberEndTime)) return false
+    if (!matchesDateRange(customer.firstMemberCardTime, query.firstMemberCardStartTime, query.firstMemberCardEndTime)) return false
+    if (!matchesDateRange(customer.lastFollowTime, query.lastFollowStartTime, query.lastFollowEndTime)) return false
+    if (!matchesDateRange(customer.lastConsumeTime, query.lastConsumeStartTime, query.lastConsumeEndTime)) return false
+    if (!matchesAmountRange(customer.lastConsumePrice, query.lastConsumeMin, query.lastConsumeMax)) return false
+    if (!matchesAmountRange(customer.totalConsumePrice, query.totalConsumeMin, query.totalConsumeMax)) return false
+    if (!matchesAmountRange(customer.avgConsumePrice, query.avgConsumeMin, query.avgConsumeMax)) return false
     if (keyword) {
       const source =
         query.memberSearchType === 'name'
@@ -457,9 +567,25 @@ function rawCustomer(
   lastConsumePrice: number | null,
   totalConsumeCount: number | null,
   time: string,
-  memberCardId: string | null = normalMemberCardId,
-  totalConsumePrice = lastConsumePrice,
+  options: {
+    memberCardId?: string | null
+    totalConsumePrice?: number | null
+    memberStatus?: CustomerStatus
+    memberIdentity?: CustomerIdentity | null
+    isJoinWxCp?: number | null
+    isJoinWx?: number | null
+    isJoinGroup?: number | null
+    gender?: number | null
+    age?: number | null
+    lastFollowTime?: string | null
+    lastConsumeTime?: string | null
+    firstMemberCardTime?: string | null
+    remark?: string | null
+    tagNames?: string[]
+  } = {},
 ): RawCustomer {
+  const memberCardId = options.memberCardId ?? normalMemberCardId
+  const totalConsumePrice = options.totalConsumePrice ?? lastConsumePrice
   return {
     memberId,
     campId: defaultCampId,
@@ -468,16 +594,16 @@ function rawCustomer(
     nickName: name,
     mobile,
     name,
-    gender: null,
+    gender: options.gender ?? null,
     firstMemberTime: time,
-    isJoinWxCp: null,
-    memberIdentity: null,
-    lastFollowTime: null,
-    isJoinWx: null,
-    isJoinGroup: null,
+    isJoinWxCp: options.isJoinWxCp ?? null,
+    memberIdentity: options.memberIdentity ?? 'MEMBER',
+    lastFollowTime: options.lastFollowTime ?? null,
+    isJoinWx: options.isJoinWx ?? null,
+    isJoinGroup: options.isJoinGroup ?? null,
     memberCardName: memberCardId ? '普通会员' : null,
-    firstMemberCardTime: memberCardId ? time : null,
-    lastConsumeTime: lastConsumePrice == null ? null : time,
+    firstMemberCardTime: memberCardId ? (options.firstMemberCardTime ?? time) : null,
+    lastConsumeTime: lastConsumePrice == null ? null : (options.lastConsumeTime ?? time),
     lastConsumePrice,
     totalConsumePrice,
     totalConsumeCount,
@@ -485,8 +611,10 @@ function rawCustomer(
     channelId: channelName === '携程' ? '5' : channelName === '小猪' ? '7' : channelName === '途家' ? '9' : '0',
     channelName,
     memberCardId,
-    remark: null,
-    memberTagViews: [],
+    memberStatus: options.memberStatus ?? 'NORMAL',
+    remark: options.remark ?? null,
+    age: options.age ?? null,
+    memberTagViews: (options.tagNames ?? []).map((tagName) => ({ tagName })),
   }
 }
 
@@ -523,6 +651,71 @@ function yesNo(value: number | null) {
   if (value === 1) return '是'
   if (value === 0) return '否'
   return '-'
+}
+
+function validateCustomerListQuery(query: CustomerListQuery) {
+  const amountFields: Array<[string, string]> = [
+    ['最近消费金额下限', query.lastConsumeMin],
+    ['最近消费金额上限', query.lastConsumeMax],
+    ['累计消费金额下限', query.totalConsumeMin],
+    ['累计消费金额上限', query.totalConsumeMax],
+    ['客单价下限', query.avgConsumeMin],
+    ['客单价上限', query.avgConsumeMax],
+  ]
+
+  for (const [label, value] of amountFields) {
+    if (!value) continue
+    if (Number.isNaN(Number(value))) {
+      throw new Error(`客户列表查询参数不合法：${label}必须为数字`)
+    }
+  }
+}
+
+function matchesAmountRange(value: number | null, min: string, max: string) {
+  if (!min && !max) return true
+  if (value === null || value === undefined) return false
+  const amount = value / 100
+  if (min && amount < Number(min)) return false
+  if (max && amount > Number(max)) return false
+  return true
+}
+
+function matchesDateRange(value: number | string | null, start: string, end: string) {
+  if (!start && !end) return true
+  if (value === null || value === undefined || value === '') return false
+  const target = normalizeDateValue(value)
+  if (!target) return false
+  const startDate = start ? normalizeDateValue(start) : null
+  const endDate = end ? normalizeDateValue(end) : null
+  if (startDate && target < startDate) return false
+  if (endDate && target > endDate) return false
+  return true
+}
+
+function normalizeDateValue(value: number | string) {
+  if (typeof value === 'number') {
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? null : date
+  }
+  const normalized = value.includes('T') ? value : value.replace(' ', 'T')
+  const date = new Date(normalized)
+  return Number.isNaN(date.getTime()) ? null : date
+}
+
+function matchesAgeRange(age: number | null, ageRange: string) {
+  if (!ageRange) return true
+  if (age === null || age === undefined) return false
+  if (ageRange === '18-25') return age >= 18 && age <= 25
+  if (ageRange === '26-35') return age >= 26 && age <= 35
+  if (ageRange === '36-45') return age >= 36 && age <= 45
+  if (ageRange === '46+') return age >= 46
+  return true
+}
+
+function genderToEnum(value: number | null): CustomerGender {
+  if (value === 1) return 'MALE'
+  if (value === 2) return 'FEMALE'
+  return 'UNKNOWN'
 }
 
 function resolveProvider(): 'mock' | 'api' {

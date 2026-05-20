@@ -311,6 +311,15 @@ async function main() {
       locale: 'zh-CN',
       timezoneId: 'Asia/Shanghai',
     })
+    if (mode === 'clone') {
+      await context.addInitScript((captureState) => {
+        if (captureState === 'empty' || captureState === 'error') {
+          window.localStorage.setItem('pms.fullMarketingMockMode', captureState)
+          return
+        }
+        window.localStorage.removeItem('pms.fullMarketingMockMode')
+      }, state)
+    }
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()

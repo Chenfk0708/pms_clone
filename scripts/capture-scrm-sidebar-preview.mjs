@@ -10,6 +10,7 @@ const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
+const stateArg = process.argv.find((item) => item.startsWith('--state='))?.split('=')[1] ?? 'success'
 const stamp =
   process.env.PMS_CAPTURE_STAMP ?? new Date().toISOString().replace(/\D/g, '').slice(0, 14)
 
@@ -40,6 +41,11 @@ async function waitForSurface(page) {
       () => {
         const text = document.body?.innerText || ''
         return (
+          text.includes('聊天工具栏') ||
+          text.includes('会话处理台') ||
+          text.includes('会话日期') ||
+          text.includes('当前筛选条件下暂无会话') ||
+          text.includes('聊天工具栏数据加载失败') ||
           text.includes('企微SCRM-聊天工具栏') ||
           text.includes('聊天工具栏可实时查看客户资料') ||
           text.includes('立即开通') ||
@@ -139,6 +145,10 @@ async function extractFacts(page) {
         bodyText.includes('请按住滑块') ||
         bodyText.includes('登录其他登录方式'),
       hasBusinessText:
+        bodyText.includes('聊天工具栏') ||
+        bodyText.includes('会话处理台') ||
+        bodyText.includes('当前筛选条件下暂无会话') ||
+        bodyText.includes('聊天工具栏数据加载失败') ||
         bodyText.includes('企微SCRM-聊天工具栏') ||
         bodyText.includes('聊天工具栏可实时查看客户资料') ||
         bodyText.includes('限时免费'),
@@ -169,6 +179,54 @@ async function clickIfVisible(page, label, stateName, states) {
   }
 }
 
+function cloneUrlForState(state) {
+  const url = new URL(cloneUrl)
+  if (state === 'empty') url.searchParams.set('mockState', 'empty')
+  if (state === 'error') url.searchParams.set('mockState', 'error')
+  return url.toString()
+}
+
+async function openDetailIfRequested(page, states) {
+  if (mode !== 'clone' || stateArg !== 'detail') return
+  const detailButton = page.getByRole('button', { name: /查看详情/ }).first()
+  if ((await detailButton.count().catch(() => 0)) === 0) {
+    states.detail = { error: '未找到会话详情入口' }
+    return
+  }
+  await detailButton.click({ timeout: 5000 })
+  await page.waitForTimeout(800)
+  states.detail = await extractFacts(page)
+}
+
+async function gotoWithRetry(page, url) {
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: 45_000,
+      })
+      return
+    } catch (error) {
+      if (attempt === 2) throw error
+      console.warn(`page.goto failed once, retrying: ${error.message}`)
+      await page.waitForTimeout(1200)
+    }
+  }
+}
+
+async function closeWithTimeout(action, label) {
+  try {
+    await Promise.race([
+      action(),
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(`${label} close timed out`)), 5000)
+      }),
+    ])
+  } catch (error) {
+    console.warn(`${label} close skipped: ${error.message}`)
+  }
+}
+
 async function main() {
   const browser = await chromium.launch({
     executablePath: chromeExecutablePath,
@@ -196,49 +254,52 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? targetUrl : cloneUrl, {
-      waitUntil: 'domcontentloaded',
-      timeout: 45_000,
-    })
+    await gotoWithRetry(page, mode === 'target' ? targetUrl : cloneUrlForState(stateArg))
     await waitForSurface(page)
 
     const states = {
-      default: await extractFacts(page),
+      [stateArg]: await extractFacts(page),
     }
+    await openDetailIfRequested(page, states)
 
-    await page.screenshot({ path: fileFor(artifactDirs.screenshots, 'default', 'png') })
-    await page.screenshot({ path: fileFor(artifactDirs.screenshots, 'full', 'png'), fullPage: true })
+    const screenshotState = stateArg === 'detail' ? 'detail' : stateArg
+    await page.screenshot({ path: fileFor(artifactDirs.screenshots, screenshotState, 'png') })
+    await page.screenshot({ path: fileFor(artifactDirs.screenshots, `${screenshotState}-full`, 'png'), fullPage: true })
 
     await clickIfVisible(page, '立即开通', 'open-subscribe', states)
 
-    await fs.writeFile(fileFor(artifactDirs.dom, 'default', 'html'), await page.content(), 'utf8')
+    await fs.writeFile(fileFor(artifactDirs.dom, screenshotState, 'html'), await page.content(), 'utf8')
     await fs.writeFile(
-      fileFor(artifactDirs.styles, 'facts', 'json'),
+      fileFor(artifactDirs.styles, `${screenshotState}-facts`, 'json'),
       JSON.stringify({ mode, stamp, states }, null, 2),
       'utf8',
     )
     await fs.writeFile(
-      fileFor(artifactDirs.network, 'responses', 'json'),
+      fileFor(artifactDirs.network, `${screenshotState}-responses`, 'json'),
       JSON.stringify({ mode, stamp, url: page.url(), responses: network }, null, 2),
       'utf8',
     )
 
     const summary = {
       mode,
+      requestedState: stateArg,
       stamp,
-      url: states.default.url,
+      url: states[screenshotState]?.url ?? page.url(),
       finalUrl: page.url(),
-      isLoginBlocked: states.default.isLoginBlocked,
-      hasBusinessText: states.default.hasBusinessText,
-      bodyLength: states.default.bodyLength,
-      headings: states.default.headings.map((item) => item.text).filter(Boolean).slice(0, 20),
-      controls: states.default.controls.map((item) => item.text).filter(Boolean).slice(0, 40),
-      screenshots: [fileFor(artifactDirs.screenshots, 'default', 'png'), fileFor(artifactDirs.screenshots, 'full', 'png')],
+      isLoginBlocked: states[screenshotState]?.isLoginBlocked ?? false,
+      hasBusinessText: states[screenshotState]?.hasBusinessText ?? false,
+      bodyLength: states[screenshotState]?.bodyLength ?? 0,
+      headings: (states[screenshotState]?.headings ?? []).map((item) => item.text).filter(Boolean).slice(0, 20),
+      controls: (states[screenshotState]?.controls ?? []).map((item) => item.text).filter(Boolean).slice(0, 40),
+      screenshots: [
+        fileFor(artifactDirs.screenshots, screenshotState, 'png'),
+        fileFor(artifactDirs.screenshots, `${screenshotState}-full`, 'png'),
+      ],
       interactionScreenshot: fileFor(artifactDirs.screenshots, 'open-subscribe', 'png'),
-      dom: fileFor(artifactDirs.dom, 'default', 'html'),
-      styles: fileFor(artifactDirs.styles, 'facts', 'json'),
-      network: fileFor(artifactDirs.network, 'responses', 'json'),
-      bodySample: normalizeText(states.default.bodyTextSample).slice(0, 1600),
+      dom: fileFor(artifactDirs.dom, screenshotState, 'html'),
+      styles: fileFor(artifactDirs.styles, `${screenshotState}-facts`, 'json'),
+      network: fileFor(artifactDirs.network, `${screenshotState}-responses`, 'json'),
+      bodySample: normalizeText(states[screenshotState]?.bodyTextSample ?? '').slice(0, 1600),
       interactionSummary: states['open-subscribe']
         ? {
             url: states['open-subscribe'].url,
@@ -248,9 +309,9 @@ async function main() {
     }
     console.log(JSON.stringify(summary, null, 2))
 
-    await context.close()
+    await closeWithTimeout(() => context.close(), 'context')
   } finally {
-    await browser.close()
+    await closeWithTimeout(() => browser.close(), 'browser')
   }
 }
 

@@ -81,6 +81,21 @@ async function applyState(page) {
     }
   }
 
+  if (state === 'edit' && !interactions.some((item) => item.clicked)) {
+    const editLocator = page
+      .locator('button.scrm-member-link-button, button:has-text("编辑"), [role="button"]:has-text("编辑")')
+      .first()
+    if ((await editLocator.count().catch(() => 0)) > 0) {
+      try {
+        await editLocator.click({ timeout: 3000 })
+        await page.waitForTimeout(1000)
+        interactions.push({ action: 'click:edit-fallback', clicked: true, url: page.url() })
+      } catch (error) {
+        interactions.push({ action: 'click:edit-fallback', clicked: false, error: error.message.split('\n')[0] })
+      }
+    }
+  }
+
   if (state === 'first-dropdown') {
     const selector = page.locator('.ant-select-selector, button[aria-haspopup="listbox"], [role="combobox"]').first()
     if ((await selector.count().catch(() => 0)) > 0) {

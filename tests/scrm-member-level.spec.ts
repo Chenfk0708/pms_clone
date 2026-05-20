@@ -58,7 +58,7 @@ test('/scrm/memberCenter/level supports create edit and upgrade settings feedbac
   await expect(page.getByRole('status', { name: '会员等级操作反馈' })).toContainText('会员等级已保存')
 
   await page.getByRole('button', { name: '编辑 普通会员' }).click()
-  await expect(page.getByRole('dialog', { name: '编辑会员等级' })).toContainText('普通会员')
+  await expect(page.getByRole('dialog', { name: '编辑会员等级' }).getByLabel('等级名称')).toHaveValue('普通会员')
   await page.getByRole('button', { name: '提交会员等级' }).click()
   await expect(page.getByRole('status', { name: '会员等级操作反馈' })).toContainText('会员等级已保存')
 

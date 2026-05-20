@@ -1,5 +1,5 @@
 .page-content:has(.customer-marketing-page) {
-  padding: 8px 8px 0;
+  padding: 8px 344px 0 8px;
   background: #f2f4f7;
 }
 
@@ -498,6 +498,10 @@
 }
 
 @media (max-width: 1100px) {
+  .page-content:has(.customer-marketing-page) {
+    padding-right: 8px;
+  }
+
   .customer-marketing-filters,
   .customer-marketing-grid,
   .customer-marketing-metrics {

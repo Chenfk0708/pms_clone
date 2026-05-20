@@ -6,48 +6,64 @@ function appUrl(path: string) {
   return baseURL ? `${baseURL}${path}` : path
 }
 
-test('/statistics/presale matches captured presale sales dashboard', async ({ page }) => {
+test('/statistics/presale loads report data through the presale sales service', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/presale'))
+  await page.goto(appUrl('/statistics/presale?mockDelayMs=1200'), { waitUntil: 'domcontentloaded' })
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(
-    /is-active/,
-  )
   await expect(page.getByRole('link', { name: '预售券销售统计' })).toHaveClass(/is-active/)
-  await expect(page.getByRole('link', { name: '预售券核销明细' })).toBeVisible()
 
-  const pageRoot = page.getByLabel('预售券销售统计')
-  await expect(pageRoot.getByRole('heading', { name: '经营指标' })).toBeVisible()
-  await expect(pageRoot.getByRole('button', { name: '查看明细数据>' })).toBeVisible()
+  const root = page.getByLabel('预售券销售统计')
+  await expect(root.getByRole('heading', { name: '经营指标' })).toBeVisible()
+  await expect(root.getByLabel('预售券经营指标').getByText('预售券总交易额')).toBeVisible()
+  await expect(root.getByText('增长趋势分析')).toBeVisible()
+  await expect(root.getByText('小程序订单来源分析')).toBeVisible()
+  await expect(page.getByRole('button', { name: '查看明细数据>' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: '订单数' })).toBeEnabled()
 
-  const metrics = page.getByLabel('预售券经营指标')
-  await expect(metrics).toContainText('预售券总交易额：')
-  await expect(metrics).toContainText('房券交易额：')
-  await expect(metrics).toContainText('门票券交易额：')
-  await expect(metrics).toContainText('餐饮券交易额：')
-  await expect(metrics).toContainText('套餐交易额：')
-  await expect(metrics).toContainText('总订单数：')
-  await expect(metrics).toContainText('核销金额：')
-  await expect(metrics).toContainText('退款金额：')
-
-  const trend = page.getByLabel('增长趋势分析')
-  await expect(trend.getByRole('button', { name: '交易额' })).toHaveClass(/is-active/)
-  await expect(trend.getByRole('button', { name: '订单数' })).toBeVisible()
-  await expect(trend).toContainText('预售券总交易额')
-  await expect(trend).toContainText('房券交易额')
-  await expect(trend).toContainText('门票券交易额')
-  await expect(trend).toContainText('餐饮业券交易额')
-  await expect(trend).toContainText('套餐券交易额')
-  await expect(trend).toContainText('暂无数据')
-
-  await expect(page.getByLabel('小程序订单来源分析')).toContainText('暂无数据')
+  const contract = page.getByTestId('presale-sales-service-contract')
+  await expect(contract).toContainText('"provider":"mock"')
+  await expect(contract).toContainText('/order/report/get')
+  await expect(contract).toContainText('/report/store/management/get')
+  await expect(contract).toContainText('"campId":"1796067693589061634"')
 })
 
-test('/statistics/presale exposes captured detail-data navigation', async ({ page }) => {
+test('/statistics/presale switches chart dimension and keeps detail navigation working', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/statistics/presale'))
+
+  const orderTab = page.getByRole('button', { name: '订单数' })
+  await orderTab.click()
+  await expect(orderTab).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByLabel('增长趋势分析')).toContainText('订单量趋势')
+
+  const amountTab = page.getByRole('button', { name: '交易额' })
+  await amountTab.click()
+  await expect(amountTab).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByLabel('增长趋势分析')).toContainText('交易额趋势')
 
   await page.getByRole('button', { name: '查看明细数据>' }).click()
   await expect(page).toHaveURL(/\/statistics\/preSaleCouponMall$/)
+})
+
+test('/statistics/presale exposes empty and error states without silent fallback', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  await page.goto(appUrl('/statistics/presale?mockState=empty'))
+  await expect(page.locator('.presale-sales-inline-empty')).toContainText('当前周期暂无预售券成交数据')
+  await expect(page.getByLabel('增长趋势分析').getByText('当前周期暂无预售券成交数据')).toBeVisible()
+  await expect(page.getByLabel('小程序订单来源分析').getByText('当前周期暂无预售券成交数据')).toBeVisible()
+  await expect(page.getByTestId('presale-sales-service-contract')).toContainText('"state":"empty"')
+
+  await page.goto(appUrl('/statistics/presale?mockState=error'))
+  await expect(page.getByRole('alert')).toContainText('预售券销售统计加载失败')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '查看明细数据>' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '订单数' })).toBeDisabled()
+
+  await page.evaluate(() => {
+    window.history.replaceState({}, '', '/statistics/presale?mockState=success')
+  })
+  await page.getByRole('button', { name: '重新加载' }).click()
+  await expect(page.getByLabel('预售券经营指标').getByText('预售券总交易额')).toBeVisible()
 })

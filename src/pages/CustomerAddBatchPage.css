@@ -7,6 +7,10 @@
   display: none;
 }
 
+.app-shell:has(.customer-add-batch-page) .chat-dock {
+  display: none;
+}
+
 .customer-add-batch-page {
   min-height: calc(100vh - 68px);
   color: rgba(0, 0, 0, 0.85);

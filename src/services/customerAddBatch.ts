@@ -248,15 +248,20 @@ async function fetchApiDashboard(
   signal?: AbortSignal,
 ): Promise<ApiEnvelope<CustomerAddBatchBackendData>> {
   await delay(1, signal)
-  throw new Error(`批量加好友数据加载失败，请重试：待接入 ${CUSTOMER_ADD_BATCH_TARGET_RESOURCE_ENDPOINT}，请求 ${JSON.stringify(buildRequest(query))}`)
+  writeDiagnostics({
+    endpoint: CUSTOMER_ADD_BATCH_TARGET_RESOURCE_ENDPOINT,
+    provider: 'api',
+    state: query.mockState ?? readCustomerAddBatchMockState(),
+    traceId: `api-${TASK_ID}-dashboard-pending`,
+    request: buildRequest(query),
+  })
+  throw new Error('批量加好友数据加载失败，请稍后重试')
 }
 
 function createBackendData(
   query: CustomerAddBatchQuery,
   candidates: CustomerAddBatchCandidate[],
 ): CustomerAddBatchBackendData {
-  const sentCount = candidates.filter((item) => item.smsStatus !== '未发送').length
-  const addedCount = candidates.filter((item) => item.friendStatus === '已添加').length
   const total = candidates.length || (query.mockState === 'empty' ? 0 : mockCandidates.length)
 
   return {

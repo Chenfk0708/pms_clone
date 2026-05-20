@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
-const forbiddenDevelopmentCopy = /mock 数据|mock provider|provider=mock|未接入|阻塞|后端未就绪|后端接口未完成/
+const forbiddenDevelopmentCopy = /mock 数据|mock provider|provider=mock|未接入|待接入|阻塞|后端未就绪|后端接口未完成/
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
@@ -46,7 +46,7 @@ test('/customer/addBatch gives feedback for visible actions and route entries', 
   await page.getByRole('button', { name: '导 出' }).click()
   await expect(page.getByRole('status', { name: '批量加好友操作反馈' })).toContainText('已生成批量加好友导出任务')
 
-  await page.getByLabel('批量加好友核心指标').getByRole('button', { name: /预计可加好友/ }).click()
+  await page.getByLabel('批量加好友核心指标').getByRole('button', { name: /^预计可加好友/ }).click()
   await expect(page.getByRole('dialog', { name: '指标详情' })).toContainText('客户手机号已脱敏')
   await page.getByRole('button', { name: '关闭指标详情' }).click()
 
@@ -68,12 +68,35 @@ test('/customer/addBatch gives feedback for visible actions and route entries', 
   await expect(page).toHaveURL(/\/customer\/list$/)
 })
 
+test('/customer/addBatch resets filters and keeps quick-entry routes coordinated', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/customer/addBatch'))
+
+  await page.getByLabel('开始日期').fill('2026-05-01')
+  await page.getByLabel('结束日期').fill('2026-05-18')
+  await page.getByRole('button', { name: '渠道 全部渠道' }).click()
+  await page.getByRole('option', { name: '美团民宿' }).click()
+  await page.getByRole('button', { name: '重 置' }).click()
+
+  await expect(page.getByRole('status', { name: '批量加好友操作反馈' })).toContainText('筛选条件已重置')
+  await expect(page.locator('.customer-add-batch-page')).toHaveAttribute('data-request-channel', '')
+  await expect(page.locator('.customer-add-batch-page')).toHaveAttribute('data-request-date-start', '')
+  await expect(page.locator('.customer-add-batch-page')).toHaveAttribute('data-request-date-end', '')
+
+  await page.getByRole('button', { name: '企微员工列表' }).click()
+  await expect(page).toHaveURL(/\/customer\/staffList$/)
+
+  await page.goto(appUrl('/customer/addBatch'))
+  await page.getByRole('button', { name: '客户标签' }).click()
+  await expect(page).toHaveURL(/\/customer\/tag$/)
+})
+
 test('/customer/addBatch renders empty and failure response states', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
   await page.goto(appUrl('/customer/addBatch?customerAddBatchMockState=empty'))
-  await expect(page.getByText('暂无可触达客户')).toBeVisible()
-  await expect(page.getByText('当前筛选条件下没有待加好友客户，请调整条件后重新查询。')).toBeVisible()
+  await expect(page.getByLabel('候选客户列表').getByText('暂无可触达客户')).toBeVisible()
+  await expect(page.getByLabel('候选客户列表').getByText('当前筛选条件下没有待加好友客户，请调整条件后重新查询。')).toBeVisible()
   await expect(page.locator('body')).not.toContainText(forbiddenDevelopmentCopy)
 
   await page.goto(appUrl('/customer/addBatch?customerAddBatchMockState=error'))

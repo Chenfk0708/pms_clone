@@ -13,7 +13,7 @@
 .hotel-product-edit-page {
   display: grid;
   gap: 8px;
-  padding-right: 346px;
+  padding-right: 0;
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
 }
@@ -268,8 +268,7 @@
 .hotel-product-table__head,
 .hotel-product-table__row {
   display: grid;
-  grid-template-columns: 54px 230px 180px 150px 96px 110px 110px 180px 180px 110px;
-  min-width: 1400px;
+  grid-template-columns:  repeat(10, 1fr);
 }
 
 .hotel-product-table__head {
@@ -318,7 +317,6 @@
 }
 
 .hotel-product-empty {
-  min-width: 1400px;
   min-height: 156px;
   border-top: 1px solid #f0f0f0;
   background: #fff;

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { spawn } from 'node:child_process'
 import { chromium } from '@playwright/test'
 
 const TASK_ID = 'shezhi--xinxi-weihu--fangxing-xinxi'
@@ -27,6 +28,92 @@ for (const directory of Object.values(artifactRoots)) {
 
 function fileFor(root, suffix, extension) {
   return path.join(root, `${state}-${mode}-${stamp}-${suffix}.${extension}`)
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function waitForCdpEndpoint(port, chromeProcess) {
+  let chromeStderr = ''
+  chromeProcess.stderr?.on('data', (chunk) => {
+    chromeStderr += chunk.toString()
+  })
+
+  for (let attempt = 0; attempt < 60; attempt += 1) {
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/json/version`)
+      if (!response.ok) throw new Error(`CDP endpoint returned ${response.status}`)
+      const payload = await response.json()
+      if (payload.webSocketDebuggerUrl) return payload.webSocketDebuggerUrl
+    } catch {
+      await wait(500)
+    }
+  }
+
+  throw new Error(`Chrome CDP endpoint not ready on port ${port}. ${chromeStderr.trim()}`.trim())
+}
+
+async function launchChromeContext() {
+  const port = 9400 + Math.floor(Math.random() * 300)
+  const userDataDir = path.resolve('.tmp', `capture-${TASK_ID}-${mode}-${state}-${stamp}`)
+  await fs.mkdir(userDataDir, { recursive: true })
+
+  const chromeProcess = spawn(
+    CHROME_PATH,
+    [
+      `--remote-debugging-port=${port}`,
+      '--headless=new',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-default-browser-check',
+      '--lang=zh-CN',
+      `--user-data-dir=${userDataDir}`,
+      'about:blank',
+    ],
+    {
+      stdio: ['ignore', 'ignore', 'pipe'],
+    },
+  )
+
+  const wsEndpoint = await waitForCdpEndpoint(port, chromeProcess)
+  const browser = await chromium.connectOverCDP(wsEndpoint)
+  const context = browser.contexts()[0]
+
+  if (!context) {
+    throw new Error('Chrome CDP connected, but no browser context is available.')
+  }
+
+  return {
+    browser,
+    context,
+    chromeProcess,
+  }
+}
+
+async function applyStorageState(context) {
+  const storageState = JSON.parse(await fs.readFile(STORAGE_STATE, 'utf8'))
+  if (storageState.cookies?.length) {
+    await context.addCookies(storageState.cookies)
+  }
+
+  const page = await context.newPage()
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  for (const originState of storageState.origins ?? []) {
+    if (!originState.origin || !originState.localStorage?.length) continue
+    await page.goto(originState.origin, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30_000,
+    }).catch(() => {})
+    await page.evaluate((entries) => {
+      for (const entry of entries) {
+        localStorage.setItem(entry.name, entry.value)
+      }
+    }, originState.localStorage)
+  }
+
+  return page
 }
 
 async function locatorVisible(locator) {
@@ -333,20 +420,11 @@ async function main() {
   await fs.access(CHROME_PATH)
 
   const network = []
-  const browser = await chromium.launch({
-    executablePath: CHROME_PATH,
-    headless: true,
-  })
+  const { browser, context, chromeProcess } = await launchChromeContext()
 
   try {
-    const context = await browser.newContext({
-      ...(mode === 'target' ? { storageState: STORAGE_STATE } : {}),
-      viewport: { width: 1440, height: 900 },
-      deviceScaleFactor: 1,
-      locale: 'zh-CN',
-      timezoneId: 'Asia/Shanghai',
-    })
-    const page = await context.newPage()
+    const page = mode === 'target' ? await applyStorageState(context) : await context.newPage()
+    await page.setViewportSize({ width: 1440, height: 900 })
 
     page.on('response', (response) => {
       const request = response.request()
@@ -457,6 +535,7 @@ async function main() {
     await context.close()
   } finally {
     await browser.close()
+    chromeProcess.kill('SIGKILL')
   }
 }
 

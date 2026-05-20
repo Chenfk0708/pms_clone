@@ -34,6 +34,15 @@ function normalizeText(text) {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function getStartUrl() {
+  if (mode === 'target') return targetUrl
+  if (!['success', 'empty', 'error'].includes(state)) return cloneUrl
+
+  const url = new URL(cloneUrl)
+  url.searchParams.set('customerAddBatchMockState', state)
+  return url.toString()
+}
+
 async function waitForSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 45_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
@@ -254,7 +263,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? targetUrl : cloneUrl, {
+    await page.goto(getStartUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })

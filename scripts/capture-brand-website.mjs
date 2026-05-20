@@ -4,13 +4,14 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'ota--siyu--pinpai-guanwang'
 const TARGET_URL = 'https://minsubao.localhome.cn/mallManagement/weapp/decorate'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/mallManagement/weapp/decorate'
+const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4259/mallManagement/weapp/decorate'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const state = process.argv.includes('--interaction') ? 'interaction' : 'default'
+const mockMode = process.env.PMS_BRAND_WEBSITE_MOCK_MODE ?? 'success'
 const stamp =
   process.env.PMS_CAPTURE_STAMP ??
   new Date().toISOString().replace(/\D/g, '').slice(0, 14)
@@ -36,16 +37,16 @@ function stableText(text) {
 
 async function waitForSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
-  await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
+  await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => {})
   await page
     .waitForFunction(
       () => {
         const text = document.body?.innerText || ''
         return (
           text.includes('品牌官网') ||
+          text.includes('页面导航') ||
+          text.includes('模板市场') ||
           text.includes('页面装修') ||
-          text.includes('页面管理') ||
-          text.includes('装修') ||
           text.includes('账号登录') ||
           text.includes('请按住滑块')
         )
@@ -54,7 +55,7 @@ async function waitForSurface(page) {
       { timeout: 20_000 },
     )
     .catch(() => {})
-  await page.waitForTimeout(1800)
+  await page.waitForTimeout(1000)
 }
 
 async function extractPageFacts(page) {
@@ -120,7 +121,7 @@ async function extractPageFacts(page) {
         const style = window.getComputedStyle(element)
         return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' && style.display !== 'none'
       })
-      .slice(0, 320)
+      .slice(0, 360)
       .map(summarizeElement)
 
     const bodyText = document.body?.innerText || ''
@@ -131,8 +132,8 @@ async function extractPageFacts(page) {
         className: String(element.className || '').slice(0, 140),
       }))
       .filter((item) => item.text)
-      .slice(0, 220)
-    const inputs = [...document.querySelectorAll('input,textarea,[contenteditable="true"]')]
+      .slice(0, 240)
+    const inputs = [...document.querySelectorAll('input,select,textarea,[contenteditable="true"]')]
       .map((element) => ({
         tag: element.tagName.toLowerCase(),
         type: element.getAttribute('type'),
@@ -140,22 +141,7 @@ async function extractPageFacts(page) {
         ariaLabel: element.getAttribute('aria-label'),
         value: element.value || element.textContent || '',
       }))
-      .slice(0, 120)
-    const images = [...document.querySelectorAll('img,svg')]
-      .map((element) => summarizeElement(element))
-      .slice(0, 100)
-    const backgroundImages = [...document.querySelectorAll('*')]
-      .map((element) => {
-        const style = window.getComputedStyle(element)
-        return {
-          tag: element.tagName.toLowerCase(),
-          className: String(element.className || '').slice(0, 160),
-          text: (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 120),
-          backgroundImage: style.backgroundImage,
-        }
-      })
-      .filter((item) => item.backgroundImage && item.backgroundImage !== 'none')
-      .slice(0, 120)
+      .slice(0, 140)
     const pageBuilderElements = visibleElements.filter((item) =>
       /品牌|官网|装修|页面|组件|预览|保存|发布|店铺|小程序|商城|导航|轮播|商品|模块|模板/.test(item.text),
     )
@@ -173,11 +159,12 @@ async function extractPageFacts(page) {
         bodyText.includes('品牌官网') ||
         bodyText.includes('页面装修') ||
         bodyText.includes('页面管理') ||
-        bodyText.includes('装修'),
+        bodyText.includes('模板市场'),
+      forbiddenTermsFound: ['mock', 'provider', '未接入', '阻塞', '后端未就绪', '后端接口未完成', '接口契约', '未取证'].filter((term) =>
+        bodyText.includes(term),
+      ),
       buttons,
       inputs,
-      images,
-      backgroundImages,
       pageBuilderElements,
       visibleElements,
       viewport: {
@@ -193,11 +180,11 @@ async function runInteractionSweep(page) {
   const interactions = []
   const safeLabels = ['店铺主页', '个人中心', '领券活动', '通用导航', '悬浮框', '首页弹窗', '全局风格', '模板市场']
   for (const label of safeLabels) {
-    const locator = page.getByText(label, { exact: true }).first()
+    const locator = page.locator('button,a').filter({ hasText: label }).first()
     if ((await locator.count()) === 0) continue
     try {
-      await locator.click({ timeout: 2500 })
-      await page.waitForTimeout(1000)
+      await locator.click({ timeout: 3000 })
+      await page.waitForTimeout(500)
       interactions.push({ action: `click:${label}`, url: page.url(), ok: true })
       await page.screenshot({
         path: fileFor(artifactRoots.screenshots, `after-${label.replace(/[\\/:*?"<>|]+/g, '-')}`, 'png'),
@@ -232,6 +219,12 @@ async function main() {
       timezoneId: 'Asia/Shanghai',
     })
     const page = await context.newPage()
+    if (mode === 'clone') {
+      await page.addInitScript((configuredMode) => {
+        window.localStorage.setItem('pms.brandWebsiteProvider', 'mock')
+        window.localStorage.setItem('pms.brandWebsiteMockMode', configuredMode)
+      }, mockMode)
+    }
     page.on('response', async (response) => {
       const request = response.request()
       network.push({
@@ -252,17 +245,14 @@ async function main() {
     await page.screenshot({ path: fileFor(artifactRoots.screenshots, 'viewport', 'png') })
     await page.screenshot({ path: fileFor(artifactRoots.screenshots, 'full', 'png'), fullPage: true })
 
-    const html = await page.content()
-    fs.writeFileSync(fileFor(artifactRoots.dom, 'page', 'html'), html)
+    fs.writeFileSync(fileFor(artifactRoots.dom, 'page', 'html'), await page.content())
 
     const facts = await extractPageFacts(page)
-    fs.writeFileSync(
-      fileFor(artifactRoots.styles, 'facts', 'json'),
-      JSON.stringify({ mode, state, stamp, interactions, facts }, null, 2),
-    )
+    const payload = { mode, state, mockMode: mode === 'clone' ? mockMode : undefined, stamp, interactions, facts }
+    fs.writeFileSync(fileFor(artifactRoots.styles, 'facts', 'json'), JSON.stringify(payload, null, 2))
     fs.writeFileSync(
       fileFor(artifactRoots.network, 'responses', 'json'),
-      JSON.stringify({ mode, state, stamp, url: page.url(), responses: network }, null, 2),
+      JSON.stringify({ mode, state, mockMode: mode === 'clone' ? mockMode : undefined, stamp, url: page.url(), responses: network }, null, 2),
     )
 
     console.log(
@@ -270,11 +260,13 @@ async function main() {
         {
           mode,
           state,
+          mockMode: mode === 'clone' ? mockMode : undefined,
           stamp,
           url: page.url(),
           bodyLength: facts.bodyLength,
           isLoginBlocked: facts.isLoginBlocked,
           hasBusinessText: facts.hasBusinessText,
+          forbiddenTermsFound: facts.forbiddenTermsFound,
           buttons: facts.buttons.slice(0, 60),
           inputs: facts.inputs.slice(0, 20),
           screenshots: [

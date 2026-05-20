@@ -140,12 +140,13 @@
   overflow-x: auto;
   border-radius: 2px;
   background: #fff;
+  width: 100%;
 }
 
 .card-verify-table__head,
 .card-verify-table__row {
   display: grid;
-  grid-template-columns: 126px 84px 164px 132px 92px 112px 78px 98px 136px 126px 70px 110px;
+  grid-template-columns: repeat(12, 1fr);
   min-width: 1328px;
   border-left: 1px solid #f0f0f0;
 }

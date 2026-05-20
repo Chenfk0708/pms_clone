@@ -97,7 +97,7 @@ test('/scrm/marketing/customer uses explicit provider and renders business data'
   await expect(page.getByRole('link', { name: '客户营销' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('客户营销数据状态')).toContainText('数据已更新')
   await expect(page.getByText('沉睡客户唤醒')).toBeVisible()
-  await expect(page.getByText('企微私域')).toBeVisible()
+  await expect(page.getByText('企微私域 · 进行中 · SCRM运营')).toBeVisible()
   await expect(page.getByText('复购维护名单')).toBeVisible()
   await expect(page.getByTestId('customer-marketing-service-contract')).toHaveAttribute('data-provider', 'mock')
   await expect(page.locator('body')).not.toContainText(forbiddenPageCopy)
@@ -118,7 +118,9 @@ test('/scrm/marketing/customer filters, refreshes, and exposes empty/error state
 
   await page.evaluate(() => window.localStorage.setItem('pms.customerMarketingMockMode', 'empty'))
   await page.getByRole('button', { name: '刷新', exact: true }).click()
-  await expect(page.getByRole('status', { name: '客户营销空态' })).toContainText('暂无符合当前条件的客户营销任务')
+  await expect(page.getByRole('region', { name: '营销活动' }).getByLabel('客户营销空态')).toContainText(
+    '暂无符合当前条件的客户营销任务',
+  )
 
   await page.evaluate(() => window.localStorage.setItem('pms.customerMarketingMockMode', 'error'))
   await page.getByRole('button', { name: '刷新', exact: true }).click()
@@ -136,7 +138,7 @@ test('/scrm/marketing/customer visible actions produce business feedback', async
   await expect(metricDrawer).toContainText('触达客户')
   await metricDrawer.getByRole('button', { name: '关闭' }).click()
 
-  await page.getByRole('button', { name: '查看详情' }).first().click()
+  await page.getByRole('region', { name: '营销活动' }).getByRole('button', { name: '查看详情' }).first().click()
   const campaignDialog = page.getByRole('dialog', { name: '营销活动详情' })
   await expect(campaignDialog).toContainText('转化率')
   await campaignDialog.getByRole('button', { name: '关闭' }).click()
@@ -144,7 +146,7 @@ test('/scrm/marketing/customer visible actions produce business feedback', async
   await page.getByRole('button', { name: '导出' }).click()
   await expect(page.getByLabel('客户营销操作反馈')).toContainText('导出任务已创建')
 
-  await page.getByRole('button', { name: '跟进' }).first().click()
+  await page.getByRole('region', { name: '待跟进任务' }).getByRole('button', { name: '跟进' }).first().click()
   await expect(page.getByLabel('客户营销操作反馈')).toContainText('跟进任务已记录')
 
   await page.getByRole('button', { name: '客户列表' }).click()
@@ -153,14 +155,15 @@ test('/scrm/marketing/customer visible actions produce business feedback', async
 })
 
 test('/scrm/marketing/customer switches to real provider contract when configured', async ({ page }) => {
-  await page.addInitScript(() => window.localStorage.setItem('pms.customerMarketingProvider', 'real'))
   const captured: CapturedRequest[] = []
   await mockCustomerMarketingApis(page, captured)
 
+  await page.goto(appUrl('/'))
+  await page.evaluate(() => window.localStorage.setItem('pms.customerMarketingProvider', 'real'))
   await page.goto(appUrl('/scrm/marketing/customer'))
 
   await expect(page.getByText('真实接口复购提醒')).toBeVisible()
-  await expect(page.getByText('真实接口客户')).toBeVisible()
+  await expect(page.getByRole('cell', { name: '真实接口客户' })).toBeVisible()
   await expect(page.getByTestId('customer-marketing-service-contract')).toHaveAttribute('data-provider', 'real')
   expect(captured.map((request) => request.path)).toContain('/scrm/marketing/customer/overview')
 

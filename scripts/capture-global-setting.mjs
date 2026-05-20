@@ -190,18 +190,108 @@ async function clickFirstVisibleText(page, label) {
   }
 }
 
+async function clickLocator(page, locator, label) {
+  if ((await locator.count()) === 0) return false
+  try {
+    await locator.first().click({ timeout: 4000 })
+    await page.waitForTimeout(1000)
+    return { action: label, ok: true, url: page.url() }
+  } catch (error) {
+    return { action: label, ok: false, error: error.message }
+  }
+}
+
+async function clickAndReturn(page, locator, label) {
+  if ((await locator.count()) === 0) return false
+  try {
+    const beforeUrl = page.url()
+    await locator.first().click({ timeout: 4000 })
+    await page.waitForTimeout(1200)
+    const afterUrl = page.url()
+    if (afterUrl !== beforeUrl) {
+      await page.goBack({ waitUntil: 'domcontentloaded', timeout: 30_000 }).catch(() => {})
+      await waitForSurface(page)
+    }
+    return { action: label, ok: true, beforeUrl, afterUrl }
+  } catch (error) {
+    return { action: label, ok: false, error: error.message }
+  }
+}
+
 async function runInteractionSweep(page) {
   const interactions = []
-  const labels = ['配置中心', '全域数据', '立即开通', '添加', '新增', '编辑', '保存', '启用', '禁用', '展开', '收起']
-  for (const label of labels) {
-    const result = await clickFirstVisibleText(page, label)
+
+  const steps = [
+    async () => clickLocator(page, page.getByRole('button', { name: '刷新' }), 'refresh'),
+    async () => clickLocator(page, page.getByRole('button', { name: '导出' }), 'export'),
+    async () => {
+      const openResult = await clickLocator(page, page.getByRole('button', { name: '下载数据连接器' }), 'open-download')
+      if (!openResult || openResult.ok === false) return openResult
+      return clickLocator(
+        page,
+        page.locator('[role="dialog"][aria-label="下载数据连接器"]').getByRole('button', { name: '取消' }),
+        'cancel-download',
+      )
+    },
+    async () => {
+      const openResult = await clickLocator(page, page.getByRole('button', { name: '选择监控门店' }), 'open-selection')
+      if (!openResult || openResult.ok === false) return openResult
+      return clickLocator(
+        page,
+        page.locator('[role="dialog"][aria-label="选择监控门店"]').getByRole('button', { name: '取消' }),
+        'cancel-selection',
+      )
+    },
+    async () => {
+      const configButton = page.locator('.global-setting-table tbody tr').first().getByRole('button', { name: '配置' })
+      const openResult = await clickLocator(page, configButton, 'open-config')
+      if (!openResult || openResult.ok === false) return openResult
+      return clickLocator(
+        page,
+        page.locator('[role="dialog"][aria-label="Ebooking授权配置"] button[aria-label="关闭Ebooking授权配置"]'),
+        'close-config',
+      )
+    },
+    async () =>
+      clickAndReturn(
+        page,
+        page.locator('.global-setting-table tbody tr').first().getByRole('button', { name: '查看日志' }),
+        'view-log',
+      ),
+    async () => {
+      const removeButton = page.locator('.global-setting-table tbody tr').nth(1).getByRole('button', { name: '移除' })
+      const openResult = await clickLocator(page, removeButton, 'open-remove')
+      if (!openResult || openResult.ok === false) return openResult
+      return clickLocator(
+        page,
+        page.locator('[role="dialog"][aria-label="移除监控门店"]').getByRole('button', { name: '取消' }),
+        'cancel-remove',
+      )
+    },
+    async () =>
+      clickLocator(
+        page,
+        page.locator('.global-setting-todo-list button').filter({ hasText: '处理连接器延迟' }),
+        'todo-acknowledge',
+      ),
+    async () =>
+      clickAndReturn(
+        page,
+        page.locator('.global-setting-quick-links button').filter({ hasText: '门店信息' }),
+        'quick-link-store-info',
+      ),
+  ]
+
+  for (const step of steps) {
+    const result = await step()
     if (result) {
-      interactions.push({ action: `click:${label}`, result })
+      interactions.push(result)
       await page.screenshot({
-        path: fileFor(artifactRoots.screenshots, `after-${safeName(label)}`, 'png'),
+        path: fileFor(artifactRoots.screenshots, `after-${safeName(result.action)}`, 'png'),
       })
     }
   }
+
   return interactions
 }
 
@@ -243,6 +333,7 @@ async function main() {
       timeout: 45_000,
     })
     await waitForSurface(page)
+    await clickFirstVisibleText(page, '收起')
 
     const interactions = state === 'interaction' ? await runInteractionSweep(page) : []
     await page.screenshot({ path: fileFor(artifactRoots.screenshots, 'viewport', 'png') })

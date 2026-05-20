@@ -52,7 +52,7 @@ export function ChatDock({ openSignal = 0 }: ChatDockProps) {
       <header className="chat-dock__header">
         <strong>全部会话</strong>
         <div className="chat-dock__actions">
-          <button type="button" aria-label="刷新会话">
+          <button type="button" aria-label="更新会话列表">
             ↻
           </button>
           <button type="button" aria-label="收起会话" onClick={() => setClosedAtSignal(openSignal)}>

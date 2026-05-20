@@ -1,13 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { chromium } from '@playwright/test'
+import { chromium, devices } from '@playwright/test'
 
 const TASK_ID = 'zhihui-jiudian--zhizhu-yu-yingjian--psb-gongan-duijie'
 const TARGET_URL = 'https://minsubao.localhome.cn/psb/list'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/psb/list'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const DESKTOP_CHROME = devices['Desktop Chrome']
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
@@ -33,6 +33,19 @@ function fileFor(root, suffix, extension) {
 
 function compact(text) {
   return text.replace(/\s+/g, ' ').trim()
+}
+
+function resolveLocalUrl() {
+  const configured = process.env.PMS_LOCAL_URL ?? process.env.PMS_TEST_BASE_URL
+  if (!configured) {
+    throw new Error(
+      'Missing PMS_LOCAL_URL or PMS_TEST_BASE_URL for clone capture. Refusing to default to :4173.',
+    )
+  }
+
+  return /\/psb\/list(?:[/?#]|$)/.test(configured)
+    ? configured
+    : new URL('/psb/list', configured).toString()
 }
 
 async function waitForPsbPage(page) {
@@ -168,6 +181,17 @@ async function extractFacts(page, interactions) {
       .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
       .filter(Boolean)
 
+    const topNavActive = [...document.querySelectorAll('.topnav-link.is-active')]
+      .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+
+    const sideNavActive = [...document.querySelectorAll('.sidebar-group-title.is-active,.sidebar-link.is-active')]
+      .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+
+    const diagnosticsText =
+      document.querySelector('[aria-label="PSB公安对接数据服务"]')?.textContent?.replace(/\s+/g, ' ').trim() ?? ''
+
     const buttons = [...document.querySelectorAll('button,[role="button"],a')]
       .map((element) => ({
         text: (element.innerText || element.textContent || element.getAttribute('aria-label') || '').trim(),
@@ -222,6 +246,9 @@ async function extractFacts(page, interactions) {
         bodyText.includes('请按住滑块') ||
         bodyText.includes('登录其他登录方式'),
       hasPsbText: bodyText.includes('PSB公安对接') || bodyText.includes('公安对接'),
+      topNavActive,
+      sideNavActive,
+      diagnosticsText,
       tableHeaders,
       buttons,
       inputs,
@@ -244,6 +271,7 @@ async function main() {
   if (mode === 'target' && !fs.existsSync(STORAGE_STATE)) {
     throw new Error(`Missing storageState: ${STORAGE_STATE}`)
   }
+  const pageUrl = mode === 'target' ? TARGET_URL : resolveLocalUrl()
 
   const network = []
   const browser = await chromium.launch({
@@ -253,9 +281,8 @@ async function main() {
 
   try {
     const context = await browser.newContext({
+      ...DESKTOP_CHROME,
       ...(mode === 'target' ? { storageState: STORAGE_STATE } : {}),
-      viewport: { width: 1440, height: 900 },
-      deviceScaleFactor: 1,
       locale: 'zh-CN',
       timezoneId: 'Asia/Shanghai',
     })
@@ -271,7 +298,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(pageUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -282,7 +309,11 @@ async function main() {
     await page.screenshot({ path: fileFor(artifactRoots.screenshots, 'full', 'png'), fullPage: true })
 
     fs.writeFileSync(fileFor(artifactRoots.dom, 'page', 'html'), await page.content())
-    const facts = await extractFacts(page, interactions)
+    const facts = {
+      ...(await extractFacts(page, interactions)),
+      state,
+      responses: network,
+    }
     fs.writeFileSync(fileFor(artifactRoots.styles, 'facts', 'json'), JSON.stringify(facts, null, 2))
     fs.writeFileSync(
       fileFor(artifactRoots.network, 'responses', 'json'),

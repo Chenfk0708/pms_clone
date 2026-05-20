@@ -45,6 +45,11 @@
   line-height: 30px;
 }
 
+.expend-setting-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.64;
+}
+
 .expend-setting-tabs {
   display: flex;
   align-items: flex-end;
@@ -77,6 +82,54 @@
   height: 2px;
   border-radius: 2px;
   background: #4058f6;
+}
+
+.expend-setting-loading,
+.expend-setting-feedback,
+.expend-setting-page-empty,
+.expend-setting-alert {
+  margin-top: 16px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.expend-setting-loading,
+.expend-setting-page-empty {
+  padding: 12px 14px;
+  border: 1px solid #e5e8ef;
+  background: #fafbff;
+  color: #5f6879;
+}
+
+.expend-setting-feedback {
+  padding: 10px 14px;
+  border: 1px solid #dce4ff;
+  background: #eef2ff;
+  color: #4157f6;
+}
+
+.expend-setting-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #ffd8d8;
+  background: #fff6f6;
+  color: #c83a3a;
+}
+
+.expend-setting-alert strong {
+  font-weight: 500;
+}
+
+.expend-setting-alert button {
+  min-width: 88px;
+  height: 32px;
+  border: 1px solid #e7b5b5;
+  border-radius: 4px;
+  background: #fff;
+  color: #b33838;
 }
 
 .expend-setting-groups {
@@ -161,7 +214,7 @@
   position: absolute;
   top: -1px;
   right: -1px;
-  min-width: 32px;
+  min-width: 42px;
   height: 18px;
   padding: 0 5px;
   border-radius: 0 4px 0 6px;
@@ -209,8 +262,15 @@
   min-height: 42px;
 }
 
-.expend-setting-disabled > div {
+.expend-setting-disabled-empty {
+  display: flex;
+  align-items: center;
   min-height: 36px;
+  padding: 0 12px;
+  border: 1px dashed #edf0f5;
+  border-radius: 4px;
+  color: #8b94a7;
+  background: #fafbff;
 }
 
 .expend-setting-modal-backdrop {
@@ -264,7 +324,7 @@
 .expend-setting-form-row {
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: 12px;
   color: #1f2937;
   font-size: 14px;
@@ -272,12 +332,17 @@
 
 .expend-setting-form-row > span {
   justify-self: end;
+  line-height: 34px;
 }
 
 .expend-setting-form-row em {
   margin-right: 2px;
   color: #ff4d4f;
   font-style: normal;
+}
+
+.expend-setting-select-shell {
+  position: relative;
 }
 
 .expend-setting-select,
@@ -308,6 +373,40 @@
   padding: 0 10px;
 }
 
+.expend-setting-option-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 4;
+  display: grid;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e4e8f3;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 14px 28px rgb(15 23 42 / 12%);
+}
+
+.expend-setting-option-list button {
+  height: 34px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  text-align: left;
+  color: #243047;
+}
+
+.expend-setting-option-list button.is-active {
+  background: #eef2ff;
+  color: #4157f6;
+}
+
+.expend-setting-form-error {
+  margin: -2px 0 0 96px;
+  color: #d33f3f;
+  font-size: 13px;
+}
+
 .expend-setting-modal footer {
   display: flex;
   justify-content: flex-end;
@@ -323,6 +422,11 @@
   background: #fff;
   color: #1f2937;
   font-size: 14px;
+}
+
+.expend-setting-modal footer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.64;
 }
 
 .expend-setting-modal footer .expend-setting-primary {

@@ -47,12 +47,12 @@ test('/scrm/wechatService/manage renders provider-driven business dashboard with
   await expect(page.getByRole('button', { name: '导出' })).toBeVisible()
 
   await expect(page.getByLabel('微信客服核心指标')).toContainText('待处理会话')
-  await expect(page.getByText('今日会话 128')).toBeVisible()
-  await expect(page.getByText('平均响应 2分18秒')).toBeVisible()
-  await expect(page.getByText('客服账号')).toBeVisible()
-  await expect(page.getByText('会话队列')).toBeVisible()
-  await expect(page.getByText('携程民宿-【M335275070】')).toBeVisible()
-  await expect(page.getByText('天落会宿公寓')).toBeVisible()
+  await expect(page.getByRole('button', { name: /今日会话 128/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /平均响应 2分18秒/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '客服账号' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '会话队列' })).toBeVisible()
+  await expect(page.getByLabel('会话队列').getByText('携程民宿-【M335275070】')).toBeVisible()
+  await expect(page.getByRole('button', { name: /天落会宿公寓 在线/ })).toBeVisible()
   await expect(page.locator('.wechat-service-page')).not.toContainText(/mock 数据|mock provider|provider=mock|未接入|阻塞|后端未就绪|后端接口未完成/)
   expect(requestedUrls).toEqual([])
 
@@ -87,7 +87,7 @@ test('/scrm/wechatService/manage refreshes filters, export, details, and coordin
   await page.getByRole('button', { name: '查询' }).click()
 
   await expect(page.getByText('Abraham160')).toBeVisible()
-  await expect(page.getByText('携程民宿-【M335275070】')).toHaveCount(0)
+  await expect(page.getByLabel('会话队列').getByText('携程民宿-【M335275070】')).toHaveCount(0)
   let diagnostics = await waitForDiagnostics(page, (nextDiagnostics) =>
     Boolean(
       nextDiagnostics?.request?.channel === 'meituan' &&
@@ -230,7 +230,7 @@ test('/scrm/wechatService/manage can switch to captured real request contract', 
   await page.goto(appUrl(pagePath))
 
   await expect(page.getByText('接口返回的会话消息')).toBeVisible()
-  await expect(page.getByText('接口客服')).toBeVisible()
+  await expect(page.getByRole('button', { name: /接口客服 在线/ })).toBeVisible()
   expect(reportPayload).toMatchObject({
     campId: '1796067693589061634',
     channel: '',

@@ -9,13 +9,14 @@
 
 .camp-info-page {
   min-height: calc(100vh - 68px);
-  padding: 10px 8px 0;
+  padding: 12px 10px 20px;
   border-radius: 6px;
   background: #fff;
   color: #182033;
   font-size: 14px;
 }
 
+.camp-info-toolbar,
 .camp-info-query,
 .camp-info-summary,
 .camp-info-table__head,
@@ -24,6 +25,38 @@
 .camp-info-room-row {
   display: grid;
   align-items: center;
+}
+
+.camp-info-toolbar {
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.camp-info-toolbar h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.camp-info-toolbar p {
+  margin: 4px 0 0;
+  color: #6d778a;
+}
+
+.camp-info-status {
+  align-self: start;
+  max-width: 360px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #edf3ff;
+  color: #2f5df4;
+  line-height: 20px;
+}
+
+.camp-info-contract {
+  display: none;
 }
 
 .camp-info-query {
@@ -42,7 +75,8 @@
 .camp-info-query span,
 .camp-info-form-grid label > span,
 .camp-info-upload-row > span,
-.camp-info-map > span {
+.camp-info-map > span,
+.camp-info-detail-grid span {
   color: #405168;
   white-space: nowrap;
 }
@@ -61,16 +95,27 @@
 }
 
 .camp-info-query input {
-  width: 220px;
+  width: 260px;
 }
 
 .camp-info-query__actions,
 .camp-info-summary__actions,
 .camp-info-actions,
 .camp-info-room-actions,
-.camp-info-edit-footer {
+.camp-info-edit-footer,
+.camp-info-limit-modal footer,
+.camp-info-detail-modal header,
+.camp-info-detail-modal header > button {
   display: flex;
   align-items: center;
+}
+
+.camp-info-query__actions,
+.camp-info-summary__actions,
+.camp-info-actions,
+.camp-info-room-actions,
+.camp-info-edit-footer,
+.camp-info-limit-modal footer {
   gap: 8px;
 }
 
@@ -85,6 +130,11 @@
   cursor: pointer;
 }
 
+.camp-info-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
 .camp-info-page button.is-primary,
 .camp-info-page .is-primary {
   border-color: #4664f4;
@@ -95,7 +145,7 @@
 .camp-info-summary {
   grid-template-columns: 1fr auto;
   min-height: 34px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .camp-info-summary strong {
@@ -107,14 +157,64 @@
   font-style: normal;
 }
 
+.camp-info-loading,
+.camp-info-empty,
+.camp-info-error {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 28px 20px;
+  border: 1px solid #e7ebf3;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fcfdff 0%, #f7f9fc 100%);
+  text-align: center;
+}
+
+.camp-info-loading.is-compact,
+.camp-info-error.is-compact {
+  margin-bottom: 12px;
+  padding: 18px 14px;
+}
+
+.camp-info-loading__spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(70, 100, 244, 0.18);
+  border-top-color: #4664f4;
+  border-radius: 50%;
+  animation: camp-info-spin 0.9s linear infinite;
+}
+
+.camp-info-loading strong,
+.camp-info-empty h2,
+.camp-info-error strong {
+  font-size: 16px;
+}
+
+.camp-info-loading p,
+.camp-info-empty p,
+.camp-info-error p {
+  margin: 0;
+  color: #6d778a;
+  line-height: 22px;
+}
+
 .camp-info-table {
   border: 1px solid #eef1f6;
   border-bottom: 0;
 }
 
+.camp-info-table__body {
+  display: grid;
+}
+
+.camp-info-table__group {
+  border-bottom: 1px solid #eef1f6;
+}
+
 .camp-info-table__head,
 .camp-info-table__row {
-  grid-template-columns: 70px minmax(190px, 1.2fr) 150px 150px minmax(210px, 1.2fr) 210px 250px;
+  grid-template-columns: 70px minmax(210px, 1.2fr) 140px 150px minmax(210px, 1.2fr) 150px 250px;
 }
 
 .camp-info-table__head {
@@ -130,13 +230,25 @@
   border-right: 1px solid #eef1f6;
 }
 
+.camp-info-table__head > div:last-child,
+.camp-info-table__row > div:last-child {
+  border-right: 0;
+}
+
 .camp-info-table__head > div {
   min-height: 40px;
   font-weight: 500;
 }
 
-.camp-info-table__row {
-  border-bottom: 1px solid #eef1f6;
+.camp-info-table__row strong,
+.camp-info-detail-grid strong {
+  display: block;
+}
+
+.camp-info-table__row small {
+  display: block;
+  margin-top: 4px;
+  color: #6d778a;
 }
 
 .camp-info-expand {
@@ -164,9 +276,13 @@
 }
 
 .camp-info-thumb {
+  display: grid;
+  place-items: center;
   width: 78px;
   height: 48px;
   border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
 }
 
 .camp-info-actions button,
@@ -185,18 +301,13 @@
 
 .camp-info-room-detail {
   padding: 0 14px;
-  border-bottom: 1px solid #eef1f6;
   background: #fff;
 }
 
 .camp-info-room-row {
   grid-template-columns: 60px 1fr 1fr 380px;
   min-height: 56px;
-  border-bottom: 1px solid #edf0f6;
-}
-
-.camp-info-room-row:last-child {
-  border-bottom: 0;
+  border-top: 1px solid #edf0f6;
 }
 
 .camp-info-room-image {
@@ -233,18 +344,6 @@
   text-align: right;
 }
 
-.camp-info-toast {
-  position: fixed;
-  left: 50%;
-  top: 72px;
-  z-index: 50;
-  padding: 8px 16px;
-  border-radius: 4px;
-  background: rgba(24, 32, 51, 0.88);
-  color: #fff;
-  transform: translateX(-50%);
-}
-
 .camp-info-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -254,15 +353,17 @@
   background: rgba(10, 16, 28, 0.36);
 }
 
-.camp-info-limit-modal {
-  width: 416px;
+.camp-info-limit-modal,
+.camp-info-detail-modal {
+  width: min(560px, calc(100vw - 32px));
   padding: 22px 24px 18px;
-  border-radius: 4px;
+  border-radius: 8px;
   background: #fff;
   box-shadow: 0 10px 32px rgba(24, 32, 51, 0.22);
 }
 
-.camp-info-limit-modal h2 {
+.camp-info-limit-modal h2,
+.camp-info-detail-modal strong {
   margin: 0 0 14px;
   color: #17233d;
   font-size: 16px;
@@ -277,32 +378,82 @@
 }
 
 .camp-info-limit-modal footer {
-  display: flex;
   justify-content: flex-end;
-  gap: 8px;
   margin-top: 22px;
 }
 
-.camp-info-edit-page {
-  padding: 12px 8px 0;
+.camp-info-import-modal {
+  width: min(620px, calc(100vw - 32px));
 }
 
-.camp-info-edit-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 30px;
-  border-bottom: 1px solid #edf0f6;
+.camp-info-import-options {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
 }
 
-.camp-info-edit-title h1 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
+.camp-info-import-options label {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid #dde4f0;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.camp-info-edit-title span {
+.camp-info-import-options label.is-active {
+  border-color: #4664f4;
+  background: #f5f8ff;
+}
+
+.camp-info-import-options input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.camp-info-import-options span,
+.camp-info-detail-modal header span {
   color: #6d778a;
+  line-height: 20px;
+}
+
+.camp-info-detail-modal {
+  width: min(640px, calc(100vw - 32px));
+}
+
+.camp-info-detail-modal header {
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.camp-info-detail-modal header > button {
+  justify-content: center;
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  font-size: 18px;
+}
+
+.camp-info-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.camp-info-detail-grid > div {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f7f9fc;
+}
+
+.camp-info-detail-grid .is-wide {
+  grid-column: 1 / -1;
+}
+
+.camp-info-edit-page {
+  padding-top: 12px;
 }
 
 .camp-info-steps {
@@ -346,7 +497,7 @@
 }
 
 .camp-info-form-card {
-  max-height: calc(100vh - 245px);
+  max-height: calc(100vh - 280px);
   overflow: auto;
   padding: 0 0 80px;
 }
@@ -361,7 +512,8 @@
 
 .camp-info-form-grid label,
 .camp-info-upload-row,
-.camp-info-map {
+.camp-info-map,
+.camp-info-tags {
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: 80px 300px 1fr;
@@ -378,19 +530,31 @@
   border-style: dashed;
 }
 
+.camp-info-tags {
+  margin-top: -10px;
+}
+
+.camp-info-tags span {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f7ff;
+  color: #4664f4;
+}
+
 .camp-info-photo-grid {
-  grid-column: 2 / -1;
   display: grid;
-  grid-template-columns: repeat(8, 104px);
-  gap: 8px 8px;
+  grid-template-columns: repeat(5, 120px);
+  gap: 10px;
 }
 
 .camp-info-photo,
 .camp-info-upload-button {
-  width: 104px;
-  height: 104px;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  width: 120px;
+  height: 80px;
+  border-radius: 4px;
 }
 
 .camp-info-photo--2 { background-image: linear-gradient(135deg, #b7c0c9, #697687); }
@@ -403,151 +567,145 @@
 .camp-info-photo--9 { background-image: linear-gradient(135deg, #eee6db, #baa895); }
 
 .camp-info-upload-button {
-  border-style: dashed;
-  color: #405168;
+  border-style: dashed !important;
+  line-height: 18px;
 }
 
 .camp-info-upload-row p {
-  grid-column: 2 / -1;
-  margin: 6px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 0 90px;
 }
 
 .camp-info-upload-row em {
-  margin-right: 22px;
-  color: #ff1f1f;
+  color: #6d778a;
   font-style: normal;
 }
 
 .camp-info-upload-row p button {
-  border: 0;
-  color: #4664f4;
+  min-height: 24px;
+  padding-inline: 8px;
 }
 
 .camp-info-address textarea {
-  width: 300px;
-  min-height: 54px;
-  resize: vertical;
+  min-height: 72px;
+  padding-top: 8px;
+  resize: none;
 }
 
 .camp-info-map__canvas {
   position: relative;
-  width: 620px;
-  height: 220px;
-  border: 1px solid #dfe4ec;
-  border-radius: 4px;
+  min-height: 220px;
+  border-radius: 8px;
   background:
-    radial-gradient(circle at 55% 42%, #4664f4 0 7px, transparent 8px),
-    linear-gradient(90deg, rgba(207, 214, 223, 0.36) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(207, 214, 223, 0.36) 1px, transparent 1px),
-    #eff3f8;
-  background-size: auto, 48px 48px, 48px 48px, auto;
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.72), transparent 30%),
+    linear-gradient(135deg, #dbe6f4, #b8c5d9 55%, #8ca0bf);
+  overflow: hidden;
 }
 
 .camp-info-map__canvas button {
-  display: block;
-  width: 28px;
-  height: 28px;
-  margin: 8px;
+  position: absolute;
+  right: 16px;
+  width: 30px;
+  min-height: 30px;
   padding: 0;
-  background: #fff;
+}
+
+.camp-info-map__canvas button:first-child {
+  top: 16px;
+}
+
+.camp-info-map__canvas button:last-child {
+  top: 54px;
 }
 
 .camp-info-map__canvas small {
   position: absolute;
-  left: 8px;
-  bottom: 6px;
-  color: #6d778a;
+  left: 16px;
+  bottom: 14px;
+  color: rgba(24, 32, 51, 0.74);
 }
 
 .camp-info-map p {
-  grid-column: 2 / -1;
-  margin: 4px 0 0;
+  margin: 8px 0 0 90px;
   color: #6d778a;
 }
 
 .camp-info-edit-footer {
-  position: fixed;
-  left: 156px;
-  right: 0;
-  bottom: 0;
   justify-content: center;
-  padding: 12px;
-  border-top: 1px solid #edf0f6;
-  background: #fff;
+  margin-top: 20px;
 }
 
 .camp-info-edit-footer button {
-  min-width: 64px;
-  height: 30px;
+  min-width: 120px;
+  min-height: 36px;
 }
 
 .camp-info-sort-page {
-  background: #f0f2f5;
+  padding-top: 12px;
 }
 
 .camp-info-sort-tabs {
   display: flex;
-  height: 40px;
-  background: #fff;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .camp-info-sort-tabs button {
-  min-width: 94px;
-  height: 40px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
+  min-width: 120px;
 }
 
 .camp-info-sort-tabs [aria-selected='true'] {
-  border-bottom-color: #4664f4;
+  border-color: #4664f4;
   color: #4664f4;
 }
 
 .camp-info-sort-help {
-  margin: 12px 0;
-  padding: 12px 16px;
-  background: #fff;
+  margin: 0 0 12px;
+  color: #6d778a;
 }
 
 .camp-info-sort-list {
-  max-width: 560px;
-  padding: 0 16px 16px;
+  display: grid;
+  gap: 10px;
 }
 
 .camp-info-sort-item {
-  display: grid;
-  grid-template-columns: 32px 1fr;
+  display: flex;
   align-items: center;
-  min-height: 54px;
-  margin-bottom: 8px;
-  padding: 0 14px;
-  border: 1px solid #edf0f6;
-  border-radius: 3px;
-  background: #fff;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e8edf6;
+  border-radius: 8px;
+  background: #fbfcff;
 }
 
 .camp-info-drag-handle {
-  color: #98a2b8;
-  letter-spacing: -2px;
+  color: #8d96a8;
 }
 
 .camp-info-save-sort {
-  margin-left: 16px;
+  margin-top: 16px;
 }
 
-@media (max-width: 1180px) {
+@keyframes camp-info-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1200px) {
   .camp-info-table__head,
   .camp-info-table__row {
-    grid-template-columns: 54px 1.1fr 96px 110px 1.1fr 120px 190px;
+    grid-template-columns: 56px 180px 120px 120px 220px 140px 200px;
   }
 
   .camp-info-photo-grid {
-    grid-template-columns: repeat(4, 104px);
+    grid-template-columns: repeat(4, 120px);
   }
 
   .camp-info-room-row {
-    grid-template-columns: 60px 1fr;
-    gap: 4px 12px;
+    grid-template-columns: 60px 1fr 140px 260px;
   }
 }

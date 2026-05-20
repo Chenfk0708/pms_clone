@@ -1,260 +1,506 @@
-.page-content:has(.smart-hardware-page),
-.page-content:has(.smart-hardware-detail-page) {
+.app-shell:has(.smart-hardware-mall-page) .page-content {
   padding: 0;
-  background: #f0f2f5;
+  background: #f0f3f8;
 }
 
-.page-content:has(.smart-hardware-page) > .page-header,
-.page-content:has(.smart-hardware-detail-page) > .page-header {
+.app-shell:has(.smart-hardware-mall-page) .page-header,
+.app-shell:has(.smart-hardware-mall-page) .chat-dock {
   display: none;
 }
 
-.smart-hardware-page,
-.smart-hardware-detail-page {
+.smart-hardware-mall-page {
   min-height: calc(100vh - 58px);
-  padding: 16px 16px 24px;
-  color: #333;
-  font-size: 14px;
+  padding: 20px 20px 28px;
+  color: #1f2937;
 }
 
 .smart-hardware-hero {
   position: relative;
-  height: 162px;
   overflow: hidden;
+  border-radius: 16px;
   background:
-    url('/assets/smart-hardware-mall/banner-decoration.png') right 56px center / 272px auto no-repeat,
+    url('/assets/smart-hardware-mall/banner-decoration.png') right 56px center / 280px auto no-repeat,
     url('/assets/smart-hardware-mall/banner-bg.png') center / cover no-repeat,
-    #dfe8ff;
+    linear-gradient(135deg, #edf3ff, #d7e2ff);
+  box-shadow: 0 18px 42px rgb(77 101 246 / 12%);
 }
 
 .smart-hardware-hero__copy {
-  position: relative;
-  z-index: 1;
-  padding: 40px 0 0 42px;
+  display: grid;
+  gap: 10px;
+  max-width: 620px;
+  padding: 34px 42px 38px;
+}
+
+.smart-hardware-hero__eyebrow,
+.smart-hardware-hero__copy span {
+  margin: 0;
+  color: #5870a4;
+}
+
+.smart-hardware-hero__eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .smart-hardware-hero h1 {
   margin: 0;
-  color: #294d94;
+  color: #233f7f;
   font-size: 36px;
-  font-weight: 600;
-  line-height: 50px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.smart-hardware-hero p {
-  margin: 6px 0 0;
-  color: #526ea2;
+.smart-hardware-hero__copy span {
+  font-size: 14px;
+}
+
+.smart-hardware-hero__copy strong {
+  color: #435b90;
   font-size: 18px;
-  line-height: 28px;
+  font-weight: 500;
 }
 
-.smart-hardware-hero__decoration {
-  display: none;
+.smart-hardware-card-shell,
+.smart-hardware-shortcuts,
+.smart-hardware-detail-shell {
+  margin-top: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 8%);
+}
+
+.smart-hardware-card-shell,
+.smart-hardware-shortcuts {
+  padding: 22px 22px 24px;
+}
+
+.smart-hardware-detail-shell {
+  padding: 24px;
+}
+
+.smart-hardware-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.smart-hardware-section-head h2,
+.smart-hardware-detail-aside h2,
+.smart-hardware-dialog h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.smart-hardware-section-head p,
+.smart-hardware-detail-head p,
+.smart-hardware-detail-notice,
+.smart-hardware-empty p,
+.smart-hardware-contact-body p,
+.smart-hardware-shortcut span {
+  margin: 6px 0 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.smart-hardware-feedback-inline {
+  flex-shrink: 0;
+  max-width: 360px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #3452a1;
+  padding: 8px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.smart-hardware-loading,
+.smart-hardware-empty {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  border: 1px dashed #d7dfef;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fbfcff, #f7f9ff);
+  text-align: center;
+}
+
+.smart-hardware-loading {
+  color: #5a6fa6;
+  font-weight: 600;
+}
+
+.smart-hardware-empty strong {
+  color: #1e293b;
+  font-size: 20px;
+}
+
+.smart-hardware-empty button,
+.smart-hardware-alert button,
+.smart-hardware-shortcut,
+.smart-hardware-back-button,
+.smart-hardware-detail-row button,
+.smart-hardware-contact-actions button {
+  border: 1px solid #ced8ef;
+  border-radius: 10px;
+  background: #fff;
+  color: #27488f;
+  cursor: pointer;
+  padding: 10px 16px;
+  font-size: 14px;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.smart-hardware-empty button:hover,
+.smart-hardware-alert button:hover,
+.smart-hardware-shortcut:hover,
+.smart-hardware-back-button:hover,
+.smart-hardware-detail-row button:hover,
+.smart-hardware-contact-actions button:hover {
+  border-color: #97ace1;
+  background: #f7faff;
+  transform: translateY(-1px);
+}
+
+.smart-hardware-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  background: #fff3f2;
+  color: #991b1b;
+  padding: 16px 18px;
+}
+
+.smart-hardware-alert strong {
+  color: #7f1d1d;
+}
+
+.smart-hardware-alert button {
+  margin-left: auto;
 }
 
 .smart-hardware-products {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-width: 1252px;
-  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
 }
 
-.smart-hardware-card {
+.smart-hardware-product-card {
   position: relative;
-  width: 280px;
-  height: 150px;
-  padding: 12px 16px 16px 12px;
-  border: 1px solid #dedede;
-  border-radius: 8px;
-  background: #fff;
+  display: grid;
+  gap: 18px;
+  min-height: 216px;
+  padding: 18px;
+  border: 1px solid #e1e8f5;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, #fafcff);
 }
 
-.smart-hardware-card__content {
+.smart-hardware-product-card__tag {
+  justify-self: start;
+  border-radius: 999px;
+  background: #edf3ff;
+  color: #3c5ab0;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.smart-hardware-product-card__content {
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
-.smart-hardware-card__image {
-  flex: 0 0 72px;
-  width: 72px;
-  height: 72px;
+.smart-hardware-product-card__image {
+  flex: 0 0 80px;
+  width: 80px;
+  height: 80px;
   overflow: hidden;
-  border-radius: 8px;
-  background: #f6f8fc;
+  border-radius: 18px;
+  background: #eff4ff;
 }
 
-.smart-hardware-card__image img {
+.smart-hardware-product-card__image img {
   display: block;
-  width: 72px;
-  height: 72px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.smart-hardware-card__info {
+.smart-hardware-product-card__info {
   min-width: 0;
-  width: 170px;
 }
 
-.smart-hardware-card__info strong {
-  display: -webkit-box;
-  min-height: 48px;
-  overflow: hidden;
-  color: #333;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 24px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.smart-hardware-card__info span {
+.smart-hardware-product-card__info strong {
   display: block;
-  margin-top: 4px;
-  color: #333;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
-.smart-hardware-card button,
-.smart-hardware-detail-actions button {
+.smart-hardware-product-card__info p {
+  margin: 0;
+  color: #5b677f;
+  line-height: 1.5;
+}
+
+.smart-hardware-product-card__info span {
+  display: inline-block;
+  margin-top: 14px;
+  color: #1d4ed8;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.smart-hardware-product-card > button,
+.smart-hardware-primary-button {
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4d65f6, #3b82f6);
+  color: #fff;
+  cursor: pointer;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.smart-hardware-product-card > button:hover,
+.smart-hardware-primary-button:hover {
+  background: linear-gradient(135deg, #5f76ff, #4b8dff);
+}
+
+.smart-hardware-shortcuts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.smart-hardware-shortcut {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-height: 112px;
+  padding: 18px;
+  text-align: left;
+}
+
+.smart-hardware-shortcut strong {
+  color: #111827;
+  font-size: 18px;
+}
+
+.smart-hardware-detail-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.smart-hardware-back-button {
+  flex-shrink: 0;
+}
+
+.smart-hardware-detail-head span {
+  color: #5f6f8c;
+  font-size: 13px;
+}
+
+.smart-hardware-detail-head h1 {
+  margin: 6px 0 0;
+  color: #111827;
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+.smart-hardware-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.9fr);
+  gap: 18px;
+}
+
+.smart-hardware-detail-card,
+.smart-hardware-detail-aside {
+  border: 1px solid #e4eaf6;
+  border-radius: 16px;
+  background: #fbfcff;
+}
+
+.smart-hardware-detail-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+}
+
+.smart-hardware-detail-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.smart-hardware-detail-row > span {
+  color: #475569;
+}
+
+.smart-hardware-detail-row strong {
+  color: #111827;
+  font-size: 16px;
+}
+
+.smart-hardware-detail-row__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.smart-hardware-detail-row--total strong {
+  color: #1d4ed8;
+  font-size: 30px;
+}
+
+.smart-hardware-agreement-row {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  height: 28px;
-  border: 1px solid #4d65f6;
-  border-radius: 4px;
-  background: #4d65f6;
-  color: #fff;
-  padding: 0 13px;
-  font-size: 14px;
-  line-height: 22px;
+  gap: 10px;
+  color: #334155;
 }
 
-.smart-hardware-card button {
-  position: absolute;
-  right: 13px;
-  bottom: 12px;
-  width: 76px;
-  padding: 0;
+.smart-hardware-agreement-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: #4d65f6;
 }
 
-.smart-hardware-card button:hover,
-.smart-hardware-detail-actions button:hover {
-  border-color: #6f82f8;
-  background: #6f82f8;
+.smart-hardware-detail-notice {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #eef4ff;
+}
+
+.smart-hardware-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.smart-hardware-detail-aside {
+  padding: 24px;
+}
+
+.smart-hardware-detail-aside ol {
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: #475569;
+  line-height: 1.8;
 }
 
 .smart-hardware-status {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 60;
+  z-index: 80;
   min-width: 1px;
   min-height: 1px;
-  pointer-events: none;
-}
-
-.smart-hardware-status:not(:empty) {
   max-width: 360px;
-  padding: 10px 14px;
-  border-radius: 4px;
-  background: rgba(31, 41, 55, 0.92);
-  box-shadow: 0 10px 24px rgba(31, 42, 68, 0.18);
+  border-radius: 14px;
+  background: rgb(15 23 42 / 92%);
+  box-shadow: 0 16px 30px rgb(15 23 42 / 22%);
   color: #fff;
-  pointer-events: auto;
+  padding: 12px 16px;
+  line-height: 1.5;
 }
 
-.smart-hardware-detail-page {
-  padding: 16px;
+.smart-hardware-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: rgb(15 23 42 / 42%);
+  padding: 24px;
 }
 
-.smart-hardware-detail-card {
-  min-height: 328px;
+.smart-hardware-dialog {
+  width: min(680px, 100%);
+  border-radius: 18px;
   background: #fff;
+  box-shadow: 0 28px 58px rgb(15 23 42 / 28%);
+  padding: 22px 24px 24px;
 }
 
-.smart-hardware-breadcrumb {
+.smart-hardware-dialog__header {
   display: flex;
   align-items: center;
-  height: 48px;
-  padding: 0 24px;
-  border-bottom: 1px solid #f0f0f0;
-  color: #333;
-  font-size: 16px;
-  line-height: 48px;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.smart-hardware-breadcrumb span,
-.smart-hardware-breadcrumb strong {
-  font-weight: 500;
+.smart-hardware-dialog__header button {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 24px;
 }
 
-.smart-hardware-detail-form {
+.smart-hardware-dialog-list {
   display: grid;
-  gap: 22px;
-  padding: 28px 0 0 196px;
+  gap: 14px;
 }
 
-.smart-hardware-detail-row {
+.smart-hardware-room-group,
+.smart-hardware-payment-group {
+  border: 1px solid #e3e8f5;
+  border-radius: 14px;
+  background: #f8faff;
+  padding: 14px 16px;
+}
+
+.smart-hardware-room-group h3,
+.smart-hardware-payment-group h3,
+.smart-hardware-contact-body h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+}
+
+.smart-hardware-room-group p,
+.smart-hardware-payment-group p {
+  margin: 8px 0 0;
+  color: #5b677f;
+  line-height: 1.6;
+}
+
+.smart-hardware-contact-body {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  align-items: center;
-  min-height: 28px;
-  gap: 28px;
+  gap: 12px;
 }
 
-.smart-hardware-detail-row > span {
-  color: #333;
-  text-align: right;
+.smart-hardware-contact-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
 }
 
-.smart-hardware-detail-row label,
-.smart-hardware-agreement {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.smart-hardware-detail-row input,
-.smart-hardware-agreement input {
-  width: 16px;
-  height: 16px;
-  accent-color: #4d65f6;
-}
-
-.smart-hardware-detail-row strong {
-  color: #333;
-  font-weight: 400;
-}
-
-.smart-hardware-total-row strong {
-  color: #333;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.smart-hardware-agreement {
-  margin-left: 124px;
-  color: #333;
-}
-
-.smart-hardware-detail-actions {
-  margin-left: 124px;
-}
-
-.smart-hardware-detail-actions button {
-  width: 88px;
-  height: 32px;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .smart-hardware-hero {
-    height: auto;
-    min-height: 148px;
     background-position:
-      right 14px bottom 12px,
+      right 20px bottom 18px,
       center;
     background-size:
       180px auto,
@@ -262,35 +508,46 @@
   }
 
   .smart-hardware-hero__copy {
-    padding: 28px 24px 86px;
+    padding: 28px 24px 92px;
   }
 
   .smart-hardware-hero h1 {
     font-size: 28px;
-    line-height: 38px;
   }
 
-  .smart-hardware-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    max-width: none;
+  .smart-hardware-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .smart-hardware-mall-page {
+    padding: 14px;
   }
 
-  .smart-hardware-card {
-    width: 100%;
+  .smart-hardware-card-shell,
+  .smart-hardware-shortcuts,
+  .smart-hardware-detail-shell {
+    padding: 18px;
   }
 
-  .smart-hardware-detail-form {
-    padding: 24px;
+  .smart-hardware-section-head,
+  .smart-hardware-detail-head,
+  .smart-hardware-detail-row__content,
+  .smart-hardware-contact-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .smart-hardware-detail-row {
-    grid-template-columns: 84px minmax(0, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .smart-hardware-agreement,
-  .smart-hardware-detail-actions {
-    margin-left: 100px;
+  .smart-hardware-status {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    max-width: none;
   }
 }

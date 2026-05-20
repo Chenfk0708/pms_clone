@@ -13,7 +13,7 @@
 .presale-goods-edit-page {
   display: grid;
   gap: 8px;
-  padding-right: 346px;
+  padding-right: 0px;
   color: #1f2a44;
 }
 
@@ -275,8 +275,8 @@
 .presale-goods-table__head,
 .presale-goods-row {
   display: grid;
-  grid-template-columns: 96px 210px 150px 130px 160px 110px 120px 120px 180px 180px 124px;
-  min-width: 1580px;
+  grid-template-columns: repeat(11, 1fr);
+
 }
 
 .presale-goods-table__head {
@@ -340,7 +340,6 @@
 }
 
 .presale-goods-skus {
-  min-width: 1580px;
   border-bottom: 1px solid #edf0f6;
   background: #fafcff;
   padding: 8px 96px;
@@ -359,7 +358,6 @@
 .presale-goods-empty {
   display: grid;
   place-items: center;
-  min-width: 1580px;
   min-height: 156px;
   border-top: 1px solid #f0f0f0;
   background: #fff;

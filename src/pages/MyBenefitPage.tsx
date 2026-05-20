@@ -1,33 +1,18 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
+import {
+  createDefaultMyBenefitQuery,
+  createMyBenefitExpandTask,
+  createMyBenefitExportTask,
+  createMyBenefitRenewTask,
+  fetchMyBenefitDashboard,
+  type MyBenefitQuery,
+  type MyBenefitRecord,
+  type MyBenefitResource,
+  type MyBenefitTab,
+  type MyBenefitViewModel,
+} from '../services/myBenefit'
 import './MyBenefitPage.css'
-
-type ResourceRow = {
-  name: string
-  total: string
-  used: string
-  source: string
-  status: string
-  expires: string
-  action: string
-}
-
-const resourceRows: ResourceRow[] = [
-  { name: '门店数', total: '1', used: '1', source: '畅享版(1)', status: '正常', expires: '-', action: '扩容' },
-  { name: '企业数', total: '1', used: '1', source: '畅享版(1)', status: '正常', expires: '-', action: '扩容' },
-  { name: '库存数', total: '10', used: '4', source: '畅享版(10)', status: '正常', expires: '-', action: '扩容' },
-  { name: '成员账号数', total: '3', used: '1', source: '畅享版(3)', status: '正常', expires: '-', action: '扩容' },
-  { name: '携程直连', total: '-', used: '-', source: '畅享版 + 系统赠送 (1)', status: '正常', expires: '2027-09-28', action: '-' },
-  { name: '木鸟直连', total: '-', used: '-', source: '畅享版 + 扩容 (1)', status: '正常', expires: '无期限', action: '-' },
-  { name: '美团民宿直连', total: '-', used: '-', source: '畅享版 + 扩容 (1)', status: '正常', expires: '无期限', action: '-' },
-  { name: '途家直连', total: '-', used: '-', source: '畅享版 + 扩容 (1)', status: '正常', expires: '无期限', action: '-' },
-  { name: '飞猪直连', total: '-', used: '-', source: '畅享版 + 系统赠送 (1)', status: '正常', expires: '2027-09-28', action: '-' },
-  { name: 'Booking', total: '-', used: '-', source: '限时体验', status: '正常', expires: '2027-09-28', action: '-' },
-  { name: '美团酒店直连', total: '-', used: '-', source: '畅享版 + 系统赠送 (1)', status: '正常', expires: '2027-09-28', action: '-' },
-  { name: '小猪直连', total: '-', used: '-', source: '畅享版 + 扩容 (1)', status: '正常', expires: '无期限', action: '-' },
-  { name: '线上付款', total: '-', used: '-', source: '畅享版 + 系统赠送 (1)', status: '正常', expires: '2027-09-28', action: '-' },
-  { name: '抖音直连', total: '-', used: '-', source: '限时体验', status: '正常', expires: '2027-09-28', action: '-' },
-]
 
 const sideLinks = [
   { label: '我的权益', path: '/version/myBenefit' },
@@ -37,94 +22,220 @@ const sideLinks = [
   { label: '路客商城', path: '/version/localsMall' },
 ]
 
-const plans = [
-  { name: '标准版', price: '免费使用', tag: '', tone: 'standard' },
-  { name: '畅享版', price: '1388元/一年', oldPrice: '1588元/一年', tag: '特别优惠', tone: 'enjoy', active: true },
-  { name: '高级版', price: '2388元/一年', oldPrice: '2800元/一年', tag: '特别优惠', tone: 'advanced' },
-  { name: '专业版', price: '4888元/一年', oldPrice: '5800元/一年', tag: '特别优惠', tone: 'pro' },
-  { name: '旗舰版', price: '8888元/一年', oldPrice: '9800元/一年', tag: '特别优惠', tone: 'flagship' },
-  { name: '定制版', price: '50000元/起', tag: '特别优惠', tone: 'custom' },
-]
-
-const featureColumns = [
-  {
-    title: '专业住宿管理',
-    items: ['智能房态房价', '订单管理', '多渠道消息聚合', '包栋/联动关房', '多岗位协同', '支持日历房、多种售卖产品', '支持日房态/月房态', '线上收付款', '房态分享'],
-  },
-  {
-    title: '专业报表',
-    items: ['基础报表', '综合月报', '夜审', '交接班'],
-  },
-  {
-    title: '民宿渠道',
-    items: ['美团民宿直连', '途家直连', '小猪直连', '木鸟直连'],
-  },
-  {
-    title: '服务特权',
-    items: ['专业培训', '金牌进群服务', '7x12小时在线客服'],
-  },
-]
+type LoadState = 'loading' | 'success' | 'empty' | 'error'
 
 export function MyBenefitPage() {
-  const [activeTab, setActiveTab] = useState<'resources' | 'services' | 'records'>('resources')
-  const [showUpgrade, setShowUpgrade] = useState(false)
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [view, setView] = useState<MyBenefitViewModel | null>(null)
+  const [loadState, setLoadState] = useState<LoadState>('loading')
+  const [notice, setNotice] = useState('')
+  const [recordDetailId, setRecordDetailId] = useState<string | null>(null)
+  const [resourceDetailId, setResourceDetailId] = useState<string | null>(null)
+  const [refreshSeed, setRefreshSeed] = useState(0)
 
-  if (showUpgrade) {
-    return <VersionUpgradePanel onBack={() => setShowUpgrade(false)} />
+  const query = useMemo<MyBenefitQuery>(
+    () =>
+      createDefaultMyBenefitQuery({
+        search: `?${searchParams.toString()}`,
+      }),
+    [searchParams],
+  )
+  const upgradeOpen = searchParams.get('upgrade') === '1'
+
+  useEffect(() => {
+    const controller = new AbortController()
+    queueMicrotask(() => setLoadState('loading'))
+
+    fetchMyBenefitDashboard(query, controller.signal)
+      .then((result) => {
+        setView(result.view)
+        setLoadState(result.view.state === 'empty' ? 'empty' : 'success')
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setLoadState('error')
+        setNotice(error instanceof Error ? error.message : '我的权益加载失败，请稍后重试')
+      })
+
+    return () => controller.abort()
+  }, [query, refreshSeed])
+
+  const activeTab = query.activeTab
+  const selectedRecord = view?.records.find((record) => record.id === recordDetailId) ?? null
+  const selectedResource = view?.resources.find((resource) => resource.id === resourceDetailId) ?? null
+
+  function updateSearchParams(mutate: (next: URLSearchParams) => void) {
+    const next = new URLSearchParams(searchParams)
+    mutate(next)
+    setSearchParams(next)
+  }
+
+  function switchTab(nextTab: MyBenefitTab) {
+    updateSearchParams((next) => {
+      next.set('tab', nextTab)
+      next.delete('upgrade')
+    })
+  }
+
+  function setUpgradeState(nextOpen: boolean) {
+    updateSearchParams((next) => {
+      if (nextOpen) {
+        next.set('upgrade', '1')
+        next.set('tab', 'resources')
+      } else {
+        next.delete('upgrade')
+      }
+    })
+  }
+
+  function refreshDashboard() {
+    setNotice('')
+    updateSearchParams((next) => {
+      next.delete('myBenefitMockState')
+    })
+    setLoadState('loading')
+    setRefreshSeed((value) => value + 1)
+    window.localStorage.removeItem('pms.myBenefitMockState')
+    setNotice('权益数据已刷新')
+  }
+
+  function exportRecords() {
+    const task = createMyBenefitExportTask(query)
+    setNotice(`导出任务已创建：${task.taskId}`)
+  }
+
+  function renewBenefit() {
+    const task = createMyBenefitRenewTask(query)
+    setNotice(`续费任务已创建：${task.taskId}`)
+  }
+
+  function expandResource(resource: MyBenefitResource) {
+    createMyBenefitExpandTask(query, resource)
+    setResourceDetailId(resource.id)
+    setNotice(`已生成 ${resource.name} 扩容咨询单`)
+  }
+
+  function retryFromError() {
+    setNotice('')
+    updateSearchParams((next) => {
+      next.delete('myBenefitMockState')
+    })
   }
 
   return (
-    <div className="my-benefit-page">
+    <div
+      className="my-benefit-page"
+      data-provider={view?.provider ?? query.provider ?? 'mock'}
+      data-response-state={loadState}
+      data-active-tab={activeTab}
+      data-upgrade-open={upgradeOpen ? 'true' : 'false'}
+    >
       <VersionSideNav />
       <main className="my-benefit-main">
         <section className="my-benefit-tabs" role="tablist" aria-label="我的权益视图">
-          <button type="button" role="tab" aria-selected={activeTab === 'resources'} onClick={() => setActiveTab('resources')}>
+          <button type="button" role="tab" aria-selected={activeTab === 'resources'} onClick={() => switchTab('resources')}>
             版本资源
           </button>
-          <button type="button" role="tab" aria-selected={activeTab === 'services'} onClick={() => setActiveTab('services')}>
+          <button type="button" role="tab" aria-selected={activeTab === 'services'} onClick={() => switchTab('services')}>
             功能服务
           </button>
-          <button type="button" role="tab" aria-selected={activeTab === 'records'} onClick={() => setActiveTab('records')}>
+          <button type="button" role="tab" aria-selected={activeTab === 'records'} onClick={() => switchTab('records')}>
             开通记录
           </button>
         </section>
 
-        {activeTab === 'resources' ? (
+        <section className="my-benefit-toolbar" aria-label="权益工具栏">
+          <button type="button" onClick={refreshDashboard}>
+            刷新权益
+          </button>
+          <button type="button" onClick={exportRecords}>
+            导出记录
+          </button>
+          <button type="button" onClick={() => navigate('/version/applicationPayment')}>
+            去应用订阅
+          </button>
+        </section>
+
+        {notice ? (
+          <div className="my-benefit-notice" role="status" aria-label="我的权益操作反馈">
+            {notice}
+          </div>
+        ) : null}
+
+        {loadState === 'loading' ? <LoadingState /> : null}
+
+        {loadState === 'error' ? (
+          <section className="my-benefit-error" role="alert" aria-label="我的权益数据错误">
+            <strong>我的权益加载失败，请稍后重试</strong>
+            <p>当前无法读取权益资源、功能服务与开通记录，请重试后继续。</p>
+            <button type="button" onClick={retryFromError}>
+              重试
+            </button>
+          </section>
+        ) : null}
+
+        {loadState !== 'error' && view ? (
           <>
             <section className="my-benefit-version" aria-label="当前版本">
               <div className="my-benefit-version__icon" aria-hidden="true" />
               <div>
-                <h1>当前版本：畅享版</h1>
+                <p className="my-benefit-version__eyebrow">{view.versionBadge}</p>
+                <h1>当前版本：{view.currentVersionName}</h1>
                 <p>
-                  有效期到：2027-09-28 <button type="button">开通记录</button>
+                  有效期到：{view.expiresAtText}
+                  <button type="button" onClick={() => switchTab('records')}>
+                    开通记录
+                  </button>
                 </p>
               </div>
               <div className="my-benefit-version__actions">
-                <button type="button" className="is-outline">
+                <button type="button" className="is-outline" onClick={renewBenefit}>
                   续 费
                 </button>
-                <button type="button" className="is-primary" onClick={() => setShowUpgrade(true)}>
+                <button type="button" className="is-primary" onClick={() => setUpgradeState(true)}>
                   版本升级
                 </button>
               </div>
             </section>
 
-            <ResourceTable />
+            <section className="my-benefit-overview" aria-label="权益快览">
+              {view.overviewCards.map((card) => (
+                <article key={card.id} className="my-benefit-overview__card">
+                  <span>{card.label}</span>
+                  <strong>{card.value}</strong>
+                  <p>{card.detail}</p>
+                </article>
+              ))}
+            </section>
+
+            {loadState === 'empty' ? (
+              <section className="my-benefit-empty-state" aria-label="权益空态">
+                <strong>当前权益资源为空</strong>
+                <span>请确认门店订阅状态或切换到其他版本后再查看。</span>
+              </section>
+            ) : upgradeOpen ? (
+              <UpgradePanel view={view} onClose={() => setUpgradeState(false)} onViewSubscription={() => navigate('/version/subscriptionCenter')} />
+            ) : activeTab === 'resources' ? (
+              <ResourceTable resources={view.resources} onExpand={expandResource} />
+            ) : activeTab === 'services' ? (
+              <ServicesPanel view={view} onNavigate={(path) => navigate(path)} />
+            ) : (
+              <RecordsPanel records={view.records} onOpenDetail={setRecordDetailId} />
+            )}
           </>
-        ) : (
-          <section className="my-benefit-empty-state" aria-label={activeTab === 'services' ? '功能服务' : '开通记录'}>
-            <strong>{activeTab === 'services' ? '功能服务' : '开通记录'}</strong>
-            <span>暂无数据</span>
-          </section>
-        )}
+        ) : null}
       </main>
+
+      {selectedRecord ? <RecordDialog record={selectedRecord} onClose={() => setRecordDetailId(null)} /> : null}
+      {selectedResource ? <ResourceDialog resource={selectedResource} onClose={() => setResourceDetailId(null)} /> : null}
     </div>
   )
 }
 
 function VersionSideNav() {
   return (
-    <aside className="my-benefit-sidebar" aria-label="订阅中心侧栏">
+    <aside className="my-benefit-sidebar" aria-label="权益与订阅侧栏">
       <div className="my-benefit-sidebar__root">订阅中心</div>
       <nav>
         {sideLinks.map((item) => (
@@ -138,7 +249,23 @@ function VersionSideNav() {
   )
 }
 
-function ResourceTable() {
+function LoadingState() {
+  return (
+    <section className="my-benefit-loading" aria-label="权益加载中">
+      <span className="my-benefit-loading__dot" aria-hidden="true" />
+      <strong>正在刷新权益数据</strong>
+      <p>正在同步当前版本、资源明细与开通记录。</p>
+    </section>
+  )
+}
+
+function ResourceTable({
+  resources,
+  onExpand,
+}: {
+  resources: MyBenefitResource[]
+  onExpand: (resource: MyBenefitResource) => void
+}) {
   return (
     <table className="my-benefit-table" aria-label="版本资源表">
       <thead>
@@ -149,20 +276,25 @@ function ResourceTable() {
         </tr>
       </thead>
       <tbody>
-        {resourceRows.map((row) => (
-          <tr key={row.name}>
-            <td>{row.name}</td>
-            <td>{row.total}</td>
+        {resources.map((resource) => (
+          <tr key={resource.id}>
+            <td>{resource.name}</td>
+            <td>{resource.totalText}</td>
+            <td>{resource.usedText}</td>
+            <td>{resource.sourceText}</td>
             <td>
-              {row.used}
-              {row.used !== '-' ? <span className="my-benefit-eye" aria-hidden="true" /> : null}
+              <span className="my-benefit-status">{resource.statusText}</span>
             </td>
-            <td>{row.source}</td>
+            <td>{resource.expiresText}</td>
             <td>
-              <span className="my-benefit-status">{row.status}</span>
+              {resource.actionLabel ? (
+                <button type="button" aria-label={`${resource.actionLabel} ${resource.name}`} onClick={() => onExpand(resource)}>
+                  {resource.actionLabel}
+                </button>
+              ) : (
+                '-'
+              )}
             </td>
-            <td>{row.expires}</td>
-            <td>{row.action === '-' ? '-' : <button type="button">{row.action}</button>}</td>
           </tr>
         ))}
       </tbody>
@@ -170,22 +302,109 @@ function ResourceTable() {
   )
 }
 
-function VersionUpgradePanel({ onBack }: { onBack: () => void }) {
+function ServicesPanel({
+  view,
+  onNavigate,
+}: {
+  view: MyBenefitViewModel
+  onNavigate: (path: string) => void
+}) {
   return (
-    <div className="my-benefit-upgrade">
+    <section className="my-benefit-services" aria-label="功能服务分组">
+      {view.serviceGroups.map((group) => (
+        <article key={group.id} className="my-benefit-service-group">
+          <header>
+            <h2>{group.title}</h2>
+            <span>{group.items.length} 项承接入口</span>
+          </header>
+          <div className="my-benefit-service-grid">
+            {group.items.map((item) => (
+              <section key={item.id} className="my-benefit-service-card">
+                <div>
+                  <strong>{item.label}</strong>
+                  {item.badge ? <em>{item.badge}</em> : null}
+                </div>
+                <p>{item.description}</p>
+                <button type="button" aria-label={`打开 ${item.label}`} onClick={() => onNavigate(item.path)}>
+                  打开
+                </button>
+              </section>
+            ))}
+          </div>
+        </article>
+      ))}
+    </section>
+  )
+}
+
+function RecordsPanel({
+  records,
+  onOpenDetail,
+}: {
+  records: MyBenefitRecord[]
+  onOpenDetail: (recordId: string) => void
+}) {
+  return (
+    <section className="my-benefit-records" aria-label="开通记录列表">
+      {records.map((record) => (
+        <article key={record.id} className="my-benefit-record">
+          <div>
+            <strong>{record.title}</strong>
+            <span>{record.typeLabel}</span>
+          </div>
+          <p>{record.description}</p>
+          <dl>
+            <div>
+              <dt>来源</dt>
+              <dd>{record.sourceLabel}</dd>
+            </div>
+            <div>
+              <dt>有效期</dt>
+              <dd>{record.effectiveRange}</dd>
+            </div>
+            <div>
+              <dt>状态</dt>
+              <dd>{record.statusLabel}</dd>
+            </div>
+          </dl>
+          <button type="button" aria-label={`查看详情 ${record.title}`} onClick={() => onOpenDetail(record.id)}>
+            查看详情
+          </button>
+        </article>
+      ))}
+    </section>
+  )
+}
+
+function UpgradePanel({
+  view,
+  onClose,
+  onViewSubscription,
+}: {
+  view: MyBenefitViewModel
+  onClose: () => void
+  onViewSubscription: () => void
+}) {
+  return (
+    <section className="my-benefit-upgrade" aria-label="版本升级面板">
       <header className="my-benefit-upgrade__header">
         <div>
-          <h1>当前版本：畅享版</h1>
-          <p>有效期到:2027-09-28</p>
+          <h1>当前版本：{view.currentVersionName}</h1>
+          <p>有效期到：{view.expiresAtText}</p>
         </div>
-        <button type="button" onClick={onBack}>
-          版本对比
-        </button>
+        <div className="my-benefit-upgrade__actions">
+          <button type="button" onClick={onViewSubscription}>
+            查看版本订阅
+          </button>
+          <button type="button" className="is-outline" onClick={onClose}>
+            返回资源
+          </button>
+        </div>
       </header>
 
       <section className="my-benefit-plan-row" aria-label="版本套餐">
-        {plans.map((plan) => (
-          <article key={plan.name} className={`my-benefit-plan my-benefit-plan--${plan.tone}${plan.active ? ' is-active' : ''}`} aria-label={plan.name}>
+        {view.plans.map((plan) => (
+          <article key={plan.id} className={`my-benefit-plan my-benefit-plan--${plan.tone}${plan.active ? ' is-active' : ''}`} aria-label={plan.name}>
             {plan.tag ? <span>{plan.tag}</span> : null}
             <strong>{plan.name}</strong>
             <em>{plan.price}</em>
@@ -204,33 +423,14 @@ function VersionUpgradePanel({ onBack }: { onBack: () => void }) {
 
         <div className="my-benefit-feature-grid">
           <h2>功能订阅</h2>
-          {featureColumns.map((group) => (
-            <section key={group.title} aria-label={group.title}>
+          {view.serviceGroups.map((group) => (
+            <section key={group.id} aria-label={group.title}>
               <h3>{group.title}</h3>
               {group.items.map((item) => (
-                <p key={item}>{item}</p>
+                <p key={item.id}>{item.label}</p>
               ))}
             </section>
           ))}
-          <section aria-label="SCRM">
-            <h3>SCRM</h3>
-            <p>客户管理</p>
-            <p>客户标签</p>
-            <p className="is-muted">企微直连</p>
-          </section>
-          <section aria-label="智慧酒店">
-            <h3>智慧酒店</h3>
-            <p>直连智能门锁</p>
-            <p>短信自助入住</p>
-            <p>公安身份验证</p>
-          </section>
-          <section aria-label="渠道扩展">
-            <h3>酒店渠道</h3>
-            <p>携程直连</p>
-            <p>美团酒店直连</p>
-            <p>飞猪酒店直连</p>
-            <p>飞猪百达直连</p>
-          </section>
         </div>
 
         <aside className="my-benefit-service-list">
@@ -240,6 +440,57 @@ function VersionUpgradePanel({ onBack }: { onBack: () => void }) {
           <p>7x12小时在线客服</p>
         </aside>
       </section>
+    </section>
+  )
+}
+
+function RecordDialog({ record, onClose }: { record: MyBenefitRecord; onClose: () => void }) {
+  return (
+    <div className="my-benefit-modal" role="presentation">
+      <div className="my-benefit-dialog" role="dialog" aria-modal="true" aria-label="记录详情">
+        <button type="button" className="my-benefit-dialog__close" aria-label="关闭记录详情" onClick={onClose}>
+          ×
+        </button>
+        <h2>{record.title}</h2>
+        <p>{record.description}</p>
+        <dl className="my-benefit-dialog__meta">
+          <div>
+            <dt>订单号</dt>
+            <dd>{record.orderNo}</dd>
+          </div>
+          <div>
+            <dt>来源</dt>
+            <dd>{record.sourceLabel}</dd>
+          </div>
+          <div>
+            <dt>权益范围</dt>
+            <dd>{record.relatedResources.join('、')}</dd>
+          </div>
+          <div>
+            <dt>有效期</dt>
+            <dd>{record.effectiveRange}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  )
+}
+
+function ResourceDialog({ resource, onClose }: { resource: MyBenefitResource; onClose: () => void }) {
+  return (
+    <div className="my-benefit-modal" role="presentation">
+      <div className="my-benefit-dialog" role="dialog" aria-modal="true" aria-label={`${resource.name} 资源详情`}>
+        <button type="button" className="my-benefit-dialog__close" aria-label="关闭资源详情" onClick={onClose}>
+          ×
+        </button>
+        <h2>{resource.name}</h2>
+        <p>当前资源支持继续扩容，后续可直接承接到应用订阅或人工咨询流程。</p>
+        <ul className="my-benefit-dialog__list">
+          {resource.detailLines.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

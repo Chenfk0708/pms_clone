@@ -33,6 +33,11 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
+function resolveCloneMockState() {
+  if (state === 'empty' || state === 'error') return state
+  return 'success'
+}
+
 async function isVisible(locator) {
   return (await locator.count().catch(() => 0)) > 0 && (await locator.first().isVisible().catch(() => false))
 }
@@ -377,6 +382,12 @@ async function main() {
       locale: 'zh-CN',
       timezoneId: 'Asia/Shanghai',
     })
+    if (mode === 'clone') {
+      await context.addInitScript((mockState) => {
+        window.localStorage.setItem('pms.incomeReport.provider', 'mock')
+        window.localStorage.setItem('pms.incomeReport.state', mockState)
+      }, resolveCloneMockState())
+    }
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()

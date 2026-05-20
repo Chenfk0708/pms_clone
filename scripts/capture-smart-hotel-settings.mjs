@@ -11,7 +11,15 @@ const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
-const state = process.argv.includes('--interaction') ? 'interaction' : 'default'
+const state = process.argv.includes('--interaction')
+  ? 'interaction'
+  : process.argv.includes('--share')
+    ? 'share'
+    : process.argv.includes('--empty')
+      ? 'empty'
+      : process.argv.includes('--error')
+        ? 'error'
+        : 'default'
 const stamp =
   process.env.PMS_CAPTURE_STAMP ??
   new Intl.DateTimeFormat('en-CA', {
@@ -34,6 +42,7 @@ const stampText =
   typeof stamp === 'string'
     ? stamp
     : `${stamp.year}${stamp.month}${stamp.day}-${stamp.hour}${stamp.minute}${stamp.second}`
+const scenarioUrl = resolveScenarioUrl(mode === 'target' ? TARGET_URL : LOCAL_URL, state, mode)
 
 const artifactDirs = {
   screenshots: path.resolve('artifacts/screenshots', TASK_ID),
@@ -87,11 +96,15 @@ try {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(scenarioUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
     await waitForBusinessSurface(page)
+
+    if (state === 'share') {
+      await openShareTab(page)
+    }
 
     const interactions = state === 'interaction' ? await runInteractionSweep(page) : []
 
@@ -114,6 +127,7 @@ try {
           state,
           stamp: stampText,
           url: page.url(),
+          scenarioUrl,
           isLoginBlocked: isBlocked(page.url(), facts.bodyText),
           interactions,
           facts,
@@ -134,6 +148,7 @@ try {
           state,
           stamp: stampText,
           url: page.url(),
+          scenarioUrl,
           responses: network,
         },
         null,
@@ -150,6 +165,7 @@ try {
           state,
           stamp: stampText,
           url: page.url(),
+          scenarioUrl,
           isLoginBlocked: isBlocked(page.url(), facts.bodyText),
           hasBusinessText: hasBusinessSurface(facts.bodyText),
           bodyLength: facts.bodyText.length,
@@ -186,6 +202,16 @@ function fileFor(root, suffix, extension) {
   return path.join(root, `${state}-${mode}-${stampText}-${suffix}.${extension}`)
 }
 
+function resolveScenarioUrl(baseUrl, stateValue, currentMode) {
+  if (currentMode !== 'clone') return baseUrl
+
+  const url = new URL(baseUrl)
+  if (stateValue === 'empty' || stateValue === 'error') {
+    url.searchParams.set('mockState', stateValue)
+  }
+  return url.toString()
+}
+
 async function waitForBusinessSurface(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 18_000 }).catch(() => {})
@@ -220,7 +246,7 @@ async function runInteractionSweep(page) {
     { slug: 'save', labels: ['保存', '确定', '确 定'] },
     { slug: 'enable-switch', labels: ['启用', '禁用', '开启', '关闭'] },
   ]) {
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(scenarioUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -241,11 +267,19 @@ async function runInteractionSweep(page) {
       after,
       screenshotPath,
     })
-    await page.keyboard.press('Escape').catch(() => {})
-    await page.waitForTimeout(300)
-  }
+      await page.keyboard.press('Escape').catch(() => {})
+      await page.waitForTimeout(300)
+    }
 
   return interactions
+}
+
+async function openShareTab(page) {
+  const shareTab = page.getByRole('tab', { name: '分享' })
+  if (await shareTab.count().catch(() => 0)) {
+    await shareTab.click().catch(() => {})
+    await page.waitForTimeout(600)
+  }
 }
 
 async function clickFirstVisibleLabel(page, labels) {

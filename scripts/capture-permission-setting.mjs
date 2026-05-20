@@ -5,12 +5,12 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'shezhi--qiye-shezhi--quanxian-shezhi'
 const TARGET_URL = 'https://minsubao.localhome.cn/setting/role'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/setting/role'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
-
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
+const configuredLocalBaseUrl = process.env.PMS_TEST_BASE_URL?.trim()
+const configuredLocalUrl = process.env.PMS_LOCAL_URL?.trim() || (configuredLocalBaseUrl ? `${configuredLocalBaseUrl}/setting/role` : '')
 const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
 const state = stateArg ? stateArg.split('=')[1] : 'default'
 const stamp =
@@ -55,7 +55,10 @@ try {
   }
 
   if (mode === 'clone') {
-    await ensurePreviewServer(LOCAL_URL)
+    if (!configuredLocalUrl) {
+      throw new Error('Clone capture requires PMS_LOCAL_URL or PMS_TEST_BASE_URL')
+    }
+    await ensurePreviewServer(configuredLocalUrl)
   }
 
   const network = []
@@ -74,24 +77,28 @@ try {
     })
     const page = await context.newPage()
 
-    page.on('response', (response) => {
+    page.on('response', async (response) => {
       const request = response.request()
+      const contentType = response.headers()['content-type'] ?? ''
       network.push({
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
-        contentType: response.headers()['content-type'] ?? '',
+        contentType,
+        requestBody: summarizeRequestBody(request),
+        responseBody: await summarizeResponseBody(response, contentType),
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(mode === 'target' ? TARGET_URL : configuredLocalUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
     await waitForBusinessSurface(page)
 
     const interactions = state === 'default' ? [] : await applyState(page, state)
+    await page.waitForTimeout(1200)
 
     const screenshotPath = fileFor(artifactDirs.screenshots, 'viewport', 'png')
     const fullScreenshotPath = fileFor(artifactDirs.screenshots, 'full', 'png')
@@ -154,11 +161,9 @@ try {
           bodySample: stableText(facts.bodyText).slice(0, 1600),
           topButtons: facts.buttons.slice(0, 60),
           inputs: facts.inputs.slice(0, 30),
-          selects: facts.selects.slice(0, 30),
           tableHeaders: facts.tableHeaders.slice(0, 80),
           rows: facts.rows.slice(0, 40),
           dialogs: facts.dialogs.slice(0, 12),
-          dropdowns: facts.dropdowns.slice(0, 12),
           interactions,
           artifacts: {
             screenshotPath,
@@ -194,11 +199,9 @@ async function waitForBusinessSurface(page) {
         const text = document.body?.innerText || ''
         return (
           text.includes('权限设置') ||
-          text.includes('角色') ||
-          text.includes('权限') ||
-          text.includes('成员') ||
-          text.includes('企业设置') ||
-          text.includes('暂无数据') ||
+          text.includes('店铺角色') ||
+          text.includes('请选择角色') ||
+          text.includes('请为角色设置权限') ||
           text.includes('账号登录') ||
           text.includes('请按住滑块')
         )
@@ -213,19 +216,15 @@ async function waitForBusinessSurface(page) {
 async function applyState(page, stateName) {
   const interactions = []
   const actionsByState = {
-    add: [
-      { slug: 'add-role', labels: ['新增角色', '添加角色', '新建角色', '新增', '添加'] },
-    ],
-    edit: [{ slug: 'edit-role', labels: ['编辑'] }],
-    delete: [{ slug: 'delete-role', labels: ['删除'] }],
-    detail: [{ slug: 'role-detail', labels: ['查看', '详情', '权限设置', '设置权限'] }],
+    add: [{ slug: 'add-role', labels: ['新增角色', '添加角色', '新建角色'] }],
+    edit: [{ slug: 'edit-role', labels: ['编辑角色名称', '编辑'] }],
+    delete: [{ slug: 'delete-role', labels: ['删除角色', '删除'] }],
     role: [{ slug: 'select-role', labels: ['管家', '管理员', '投资人', '保洁员'] }],
-    dropdown: [{ slug: 'first-dropdown', labels: ['全部角色', '角色', '状态', '请选择'] }],
     sweep: [
-      { slug: 'add-role', labels: ['新增角色', '添加角色', '新建角色', '新增', '添加'] },
-      { slug: 'edit-role', labels: ['编辑'] },
-      { slug: 'delete-role', labels: ['删除'] },
-      { slug: 'first-dropdown', labels: ['全部角色', '角色', '状态', '请选择'] },
+      { slug: 'add-role', labels: ['新增角色', '添加角色', '新建角色'] },
+      { slug: 'select-role', labels: ['管家', '管理员', '投资人', '保洁员'] },
+      { slug: 'edit-role', labels: ['编辑角色名称', '编辑'] },
+      { slug: 'delete-role', labels: ['删除角色', '删除'] },
     ],
   }
 
@@ -261,7 +260,6 @@ async function clickFirstVisibleLabel(page, labels) {
     const locators = [
       page.getByRole('button', { name: label, exact: true }),
       page.getByRole('link', { name: label, exact: true }),
-      page.getByRole('menuitem', { name: label, exact: true }),
       page.getByText(label, { exact: true }),
       page.getByText(label, { exact: false }),
     ]
@@ -367,11 +365,6 @@ async function extractPageFacts(page) {
         rect: readStyle(node).rect,
       }))
 
-    const selects = Array.from(document.querySelectorAll('.ant-select,[role="combobox"],select,[class*="select"]'))
-      .filter(visible)
-      .map(readStyle)
-      .slice(0, 80)
-
     const tableHeaders = Array.from(document.querySelectorAll('th,.ant-table-thead .ant-table-cell,[role="columnheader"],.table-head *'))
       .filter(visible)
       .map((node) => normalize(node.textContent))
@@ -389,16 +382,6 @@ async function extractPageFacts(page) {
       .map(readStyle)
       .slice(0, 40)
 
-    const dropdowns = Array.from(document.querySelectorAll('.ant-select-dropdown,.ant-dropdown,.ant-picker-dropdown,[role="listbox"],.dropdown'))
-      .filter(visible)
-      .map(readStyle)
-      .slice(0, 40)
-
-    const elementSamples = Array.from(document.querySelectorAll('body *'))
-      .filter(visible)
-      .slice(0, 320)
-      .map(readStyle)
-
     return {
       title: document.title,
       location: location.href,
@@ -410,9 +393,9 @@ async function extractPageFacts(page) {
       bodyText,
       hasBusinessText:
         bodyText.includes('权限设置') ||
-        bodyText.includes('角色') ||
-        bodyText.includes('权限') ||
-        bodyText.includes('成员'),
+        bodyText.includes('店铺角色') ||
+        bodyText.includes('请选择角色') ||
+        bodyText.includes('请为角色设置权限'),
       isLoginBlocked:
         bodyText.includes('账号登录') ||
         bodyText.includes('请按住滑块') ||
@@ -420,12 +403,13 @@ async function extractPageFacts(page) {
         location.href.includes('/login'),
       buttons,
       inputs,
-      selects,
       tableHeaders,
       rows,
       dialogs,
-      dropdowns,
-      elementSamples,
+      elementSamples: Array.from(document.querySelectorAll('body *'))
+        .filter(visible)
+        .slice(0, 320)
+        .map(readStyle),
     }
   })
 }
@@ -433,8 +417,10 @@ async function extractPageFacts(page) {
 async function ensurePreviewServer(url) {
   if (await canFetch(url)) return
 
+  const previewUrl = new URL(url)
+  const previewPort = previewUrl.port || '4173'
   const command = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  previewProcess = spawn(command, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4173'], {
+  previewProcess = spawn(command, ['run', 'preview', '--', '--host', previewUrl.hostname, '--port', previewPort], {
     cwd: process.cwd(),
     stdio: 'ignore',
     windowsHide: true,
@@ -466,6 +452,50 @@ function isBlocked(url, bodyText) {
     url.includes('/home') ||
     url.includes('/login')
   )
+}
+
+function summarizeRequestBody(request) {
+  const rawBody = request.postData()
+  if (!rawBody) return null
+  try {
+    return JSON.parse(rawBody)
+  } catch {
+    return rawBody.slice(0, 4000)
+  }
+}
+
+async function summarizeResponseBody(response, contentType) {
+  if (!/application\/json/i.test(contentType)) return null
+  try {
+    return summarizeJson(await response.json())
+  } catch {
+    return null
+  }
+}
+
+function summarizeJson(value) {
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 2).map((item) => summarizeJson(item)),
+    }
+  }
+
+  if (value && typeof value === 'object') {
+    const entries = Object.entries(value)
+    return {
+      type: 'object',
+      keys: entries.map(([key]) => key).slice(0, 20),
+      sample: Object.fromEntries(entries.slice(0, 12).map(([key, item]) => [key, summarizeJson(item)])),
+    }
+  }
+
+  if (typeof value === 'string') {
+    return value.slice(0, 300)
+  }
+
+  return value
 }
 
 function stableText(text) {

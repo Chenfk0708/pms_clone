@@ -15,6 +15,7 @@ export interface MonthCell {
   amount?: string
   stayRange?: string
   totalIncome?: string
+  liveStatus?: string
   phone?: string
   remark?: string
   orderId?: string
@@ -518,6 +519,7 @@ function buildRoomCell(
     subtitle: channel,
     amount: typeof amount === 'number' ? formatMoney(amount) : undefined,
     totalIncome: typeof totalIncome === 'number' ? formatMoney(totalIncome) : undefined,
+    liveStatus: pickString(order, ['liveStatus', 'liveStatusName', 'statusName', 'roomStatusName', 'liveName', 'lsn']) ?? inferLiveStatus(order),
     stayRange: pickString(order, ['stayRange', 'dateRange', 'checkInOutDate']) ?? formatStayRange(order),
     phone: pickString(order, ['phone', 'mobile', 'contactPhone', 'gm']),
     remark: pickString(order, ['remark', 'orderRemark', 'rmk']),
@@ -656,6 +658,17 @@ function formatStayRange(order: unknown) {
 
 function formatMoney(value: number) {
   return `¥${Number.isInteger(value) ? value : Number(value.toFixed(2))}`
+}
+
+function inferLiveStatus(order: unknown) {
+  const statusText = pickString(order, ['liveStatusText', 'statusText', 'statusDesc', 'orderStatusText', 'oss'])
+  if (statusText) return statusText
+
+  const statusCode = pickNumber(order, ['liveStatus', 'status', 'orderStatus', 'checkStatus', 'ls'])
+  if (statusCode === 2) return '入住中'
+  if (statusCode === 3 || statusCode === 4) return '已退房'
+  if (statusCode === 1) return '待入住'
+  return undefined
 }
 
 function toneForChannel(channel: string | undefined): CellTone {

@@ -86,7 +86,7 @@ export function SubscriptionDisplacementBenefitPage() {
             </div>
 
             <div className="subscription-displacement-filter" role="group" aria-label="日期筛选">
-              <span>日期筛选:</span>
+              <span>日期筛选</span>
               <button type="button" className="is-active" aria-label="日期筛选 全部">
                 全部
               </button>

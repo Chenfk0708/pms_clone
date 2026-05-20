@@ -54,15 +54,23 @@ async function captureSide(side, url, contextOptions) {
   })
   const page = await context.newPage()
 
-  page.on('response', (response) => {
+  page.on('response', async (response) => {
     const request = response.request()
-    network.push({
-      url: response.url(),
+    const record = {
+      url: redactSensitiveUrl(response.url()),
       method: request.method(),
       status: response.status(),
       resourceType: request.resourceType(),
       contentType: response.headers()['content-type'] ?? '',
-    })
+      postData: redactSensitive(parsePostData(request.postData())),
+    }
+    if (response.url().includes('hudson-prod.localhome.cn')) {
+      record.responsePreview = await response
+        .text()
+        .then((body) => redactSensitivePreview(body).slice(0, 2000))
+        .catch(() => '')
+    }
+    network.push(record)
   })
 
   try {
@@ -176,6 +184,46 @@ async function captureSide(side, url, contextOptions) {
   } finally {
     await context.close()
   }
+}
+
+function parsePostData(postData) {
+  if (!postData) return null
+  try {
+    return JSON.parse(postData)
+  } catch {
+    return postData.slice(0, 1000)
+  }
+}
+
+function redactSensitive(value) {
+  if (Array.isArray(value)) return value.map(redactSensitive)
+  if (!value || typeof value !== 'object') return value
+  return Object.fromEntries(
+    Object.entries(value).map(([key, child]) => {
+      if (isSensitiveKey(key)) return [key, '[REDACTED]']
+      return [key, redactSensitive(child)]
+    }),
+  )
+}
+
+function redactSensitivePreview(body) {
+  try {
+    return JSON.stringify(redactSensitive(JSON.parse(body)))
+  } catch {
+    return body.replace(
+      /("(?:token|cookie|authorization|password|secret|storageState|mobile|email|userId|user_id|accid|appKey|app_key)"\s*:\s*)"[^"]*"/gi,
+      '$1"[REDACTED]"',
+    ).replace(/\b1[3-9]\d{9}\b/g, '[REDACTED_MOBILE]')
+  }
+}
+
+function isSensitiveKey(key) {
+  return /token|cookie|authorization|password|secret|storageState|mobile|email|userId|user_id|accid|appKey|app_key/i.test(key)
+}
+
+function redactSensitiveUrl(url) {
+  if (/netease\.im|live\.126\.net/i.test(url)) return '[REDACTED_EXTERNAL_IM_URL]'
+  return url.replace(/([?&](?:token|cookie|authorization|password|secret|mobile|email|userId|user_id|accid|appKey|app_key)=)[^&]+/gi, '$1[REDACTED]')
 }
 
 async function extractFacts(page) {

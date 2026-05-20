@@ -4,7 +4,7 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'baobiao--yushouquan-shuju--yushouquan-xiaoshou-tongji'
 const TARGET_URL = 'https://minsubao.localhome.cn/statistics/presale'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/statistics/presale'
+const LOCAL_URL = process.env.PMS_LOCAL_URL ?? ''
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
@@ -33,6 +33,68 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
+function summarizeValue(value, depth = 0) {
+  if (value === null) return null
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 2).map((item) => summarizeValue(item, depth + 1)),
+    }
+  }
+  if (typeof value === 'object') {
+    if (depth >= 3) return { type: 'object', keys: Object.keys(value).slice(0, 24) }
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 40)
+        .map(([key, item]) => [key, summarizeValue(item, depth + 1)]),
+    )
+  }
+  if (typeof value === 'string') {
+    if (/token|cookie|authorization|password|mobile/i.test(value)) return '[redacted]'
+    return value.length > 180 ? `${value.slice(0, 180)}...` : value
+  }
+  return value
+}
+
+function parsePostData(request) {
+  const body = request.postData()
+  if (!body) return null
+
+  try {
+    return summarizeValue(JSON.parse(body))
+  } catch {
+    return normalizeText(body).slice(0, 300)
+  }
+}
+
+function shouldCapturePayload(url) {
+  return (
+    url.includes('/order/report/get') ||
+    url.includes('/report/store/management/get') ||
+    url.includes('/select/poi/page/get') ||
+    url.includes('/roomCategories/page/get') ||
+    url.includes('/orders/strongReminder/page/get') ||
+    url.includes('/edition/resource/get') ||
+    url.includes('/paymentTypes/get')
+  )
+}
+
+function captureUrlForState() {
+  if (mode !== 'clone') return TARGET_URL
+  if (!LOCAL_URL) throw new Error('PMS_LOCAL_URL is required when running clone capture for presale sales report')
+  if (state === 'loading') {
+    const url = new URL(LOCAL_URL)
+    url.searchParams.set('mockDelayMs', '5000')
+    return url.toString()
+  }
+  if (state !== 'success' && state !== 'empty' && state !== 'error') return LOCAL_URL
+
+  const url = new URL(LOCAL_URL)
+  url.searchParams.set('mockState', state)
+  return url.toString()
+}
+
 async function isVisible(locator) {
   return (await locator.count().catch(() => 0)) > 0 && (await locator.first().isVisible().catch(() => false))
 }
@@ -41,23 +103,36 @@ async function clickFirstVisible(page, labels) {
   for (const label of labels) {
     const candidates = [
       page.getByRole('button', { name: new RegExp(label) }).first(),
+      page.getByRole('link', { name: new RegExp(label) }).first(),
       page.getByText(label, { exact: true }).first(),
-      page.locator(`input[placeholder*="${label}"]`).first(),
       page.locator(`[aria-label*="${label}"]`).first(),
+      page.locator(`input[placeholder*="${label}"]`).first(),
       page.locator(`.ant-select-selector:has-text("${label}")`).first(),
     ]
+
     for (const locator of candidates) {
       if (!(await isVisible(locator))) continue
+
       try {
         await locator.click({ timeout: 2500 })
         await page.waitForTimeout(900)
         return label
       } catch {
-        // Try the next matching control.
+        // Try the next candidate.
       }
     }
   }
+
   return null
+}
+
+async function clickSelectByIndex(page, index, action) {
+  const selector = page.locator('.ant-select-selector').nth(index)
+  if (!(await isVisible(selector))) return { action, clicked: null, reason: `select-${index}-not-visible` }
+
+  await selector.click({ timeout: 2500 })
+  await page.waitForTimeout(900)
+  return { action, clicked: `select-${index}` }
 }
 
 async function waitForBusinessSurface(page) {
@@ -68,11 +143,11 @@ async function waitForBusinessSurface(page) {
       () => {
         const text = document.body?.innerText || ''
         return (
-          text.includes('预售券') ||
-          text.includes('销售统计') ||
-          text.includes('核销') ||
-          text.includes('售卖') ||
-          text.includes('门店') ||
+          text.includes('预售券销售统计') ||
+          text.includes('经营指标') ||
+          text.includes('增长趋势分析') ||
+          text.includes('小程序订单来源分析') ||
+          text.includes('查看明细数据') ||
           text.includes('账号登录') ||
           text.includes('请按住滑块')
         )
@@ -84,22 +159,12 @@ async function waitForBusinessSurface(page) {
   await page.waitForTimeout(1800)
 }
 
-async function clickSelectByIndex(page, index, action) {
-  const selector = page.locator('.ant-select-selector').nth(index)
-  if (!(await isVisible(selector))) return { action, clicked: null, reason: `select-${index}-not-visible` }
-  await selector.click({ timeout: 2500 })
-  await page.waitForTimeout(900)
-  return { action, clicked: `select-${index}` }
-}
-
 async function applyState(page) {
   const interactions = []
 
   if (state === 'date-range') {
     const dateInput = page
-      .locator(
-        'input[placeholder*="开始"], input[placeholder*="日期"], input[placeholder*="请选择"], input[class*="picker"]',
-      )
+      .locator('input[placeholder*="开始"], input[placeholder*="日期"], input[placeholder*="选择"], input[class*="picker"]')
       .first()
     if (await isVisible(dateInput)) {
       await dateInput.click({ timeout: 2500 }).catch(() => {})
@@ -116,20 +181,12 @@ async function applyState(page) {
     interactions.push({ action: 'open-store-dropdown', clicked })
   }
 
-  if (state === 'first-select') {
-    interactions.push(await clickSelectByIndex(page, 0, 'open-first-select'))
-  }
-
-  if (state === 'second-select') {
-    interactions.push(await clickSelectByIndex(page, 1, 'open-second-select'))
-  }
-
-  if (state === 'third-select') {
-    interactions.push(await clickSelectByIndex(page, 2, 'open-third-select'))
-  }
+  if (state === 'first-select') interactions.push(await clickSelectByIndex(page, 0, 'open-first-select'))
+  if (state === 'second-select') interactions.push(await clickSelectByIndex(page, 1, 'open-second-select'))
+  if (state === 'third-select') interactions.push(await clickSelectByIndex(page, 2, 'open-third-select'))
 
   if (state === 'collapsed') {
-    const clicked = await clickFirstVisible(page, ['收 起', '收起'])
+    const clicked = await clickFirstVisible(page, ['收起'])
     interactions.push({ action: 'click-collapse', clicked })
   }
 
@@ -139,7 +196,7 @@ async function applyState(page) {
   }
 
   if (state === 'description') {
-    const clicked = await clickFirstVisible(page, ['说 明', '说明'])
+    const clicked = await clickFirstVisible(page, ['说明', '描述'])
     interactions.push({ action: 'open-description', clicked })
   }
 
@@ -150,13 +207,19 @@ async function applyState(page) {
     interactions.push({ action: 'open-detail-data', clicked, url: page.url() })
   }
 
+  if (state === 'orders-tab') {
+    const clicked = await clickFirstVisible(page, ['订单数'])
+    interactions.push({ action: 'switch-trend-dimension', clicked, url: page.url() })
+  }
+
   if (state === 'query') {
     const input = page.locator('input[placeholder*="搜索"], input[placeholder*="订单"], input[type="text"]').last()
     if (await isVisible(input)) {
       await input.fill('预售券')
       interactions.push({ action: 'fill-keyword', value: '预售券' })
     }
-    const clicked = await clickFirstVisible(page, ['查询', '查 询', '搜索'])
+
+    const clicked = await clickFirstVisible(page, ['查询', '搜索'])
     interactions.push({ action: 'click-query', clicked })
   }
 
@@ -167,6 +230,7 @@ async function screenshotFirstVisible(page, selectors, suffix) {
   for (const selector of selectors) {
     const locator = page.locator(selector).first()
     if (!(await isVisible(locator))) continue
+
     try {
       const outputPath = fileFor(artifactRoots.screenshots, suffix, 'png')
       await locator.screenshot({ path: outputPath })
@@ -175,6 +239,7 @@ async function screenshotFirstVisible(page, selectors, suffix) {
       // Try the next selector.
     }
   }
+
   return null
 }
 
@@ -217,6 +282,7 @@ async function extractFacts(page, interactions, componentScreenshots) {
         const computed = window.getComputedStyle(element)
         const styles = {}
         for (const prop of styleProps) styles[prop] = computed[prop]
+
         return {
           tag: element.tagName.toLowerCase(),
           className: String(element.className || '').slice(0, 220),
@@ -282,8 +348,9 @@ async function extractFacts(page, interactions, componentScreenshots) {
         .filter(Boolean)
         .slice(0, 220)
       const keyElements = visibleElements.filter((item) =>
-        /预售券|销售|售卖|核销|门店|商品|数量|金额|查询|导出|说明|暂无数据|统计/.test(item.text),
+        /预售券|销售统计|经营指标|增长趋势分析|小程序订单来源分析|交易额|订单数|暂无数据|查看明细数据/.test(item.text),
       )
+      const serviceContract = document.querySelector('[data-testid="presale-sales-service-contract"]')
 
       return {
         url: location.href,
@@ -291,15 +358,12 @@ async function extractFacts(page, interactions, componentScreenshots) {
         bodyLength: bodyText.length,
         bodyTextSample: bodyText.slice(0, 10000),
         isLoginBlocked:
-          bodyText.includes('账号登录') ||
-          bodyText.includes('账户登录') ||
-          bodyText.includes('请按住滑块') ||
-          bodyText.includes('登录其他登录方式'),
+          bodyText.includes('账号登录') || bodyText.includes('账户登录') || bodyText.includes('请按住滑块') || bodyText.includes('登录其他登录方式'),
         hasBusinessText:
-          bodyText.includes('预售券') ||
-          bodyText.includes('销售统计') ||
-          bodyText.includes('售卖') ||
-          bodyText.includes('核销'),
+          bodyText.includes('预售券销售统计') ||
+          bodyText.includes('经营指标') ||
+          bodyText.includes('增长趋势分析') ||
+          bodyText.includes('小程序订单来源分析'),
         interactions: capturedInteractions,
         componentScreenshots: capturedComponentScreenshots,
         controls,
@@ -310,6 +374,13 @@ async function extractFacts(page, interactions, componentScreenshots) {
         dropdowns,
         options,
         keyElements,
+        serviceContract: serviceContract
+          ? {
+              provider: serviceContract.getAttribute('data-provider'),
+              state: serviceContract.getAttribute('data-state'),
+              text: (serviceContract.textContent || '').trim(),
+            }
+          : null,
         visibleElements,
         viewport: {
           width: window.innerWidth,
@@ -341,22 +412,41 @@ async function main() {
       timezoneId: 'Asia/Shanghai',
     })
     const page = await context.newPage()
-    page.on('response', (response) => {
+    page.on('response', async (response) => {
       const request = response.request()
-      network.push({
+      const entry = {
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
         contentType: response.headers()['content-type'] ?? '',
-      })
+        postData: parsePostData(request),
+      }
+
+      if (shouldCapturePayload(response.url())) {
+        try {
+          if ((response.headers()['content-type'] || '').includes('application/json')) {
+            entry.responseSummary = summarizeValue(await response.json())
+          } else {
+            entry.responseSummary = normalizeText(await response.text()).slice(0, 600)
+          }
+        } catch (error) {
+          entry.responseSummaryError = error instanceof Error ? error.message : String(error)
+        }
+      }
+
+      network.push(entry)
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(captureUrlForState(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
-    await waitForBusinessSurface(page)
+    if (state === 'loading') {
+      await page.waitForTimeout(400)
+    } else {
+      await waitForBusinessSurface(page)
+    }
     const interactions = await applyState(page)
 
     const viewportScreenshot = fileFor(artifactRoots.screenshots, 'viewport', 'png')
@@ -365,24 +455,26 @@ async function main() {
     await page.screenshot({ path: fullScreenshot, fullPage: true })
 
     const componentScreenshots = []
-    const filterShot = await screenshotFirstVisible(
+    const metricsShot = await screenshotFirstVisible(
       page,
-      ['main form', '.ant-form', '.ant-card:has(input)', '.report-filter-card', '.presale-sales-filter'],
-      'component-filters',
+      ['.presale-sales-kpi-section', '[aria-label="预售券经营指标"]', '.presale-sales-metrics'],
+      'component-metrics',
     )
-    if (filterShot) componentScreenshots.push(filterShot)
-    const tableShot = await screenshotFirstVisible(
+    if (metricsShot) componentScreenshots.push(metricsShot)
+
+    const trendShot = await screenshotFirstVisible(
       page,
-      ['.ant-table-wrapper', '.ant-table', 'table', '.presale-sales-table'],
-      'component-table',
+      ['.presale-sales-trend', '[aria-label="增长趋势分析"]'],
+      'component-trend',
     )
-    if (tableShot) componentScreenshots.push(tableShot)
-    const popupShot = await screenshotFirstVisible(
+    if (trendShot) componentScreenshots.push(trendShot)
+
+    const sourceShot = await screenshotFirstVisible(
       page,
-      ['.ant-picker-dropdown', '.ant-select-dropdown', '.ant-modal', '.ant-dropdown', '[role="listbox"]'],
-      'component-popup',
+      ['.presale-sales-source', '[aria-label="小程序订单来源分析"]', '.presale-sales-source-table-wrap'],
+      'component-source',
     )
-    if (popupShot) componentScreenshots.push(popupShot)
+    if (sourceShot) componentScreenshots.push(sourceShot)
 
     const facts = await extractFacts(page, interactions, componentScreenshots)
     const domFile = fileFor(artifactRoots.dom, 'page', 'html')
@@ -413,6 +505,7 @@ async function main() {
           options: facts.options.slice(0, 90),
           interactions,
           componentScreenshots,
+          serviceContract: facts.serviceContract,
           screenshots: [viewportScreenshot, fullScreenshot],
           dom: domFile,
           styles: styleFile,

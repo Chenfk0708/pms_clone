@@ -122,7 +122,7 @@ const rows: DistributionDisplacementApiRow[] = [
     settlementStatus: 'pending',
     checkInDate: '2026-05-17',
     checkOutDate: '2026-05-18',
-    settlementDate: '2026-05-20',
+    settlementDate: '2026-05-18',
     settlementAmount: 468000,
     replaceAmount: 286000,
     remark: '尾房置换权益待结算，订单已完成入住核对。',

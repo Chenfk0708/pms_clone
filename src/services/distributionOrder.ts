@@ -112,10 +112,19 @@ function resolveProvider(): DistributionOrderProviderName {
 }
 
 function resolveMockMode(): DistributionOrderMockMode {
+  const fromUrl = readUrlMockMode()
+  if (fromUrl) return fromUrl
   const configured =
     readRuntimeConfig('pms.distributionOrderMockMode') || import.meta.env.VITE_DISTRIBUTION_ORDER_MOCK_MODE
   if (configured === 'empty' || configured === 'error') return configured
   return 'success'
+}
+
+function readUrlMockMode(): DistributionOrderMockMode | '' {
+  if (typeof window === 'undefined') return ''
+  const params = new URLSearchParams(window.location.search)
+  const configured = params.get('mockState') || params.get('distributionOrderMockMode')
+  return configured === 'empty' || configured === 'error' || configured === 'success' ? configured : ''
 }
 
 function readRuntimeConfig(key: string) {

@@ -21,7 +21,7 @@ test('/channels/distribution/distributiondisplacement loads business data throug
     'data-endpoint',
     'https://hudson-prod.localhome.cn/edition/replace/order/get',
   )
-  await expect(page.getByTestId('distribution-displacement-service-state')).toHaveAttribute(/data-request-body/, /"pageSize":20/)
+  await expect(page.getByTestId('distribution-displacement-service-state')).toHaveAttribute('data-request-body', /"pageSize":20/)
 
   await expect(page.getByRole('region', { name: '置换概况' })).toContainText('待置换金额')
   await expect(page.getByRole('region', { name: '置换概况' })).toContainText('¥12,860.00')
@@ -40,7 +40,7 @@ test('/channels/distribution/distributiondisplacement filters, refreshes, export
   await page.getByLabel('开始日期').fill('2026-05-17')
   await page.getByLabel('结束日期').fill('2026-05-18')
   await page.getByRole('button', { name: '查询' }).click()
-  await expect(page.getByTestId('distribution-displacement-service-state')).toHaveAttribute(/data-request-body/, /1778947200000/)
+  await expect(page.getByTestId('distribution-displacement-service-state')).toHaveAttribute('data-request-body', /1778947200000/)
   await expect(page.getByText('筛选已更新')).toBeVisible()
 
   await page.getByRole('button', { name: '查看 DD-20260518-001 详情' }).click()
@@ -50,7 +50,7 @@ test('/channels/distribution/distributiondisplacement filters, refreshes, export
   await page.getByRole('button', { name: '导出' }).click()
   await expect(page.getByText('导出任务已创建')).toBeVisible()
 
-  await page.getByRole('button', { name: '刷新' }).click()
+  await page.getByLabel('置换权益操作').getByRole('button', { name: '刷新' }).click()
   await expect(page.getByText(/刷新完成/)).toBeVisible()
 
   await page.getByRole('button', { name: '重置' }).click()

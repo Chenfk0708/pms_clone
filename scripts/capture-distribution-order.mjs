@@ -17,7 +17,13 @@ const state = process.argv.includes('--expanded')
     ? 'dropdown'
     : process.argv.includes('--interaction')
       ? 'interaction'
-      : 'default'
+      : process.argv.includes('--empty')
+        ? 'empty'
+        : process.argv.includes('--error')
+          ? 'error'
+          : process.argv.includes('--detail')
+            ? 'detail'
+            : 'default'
 const stamp = process.env.PMS_CAPTURE_STAMP ?? new Date().toISOString().replace(/\D/g, '').slice(0, 14)
 
 const artifactRoots = {
@@ -161,7 +167,25 @@ async function runStateSetup(page) {
     const query = await clickFirstVisible(page, ['查 询', '搜 索', '查询', '搜索'])
     interactions.push({ action: 'click-query', clicked: query })
   }
+  if (state === 'detail') {
+    const orderButton = page.locator('.distribution-order-link').first()
+    if ((await orderButton.count().catch(() => 0)) > 0) {
+      await orderButton.click({ timeout: 3000 })
+      await page.waitForTimeout(900)
+      interactions.push({ action: 'open-detail', clicked: true })
+    } else {
+      interactions.push({ action: 'open-detail', clicked: false })
+    }
+  }
   return interactions
+}
+
+function localUrlForState() {
+  if (mode !== 'clone') return TARGET_URL
+  if (state !== 'empty' && state !== 'error') return LOCAL_URL
+  const url = new URL(LOCAL_URL)
+  url.searchParams.set('mockState', state)
+  return url.toString()
 }
 
 async function extractFacts(page) {
@@ -324,7 +348,7 @@ async function main() {
       network.push(entry)
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(localUrlForState(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })

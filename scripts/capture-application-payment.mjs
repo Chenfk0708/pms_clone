@@ -4,7 +4,8 @@ import { chromium } from '@playwright/test'
 
 const taskId = 'yingyong-dingyue--quanyi-yu-dingyue--yingyong-dingyue'
 const targetUrl = 'https://minsubao.localhome.cn/version/applicationPayment'
-const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/version/applicationPayment'
+const localBaseUrl = process.env.PMS_LOCAL_URL ?? process.env.PMS_TEST_BASE_URL
+const cloneUrl = localBaseUrl ? `${localBaseUrl.replace(/\/$/, '')}/version/applicationPayment` : ''
 const storageState = path.resolve('playwright/.auth/pms-user.json')
 const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
@@ -242,6 +243,10 @@ async function extractFacts(page, interactions) {
 }
 
 async function main() {
+  if (mode === 'clone' && !cloneUrl) {
+    throw new Error('clone 模式必须显式提供 PMS_LOCAL_URL 或 PMS_TEST_BASE_URL，不能回落默认端口')
+  }
+
   const browser = await chromium.launch({
     executablePath: chromeExecutablePath,
     headless: true,
@@ -283,7 +288,24 @@ async function main() {
     await fs.writeFile(fileFor(artifactDirs.styles, 'facts', 'json'), JSON.stringify(facts, null, 2), 'utf8')
     await fs.writeFile(
       fileFor(artifactDirs.network, 'responses', 'json'),
-      JSON.stringify({ mode, state, stamp, url: page.url(), responses: network }, null, 2),
+      JSON.stringify(
+        {
+          mode,
+          state,
+          stamp,
+          url: page.url(),
+          responses: network,
+          summary: {
+            total: network.length,
+            jsonCount: network.filter((item) => item.contentType.includes('json')).length,
+            apiSamples: network
+              .filter((item) => /edition\/resource\/get|paymentTypes\/get|paymentWays\/get|rooms\/get/.test(item.url))
+              .slice(0, 20),
+          },
+        },
+        null,
+        2,
+      ),
       'utf8',
     )
 

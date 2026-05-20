@@ -52,8 +52,8 @@ const searchTypes: Array<{ id: SearchType; label: string }> = [
 
 export function CustomerListPage() {
   const navigate = useNavigate()
-  const [query, setQuery] = useState(createDefaultCustomerListQuery)
-  const [draft, setDraft] = useState(createDefaultCustomerListQuery)
+  const [query, setQuery] = useState(createInitialCustomerListQuery)
+  const [draft, setDraft] = useState(createInitialCustomerListQuery)
   const [dashboard, setDashboard] = useState<CustomerListDashboard | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -593,4 +593,12 @@ function paginationText(dashboard: CustomerListDashboard | null) {
 function resolveScenario(): CustomerListScenario {
   const value = window.localStorage.getItem('pms.customerList.scenario')
   return value === 'empty' || value === 'error' ? value : 'success'
+}
+
+function createInitialCustomerListQuery() {
+  const query = createDefaultCustomerListQuery()
+  if (typeof window !== 'undefined') {
+    query.scenario = resolveScenario()
+  }
+  return query
 }

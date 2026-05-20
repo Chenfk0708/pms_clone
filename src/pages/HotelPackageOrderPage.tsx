@@ -262,6 +262,10 @@ export function HotelPackageOrderPage() {
               <OrderRow key={row.id} row={row} onDetail={() => setSelectedRow(row)} />
             ))}
           </div>
+        ) : loading ? (
+          <div className="presale-order-loading" role="status" aria-label="酒店套餐订单加载中">
+            <strong>数据加载中</strong>
+          </div>
         ) : (
           <div className="presale-order-empty" role="status" aria-label="酒店套餐订单空态">
             <span className="presale-order-empty__icon" aria-hidden="true" />

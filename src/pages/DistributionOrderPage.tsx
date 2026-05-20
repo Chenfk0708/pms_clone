@@ -107,8 +107,8 @@ export function DistributionOrderPage() {
   }
 
   const filterLabel = settlementOptions.find((option) => option.value === filter)?.label || '请选择'
-  const pageStart = data?.list.length ? 1 : 0
-  const pageEnd = data?.list.length ? data.list.length : 0
+  const pageStart = data?.pagination.total ? 1 : 0
+  const pageEnd = data?.pagination.total ? Math.min(data.pagination.total, data.pagination.pageSize) : 0
 
   return (
     <div className="distribution-order-page">
@@ -217,7 +217,7 @@ export function DistributionOrderPage() {
         </div>
       </section>
 
-      <section className="distribution-order-service-contract" aria-label="聚合分销订单数据服务" hidden>
+      <section className="distribution-order-service-contract" aria-label="聚合分销订单数据服务">
         provider={data?.provider ?? 'mock'};path=/report/flows/get;{data?.requestSummary.join(';') ?? ''}
       </section>
 

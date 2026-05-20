@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
+const screenshotDir = 'artifacts/screenshots/shezhi--qiye-shezhi--chengyuan-shezhi'
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/setting/member renders captured member setting default state', async ({ page }) => {
+test('/setting/member loads through the provider contract and supports bind feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/setting/member'))
 
@@ -14,39 +15,33 @@ test('/setting/member renders captured member setting default state', async ({ p
   await expect(page.locator('.topnav').getByRole('link', { name: '设置', exact: true })).toHaveClass(/is-active/)
   await expect(page.getByRole('link', { name: '成员设置' })).toHaveClass(/is-active/)
 
+  const contract = page.getByTestId('member-setting-service-contract')
+  await expect(contract).toHaveAttribute('data-provider', 'mock', { timeout: 15_000 })
+  await expect(contract).toHaveAttribute('data-response-state', 'success')
+  await expect(contract).toHaveAttribute('data-endpoint', '/setting/member/bootstrap')
+
   const memberPage = page.locator('.member-setting-page')
-  await expect(memberPage).toBeVisible()
-  await expect(memberPage.getByPlaceholder('姓名/手机号/角色')).toBeVisible()
-  await expect(memberPage.getByRole('button', { name: '全部' })).toBeVisible()
   await expect(memberPage).toContainText('成员账号数：1/3')
-  await expect(memberPage.getByRole('button', { name: '添加成员' })).toBeVisible()
+  await expect(memberPage.getByRole('columnheader')).toHaveText(['姓名', '手机号', '角色', '企微', '邮箱', '操作'])
 
-  await expect(page.getByLabel('成员账号列表').getByRole('columnheader')).toHaveText([
-    '姓名',
-    '手机号',
-    '角色',
-    '企微',
-    '邮箱',
-    '操作',
-  ])
-
-  const firstRow = page.getByLabel('成员账号列表').getByRole('row').nth(1)
-  await expect(firstRow).toContainText('路客云6TS5')
+  const firstRow = memberPage.getByRole('row').filter({ hasText: '路客云6TS5' }).first()
   await expect(firstRow).toContainText('18123941382')
   await expect(firstRow).toContainText('点击绑定')
-  await expect(firstRow.getByRole('button', { name: '编辑' })).toBeVisible()
-  await expect(memberPage).toContainText('第 1-1 条/共 1 条')
-  await expect(memberPage).toContainText('20 条/页')
+
+  await firstRow.getByRole('button', { name: '点击绑定' }).click()
+  await expect(page.getByRole('dialog', { name: '企微绑定' })).toBeVisible()
+  await page.getByRole('button', { name: '确认绑定' }).click()
+  await expect(firstRow).toContainText('已绑定')
+  await expect(memberPage.getByLabel('成员设置操作反馈')).toContainText('企微绑定成功')
+  await page.screenshot({ path: `${screenshotDir}/default-clone-20260519-local-success-viewport.png` })
 })
 
-test('/setting/member supports captured role dropdown and search empty state', async ({ page }) => {
+test('/setting/member renders role options and provider-driven empty or error states', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/setting/member'))
 
-  await page.locator('.member-role-select').click()
-  const listbox = page.getByRole('listbox', { name: '角色筛选' })
-  await expect(listbox).toBeVisible()
-  await expect(listbox.getByRole('option')).toHaveText([
+  await page.getByRole('button', { name: '全部' }).click()
+  await expect(page.getByRole('listbox', { name: '角色筛选' }).getByRole('option')).toHaveText([
     '全部',
     '管理员',
     '管家',
@@ -58,30 +53,54 @@ test('/setting/member supports captured role dropdown and search empty state', a
   ])
 
   await page.getByPlaceholder('姓名/手机号/角色').fill('成员')
-  await expect(page.getByLabel('成员账号列表')).toContainText('暂无数据')
-  await expect(page.getByLabel('成员账号列表')).not.toContainText('18123941382')
+  await expect(page.getByTestId('member-setting-service-contract')).toHaveAttribute('data-response-state', 'empty')
+  await expect(page.getByLabel('成员列表空态')).toContainText('暂无数据')
+  await page.screenshot({ path: `${screenshotDir}/empty-clone-20260519-local-empty-viewport.png` })
+
+  await page.goto(appUrl('/setting/member?memberSettingMockState=error'))
+  await expect(page.getByRole('alert', { name: '成员设置错误状态' })).toContainText('成员设置数据加载失败，请稍后重试')
+  await expect(page.getByTestId('member-setting-service-contract')).toHaveAttribute('data-response-state', 'error')
+  await page.screenshot({ path: `${screenshotDir}/error-clone-20260519-local-error-viewport.png` })
+  await page.getByRole('button', { name: '重试' }).click()
+  await expect(page.getByTestId('member-setting-service-contract')).toHaveAttribute('data-response-state', 'success')
+  await expect(page.locator('.member-setting-page')).toContainText('路客云6TS5')
 })
 
-test('/setting/member/actions renders captured add member form', async ({ page }) => {
+test('/setting/member/actions supports add member submit flow', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/setting/member'))
 
   await page.getByRole('button', { name: '添加成员' }).click()
   await expect(page).toHaveURL(/\/setting\/member\/actions$/)
+  await expect(page.getByTestId('member-setting-service-contract')).toHaveAttribute('data-route-mode', 'create')
 
-  const addPage = page.locator('.member-action-page')
-  await expect(addPage).toBeVisible()
-  await expect(addPage).toContainText('成员设置/添加成员')
-  await expect(addPage.getByRole('heading', { name: '基本资料' })).toBeVisible()
-  await expect(addPage.getByLabel('成员姓名')).toBeVisible()
-  await expect(addPage.getByLabel('手机号')).toBeVisible()
-  await expect(addPage).toContainText('请选择角色')
-  await expect(addPage).toContainText('分配房型')
-  await expect(addPage.getByLabel('全选')).toBeVisible()
-  await expect(addPage).toContainText('观影大床房')
-  await expect(addPage).toContainText('天落大床电竞套间')
-  await expect(addPage).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
-  await expect(addPage).toContainText('顶层套房（浴缸巨幕电竞麻将）')
-  await expect(addPage.getByRole('button', { name: '取 消' })).toBeVisible()
-  await expect(addPage.getByRole('button', { name: '提 交' })).toBeVisible()
+  await page.getByLabel('成员姓名').fill('测试成员')
+  await page.getByLabel('手机号').fill('13800138000')
+  await page.getByRole('button', { name: '请选择角色' }).click()
+  await page.getByRole('option', { name: '管理员' }).click()
+  await page.getByPlaceholder('搜索房型名称').fill('顶层')
+  await page.getByLabel('房型 顶层套房（浴缸巨幕电竞麻将）').check()
+  await page.getByRole('button', { name: '提交' }).click()
+
+  await expect(page).toHaveURL(/\/setting\/member(\?.*)?$/)
+  await expect(page.locator('.member-setting-page')).toContainText('测试成员')
+  await expect(page.locator('.member-setting-page')).toContainText('13800138000')
+  await expect(page.getByLabel('成员设置操作反馈')).toContainText('成员保存成功')
+  await expect(page.locator('.member-setting-page')).toContainText('成员账号数：2/3')
+  await page.screenshot({ path: `${screenshotDir}/add-clone-20260519-local-add-viewport.png` })
+})
+
+test('/setting/member/actions supports edit mode and prefilled form data', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/setting/member'))
+
+  const firstRow = page.locator('.member-setting-page').getByRole('row').filter({ hasText: '路客云6TS5' }).first()
+  await firstRow.getByRole('button', { name: '编辑' }).click()
+
+  await expect(page).toHaveURL(/mode=edit/)
+  await expect(page.getByTestId('member-setting-service-contract')).toHaveAttribute('data-route-mode', 'edit')
+  await expect(page.getByLabel('成员姓名')).toHaveValue('路客云6TS5')
+  await expect(page.getByLabel('手机号')).toHaveValue('18123941382')
+  await expect(page.getByRole('button', { name: '管理员' })).toBeVisible()
+  await page.screenshot({ path: `${screenshotDir}/edit-clone-20260519-local-edit-viewport.png` })
 })

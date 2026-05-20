@@ -54,7 +54,6 @@ export function CustomerAddBatchPage() {
 
   useEffect(() => {
     const controller = new AbortController()
-    setIsLoading(true)
     fetchCustomerAddBatchDashboard(query, controller.signal)
       .then((result) => {
         setViewModel(result)
@@ -81,17 +80,20 @@ export function CustomerAddBatchPage() {
   }
 
   function updateQuery(next: Partial<CustomerAddBatchQuery>, message: string) {
+    setIsLoading(true)
     setQuery((current) => ({ ...current, ...next, page: 1 }))
     setOpenSelect(null)
     setNotice(message)
   }
 
   function runSearch() {
+    setIsLoading(true)
     setQuery((current) => ({ ...current }))
     setNotice('已按当前条件刷新批量加好友数据')
   }
 
   function resetFilters() {
+    setIsLoading(true)
     setQuery(getDefaultCustomerAddBatchQuery(runtimeConfig))
     setOpenSelect(null)
     setDialog(null)
@@ -99,6 +101,7 @@ export function CustomerAddBatchPage() {
   }
 
   function refreshDashboard() {
+    setIsLoading(true)
     setQuery((current) => ({ ...current }))
     setNotice('已刷新批量加好友看板')
   }

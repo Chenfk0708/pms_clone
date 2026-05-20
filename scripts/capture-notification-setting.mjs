@@ -46,7 +46,11 @@ async function canFetch(url) {
 }
 
 async function ensurePreviewServer() {
-  if (mode !== 'clone' || (await canFetch(cloneUrl))) return
+  if (mode !== 'clone') return
+  if (await canFetch(cloneUrl)) return
+  if (process.env.PMS_LOCAL_URL) {
+    throw new Error(`Configured local URL is not reachable: ${cloneUrl}`)
+  }
 
   const command = process.platform === 'win32' ? 'npm.cmd' : 'npm'
   previewProcess = spawn(command, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4173'], {

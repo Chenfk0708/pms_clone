@@ -1,125 +1,544 @@
 .page-content:has(.reception-config-page) {
   padding: 8px 8px 0;
-  background: #f0f2f5;
+  background:
+    radial-gradient(circle at top left, rgba(34, 119, 94, 0.14), transparent 28%),
+    linear-gradient(180deg, #eef5f1 0%, #f6f8f7 100%);
 }
 
 .page-content:has(.reception-config-page) > .page-header {
   display: none;
 }
 
+.app-shell:has(.reception-config-page) .chat-dock,
+.app-shell:has(.reception-config-page) .chat-dock-launcher {
+  display: none;
+}
+
 .reception-config-page {
   min-height: calc(100vh - 66px);
-  padding-right: 0;
-  color: #333333;
+  color: #20332b;
 }
 
-.reception-config-panel {
+.reception-config-shell {
   min-height: calc(100vh - 66px);
-  overflow: auto;
-  border-radius: 8px 8px 0 0;
-  background: #ffffff;
-}
-
-.reception-config-hero {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  min-height: 107px;
   padding: 24px;
-  background: #ffffff;
+  border-radius: 18px 18px 0 0;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 22px 48px rgba(20, 37, 31, 0.08);
 }
 
-.reception-config-hero__info {
+.reception-config-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 28px;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(11, 79, 61, 0.96), rgba(36, 126, 101, 0.92)),
+    linear-gradient(180deg, #0f5c47 0%, #1a7b62 100%);
+  color: #f6fff9;
+}
+
+.reception-config-eyebrow {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(246, 255, 249, 0.84);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reception-config-header h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.12;
+}
+
+.reception-config-header p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  color: rgba(246, 255, 249, 0.84);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.reception-config-header__actions {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  max-width: 650px;
 }
 
-.reception-config-hero__info img {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 auto;
-  object-fit: contain;
-}
-
-.reception-config-hero h2,
-.reception-config-detail h2 {
-  margin: 0;
-  color: #333333;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-}
-
-.reception-config-hero p {
-  margin: 7px 0 0;
-  color: #333333;
+.reception-config-header__actions button {
+  min-width: 116px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #f4d35e;
+  color: #173328;
   font-size: 14px;
-  line-height: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(23, 51, 40, 0.2);
 }
 
-.reception-config-action {
-  position: relative;
-  width: 88px;
-  margin-right: 40px;
+.reception-config-header__actions .reception-config-secondary {
+  background: rgba(255, 255, 255, 0.14);
+  color: #f6fff9;
+  box-shadow: none;
 }
 
-.reception-config-action button {
-  width: 88px;
-  height: 28px;
-  border: 1px solid #4d65f6;
-  border-radius: 4px;
-  background: #4d65f6;
-  color: #ffffff;
-  font-size: 14px;
-  line-height: 22px;
-}
-
-.reception-config-action span {
-  position: absolute;
-  top: -11px;
-  right: -32px;
-  min-width: 64px;
-  height: 22px;
-  padding: 2px 8px;
-  border-radius: 16px;
-  background: #f59a23;
-  color: #ffffff;
-  font-size: 12px;
-  line-height: 18px;
-  text-align: center;
-}
-
-.reception-config-detail {
-  padding: 24px;
+.reception-config-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 180px)) minmax(220px, 1fr) auto;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid rgba(25, 76, 61, 0.08);
+  border-radius: 18px;
   background: #ffffff;
 }
 
-.reception-config-detail h2 {
-  margin-bottom: 20px;
+.reception-config-menu {
+  position: relative;
 }
 
-.reception-config-detail__images {
-  display: grid;
-  gap: 20px;
+.reception-config-menu > button,
+.reception-config-actions > button,
+.reception-config-search input,
+.reception-config-shortcut,
+.reception-config-rule,
+.reception-config-metric {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
 }
 
-.reception-config-detail__images img {
-  display: block;
+.reception-config-menu > button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
-  max-width: 1204px;
-  height: auto;
-  border: 0;
+  min-height: 84px;
+  padding: 14px 16px;
+  border: 1px solid rgba(25, 76, 61, 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+  color: #20332b;
+  cursor: pointer;
+}
+
+.reception-config-menu > button span {
+  color: #6a7d74;
+  font-size: 12px;
+}
+
+.reception-config-menu > button strong {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.reception-config-menu > button:hover,
+.reception-config-menu__list button:hover,
+.reception-config-actions > button:hover,
+.reception-config-shortcut:hover,
+.reception-config-rule:hover,
+.reception-config-metric:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(27, 64, 52, 0.08);
+}
+
+.reception-config-menu__list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 5;
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(25, 76, 61, 0.12);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 18px 34px rgba(17, 46, 37, 0.14);
+}
+
+.reception-config-menu__list button {
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #f6faf7;
+  color: #20332b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reception-config-search {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(25, 76, 61, 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.reception-config-search span {
+  color: #6a7d74;
+  font-size: 12px;
+}
+
+.reception-config-search input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid rgba(25, 76, 61, 0.16);
+  border-radius: 12px;
+  background: #f7fbf8;
+  font: inherit;
+  color: #20332b;
+}
+
+.reception-config-search input:focus {
+  outline: none;
+  border-color: #1c7c62;
+  box-shadow: 0 0 0 3px rgba(28, 124, 98, 0.12);
+}
+
+.reception-config-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.reception-config-actions > button {
+  padding: 0 18px;
+  border: none;
+  border-radius: 14px;
+  background: #1c7c62;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reception-config-actions > button:nth-child(2),
+.reception-config-actions > button:nth-child(3),
+.reception-config-actions > button:nth-child(5) {
+  background: #edf6f2;
+  color: #1c604d;
+}
+
+.reception-config-actions > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  transform: none;
+  box-shadow: none;
+}
+
+.reception-config-feedback,
+.reception-config-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border-radius: 16px;
+}
+
+.reception-config-feedback {
+  background: #eefaf4;
+  color: #14583f;
+}
+
+.reception-config-feedback.is-info {
+  background: #eef5fb;
+  color: #194c63;
+}
+
+.reception-config-error {
+  background: #fff1ef;
+  color: #b33d2e;
+}
+
+.reception-config-error button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: #c95d48;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.reception-config-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.reception-config-metric {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid rgba(25, 76, 61, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6fbf8 100%);
+  color: #20332b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reception-config-metric span {
+  color: #6a7d74;
+  font-size: 13px;
+}
+
+.reception-config-metric strong {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.reception-config-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.reception-config-panel {
+  padding: 20px;
+  border: 1px solid rgba(25, 76, 61, 0.08);
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+.reception-config-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.reception-config-panel__header h2 {
+  margin: 0;
+  color: #20332b;
+  font-size: 18px;
+}
+
+.reception-config-panel__header span {
+  color: #708179;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.reception-config-loading,
+.reception-config-empty {
+  padding: 28px 20px;
+  border-radius: 18px;
+  background: #f6faf7;
+  color: #6b7a73;
+  text-align: center;
+}
+
+.reception-config-rule-list,
+.reception-config-staff-list,
+.reception-config-shortcuts {
+  display: grid;
+  gap: 12px;
+}
+
+.reception-config-rule {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  padding: 18px;
+  border: 1px solid rgba(25, 76, 61, 0.08);
+  border-radius: 18px;
+  background: #fcfefd;
+  color: #20332b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reception-config-rule__header,
+.reception-config-staff__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.reception-config-rule__header strong,
+.reception-config-staff__header strong,
+.reception-config-shortcut strong {
+  font-size: 16px;
+}
+
+.reception-config-rule__status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.reception-config-rule__status.is-enabled {
+  background: #ecf8f2;
+  color: #156146;
+}
+
+.reception-config-rule__status.is-draft {
+  background: #fef6df;
+  color: #9d6b0b;
+}
+
+.reception-config-rule__status.is-paused {
+  background: #f3f5f6;
+  color: #6b7780;
+}
+
+.reception-config-rule__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #60756c;
+  font-size: 13px;
+}
+
+.reception-config-rule p,
+.reception-config-staff p,
+.reception-config-shortcut p {
+  margin: 0;
+  color: #536860;
+  line-height: 1.6;
+}
+
+.reception-config-staff {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f9fcfa 0%, #eff7f2 100%);
+}
+
+.reception-config-staff__header span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(28, 124, 98, 0.08);
+  color: #1c6d55;
+  font-size: 12px;
+}
+
+.reception-config-staff small {
+  color: #6d7d76;
+}
+
+.reception-config-shortcuts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reception-config-shortcut {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid rgba(25, 76, 61, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbf9 100%);
+  color: #20332b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reception-config-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(17, 36, 30, 0.38);
+}
+
+.reception-config-dialog {
+  width: min(560px, 100%);
+  max-height: min(80vh, 720px);
+  overflow: auto;
+  padding: 20px 22px;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 28px 54px rgba(17, 36, 30, 0.2);
+}
+
+.reception-config-dialog header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.reception-config-dialog h2 {
+  margin: 0;
+  color: #20332b;
+  font-size: 20px;
+}
+
+.reception-config-dialog header button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #eff6f2;
+  color: #204637;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.reception-config-dialog p {
+  margin: 0 0 10px;
+  color: #4c6258;
+  line-height: 1.7;
+}
+
+@media (max-width: 1200px) {
+  .reception-config-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reception-config-actions {
+    grid-column: 1 / -1;
+  }
+
+  .reception-config-metrics,
+  .reception-config-shortcuts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px) {
-  .reception-config-hero {
-    gap: 16px;
+  .reception-config-shell {
+    padding: 16px;
+  }
+
+  .reception-config-header,
+  .reception-config-grid {
+    grid-template-columns: 1fr;
     flex-direction: column;
   }
 
-  .reception-config-action {
-    margin-right: 0;
+  .reception-config-header__actions,
+  .reception-config-toolbar,
+  .reception-config-metrics,
+  .reception-config-shortcuts {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-config-actions > button {
+    min-height: 42px;
   }
 }

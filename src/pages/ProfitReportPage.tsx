@@ -1,88 +1,171 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import {
+  createProfitReportExportTask,
+  createProfitReportRequestBody,
+  fetchProfitReportDashboard,
+  getDefaultProfitReportFilters,
+  getProfitReportStaticLookups,
+  resolveProfitReportProvider,
+  type ProfitExportTask,
+  type ProfitMockState,
+  type ProfitReportDashboard,
+  type ProfitReportDescription,
+  type ProfitReportFilters,
+  type ProfitReportOption,
+} from '../services/profitReport'
 import './ProfitReportPage.css'
 
 type SelectKind = 'roomType' | 'channel' | 'roomGroup' | null
 
-const stores = ['全部门店', '天落会宿公寓(前海壹方城宝安中心店)']
-const roomTypeOptions = ['观影大床房', '天落大床电竞套间', '总裁套间（桑拿浴缸露台电竞麻将）', '顶层套房（浴缸巨幕电竞麻将）']
-const channelOptions = ['携程', '途家', '飞猪淘酒店', '美团民宿', '小猪', '木鸟']
-const roomGroupOptions = ['全部房型分组', '顶层房型', '电竞套间', '观影大床房']
-
-const reportRows = [
-  { date: '合计', roomFee: '8207.71', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '8207.71', expense: '0', profit: '8207.71', margin: '100.00%' },
-  { date: '2026-05-01', roomFee: '966.87', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '966.87', expense: '0', profit: '966.87', margin: '100.00%' },
-  { date: '2026-05-02', roomFee: '682', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '682', expense: '0', profit: '682', margin: '100.00%' },
-  { date: '2026-05-03', roomFee: '791.8', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '791.8', expense: '0', profit: '791.8', margin: '100.00%' },
-  { date: '2026-05-04', roomFee: '895.3', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '895.3', expense: '0', profit: '895.3', margin: '100.00%' },
-  { date: '2026-05-05', roomFee: '623.21', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '623.21', expense: '0', profit: '623.21', margin: '100.00%' },
-  { date: '2026-05-06', roomFee: '160.28', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '160.28', expense: '0', profit: '160.28', margin: '100.00%' },
-  { date: '2026-05-07', roomFee: '163.94', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '163.94', expense: '0', profit: '163.94', margin: '100.00%' },
-  { date: '2026-05-08', roomFee: '182.81', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '182.81', expense: '0', profit: '182.81', margin: '100.00%' },
-  { date: '2026-05-09', roomFee: '182.81', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '182.81', expense: '0', profit: '182.81', margin: '100.00%' },
-  { date: '2026-05-10', roomFee: '302.59', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '302.59', expense: '0', profit: '302.59', margin: '100.00%' },
-  { date: '2026-05-11', roomFee: '327.88', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '327.88', expense: '0', profit: '327.88', margin: '100.00%' },
-  { date: '2026-05-12', roomFee: '497.7', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '497.7', expense: '0', profit: '497.7', margin: '100.00%' },
-  { date: '2026-05-13', roomFee: '819.13', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '819.13', expense: '0', profit: '819.13', margin: '100.00%' },
-  { date: '2026-05-14', roomFee: '505.82', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '505.82', expense: '0', profit: '505.82', margin: '100.00%' },
-  { date: '2026-05-15', roomFee: '0', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '0', expense: '0', profit: '0', margin: '0%' },
-  { date: '2026-05-16', roomFee: '209.17', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '209.17', expense: '0', profit: '209.17', margin: '100.00%' },
-  { date: '2026-05-17', roomFee: '298.8', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '298.8', expense: '0', profit: '298.8', margin: '100.00%' },
-  { date: '2026-05-18', roomFee: '298.8', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '298.8', expense: '0', profit: '298.8', margin: '100.00%' },
-  { date: '2026-05-19', roomFee: '298.8', ticket: '0', catering: '0', other: '0', manualIncome: '0', total: '298.8', expense: '0', profit: '298.8', margin: '100.00%' },
-]
-
-const descriptions = [
-  ['房费(减佣)', '房费(含佣) - 佣金'],
-  ['门票/餐饮', '核销金额-佣金-退款金额'],
-  ['其他消费', '订单手工录入的其他收入/支出'],
-  ['记一笔收入', '记一笔录入的收入'],
-  ['记一笔支出', '记一笔录入的支出'],
-  ['利润', '收入-支出'],
-  ['利润率', '利润/收入'],
-]
+const staticLookups = getProfitReportStaticLookups()
 
 export function ProfitReportPage() {
-  const [store, setStore] = useState(stores[0])
-  const [startDate, setStartDate] = useState('2026-05-01')
-  const [endDate, setEndDate] = useState('2026-05-31')
-  const [roomType, setRoomType] = useState('')
-  const [channel, setChannel] = useState('')
-  const [roomGroup, setRoomGroup] = useState('')
-  const [includeCleanFee, setIncludeCleanFee] = useState(false)
-  const [openSelect, setOpenSelect] = useState<SelectKind>(null)
+  const provider = useMemo(() => resolveProfitReportProvider(), [])
+  const mockState = useMemo(() => resolveMockState(), [])
+  const [filters, setFilters] = useState<ProfitReportFilters>(() => ({
+    ...getDefaultProfitReportFilters(),
+    mockState,
+  }))
+  const [dashboard, setDashboard] = useState<ProfitReportDashboard | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [status, setStatus] = useState('')
   const [expanded, setExpanded] = useState(true)
   const [descriptionOpen, setDescriptionOpen] = useState(false)
-  const [notice, setNotice] = useState('')
+  const [openSelect, setOpenSelect] = useState<SelectKind>(null)
+  const [exportTask, setExportTask] = useState<ProfitExportTask | null>(null)
 
-  function resetFilters() {
-    setStore(stores[0])
-    setStartDate('2026-05-01')
-    setEndDate('2026-05-31')
-    setRoomType('')
-    setChannel('')
-    setRoomGroup('')
-    setIncludeCleanFee(false)
+  useEffect(() => {
+    const nextFilters = { ...getDefaultProfitReportFilters(), mockState }
+    setFilters(nextFilters)
+    void loadDashboard(nextFilters, '利润报表已完成加载')
+  }, [mockState])
+
+  const stores = dashboard?.stores ?? staticLookups.stores
+  const roomCategories = dashboard?.roomCategories ?? staticLookups.roomCategories
+  const channels = dashboard?.channels ?? staticLookups.channels
+  const roomGroups = dashboard?.roomGroups ?? staticLookups.roomGroups
+  const descriptions = dashboard?.descriptions ?? staticLookups.descriptions
+  const rows = dashboard?.rows ?? []
+  const total = dashboard?.total ?? 0
+  const pageNum = dashboard?.pageNum ?? filters.pageNum
+  const pageSize = dashboard?.pageSize ?? filters.pageSize
+  const pageCount = dashboard?.pageCount ?? 1
+  const requestBody = dashboard?.requestBody ?? createProfitReportRequestBody(filters)
+  const currentRoomType = roomCategories.find((item) => item.id === filters.roomCategoryId)
+  const currentChannel = channels.find((item) => item.id === filters.channelId)
+  const currentRoomGroup = roomGroups.find((item) => item.id === filters.roomGroupId)
+  const dataFilters = {
+    storeId: filters.storeId,
+    startDate: filters.startDate,
+    endDate: filters.endDate,
+    roomCategoryId: currentRoomType?.id ?? '',
+    roomCategoryLabel: currentRoomType?.label ?? '',
+    channelId: currentChannel?.label ?? '',
+    channelCode: currentChannel?.id ?? '',
+    channelLabel: currentChannel?.label ?? '',
+    roomGroupId: currentRoomGroup?.id ?? '',
+    roomGroupLabel: currentRoomGroup?.label ?? '',
+    includeCleanCost: filters.includeCleanCost,
+    pageNum,
+    pageSize,
+  }
+
+  async function loadDashboard(nextFilters: ProfitReportFilters, successMessage: string) {
+    setIsLoading(true)
+    setError('')
     setOpenSelect(null)
-    setExpanded(true)
-    setNotice('')
+
+    try {
+      const nextDashboard = await fetchProfitReportDashboard(nextFilters)
+      setDashboard(nextDashboard)
+      setFilters(nextFilters)
+      setStatus(successMessage)
+    } catch (reason) {
+      setDashboard(null)
+      setFilters(nextFilters)
+      setStatus('')
+      setError(reason instanceof Error ? reason.message : '利润报表数据加载失败')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  function patchFilters(partial: Partial<ProfitReportFilters>) {
+    setFilters((current) => ({
+      ...current,
+      ...partial,
+    }))
+  }
+
+  function selectOption(kind: Exclude<SelectKind, null>, option: ProfitReportOption) {
+    setOpenSelect(null)
+
+    if (kind === 'roomType') {
+      patchFilters({ roomCategoryId: option.id, pageNum: 1 })
+      setStatus(`已选择房型：${option.label}`)
+      return
+    }
+
+    if (kind === 'channel') {
+      patchFilters({ channelId: option.id, pageNum: 1 })
+      setStatus(`已选择渠道：${option.label}`)
+      return
+    }
+
+    patchFilters({ roomGroupId: option.id, pageNum: 1 })
+    setStatus(`已选择房型分组：${option.label}`)
+  }
+
+  async function handleQuery() {
+    await loadDashboard({ ...filters, pageNum: 1 }, '已按当前条件更新利润报表')
+  }
+
+  async function handleReset() {
+    const nextFilters = { ...getDefaultProfitReportFilters(), mockState }
+    setExportTask(null)
+    await loadDashboard(nextFilters, '已重置筛选并刷新利润报表')
+  }
+
+  async function handleChangePage(nextPageNum: number) {
+    if (nextPageNum === filters.pageNum || nextPageNum < 1 || nextPageNum > pageCount) {
+      return
+    }
+
+    await loadDashboard({ ...filters, pageNum: nextPageNum }, `已切换到第 ${nextPageNum} 页`)
+  }
+
+  async function handleExport() {
+    const nextTask = await createProfitReportExportTask(filters)
+    setExportTask(nextTask)
+    setStatus(`导出任务已创建：${nextTask.taskId}`)
   }
 
   return (
-    <div className="profit-report-page">
+    <div
+      className="profit-report-page"
+      data-provider={provider}
+      data-profit-request={JSON.stringify(requestBody)}
+      data-profit-filters={JSON.stringify(dataFilters)}
+      data-profit-export={exportTask ? JSON.stringify(exportTask) : ''}
+    >
       <h1 className="sr-only-heading">利润报表</h1>
 
       <section className="profit-report-query" aria-label="利润报表筛选">
         <div className="profit-report-store-row" role="radiogroup" aria-label="门店">
           {stores.map((item) => (
             <button
-              key={item}
+              key={item.id}
               type="button"
               role="radio"
-              aria-checked={store === item}
-              className={store === item ? 'is-active' : ''}
-              onClick={() => setStore(item)}
+              aria-checked={filters.storeId === item.id}
+              className={filters.storeId === item.id ? 'is-active' : ''}
+              onClick={() => {
+                patchFilters({ storeId: item.id, pageNum: 1 })
+                setStatus(`已切换门店：${item.label}`)
+              }}
             >
-              {item}
+              {item.label}
             </button>
           ))}
         </div>
@@ -91,81 +174,82 @@ export function ProfitReportPage() {
           <div className="profit-report-filter-row">
             <fieldset className="profit-date-range" aria-label="日期">
               <legend>日期</legend>
-              <input aria-label="开始日期" placeholder="开始日期" value={startDate} onChange={(event) => setStartDate(event.target.value)} />
+              <input
+                aria-label="开始日期"
+                value={filters.startDate}
+                onChange={(event) => patchFilters({ startDate: event.target.value })}
+              />
               <span>至</span>
-              <input aria-label="结束日期" placeholder="结束日期" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
+              <input
+                aria-label="结束日期"
+                value={filters.endDate}
+                onChange={(event) => patchFilters({ endDate: event.target.value })}
+              />
             </fieldset>
 
             <SelectField
               label="房型"
               placeholder="请选择"
-              value={roomType}
-              kind="roomType"
-              openSelect={openSelect}
-              options={roomTypeOptions}
-              onToggle={() => setOpenSelect(openSelect === 'roomType' ? null : 'roomType')}
-              onSelect={(value) => {
-                setRoomType(value)
-                setOpenSelect(null)
-              }}
+              value={currentRoomType?.label ?? ''}
+              options={roomCategories}
+              emptyCopy="暂无房型数据"
+              open={openSelect === 'roomType'}
+              onToggle={() => setOpenSelect((current) => (current === 'roomType' ? null : 'roomType'))}
+              onSelect={(option) => selectOption('roomType', option)}
             />
             <SelectField
               label="渠道"
               placeholder="请选择"
-              value={channel}
-              kind="channel"
-              openSelect={openSelect}
-              options={channelOptions}
-              onToggle={() => setOpenSelect(openSelect === 'channel' ? null : 'channel')}
-              onSelect={(value) => {
-                setChannel(value)
-                setOpenSelect(null)
-              }}
+              value={currentChannel?.label ?? ''}
+              options={channels}
+              emptyCopy="暂无渠道数据"
+              open={openSelect === 'channel'}
+              onToggle={() => setOpenSelect((current) => (current === 'channel' ? null : 'channel'))}
+              onSelect={(option) => selectOption('channel', option)}
             />
             <SelectField
               label="房型分组"
               placeholder="请选择"
-              value={roomGroup}
-              kind="roomGroup"
-              openSelect={openSelect}
-              options={roomGroupOptions}
-              onToggle={() => setOpenSelect(openSelect === 'roomGroup' ? null : 'roomGroup')}
-              onSelect={(value) => {
-                setRoomGroup(value)
-                setOpenSelect(null)
-              }}
+              value={currentRoomGroup?.label ?? ''}
+              options={roomGroups}
+              emptyCopy="暂无房型分组"
+              open={openSelect === 'roomGroup'}
+              onToggle={() => setOpenSelect((current) => (current === 'roomGroup' ? null : 'roomGroup'))}
+              onSelect={(option) => selectOption('roomGroup', option)}
             />
 
             <label className="profit-checkbox">
-              <input checked={includeCleanFee} type="checkbox" onChange={(event) => setIncludeCleanFee(event.target.checked)} />
+              <input
+                type="checkbox"
+                aria-label="包含保洁费用"
+                checked={filters.includeCleanCost}
+                onChange={(event) => {
+                  patchFilters({ includeCleanCost: event.target.checked })
+                  setStatus(event.target.checked ? '已计入保洁费用' : '已取消计入保洁费用')
+                }}
+              />
               包含保洁费用
             </label>
           </div>
         ) : null}
 
         <div className="profit-report-actions">
-          <button type="button" className="is-outline" onClick={resetFilters}>
+          <button type="button" className="is-outline" disabled={isLoading} onClick={() => void handleReset()}>
             重 置
           </button>
-          <button
-            type="button"
-            className="is-primary"
-            onClick={() => {
-              setOpenSelect(null)
-              setNotice('已按当前条件查询利润报表')
-            }}
-          >
+          <button type="button" className="is-primary" disabled={isLoading} onClick={() => void handleQuery()}>
             查 询
           </button>
-          <button type="button" className="is-outline" onClick={() => setNotice('已生成利润报表导出任务')}>
+          <button type="button" className="is-outline" disabled={isLoading} onClick={() => void handleExport()}>
             导 出
           </button>
           <button
             type="button"
             className="is-outline"
+            disabled={isLoading}
             onClick={() => {
-              setOpenSelect(null)
               setDescriptionOpen(true)
+              setOpenSelect(null)
             }}
           >
             说 明
@@ -173,9 +257,12 @@ export function ProfitReportPage() {
           <button
             type="button"
             className="is-link"
+            disabled={isLoading}
+            aria-label={expanded ? '收起' : '展开'}
             onClick={() => {
+              setExpanded((current) => !current)
               setOpenSelect(null)
-              setExpanded((value) => !value)
+              setStatus(expanded ? '已收起高级筛选' : '已展开高级筛选')
             }}
           >
             {expanded ? '收起' : '展开'}
@@ -183,13 +270,25 @@ export function ProfitReportPage() {
         </div>
       </section>
 
-      {notice ? (
-        <div className="profit-report-notice" role="status">
-          {notice}
+      {error ? (
+        <div className="profit-report-alert" role="alert" aria-label="利润报表数据错误">
+          <span>{error}</span>
+          <button type="button" onClick={() => void loadDashboard(filters, '利润报表已重试并更新')}>
+            重试
+          </button>
+        </div>
+      ) : null}
+
+      {status ? (
+        <div className="profit-report-notice" role="status" aria-label="利润报表操作反馈">
+          {status}
         </div>
       ) : null}
 
       <section className="profit-report-table-wrap" aria-label="利润报表表格">
+        {isLoading ? <div className="profit-report-empty">正在加载利润报表...</div> : null}
+        {!isLoading && rows.length === 0 ? <div className="profit-report-empty">暂无利润报表数据</div> : null}
+
         <table className="profit-report-table">
           <thead>
             <tr>
@@ -211,18 +310,18 @@ export function ProfitReportPage() {
             </tr>
           </thead>
           <tbody>
-            {reportRows.map((row) => (
-              <tr key={row.date} className={row.date === '合计' ? 'is-summary' : ''}>
+            {rows.map((row) => (
+              <tr key={`${row.date}-${row.isTotal ? 'total' : 'detail'}`} className={row.isTotal ? 'is-summary' : ''}>
                 <td>{row.date}</td>
-                <td>{row.roomFee}</td>
-                <td>{row.ticket}</td>
-                <td>{row.catering}</td>
-                <td>{row.other}</td>
-                <td>{row.manualIncome}</td>
-                <td>{row.total}</td>
-                <td>{row.expense}</td>
-                <td>{row.profit}</td>
-                <td>{row.margin}</td>
+                <td>{row.roomFeeMinusCommission}</td>
+                <td>{row.ticketPrice}</td>
+                <td>{row.cateringPrice}</td>
+                <td>{row.otherOrderExpense}</td>
+                <td>{row.writeDownIncome}</td>
+                <td>{row.totalIncome}</td>
+                <td>{row.writeDownExpenses}</td>
+                <td>{row.profitPrice}</td>
+                <td>{row.profitRate}</td>
               </tr>
             ))}
           </tbody>
@@ -230,45 +329,55 @@ export function ProfitReportPage() {
       </section>
 
       <nav className="profit-report-pagination" aria-label="分页">
-        <span>第 1-20 条/总共 32 条</span>
-        <button type="button" aria-label="上一页" disabled>
+        <span>{paginationText(pageNum, pageSize, total, rows.length)}</span>
+        <button type="button" aria-label="上一页" disabled={isLoading || pageNum <= 1} onClick={() => void handleChangePage(pageNum - 1)}>
           ‹
         </button>
-        <button type="button" className="is-current">
-          1
-        </button>
-        <button type="button">2</button>
-        <button type="button" aria-label="下一页">
+        {buildPageButtons(pageCount).map((item) => (
+          <button
+            key={item}
+            type="button"
+            className={item === pageNum ? 'is-current' : ''}
+            disabled={isLoading}
+            onClick={() => void handleChangePage(item)}
+          >
+            {item}
+          </button>
+        ))}
+        <button
+          type="button"
+          aria-label="下一页"
+          disabled={isLoading || pageNum >= pageCount}
+          onClick={() => void handleChangePage(pageNum + 1)}
+        >
           ›
         </button>
-        <button type="button">20 条/页</button>
+        <button type="button" disabled={isLoading} onClick={() => setStatus(`当前每页显示 ${pageSize} 条`)}>
+          {pageSize} 条/页
+        </button>
       </nav>
 
       {descriptionOpen ? (
         <div className="profit-modal-backdrop" role="presentation">
-          <section className="profit-description-modal" role="dialog" aria-modal="true" aria-label="报表字段说明">
+          <section className="profit-description-modal" role="dialog" aria-modal="true" aria-label="利润报表字段说明">
             <header>
-              <strong>报表字段说明</strong>
-              <button type="button" aria-label="关闭报表字段说明" onClick={() => setDescriptionOpen(false)}>
+              <strong>利润报表字段说明</strong>
+              <button type="button" aria-label="关闭利润报表字段说明" onClick={() => setDescriptionOpen(false)}>
                 ×
               </button>
             </header>
-            <div className="profit-description-table" aria-label="报表字段说明表格">
+            <div className="profit-description-table" aria-label="利润报表字段说明表格">
               <div className="profit-description-table__head">
                 <span>字段</span>
                 <span>说明</span>
               </div>
-              {descriptions.map(([field, detail]) => (
-                <div key={field} className="profit-description-table__row">
-                  <span>{field}</span>
-                  <span>{detail}</span>
-                </div>
+              {descriptions.map((item) => (
+                <DescriptionRow key={item.field} item={item} />
               ))}
             </div>
           </section>
         </div>
       ) : null}
-
     </div>
   )
 }
@@ -277,44 +386,66 @@ function SelectField({
   label,
   placeholder,
   value,
-  kind,
-  openSelect,
   options,
+  emptyCopy,
+  open,
   onToggle,
   onSelect,
 }: {
   label: string
   placeholder: string
   value: string
-  kind: Exclude<SelectKind, null>
-  openSelect: SelectKind
-  options: string[]
+  options: ProfitReportOption[]
+  emptyCopy: string
+  open: boolean
   onToggle: () => void
-  onSelect: (value: string) => void
+  onSelect: (option: ProfitReportOption) => void
 }) {
   return (
     <div className="profit-select-field">
       <span>{label}</span>
       <div className="profit-select-wrap">
-        <button type="button" aria-haspopup="listbox" aria-expanded={openSelect === kind} aria-label={`${label} ${value || placeholder}`} onClick={onToggle}>
+        <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={`${label} ${value || placeholder}`} onClick={onToggle}>
           {value || placeholder}
         </button>
-        {openSelect === kind ? (
+        {open ? (
           <div className="profit-options" role="listbox" aria-label={`${label}选项`}>
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                role="option"
-                aria-selected={value === option}
-                onClick={() => onSelect(option)}
-              >
-                {option}
-              </button>
-            ))}
+            {options.length === 0 ? (
+              <div className="profit-options__empty">{emptyCopy}</div>
+            ) : (
+              options.map((option) => (
+                <button key={option.id} type="button" role="option" aria-selected={value === option.label} onClick={() => onSelect(option)}>
+                  {option.label}
+                </button>
+              ))
+            )}
           </div>
         ) : null}
       </div>
     </div>
   )
+}
+
+function DescriptionRow({ item }: { item: ProfitReportDescription }) {
+  return (
+    <div className="profit-description-table__row">
+      <span>{item.field}</span>
+      <span>{item.detail}</span>
+    </div>
+  )
+}
+
+function buildPageButtons(pageCount: number) {
+  return Array.from({ length: Math.max(pageCount, 1) }, (_, index) => index + 1)
+}
+
+function paginationText(pageNum: number, pageSize: number, total: number, length: number) {
+  const start = total === 0 ? 0 : (pageNum - 1) * pageSize + 1
+  const end = total === 0 ? 0 : (pageNum - 1) * pageSize + length
+  return `第 ${start}-${end} 条/总共 ${total} 条`
+}
+
+function resolveMockState(): ProfitMockState {
+  const state = new URLSearchParams(window.location.search).get('profitMockState')
+  return state === 'empty' || state === 'error' ? state : 'success'
 }

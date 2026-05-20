@@ -9,6 +9,18 @@ const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/smartHotel
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const RELEVANT_ENDPOINT_PATTERNS = [
+  'hudson-prod.localhome.cn/edition/resource/get',
+  'hudson-prod.localhome.cn/order/report/get',
+  'hudson-prod.localhome.cn/paymentTypes/get',
+  'hudson-prod.localhome.cn/poi/digitization/process/get',
+  'hudson-prod.localhome.cn/orders/strongReminder/page/get',
+  'hudson-prod.localhome.cn/roomCategories/page/get',
+  'hudson-prod.localhome.cn/select/poi/page/get',
+  'hudson-prod.localhome.cn/systemConfigs/get',
+  'hudson-prod.localhome.cn/roomStatusesToday/get',
+  'hudson-prod.localhome.cn/menu/optionJsons/get',
+]
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const state = process.argv.includes('--interaction') ? 'interaction' : 'default'
@@ -73,15 +85,30 @@ try {
     })
     const page = await context.newPage()
 
-    page.on('response', (response) => {
+    page.on('response', async (response) => {
       const request = response.request()
-      network.push({
+      const entry = {
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
         contentType: response.headers()['content-type'] ?? '',
-      })
+      }
+
+      if (shouldCapturePayload(response.url())) {
+        entry.requestBody = parsePostData(request.postData())
+        try {
+          if (entry.contentType.includes('application/json')) {
+            entry.responseSummary = summarizeValue(await response.json())
+          } else {
+            entry.responseSummary = stableText(await response.text()).slice(0, 600)
+          }
+        } catch (error) {
+          entry.responseSummaryError = error instanceof Error ? error.message : String(error)
+        }
+      }
+
+      network.push(entry)
     })
 
     await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
@@ -209,10 +236,10 @@ async function runInteractionSweep(page) {
   const interactions = []
 
   for (const action of [
-    { slug: 'primary-action', labels: ['去开通', '立即开通', '开通', '新增', '添加', '配置'] },
+    { slug: 'primary-action', labels: ['未开通', '去开通', '立即开通', '开通', '新增', '添加', '配置'] },
     { slug: 'settings-action', labels: ['全局设置', '配置入住引导', '入住引导', '设置'] },
-    { slug: 'guide-action', labels: ['操作指引', '新手指引', '使用说明', '查看教程'] },
-    { slug: 'first-switch', labels: ['启用', '停用', '开启', '关闭'] },
+    { slug: 'guide-action', labels: ['查看规则', '查看小程序', '操作指引', '新手指引', '使用说明', '查看教程'] },
+    { slug: 'first-switch', labels: ['云端入住登记开关', '启用', '停用', '开启', '关闭'] },
   ]) {
     await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
       waitUntil: 'domcontentloaded',
@@ -456,6 +483,45 @@ function isBlocked(url, bodyText) {
 
 function stableText(text) {
   return String(text || '').replace(/\s+/g, ' ').trim()
+}
+
+function shouldCapturePayload(url) {
+  return RELEVANT_ENDPOINT_PATTERNS.some((pattern) => url.includes(pattern))
+}
+
+function parsePostData(postData) {
+  if (!postData) return null
+  try {
+    return summarizeValue(JSON.parse(postData))
+  } catch {
+    return stableText(postData).slice(0, 600)
+  }
+}
+
+function summarizeValue(value, depth = 0) {
+  if (value === null) return null
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 3).map((item) => summarizeValue(item, depth + 1)),
+    }
+  }
+  if (typeof value === 'object') {
+    if (depth >= 3) {
+      return { type: 'object', keys: Object.keys(value).slice(0, 30) }
+    }
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 50)
+        .map(([key, item]) => [key, summarizeValue(item, depth + 1)]),
+    )
+  }
+  if (typeof value === 'string') {
+    if (/token|cookie|authorization|password|passwd|mobile|phone/i.test(value)) return '[redacted]'
+    return value.length > 180 ? `${value.slice(0, 180)}...` : value
+  }
+  return value
 }
 
 function roundBox(box) {

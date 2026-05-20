@@ -1,162 +1,42 @@
-import fs from 'node:fs/promises'
-import fsSync from 'node:fs'
+import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from '@playwright/test'
 
-const taskId = 'ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju'
-const targetUrl = 'https://minsubao.localhome.cn/channels/globalRadar/globalData'
-const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/channels/globalRadar/globalData'
-const storageState = path.resolve('playwright/.auth/pms-user.json')
-const chromeExecutablePath =
+const TASK_ID = 'ai-quanyu-leida--shuju-yu-peizhi--quanyu-shuju'
+const TARGET_URL = 'https://minsubao.localhome.cn/channels/globalRadar/globalData'
+const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/channels/globalRadar/globalData'
+const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
+const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
-const mode = process.argv[2] ?? 'target'
-const runInteractions = process.argv.includes('--interaction')
+const argSet = new Set(process.argv.slice(2))
+const mode = argSet.has('--clone') ? 'clone' : 'target'
+const state = readState(argSet)
 const stamp =
-  process.env.PMS_CAPTURE_STAMP ?? new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, '')
+  process.env.PMS_CAPTURE_STAMP ??
+  new Date().toISOString().replace(/\D/g, '').slice(0, 14)
 
-const artifactDirs = {
-  screenshots: path.resolve('artifacts/screenshots', taskId),
-  dom: path.resolve('artifacts/dom-snapshots', taskId),
-  styles: path.resolve('artifacts/style-dumps', taskId),
-  network: path.resolve('artifacts/network', taskId),
+const artifactRoots = {
+  screenshots: path.resolve('artifacts/screenshots', TASK_ID),
+  dom: path.resolve('artifacts/dom-snapshots', TASK_ID),
+  styles: path.resolve('artifacts/style-dumps', TASK_ID),
+  network: path.resolve('artifacts/network', TASK_ID),
 }
 
-for (const directory of Object.values(artifactDirs)) {
-  await fs.mkdir(directory, { recursive: true })
+for (const directory of Object.values(artifactRoots)) {
+  fs.mkdirSync(directory, { recursive: true })
 }
 
-if (!fsSync.existsSync(chromeExecutablePath)) {
-  throw new Error(`Missing Chrome executable: ${chromeExecutablePath}`)
+function readState(args) {
+  if (args.has('--interaction')) return 'interaction'
+  if (args.has('--empty')) return 'empty'
+  if (args.has('--error')) return 'error'
+  if (args.has('--success')) return 'success'
+  return 'default'
 }
 
-if ((mode === 'target' || mode === 'both') && !fsSync.existsSync(storageState)) {
-  throw new Error(`Missing storageState: ${storageState}`)
-}
-
-const browser = await chromium.launch({
-  executablePath: chromeExecutablePath,
-  headless: true,
-})
-
-try {
-  if (mode === 'target' || mode === 'both') {
-    const result = await captureSide('target', targetUrl, { storageState })
-    console.log(JSON.stringify(result, null, 2))
-  }
-
-  if (mode === 'clone' || mode === 'both') {
-    const result = await captureSide('clone', cloneUrl, {})
-    console.log(JSON.stringify(result, null, 2))
-  }
-} finally {
-  await browser.close()
-}
-
-async function captureSide(side, url, contextOptions) {
-  const network = []
-  const context = await browser.newContext({
-    ...contextOptions,
-    viewport: { width: 1440, height: 900 },
-    deviceScaleFactor: 1,
-    locale: 'zh-CN',
-    timezoneId: 'Asia/Shanghai',
-  })
-  const page = await context.newPage()
-
-  page.on('response', (response) => {
-    const request = response.request()
-    network.push({
-      url: sanitizeUrl(response.url()),
-      method: request.method(),
-      status: response.status(),
-      resourceType: request.resourceType(),
-      contentType: response.headers()['content-type'] ?? '',
-    })
-  })
-
-  try {
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 })
-    await waitForSurface(page)
-
-    const defaultScreenshotPath = path.join(artifactDirs.screenshots, `default-${side}-${stamp}.png`)
-    const fullScreenshotPath = path.join(artifactDirs.screenshots, `full-${side}-${stamp}.png`)
-    const domPath = path.join(artifactDirs.dom, `default-${side}-${stamp}.html`)
-    const stylePath = path.join(artifactDirs.styles, `default-${side}-${stamp}.json`)
-    const networkPath = path.join(artifactDirs.network, `default-${side}-${stamp}.json`)
-
-    await page.screenshot({ path: defaultScreenshotPath, fullPage: false })
-    await page.screenshot({ path: fullScreenshotPath, fullPage: true })
-    await fs.writeFile(domPath, await page.content(), 'utf8')
-
-    const states = {
-      default: await extractFacts(page),
-    }
-
-    if (runInteractions) {
-      for (const [label, stateName] of [
-        ['携程', 'tab-ctrip'],
-        ['美团', 'tab-meituan'],
-        ['立即开通', 'open-now'],
-        ['全域数据', 'nav-global-data'],
-        ['配置中心', 'nav-global-setting'],
-        ['数据与配置', 'nav-data-config'],
-        ['全部门店', 'store-filter'],
-        ['刷新', 'refresh'],
-      ]) {
-        await captureClickState(page, url, states, side, label, stateName)
-      }
-
-      await captureHoverState(page, states, side)
-    }
-
-    await fs.writeFile(
-      stylePath,
-      JSON.stringify(
-        {
-          side,
-          mode,
-          stamp,
-          finalUrl: page.url(),
-          states,
-          artifacts: {
-            defaultScreenshotPath,
-            fullScreenshotPath,
-            domPath,
-            stylePath,
-            networkPath,
-          },
-        },
-        null,
-        2,
-      ),
-      'utf8',
-    )
-    await fs.writeFile(networkPath, JSON.stringify({ capturedAt: stamp, responses: network }, null, 2), 'utf8')
-
-    return {
-      side,
-      finalUrl: page.url(),
-      isLoginBlocked: states.default.isLoginBlocked,
-      hasGlobalRadarText: states.default.hasGlobalRadarText,
-      bodyLength: states.default.bodyText.length,
-      artifactPaths: {
-        defaultScreenshotPath,
-        fullScreenshotPath,
-        domPath,
-        stylePath,
-        networkPath,
-      },
-      visibleTextSample: states.default.bodyText.slice(0, 2400),
-      buttons: states.default.buttons.slice(0, 120),
-      inputs: states.default.inputs.slice(0, 40),
-      tableHeaders: states.default.tableHeaders,
-      keyElements: states.default.keyElements.slice(0, 40),
-      capturedStates: Object.keys(states),
-    }
-  } finally {
-    await context.close()
-  }
+function fileFor(root, suffix, extension) {
+  return path.join(root, `${state}-${mode}-${stamp}-${suffix}.${extension}`)
 }
 
 async function waitForSurface(page) {
@@ -167,11 +47,9 @@ async function waitForSurface(page) {
       () => {
         const text = document.body?.innerText || ''
         return (
-          text.length > 80 ||
           text.includes('全域数据') ||
           text.includes('AI全域雷达') ||
-          text.includes('服务质量') ||
-          text.includes('数据与配置') ||
+          text.includes('配置中心') ||
           text.includes('账号登录') ||
           text.includes('请按住滑块')
         )
@@ -180,252 +58,243 @@ async function waitForSurface(page) {
       { timeout: 20_000 },
     )
     .catch(() => {})
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(1_000)
 }
 
-async function captureClickState(page, url, states, side, label, stateName) {
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 })
-  await waitForSurface(page)
-
-  const locator = page.getByText(label, { exact: true }).first()
-  if ((await locator.count().catch(() => 0)) === 0) {
-    states[stateName] = { missing: label }
-    return
-  }
-
-  try {
-    await locator.click({ timeout: 2500 })
-    await page.waitForTimeout(900)
-    const screenshotPath = path.join(artifactDirs.screenshots, `${stateName}-${side}-${stamp}.png`)
-    await page.screenshot({ path: screenshotPath, fullPage: false })
-    states[stateName] = {
-      label,
-      screenshotPath,
-      ...(await extractFacts(page)),
-    }
-  } catch (error) {
-    states[stateName] = { label, error: error.message }
+async function collapseChatDock(page) {
+  const collapseButton = page.locator('aside[aria-label="全部会话"] button[aria-label="收起会话"]').last()
+  if (await collapseButton.count()) {
+    await collapseButton.click().catch(() => {})
+    await page.waitForTimeout(300)
   }
 }
 
-async function captureHoverState(page, states, side) {
-  await page.goto(side === 'target' ? targetUrl : cloneUrl, { waitUntil: 'domcontentloaded', timeout: 45_000 })
-  await waitForSurface(page)
+async function applyCloneState(page) {
+  const mockState = state === 'default' ? 'success' : state === 'interaction' ? 'success' : state
+  await page.addInitScript((configuredState) => {
+    window.localStorage.setItem('pms.aiGlobalDataProvider', 'mock')
+    window.localStorage.setItem('pms.aiGlobalDataMockState', configuredState)
+  }, mockState)
+}
 
-  const candidates = page.locator('button,a,[role="button"],.ant-card,.radar-card').filter({ hasText: /.+/ })
-  if ((await candidates.count().catch(() => 0)) === 0) {
-    states.hover = { missing: 'interactive candidate' }
-    return
+async function runInteractionSweep(page) {
+  const interactions = []
+
+  const steps = [
+    async () => {
+      await page.locator('#ai-global-data-filter-camp').selectOption('camp-haizhu')
+      await page.locator('#ai-global-data-filter-channel').selectOption('meituan')
+      await page.locator('#ai-global-data-filter-attention').selectOption('high')
+      await page.locator('#ai-global-data-filter-room-keyword').fill('大床')
+      await page.locator('.ai-global-data-filters__actions button').first().click()
+      await page.waitForTimeout(800)
+      interactions.push({
+        action: 'query',
+        feedback: await page.locator('.ai-global-data-feedback').innerText(),
+      })
+    },
+    async () => {
+      await page.locator('.ai-global-data-summary-card').first().click()
+      await page.locator('.ai-global-data-modal[aria-label="指标详情"]').waitFor({ state: 'visible', timeout: 5_000 })
+      interactions.push({ action: 'open-metric-dialog', ok: true })
+      await page.locator('.ai-global-data-modal[aria-label="指标详情"] button[aria-label="关闭指标详情"]').click()
+    },
+    async () => {
+      await page.locator('[aria-label="强提醒列表"] .ai-global-data-reminder').first().locator('button').nth(1).click()
+      interactions.push({
+        action: 'postpone-reminder',
+        feedback: await page.locator('.ai-global-data-feedback').innerText(),
+      })
+    },
+    async () => {
+      await page.locator('[aria-label="房型经营看板"] .ai-global-data-table__row').first().locator('button').nth(1).click()
+      await page.locator('.ai-global-data-modal[aria-label="房型经营详情"]').waitFor({ state: 'visible', timeout: 5_000 })
+      interactions.push({ action: 'open-room-dialog', ok: true })
+      await page.locator('.ai-global-data-modal[aria-label="房型经营详情"] button[aria-label="关闭房型经营详情"]').click()
+    },
+    async () => {
+      await page.getByTestId('ai-global-data-refresh').click()
+      await page.waitForTimeout(800)
+      await page.getByTestId('ai-global-data-export').click()
+      interactions.push({
+        action: 'refresh-and-export',
+        feedback: await page.locator('.ai-global-data-feedback').innerText(),
+      })
+    },
+  ]
+
+  for (const step of steps) {
+    await step()
   }
 
-  try {
-    await candidates.first().hover({ timeout: 2500 })
-    await page.waitForTimeout(500)
-    const screenshotPath = path.join(artifactDirs.screenshots, `hover-${side}-${stamp}.png`)
-    await page.screenshot({ path: screenshotPath, fullPage: false })
-    states.hover = {
-      screenshotPath,
-      ...(await extractFacts(page)),
-    }
-  } catch (error) {
-    states.hover = { error: error.message }
-  }
+  return interactions
 }
 
 async function extractFacts(page) {
   return page.evaluate(() => {
-    const styleProps = [
-      'display',
-      'position',
-      'width',
-      'height',
-      'padding',
-      'margin',
-      'fontSize',
-      'fontWeight',
-      'lineHeight',
-      'color',
-      'backgroundColor',
-      'backgroundImage',
-      'border',
-      'borderRadius',
-      'boxShadow',
-      'overflow',
-      'gridTemplateColumns',
-      'alignItems',
-      'justifyContent',
-      'gap',
-    ]
-
-    function stylesOf(element) {
-      const computed = window.getComputedStyle(element)
-      return Object.fromEntries(styleProps.map((prop) => [prop, computed[prop]]))
-    }
-
-    function describe(element) {
-      const rect = element.getBoundingClientRect()
-      return {
-        tag: element.tagName.toLowerCase(),
-        className: String(element.className || '').slice(0, 220),
-        role: element.getAttribute('role'),
-        ariaLabel: element.getAttribute('aria-label'),
-        placeholder: element.getAttribute('placeholder'),
-        text: (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 520),
-        rect: {
-          x: Math.round(rect.x),
-          y: Math.round(rect.y),
-          width: Math.round(rect.width),
-          height: Math.round(rect.height),
-        },
-        styles: stylesOf(element),
-      }
-    }
-
-    const isVisible = (element) => {
-      const rect = element.getBoundingClientRect()
-      const style = window.getComputedStyle(element)
-      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden'
-    }
-
     const bodyText = document.body?.innerText || ''
-    const controls = Array.from(
-      document.querySelectorAll('button,a,input,textarea,.ant-select-selector,[role="button"],[role="combobox"]'),
-    )
-      .filter(isVisible)
-      .slice(0, 220)
-      .map(describe)
-
-    const tableHeaders = Array.from(document.querySelectorAll('th,.ant-table-thead .ant-table-cell'))
-      .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
-      .filter(Boolean)
-
-    const inputs = Array.from(document.querySelectorAll('input,textarea'))
-      .map((element) => ({
-        type: element.getAttribute('type'),
-        placeholder: element.getAttribute('placeholder'),
-        ariaLabel: element.getAttribute('aria-label'),
-        value: element.value,
-      }))
-      .slice(0, 80)
-
-    const buttons = Array.from(document.querySelectorAll('button,[role="button"],a'))
-      .filter(isVisible)
-      .map((element) =>
-        (element.innerText || element.textContent || element.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(),
-      )
-      .filter(Boolean)
-      .slice(0, 180)
-
-    const keyElements = Array.from(
-      document.querySelectorAll(
-        [
-          '.ant-layout',
-          '.ant-menu',
-          '.ant-card',
-          '.ant-empty',
-          '.ant-tabs',
-          '.ant-table-wrapper',
-          '.ant-modal',
-          '.ant-drawer',
-          '.topbar',
-          '.sidebar',
-          '.page-content',
-          '.radar-page',
-          '.radar-tabs',
-          '.radar-card',
-          '.radar-banner',
-        ].join(','),
-      ),
-    )
-      .filter(isVisible)
-      .slice(0, 120)
-      .map(describe)
-
-    const visibleElements = Array.from(document.querySelectorAll('main *, .ant-layout-content *, body > div *'))
-      .filter(isVisible)
-      .slice(0, 320)
-      .map(describe)
-
-    const assets = Array.from(document.querySelectorAll('img,svg,canvas'))
-      .filter(isVisible)
-      .slice(0, 100)
-      .map((element) => ({
-        ...describe(element),
-        src: element.getAttribute('src'),
-        alt: element.getAttribute('alt'),
-      }))
-
-    const backgroundImages = Array.from(document.querySelectorAll('*'))
-      .filter(isVisible)
-      .map((element) => ({
-        tag: element.tagName.toLowerCase(),
-        className: String(element.className || '').slice(0, 120),
-        backgroundImage: window.getComputedStyle(element).backgroundImage,
-      }))
-      .filter((item) => item.backgroundImage && item.backgroundImage !== 'none')
-      .slice(0, 100)
-
-    const selectors = {}
-    for (const selector of [
-      'body',
-      '.topbar',
-      '.sidebar',
-      '.page-content',
-      '.ant-layout',
-      '.ant-layout-content',
-      '.ant-menu',
-      '.ant-card',
-      '.radar-page',
-      '.radar-tabs',
-      '.radar-card',
-      '.radar-banner',
-    ]) {
-      const element = document.querySelector(selector)
-      if (element && isVisible(element)) selectors[selector] = describe(element)
-    }
-
+    const contractNode = document.querySelector('[data-testid="ai-global-data-contract"]')
     return {
       url: location.href,
       title: document.title,
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        dpr: window.devicePixelRatio,
-      },
+      bodyTextSample: bodyText.slice(0, 8000),
+      bodyLength: bodyText.length,
       isLoginBlocked:
         bodyText.includes('账号登录') ||
         bodyText.includes('请按住滑块') ||
-        bodyText.includes('登录其他登录方式') ||
-        bodyText.includes('登录'),
-      hasGlobalRadarText:
-        bodyText.includes('AI全域雷达') ||
-        bodyText.includes('全域数据') ||
-        bodyText.includes('服务质量') ||
-        bodyText.includes('数据与配置'),
-      bodyText,
-      controls,
-      inputs,
-      buttons,
-      tableHeaders,
-      keyElements,
-      visibleElements,
-      assets,
-      backgroundImages,
-      selectors,
+        bodyText.includes('登录其他登录方式'),
+      hasBusinessText:
+        bodyText.includes('全域数据') &&
+        bodyText.includes('房型经营看板') &&
+        bodyText.includes('强提醒列表'),
+      forbiddenTermsFound: ['mock 数据', 'mock provider', 'provider=mock', '未接入', '待接入', '阻塞', '后端未就绪', '后端接口未完成'].filter((term) =>
+        bodyText.includes(term),
+      ),
+      rootDataset: document.querySelector('.ai-global-data-page')?.dataset ?? null,
+      contractText: contractNode?.textContent?.slice(0, 6000) ?? '',
+      buttons: [...document.querySelectorAll('button,a')]
+        .map((element) => ({
+          text: (element.textContent || element.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(),
+          ariaLabel: element.getAttribute('aria-label'),
+          className: String(element.className || '').slice(0, 180),
+          href: element.getAttribute('href'),
+        }))
+        .filter((item) => item.text)
+        .slice(0, 180),
+      fields: [...document.querySelectorAll('select,input')]
+        .map((element) => ({
+          tag: element.tagName.toLowerCase(),
+          id: element.getAttribute('id'),
+          ariaLabel: element.getAttribute('aria-label'),
+          value: element.value,
+        }))
+        .slice(0, 80),
+      dialogs: [...document.querySelectorAll('.ai-global-data-modal')]
+        .map((element) => ({
+          ariaLabel: element.getAttribute('aria-label'),
+          text: (element.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 500),
+        }))
+        .slice(0, 20),
     }
   })
 }
 
-function sanitizeUrl(input) {
+async function main() {
+  if (!fs.existsSync(CHROME_PATH)) {
+    throw new Error(`Missing Chrome executable: ${CHROME_PATH}`)
+  }
+  if (mode === 'target' && !fs.existsSync(STORAGE_STATE)) {
+    throw new Error(`Missing storageState: ${STORAGE_STATE}`)
+  }
+
+  const browser = await chromium.launch({
+    executablePath: CHROME_PATH,
+    headless: true,
+  })
+
+  const network = []
+
   try {
-    const url = new URL(input)
-    for (const key of [...url.searchParams.keys()]) {
-      if (/token|secret|key|auth|sign|session|cookie/i.test(key)) {
-        url.searchParams.set(key, '[redacted]')
-      }
+    const context = await browser.newContext({
+      ...(mode === 'target' ? { storageState: STORAGE_STATE } : {}),
+      viewport: { width: 1440, height: 900 },
+      deviceScaleFactor: 1,
+      locale: 'zh-CN',
+      timezoneId: 'Asia/Shanghai',
+    })
+    const page = await context.newPage()
+
+    if (mode === 'clone') {
+      await applyCloneState(page)
     }
-    return url.toString()
-  } catch {
-    return input.replace(/([?&][^=]*(token|secret|key|auth|sign|session|cookie)[^=]*=)[^&]+/gi, '$1[redacted]')
+
+    page.on('response', (response) => {
+      const request = response.request()
+      network.push({
+        url: response.url(),
+        method: request.method(),
+        status: response.status(),
+        resourceType: request.resourceType(),
+        postData: request.postData() ?? '',
+      })
+    })
+
+    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+      waitUntil: 'domcontentloaded',
+      timeout: 45_000,
+    })
+    await waitForSurface(page)
+    await collapseChatDock(page)
+
+    const interactions = mode === 'clone' && state === 'interaction' ? await runInteractionSweep(page) : []
+
+    const viewportPath = fileFor(artifactRoots.screenshots, 'viewport', 'png')
+    const fullPath = fileFor(artifactRoots.screenshots, 'full', 'png')
+    const domPath = fileFor(artifactRoots.dom, 'page', 'html')
+    const factsPath = fileFor(artifactRoots.styles, 'facts', 'json')
+    const networkPath = fileFor(artifactRoots.network, 'responses', 'json')
+
+    await page.screenshot({ path: viewportPath })
+    await page.screenshot({ path: fullPath, fullPage: true })
+
+    fs.writeFileSync(domPath, await page.content(), 'utf8')
+
+    const facts = await extractFacts(page)
+    const payload = {
+      taskId: TASK_ID,
+      mode,
+      state,
+      stamp,
+      interactions,
+      diagnostics: mode === 'clone' ? await page.evaluate(() => window.localStorage.getItem('pms.aiGlobalData.lastRequest')) : null,
+      facts,
+    }
+
+    fs.writeFileSync(factsPath, JSON.stringify(payload, null, 2))
+    fs.writeFileSync(
+      networkPath,
+      JSON.stringify(
+        {
+          taskId: TASK_ID,
+          mode,
+          state,
+          stamp,
+          url: page.url(),
+          responses: network,
+        },
+        null,
+        2,
+      ),
+    )
+
+    console.log(
+      JSON.stringify(
+        {
+          taskId: TASK_ID,
+          mode,
+          state,
+          stamp,
+          url: page.url(),
+          screenshots: [viewportPath, fullPath],
+          dom: domPath,
+          styles: factsPath,
+          network: networkPath,
+          interactionCount: interactions.length,
+          forbiddenTermsFound: facts.forbiddenTermsFound,
+          rootDataset: facts.rootDataset,
+        },
+        null,
+        2,
+      ),
+    )
+
+    await context.close()
+  } finally {
+    await browser.close()
   }
 }
+
+main().catch((error) => {
+  console.error(error)
+  process.exitCode = 1
+})

@@ -11,38 +11,82 @@
 .print-setting-page {
   min-height: calc(100vh - 66px);
   padding: 0 0 120px;
-  background: #fff;
   color: #1f2430;
 }
 
+.print-setting-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px 40px;
+  background: #fff;
+}
+
+.print-setting-feedback {
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px solid #d8e1ff;
+  border-radius: 10px;
+  background: #f4f7ff;
+  color: #3051c4;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.print-setting-state {
+  padding: 24px;
+  border: 1px solid #e7eaf1;
+  border-radius: 16px;
+  background: #fbfcff;
+}
+
+.print-setting-state h2 {
+  margin: 0 0 8px;
+  color: #222936;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.print-setting-state p {
+  margin: 0;
+  color: #5b6474;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.print-setting-state--error {
+  border-color: #f4c7c7;
+  background: #fff8f8;
+}
+
+.print-setting-state--empty {
+  border-style: dashed;
+}
+
 .print-setting-section {
-  min-height: 356px;
+  border: 1px solid #edf0f5;
+  border-radius: 16px;
+  padding: 20px 24px 24px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(31, 36, 48, 0.04);
 }
 
 .print-setting-section h2 {
-  display: flex;
-  align-items: center;
-  height: 41px;
-  margin: 0;
-  padding: 0 0 0 0;
+  margin: 0 0 20px;
   color: #222936;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
 }
 
 .print-setting-card {
   display: grid;
-  align-content: start;
-  min-height: 267px;
-  padding: 16px 0 0;
-  background: #fff;
+  gap: 20px;
 }
 
 .print-setting-field {
-  min-height: 67px;
   margin: 0;
-  padding: 0 0 16px;
+  padding: 0;
   border: 0;
 }
 
@@ -50,85 +94,101 @@
 .print-setting-label,
 .print-setting-field--text label {
   display: block;
-  height: 21px;
-  margin: 0 0 8px;
-  padding: 0;
+  margin: 0 0 10px;
   color: #1f2430;
   font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
+  line-height: 22px;
 }
 
 .print-setting-radio-group {
   display: flex;
-  align-items: center;
-  gap: 29px;
-  min-height: 22px;
+  flex-wrap: wrap;
+  gap: 12px 18px;
 }
 
 .print-setting-radio {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-width: 129px;
   color: #232936;
   font-size: 14px;
   line-height: 22px;
 }
 
 .print-setting-radio input {
-  position: relative;
   width: 14px;
   height: 14px;
   margin: 0;
-  appearance: none;
-  border: 1px solid #d9d9d9;
-  border-radius: 50%;
-  background: #fff;
 }
 
-.print-setting-radio input:checked {
-  border-color: #4b63f2;
-}
-
-.print-setting-radio input:checked::after {
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  background: #4b63f2;
-  content: '';
+.print-setting-select-wrap {
+  position: relative;
+  width: min(500px, 100%);
 }
 
 .print-setting-select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 500px;
-  height: 28px;
-  padding: 0 11px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d8deea;
+  border-radius: 10px;
   background: #fff;
   color: #1f2430;
   font-size: 14px;
-  line-height: 26px;
+  line-height: 22px;
   text-align: left;
 }
 
+.print-setting-select.is-open {
+  border-color: #4b63f2;
+  box-shadow: 0 0 0 3px rgba(75, 99, 242, 0.12);
+}
+
 .print-setting-select i {
-  color: #9aa3b4;
-  font-size: 13px;
+  color: #8892a7;
   font-style: normal;
+}
+
+.print-setting-options {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid #d8deea;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(31, 36, 48, 0.12);
+}
+
+.print-setting-options li {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #1f2430;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.print-setting-options li[aria-selected='true'] {
+  background: #eef2ff;
+  color: #3553c2;
 }
 
 .print-setting-field--text textarea {
   display: block;
-  width: 500px;
-  height: 64px;
-  padding: 6px 11px;
-  resize: none;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  width: min(500px, 100%);
+  min-height: 92px;
+  padding: 10px 12px;
+  resize: vertical;
+  border: 1px solid #d8deea;
+  border-radius: 10px;
   background: #fff;
   color: #1f2430;
   font-size: 14px;
@@ -136,31 +196,37 @@
 }
 
 .print-setting-field--text textarea::placeholder {
-  color: #a8b0bd;
+  color: #98a1b3;
 }
 
-.print-setting-save {
-  display: block;
-  min-width: 64px;
-  height: 32px;
-  margin-top: 24px;
-  padding: 0 16px;
+.print-setting-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.print-setting-primary {
+  min-width: 112px;
+  min-height: 40px;
+  padding: 0 18px;
   border: 1px solid #4b63f2;
-  border-radius: 4px;
+  border-radius: 10px;
   background: #4b63f2;
   color: #fff;
   font-size: 14px;
-  line-height: 30px;
+  line-height: 20px;
+}
+
+.print-setting-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
 }
 
 @media (max-width: 900px) {
-  .print-setting-select,
-  .print-setting-field--text textarea {
-    width: min(500px, 100%);
+  .print-setting-shell {
+    padding: 14px 14px 32px;
   }
 
-  .print-setting-radio-group {
-    flex-wrap: wrap;
-    gap: 10px 18px;
+  .print-setting-section {
+    padding: 18px;
   }
 }

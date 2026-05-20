@@ -20,6 +20,90 @@
   background: #fff;
 }
 
+.sms-setting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 9px 10px;
+}
+
+.sms-setting-header h1 {
+  margin: 0;
+  color: #1f2633;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sms-setting-header span {
+  display: inline-block;
+  margin-top: 6px;
+  color: #7a8497;
+  font-size: 13px;
+}
+
+.sms-setting-status {
+  min-height: 32px;
+  margin: 0 9px 14px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: #f7f9ff;
+  color: #2b3766;
+  font-size: 14px;
+}
+
+.sms-setting-loading,
+.sms-setting-empty,
+.sms-setting-error {
+  margin: 0 9px;
+}
+
+.sms-setting-loading {
+  display: grid;
+  gap: 12px;
+  padding: 12px 0 24px;
+}
+
+.sms-setting-skeleton {
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #eef1f7, #f7f8fb, #eef1f7);
+  background-size: 200% 100%;
+  animation: sms-setting-pulse 1.4s ease infinite;
+}
+
+.sms-setting-skeleton--wide {
+  width: 65%;
+}
+
+.sms-setting-skeleton--card {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+}
+
+.sms-setting-empty,
+.sms-setting-error {
+  padding: 20px;
+  border: 1px solid #e3e8f2;
+  border-radius: 8px;
+  background: #fbfcff;
+}
+
+.sms-setting-empty strong,
+.sms-setting-error strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #1f2633;
+  font-size: 16px;
+}
+
+.sms-setting-empty p,
+.sms-setting-error p {
+  margin: 0 0 14px;
+  color: #667085;
+  line-height: 1.7;
+}
+
 .sms-setting-balance {
   display: flex;
   align-items: center;
@@ -284,6 +368,11 @@
   border-color: #4058f6;
 }
 
+.sms-recharge-plan.is-selected {
+  border-color: #4058f6;
+  background: #f5f7ff;
+}
+
 .sms-recharge-plan strong {
   font-size: 16px;
   font-weight: 500;
@@ -322,6 +411,62 @@
   border-color: #4058f6;
   background: #4058f6;
   color: #fff;
+}
+
+.sms-dialog-form {
+  display: grid;
+  gap: 14px;
+  padding: 20px 24px 24px;
+}
+
+.sms-record-list {
+  display: grid;
+  gap: 12px;
+  padding: 18px 24px 24px;
+}
+
+.sms-record-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e3e8f2;
+  border-radius: 6px;
+}
+
+.sms-record-item strong,
+.sms-dialog-form strong {
+  display: block;
+  color: #1f2633;
+  font-size: 15px;
+}
+
+.sms-record-item span,
+.sms-dialog-form p {
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sms-radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #202633;
+}
+
+.sms-radio-option input {
+  margin: 0;
+}
+
+@keyframes sms-setting-pulse {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @media (max-width: 1180px) {

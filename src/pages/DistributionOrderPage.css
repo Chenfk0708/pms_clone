@@ -270,6 +270,15 @@
   padding: 0 12px;
 }
 
+.distribution-order-service-contract {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .distribution-order-table {
   width: 100%;
   overflow-x: auto;

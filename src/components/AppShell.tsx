@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { channelSideNav, distributionSideNav, globalRadarSideNav, informationSideNav, scrmSideNav } from '../data/discovery'
 import type { TopNavItem } from '../types'
 import { resolveSideNav } from '../data/mock'
-import { ChatDock } from './ChatDock'
 import { getCurrentSessionUser } from '../services/session'
 
 interface AppShellProps {
@@ -45,7 +44,6 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const navigate = useNavigate()
   const sessionUser = getCurrentSessionUser()
   const [openTopbarPanel, setOpenTopbarPanel] = useState<TopbarPanel | null>(null)
-  const [chatOpenSignal, setChatOpenSignal] = useState(0)
   const [collapsedSidebarGroups, setCollapsedSidebarGroups] = useState<Record<string, boolean>>({})
   const isRoomSituation = path === '/statistics/roomSituation'
   const isCleanStatistics = path === '/cleanManage/cleanStatistics'
@@ -101,7 +99,6 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
     setOpenTopbarPanel(null)
 
     if (tool === 'message') {
-      setChatOpenSignal((signal) => signal + 1)
       return
     }
 
@@ -182,6 +179,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
             <NavLink
               key={item.path}
               to={item.path}
+              aria-label={item.label}
               className={({ isActive }) =>
                 `topnav-link${
                   isActive ||
@@ -260,6 +258,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
                   {isLeafGroup ? (
                     <NavLink
                       to={group.items[0].path}
+                      aria-label={groupTitle}
                       className={({ isActive }) =>
                         `sidebar-group-title sidebar-group-title--link sidebar-link${isActive || isActiveGroup ? ' is-active' : ''}`
                       }
@@ -285,6 +284,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
                         <NavLink
                           key={item.path}
                           to={item.path}
+                          aria-label={item.label}
                           className={({ isActive }) =>
                             `sidebar-link${isActive || (isRoomSituation && item.path === '/houseManage/houseStatus') ? ' is-active' : ''}`
                           }
@@ -317,7 +317,6 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
       </div>
       {openTopbarPanel === 'payment' ? <TopbarPaymentDialog onClose={() => setOpenTopbarPanel(null)} /> : null}
       {openTopbarPanel === 'service' ? <TopbarServicePanel onClose={() => setOpenTopbarPanel(null)} /> : null}
-      <ChatDock openSignal={chatOpenSignal} />
     </div>
   )
 }

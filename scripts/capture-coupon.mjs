@@ -10,6 +10,7 @@ const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv[2] ?? 'target'
+const couponMockMode = process.env.PMS_COUPON_MOCK_MODE ?? 'success'
 const stamp =
   process.env.PMS_CAPTURE_STAMP ?? new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, '')
 
@@ -54,6 +55,13 @@ async function captureSide(side, url, contextOptions) {
   })
   const page = await context.newPage()
 
+  if (side === 'clone') {
+    await page.addInitScript((mockMode) => {
+      window.localStorage.setItem('pms.couponProvider', 'mock')
+      window.localStorage.setItem('pms.couponMockMode', mockMode)
+    }, couponMockMode)
+  }
+
   page.on('response', (response) => {
     const request = response.request()
     network.push({
@@ -74,6 +82,9 @@ async function captureSide(side, url, contextOptions) {
           const text = document.body?.innerText || ''
           return (
             text.includes('优惠券') ||
+            text.includes('春季连住满减券') ||
+            text.includes('暂无符合条件的优惠券') ||
+            text.includes('优惠券数据加载失败') ||
             text.includes('券名称') ||
             text.includes('优惠券名称') ||
             text.includes('新增优惠券') ||

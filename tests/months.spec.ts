@@ -89,6 +89,7 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant:
             channelName: '飞猪淘酒店',
             roomFee: 597.6,
             totalIncome: 664,
+            liveStatus: '待入住',
             stayRange: '2026.05.18-05.20',
             orderId: 'target-order',
           },
@@ -100,6 +101,7 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant:
             channelName: '携程',
             roomFee: 285.44,
             totalIncome: 285.44,
+            liveStatus: '入住中',
             hasRemark: true,
           },
           {
@@ -110,6 +112,7 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant:
             channelName: '携程',
             roomFee: 163.94,
             totalIncome: 163.94,
+            liveStatus: '已退房',
             hasRemark: true,
           },
         ]
@@ -606,6 +609,17 @@ test('month room status page opens target right order drawer and closes from bla
   await expect(drawer).toContainText('更多操作')
   await expect(drawer).toContainText('信用住结账')
 
+  await page.getByRole('button', { name: '渠道信息' }).click()
+  await expect(drawer).toContainText('渠道来源: 飞猪淘酒店')
+  await expect(drawer).toContainText('结算方式: 线上预付')
+
+  await page.getByRole('button', { name: '操作日志' }).click()
+  await expect(drawer).toContainText('系统创建订单')
+  await expect(drawer).toContainText('同步渠道订单信息')
+
+  await page.getByRole('button', { name: '订单信息' }).click()
+  await expect(drawer).toContainText('登记入住人')
+
   const drawerBox = await drawer.boundingBox()
   expect(drawerBox).not.toBeNull()
   expect(Math.round((drawerBox?.x ?? 0) + (drawerBox?.width ?? 0))).toBeGreaterThanOrEqual(1436)
@@ -614,6 +628,258 @@ test('month room status page opens target right order drawer and closes from bla
 
   await page.getByTestId('month-grid').click({ position: { x: 260, y: 150 } })
   await expect(drawer).toHaveCount(0)
+})
+
+test('month room status page renders scrollable target detail sections and sticky footer actions', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await page.locator('.tone-booking-gold').first().click()
+
+  const drawer = page.locator('.month-order-drawer')
+  const body = page.getByTestId('month-order-drawer-body')
+  const footer = page.getByTestId('month-order-drawer-footer')
+
+  await expect(drawer).toBeVisible()
+  await expect(body).toBeVisible()
+  await expect(body).toHaveCSS('overflow-y', 'auto')
+  await expect(page.getByTestId('month-order-section-payment')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-invoice')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-extra-income')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-deposit')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-arrears')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-remark')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-tags')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-reminder')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-attachment')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-meta')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-meta')).toContainText('创建人')
+  await expect(page.getByTestId('month-order-section-meta')).toContainText('订单号')
+  await expect(page.getByTestId('month-order-section-meta')).toContainText('预订时间')
+
+  await expect(footer).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-more')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-collect')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-credit-checkout')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-checkin')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-checkout')).toBeVisible()
+})
+
+test('month room status page supports target drawer secondary dialogs and section toggles', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await page.locator('.tone-booking-gold').first().click()
+
+  await page.getByTestId('month-order-section-extra-income-toggle').click()
+  await expect(page.getByTestId('month-order-section-extra-income-table')).toBeVisible()
+  await page.getByTestId('month-order-section-extra-income-toggle').click()
+  await expect(page.getByTestId('month-order-section-extra-income-table')).toHaveCount(0)
+
+  await expect(page.getByTestId('month-order-section-payment-edit')).toBeVisible()
+  await page.getByTestId('month-order-section-payment-edit').click()
+  const paymentEditor = page.getByTestId('month-order-section-payment-editor')
+  await expect(paymentEditor).toBeVisible()
+  await expect(paymentEditor).toContainText('已收房费：')
+  await expect(paymentEditor).toContainText('收款方式：')
+  await expect(paymentEditor).toContainText('收款时间：')
+  await paymentEditor.locator('input').first().fill('405')
+  await page.getByTestId('month-order-section-payment').getByRole('button', { name: '取消' }).click()
+  await expect(paymentEditor).toHaveCount(0)
+
+  await page.getByTestId('month-order-section-invoice-edit').click()
+  const invoiceEditor = page.getByTestId('month-order-section-invoice-editor')
+  await expect(invoiceEditor).toBeVisible()
+  await expect(invoiceEditor).toContainText('开票方：')
+  await expect(invoiceEditor).toContainText('开票金额：')
+  await expect(invoiceEditor).toContainText('建议开票金额：¥387')
+  await invoiceEditor.locator('input').nth(1).fill('405')
+  await page.getByTestId('month-order-section-invoice').getByRole('button', { name: '取消' }).click()
+  await expect(invoiceEditor).toHaveCount(0)
+
+  await page.getByTestId('month-order-section-deposit-edit').click()
+  const depositEditor = page.getByTestId('month-order-section-deposit-editor')
+  await expect(depositEditor).toBeVisible()
+  await expect(depositEditor).toContainText('修改押金：')
+  await expect(depositEditor).toContainText('一键免押')
+  await depositEditor.locator('input').first().fill('99')
+  await page.getByTestId('month-order-section-deposit').getByRole('button', { name: '取消' }).click()
+  await expect(depositEditor).toHaveCount(0)
+
+  await expect(page.getByTestId('month-order-section-arrears')).toContainText('订单欠款')
+
+  await expect(page.getByTestId('month-order-section-arrears-body')).toBeVisible()
+
+  await page.getByTestId('month-order-section-remark-edit').click()
+  const remarkEditor = page.getByTestId('month-order-section-remark-editor')
+  await expect(remarkEditor).toBeVisible()
+  await expect(remarkEditor.locator('textarea')).toBeVisible()
+  await page.getByTestId('month-order-section-remark').getByRole('button', { name: '取消' }).click()
+  await expect(remarkEditor).toHaveCount(0)
+
+  await page.getByTestId('month-order-section-tags-add').click()
+  const tagsDialog = page.getByTestId('month-order-dialog-tags')
+  await expect(tagsDialog).toBeVisible()
+  await expect(tagsDialog).toContainText('选择标签')
+  await expect(tagsDialog.getByPlaceholder('搜索')).toBeVisible()
+  await expect(tagsDialog).toContainText('+创建标签')
+  await expect(tagsDialog).toContainText('订单标签')
+  await expect(tagsDialog).toContainText('默认标签')
+  await expect(tagsDialog).toContainText('促销')
+  await expect(tagsDialog).toContainText('重单')
+  await expect(tagsDialog).toContainText('保留房')
+  await expect(tagsDialog).toContainText('钟点房')
+  await tagsDialog.getByPlaceholder('搜索').fill('重')
+  await expect(tagsDialog).toContainText('重单')
+  await expect(tagsDialog).not.toContainText('保留房')
+  await tagsDialog.getByRole('button', { name: '取消' }).click()
+  await expect(tagsDialog).toHaveCount(0)
+  await expect(page.getByTestId('month-order-section-tags')).not.toContainText('重单')
+
+  await page.getByTestId('month-order-section-tags-add').click()
+  await expect(tagsDialog).toBeVisible()
+  await tagsDialog.getByLabel('重单').check()
+  await tagsDialog.getByRole('button', { name: '确定' }).click()
+  await expect(tagsDialog).toHaveCount(0)
+  await expect(page.getByTestId('month-order-section-tags')).toContainText('重单')
+
+  await expect(page.getByTestId('month-order-section-attachment-upload')).toBeVisible()
+  await expect(page.getByTestId('month-order-section-attachment')).not.toContainText('暂无附件')
+
+  await page
+    .getByTestId('month-order-section-attachment-upload')
+    .locator('input[type="file"]')
+    .setInputFiles({
+      name: 'checkin-guide.txt',
+      mimeType: 'text/plain',
+      buffer: Buffer.from('checkin guide'),
+    })
+  const attachmentList = page.getByTestId('month-order-section-attachment-list')
+  await expect(attachmentList).toContainText('checkin-guide.txt')
+  await expect(page.getByTestId('month-order-section-attachment-item')).toHaveCount(1)
+  await page.getByTestId('month-order-section-attachment-delete').click()
+  await expect(page.getByTestId('month-order-section-attachment-item')).toHaveCount(0)
+  await expect(attachmentList).not.toContainText('checkin-guide.txt')
+
+  await page.getByTestId('month-order-footer-collect').click()
+  const collectDialog = page.getByTestId('month-order-dialog-collect')
+  await expect(collectDialog).toBeVisible()
+  await expect(collectDialog).toContainText('添加收款记录')
+  await expect(collectDialog).toContainText('应收款')
+  await expect(collectDialog).toContainText('已收款')
+  await expect(collectDialog).toContainText('待收款')
+  await expect(collectDialog).toContainText('类型')
+  await expect(collectDialog).toContainText('支付方式')
+  await expect(collectDialog).toContainText('日期')
+  await expect(collectDialog).toContainText('金额(¥)')
+  await expect(collectDialog).toContainText('备注')
+  await expect(collectDialog).toContainText('在线收款')
+  await expect(collectDialog.getByRole('button', { name: '提交' })).toBeVisible()
+  await collectDialog.getByRole('button', { name: '关闭添加收款记录' }).click()
+  await expect(collectDialog).toHaveCount(0)
+
+  await page.getByTestId('month-order-section-reminder-add').click()
+  const reminderDialog = page.getByTestId('month-order-dialog-reminder')
+  await expect(reminderDialog).toBeVisible()
+  await expect(reminderDialog).toContainText('添加订单提醒')
+  await expect(reminderDialog).toContainText('提醒时间')
+  await expect(reminderDialog).toContainText('提醒内容')
+  await reminderDialog.getByRole('button', { name: '取消' }).click()
+  await expect(reminderDialog).toHaveCount(0)
+
+  await page.getByTestId('month-order-action-noshow').click()
+  const noshowDialog = page.getByTestId('month-order-dialog-noshow')
+  await expect(noshowDialog).toBeVisible()
+  await expect(noshowDialog).toContainText('置为noshow失约单')
+  await expect(noshowDialog).toContainText('选择全部房间')
+  await expect(noshowDialog).toContainText('总裁套间（桑拿浴缸露台电竞麻将） 房间1')
+  await noshowDialog.getByRole('button', { name: '取消' }).click()
+  await expect(noshowDialog).toHaveCount(0)
+
+  await page.getByTestId('month-order-register-guest').click()
+  const guestEditor = page.getByTestId('month-order-guest-editor')
+  await expect(guestEditor).toBeVisible()
+  await expect(guestEditor).toContainText('客户姓名')
+  await expect(guestEditor).toContainText('手机号')
+  await expect(guestEditor).toContainText('居民身份证')
+  await expect(guestEditor.getByPlaceholder('请输入证件号码')).toBeVisible()
+  await expect(guestEditor.getByRole('button', { name: '读卡' })).toBeVisible()
+  await expect(guestEditor.getByRole('button', { name: '取消' })).toBeVisible()
+  await expect(guestEditor.getByRole('button', { name: '保存' })).toBeVisible()
+  await guestEditor.getByRole('button', { name: '取消' }).click()
+  await expect(guestEditor).toHaveCount(0)
+
+  await page.getByTestId('month-order-footer-more').click()
+  const moreMenu = page.getByTestId('month-order-footer-more-menu')
+  await expect(moreMenu).toBeVisible()
+  await expect(moreMenu).toContainText('编辑订单')
+  await expect(moreMenu).toContainText('修改费用')
+  await page.getByTestId('month-order-more-item-edit-order').click()
+  const editOrderPanel = page.getByTestId('month-order-edit-panel')
+  await expect(editOrderPanel).toBeVisible()
+  await expect(editOrderPanel).toContainText('全日房')
+  await expect(editOrderPanel).toContainText('钟点房')
+  await expect(editOrderPanel).toContainText('长租房')
+  await expect(editOrderPanel).toContainText('基本信息')
+  await expect(editOrderPanel).toContainText('房间/费用信息')
+  await expect(editOrderPanel).toContainText('订单提醒')
+  await expect(editOrderPanel).toContainText('订单标签')
+  await expect(editOrderPanel).toContainText('订单备注')
+  await expect(editOrderPanel).toContainText('关联订单')
+  await expect(page.getByTestId('month-order-edit-submit')).toBeVisible()
+  await expect(moreMenu).toHaveCount(0)
+  await page.getByRole('button', { name: '关闭编辑订单' }).click()
+  await expect(editOrderPanel).toHaveCount(0)
+
+  await page.getByTestId('month-order-footer-more').click()
+  await page.getByTestId('month-order-more-item-modify-fee').click()
+  const modifyFeeDialog = page.getByTestId('month-order-dialog-modify-fee')
+  await expect(modifyFeeDialog).toBeVisible()
+  await expect(modifyFeeDialog).toContainText('修改费用')
+  await expect(modifyFeeDialog).toContainText('房费(减佣)')
+  await expect(modifyFeeDialog).toContainText('佣金')
+  await expect(modifyFeeDialog).toContainText('房费(含佣)')
+  await expect(modifyFeeDialog.getByRole('button', { name: '取消' })).toBeVisible()
+  await expect(modifyFeeDialog.getByRole('button', { name: '保存' })).toBeVisible()
+  await modifyFeeDialog.getByRole('button', { name: '取消' }).click()
+  await expect(modifyFeeDialog).toHaveCount(0)
+
+  await page.getByTestId('month-order-footer-checkout').click()
+  const checkoutDialog = page.getByTestId('month-order-dialog-checkout')
+  await expect(checkoutDialog).toBeVisible()
+  await expect(checkoutDialog).toContainText('办理退房')
+  await expect(checkoutDialog).toContainText('正常退房')
+  await expect(checkoutDialog).toContainText('提前退房')
+  await expect(checkoutDialog).toContainText('添加收款')
+  await checkoutDialog.getByTestId('month-order-dialog-checkout-add-collect').click()
+  await expect(collectDialog).toBeVisible()
+  await collectDialog.getByRole('button', { name: '关闭添加收款记录' }).click()
+  await expect(collectDialog).toHaveCount(0)
+  await checkoutDialog.getByRole('button', { name: '取消' }).click()
+  await expect(checkoutDialog).toHaveCount(0)
+})
+
+test('month room status page adapts drawer actions to occupied target order state', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await page.locator('.tone-booking-blue').first().click()
+
+  const drawer = page.locator('.month-order-drawer')
+  await expect(drawer).toBeVisible()
+  await expect(drawer).toContainText('入住中')
+  await expect(page.getByTestId('month-order-action-invite-renew')).toBeVisible()
+  await expect(page.getByTestId('month-order-action-late-checkout')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-renew')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-checkin')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-checkout')).toBeVisible()
+  await expect(page.getByTestId('month-order-footer-credit-checkout')).toHaveCount(0)
+
+  await page.getByTestId('month-order-footer-more').click()
+  const moreMenu = page.getByTestId('month-order-footer-more-menu')
+  await expect(moreMenu).toBeVisible()
+  await expect(moreMenu).toContainText('编辑订单')
+  await expect(moreMenu).toContainText('修改费用')
 })
 
 test('month room status page supports key matrix interactions', async ({ page }) => {

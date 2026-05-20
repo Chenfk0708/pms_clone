@@ -228,7 +228,7 @@ function TagDetailDialog({ row, onClose }: { row: CustomerTagRow; onClose: () =>
       <section className="customer-tag-modal customer-tag-detail" role="dialog" aria-modal="true" aria-label="标签组详情">
         <header>
           <h2>标签组详情</h2>
-          <button type="button" aria-label="关闭标签组详情" onClick={onClose}>
+          <button type="button" aria-label="收起标签组详情" onClick={onClose}>
             ×
           </button>
         </header>

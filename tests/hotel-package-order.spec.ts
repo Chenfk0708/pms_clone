@@ -6,6 +6,21 @@ function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
+test('/mallManagement/hotelPackageOrder does not show an empty state while initial mock data is loading', async ({ page }) => {
+  await page.addInitScript(() => {
+    const realSetTimeout = window.setTimeout.bind(window)
+    window.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
+      return realSetTimeout(handler, timeout === 180 ? 3000 : timeout, ...args)
+    }) as typeof window.setTimeout
+  })
+
+  await page.goto(appUrl('/mallManagement/hotelPackageOrder'), { waitUntil: 'domcontentloaded' })
+
+  await expect(page.locator('.presale-order-loading')).toBeVisible()
+  expect(await page.locator('.presale-order-empty').isVisible()).toBe(false)
+  await expect(page.getByTestId('hotel-package-order-service-contract')).toHaveAttribute('data-provider', 'mock')
+})
+
 test('/mallManagement/hotelPackageOrder uses explicit mock provider response packages by default', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   const hudsonRequests: string[] = []

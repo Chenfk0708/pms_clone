@@ -61,7 +61,8 @@
 
 .statistics-report-store button,
 .statistics-report-presets button,
-.report-filter-select > button {
+.report-filter-select > button,
+.report-refresh-button {
   height: 28px;
   border: 1px solid #d9d9d9;
   background: #fff;
@@ -111,6 +112,12 @@
 
 .statistics-report-presets button:last-child {
   border-radius: 0 4px 4px 0;
+}
+
+.statistics-report-presets button:disabled {
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
+  background: #fafafa;
 }
 
 .report-date-range {
@@ -195,6 +202,57 @@
 .report-filter-options button[aria-selected='true'] {
   background: #f0f3ff;
   color: #4d65f6;
+}
+
+.report-refresh-button {
+  min-width: 72px;
+  padding: 0 14px;
+  border-radius: 4px;
+}
+
+.statistics-report-feedback {
+  min-height: 22px;
+  margin: 0 0 12px;
+  color: #4d65f6;
+  font-size: 13px;
+}
+
+.statistics-report-error,
+.statistics-report-empty {
+  margin-bottom: 16px;
+  padding: 20px 24px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafcff;
+}
+
+.statistics-report-error strong,
+.statistics-report-empty strong,
+.statistics-future-empty strong {
+  display: block;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.statistics-report-error p,
+.statistics-report-empty p,
+.statistics-future-empty p {
+  margin: 10px 0 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.statistics-report-error button,
+.statistics-report-empty button {
+  min-width: 88px;
+  height: 32px;
+  margin-top: 14px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
 }
 
 .statistics-section {
@@ -368,8 +426,9 @@
 
 .statistics-x-axis {
   display: flex;
-  justify-content: flex-end;
-  padding-right: 34px;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 6px;
   color: #666;
   font-size: 12px;
 }
@@ -446,6 +505,10 @@
   font-size: 13px;
 }
 
+.statistics-source-card li small {
+  color: #999;
+}
+
 .statistics-source-card li span {
   flex: 1;
 }
@@ -453,6 +516,10 @@
 .statistics-source-card li strong {
   color: #333;
   font-weight: 500;
+}
+
+.statistics-source-empty {
+  color: #999;
 }
 
 .statistics-future {
@@ -482,6 +549,10 @@
 .statistics-future-grid article {
   min-height: 110px;
   padding: 14px 12px;
+}
+
+.statistics-future--empty .statistics-future-empty {
+  padding: 48px 24px;
 }
 
 .statistics-future-chart {

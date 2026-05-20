@@ -1,8 +1,9 @@
-import { type ReactNode, useState } from 'react'
+﻿import { type ReactNode, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   loadBrandWebsiteData,
   type BrandWebsiteCoupon,
+  type BrandWebsiteMetric,
   type BrandWebsiteTemplate,
   type BrandWebsiteViewModel,
 } from '../services/brandWebsite'
@@ -31,6 +32,8 @@ const pageNavGroups: Array<{ title?: string; items: Array<{ key: BrandSection; l
   { items: [{ key: 'style', label: '全局风格' }] },
 ]
 
+const METRIC_DETAIL_TITLE = String.fromCharCode(0x6307, 0x6807, 0x8be6, 0x60c5)
+const METRIC_DETAIL_CLOSE_LABEL = String.fromCharCode(0x5173, 0x95ed, 0x6307, 0x6807, 0x8be6, 0x60c5)
 type LoadState =
   | { kind: 'ready'; data: BrandWebsiteViewModel }
   | { kind: 'error'; message: string }
@@ -50,6 +53,7 @@ export function BrandWebsitePage() {
   const [query, setQuery] = useState({ campId: 'camp-ts5', businessDate: '2026-05-18', keyword: '' })
   const [notice, setNotice] = useState('品牌官网数据已更新')
   const [isLoading, setIsLoading] = useState(false)
+  const [metricDetail, setMetricDetail] = useState<BrandWebsiteMetric | null>(null)
   const [templateDetail, setTemplateDetail] = useState<BrandWebsiteTemplate | null>(null)
   const [couponDetail, setCouponDetail] = useState<BrandWebsiteCoupon | null>(null)
 
@@ -155,7 +159,13 @@ export function BrandWebsitePage() {
       </span>
 
       <main className="brand-workspace">
-        <MetricStrip data={data} />
+        <MetricStrip
+          data={data}
+          onMetricDetail={(metric) => {
+            setMetricDetail(metric)
+            setNotice(`\u5df2\u67e5\u770b${metric.label}\u8be6\u60c5`)
+          }}
+        />
         {data.templates.length === 0 ? (
           <section className="brand-state-card" role="status" aria-label="品牌官网空态">
             <h2>暂无符合当前条件的品牌官网配置</h2>
@@ -189,6 +199,17 @@ export function BrandWebsitePage() {
               <span key={color} style={{ backgroundColor: color }} />
             ))}
           </div>
+        </BrandDialog>
+      ) : null}
+
+      {metricDetail ? (
+        <BrandDialog title={METRIC_DETAIL_TITLE} closeLabel={METRIC_DETAIL_CLOSE_LABEL} onClose={() => setMetricDetail(null)}>
+          <h3>{metricDetail.label}</h3>
+          <p>
+            {metricDetail.value}
+            {metricDetail.unit}
+          </p>
+          <p>{metricDetail.trend}</p>
         </BrandDialog>
       ) : null}
 
@@ -260,11 +281,17 @@ function ActionStatus({ message }: { message: string }) {
   )
 }
 
-function MetricStrip({ data }: { data: BrandWebsiteViewModel }) {
+function MetricStrip({
+  data,
+  onMetricDetail,
+}: {
+  data: BrandWebsiteViewModel
+  onMetricDetail: (metric: BrandWebsiteMetric) => void
+}) {
   return (
     <section className="brand-metric-strip" aria-label="品牌官网核心指标">
       {data.metrics.map((metric) => (
-        <button key={metric.id} type="button" onClick={() => undefined}>
+        <button key={metric.id} type="button" onClick={() => onMetricDetail(metric)}>
           <span>{metric.label}</span>
           <strong>{metric.value}</strong>
           <em>{metric.unit}</em>

@@ -4,7 +4,7 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'zhihui-jiudian--zhizhu-yu-yingjian--shenfenzheng-dukaki'
 const TARGET_URL = 'https://minsubao.localhome.cn/smartHotel/smartHardware/IDCardReader'
-const LOCAL_URL =
+const LOCAL_BASE_URL =
   process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/smartHotel/smartHardware/IDCardReader'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
@@ -36,17 +36,28 @@ function compact(text) {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function buildUrl() {
+  if (mode === 'target') return TARGET_URL
+  if (state === 'empty') return `${LOCAL_BASE_URL}?mockState=empty`
+  if (state === 'error') return `${LOCAL_BASE_URL}?mockState=error`
+  return LOCAL_BASE_URL
+}
+
 async function waitForIdCardReader(page) {
   await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {})
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {})
+  if (mode === 'clone') {
+    await page.waitForSelector('.smart-id-reader-page', { timeout: 30_000 })
+  }
   await page
     .waitForFunction(
       () => {
         const text = document.body?.innerText || ''
         return (
-          text.includes('身份证') ||
-          text.includes('读卡') ||
-          text.includes('智能硬件') ||
+          text.includes('身份证读卡器') ||
+          text.includes('请选择读卡器品牌') ||
+          text.includes('请下载插件') ||
+          text.includes('请调试读卡') ||
           text.includes('账号登录') ||
           text.includes('请按住滑块')
         )
@@ -54,51 +65,61 @@ async function waitForIdCardReader(page) {
       null,
       { timeout: 20_000 },
     )
-    .catch(() => {})
+    .catch((error) => {
+      if (mode === 'clone') throw error
+    })
   await page.waitForTimeout(1500)
 }
 
-async function clickFirst(page, locator, action) {
-  if ((await locator.count().catch(() => 0)) === 0) return { action, found: false }
+async function clickIfVisible(page, locator, action) {
+  const count = await locator.count().catch(() => 0)
+  if (count === 0) return { action, found: false }
+
   try {
     await locator.first().click({ timeout: 5000 })
     await page.waitForTimeout(1200)
     return { action, found: true, clicked: true, url: page.url() }
   } catch (error) {
-    return { action, found: true, clicked: false, error: error.message.split('\n')[0] }
+    return {
+      action,
+      found: true,
+      clicked: false,
+      error: error instanceof Error ? error.message.split('\n')[0] : String(error),
+    }
   }
 }
 
 async function applyState(page) {
-  if (state === 'primary-action') {
-    return [
-      await clickFirst(
+  const interactions = []
+
+  if (state === 'detail') {
+    interactions.push(
+      await clickIfVisible(
         page,
-        page.getByRole('button').filter({ hasText: /购买|开通|订购|立即|联系客服|咨询|申请|启用/ }),
-        'click first primary action',
+        page.getByRole('button', { name: /查看详情/ }),
+        'open first record detail drawer',
       ),
-    ]
+    )
+    return interactions
   }
 
-  if (state === 'device-action') {
-    return [
-      await clickFirst(
-        page,
-        page.locator('button,a,[role="button"]').filter({ hasText: /设置|详情|绑定|添加|下载|查看|管理/ }),
-        'click first device management action',
-      ),
-    ]
+  if (state === 'interaction' || state === 'chat-collapsed') {
+    interactions.push(
+      await clickIfVisible(page, page.getByRole('button', { name: '华视', exact: true }), 'open brand list'),
+    )
+    interactions.push(
+      await clickIfVisible(page, page.getByRole('option', { name: '精伦' }), 'switch brand to 精伦'),
+    )
+    interactions.push(
+      await clickIfVisible(page, page.getByRole('button', { name: 'PMS助手下载' }), 'click download assistant'),
+    )
+    interactions.push(
+      await clickIfVisible(page, page.getByRole('button', { name: '读身份证' }), 'read id card'),
+    )
+    return interactions
   }
 
-  if (state === 'chat-collapsed') {
-    return [await clickFirst(page, page.getByText('收起', { exact: true }), 'collapse chat dock')]
-  }
-
-  if (state === 'sidebar-mall') {
-    return [await clickFirst(page, page.getByRole('link', { name: '智能硬件商城' }), 'click hardware mall sidebar link')]
-  }
-
-  return []
+  return interactions
 }
 
 async function extractFacts(page, interactions) {
@@ -187,25 +208,8 @@ async function extractFacts(page, interactions) {
       .map(summarizeElement)
       .slice(0, 20)
 
-    const images = [...document.querySelectorAll('img')]
-      .filter(isVisible)
-      .map((img) => ({
-        src: img.currentSrc || img.src,
-        alt: img.alt,
-        naturalWidth: img.naturalWidth,
-        naturalHeight: img.naturalHeight,
-        rect: summarizeElement(img).rect,
-      }))
-      .slice(0, 100)
-
-    const sectionLike = [
-      ...document.querySelectorAll(
-        '.ant-card,[class*="card"],[class*="reader"],[class*="hardware"],[class*="device"],[class*="product"],section,main',
-      ),
-    ]
-      .filter(isVisible)
-      .map(summarizeElement)
-      .slice(0, 80)
+    const serviceContract = document.querySelector('[data-testid="smart-id-reader-service-contract"]')
+    const feedback = document.querySelector('.smart-id-reader-feedback [role="status"]')
 
     return {
       url: location.href,
@@ -217,16 +221,26 @@ async function extractFacts(page, interactions) {
         bodyText.includes('请按住滑块') ||
         bodyText.includes('登录其他登录方式'),
       hasIdCardReaderText:
-        bodyText.includes('身份证') || bodyText.includes('读卡') || bodyText.includes('读卡器'),
+        bodyText.includes('身份证读卡器') ||
+        bodyText.includes('请选择读卡器品牌') ||
+        bodyText.includes('最近读卡记录'),
       tableHeaders,
       buttons,
       inputs,
       dropdowns,
       dialogs,
-      images,
-      sectionLike,
       visibleElements,
       interactions: capturedInteractions,
+      feedbackText: feedback?.textContent?.trim() || '',
+      serviceContract: serviceContract
+        ? {
+            provider: serviceContract.getAttribute('data-provider'),
+            mockState: serviceContract.getAttribute('data-mock-state'),
+            deviceStatus: serviceContract.getAttribute('data-device-status'),
+            recordCount: serviceContract.getAttribute('data-record-count'),
+            summary: serviceContract.textContent?.trim() || '',
+          }
+        : null,
       viewport: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -256,6 +270,7 @@ async function main() {
       timezoneId: 'Asia/Shanghai',
     })
     const page = await context.newPage()
+
     page.on('response', async (response) => {
       const request = response.request()
       network.push({
@@ -267,7 +282,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(buildUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
@@ -298,10 +313,10 @@ async function main() {
           tableHeaders: facts.tableHeaders,
           buttons: facts.buttons.slice(0, 48),
           inputs: facts.inputs.slice(0, 16),
-          images: facts.images.slice(0, 16),
-          sectionCount: facts.sectionLike.length,
           dropdownCount: facts.dropdowns.length,
           dialogCount: facts.dialogs.length,
+          serviceContract: facts.serviceContract,
+          feedbackText: facts.feedbackText,
           bodySample: compact(facts.bodyTextSample).slice(0, 1600),
           screenshots: [
             fileFor(artifactRoots.screenshots, 'viewport', 'png'),

@@ -6,83 +6,126 @@ function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/InformationMaintenance/campInfo matches captured camp info list', async ({ page }) => {
+async function openCampInfo(
+  page: import('@playwright/test').Page,
+  options: {
+    path?: string
+    mode?: 'success' | 'empty' | 'error'
+    latencyMs?: number
+  } = {},
+) {
+  const { path = '/InformationMaintenance/campInfo', mode = 'success', latencyMs = 0 } = options
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/InformationMaintenance/campInfo'))
+  await page.addInitScript(
+    ({ mockMode, mockLatencyMs }) => {
+      window.localStorage.setItem('pms.campInfoProvider', 'mock')
+      window.localStorage.setItem('pms.campInfoMockMode', mockMode)
+      window.localStorage.setItem('pms.campInfoMockLatencyMs', String(mockLatencyMs))
+    },
+    { mockMode: mode, mockLatencyMs: latencyMs },
+  )
+  await page.goto(appUrl(path), { waitUntil: 'domcontentloaded' })
+}
+
+function statusBar(page: import('@playwright/test').Page) {
+  return page.locator('[role="status"][aria-label="门店信息操作反馈"]')
+}
+
+test('/InformationMaintenance/campInfo loads store data from the unified service layer', async ({ page }) => {
+  await openCampInfo(page)
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.locator('.camp-info-page')).toBeVisible()
-  await expect(page.getByText('门店名称:')).toBeVisible()
-  await expect(page.getByPlaceholder('请输入')).toBeVisible()
-  await expect(page.getByText('当前系统门店：')).toBeVisible()
-  await expect(page.getByText('1/1')).toBeVisible()
-  await expect(page.getByText('（2025.09.28 至 2027.09.28 ）')).toBeVisible()
-
+  await expect(page.getByRole('heading', { name: '门店信息', level: 1 })).toBeVisible()
+  await expect(page.getByTestId('camp-info-contract')).toBeHidden()
+  await expect(page.getByTestId('camp-info-contract')).toContainText('"traceId":"mock-shezhi--xinxi-weihu--mendian-xinxi-list-001"')
+  await expect(page.getByTestId('camp-info-contract')).toContainText('"/camps/get"')
+  await expect(page.getByTestId('camp-info-contract')).toContainText('"/camp/get"')
   await expect(page.getByRole('button', { name: '新建门店' })).toBeVisible()
   await expect(page.getByRole('button', { name: '一键导入' })).toBeVisible()
   await expect(page.getByRole('button', { name: '门店排序' })).toBeVisible()
+  await expect(page.locator('.camp-info-table__body [role="row"]')).toHaveCount(1)
+  await expect(page.locator('.camp-info-summary')).toContainText('1/1')
+  await expect(statusBar(page)).toContainText('门店信息已更新')
 
-  const table = page.getByLabel('门店信息列表')
-  await expect(table.locator('.camp-info-table__head > div')).toHaveText([
-    '',
-    '门店名称',
-    '门店类型',
-    '图片',
-    '地址',
-    '上架房型数量',
-    '操作',
-  ])
-  await expect(table.locator('.camp-info-table__row')).toHaveCount(1)
-  await expect(table).toContainText('天落会宿公寓(前海壹方城宝安中心店)')
-  await expect(table).toContainText('酒店')
-  await expect(table).toContainText('深圳宝安区新安街道海裕社区N15幸福海岸花园10栋30楼, 中国')
-  await expect(table).toContainText('4')
-  await expect(page.getByText('第 1-1 条/总共 1 条')).toBeVisible()
-  await expect(page.getByRole('button', { name: '20 条/页' })).toBeVisible()
+  await page.getByPlaceholder('请输入门店名称').fill('前海')
+  await page.getByRole('button', { name: '查 询' }).click()
+  await expect(statusBar(page)).toContainText('已按当前条件更新门店信息')
+  await expect(page.getByTestId('camp-info-contract')).toContainText('"keyword":"前海"')
+  await expect(page.locator('.camp-info-table__body [role="row"]')).toHaveCount(1)
+
+  await page.getByPlaceholder('请输入门店名称').fill('不存在的门店')
+  await page.getByRole('button', { name: '查 询' }).click()
+  await expect(page.locator('[role="status"][aria-label="门店信息空态"]')).toContainText('暂无符合条件的门店')
+
+  await page.getByRole('button', { name: '重 置' }).click()
+  await expect(page.getByPlaceholder('请输入门店名称')).toHaveValue('')
+  await expect(page.locator('.camp-info-table__body [role="row"]')).toHaveCount(1)
 })
 
-test('/InformationMaintenance/campInfo shows captured new store limit modal', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/InformationMaintenance/campInfo'))
-
-  await page.locator('.camp-info-summary__actions button').first().click()
-
-  await expect(page).toHaveURL(/\/InformationMaintenance\/campInfo$/)
-  const dialog = page.getByRole('dialog', { name: '\u95e8\u5e97\u5269\u4f59\u6570\u91cf\u4e0d\u8db3' })
-  await expect(dialog).toBeVisible()
-  await expect(dialog).toContainText('\u60a8\u5f53\u524d\u95e8\u5e97\u6570\u91cf\u5df2\u8fbe\u5230\u4e0a\u9650\uff0c\u65e0\u6cd5\u65b0\u589e\uff0c\u53ef\u6269\u5bb9\u540e\u91cd\u8bd5')
-  await expect(dialog.getByRole('button', { name: '\u53d6\u6d88\u64cd\u4f5c' })).toBeVisible()
-  await expect(dialog.getByRole('button', { name: '\u524d\u5f80\u6269\u5bb9' })).toBeVisible()
-})
-
-test('/InformationMaintenance/campInfo supports captured interactions', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/InformationMaintenance/campInfo'))
+test('/InformationMaintenance/campInfo covers expand, import, capacity, detail, edit and sort interactions', async ({
+  page,
+}) => {
+  await openCampInfo(page)
 
   await page.getByRole('button', { name: '展开门店房型' }).click()
-  await expect(page.getByLabel('门店房型明细')).toContainText('房型名称: 顶层套房（浴缸巨幕电竞麻将）')
-  await expect(page.getByLabel('门店房型明细')).toContainText('房间数量: 1')
+  await expect(page.getByLabel('门店房型明细')).toContainText('顶层套房（浴缸巨幕电竞麻将）')
   await expect(page.getByLabel('门店房型明细')).toContainText('联动关房')
+
+  await page.getByRole('button', { name: '一键导入' }).click()
+  await expect(page.getByRole('dialog', { name: '一键导入' })).toContainText('导入门店基础资料')
+  await page.getByRole('dialog', { name: '一键导入' }).getByRole('button', { name: '开始导入' }).click()
+  await expect(statusBar(page)).toContainText('导入任务已创建')
+
+  await page.getByRole('button', { name: '新建门店' }).click()
+  await expect(page.getByRole('dialog', { name: '门店剩余数量不足' })).toContainText('无法新增')
+  await page.getByRole('dialog', { name: '门店剩余数量不足' }).getByRole('button', { name: '取消操作' }).click()
+  await expect(page.getByRole('dialog', { name: '门店剩余数量不足' })).toBeHidden()
+
+  await page.getByRole('button', { name: '详情' }).click()
+  await expect(page.getByRole('dialog', { name: '门店详情' })).toContainText('联系电话')
+  await page.getByRole('dialog', { name: '门店详情' }).getByRole('button', { name: '关闭门店详情' }).click()
+  await expect(page.getByRole('dialog', { name: '门店详情' })).toBeHidden()
 
   await page.getByRole('button', { name: '编辑' }).click()
   await expect(page).toHaveURL(/\/InformationMaintenance\/campInfo\/edit$/)
-  await expect(page.getByText('门店信息 /')).toBeVisible()
   await expect(page.getByRole('heading', { name: '编辑', level: 1 })).toBeVisible()
-  await expect(page.getByText('基本信息')).toBeVisible()
-  await expect(page.getByText('详细介绍')).toBeVisible()
   await expect(page.getByLabel('门店名称')).toHaveValue('天落会宿公寓(前海壹方城宝安中心店)')
-  await expect(page.getByLabel('联系电话')).toHaveValue('+86-18123941382')
-  await expect(page.getByText('第一张图片将会作为封面')).toBeVisible()
-  await expect(page.getByText('若地图自动获取坐标有误，请拖动图标至正确坐标')).toBeVisible()
-  await expect(page.getByRole('button', { name: '取 消' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '下一步' })).toBeVisible()
+  await page.getByRole('button', { name: '下一步' }).click()
+  await expect(statusBar(page)).toContainText('已进入详细介绍步骤')
 
-  await page.goto(appUrl('/InformationMaintenance/campInfo'))
-  await page.getByRole('button', { name: '门店排序' }).click()
-  await expect(page).toHaveURL(/\/InformationMaintenance\/campInfo\/sort$/)
+  await openCampInfo(page, { path: '/InformationMaintenance/campInfo/sort' })
   await expect(page.getByRole('tab', { name: '门店排序' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByRole('tab', { name: '房型排序' })).toHaveAttribute('aria-selected', 'false')
-  await expect(page.getByRole('tab', { name: '商品排序' })).toHaveAttribute('aria-selected', 'false')
-  await expect(page.getByText('拖拽即可进行排序，选定排序方式之后，系统将按照下方顺序展示')).toBeVisible()
   await expect(page.getByLabel('门店排序列表')).toContainText('天落会宿公寓(前海壹方城宝安中心店)')
+  await page.getByRole('tab', { name: '商品排序' }).click()
+  await expect(page.getByLabel('商品排序列表')).toContainText('巨幕观影套餐')
+  await page.getByRole('button', { name: '保存排序' }).click()
+  await expect(statusBar(page)).toContainText('排序已保存')
+})
+
+test('/InformationMaintenance/campInfo shows loading feedback while the mock provider is pending', async ({ page }) => {
+  await openCampInfo(page, { latencyMs: 1200 })
+
+  await expect(statusBar(page)).toContainText('门店信息加载中')
+  await expect(page.getByRole('button', { name: '查 询' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '重 置' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '新建门店' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '一键导入' })).toBeDisabled()
+
+  await expect(page.locator('.camp-info-table__body [role="row"]')).toHaveCount(1)
+  await expect(statusBar(page)).toContainText('门店信息已更新')
+})
+
+test('/InformationMaintenance/campInfo handles empty and error responses with retry', async ({ browser }) => {
+  const emptyPage = await browser.newPage()
+  await openCampInfo(emptyPage, { mode: 'empty' })
+  await expect(emptyPage.locator('[role="status"][aria-label="门店信息空态"]')).toContainText('暂无已创建的门店')
+  await expect(emptyPage.getByRole('button', { name: '新建门店' })).toBeVisible()
+
+  const errorPage = await browser.newPage()
+  await openCampInfo(errorPage, { mode: 'error' })
+  await expect(errorPage.getByRole('alert')).toContainText('门店信息加载失败')
+  await errorPage.evaluate(() => window.localStorage.setItem('pms.campInfoMockMode', 'success'))
+  await errorPage.getByRole('button', { name: '重新加载' }).click()
+  await expect(errorPage.locator('.camp-info-table__body [role="row"]')).toHaveCount(1)
+  await expect(statusBar(errorPage)).toContainText('门店信息已更新')
 })

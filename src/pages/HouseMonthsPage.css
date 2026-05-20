@@ -1021,6 +1021,168 @@
   background: #fff;
 }
 
+.month-order-edit-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.month-order-edit-tabs {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.month-order-edit-tabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: #333;
+  padding: 0 0 8px;
+  font-size: 14px;
+}
+
+.month-order-edit-tabs button.is-active {
+  color: #4d65f6;
+}
+
+.month-order-edit-tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #4d65f6;
+}
+
+.month-order-edit-section {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.month-order-edit-section__header,
+.month-order-edit-inline-row,
+.month-order-edit-related-head {
+  display: flex;
+  align-items: center;
+}
+
+.month-order-edit-section__header {
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.month-order-edit-section__header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.month-order-edit-section__summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.month-order-edit-grid--compact {
+  margin-top: 14px;
+}
+
+.month-order-edit-grid label,
+.month-order-edit-remark {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-edit-grid span,
+.month-order-edit-remark span {
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-edit-room-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 12px 14px;
+}
+
+.month-order-edit-room-row div {
+  display: grid !important;
+  gap: 6px !important;
+}
+
+.month-order-edit-room-row strong {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.month-order-edit-room-row span {
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-edit-room-row button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.month-order-edit-inline-row + .month-order-edit-inline-row,
+.month-order-edit-inline-row + .month-order-edit-remark {
+  margin-top: 12px;
+}
+
+.month-order-edit-inline-row {
+  justify-content: space-between;
+  min-height: 32px;
+}
+
+.month-order-edit-inline-row__label {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.month-order-edit-related-head {
+  gap: 18px;
+  min-height: 38px;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #8c8c8c;
+  font-size: 12px;
+  padding: 0 12px;
+}
+
+.month-order-edit-related-head span {
+  flex: 1;
+}
+
 .month-order-card,
 .month-room-order-card,
 .month-finance-card,
@@ -1117,6 +1279,52 @@
   font-size: 13px;
 }
 
+.month-room-order-card__guest-editor {
+  margin-top: 12px;
+  border-top: 1px dashed #f0d7b3;
+  padding-top: 14px;
+}
+
+.month-order-guest-editor__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+
+.month-order-guest-editor__grid label {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-guest-editor__grid span {
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-guest-editor__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.month-order-guest-editor__actions button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.month-order-guest-editor__actions button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
 .month-room-order-card em {
   display: block;
   margin-top: 14px;
@@ -1194,6 +1402,25 @@
   line-height: 28px;
 }
 
+.month-info-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px !important;
+  align-items: start !important;
+}
+
+.month-info-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4d65f6;
+  font-size: 12px;
+  line-height: 22px;
+}
+
 .month-info-block p {
   margin: 0;
   color: #666;
@@ -1201,10 +1428,375 @@
   line-height: 28px;
 }
 
+.month-order-section-row {
+  padding-top: 10px;
+}
+
+.month-order-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+}
+
+.month-order-section-header--summary {
+  justify-content: space-between;
+}
+
+.month-order-section-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-mini-action,
+.month-order-collapse-toggle {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.month-order-collapse-toggle {
+  flex: 0 0 auto;
+}
+
+.month-order-icon-action {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.month-order-section-inline-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.month-order-inline-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.month-order-inline-form--payment {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 10px;
+}
+
+.month-order-inline-form--deposit {
+  gap: 0;
+}
+
+.month-order-inline-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-inline-form__single-line {
+  grid-template-columns: auto minmax(0, 240px) auto;
+  align-items: center;
+  gap: 12px !important;
+}
+
+.month-order-inline-form label > span,
+.month-order-inline-form p {
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-inline-form p {
+  margin: 0;
+}
+
+.month-order-inline-money {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-order-inline-money span {
+  flex: 0 0 auto;
+  color: #666;
+}
+
+.month-order-inline-link {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-arrears-shell {
+  display: block !important;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.month-order-arrears-shell__content {
+  display: block !important;
+  width: 100%;
+  min-height: 40px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.month-order-upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #4d65f6;
+  cursor: pointer;
+}
+
+.month-order-upload-trigger input {
+  display: none;
+}
+
+.month-order-upload-list {
+  display: grid !important;
+  gap: 6px !important;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.month-order-upload-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-height: 24px;
+  color: rgba(0, 0, 0, 0.85) !important;
+  line-height: 22px !important;
+}
+
+.month-order-upload-item__icon,
+.month-order-upload-item__delete {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.month-order-upload-item__icon {
+  color: #8c8c8c;
+}
+
+.month-order-upload-item__icon svg,
+.month-order-upload-item__delete svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.month-order-upload-item__name {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.85);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.month-order-upload-item__delete {
+  border: 0;
+  background: transparent;
+  color: #bfbfbf;
+  padding: 0;
+}
+
+.month-order-upload-item__delete:hover {
+  color: #8c8c8c;
+}
+
+.month-order-dialog--tags {
+  max-width: 600px;
+}
+
+.month-order-tag-dialog__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.month-order-tag-dialog__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 300px;
+  height: 40px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.month-order-tag-dialog__search span {
+  color: #8c8c8c;
+  font-size: 15px;
+}
+
+.month-order-tag-dialog__search input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #333;
+  font-size: 13px;
+}
+
+.month-order-tag-dialog__create-link {
+  border: 0;
+  background: transparent;
+  color: #5068ed;
+  padding: 0;
+  font-size: 13px;
+}
+
+.month-order-tag-dialog__tabs {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.month-order-tag-dialog__tabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: #5068ed;
+  padding: 0 0 12px;
+  font-size: 14px;
+}
+
+.month-order-tag-dialog__tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: #5068ed;
+}
+
+.month-order-tag-tree {
+  min-height: 190px;
+  padding: 16px 0 0;
+}
+
+.month-order-tag-tree__group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-order-tag-tree__caret {
+  border: 0;
+  background: transparent;
+  color: #666;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.month-order-tag-tree__children {
+  display: grid;
+  gap: 10px;
+  padding: 10px 0 0 48px;
+}
+
+.month-order-tag-tree__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  font-size: 13px;
+}
+
+.month-order-tag-tree__row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.month-order-tag-tree__row--group {
+  font-size: 14px;
+}
+
+.month-order-empty-table {
+  margin-top: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #999;
+  padding: 18px 14px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.month-order-meta-list {
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-key-value-list {
+  display: grid !important;
+  gap: 10px !important;
+}
+
+.month-order-key-value-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 40px;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0 14px;
+  gap: 12px !important;
+}
+
+.month-order-key-value-row span {
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-key-value-row strong {
+  color: #333;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: right;
+}
+
+.month-info-block--plain {
+  padding-top: 0;
+  border-top: 0;
+}
+
 .month-order-drawer__footer {
   flex: 0 0 auto;
   border-top: 1px solid #f0f0f0;
   background: #f4f4f4;
+}
+
+.month-order-drawer__footer--edit {
+  background: #fff;
 }
 
 .month-order-actions {
@@ -1217,7 +1809,7 @@
 }
 
 .month-order-actions button {
-  height: 30px;
+  height: 64px;
   border: 0;
   background: #fff;
   color: #333;
@@ -1225,7 +1817,28 @@
   font-size: 12px;
 }
 
+.month-order-action-button {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 8px;
+  padding-top: 6px !important;
+}
+
+.month-order-action-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #4d65f6;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .month-order-footer-row {
+  position: relative;
   justify-content: flex-end;
   gap: 8px;
   padding: 11px 16px;
@@ -1257,6 +1870,357 @@
   color: #fff;
 }
 
+.month-order-edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fff;
+}
+
+.month-order-edit-footer__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  color: #666;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.month-order-edit-footer button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  padding: 0 18px;
+  font-size: 13px;
+}
+
+.month-order-edit-footer button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.month-order-more-menu {
+  position: absolute;
+  right: 296px;
+  bottom: 52px;
+  z-index: 5;
+  display: grid;
+  min-width: 140px;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.month-order-more-menu button {
+  height: 38px;
+  border: 0;
+  border-bottom: 1px solid #f2f2f2;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.month-order-more-menu button:last-child {
+  border-bottom: 0;
+}
+
+.month-log-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.month-log-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-dialog-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+  background: rgba(17, 24, 39, 0.18);
+  padding: 24px;
+}
+
+.month-order-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 720px);
+  max-height: min(680px, calc(100vh - 140px));
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.month-order-dialog--medium {
+  max-width: 560px;
+}
+
+.month-order-dialog--large {
+  max-width: 760px;
+}
+
+.month-order-dialog__header,
+.month-order-dialog__footer,
+.month-order-dialog__selection,
+.month-order-dialog__room-title,
+.month-order-dialog__room-meta,
+.month-order-dialog__checkout-bar,
+.month-order-dialog__radio-group {
+  display: flex;
+  align-items: center;
+}
+
+.month-order-dialog__header {
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.month-order-dialog__header strong {
+  color: #222;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.month-order-dialog__header button {
+  border: 0;
+  background: transparent;
+  color: #999;
+  padding: 0;
+  font-size: 20px;
+}
+
+.month-order-dialog__body {
+  padding: 18px;
+}
+
+.month-order-dialog__body--scroll {
+  overflow-y: auto;
+}
+
+.month-order-dialog__selection {
+  justify-content: space-between;
+  margin-bottom: 14px;
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-dialog__selection label,
+.month-order-dialog__room-check,
+.month-order-dialog__radio-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-order-dialog__room {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 14px;
+}
+
+.month-order-dialog__room-content {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-dialog__room-title {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.month-order-dialog__room-title strong {
+  color: #333;
+  font-size: 14px;
+}
+
+.month-order-dialog__room-title span {
+  color: #fa8c16;
+  font-size: 12px;
+}
+
+.month-order-dialog__room-meta {
+  justify-content: space-between;
+  gap: 12px;
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-dialog__room-meta strong {
+  color: #333;
+  font-size: 14px;
+}
+
+.month-order-dialog__group + .month-order-dialog__group {
+  margin-top: 18px;
+}
+
+.month-order-dialog__group h3 {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.month-order-dialog__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.month-order-dialog__grid--inputs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.month-order-dialog__grid--inputs label,
+.month-order-dialog__textarea-label {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-dialog__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.month-order-dialog__stat {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #faf7f0;
+}
+
+.month-order-dialog__stat span {
+  color: #8c8c8c;
+  font-size: 12px;
+}
+
+.month-order-dialog__stat strong {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.month-order-dialog__stat--pending strong {
+  color: #d4380d;
+}
+
+.month-order-dialog__form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.month-order-dialog__form-grid--single {
+  grid-template-columns: 1fr;
+}
+
+.month-order-dialog__form-grid label {
+  display: grid;
+  gap: 8px;
+}
+
+.month-order-dialog__form-grid label span {
+  color: #666;
+  font-size: 13px;
+}
+
+.month-order-dialog__form-grid-full {
+  grid-column: 1 / -1;
+}
+
+.month-order-dialog__radio-group {
+  gap: 18px;
+  color: #333;
+  font-size: 13px;
+}
+
+.month-order-dialog__checkout-bar {
+  justify-content: space-between;
+  gap: 12px;
+  color: #333;
+  font-size: 13px;
+}
+
+.month-order-dialog__checkout-bar button,
+.month-order-dialog__footer button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.month-order-dialog__checkout-bar button.is-primary,
+.month-order-dialog__footer button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.month-order-dialog__input,
+.month-order-dialog__select,
+.month-order-dialog__textarea {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  padding: 8px 10px;
+}
+
+.month-order-dialog__textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.month-order-dialog__footer {
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.month-order-dialog__footer-note {
+  margin-right: auto;
+  color: #4d65f6;
+  font-size: 13px;
+  line-height: 32px;
+}
+
 @media (max-width: 900px) {
   .month-toolbar__primary,
   .month-toolbar__actions,
@@ -1268,5 +2232,14 @@
   .month-toolbar__actions input,
   .month-toolbar__filters input {
     width: 100%;
+  }
+
+  .month-order-dialog__grid,
+  .month-order-dialog__grid--inputs,
+  .month-order-dialog__stats,
+  .month-order-dialog__form-grid,
+  .month-order-guest-editor__grid,
+  .month-order-edit-grid {
+    grid-template-columns: 1fr;
   }
 }

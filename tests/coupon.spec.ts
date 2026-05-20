@@ -26,7 +26,7 @@ test('/mallManagement/couponMgt renders coupon data through the service contract
 
   await expect(page.getByRole('tab', { name: '优惠券管理' })).toHaveAttribute('aria-selected', 'true')
   await expect(page.getByRole('button', { name: '上架状态 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '刷新' })).toBeVisible()
+  await expect(page.getByLabel('优惠券筛选').getByRole('button', { name: '刷新', exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: '导出' })).toBeVisible()
   await expect(page.getByLabel('优惠券列表表格').locator('.coupon-table__head > div')).toHaveText([
     '名称',
@@ -42,8 +42,8 @@ test('/mallManagement/couponMgt renders coupon data through the service contract
     '状态',
     '操作',
   ])
-  await expect(page.getByRole('cell', { name: '春季连住满减券' })).toBeVisible()
-  await expect(page.getByRole('cell', { name: '会员复购专享券' })).toBeVisible()
+  await expect(page.getByRole('cell', { name: '春季连住满减券', exact: true })).toBeVisible()
+  await expect(page.getByRole('cell', { name: '会员复购专享券', exact: true })).toBeVisible()
 
   await page.getByRole('button', { name: '上架状态 请选择' }).click()
   await page.getByRole('option', { name: '已上架' }).click()
@@ -51,7 +51,7 @@ test('/mallManagement/couponMgt renders coupon data through the service contract
   await expect(page.getByRole('status')).toContainText('已按当前条件刷新优惠券')
   await expect(page.getByTestId('coupon-request-body')).toContainText('"shelfStatus":1')
 
-  await page.getByRole('button', { name: '刷新' }).click()
+  await page.getByLabel('优惠券筛选').getByRole('button', { name: '刷新', exact: true }).click()
   await expect(page.getByRole('status')).toContainText('已刷新')
 
   await page.getByRole('button', { name: '导出' }).click()
@@ -84,7 +84,7 @@ test('/mallManagement/couponMgt supports task tab, pagination, empty, and error 
   await page.getByRole('button', { name: '取消新建派发任务' }).click()
 
   await openCouponPage(page, 'empty')
-  await expect(page.getByText('暂无符合条件的优惠券')).toBeVisible()
+  await expect(page.getByLabel('优惠券列表表格').getByText('暂无符合条件的优惠券')).toBeVisible()
 
   await openCouponPage(page, 'error')
   await expect(page.getByRole('alert')).toContainText('优惠券数据加载失败')

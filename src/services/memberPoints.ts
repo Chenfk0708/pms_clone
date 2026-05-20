@@ -390,7 +390,7 @@ function makeOverviewEnvelope(state: MemberPointsMockState): ApiEnvelope<RawOver
           ],
       reminders: [
         { reminder_id: 'expire-soon', title: '即将到期积分', count: isEmpty ? 0 : 18, route: '/customer/list' },
-        { reminder_id: 'pending-settle', title: '待结算积分', count: isEmpty ? 0 : 7, route: '/orderManage/order' },
+        { reminder_id: 'pending-settle', title: '待结算积分', count: isEmpty ? 0 : 7, route: '/order/house-order/list' },
         { reminder_id: 'benefit-review', title: '权益兑换待确认', count: isEmpty ? 0 : 3, route: '/scrm/memberCenter/equity' },
       ],
       shortcuts: [

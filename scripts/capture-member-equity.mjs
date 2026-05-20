@@ -8,6 +8,8 @@ const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/scrm/member
 const storageState = path.resolve('playwright/.auth/pms-user.json')
 const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const closeTimeoutMs = 5_000
+let closeTimedOut = false
 
 const mode = process.argv[2] ?? 'target'
 const stamp =
@@ -40,7 +42,28 @@ try {
     console.log(JSON.stringify(result, null, 2))
   }
 } finally {
-  await browser.close()
+  await closeWithTimeout('browser', () => browser.close())
+  if (closeTimedOut) {
+    setTimeout(() => process.exit(0), 0)
+  }
+}
+
+async function closeWithTimeout(label, close) {
+  let timeoutId
+  try {
+    await Promise.race([
+      close(),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(`${label} close timed out`)), closeTimeoutMs)
+      }),
+    ])
+  } catch (error) {
+    closeTimedOut = true
+    const message = error instanceof Error ? error.message : String(error)
+    console.warn(`[capture-member-equity] ${message}`)
+  } finally {
+    clearTimeout(timeoutId)
+  }
 }
 
 async function captureSide(side, url, contextOptions) {
@@ -176,7 +199,8 @@ async function captureSide(side, url, contextOptions) {
       tableHeaders: defaultFacts.tableHeaders,
     }
   } finally {
-    await context.close()
+    await closeWithTimeout('page', () => page.close({ runBeforeUnload: false }))
+    await closeWithTimeout('context', () => context.close())
   }
 }
 

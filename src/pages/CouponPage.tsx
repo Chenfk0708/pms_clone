@@ -281,7 +281,12 @@ function CouponEditPage() {
 
           <label className="coupon-form-field">
             <span>生效范围</span>
-            <button type="button" className="coupon-select" onClick={() => setDialog({ type: 'product-picker' })}>
+            <button
+              type="button"
+              className="coupon-select"
+              aria-label="选择商品/房型"
+              onClick={() => setDialog({ type: 'product-picker' })}
+            >
               {selectedScope}
             </button>
           </label>
@@ -424,9 +429,8 @@ function DataFeedback<T>({ state, emptyText, onRetry }: { state: LoadState<Coupo
 
   if (state.data.list.length === 0) {
     return (
-      <div className="coupon-empty coupon-empty--inline">
-        <span className="coupon-empty__icon" aria-hidden="true" />
-        <strong>{emptyText}</strong>
+      <div className="coupon-notice" role="status">
+        {emptyText}
       </div>
     )
   }

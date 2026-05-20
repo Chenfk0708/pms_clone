@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import {
+  createInitialSalesReportQuery,
+  createSalesReportExportTask,
+  createSalesReportRequestBody,
+  getDefaultSalesReportQuery,
+  getSalesReportStaticLookups,
+  loadSalesReportDashboard,
+  type SalesReportDashboard,
+  type SalesReportExportTask,
+  type SalesReportQuery,
+  type SalesReportServiceError,
+  type SalesReportTab,
+} from '../services/salesReport'
 import './SalesReportPage.css'
 
-type SalesTab = 'day' | 'month' | 'store' | 'channel' | 'roomType' | 'room'
-type SelectKind = 'store' | 'roomType' | 'channel' | 'roomGroup' | 'room' | null
-
-interface TableModel {
-  groups: Array<{ label: string; span: number }>
-  columns: string[]
-  rows: string[][]
-  empty?: boolean
-  pageText?: string
-}
-
-const tabs: Array<{ key: SalesTab; label: string }> = [
+const tabs: Array<{ key: SalesReportTab; label: string }> = [
   { key: 'day', label: '按日' },
   { key: 'month', label: '按月' },
   { key: 'store', label: '按门店' },
@@ -21,218 +23,137 @@ const tabs: Array<{ key: SalesTab; label: string }> = [
   { key: 'room', label: '按房间' },
 ]
 
-const storeOptions = ['全部门店', '天落会宿公寓(前海壹方城宝安中心店)']
-const roomTypeOptions = ['观影大床房', '天落大床电竞套间', '总裁套间（桑拿浴缸露台电竞麻将）', '顶层套房（浴缸巨幕电竞麻将）']
-const channelOptions = ['自来客', '途家', '美团民宿', '小猪', '携程', '美团酒店', '飞猪淘酒店', '路客云聚合', '木鸟']
-const roomGroupOptions = ['全部房型分组', '顶层房型', '电竞套间', '观影大床房']
-const roomOptions = ['观影大床房(房间1)', '天落大床电竞套间(1)', '总裁套间（桑拿浴缸露台电竞麻将）(房间1)', '顶层套房（浴缸巨幕电竞麻将）(房间1)']
-
-const dailyRows = [
-  ['合计', '56', '56', '32', '32', '0', '57.14%', '277.73', '221.94', '158.69', '126.82', '7102.14', '1785.32', '8887.46', '33'],
-  ['2026-05-01', '4', '4', '4', '4', '0', '100.00%', '320.28', '241.72', '320.28', '241.72', '966.87', '314.25', '1281.12', '4'],
-  ['2026-05-02', '4', '4', '4', '4', '0', '100.00%', '198.92', '170.5', '198.92', '170.5', '682', '113.69', '795.69', '4'],
-  ['2026-05-03', '4', '4', '3', '3', '0', '75.00%', '293', '263.93', '219.75', '197.95', '791.8', '87.2', '879', '3'],
-  ['2026-05-04', '4', '4', '3', '3', '0', '75.00%', '394.82', '298.43', '296.12', '223.82', '895.3', '289.16', '1184.46', '3'],
-  ['2026-05-05', '4', '4', '3', '3', '0', '75.00%', '267', '207.74', '200.25', '155.81', '623.21', '177.79', '801', '3'],
-  ['2026-05-06', '4', '4', '1', '1', '0', '25.00%', '171.69', '160.28', '42.92', '40.07', '160.28', '11.41', '171.69', '1'],
-  ['2026-05-07', '4', '4', '1', '1', '0', '25.00%', '211', '163.94', '52.75', '40.99', '163.94', '47.06', '211', '1'],
-  ['2026-05-08', '4', '4', '1', '1', '0', '25.00%', '231', '182.81', '57.75', '45.7', '182.81', '48.19', '231', '1'],
-  ['2026-05-09', '4', '4', '1', '1', '0', '25.00%', '231', '182.81', '57.75', '45.7', '182.81', '48.19', '231', '1'],
-  ['2026-05-10', '4', '4', '2', '2', '0', '50.00%', '198', '151.3', '99', '75.65', '302.59', '93.41', '396', '2'],
-  ['2026-05-11', '4', '4', '1', '1', '0', '25.00%', '422', '327.88', '105.5', '81.97', '327.88', '94.12', '422', '2'],
-  ['2026-05-12', '4', '4', '3', '3', '0', '75.00%', '208.69', '165.9', '156.52', '124.43', '497.7', '128.37', '626.07', '3'],
-  ['2026-05-13', '4', '4', '3', '3', '0', '75.00%', '337', '273.04', '252.75', '204.78', '819.13', '191.87', '1011', '3'],
-  ['2026-05-14', '4', '4', '2', '2', '0', '50.00%', '323.22', '252.91', '161.61', '126.46', '505.82', '140.61', '646.43', '2'],
-]
-
-const storeRows = [
-  ['合计', '56', '56', '32', '32', '0', '57.14%', '277.73', '221.94', '158.69', '126.82', '7102.14', '1785.32', '8887.46', '30'],
-  ['天落会宿公寓(前海壹方城宝安中心店)', '56', '56', '32', '32', '0', '57.14%', '277.73', '221.94', '158.69', '126.82', '7102.14', '1785.32', '8887.46', '30'],
-]
-
-const channelRows = [
-  ['合计', '32', '-', '32', '-', '0', '-', '30', '-'],
-  ['自来客', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['途家', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['美团民宿', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['小猪', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['携程', '16', '50.00%', '16', '50.00%', '0', '0%', '17', '56.67%'],
-  ['美团酒店', '4', '12.50%', '4', '12.50%', '0', '0%', '4', '13.33%'],
-  ['飞猪淘酒店', '11', '34.38%', '11', '34.38%', '0', '0%', '8', '26.67%'],
-  ['路客云聚合', '1', '3.13%', '1', '3.13%', '0', '0%', '1', '3.33%'],
-  ['木鸟', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['品牌小程序', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['途家直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['同程酒店直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['飞猪酒店直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['同程民宿直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['去哪儿酒店直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-  ['抖音来客直连', '0', '0.00%', '0', '0.00%', '0', '0%', '0', '0.00%'],
-]
-
-const roomTypeRows = [
-  ['合计', '56', '56', '32', '32', '0', '57.14%', '277.73', '221.94', '158.69', '126.82', '7102.14', '1785.32', '8887.46', '30'],
-  ['观影大床房', '14', '14', '14', '14', '0', '100.00%', '238.2', '193.39', '238.2', '193.39', '2707.45', '627.36', '3334.81', '15'],
-  ['天落大床电竞套间', '14', '14', '5', '5', '0', '35.71%', '253.95', '201.73', '90.69', '72.04', '1008.65', '261.08', '1269.73', '5'],
-  ['总裁套间（桑拿浴缸露台电竞麻将）', '14', '14', '8', '8', '0', '57.14%', '329.5', '275.4', '188.28', '157.36', '2203.22', '432.78', '2636', '5'],
-  ['顶层套房（浴缸巨幕电竞麻将）', '14', '14', '5', '5', '0', '35.71%', '329.38', '236.56', '117.62', '84.48', '1182.82', '464.1', '1646.92', '5'],
-]
-
-const roomRows = [
-  ['合计', '56', '56', '32', '32', '0', '57.14%', '271.14', '216.82', '154.93', '123.89', '6938.2', '1738.26', '8676.46', '29'],
-  ['观影大床房(房间1)', '14', '14', '14', '14', '0', '100.00%', '223.13', '181.68', '223.13', '181.68', '2543.51', '580.3', '3123.81', '14'],
-  ['天落大床电竞套间(1)', '14', '14', '5', '5', '0', '35.71%', '253.95', '201.73', '90.69', '72.04', '1008.65', '261.08', '1269.73', '5'],
-  ['总裁套间（桑拿浴缸露台电竞麻将）(房间1)', '14', '14', '8', '8', '0', '57.14%', '329.5', '275.4', '188.28', '157.36', '2203.22', '432.78', '2636', '5'],
-  ['顶层套房（浴缸巨幕电竞麻将）(房间1)', '14', '14', '5', '5', '0', '35.71%', '329.38', '236.56', '117.62', '84.48', '1182.82', '464.1', '1646.92', '5'],
-]
-
-const dayColumns = [
-  '日期',
-  '总房间数',
-  '可售房间数',
-  '已售房间数',
-  '全日房已售房间数',
-  '钟点房已售房间数',
-  '入住率OCC',
-  'ADR',
-  'ADR(减佣)',
-  'RevPar',
-  'RevPar(减佣)',
-  '房费(减佣)',
-  '佣金',
-  '房费(含佣)',
-  '住宿订单总数',
-]
-
-const aggregateColumns = [
-  '门店',
-  '总房间数',
-  '可售房间数',
-  '已售房间数',
-  '全日房已售房间数',
-  '钟点房已售房间数',
-  '入住率',
-  'ADR',
-  'ADR(减佣)',
-  'RevPar',
-  'RevPar(减佣)',
-  '房费(减佣)',
-  '佣金',
-  '房费(含佣)',
-  '住宿订单总数',
-]
-
-const standardGroups = [
-  { label: '', span: 1 },
-  { label: '入住间夜', span: 5 },
-  { label: '', span: 1 },
-  { label: '平均房费ADR', span: 2 },
-  { label: '平均客房收益RevPAR', span: 2 },
-  { label: '房费收入', span: 3 },
-  { label: '住宿订单渠道来源', span: 1 },
-]
-
-function getTableModel(activeTab: SalesTab): TableModel {
-  if (activeTab === 'month') {
-    return {
-      groups: standardGroups,
-      columns: ['月份', '总房间数', '可售房间数', '已可售数', '全日房已售房间数', '钟点房已售房间数', '入住率', 'ADR', 'ADR(减佣)', 'RevPar', 'RevPar(减佣)', '房费(减佣)', '佣金', '房费(含佣)', '住宿订单总数'],
-      rows: [],
-      empty: true,
-    }
-  }
-
-  if (activeTab === 'store') {
-    return {
-      groups: standardGroups,
-      columns: aggregateColumns,
-      rows: storeRows,
-      pageText: '第 1-2 条/总共 2 条',
-    }
-  }
-
-  if (activeTab === 'channel') {
-    return {
-      groups: [
-        { label: '', span: 1 },
-        { label: '已售房间数', span: 6 },
-        { label: '住宿订单', span: 2 },
-      ],
-      columns: ['渠道', '已售房间数', '占比', '全日房已售房间数', '占比', '钟点房已售房间数', '占比', '订单数', '占比'],
-      rows: channelRows,
-      pageText: '第 1-17 条/总共 17 条',
-    }
-  }
-
-  if (activeTab === 'roomType') {
-    return {
-      groups: [
-        { label: '', span: 1 },
-        { label: '入住间夜', span: 5 },
-        { label: '', span: 1 },
-        { label: 'ADR', span: 2 },
-        { label: 'RevPar', span: 2 },
-        { label: '房费收入', span: 3 },
-        { label: '住宿订单渠道来源', span: 1 },
-      ],
-      columns: ['房型', '总房间数', '可售房间数', '开房数', '过夜开房数', '钟点开房数', '入住率', 'ADR', 'ADR(减佣)', 'RevPar', 'RevPar(减佣)', '房费(减佣)', '佣金', '房费(含佣)', '住宿订单总数'],
-      rows: roomTypeRows,
-      pageText: '第 1-5 条/总共 5 条',
-    }
-  }
-
-  if (activeTab === 'room') {
-    return {
-      groups: standardGroups,
-      columns: ['房间', ...aggregateColumns.slice(1)],
-      rows: roomRows,
-      pageText: '第 1-5 条/总共 5 条',
-    }
-  }
-
-  return {
-    groups: standardGroups,
-    columns: dayColumns,
-    rows: dailyRows,
-    pageText: '第 1-15 条/总共 15 条',
-  }
-}
+const defaultSalesReportQuery = getDefaultSalesReportQuery()
+const staticLookups = getSalesReportStaticLookups()
 
 export function SalesReportPage() {
-  const [activeTab, setActiveTab] = useState<SalesTab>('day')
-  const [expanded, setExpanded] = useState(true)
-  const [openSelect, setOpenSelect] = useState<SelectKind>(null)
-  const [datePickerOpen, setDatePickerOpen] = useState(false)
-  const [descriptionOpen, setDescriptionOpen] = useState(false)
-  const [roomType, setRoomType] = useState('')
-  const [channel, setChannel] = useState('')
-  const [roomGroup, setRoomGroup] = useState('')
-  const [room, setRoom] = useState('')
+  const [query, setQuery] = useState<SalesReportQuery>(createInitialSalesReportQuery)
+  const [dashboard, setDashboard] = useState<SalesReportDashboard | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const tableModel = getTableModel(activeTab)
+  const [errorTraceId, setErrorTraceId] = useState('')
+  const [descriptionOpen, setDescriptionOpen] = useState(false)
+  const [filtersCollapsed, setFiltersCollapsed] = useState(false)
+  const [exportTask, setExportTask] = useState<SalesReportExportTask | null>(null)
 
-  function resetFilters() {
-    setRoomType('')
-    setChannel('')
-    setRoomGroup('')
-    setRoom('')
-    setOpenSelect(null)
-    setDatePickerOpen(false)
-    setExpanded(true)
-    setNotice('')
-  }
+  useEffect(() => {
+    void runQuery(query)
+    // The initial request should only run once; follow-up changes go through explicit handlers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  function changeTab(tab: SalesTab) {
-    setActiveTab(tab)
-    setOpenSelect(null)
-    setDatePickerOpen(false)
+  const currentState = error ? 'error' : dashboard?.state ?? query.mockState ?? 'success'
+  const stores = dashboard?.stores ?? staticLookups.stores
+  const roomTypes = dashboard?.roomTypes ?? staticLookups.roomTypes
+  const channels = dashboard?.channels ?? staticLookups.channels
+  const roomGroups = dashboard?.roomGroups ?? staticLookups.roomGroups
+  const rooms = dashboard?.rooms ?? staticLookups.rooms
+  const descriptionItems = dashboard?.descriptionItems ?? staticLookups.descriptionItems
+  const requestBody = useMemo(() => createSalesReportRequestBody(query), [query])
+  const serviceContract = useMemo(
+    () =>
+      JSON.stringify({
+        provider: dashboard?.provider ?? query.provider ?? 'mock',
+        state: currentState,
+        tab: query.activeTab,
+        requestBody,
+        rows: dashboard?.table.rows.length ?? 0,
+        traceId: dashboard?.traceId ?? errorTraceId,
+      }),
+    [currentState, dashboard, errorTraceId, query.activeTab, query.provider, requestBody],
+  )
+
+  const exportContract = useMemo(() => JSON.stringify(exportTask ?? {}), [exportTask])
+
+  async function runQuery(nextQuery: SalesReportQuery, nextNotice = '') {
+    setIsLoading(true)
+    setError('')
+    setErrorTraceId('')
     setDescriptionOpen(false)
-    setNotice('')
+
+    try {
+      const nextDashboard = await loadSalesReportDashboard(nextQuery)
+      setDashboard(nextDashboard)
+      setQuery(nextQuery)
+      setNotice(nextNotice)
+    } catch (reason) {
+      const nextError = reason instanceof Error ? reason.message : '销况报表加载失败，请稍后重试'
+      const traceId = reason instanceof Error && 'response' in reason ? readTraceId(reason as SalesReportServiceError) : ''
+      setDashboard(null)
+      setQuery(nextQuery)
+      setNotice('')
+      setError(nextError)
+      setErrorTraceId(traceId)
+    } finally {
+      setIsLoading(false)
+    }
   }
+
+  function patchQuery(patch: Partial<SalesReportQuery>) {
+    setQuery((current) => ({
+      ...current,
+      ...patch,
+    }))
+  }
+
+  function handleTabChange(activeTab: SalesReportTab) {
+    const defaults = getDefaultSalesReportQuery()
+    const nextQuery: SalesReportQuery = {
+      ...query,
+      activeTab,
+      roomIds: activeTab === 'room' ? query.roomIds : [],
+      pageNum: 1,
+      monthStartDate: defaults.monthStartDate,
+      monthEndDate: defaults.monthEndDate,
+    }
+    setExportTask(null)
+    void runQuery(nextQuery, `已切换到${tabs.find((item) => item.key === activeTab)?.label}`)
+  }
+
+  function handleReset() {
+    const defaults = getDefaultSalesReportQuery()
+    const nextQuery: SalesReportQuery = {
+      ...defaults,
+      activeTab: query.activeTab,
+      provider: query.provider,
+      mockState: query.mockState,
+    }
+    setExportTask(null)
+    void runQuery(nextQuery, '已重置筛选条件')
+  }
+
+  function handleQuery() {
+    setExportTask(null)
+    void runQuery({ ...query, pageNum: 1 }, '已按当前条件刷新销况报表')
+  }
+
+  async function handleExport() {
+    const nextExportTask = await createSalesReportExportTask(query)
+    setExportTask(nextExportTask)
+    setNotice(nextExportTask.message)
+  }
+
+  const roomTypeValue = query.roomCategoryIds[0] ?? ''
+  const channelValue = query.channelIds[0] ?? ''
+  const roomGroupValue = query.roomCategoryGroupIds[0] ?? ''
+  const roomValue = query.roomIds[0] ?? ''
 
   return (
-    <div className="sales-report-page" onKeyDown={(event) => event.key === 'Escape' && setDatePickerOpen(false)}>
+    <div
+      className="sales-report-page"
+      data-provider={dashboard?.provider ?? query.provider ?? 'mock'}
+      data-response-state={currentState}
+      data-trace-id={dashboard?.traceId ?? errorTraceId}
+    >
       <h1 className="sr-only-heading">销况报表</h1>
+
+      <pre hidden data-testid="sales-report-service-contract">
+        {serviceContract}
+      </pre>
+      <pre hidden data-testid="sales-report-export-contract">
+        {exportContract}
+      </pre>
 
       <section className="sales-report-panel" aria-label="销况报表筛选">
         <div className="sales-report-tabs" role="tablist" aria-label="销况报表维度">
@@ -240,150 +161,195 @@ export function SalesReportPage() {
             <button
               key={tab.key}
               type="button"
-              role="tab"
-              aria-selected={activeTab === tab.key}
-              className={activeTab === tab.key ? 'is-active' : ''}
-              onClick={() => changeTab(tab.key)}
+              aria-pressed={query.activeTab === tab.key}
+              className={query.activeTab === tab.key ? 'is-active' : ''}
+              onClick={() => handleTabChange(tab.key)}
             >
               {tab.label}
             </button>
           ))}
         </div>
 
-        <div className="sales-report-store-row">
-          <div className="sales-report-store-wrap">
-            <button
-              type="button"
-              className="is-active"
-              aria-haspopup="listbox"
-              aria-expanded={openSelect === 'store'}
-              onClick={() => setOpenSelect(openSelect === 'store' ? null : 'store')}
-            >
-              全部门店
-            </button>
-            {openSelect === 'store' ? (
-              <div className="sales-report-options sales-report-options--store" role="listbox" aria-label="门店选项">
-                {storeOptions.map((option) => (
-                  <button key={option} type="button" role="option" aria-selected={option === storeOptions[0]} onClick={() => setOpenSelect(null)}>
-                    {option}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-          </div>
-          <button type="button" className="sales-store-name">
-            天落会宿公寓(前海壹方城宝安中心店)
-          </button>
-          <button type="button" aria-label="门店设置" className="sales-store-config">
-            ⚙
-          </button>
+        <div className="sales-report-store-row" role="radiogroup" aria-label="门店范围">
+          {stores.map((item) => (
+            <label key={item.id} className={query.storeScope === item.id ? 'is-active' : ''}>
+              <input
+                type="radio"
+                name="sales-store-scope"
+                value={item.id}
+                checked={query.storeScope === item.id}
+                onChange={() => patchQuery({ storeScope: item.id })}
+              />
+              <span>{item.label}</span>
+            </label>
+          ))}
+          <span className="sales-store-name">{dashboard?.currentStoreName ?? staticLookups.currentStoreName}</span>
         </div>
 
-        {expanded ? (
+        {!filtersCollapsed ? (
           <div className="sales-report-filter-row">
-            <DateRangeFields activeTab={activeTab} datePickerOpen={datePickerOpen} onOpenPicker={() => setDatePickerOpen(true)} />
-            {activeTab !== 'store' ? (
+            {query.activeTab === 'month' ? (
+              <DateMonthFields
+                startValue={query.monthStartDate.slice(0, 7)}
+                endValue={query.monthEndDate.slice(0, 7)}
+                onStartChange={(value) => patchQuery({ monthStartDate: `${value}-01` })}
+                onEndChange={(value) => patchQuery({ monthEndDate: `${value}-${lastDayOfMonth(value)}` })}
+              />
+            ) : (
+              <DateDayFields
+                startValue={query.dayStartDate}
+                endValue={query.dayEndDate}
+                onStartChange={(value) => patchQuery({ dayStartDate: value })}
+                onEndChange={(value) => patchQuery({ dayEndDate: value })}
+                onShortcutSelect={({ startDate, endDate }) =>
+                  patchQuery({
+                    dayStartDate: startDate,
+                    dayEndDate: endDate,
+                  })
+                }
+              />
+            )}
+
+            {query.activeTab !== 'store' ? (
               <SelectField
+                id="sales-room-type"
                 label="房型"
-                value={roomType}
-                kind="roomType"
-                openSelect={openSelect}
-                options={roomTypeOptions}
-                onToggle={() => setOpenSelect(openSelect === 'roomType' ? null : 'roomType')}
-                onSelect={(value) => {
-                  setRoomType(value)
-                  setOpenSelect(null)
-                }}
+                value={roomTypeValue}
+                options={roomTypes}
+                onChange={(value) => patchQuery({ roomCategoryIds: value ? [value] : [], roomIds: [] })}
               />
             ) : null}
-            {activeTab === 'room' ? (
+
+            {query.activeTab === 'room' ? (
               <SelectField
+                id="sales-room"
                 label="房间"
-                value={room}
-                kind="room"
-                openSelect={openSelect}
-                options={roomOptions}
-                onToggle={() => setOpenSelect(openSelect === 'room' ? null : 'room')}
-                onSelect={(value) => {
-                  setRoom(value)
-                  setOpenSelect(null)
-                }}
+                value={roomValue}
+                options={rooms}
+                onChange={(value) => patchQuery({ roomIds: value ? [value] : [] })}
               />
             ) : null}
+
             <SelectField
+              id="sales-channel"
               label="渠道"
-              value={channel}
-              kind="channel"
-              openSelect={openSelect}
-              options={channelOptions}
-              onToggle={() => setOpenSelect(openSelect === 'channel' ? null : 'channel')}
-              onSelect={(value) => {
-                setChannel(value)
-                setOpenSelect(null)
-              }}
+              value={channelValue}
+              options={channels}
+              onChange={(value) => patchQuery({ channelIds: value ? [value] : [] })}
             />
-            {activeTab !== 'store' ? (
+
+            {query.activeTab !== 'store' ? (
               <SelectField
+                id="sales-room-group"
                 label="房型分组"
-                value={roomGroup}
-                kind="roomGroup"
-                openSelect={openSelect}
-                options={roomGroupOptions}
-                onToggle={() => setOpenSelect(openSelect === 'roomGroup' ? null : 'roomGroup')}
-                onSelect={(value) => {
-                  setRoomGroup(value)
-                  setOpenSelect(null)
-                }}
+                value={roomGroupValue}
+                options={roomGroups}
+                onChange={(value) => patchQuery({ roomCategoryGroupIds: value ? [value] : [] })}
               />
             ) : null}
           </div>
         ) : null}
 
         <div className="sales-report-actions">
+          <button type="button" className="is-outline" disabled={isLoading} onClick={handleReset}>
+            重置
+          </button>
+          <button type="button" className="is-primary" disabled={isLoading} onClick={handleQuery}>
+            查询
+          </button>
+          <button type="button" className="is-outline" disabled={isLoading} onClick={() => void handleExport()}>
+            导出
+          </button>
+          <button
+            type="button"
+            className="is-outline"
+            disabled={isLoading}
+            onClick={() => {
+              setDescriptionOpen(true)
+              setNotice('')
+            }}
+          >
+            说明
+          </button>
           <button
             type="button"
             className="is-link"
-            onClick={() => {
-              setOpenSelect(null)
-              setDatePickerOpen(false)
-              setExpanded((value) => !value)
-            }}
+            disabled={isLoading}
+            aria-label={filtersCollapsed ? '展开筛选' : '收起筛选'}
+            onClick={() => setFiltersCollapsed((current) => !current)}
           >
-            {expanded ? '收起' : '展开'}
+            {filtersCollapsed ? '展开筛选' : '收起筛选'}
           </button>
-          <button type="button" className="is-outline" onClick={resetFilters}>
-            重 置
-          </button>
-          <button
-            type="button"
-            className="is-primary"
-            onClick={() => {
-              setOpenSelect(null)
-              setDatePickerOpen(false)
-              setNotice('已按当前条件查询销况报表')
-            }}
-          >
-            查 询
-          </button>
-          <button type="button" className="is-outline" onClick={() => setNotice('已生成销况报表导出任务')}>
-            导 出
-          </button>
-          {activeTab !== 'channel' ? (
-            <button type="button" className="is-outline" onClick={() => setDescriptionOpen(true)}>
-              说 明
-            </button>
-          ) : null}
         </div>
       </section>
 
+      {error ? (
+        <section className="sales-report-alert" role="alert" aria-label="销况报表加载失败">
+          <strong>销况报表加载失败</strong>
+          <p>{error}</p>
+          <button type="button" onClick={() => void runQuery(query, '已重新加载销况报表')}>
+            重试
+          </button>
+        </section>
+      ) : null}
+
       {notice ? (
-        <div className="sales-report-notice" role="status">
+        <div className="sales-report-notice" role="status" aria-label="销况报表操作反馈">
           {notice}
         </div>
       ) : null}
 
-      <SalesReportTable model={tableModel} />
-      {tableModel.pageText ? <SalesPagination text={tableModel.pageText} /> : null}
+      <section className="sales-report-table-wrap" aria-label="销况报表表格">
+        {isLoading ? (
+          <div className="sales-report-empty">正在加载销况报表...</div>
+        ) : dashboard && dashboard.table.rows.length === 0 ? (
+          <div className="sales-report-empty">{dashboard.emptyMessage}</div>
+        ) : (
+          <table className="sales-report-table" aria-label="销况报表表格">
+            <thead>
+              <tr>
+                {dashboard?.table.groups.map((group, index) => (
+                  <th key={`${group.label}-${index}`} colSpan={group.span}>
+                    {group.label}
+                  </th>
+                ))}
+              </tr>
+              <tr>
+                {dashboard?.table.columns.map((column) => (
+                  <th key={column}>{column}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {dashboard?.table.rows.map((row) => (
+                <tr key={row.id} className={row.summary ? 'is-summary' : ''}>
+                  {row.cells.map((cell, index) => (
+                    <td key={`${row.id}-${index}`}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
+
+      {!isLoading && dashboard ? (
+        <nav className="sales-report-pagination" aria-label="分页">
+          <span>{dashboard.pageText}</span>
+          <button type="button" disabled aria-label="上一页">
+            上一页
+          </button>
+          <button type="button" className="is-current" aria-current="page" disabled>
+            {dashboard.pagination.pageNum}
+          </button>
+          <button type="button" disabled aria-label="下一页">
+            下一页
+          </button>
+          <button type="button" disabled>
+            {dashboard.pagination.pageSize} 条/页
+          </button>
+        </nav>
+      ) : null}
 
       {descriptionOpen ? (
         <div className="sales-modal-backdrop" role="presentation">
@@ -395,12 +361,12 @@ export function SalesReportPage() {
               </button>
             </header>
             <div className="sales-description-grid">
-              <span>ADR(减佣)</span>
-              <span>房费(减佣) / 已售房间数</span>
-              <span>RevPar</span>
-              <span>房费(含佣) / 可售房间数</span>
-              <span>房费(减佣)</span>
-              <span>房费(含佣) - 佣金</span>
+              {descriptionItems.map((item) => (
+                <div key={item.field} className="sales-description-row">
+                  <span>{item.field}</span>
+                  <span>{item.detail}</span>
+                </div>
+              ))}
             </div>
           </section>
         </div>
@@ -409,192 +375,155 @@ export function SalesReportPage() {
   )
 }
 
-function DateRangeFields({
-  activeTab,
-  datePickerOpen,
-  onOpenPicker,
+function DateDayFields({
+  startValue,
+  endValue,
+  onStartChange,
+  onEndChange,
+  onShortcutSelect,
 }: {
-  activeTab: SalesTab
-  datePickerOpen: boolean
-  onOpenPicker: () => void
+  startValue: string
+  endValue: string
+  onStartChange: (value: string) => void
+  onEndChange: (value: string) => void
+  onShortcutSelect: (range: { startDate: string; endDate: string }) => void
 }) {
-  const monthMode = activeTab === 'month'
+  const shortcuts = createDayShortcuts(defaultSalesReportQuery.dayEndDate)
 
   return (
-    <fieldset className="sales-date-range" aria-label={monthMode ? '月份' : '日期'}>
-      <legend>日期:</legend>
-      <div className="sales-date-inputs">
-        <input
-          aria-label={monthMode ? '开始月份' : '开始日期'}
-          placeholder={monthMode ? '请选择' : '开始日期'}
-          readOnly
-          value={monthMode ? '2025-11' : '2026-05-01'}
-          onClick={monthMode ? undefined : onOpenPicker}
-        />
-        <span>至</span>
-        <input
-          aria-label={monthMode ? '结束月份' : '结束日期'}
-          placeholder={monthMode ? '请选择' : '结束日期'}
-          readOnly
-          value={monthMode ? '2026-05' : '2026-05-14'}
-          onClick={monthMode ? undefined : onOpenPicker}
-        />
-        {!monthMode ? (
-          <button type="button" aria-label="打开日期范围选择" onClick={onOpenPicker}>
-            ◴
+    <fieldset className="sales-date-range" aria-label="日期">
+      <legend>日期</legend>
+      <label htmlFor="sales-day-start" className="sr-only-heading">
+        开始日期
+      </label>
+      <input id="sales-day-start" aria-label="开始日期" type="date" value={startValue} onChange={(event) => onStartChange(event.target.value)} />
+      <span>至</span>
+      <label htmlFor="sales-day-end" className="sr-only-heading">
+        结束日期
+      </label>
+      <input id="sales-day-end" aria-label="结束日期" type="date" value={endValue} onChange={(event) => onEndChange(event.target.value)} />
+      <div className="sales-date-shortcuts" aria-label="日期快捷">
+        {shortcuts.map((shortcut) => (
+          <button key={shortcut.label} type="button" onClick={() => onShortcutSelect(shortcut)}>
+            {shortcut.label}
           </button>
-        ) : null}
+        ))}
       </div>
-      {datePickerOpen && !monthMode ? <DatePickerPanel /> : null}
     </fieldset>
   )
 }
 
-function DatePickerPanel() {
+function DateMonthFields({
+  startValue,
+  endValue,
+  onStartChange,
+  onEndChange,
+}: {
+  startValue: string
+  endValue: string
+  onStartChange: (value: string) => void
+  onEndChange: (value: string) => void
+}) {
   return (
-    <div className="sales-date-picker" role="dialog" aria-label="日期范围选择">
-      <div className="sales-date-shortcuts">
-        {['昨天', '本周', '本月', '上月'].map((item) => (
-          <button key={item} type="button">
-            {item}
-          </button>
-        ))}
-      </div>
-      <CalendarMonth title="2026年5月" offsetStart={4} activeDays={['1', '14']} />
-      <CalendarMonth title="2026年6月" offsetStart={0} activeDays={[]} />
-    </div>
-  )
-}
-
-function CalendarMonth({ title, offsetStart, activeDays }: { title: string; offsetStart: number; activeDays: string[] }) {
-  const days = Array.from({ length: 42 }, (_, index) => {
-    const day = index - offsetStart + 1
-    if (title === '2026年5月') {
-      if (day < 1) return String(27 + index)
-      if (day > 31) return String(day - 31)
-      return String(day)
-    }
-    if (day < 1) return ''
-    if (day > 30) return String(day - 30)
-    return String(day)
-  })
-
-  return (
-    <section className="sales-calendar-month" aria-label={title}>
-      <header>
-        <strong>{title}</strong>
-      </header>
-      <div className="sales-calendar-weekdays">
-        {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
-          <span key={day}>{day}</span>
-        ))}
-      </div>
-      <div className="sales-calendar-days">
-        {days.map((day, index) => (
-          <span key={`${title}-${index}`} className={activeDays.includes(day) ? 'is-active' : day === '' ? 'is-muted' : ''}>
-            {day}
-          </span>
-        ))}
-      </div>
-    </section>
+    <fieldset className="sales-date-range" aria-label="月份">
+      <legend>月份</legend>
+      <label htmlFor="sales-month-start" className="sr-only-heading">
+        开始月份
+      </label>
+      <input
+        id="sales-month-start"
+        aria-label="开始月份"
+        type="month"
+        value={startValue}
+        onChange={(event) => onStartChange(event.target.value)}
+      />
+      <span>至</span>
+      <label htmlFor="sales-month-end" className="sr-only-heading">
+        结束月份
+      </label>
+      <input id="sales-month-end" aria-label="结束月份" type="month" value={endValue} onChange={(event) => onEndChange(event.target.value)} />
+    </fieldset>
   )
 }
 
 function SelectField({
+  id,
   label,
   value,
-  kind,
-  openSelect,
   options,
-  onToggle,
-  onSelect,
+  onChange,
 }: {
+  id: string
   label: string
   value: string
-  kind: Exclude<SelectKind, null>
-  openSelect: SelectKind
-  options: string[]
-  onToggle: () => void
-  onSelect: (value: string) => void
+  options: Array<{ id: string; label: string }>
+  onChange: (value: string) => void
 }) {
   return (
-    <div className="sales-select-field">
-      <span>{label}:</span>
-      <div className="sales-select-wrap">
-        <button type="button" aria-haspopup="listbox" aria-expanded={openSelect === kind} aria-label={`${label} ${value || '请选择'}`} onClick={onToggle}>
-          {value || '请选择'}
-        </button>
-        {openSelect === kind ? (
-          <div className="sales-report-options" role="listbox" aria-label={`${label}选项`}>
-            {options.map((option) => (
-              <button key={option} type="button" role="option" aria-selected={value === option} onClick={() => onSelect(option)}>
-                {option}
-              </button>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </div>
+    <label className="sales-select-field" htmlFor={id}>
+      <span>{label}</span>
+      <select id={id} aria-label={label} value={value} onChange={(event) => onChange(event.target.value)}>
+        <option value="">请选择</option>
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
   )
 }
 
-function SalesReportTable({ model }: { model: TableModel }) {
-  return (
-    <section className="sales-report-table-wrap" aria-label="销况报表表格">
-      <table className="sales-report-table">
-        <thead>
-          <tr>
-            {model.groups.map((group, index) => (
-              <th key={`${group.label}-${index}`} colSpan={group.span}>
-                {group.label}
-              </th>
-            ))}
-          </tr>
-          <tr>
-            {model.columns.map((column) => (
-              <th key={column}>{column}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {model.empty ? (
-            <tr className="sales-empty-row">
-              <td colSpan={model.columns.length}>
-                <div className="sales-empty-state">
-                  <span aria-hidden="true" />
-                  暂无数据
-                </div>
-              </td>
-            </tr>
-          ) : (
-            model.rows.map((row) => (
-              <tr key={row.join('-')} className={row[0] === '合计' ? 'is-summary' : ''}>
-                {row.map((cell, index) => (
-                  <td key={`${row[0]}-${index}`}>{cell}</td>
-                ))}
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </section>
-  )
+function lastDayOfMonth(monthValue: string) {
+  const [yearText, monthText] = monthValue.split('-')
+  const year = Number(yearText)
+  const month = Number(monthText)
+  if (!Number.isFinite(year) || !Number.isFinite(month)) return '31'
+  return String(new Date(year, month, 0).getDate()).padStart(2, '0')
 }
 
-function SalesPagination({ text }: { text: string }) {
-  return (
-    <nav className="sales-report-pagination" aria-label="分页">
-      <span>{text}</span>
-      <button type="button" aria-label="上一页" disabled>
-        ‹
-      </button>
-      <button type="button" className="is-current">
-        1
-      </button>
-      <button type="button" aria-label="下一页" disabled>
-        ›
-      </button>
-      <button type="button">20 条/页</button>
-    </nav>
-  )
+function createDayShortcuts(anchorDate: string) {
+  const anchor = parseDateValue(anchorDate)
+  const yesterday = shiftUtcDays(anchor, -1)
+  const weekStart = shiftUtcDays(anchor, -((anchor.getUTCDay() + 6) % 7))
+  const monthStart = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), 1))
+  const lastMonthStart = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth() - 1, 1))
+  const lastMonthEnd = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), 0))
+
+  return [
+    { label: '昨天', startDate: formatDateValue(yesterday), endDate: formatDateValue(yesterday) },
+    { label: '本周', startDate: formatDateValue(weekStart), endDate: formatDateValue(anchor) },
+    { label: '本月', startDate: formatDateValue(monthStart), endDate: formatDateValue(anchor) },
+    { label: '上月', startDate: formatDateValue(lastMonthStart), endDate: formatDateValue(lastMonthEnd) },
+  ]
+}
+
+function parseDateValue(value: string) {
+  const [yearText, monthText, dayText] = value.split('-')
+  const year = Number(yearText)
+  const month = Number(monthText)
+  const day = Number(dayText)
+
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return parseDateValue(defaultSalesReportQuery.dayEndDate)
+  }
+
+  return new Date(Date.UTC(year, month - 1, day))
+}
+
+function shiftUtcDays(value: Date, amount: number) {
+  const next = new Date(value.getTime())
+  next.setUTCDate(next.getUTCDate() + amount)
+  return next
+}
+
+function formatDateValue(value: Date) {
+  const year = value.getUTCFullYear()
+  const month = String(value.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(value.getUTCDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function readTraceId(reason: SalesReportServiceError) {
+  return reason.response.traceId || ''
 }

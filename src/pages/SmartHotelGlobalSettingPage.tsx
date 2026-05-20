@@ -1,200 +1,348 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import {
+  createDefaultSmartHotelGlobalSettingFilters,
+  fetchSmartHotelGlobalSettingDashboard,
+  type SmartHotelGlobalSettingDashboard,
+  type SmartHotelGlobalSettingGuideField,
+  type SmartHotelGlobalSettingTabId,
+  type SmartHotelGlobalSettingToggle,
+} from '../services/smartHotelGlobalSetting'
 import './SmartHotelGlobalSettingPage.css'
 
-type SettingTab = 'rules' | 'guide' | 'wifi'
-
-interface SwitchControlProps {
-  label: string
-  checked: boolean
-  onChange: () => void
-}
-
-const flowSteps = [
-  { step: '步骤1', title: '进入智住小程序' },
-  { step: '步骤2', title: '办理登记' },
-  { step: '步骤3', title: '查看门锁密码' },
-  { step: '步骤4(可选)', title: '在线续住' },
-]
+type DialogState = 'identity' | 'sms-templates' | 'payment-methods' | null
 
 export function SmartHotelGlobalSettingPage() {
-  const [activeTab, setActiveTab] = useState<SettingTab>('rules')
-  const [autoInvite, setAutoInvite] = useState(false)
-  const [deposit, setDeposit] = useState(false)
-  const [guestStatus, setGuestStatus] = useState(false)
-  const [dirtyRoomBlock, setDirtyRoomBlock] = useState(false)
-  const [earlyPassword, setEarlyPassword] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [dashboard, setDashboard] = useState<SmartHotelGlobalSettingDashboard | null>(null)
+  const [activeTab, setActiveTab] = useState<SmartHotelGlobalSettingTabId>('rules')
+  const [dialog, setDialog] = useState<DialogState>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [feedback, setFeedback] = useState('全局设置数据加载中')
 
-  function changeTab(tab: SettingTab) {
-    setSaved(false)
-    setActiveTab(tab)
+  useEffect(() => {
+    const controller = new AbortController()
+    const filters = createDefaultSmartHotelGlobalSettingFilters(new URLSearchParams(location.search))
+
+    void fetchSmartHotelGlobalSettingDashboard(filters, controller.signal)
+      .then((result) => {
+        setDashboard(result)
+        setErrorMessage('')
+        setFeedback(result.emptyState ? result.emptyState.title : '全局设置数据已加载')
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setDashboard(null)
+        setErrorMessage(error instanceof Error ? error.message : '全局设置数据加载失败，请稍后重试。')
+        setFeedback('全局设置数据加载失败')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [location.search])
+
+  function handleRetry() {
+    setIsLoading(true)
+    setErrorMessage('')
+    setDialog(null)
+    setFeedback('全局设置数据加载中')
+    const nextSearchParams = new URLSearchParams(location.search)
+    nextSearchParams.delete('mockState')
+    navigate(
+      {
+        pathname: '/smartHotel/checkInGuide',
+        search: nextSearchParams.toString() ? `?${nextSearchParams.toString()}` : '',
+      },
+      { replace: true },
+    )
+  }
+
+  function handleDisabledAction(message: string) {
+    setFeedback(message)
   }
 
   return (
-    <div className="smart-global-page">
+    <div className="smart-global-page" data-provider={dashboard?.provider ?? 'mock'} data-state={dashboard?.state ?? 'loading'}>
+      <div
+        id="smart-hotel-global-setting-diagnostics"
+        data-provider={dashboard?.provider ?? 'mock'}
+        data-state={dashboard?.state ?? (errorMessage ? 'error' : 'loading')}
+        data-request={JSON.stringify(dashboard?.requestBody ?? {})}
+        data-trace-id={dashboard?.traceId ?? ''}
+        hidden
+      />
+
       <h1 className="sr-only-heading">全局设置</h1>
-      <span className="smart-global-version">版本号：v4.10.7</span>
+      <span className="smart-global-version">{dashboard?.versionLabel ?? '版本号：v4.10.7'}</span>
 
       <section className="smart-global-shell" aria-label="全局设置">
+        <header className="smart-global-header">
+          <div>
+            <p className="smart-global-header__eyebrow">智慧酒店 / 智住与硬件</p>
+            <h2>{dashboard?.pageTitle ?? '全局设置'}</h2>
+            <span className="smart-global-header__sync">{dashboard?.syncLabel ?? '等待同步结果'}</span>
+          </div>
+          <div className="smart-global-header__actions">
+            <button type="button" className="smart-global-link-button" onClick={() => navigate(dashboard?.routes.smsSetting ?? '/setting/balanceAndTemplate')}>
+              前往短信设置
+            </button>
+            <button type="button" className="smart-global-link-button" onClick={() => navigate(dashboard?.routes.paymentSetting ?? '/setting/paymentSetting')}>
+              前往支付设置
+            </button>
+          </div>
+        </header>
+
         <div className="smart-global-tabs" role="tablist" aria-label="全局设置页签">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'rules'}
-            className={activeTab === 'rules' ? 'is-active' : ''}
-            onClick={() => changeTab('rules')}
-          >
-            入住规则
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'guide'}
-            className={activeTab === 'guide' ? 'is-active' : ''}
-            onClick={() => changeTab('guide')}
-          >
-            入住指引
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'wifi'}
-            className={activeTab === 'wifi' ? 'is-active' : ''}
-            onClick={() => changeTab('wifi')}
-          >
-            WIFI上网
-          </button>
+          {(dashboard?.tabs ?? []).map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              className={activeTab === tab.id ? 'is-active' : ''}
+              onClick={() => {
+                setActiveTab(tab.id)
+                setFeedback(`已切换到${tab.label}`)
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {activeTab === 'rules' ? (
-          <div className="smart-global-rule-layout">
-            <div className="smart-global-rule-main">
-              <div className="smart-global-alert">云端入住登记模式为「仅发送门锁密码」，该模式下无需配置。</div>
+        <div className="smart-global-statusbar" role="status" aria-label="全局设置操作反馈">
+          {isLoading ? '全局设置数据加载中' : feedback}
+        </div>
 
-              <section className="smart-global-section">
-                <h2>入住登记方式</h2>
-                <SettingLine label="自动发送入住邀请">
-                  <SwitchControl label="自动发送入住邀请" checked={autoInvite} onChange={() => setAutoInvite((value) => !value)} />
-                  <span className="smart-global-muted">下单或修改手机号后，自动发送入住登记邀请（虚拟号码需手动发送）</span>
-                </SettingLine>
-              </section>
-
-              <section className="smart-global-section">
-                <h2>身份验证方式</h2>
-                <div className="smart-global-field-row">
-                  <span className="smart-global-label">线上验证身份/预登记:</span>
-                  <div className="smart-global-radio-stack">
-                    <RadioLine selected title="公安系统实名认证">
-                      <span>剩余核验次数:</span>
-                      <strong>5次</strong>
-                      <button type="button" className="smart-global-small-action">
-                        充值
-                      </button>
-                      <p>填写姓名、身份证号码，公安系统实名认证比对核验成功，即可获得入住权限（密码）</p>
-                    </RadioLine>
-                    <RadioLine title="上传证件正反面，即可获取入住权限（密码）" />
-                    <RadioLine title="不登记，进入智住即可获取入住权限（密码）" />
-                  </div>
-                </div>
-                <div className="smart-global-field-row">
-                  <span className="smart-global-label">登记要求:</span>
-                  <div className="smart-global-radio-stack is-compact">
-                    <RadioLine selected title="至少登记1人">
-                      <span className="smart-global-tag">推荐</span>
-                    </RadioLine>
-                    <RadioLine title="按住宿订单要求，登记全部入住人" />
-                  </div>
-                </div>
-              </section>
-
-              <section className="smart-global-section">
-                <h2>押金</h2>
-                <SettingLine label="收押金">
-                  <SwitchControl label="收押金" checked={deposit} onChange={() => setDeposit((value) => !value)} />
-                  <span className="smart-global-muted">押金将在办理退房当日20:00自动退还</span>
-                </SettingLine>
-              </section>
-
-              <section className="smart-global-section">
-                <h2>入住状态</h2>
-                <SettingLine label="房客变更入住状态">
-                  <SwitchControl
-                    label="房客变更入住状态"
-                    checked={guestStatus}
-                    onChange={() => setGuestStatus((value) => !value)}
-                  />
-                  <span className="smart-global-muted">开启后，房客可办理入住、办理退房，同时会更新订单的入住状态。</span>
-                </SettingLine>
-                <SettingLine label="脏房不允许入住">
-                  <SwitchControl
-                    label="脏房不允许入住"
-                    checked={dirtyRoomBlock}
-                    onChange={() => setDirtyRoomBlock((value) => !value)}
-                  />
-                  <span className="smart-global-muted">开启后，房间为脏房时，房客不可办理入住或查看密码</span>
-                </SettingLine>
-              </section>
-
-              <section className="smart-global-section">
-                <h2>门锁密码</h2>
-                <div className="smart-global-field-row">
-                  <span className="smart-global-label">门锁密码:</span>
-                  <div className="smart-global-radio-stack">
-                    <RadioLine selected title="所有房源统一密码有效时间">
-                      <div className="smart-global-time-grid">
-                        <label>
-                          入住当天:
-                          <input value="14:00" readOnly />
-                        </label>
-                        <label>
-                          退房当天:
-                          <input value="12:00" readOnly />
-                        </label>
-                      </div>
-                    </RadioLine>
-                    <RadioLine title="按房型设置的可入住时间（以该房型最早入住时间、最晚退房时间为准）">
-                      <p>如房型未设置时间，将默认使用统一有效时间；如需设置，可前往房型信息</p>
-                    </RadioLine>
-                  </div>
-                </div>
-                <SettingLine label="提前入住生成密码">
-                  <SwitchControl
-                    label="提前入住生成密码"
-                    checked={earlyPassword}
-                    onChange={() => setEarlyPassword((value) => !value)}
-                  />
-                  <span className="smart-global-muted">开启后，房客在入住日提前办理入住时，将按实际入住时间生成并展示门锁密码。</span>
-                </SettingLine>
-                <div className="smart-global-field-row smart-global-field-row--sms">
-                  <span className="smart-global-label">短信发送密码</span>
-                  <div className="smart-global-radio-stack">
-                    <RadioLine selected title="仅发送密码">
-                      <p>短信示例: 您入住的房间{'{房源名称}'}${'{房间号}'}，门锁密码:{'{密码}'}#</p>
-                    </RadioLine>
-                    <RadioLine title="同时发送密码短信和智能入住小程序链接，方便用户返回小程序">
-                      <p>
-                        短信示例:您入住的房间{'{房源名称}'}${'{房间号}'}，门锁密码:{'{密码}'}#，点击{'{小程序跳转短链接}'}查看入住指引。
-                      </p>
-                    </RadioLine>
-                  </div>
-                </div>
-              </section>
-            </div>
-
-            <GuestFlowPanel />
-          </div>
+        {errorMessage ? (
+          <section className="smart-global-state smart-global-state--error" role="alert">
+            <strong>全局设置数据加载失败</strong>
+            <p>{errorMessage}</p>
+            <button type="button" onClick={handleRetry}>
+              重新加载
+            </button>
+          </section>
         ) : null}
 
-        {activeTab === 'guide' ? <GuidePanel /> : null}
-        {activeTab === 'wifi' ? <WifiPanel /> : null}
+        {!errorMessage && dashboard?.emptyState ? (
+          <section className="smart-global-state" aria-label="全局设置空状态">
+            <strong>{dashboard.emptyState.title}</strong>
+            <p>{dashboard.emptyState.description}</p>
+            <button type="button" onClick={() => navigate(dashboard.emptyState?.actionPath ?? '/setting/roomTypeInfo')}>
+              {dashboard.emptyState.actionLabel}
+            </button>
+          </section>
+        ) : null}
+
+        {!isLoading && !errorMessage && !dashboard?.emptyState && dashboard ? (
+          <>
+            {activeTab === 'rules' ? (
+              <RulesPanel
+                dashboard={dashboard}
+                onOpenIdentityDialog={() => setDialog('identity')}
+                onOpenSmsTemplateDialog={() => setDialog('sms-templates')}
+                onOpenPaymentDialog={() => setDialog('payment-methods')}
+                onDisabledAction={handleDisabledAction}
+                onRoomTypeRoute={() => navigate(dashboard.routes.roomTypeInfo)}
+              />
+            ) : null}
+
+            {activeTab === 'guide' ? <GuidePanel fields={dashboard.guideFields} smartSettingsPath={dashboard.routes.smartSettings} /> : null}
+            {activeTab === 'wifi' ? <WifiPanel fields={dashboard.wifiFields} /> : null}
+          </>
+        ) : null}
 
         <footer className="smart-global-footer">
-          {saved ? <span role="status">已保存全局设置</span> : null}
-          <button type="button" onClick={() => setSaved(true)}>
+          <span>{dashboard?.saveEnabled ? '当前配置可提交' : '当前模式无需保存配置'}</span>
+          <button
+            type="button"
+            disabled={!dashboard?.saveEnabled}
+            onClick={() => handleDisabledAction('当前模式无需保存配置')}
+          >
             保 存
           </button>
         </footer>
       </section>
+
+      {dialog === 'identity' && dashboard ? (
+        <Modal
+          title="认证与短信余量详情"
+          closeLabel="关闭认证与短信余量详情"
+          onClose={() => setDialog(null)}
+        >
+          <dl className="smart-global-dialog-list">
+            <div>
+              <dt>实名认证</dt>
+              <dd>{dashboard.identitySummary.realNameBalance}</dd>
+            </div>
+            <div>
+              <dt>短信余量</dt>
+              <dd>{dashboard.identitySummary.smsBalance}</dd>
+            </div>
+            <div>
+              <dt>支付通道</dt>
+              <dd>{dashboard.identitySummary.channelName}</dd>
+            </div>
+          </dl>
+        </Modal>
+      ) : null}
+
+      {dialog === 'sms-templates' && dashboard ? (
+        <Modal title="短信发送模板" closeLabel="关闭短信发送模板" onClose={() => setDialog(null)}>
+          <div className="smart-global-template-list">
+            {dashboard.smsTemplates.map((template) => (
+              <article key={template.id}>
+                <strong>{template.title}</strong>
+                <p>{template.content}</p>
+              </article>
+            ))}
+          </div>
+        </Modal>
+      ) : null}
+
+      {dialog === 'payment-methods' && dashboard ? (
+        <Modal title="押金与收款方式" closeLabel="关闭押金与收款方式" onClose={() => setDialog(null)}>
+          <div className="smart-global-payment-list">
+            {dashboard.paymentMethods.map((method) => (
+              <span key={method}>{method}</span>
+            ))}
+          </div>
+        </Modal>
+      ) : null}
+    </div>
+  )
+}
+
+function RulesPanel({
+  dashboard,
+  onOpenIdentityDialog,
+  onOpenSmsTemplateDialog,
+  onOpenPaymentDialog,
+  onDisabledAction,
+  onRoomTypeRoute,
+}: {
+  dashboard: SmartHotelGlobalSettingDashboard
+  onOpenIdentityDialog: () => void
+  onOpenSmsTemplateDialog: () => void
+  onOpenPaymentDialog: () => void
+  onDisabledAction: (message: string) => void
+  onRoomTypeRoute: () => void
+}) {
+  return (
+    <div className="smart-global-rule-layout">
+      <div className="smart-global-rule-main">
+        <div className="smart-global-alert">{dashboard.alertText}</div>
+
+        <section className="smart-global-section">
+          <h3>入住登记方式</h3>
+          <SettingLine label={dashboard.toggles.autoInvite.label}>
+            <SwitchControl toggle={dashboard.toggles.autoInvite} onDisabledAction={onDisabledAction} />
+            <span className="smart-global-muted">{dashboard.toggles.autoInvite.description}</span>
+          </SettingLine>
+        </section>
+
+        <section className="smart-global-section">
+          <h3>身份验证方式</h3>
+          <div className="smart-global-field-row">
+            <span className="smart-global-label">线上验证身份/预登记:</span>
+            <div className="smart-global-radio-stack">
+              {dashboard.guestVerificationChoices.map((choice) => (
+                <RadioLine key={choice.id} selected={choice.selected} title={choice.title}>
+                  {choice.selected ? (
+                    <>
+                      <span>剩余核验次数:</span>
+                      <strong>5次</strong>
+                      <button type="button" className="smart-global-small-action" onClick={onOpenIdentityDialog}>
+                        充值
+                      </button>
+                    </>
+                  ) : null}
+                  {choice.description ? <p>{choice.description}</p> : null}
+                </RadioLine>
+              ))}
+            </div>
+          </div>
+          <div className="smart-global-field-row">
+            <span className="smart-global-label">登记要求:</span>
+            <div className="smart-global-radio-stack is-compact">
+              {dashboard.registerChoices.map((choice) => (
+                <RadioLine key={choice.id} selected={choice.selected} title={choice.title}>
+                  {choice.badge ? <span className="smart-global-tag">{choice.badge}</span> : null}
+                </RadioLine>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="smart-global-section">
+          <h3>押金</h3>
+          <SettingLine label={dashboard.toggles.deposit.label}>
+            <SwitchControl toggle={dashboard.toggles.deposit} onDisabledAction={onDisabledAction} />
+            <span className="smart-global-muted">{dashboard.toggles.deposit.description}</span>
+            <button type="button" className="smart-global-link-button" onClick={onOpenPaymentDialog}>
+              查看支付方式
+            </button>
+          </SettingLine>
+        </section>
+
+        <section className="smart-global-section">
+          <h3>入住状态</h3>
+          <SettingLine label={dashboard.toggles.guestStatus.label}>
+            <SwitchControl toggle={dashboard.toggles.guestStatus} onDisabledAction={onDisabledAction} />
+            <span className="smart-global-muted">{dashboard.toggles.guestStatus.description}</span>
+          </SettingLine>
+          <SettingLine label={dashboard.toggles.dirtyRoomBlock.label}>
+            <SwitchControl toggle={dashboard.toggles.dirtyRoomBlock} onDisabledAction={onDisabledAction} />
+            <span className="smart-global-muted">{dashboard.toggles.dirtyRoomBlock.description}</span>
+          </SettingLine>
+        </section>
+
+        <section className="smart-global-section">
+          <h3>门锁密码</h3>
+          <div className="smart-global-summary-row">
+            <strong>{dashboard.roomTypeSummary}</strong>
+            <button type="button" className="smart-global-link-button" onClick={onRoomTypeRoute}>
+              前往房型信息
+            </button>
+          </div>
+          <div className="smart-global-field-row">
+            <span className="smart-global-label">门锁密码:</span>
+            <div className="smart-global-radio-stack">
+              {dashboard.roomPasswordStrategies.map((choice) => (
+                <RadioLine key={choice.id} selected={choice.selected} title={choice.title}>
+                  {choice.description ? <p>{choice.description}</p> : null}
+                </RadioLine>
+              ))}
+            </div>
+          </div>
+          <SettingLine label={dashboard.toggles.earlyPassword.label}>
+            <SwitchControl toggle={dashboard.toggles.earlyPassword} onDisabledAction={onDisabledAction} />
+            <span className="smart-global-muted">{dashboard.toggles.earlyPassword.description}</span>
+          </SettingLine>
+          <div className="smart-global-field-row smart-global-field-row--sms">
+            <span className="smart-global-label">短信发送密码</span>
+            <div className="smart-global-radio-stack">
+              <div className="smart-global-summary-row is-template-summary">
+                <strong>{dashboard.smsTemplateSummary}</strong>
+                <button type="button" className="smart-global-link-button" onClick={onOpenSmsTemplateDialog}>
+                  查看短信模板
+                </button>
+              </div>
+              {dashboard.smsSendChoices.map((choice) => (
+                <RadioLine key={choice.id} selected={choice.selected} title={choice.title}>
+                  {choice.description ? <p>{choice.description}</p> : null}
+                </RadioLine>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <GuestFlowPanel steps={dashboard.flowSteps} />
     </div>
   )
 }
@@ -208,15 +356,22 @@ function SettingLine({ label, children }: { label: string; children: React.React
   )
 }
 
-function SwitchControl({ label, checked, onChange }: SwitchControlProps) {
+function SwitchControl({
+  toggle,
+  onDisabledAction,
+}: {
+  toggle: SmartHotelGlobalSettingToggle
+  onDisabledAction: (message: string) => void
+}) {
   return (
     <button
       type="button"
       role="switch"
-      aria-label={label}
-      aria-checked={checked}
-      className={`smart-global-switch${checked ? ' is-on' : ''}`}
-      onClick={onChange}
+      aria-label={toggle.label}
+      aria-checked={toggle.checked}
+      disabled={toggle.disabled}
+      className={`smart-global-switch${toggle.checked ? ' is-on' : ''}`}
+      onClick={() => onDisabledAction(`${toggle.label}当前由统一策略控制，如需调整请先切换入住模式。`)}
     >
       <span />
     </button>
@@ -235,15 +390,15 @@ function RadioLine({ selected, title, children }: { selected?: boolean; title: s
   )
 }
 
-function GuestFlowPanel() {
+function GuestFlowPanel({ steps }: { steps: string[] }) {
   return (
     <aside className="smart-global-flow" aria-label="房客入住流程">
       <h2>房客入住流程</h2>
       <div className="smart-global-flow__steps">
-        {flowSteps.map((step) => (
-          <article key={step.step} className="smart-global-flow-step">
-            <span>{step.step}</span>
-            <strong>{step.title}</strong>
+        {steps.map((step, index) => (
+          <article key={step} className="smart-global-flow-step">
+            <span>{`步骤${index + 1}`}</span>
+            <strong>{step}</strong>
           </article>
         ))}
       </div>
@@ -251,46 +406,67 @@ function GuestFlowPanel() {
   )
 }
 
-function GuidePanel() {
+function GuidePanel({ fields, smartSettingsPath }: { fields: SmartHotelGlobalSettingGuideField[]; smartSettingsPath: string }) {
   return (
     <div className="smart-global-subpanel" aria-label="入住指引设置">
       <h2>入住指引</h2>
       <div className="smart-global-guide-grid">
-        <label>
-          入住须知
-          <textarea defaultValue="请确认订单信息，完成身份登记后查看门锁密码。" />
-        </label>
-        <label>
-          到店指引
-          <textarea defaultValue="到店后进入智住小程序，按页面提示办理登记。" />
-        </label>
-        <label>
-          续住说明
-          <textarea defaultValue="如需续住，可在智住小程序发起续住申请。" />
-        </label>
+        {fields.map((field) => (
+          <label key={field.id}>
+            {field.label}
+            <textarea value={field.value} readOnly />
+          </label>
+        ))}
+      </div>
+      <div className="smart-global-guide-actions">
+        <Link to={smartSettingsPath}>前往智住小程序</Link>
       </div>
     </div>
   )
 }
 
-function WifiPanel() {
+function WifiPanel({ fields }: { fields: SmartHotelGlobalSettingGuideField[] }) {
   return (
     <div className="smart-global-subpanel" aria-label="WIFI上网设置">
       <h2>WIFI上网</h2>
       <div className="smart-global-wifi-form">
-        <label>
-          WIFI名称
-          <input aria-label="WIFI名称" defaultValue="Locals-Guest" />
-        </label>
-        <label>
-          WIFI密码
-          <input aria-label="WIFI密码" defaultValue="locals8888" />
-        </label>
-        <label>
-          上网说明
-          <textarea defaultValue="房客可在智住小程序中查看 WIFI 名称与密码。" />
-        </label>
+        {fields.map((field) => (
+          <label key={field.id}>
+            {field.label}
+            {field.id === 'wifiNotice' ? (
+              <textarea value={field.value} readOnly />
+            ) : (
+              <input aria-label={field.label} value={field.value} readOnly />
+            )}
+          </label>
+        ))}
       </div>
+    </div>
+  )
+}
+
+function Modal({
+  title,
+  closeLabel,
+  onClose,
+  children,
+}: {
+  title: string
+  closeLabel: string
+  onClose: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div className="smart-global-modal-backdrop">
+      <section className="smart-global-modal" role="dialog" aria-modal="true" aria-label={title}>
+        <header>
+          <h2>{title}</h2>
+          <button type="button" aria-label={closeLabel} onClick={onClose}>
+            脳
+          </button>
+        </header>
+        <div className="smart-global-modal__body">{children}</div>
+      </section>
     </div>
   )
 }

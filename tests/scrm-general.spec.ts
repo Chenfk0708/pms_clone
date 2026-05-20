@@ -65,7 +65,7 @@ test('/scrm/general gives feedback for every visible action', async ({ page }) =
   await page.getByRole('button', { name: '知道了' }).click()
   await expect(page.getByLabel('企业微信授权提醒')).toHaveCount(0)
 
-  await page.getByRole('button', { name: '刷新' }).click()
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
   await expect(page.getByRole('status', { name: '客户概况操作反馈' })).toContainText('客户概况已刷新')
 
   await page.getByRole('button', { name: '导出' }).click()

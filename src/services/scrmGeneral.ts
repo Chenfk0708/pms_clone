@@ -339,7 +339,7 @@ function emptyData(): ScrmGeneralData {
 function createEnvelope(
   code: number,
   message: string,
-  request: ScrmGeneralModel['request'],
+  _request: ScrmGeneralModel['request'],
   data: ScrmGeneralData,
 ): ScrmGeneralEnvelope {
   return {

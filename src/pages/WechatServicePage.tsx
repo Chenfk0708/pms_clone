@@ -31,7 +31,7 @@ type Filters = {
 export function WechatServicePage() {
   const location = useLocation()
   const navigate = useNavigate()
-  const runtimeConfig = useMemo(() => resolveWechatServiceRuntimeConfig(window.location), [location.search])
+  const runtimeConfig = useMemo(() => resolveWechatServiceRuntimeConfig({ search: location.search }), [location.search])
   const campId = new URLSearchParams(location.search).get('campId') || defaultCampId
 
   const [filters, setFilters] = useState<Filters>({
@@ -87,7 +87,10 @@ export function WechatServicePage() {
   )
 
   useEffect(() => {
-    void loadDashboard({ channel: '', status: '', keyword: '' })
+    const timer = window.setTimeout(() => {
+      void loadDashboard({ channel: '', status: '', keyword: '' })
+    }, 0)
+    return () => window.clearTimeout(timer)
   }, [loadDashboard])
 
   const selectedChannelLabel = labelFor(options.channels, filters.channel)

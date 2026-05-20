@@ -36,13 +36,13 @@ test('/scrm/sidebarPreview supports filters refresh export details and route han
   await expect(page.getByRole('status', { name: '聊天工具栏操作反馈' })).toContainText('已按筛选条件更新')
   await expect(page.getByTestId('scrm-sidebar-service-contract')).toHaveAttribute('data-request-keyword', '续住')
 
-  await page.getByRole('button', { name: '刷新' }).click()
+  await page.getByRole('button', { name: '刷新', exact: true }).click()
   await expect(page.getByRole('status', { name: '聊天工具栏操作反馈' })).toContainText('数据已刷新')
 
   await page.getByRole('button', { name: '导出' }).click()
   await expect(page.getByRole('status', { name: '聊天工具栏操作反馈' })).toContainText('导出任务已创建')
 
-  await page.getByRole('button', { name: '查看详情 携程民宿-【M335275070】' }).click()
+  await page.getByRole('button', { name: '查看详情 去哪民宿-【去哪儿用户】' }).click()
   await expect(page.getByRole('dialog', { name: '会话详情' })).toContainText('历史订单')
   await page.getByRole('button', { name: '发送续住话术' }).click()
   await expect(page.getByRole('status', { name: '聊天工具栏操作反馈' })).toContainText('话术已发送')

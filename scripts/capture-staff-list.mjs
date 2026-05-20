@@ -4,12 +4,14 @@ import { chromium } from '@playwright/test'
 
 const taskId = 'scrm--qiwei-yuangong-guanli--qiwei-yuangong-liebiao'
 const targetUrl = 'https://minsubao.localhome.cn/customer/staffList'
-const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/customer/staffList'
+const cloneUrl = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4189/customer/staffList'
 const storageState = path.resolve('playwright/.auth/pms-user.json')
 const chromeExecutablePath =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
 
 const mode = process.argv[2] ?? 'target'
+const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
+const cloneState = stateArg ? stateArg.split('=')[1] : 'default'
 const stamp =
   process.env.PMS_CAPTURE_STAMP ?? new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, '')
 
@@ -54,6 +56,17 @@ async function captureSide(side, url, contextOptions) {
   })
   const page = await context.newPage()
 
+  if (side === 'clone') {
+    await page.addInitScript((state) => {
+      window.localStorage.setItem('pms.staffList.provider', 'mock')
+      if (state === 'empty' || state === 'error') {
+        window.localStorage.setItem('pms.staffList.mockState', state)
+        return
+      }
+      window.localStorage.removeItem('pms.staffList.mockState')
+    }, cloneState)
+  }
+
   page.on('response', (response) => {
     const request = response.request()
     network.push({
@@ -88,35 +101,38 @@ async function captureSide(side, url, contextOptions) {
       .catch(() => {})
     await page.waitForTimeout(1800)
 
-    const defaultScreenshotPath = path.join(artifactDirs.screenshots, `default-${side}-${stamp}.png`)
-    const fullScreenshotPath = path.join(artifactDirs.screenshots, `full-${side}-${stamp}.png`)
-    const domPath = path.join(artifactDirs.dom, `default-${side}-${stamp}.html`)
-    const stylePath = path.join(artifactDirs.styles, `default-${side}-${stamp}.json`)
-    const networkPath = path.join(artifactDirs.network, `default-${side}-${stamp}.json`)
+    const stateName = side === 'clone' ? cloneState : 'default'
+    const defaultScreenshotPath = path.join(artifactDirs.screenshots, `${stateName}-${side}-${stamp}.png`)
+    const fullScreenshotPath = path.join(artifactDirs.screenshots, `full-${stateName}-${side}-${stamp}.png`)
+    const domPath = path.join(artifactDirs.dom, `${stateName}-${side}-${stamp}.html`)
+    const stylePath = path.join(artifactDirs.styles, `${stateName}-${side}-${stamp}.json`)
+    const networkPath = path.join(artifactDirs.network, `${stateName}-${side}-${stamp}.json`)
 
     await page.screenshot({ path: defaultScreenshotPath, fullPage: false })
     await page.screenshot({ path: fullScreenshotPath, fullPage: true })
     await fs.writeFile(domPath, await page.content(), 'utf8')
 
     const states = { default: await extractFacts(page) }
-    for (const label of [
-      '展开',
-      '收起',
-      '重 置',
-      '查 询',
-      '同步企微员工',
-      '添加员工',
-      '新建员工',
-      '立即开通',
-      '商品详情',
-      '导出数据',
-      '导出',
-      '授权',
-      '前往授权',
-    ]) {
-      await tryClickAndCapture(page, states, side, stamp, label)
+    if (stateName === 'default') {
+      for (const label of [
+        '展开',
+        '收起',
+        '重 置',
+        '查 询',
+        '同步企微员工',
+        '添加员工',
+        '新建员工',
+        '立即开通',
+        '商品详情',
+        '导出数据',
+        '导出',
+        '授权',
+        '前往授权',
+      ]) {
+        await tryClickAndCapture(page, states, side, stamp, label)
+      }
+      await captureFirstDropdown(page, side, stamp, stateName)
     }
-    await captureFirstDropdown(page, side, stamp)
 
     await fs.writeFile(
       stylePath,
@@ -124,6 +140,7 @@ async function captureSide(side, url, contextOptions) {
         {
           side,
           mode,
+          state: stateName,
           stamp,
           finalUrl: page.url(),
           states,
@@ -140,11 +157,29 @@ async function captureSide(side, url, contextOptions) {
       ),
       'utf8',
     )
-    await fs.writeFile(networkPath, JSON.stringify({ capturedAt: stamp, responses: network }, null, 2), 'utf8')
+    await fs.writeFile(
+      networkPath,
+      JSON.stringify(
+        {
+          capturedAt: stamp,
+          side,
+          state: stateName,
+          diagnostics: states.default.contract,
+          forbiddenTermsFound: ['mock 数据', 'mock provider', '未接入', '阻塞', '后端接口未完成'].filter((term) =>
+            states.default.bodyText.includes(term),
+          ),
+          responses: network,
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    )
 
     const defaultFacts = states.default
     return {
       side,
+      state: stateName,
       finalUrl: page.url(),
       isLoginBlocked: /请按住滑块|账号登录|登录/.test(defaultFacts.bodyText),
       artifactPaths: {
@@ -173,8 +208,8 @@ async function tryClickAndCapture(page, states, side, stamp, label) {
   try {
     await locator.click({ timeout: 2500 })
     await page.waitForTimeout(800)
-    const stateName = label.replace(/\s+/g, '')
-    const screenshotPath = path.join(artifactDirs.screenshots, `${stateName}-${side}-${stamp}.png`)
+    const clickStateName = label.replace(/\s+/g, '')
+    const screenshotPath = path.join(artifactDirs.screenshots, `${clickStateName}-${side}-${stamp}.png`)
     await page.screenshot({ path: screenshotPath, fullPage: false })
     states[`afterClick:${label}`] = {
       ...(await extractFacts(page)),
@@ -187,13 +222,13 @@ async function tryClickAndCapture(page, states, side, stamp, label) {
   }
 }
 
-async function captureFirstDropdown(page, side, stamp) {
+async function captureFirstDropdown(page, side, stamp, stateName) {
   const combobox = page.locator('.ant-select-selector, button[aria-haspopup="listbox"], [role="combobox"]').first()
   if ((await combobox.count().catch(() => 0)) === 0) return
 
   await combobox.click({ timeout: 2500 }).catch(() => {})
   await page.waitForTimeout(500)
-  const dropdownScreenshotPath = path.join(artifactDirs.screenshots, `first-dropdown-${side}-${stamp}.png`)
+  const dropdownScreenshotPath = path.join(artifactDirs.screenshots, `first-dropdown-${stateName}-${side}-${stamp}.png`)
   await page.screenshot({ path: dropdownScreenshotPath, fullPage: false }).catch(() => {})
 }
 
@@ -287,6 +322,17 @@ async function extractFacts(page) {
         dpr: window.devicePixelRatio,
       },
       bodyText,
+      contract: (() => {
+        const node = document.querySelector('[data-testid="staff-list-contract"]')
+        if (!node) return null
+        try {
+          return JSON.parse(node.textContent || '{}')
+        } catch {
+          return {
+            raw: node.textContent || '',
+          }
+        }
+      })(),
       controls,
       inputs,
       buttons,

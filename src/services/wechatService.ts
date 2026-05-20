@@ -178,7 +178,7 @@ export function createWechatServiceExportTask(query: WechatServiceQuery) {
   }
 }
 
-export function resolveWechatServiceRuntimeConfig(location: Location): Pick<WechatServiceQuery, 'provider' | 'mockState'> {
+export function resolveWechatServiceRuntimeConfig(location: Pick<Location, 'search'>): Pick<WechatServiceQuery, 'provider' | 'mockState'> {
   const params = new URLSearchParams(location.search)
   const provider = params.get('wechatServiceProvider')
   const mockState = params.get('wechatServiceMockState')

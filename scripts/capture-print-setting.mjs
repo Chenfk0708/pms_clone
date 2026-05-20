@@ -5,10 +5,12 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'shezhi--tongyong-shezhi--dayin-shezhi'
 const TARGET_URL = 'https://minsubao.localhome.cn/setting/print'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/setting/print'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
+const configuredLocalBaseUrl = process.env.PMS_TEST_BASE_URL?.trim()
+const configuredLocalUrl =
+  process.env.PMS_LOCAL_URL?.trim() || (configuredLocalBaseUrl ? `${configuredLocalBaseUrl}/setting/print` : '')
 
 const mode = process.argv.includes('--clone') ? 'clone' : 'target'
 const stateArg = process.argv.find((arg) => arg.startsWith('--state='))
@@ -34,6 +36,21 @@ function fileFor(root, suffix, extension) {
 
 function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
+}
+
+function resolveCloneMockState() {
+  if (state === 'empty' || state === 'error') return state
+  return 'success'
+}
+
+function resolveLocalUrl() {
+  if (!configuredLocalUrl) {
+    throw new Error('Clone capture requires PMS_LOCAL_URL or PMS_TEST_BASE_URL. Refusing to default to :4173.')
+  }
+
+  return /\/setting\/print(?:[/?#]|$)/.test(configuredLocalUrl)
+    ? configuredLocalUrl
+    : new URL('/setting/print', configuredLocalUrl).toString()
 }
 
 function escapeRegExp(text) {
@@ -298,8 +315,10 @@ async function extractFacts(page, interactions, componentScreenshots) {
 async function ensurePreviewServer(url) {
   if (await canFetch(url)) return
 
-  const command = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  previewProcess = spawn(command, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4173'], {
+  const port = new URL(url).port || '4176'
+  const serveRoot = path.resolve('tmp/print-setting-build')
+
+  previewProcess = spawn(process.execPath, [path.resolve('tmp/serve-spa.mjs'), serveRoot, port], {
     cwd: process.cwd(),
     stdio: 'ignore',
     windowsHide: true,
@@ -328,9 +347,10 @@ function delay(ms) {
 }
 
 async function main() {
+  const localUrl = mode === 'clone' ? resolveLocalUrl() : null
   if (mode === 'target') await fs.access(STORAGE_STATE)
   await fs.access(CHROME_PATH)
-  if (mode === 'clone') await ensurePreviewServer(LOCAL_URL)
+  if (mode === 'clone') await ensurePreviewServer(localUrl)
 
   const network = []
   const browser = await chromium.launch({
@@ -346,6 +366,13 @@ async function main() {
       locale: 'zh-CN',
       timezoneId: 'Asia/Shanghai',
     })
+    if (mode === 'clone') {
+      await context.addInitScript((mockState) => {
+        window.localStorage.setItem('pms.printSettingProvider', 'mock')
+        window.localStorage.setItem('pms.printSettingMockState', mockState)
+        window.localStorage.setItem('pms.printSettingMutationState', 'success')
+      }, resolveCloneMockState())
+    }
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()
@@ -358,7 +385,7 @@ async function main() {
       })
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(mode === 'target' ? TARGET_URL : localUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })

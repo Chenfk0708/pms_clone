@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   createDefaultDistributionFilters,
   distributionListEndpoints,
@@ -19,6 +20,7 @@ const actionButtons = [
 ]
 
 export function DistributionListPage() {
+  const navigate = useNavigate()
   const [filters, setFilters] = useState<DistributionFilters>(() =>
     createDefaultDistributionFilters(new URLSearchParams(window.location.search)),
   )
@@ -30,10 +32,15 @@ export function DistributionListPage() {
   const [showImportMenu, setShowImportMenu] = useState(false)
   const [selectedRoom, setSelectedRoom] = useState<DistributionRoomCategory | null>(null)
 
-  useEffect(() => {
-    let active = true
+  const updateFilters = (nextFilters: (current: DistributionFilters) => DistributionFilters) => {
+    setNotice('')
     setLoading(true)
     setError('')
+    setFilters(nextFilters)
+  }
+
+  useEffect(() => {
+    let active = true
     fetchDistributionDashboard(filters)
       .then((result) => {
         if (!active) return
@@ -59,25 +66,23 @@ export function DistributionListPage() {
   const requestSnapshot = dashboard ? JSON.stringify(dashboard.request) : JSON.stringify({ filters })
 
   const reload = (message = '分销列表已刷新') => {
-    setNotice('')
-    setFilters((current) => ({ ...current, scenario: 'success', page: 1 }))
+    updateFilters((current) => ({ ...current, scenario: 'success', page: 1 }))
     window.setTimeout(() => setNotice(message), 120)
   }
 
   const selectTab = (nextTab: DistributionTab) => {
     setShowImportMenu(false)
-    setNotice('')
-    setFilters((current) => ({ ...current, tab: nextTab, page: 1 }))
+    updateFilters((current) => ({ ...current, tab: nextTab, page: 1 }))
   }
 
   const query = () => {
-    setFilters((current) => ({ ...current, keyword: keywordDraft, page: 1, scenario: 'success' }))
+    updateFilters((current) => ({ ...current, keyword: keywordDraft, page: 1, scenario: 'success' }))
     setNotice('已按当前条件查询分销列表')
   }
 
   const reset = () => {
     setKeywordDraft('')
-    setFilters((current) => ({ ...current, keyword: '', poiId: 'ALL', page: 1, scenario: 'success' }))
+    updateFilters((current) => ({ ...current, keyword: '', poiId: 'ALL', page: 1, scenario: 'success' }))
     setNotice('筛选条件已重置')
   }
 
@@ -106,7 +111,7 @@ export function DistributionListPage() {
           <select
             value={filters.poiId}
             onChange={(event) =>
-              setFilters((current) => ({ ...current, poiId: event.target.value, page: 1, scenario: 'success' }))
+              updateFilters((current) => ({ ...current, poiId: event.target.value, page: 1, scenario: 'success' }))
             }
           >
             {(dashboard?.stores ?? []).map((store) => (
@@ -189,7 +194,7 @@ export function DistributionListPage() {
                     key={action.label}
                     type="button"
                     className={index === 0 ? 'is-outline' : 'is-primary'}
-                    onClick={() => setNotice(`${action.label}入口已准备，路径 ${action.route}`)}
+                    onClick={() => navigate(action.route)}
                   >
                     {action.label}
                   </button>

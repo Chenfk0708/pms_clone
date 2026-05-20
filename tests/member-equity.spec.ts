@@ -1,12 +1,20 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+}
+
+async function collapseChatDock(page: Page) {
+  const collapseButton = page.getByRole('button', { name: '收起会话' })
+  if ((await collapseButton.count()) > 0) {
+    await collapseButton.click()
+    await expect(page.getByRole('button', { name: '打开全部会话' })).toBeVisible()
+  }
 }
 
 test('/scrm/memberCenter/equity renders service-backed member benefit data', async ({ page }) => {
@@ -48,6 +56,7 @@ test('/scrm/memberCenter/equity renders service-backed member benefit data', asy
 test('/scrm/memberCenter/equity supports add edit delete refresh and sort feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/scrm/memberCenter/equity'))
+  await collapseChatDock(page)
 
   await page.getByRole('button', { name: '添 加' }).click()
   await expect(page.getByRole('dialog', { name: '新增权益' })).toBeVisible()

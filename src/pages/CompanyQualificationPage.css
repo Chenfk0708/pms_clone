@@ -14,6 +14,41 @@
   background: #f4f6fb;
 }
 
+.qualification-feedback {
+  margin: 0 0 12px;
+  padding: 12px 16px;
+  border: 1px solid #d8e2f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #315cf6;
+  font-size: 14px;
+}
+
+.qualification-state {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 18px 20px;
+  border: 1px solid #e2e8f5;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.qualification-state strong {
+  font-size: 16px;
+}
+
+.qualification-state span {
+  color: #5f6b7d;
+  line-height: 1.6;
+}
+
+.qualification-state--error {
+  border-color: #f3c7c7;
+  background: #fff7f7;
+  color: #8d2f2f;
+}
+
 .qualification-tabs {
   display: flex;
   align-items: center;
@@ -57,6 +92,7 @@
   margin-top: 12px;
   padding: 18px 24px 32px;
   border: 1px solid #edf0f6;
+  border-radius: 10px;
   background: #fff;
 }
 
@@ -100,6 +136,11 @@
   color: #fff;
 }
 
+.qualification-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
 .company-info-list {
   display: grid;
   gap: 18px;
@@ -125,6 +166,11 @@
   color: #17233d;
 }
 
+.company-info-row--files dd {
+  display: grid;
+  gap: 8px;
+}
+
 .company-edit-form {
   display: grid;
   gap: 18px;
@@ -145,8 +191,14 @@
   text-align: right;
 }
 
+.company-edit-row > div {
+  display: grid;
+  gap: 6px;
+}
+
 .company-edit-row input,
-.city-picker {
+.city-picker,
+.company-edit-row select {
   width: 320px;
   height: 32px;
   padding: 0 10px;
@@ -163,8 +215,19 @@
   color: #a4adba;
 }
 
+.company-edit-row em {
+  color: #d14343;
+  font-size: 12px;
+  font-style: normal;
+}
+
 .company-edit-row--upload {
   align-items: start;
+}
+
+.company-edit-upload {
+  display: grid;
+  gap: 12px;
 }
 
 .upload-tile {
@@ -232,10 +295,15 @@
 
 .license-upload {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   color: #8a95a5;
   font-size: 13px;
+}
+
+.license-upload__meta {
+  display: grid;
+  gap: 8px;
 }
 
 .license-upload > button {
@@ -256,6 +324,30 @@
   height: 34px;
   border-style: solid;
   background: #fff;
+}
+
+.qualification-file-list {
+  display: grid;
+  gap: 8px;
+}
+
+.qualification-file-card {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid #dfe6f2;
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.qualification-file-card strong {
+  color: #17233d;
+  font-size: 13px;
+}
+
+.qualification-file-card span {
+  color: #5f6b7d;
+  font-size: 12px;
 }
 
 .legal-info-list {
@@ -312,6 +404,36 @@
   cursor: pointer;
 }
 
+.qualification-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(17, 24, 39, 0.36);
+  z-index: 40;
+}
+
+.qualification-dialog {
+  width: min(460px, calc(100vw - 32px));
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+}
+
+.qualification-dialog h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.qualification-dialog p {
+  margin: 0;
+  color: #4c5a70;
+  line-height: 1.7;
+}
+
 @media (max-width: 900px) {
   .company-qualification-page {
     padding: 0 0 18px;
@@ -327,7 +449,8 @@
   }
 
   .company-edit-row input,
-  .city-picker {
+  .city-picker,
+  .company-edit-row select {
     width: 100%;
   }
 

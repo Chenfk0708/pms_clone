@@ -4,7 +4,7 @@ import { chromium } from '@playwright/test'
 
 const TASK_ID = 'baobiao--jiaojieban--jiaojieban'
 const TARGET_URL = 'https://minsubao.localhome.cn/statistics/shift/record'
-const LOCAL_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4173/statistics/shift/record'
+const LOCAL_BASE_URL = process.env.PMS_LOCAL_URL ?? 'http://127.0.0.1:4188/statistics/shift/record'
 const STORAGE_STATE = path.resolve('playwright/.auth/pms-user.json')
 const CHROME_PATH =
   process.env.PMS_CHROME_PATH ?? 'C:/Users/Administrator/AppData/Local/Google/Chrome/Bin/chrome.exe'
@@ -21,6 +21,8 @@ const artifactRoots = {
   network: path.resolve('artifacts/network', TASK_ID),
 }
 
+const relevantEndpoints = ['/shiftWorkReport/page/get', '/select/poi/page/get', '/campRoles/get']
+
 for (const directory of Object.values(artifactRoots)) {
   await fs.mkdir(directory, { recursive: true })
 }
@@ -33,40 +35,44 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
-function looseLabelPattern(label) {
-  return label
-    .split('')
-    .map((char) => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('\\s*')
+function resolveLocalUrl() {
+  const url = new URL(LOCAL_BASE_URL)
+  if (state === 'empty' || state === 'error') {
+    url.searchParams.set('mockState', state)
+  } else {
+    url.searchParams.delete('mockState')
+  }
+  return url.toString()
+}
+
+function summarizeJsonBody(value) {
+  if (!value || typeof value !== 'object') return value
+  const record = value
+  if (Array.isArray(record)) {
+    return {
+      type: 'array',
+      length: record.length,
+      firstItemKeys: record[0] && typeof record[0] === 'object' ? Object.keys(record[0]).slice(0, 20) : [],
+    }
+  }
+
+  const data = record.data && typeof record.data === 'object' ? record.data : null
+  return {
+    keys: Object.keys(record).slice(0, 20),
+    success: 'success' in record ? record.success : undefined,
+    code: 'code' in record ? record.code : undefined,
+    message: 'message' in record ? record.message : undefined,
+    errorCode: 'errorCode' in record ? record.errorCode : undefined,
+    errorMsg: 'errorMsg' in record ? record.errorMsg : undefined,
+    dataKeys: data ? Object.keys(data).slice(0, 20) : [],
+    dataListLength: Array.isArray(data?.list) ? data.list.length : undefined,
+    total: typeof data?.total === 'number' ? data.total : undefined,
+    employeeCount: Array.isArray(data?.employees) ? data.employees.length : undefined,
+  }
 }
 
 async function locatorVisible(locator) {
   return (await locator.count().catch(() => 0)) > 0 && (await locator.first().isVisible().catch(() => false))
-}
-
-async function clickFirstVisible(page, labels) {
-  for (const label of labels) {
-    const pattern = looseLabelPattern(label)
-    const candidates = [
-      page.getByRole('button', { name: new RegExp(pattern) }).first(),
-      page.getByText(label, { exact: true }).first(),
-      page.locator(`input[placeholder*="${label}"]`).first(),
-      page.locator(`[aria-label*="${label}"]`).first(),
-      page.locator(`.ant-select-selector:has-text("${label}")`).first(),
-    ]
-
-    for (const locator of candidates) {
-      if (!(await locatorVisible(locator))) continue
-      try {
-        await locator.click({ timeout: 2500 })
-        await page.waitForTimeout(900)
-        return label
-      } catch {
-        // Try the next candidate.
-      }
-    }
-  }
-  return null
 }
 
 async function waitForBusinessSurface(page) {
@@ -90,86 +96,49 @@ async function waitForBusinessSurface(page) {
       { timeout: 30_000 },
     )
     .catch(() => {})
-  await page.waitForTimeout(1800)
+  await page.waitForTimeout(1500)
 }
 
 async function applyState(page) {
   const interactions = []
 
-  if (state === 'collapsed') {
-    const clicked = await clickFirstVisible(page, ['收起'])
-    interactions.push({ action: 'click-collapse', clicked })
-  }
-
-  if (state === 'expanded') {
-    const clicked = await clickFirstVisible(page, ['展开'])
-    interactions.push({ action: 'click-expand', clicked })
-  }
-
-  if (state === 'date-picker') {
-    const dateInput = page.locator('input[placeholder*="开始"], input[placeholder*="日期"], input[placeholder*="时间"]').first()
-    if (await locatorVisible(dateInput)) {
-      await dateInput.click({ timeout: 2500 }).catch(() => {})
-      await page.waitForTimeout(900)
-      interactions.push({ action: 'open-date-picker', clicked: 'first-date-input' })
-    } else {
-      const clicked = await clickFirstVisible(page, ['本月', '上月', '本周', '今天', '昨天'])
-      interactions.push({ action: 'open-date-picker-fallback', clicked })
-    }
-  }
-
-  if (state === 'first-dropdown') {
-    const select = page.locator('.ant-select-selector, [role="combobox"], [aria-haspopup="listbox"]').nth(0)
-    if (await locatorVisible(select)) {
-      await select.click({ timeout: 2500 })
-      await page.waitForTimeout(900)
-      interactions.push({ action: 'open-first-select', clicked: 'select-0' })
-    }
-  }
-
-  if (state === 'second-dropdown') {
-    const select = page.locator('.ant-select-selector, [role="combobox"], [aria-haspopup="listbox"]').nth(1)
-    if (await locatorVisible(select)) {
-      await select.click({ timeout: 2500 })
-      await page.waitForTimeout(900)
-      interactions.push({ action: 'open-second-select', clicked: 'select-1' })
-    }
-  }
-
   if (state === 'query') {
-    const inputs = page.locator('input[placeholder*="搜索"], input[placeholder*="关键"], input[placeholder*="名称"], input[type="text"]')
-    for (let index = 0; index < (await inputs.count().catch(() => 0)); index += 1) {
-      const input = inputs.nth(index)
-      if (!(await input.isVisible().catch(() => false))) continue
-      await input.fill('天落')
-      interactions.push({ action: 'fill-keyword', value: '天落', index })
-      break
+    const startDate = page.getByLabel('开始日期')
+    const endDate = page.getByLabel('结束日期')
+    const store = page.getByLabel('门店')
+    const handover = page.getByLabel('交班人')
+    if (await locatorVisible(startDate)) {
+      await startDate.fill('2026-05-18')
+      await endDate.fill('2026-05-18')
+      await store.selectOption('1796425098638573570').catch(() => {})
+      await handover.selectOption('1796067693261905922').catch(() => {})
+      await page.getByRole('button', { name: '查询' }).click().catch(() => {})
+      await page.waitForTimeout(900)
+      interactions.push({
+        action: 'query',
+        startDate: '2026-05-18',
+        endDate: '2026-05-18',
+        storeId: '1796425098638573570',
+        handoverUserId: '1796067693261905922',
+      })
     }
-    const clicked = await clickFirstVisible(page, ['查询', '搜索', '查 询', '搜 索'])
-    interactions.push({ action: 'click-query', clicked })
-  }
-
-  if (state === 'primary-action') {
-    const clicked = await clickFirstVisible(page, ['交接班', '新建交接班', '新增', '交班'])
-    interactions.push({ action: 'click-primary-action', clicked })
-  }
-
-  if (state === 'settings') {
-    const clicked = await clickFirstVisible(page, ['设 置', '设置'])
-    interactions.push({ action: 'click-settings', clicked })
   }
 
   if (state === 'detail') {
-    const clicked = await clickFirstVisible(page, ['详情', '查看'])
-    if (!clicked) {
-      const row = page.locator('tbody tr,.ant-table-row,[role="row"]').filter({ hasText: /交|班|收入|支出|合计/ }).first()
-      if (await locatorVisible(row)) {
-        await row.click({ timeout: 2500 }).catch(() => {})
-        await page.waitForTimeout(900)
-        interactions.push({ action: 'click-first-row', clicked: 'row-0' })
-      }
-    } else {
-      interactions.push({ action: 'click-detail', clicked })
+    const detailButton = page.getByRole('button', { name: /查看详情/ }).first()
+    if (await locatorVisible(detailButton)) {
+      await detailButton.click({ timeout: 2500 })
+      await page.waitForTimeout(900)
+      interactions.push({ action: 'open-detail' })
+    }
+  }
+
+  if (state === 'settings') {
+    const settingsButton = page.locator('.shift-record-actions .is-setting').first()
+    if (await locatorVisible(settingsButton)) {
+      await settingsButton.click({ timeout: 2500 })
+      await page.waitForTimeout(900)
+      interactions.push({ action: 'open-settings' })
     }
   }
 
@@ -251,7 +220,7 @@ async function extractFacts(page, interactions, componentScreenshots) {
       const bodyText = document.body?.innerText || ''
       const visibleElements = [...document.querySelectorAll('body *')].filter(elementVisible).slice(0, 520).map(describe)
       const controls = [
-        ...document.querySelectorAll('button,a,input,textarea,.ant-select-selector,[role="button"],[role="combobox"]'),
+        ...document.querySelectorAll('button,a,input,textarea,select,[role="button"],[role="combobox"]'),
       ]
         .filter(elementVisible)
         .map(describe)
@@ -267,43 +236,36 @@ async function extractFacts(page, interactions, componentScreenshots) {
         }))
         .filter((item) => item.text)
         .slice(0, 180)
-      const inputs = [...document.querySelectorAll('input,textarea')]
+      const inputs = [...document.querySelectorAll('input,textarea,select')]
         .filter(elementVisible)
         .map((element) => ({
+          tag: element.tagName.toLowerCase(),
           type: element.getAttribute('type'),
           placeholder: element.getAttribute('placeholder'),
           ariaLabel: element.getAttribute('aria-label'),
           value: element.value,
         }))
         .slice(0, 120)
-      const tableHeaders = [...document.querySelectorAll('th,.ant-table-cell,[role="columnheader"]')]
+      const tableHeaders = [...document.querySelectorAll('th,[role="columnheader"]')]
         .filter(elementVisible)
         .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
         .filter(Boolean)
         .slice(0, 180)
-      const tableRows = [...document.querySelectorAll('tbody tr,.ant-table-row,[role="row"]')]
+      const tableRows = [...document.querySelectorAll('tbody tr,[role="row"]')]
         .filter(elementVisible)
         .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
         .filter(Boolean)
         .slice(0, 120)
-      const dialogs = [...document.querySelectorAll('.ant-modal,.ant-drawer,[role="dialog"]')]
+      const dialogs = [...document.querySelectorAll('[role="dialog"]')]
         .filter(elementVisible)
         .map(describe)
         .slice(0, 50)
-      const dropdowns = [...document.querySelectorAll('.ant-select-dropdown,.ant-dropdown,[role="listbox"]')]
-        .filter(elementVisible)
-        .map(describe)
-        .slice(0, 50)
-      const options = [...document.querySelectorAll('[role="option"],.ant-select-item-option,.ant-dropdown-menu-item,li')]
+      const options = [...document.querySelectorAll('option,[role="option"]')]
         .filter(elementVisible)
         .map((element) => (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim())
         .filter(Boolean)
         .slice(0, 180)
-      const keyElements = visibleElements.filter((item) =>
-        /交接班|交班|接班|班次|备用金|营业收入|收入|支出|收款|交班人|接班人|操作人|查询|导出|暂无数据|合计/.test(
-          item.text,
-        ),
-      )
+      const contractText = document.querySelector('[aria-label="交接班数据服务"]')?.textContent?.trim() || ''
 
       return {
         url: location.href,
@@ -320,6 +282,7 @@ async function extractFacts(page, interactions, componentScreenshots) {
           bodyText.includes('交班') ||
           bodyText.includes('接班') ||
           bodyText.includes('班次'),
+        serviceContractText: contractText,
         interactions: capturedInteractions,
         componentScreenshots: capturedComponentScreenshots,
         controls,
@@ -328,9 +291,7 @@ async function extractFacts(page, interactions, componentScreenshots) {
         tableHeaders,
         tableRows,
         dialogs,
-        dropdowns,
         options,
-        keyElements,
         visibleElements,
         viewport: {
           width: window.innerWidth,
@@ -343,11 +304,41 @@ async function extractFacts(page, interactions, componentScreenshots) {
   )
 }
 
+async function captureResponse(response) {
+  const url = response.url()
+  const request = response.request()
+  const requestBodyText = request.postData() || ''
+  const isRelevant = relevantEndpoints.some((endpoint) => url.includes(endpoint))
+  let responseBodyText = ''
+  let responseSummary = null
+
+  if (isRelevant) {
+    try {
+      responseBodyText = await response.text()
+      responseSummary = summarizeJsonBody(JSON.parse(responseBodyText))
+    } catch {
+      responseSummary = { rawLength: responseBodyText.length }
+    }
+  }
+
+  return {
+    url,
+    status: response.status(),
+    method: request.method(),
+    resourceType: request.resourceType(),
+    contentType: response.headers()['content-type'] ?? '',
+    requestBody: requestBodyText ? JSON.parse(requestBodyText) : null,
+    responseSummary,
+    responseBodySample: responseBodyText ? responseBodyText.slice(0, 2000) : '',
+  }
+}
+
 async function main() {
   if (mode === 'target') await fs.access(STORAGE_STATE)
   await fs.access(CHROME_PATH)
 
   const network = []
+  const responseTasks = []
   const browser = await chromium.launch({
     executablePath: CHROME_PATH,
     headless: true,
@@ -363,22 +354,33 @@ async function main() {
     })
     const page = await context.newPage()
     page.on('response', (response) => {
-      const request = response.request()
-      network.push({
-        url: response.url(),
-        status: response.status(),
-        method: request.method(),
-        resourceType: request.resourceType(),
-        contentType: response.headers()['content-type'] ?? '',
-      })
+      responseTasks.push(
+        captureResponse(response)
+          .then((entry) => {
+            network.push(entry)
+          })
+          .catch(() => {
+            network.push({
+              url: response.url(),
+              status: response.status(),
+              method: response.request().method(),
+              resourceType: response.request().resourceType(),
+              contentType: response.headers()['content-type'] ?? '',
+              requestBody: null,
+              responseSummary: { captureError: true },
+              responseBodySample: '',
+            })
+          }),
+      )
     })
 
-    await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
+    await page.goto(mode === 'target' ? TARGET_URL : resolveLocalUrl(), {
       waitUntil: 'domcontentloaded',
       timeout: 45_000,
     })
     await waitForBusinessSurface(page)
     const interactions = await applyState(page)
+    await Promise.allSettled(responseTasks)
 
     const viewportScreenshot = fileFor(artifactRoots.screenshots, 'viewport', 'png')
     const fullScreenshot = fileFor(artifactRoots.screenshots, 'full', 'png')
@@ -386,41 +388,37 @@ async function main() {
     await page.screenshot({ path: fullScreenshot, fullPage: true })
 
     const componentScreenshots = []
-    const filterShot = await screenshotFirstVisible(
-      page,
-      ['.shift-record-query', 'main form', '.ant-form', '.ant-card:has(input)', '.report-filter-card', '.toolbar-card'],
-      'component-filters',
-    )
+    const filterShot = await screenshotFirstVisible(page, ['.shift-record-query', 'main form'], 'component-filters')
     if (filterShot) componentScreenshots.push(filterShot)
-    const tableShot = await screenshotFirstVisible(
-      page,
-      ['.shift-record-table-wrap', '.ant-table-wrapper', '.ant-table', 'table', '.report-table'],
-      'component-table',
-    )
+    const tableShot = await screenshotFirstVisible(page, ['.shift-record-table-wrap', 'table'], 'component-table')
     if (tableShot) componentScreenshots.push(tableShot)
-    const dialogShot = await screenshotFirstVisible(
-      page,
-      ['.ant-modal,.ant-drawer,[role="dialog"]', '.shift-record-dialog'],
-      'component-dialog',
-    )
+    const dialogShot = await screenshotFirstVisible(page, ['[role="dialog"]'], 'component-dialog')
     if (dialogShot) componentScreenshots.push(dialogShot)
-    const dropdownShot = await screenshotFirstVisible(
-      page,
-      ['.ant-select-dropdown', '.ant-dropdown', '[role="listbox"]'],
-      'component-dropdown',
-    )
-    if (dropdownShot) componentScreenshots.push(dropdownShot)
 
     const facts = await extractFacts(page, interactions, componentScreenshots)
     const domFile = fileFor(artifactRoots.dom, 'page', 'html')
     const styleFile = fileFor(artifactRoots.styles, 'facts', 'json')
     const networkFile = fileFor(artifactRoots.network, 'responses', 'json')
 
+    const matchedContracts = network.filter((entry) => relevantEndpoints.some((endpoint) => entry.url.includes(endpoint)))
+
     await fs.writeFile(domFile, await page.content(), 'utf8')
     await fs.writeFile(styleFile, JSON.stringify({ mode, state, stamp, facts }, null, 2), 'utf8')
     await fs.writeFile(
       networkFile,
-      JSON.stringify({ mode, state, stamp, url: page.url(), responses: network }, null, 2),
+      JSON.stringify(
+        {
+          mode,
+          state,
+          stamp,
+          url: page.url(),
+          hiddenServiceContract: facts.serviceContractText,
+          matchedContracts,
+          responses: network,
+        },
+        null,
+        2,
+      ),
       'utf8',
     )
 
@@ -433,6 +431,7 @@ async function main() {
           url: page.url(),
           isLoginBlocked: facts.isLoginBlocked,
           hasBusinessText: facts.hasBusinessText,
+          hiddenServiceContract: facts.serviceContractText,
           bodyLength: facts.bodyLength,
           buttons: facts.buttons.slice(0, 80),
           inputs: facts.inputs.slice(0, 50),
@@ -440,6 +439,7 @@ async function main() {
           tableRows: facts.tableRows.slice(0, 30),
           options: facts.options.slice(0, 80),
           interactions,
+          matchedContracts,
           componentScreenshots,
           screenshots: [viewportScreenshot, fullScreenshot],
           dom: domFile,

@@ -6,9 +6,24 @@ function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-test('/setting/expendSetting matches captured income and expense settings surface', async ({ page }) => {
+test('/setting/expendSetting renders captured payment type data through the unified service layer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/setting/expendSetting'))
+
+  const serviceContract = page.getByTestId('expend-setting-service-contract')
+  await expect(serviceContract).toHaveAttribute('data-provider', 'mock', { timeout: 15_000 })
+  await expect(serviceContract).toHaveAttribute('data-state', 'success')
+  await expect(serviceContract).toHaveAttribute(
+    'data-request',
+    JSON.stringify({
+      campId: '1796067693589061634',
+      tab: 'income',
+    }),
+  )
+  await expect(serviceContract).toHaveAttribute(
+    'data-endpoints',
+    JSON.stringify(['/paymentTypes/get', '/paymentTypes/get/v2', '/paymentWays/get']),
+  )
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '设置', exact: true })).toHaveClass(
@@ -33,6 +48,13 @@ test('/setting/expendSetting matches captured income and expense settings surfac
 
   await page.getByRole('tab', { name: '支出项' }).click()
   await expect(page.getByRole('tab', { name: '支出项' })).toHaveAttribute('aria-selected', 'true')
+  await expect(serviceContract).toHaveAttribute(
+    'data-request',
+    JSON.stringify({
+      campId: '1796067693589061634',
+      tab: 'expense',
+    }),
+  )
   const expense = page.getByLabel('支出项目列表')
   await expect(expense).toContainText('住宿')
   await expect(expense).toContainText('其他支出')
@@ -40,7 +62,7 @@ test('/setting/expendSetting matches captured income and expense settings surfac
   await expect(expense).toContainText('其他佣金支出')
 })
 
-test('/setting/expendSetting supports captured add modal and chat collapse', async ({ page }) => {
+test('/setting/expendSetting supports add feedback without static constants in the component', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/setting/expendSetting'))
 
@@ -52,10 +74,30 @@ test('/setting/expendSetting supports captured add modal and chat collapse', asy
   await expect(dialog.getByRole('button', { name: '取 消' })).toBeVisible()
   await expect(dialog.getByRole('button', { name: '完 成' })).toBeVisible()
 
-  await dialog.getByRole('button', { name: '取 消' }).click()
-  await expect(dialog).toHaveCount(0)
+  await dialog.getByRole('button', { name: '选择业态' }).click()
+  await expect(page.getByRole('listbox', { name: '业态选项' })).toContainText('餐饮')
+  await page.getByRole('option', { name: '餐饮' }).click()
+  await dialog.getByLabel('名称').fill('测试收入项')
+  await dialog.getByRole('button', { name: '完 成' }).click()
 
-  await page.locator('.chat-dock__collapse').click()
-  await expect(page.locator('.chat-dock')).toHaveCount(0)
-  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
+  await expect(page.getByRole('status', { name: '收入支出设置操作反馈' })).toContainText('已新增收入项目：测试收入项')
+  await expect(page.getByLabel('收入项目列表')).toContainText('测试收入项')
+  await expect(dialog).toHaveCount(0)
+})
+
+test('/setting/expendSetting exposes empty and error states as explicit business feedback', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+
+  await page.goto(appUrl('/setting/expendSetting?mockState=empty'))
+  await expect(page.getByTestId('expend-setting-service-contract')).toHaveAttribute('data-state', 'empty', {
+    timeout: 15_000,
+  })
+  await expect(page.getByRole('status', { name: '收入项目空态' })).toContainText('当前门店暂未配置收入项目')
+
+  await page.goto(appUrl('/setting/expendSetting?mockState=error'))
+  await expect(page.getByTestId('expend-setting-service-contract')).toHaveAttribute('data-state', 'error', {
+    timeout: 15_000,
+  })
+  await expect(page.getByRole('alert')).toContainText('收入/支出设置数据加载失败，请稍后重试')
+  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
 })

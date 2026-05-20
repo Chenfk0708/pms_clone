@@ -52,6 +52,12 @@
   max-width: 96px;
 }
 
+.statistics-distribution-store .distribution-order-store__scope.is-active,
+.statistics-distribution-store .distribution-order-store__current.is-active {
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
 .statistics-distribution-store .distribution-order-store__settings {
   display: inline-flex;
   align-items: center;
@@ -313,6 +319,14 @@
   color: #4d65f6;
 }
 
+.statistics-distribution-order-id {
+  color: #4d65f6;
+}
+
+.statistics-distribution-table__cell {
+  padding: 0;
+}
+
 .statistics-distribution-order-page .distribution-order-pagination {
   min-height: 56px;
   padding-top: 16px;
@@ -339,123 +353,64 @@
   border-radius: 4px;
 }
 
-.statistics-distribution-date-popover {
+.statistics-distribution-page-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid #4d65f6;
+  border-radius: 2px;
+  padding: 0 6px;
+  color: #4d65f6;
+  line-height: 22px;
+}
+
+.statistics-distribution-date-panel {
   position: absolute;
-  top: 80px;
+  top: 78px;
   left: 84px;
   z-index: 30;
   display: grid;
-  grid-template-columns: 100px 264px 264px;
-  width: 660px;
-  min-height: 271px;
-  border: 1px solid #f0f0f0;
+  gap: 10px;
+  width: 280px;
+  padding: 14px 16px;
+  border: 1px solid #e6eaf2;
+  border-radius: 8px;
   background: #fff;
   box-shadow: 0 12px 32px rgb(0 0 0 / 14%);
 }
 
-.statistics-distribution-date-presets {
-  grid-column: 1;
-  grid-row: 1;
-  display: grid;
-  align-content: start;
-  padding: 10px 0;
-  border-right: 1px solid #f0f0f0;
-}
-
-.statistics-distribution-date-presets button {
-  height: 29px;
-  border: 0;
-  background: transparent;
-  color: rgb(0 0 0 / 85%);
-  padding: 0 36px;
-  text-align: left;
-}
-
-.statistics-distribution-date-presets button:hover {
-  color: #4d65f6;
-}
-
-.statistics-distribution-calendar {
-  padding: 10px 12px 12px;
-}
-
-.statistics-distribution-calendar:nth-of-type(1) {
-  grid-column: 2;
-}
-
-.statistics-distribution-calendar:nth-of-type(2) {
-  grid-column: 3;
-}
-
-.statistics-distribution-calendar header {
-  display: grid;
-  grid-template-columns: 28px 1fr auto 28px;
-  align-items: center;
-  height: 24px;
+.statistics-distribution-date-panel strong {
   color: rgb(0 0 0 / 88%);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.statistics-distribution-calendar header button {
-  width: 24px;
-  height: 24px;
-  border: 0;
-  background: transparent;
-  color: rgb(0 0 0 / 25%);
-  padding: 0;
+.statistics-distribution-date-panel p {
+  margin: 0;
+  color: rgb(0 0 0 / 65%);
+  font-size: 13px;
+  line-height: 20px;
 }
 
-.statistics-distribution-calendar header strong {
-  font-weight: 500;
-  text-align: center;
+.statistics-distribution-date-panel__actions {
+  display: flex;
+  gap: 8px;
 }
 
-.statistics-distribution-calendar header strong + strong {
-  padding-left: 4px;
-  text-align: left;
-}
-
-.statistics-distribution-weekdays,
-.statistics-distribution-days {
-  display: grid;
-  grid-template-columns: repeat(7, 36px);
-  justify-content: center;
-}
-
-.statistics-distribution-weekdays {
-  margin-top: 18px;
-}
-
-.statistics-distribution-weekdays span {
+.statistics-distribution-date-panel__actions button {
   height: 28px;
-  color: rgb(0 0 0 / 88%);
-  line-height: 28px;
-  text-align: center;
-}
-
-.statistics-distribution-days button {
-  height: 30px;
-  border: 0;
-  background: transparent;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
   color: rgb(0 0 0 / 85%);
-  padding: 0;
-  line-height: 30px;
+  padding: 0 12px;
 }
 
-.statistics-distribution-days .is-muted {
-  color: rgb(0 0 0 / 25%);
-}
-
-.statistics-distribution-days .is-in-range {
-  background: #eef3ff;
-}
-
-.statistics-distribution-days .is-selected {
-  background: #4d65f6;
-  color: #fff;
-}
-
-.statistics-distribution-days .is-today {
-  box-shadow: inset 0 0 0 1px #4d65f6;
+.statistics-distribution-date-panel__actions button:first-child {
+  border-color: #4d65f6;
+  color: #4d65f6;
 }
 
 @media (max-width: 1280px) {

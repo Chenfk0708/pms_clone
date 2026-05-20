@@ -36,6 +36,14 @@ test('/customer/list loads through the customer list provider contract', async (
   await expect(contract).toContainText('"memberSearchType":"mobile"')
   await expect(contract).toContainText('"pageNum":1')
   await expect(contract).toContainText('"pageSize":20')
+
+  await page.getByRole('button', { name: '客户标签' }).click()
+  await expect(page).toHaveURL(/\/customer\/tag$/)
+  await page.goBack()
+  await expect(page).toHaveURL(/\/customer\/list$/)
+
+  await page.getByRole('button', { name: '批量加好友' }).click()
+  await expect(page).toHaveURL(/\/customer\/addBatch$/)
 })
 
 test('/customer/list refreshes data from filters and exposes actionable feedback', async ({ page }) => {
@@ -47,13 +55,19 @@ test('/customer/list refreshes data from filters and exposes actionable feedback
   await page.getByRole('option', { name: '正常' }).click()
   await page.getByRole('button', { name: '会员等级 请选择' }).click()
   await page.getByRole('option', { name: '普通会员' }).click()
+  await page.getByRole('button', { name: '是否添加企微 请选择' }).click()
+  await page.getByRole('option', { name: '已添加' }).click()
+  await page.getByLabel('最近消费金额最小值').fill('500')
   await page.getByRole('button', { name: '查 询' }).click()
 
   const contract = page.getByTestId('customer-list-contract')
   await expect(contract).toContainText('"keyword":"13141204230"')
-  await expect(contract).toContainText('"status":"NORMAL"')
+  await expect(contract).toContainText('"memberStatus":"NORMAL"')
   await expect(contract).toContainText('"memberCardId":"1796067693727473665"')
+  await expect(contract).toContainText('"isJoinWxCp":1')
+  await expect(contract).toContainText('"lastConsumeMin":"500"')
   await expect(page.getByLabel('客户列表表格')).toContainText('任清明')
+  await expect(page.getByLabel('客户列表表格')).not.toContainText('路客云6TS5')
 
   await page.getByRole('checkbox', { name: '选择任清明' }).check()
   await expect(page.getByRole('status')).toContainText('已选择 1 位客户')
@@ -74,10 +88,21 @@ test('/customer/list refreshes data from filters and exposes actionable feedback
   await page.getByRole('button', { name: '添加客户' }).click()
   await page.getByRole('button', { name: '保 存' }).click()
   await expect(page.getByRole('alert')).toContainText('请输入手机号')
-  await page.getByLabel('手机号').fill('13900001111')
-  await page.getByLabel('姓名').fill('新客户')
+  await page.getByRole('textbox', { name: '手机号' }).fill('13900001111')
+  await page.getByRole('textbox', { name: '姓名' }).fill('新客户')
   await page.getByRole('button', { name: '保 存' }).click()
   await expect(page.getByRole('status')).toContainText('客户已保存')
+})
+
+test('/customer/list exposes invalid filter parameters clearly', async ({ page }) => {
+  await openCustomerList(page)
+
+  await page.getByRole('button', { name: '展开' }).click()
+  await page.getByLabel('最近消费金额最小值').fill('abc')
+  await page.getByRole('button', { name: '查 询' }).click()
+
+  await expect(page.getByRole('alert')).toContainText('客户列表查询参数不合法')
+  await expect(page.getByRole('alert')).toContainText('最近消费金额下限必须为数字')
 })
 
 test('/customer/list handles empty provider responses without collapsing the table', async ({ page }) => {

@@ -702,13 +702,13 @@ test('/channels/distribution/distributionSecond matches captured distribution li
 
   await page.getByRole('button', { name: '未分销' }).click()
   await expect(page.getByText('全部门店')).toBeVisible()
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toBeVisible()
+  await expect(page.getByLabel('分销列表筛选')).toContainText('天落会宿公寓')
   await expect(page.getByRole('button', { name: '一键上架' })).toBeVisible()
   await expect(page.getByRole('button', { name: '渠道导入完善' })).toBeVisible()
   await expect(page.getByRole('table', { name: '未分销房型表' })).toContainText('房型')
   await expect(page.getByRole('table', { name: '未分销房型表' })).toContainText('原因')
   await expect(page.getByRole('table', { name: '未分销房型表' })).toContainText('操作')
-  await expect(page.getByText('暂无数据')).toBeVisible()
+  await expect(page.getByRole('table', { name: '未分销房型表' })).toContainText('缺少渠道房型映射')
 })
 
 test('/order/house-longRental-order/list matches captured long-rental columns and interactions', async ({ page }) => {

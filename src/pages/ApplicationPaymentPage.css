@@ -66,13 +66,73 @@
   background: #fff;
 }
 
+.application-payment-contract {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.application-payment-contract pre {
+  white-space: pre-wrap;
+}
+
+.application-payment-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
 .application-payment-tabs {
   display: inline-flex;
   height: 32px;
-  margin: 0 0 12px;
   border-radius: 4px;
   overflow: hidden;
   background: #f3f5f9;
+}
+
+.application-payment-feedback {
+  max-width: 480px;
+  border-radius: 8px;
+  background: #f5f8ff;
+  color: #3750d6;
+  padding: 10px 14px;
+  font-size: 14px;
+  text-align: right;
+}
+
+.application-payment-state {
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  background: #fafcff;
+  padding: 24px;
+}
+
+.application-payment-state strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.application-payment-state p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.7;
+}
+
+.application-payment-state button {
+  margin-top: 16px;
+  height: 36px;
+  border: 1px solid #4d65f6;
+  border-radius: 6px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 18px;
+  font-size: 14px;
 }
 
 .application-payment-tabs button {
@@ -326,5 +386,15 @@
 
   .application-payment-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .application-payment-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .application-payment-feedback {
+    max-width: none;
+    text-align: left;
   }
 }

@@ -3,8 +3,8 @@
 }
 
 .page-content:has(.status-log-page) {
-  padding: 2px 16px 12px;
-  background: #fff;
+  padding: var(--app-content-padding-y) var(--app-content-padding-x) 0;
+  background: var(--app-content-bg);
 }
 
 .page-content:has(.status-log-page) .page-header {
@@ -186,7 +186,7 @@
 .status-log-table thead,
 .status-log-table tbody {
   display: block;
-  min-width: 1280px;
+  min-width: 100%;
 }
 
 .status-log-table__head,

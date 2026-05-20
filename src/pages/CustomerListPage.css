@@ -32,7 +32,7 @@
 
 .customer-list-query__grid {
   display: grid;
-  grid-template-columns: 296px 298px 298px 298px;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
   gap: 10px 16px;
   align-items: center;
 }
@@ -169,8 +169,6 @@
 }
 
 .customer-list-query__actions {
-  position: relative;
-  z-index: 3;
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;

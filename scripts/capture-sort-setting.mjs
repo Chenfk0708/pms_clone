@@ -33,6 +33,39 @@ function normalizeText(text) {
   return String(text ?? '').replace(/\s+/g, ' ').trim()
 }
 
+function summarizeJson(value, depth = 0) {
+  if (value == null) return value
+  if (depth >= 3) {
+    if (Array.isArray(value)) return { type: 'array', length: value.length }
+    if (typeof value === 'object') return { type: 'object', keys: Object.keys(value) }
+    return value
+  }
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 3).map((item) => summarizeJson(item, depth + 1)),
+    }
+  }
+  if (typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .slice(0, 24)
+        .map(([key, item]) => [key, summarizeJson(item, depth + 1)]),
+    )
+  }
+  return value
+}
+
+function tryParseJson(text) {
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch {
+    return null
+  }
+}
+
 function looseLabelPattern(label) {
   return label
     .split('')
@@ -97,22 +130,38 @@ async function waitForBusinessSurface(page) {
 
 async function applyState(page) {
   const interactions = []
+  const tabs = page.locator('[role="tab"], .ant-tabs-tab, button')
 
-  if (state === 'second-tab') {
-    const tabs = page.locator('[role="tab"], .ant-tabs-tab, button')
+  async function clickTabAt(index, action) {
     const count = await tabs.count().catch(() => 0)
-    if (count > 1) {
-      await tabs.nth(1).click({ timeout: 2500 }).catch(() => {})
-      await page.waitForTimeout(900)
-      interactions.push({ action: 'click-second-tab', clicked: 1 })
-    }
+    if (count <= index) return
+    await tabs.nth(index).click({ timeout: 2500 }).catch(() => {})
+    await page.waitForTimeout(900)
+    interactions.push({ action, clicked: index })
   }
 
-  if (state === 'primary-action') {
+  if (state === 'second-tab') {
+    await clickTabAt(1, 'click-second-tab')
+  }
+
+  if (state === 'third-tab') {
+    await clickTabAt(2, 'click-third-tab')
+  }
+
+  if (state === 'primary-action-second-tab') {
+    await clickTabAt(1, 'click-second-tab')
+  }
+
+  if (state === 'primary-action-third-tab') {
+    await clickTabAt(2, 'click-third-tab')
+  }
+
+  if (state === 'primary-action' || state === 'primary-action-second-tab' || state === 'primary-action-third-tab') {
     interactions.push({
       action: 'click-primary-action',
       clicked: await clickFirstVisible(page, ['保存排序', '保存', '排 序', '排序', '编辑排序']),
     })
+    await page.waitForTimeout(1800)
   }
 
   if (state === 'first-dropdown') {
@@ -299,6 +348,7 @@ async function main() {
   await fs.access(CHROME_PATH)
 
   const network = []
+  const networkTasks = []
   const browser = await chromium.launch({
     executablePath: CHROME_PATH,
     headless: true,
@@ -315,13 +365,34 @@ async function main() {
     const page = await context.newPage()
     page.on('response', (response) => {
       const request = response.request()
-      network.push({
-        url: response.url(),
-        status: response.status(),
-        method: request.method(),
-        resourceType: request.resourceType(),
-        contentType: response.headers()['content-type'] ?? '',
-      })
+      networkTasks.push(
+        (async () => {
+          const requestBodyText = request.postData() ?? ''
+          const requestBodyJson = tryParseJson(requestBodyText)
+          const contentType = response.headers()['content-type'] ?? ''
+          let responseBodyText = ''
+          let responseJson = null
+
+          if (/json/i.test(contentType)) {
+            responseBodyText = await response.text().catch(() => '')
+            responseJson = tryParseJson(responseBodyText)
+          }
+
+          network.push({
+            url: response.url(),
+            status: response.status(),
+            method: request.method(),
+            resourceType: request.resourceType(),
+            contentType,
+            requestBodyText: requestBodyText ? requestBodyText.slice(0, 4000) : '',
+            requestBodyJson,
+            requestBodySummary: summarizeJson(requestBodyJson),
+            responseSummary: summarizeJson(responseJson),
+            responseKeys: responseJson && typeof responseJson === 'object' ? Object.keys(responseJson) : [],
+            responseBodySample: responseBodyText ? responseBodyText.slice(0, 4000) : '',
+          })
+        })(),
+      )
     })
 
     await page.goto(mode === 'target' ? TARGET_URL : LOCAL_URL, {
@@ -359,6 +430,7 @@ async function main() {
     if (dropdownShot) componentScreenshots.push(dropdownShot)
 
     const facts = await extractFacts(page, interactions, componentScreenshots)
+    await Promise.allSettled(networkTasks)
     const domFile = fileFor(artifactRoots.dom, 'page', 'html')
     const styleFile = fileFor(artifactRoots.styles, 'facts', 'json')
     const networkFile = fileFor(artifactRoots.network, 'responses', 'json')

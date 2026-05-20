@@ -290,12 +290,19 @@ async function main() {
     const page = await context.newPage()
     page.on('response', async (response) => {
       const request = response.request()
+      let postData = null
+      try {
+        postData = request.postDataJSON()
+      } catch {
+        postData = request.postData() ?? null
+      }
       network.push({
         url: response.url(),
         status: response.status(),
         method: request.method(),
         resourceType: request.resourceType(),
         contentType: response.headers()['content-type'] ?? '',
+        postData,
       })
     })
 

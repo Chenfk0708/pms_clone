@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { ChatDock } from './ChatDock'
 import { channelSideNav, distributionSideNav, globalRadarSideNav, informationSideNav, scrmSideNav } from '../data/discovery'
 import type { TopNavItem } from '../types'
 import { resolveSideNav } from '../data/mock'
@@ -315,6 +316,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           {children}
         </main>
       </div>
+      <ChatDock />
       {openTopbarPanel === 'payment' ? <TopbarPaymentDialog onClose={() => setOpenTopbarPanel(null)} /> : null}
       {openTopbarPanel === 'service' ? <TopbarServicePanel onClose={() => setOpenTopbarPanel(null)} /> : null}
     </div>

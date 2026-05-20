@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ChatDock } from '../components/ChatDock'
 import {
   fetchSortSettingPageData,
   reorderSortSettingItems,
@@ -215,8 +214,6 @@ function SortSettingSurface({ runtime }: { runtime: SortSettingRuntimeConfig }) 
           ) : null}
         </>
       ) : null}
-
-      <ChatDock />
     </div>
   )
 }

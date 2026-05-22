@@ -2,6 +2,7 @@ export const HOTEL_PACKAGE_ORDER_ENDPOINT = 'https://hudson-prod.localhome.cn/or
 
 export type HotelPackageOrderProvider = 'mock' | 'api'
 export type HotelPackageOrderMockState = 'success' | 'empty' | 'error'
+export const HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE = 20
 
 export type HotelPackageOrderFilters = {
   orderState: string
@@ -162,7 +163,7 @@ export function readInitialHotelPackageOrderFilters(): HotelPackageOrderFilters 
     startDate: params.get('startDate') ?? '',
     endDate: params.get('endDate') ?? '',
     pageNum: Number(params.get('pageNum') ?? '1') || 1,
-    pageSize: Number(params.get('pageSize') ?? '2') || 2,
+    pageSize: Number(params.get('pageSize') ?? String(HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE)) || HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE,
   }
 }
 

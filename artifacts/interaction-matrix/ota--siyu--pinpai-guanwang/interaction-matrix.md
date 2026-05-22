@@ -1,4 +1,4 @@
-﻿# 品牌官网交互矩阵
+# 品牌官网交互矩阵
 
 任务：`ota--siyu--pinpai-guanwang`  
 页面：OTA > 私域 > 品牌官网  
@@ -33,3 +33,21 @@
 | 取证 | 目标站首屏 | 固定 Chrome + storageState，未登录阻塞 | 目标 network 保存为 `default-target-20260518-95-target-responses.json` | 已有截图、DOM、style、network | 保留作为目标站证据，不写入凭证内容 | `artifacts/screenshots/ota--siyu--pinpai-guanwang/default-target-20260518-95-target-full.png` |
 | 取证 | 本地 success/empty/error | 不适用 | 显式 mock provider | 三态均有截图、DOM、style、network | 固定 Chrome 采集 `20260519-95-local-*` 批次 | `artifacts/screenshots|dom-snapshots|style-dumps|network/ota--siyu--pinpai-guanwang/` |
 
+
+## 2026-05-21 当前补充验证
+
+- 新增目标站默认态取证：
+  - `artifacts/screenshots/ota--siyu--pinpai-guanwang/default-target-20260521-current-target-default-full.png`
+  - `artifacts/network/ota--siyu--pinpai-guanwang/default-target-20260521-current-target-default-responses.json`
+- 新增目标站交互态取证：
+  - `artifacts/screenshots/ota--siyu--pinpai-guanwang/interaction-target-20260521-current-target-interaction-full.png`
+  - `artifacts/network/ota--siyu--pinpai-guanwang/interaction-target-20260521-current-target-interaction-responses.json`
+- 新增本地默认态取证：
+  - `artifacts/screenshots/ota--siyu--pinpai-guanwang/default-clone-20260521-current-local-success-full.png`
+  - `artifacts/style-dumps/ota--siyu--pinpai-guanwang/default-clone-20260521-current-local-success-facts.json`
+- 新增本地交互态取证：
+  - `artifacts/screenshots/ota--siyu--pinpai-guanwang/interaction-clone-20260521-current-local-interaction-full.png`
+  - `artifacts/style-dumps/ota--siyu--pinpai-guanwang/interaction-clone-20260521-current-local-interaction-facts.json`
+- 当前脚本验证结论：
+  - `scripts/verify-brand-website.mjs` 在 `http://127.0.0.1:4173/mallManagement/weapp/decorate` 通过。
+  - 本地 interaction 批次记录到 8 个安全交互动作，目标站 interaction 批次完成页面快照与网络记录。

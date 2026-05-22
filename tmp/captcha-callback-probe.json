@@ -1,0 +1,749 @@
+{
+  "checkedAt": "2026-05-21T15:39:23.732Z",
+  "cdpUrl": "http://127.0.0.1:9222",
+  "targetUrl": "https://minsubao.localhome.cn/home",
+  "shouldAutoDrag": true,
+  "timeoutMs": 30000,
+  "postDragWaitMs": 4000,
+  "beforeReadySnapshot": {
+    "href": "https://minsubao.localhome.cn/home",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "hasMobileInput": true,
+    "hasPasswordInput": true,
+    "hasSlider": false,
+    "hasSliderWrapper": false,
+    "buttonClassName": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+    "buttonDisabled": false,
+    "sliderClassName": null,
+    "sliderText": null,
+    "hasAliyunCaptchaInstance": false,
+    "aliyunCaptchaConfig": null,
+    "signState": null
+  },
+  "readyState": {
+    "ready": true,
+    "elapsedMs": 270,
+    "snapshot": {
+      "href": "https://minsubao.localhome.cn/home",
+      "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+      "hasMobileInput": true,
+      "hasPasswordInput": true,
+      "hasSlider": true,
+      "hasSliderWrapper": true,
+      "buttonClassName": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+      "buttonDisabled": false,
+      "sliderClassName": "aliyunCaptcha-sliding-slider",
+      "sliderText": "",
+      "hasAliyunCaptchaInstance": true,
+      "aliyunCaptchaConfig": {
+        "SceneId": "m9m5hmjm",
+        "verifyType": "3.0",
+        "CaptchaType": "SLIDING",
+        "securityToken": null,
+        "captchaResult": null,
+        "verifyResult": null,
+        "immediate": true
+      },
+      "signState": null
+    },
+    "lifecycle": {
+      "parsedEvents": [
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "Log1"
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "action": null
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "Log2"
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "Log3"
+        },
+        {
+          "kind": "init-request",
+          "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "InitCaptchaV3",
+          "sceneId": "m9m5hmjm",
+          "mode": "embed",
+          "deviceToken": "V0VCI2FiMDM0ZWMwNjQzZjkxMzk5ZWIzM2UwNjJkYzdmYWUxLWgtMTc3OTM3Nzk4NzQwNi0zZGUwOTU5ZGFlOTg0ZjgwYjg5NmY2OTUxY2QzOTQ1OSNDWFNDamliRjQ4NVNFeFlVRzFSMWVGU0JlUTB5WDBuTmM0V2NSTitkeDJNbnNTV2ZyMjM1UU5SM3NaTmxlb2huZm5ZYXpzUTNUenJ1L1lvRlZJQXNQV1RZYjZ3eFljb2hXSWUrVHU0UGJSSlJEcWZ2MTEwMzR6K0pPdGdzZlJWR2ZPSCtYQkhjS2NSVmtLUEZSWXA2T1pjM2orQlh3T1VXazJKZHhUL0U1SGF6eGQ1SGFoM0VwVzk3dG1QdUNXMkJkRThuVlpWRlhMRHZ6dS9oVy9TampBc2lLdHhseUNxSHozYlkrUmlFeEI1enlFdjBzWWN4K3E3UHZEdlJxUDRsaDhkOXpwSjFjRGY2dmNYMTZxdExHZ3lQN09VbWNvVlVhUk96V2U4MkxhWUtiaXhmcnRpQXNoL1FWalpOTHpreWhjMStCSnB6ZkxzWDZzNzRlTEZPbTBTNm1vSk14eDVIRitjU3BWVnV5Q2o2MFJwR3hSM0Y4ZXJUZTBVbGVFWlBEVnZwdTZ0cldoUTRhWXdVQ29RQzQyN3lRZmNFK2hNYVNIMzFXNDVnQUgvNGluWEt1NVczdXRCVXE2SFVZWU95YXJzcDdYYUlNNHFVSE9qYzc1RlorZ29mWFRFUk9FczV3UXBhRDdRTFdLbEZLWmc4dkc3MFZVdXpaMC9uMmc3RnR5T2wvQTM4d2I5OWUzVW1RMjVESWphcXJEZkZNRmhhbjB4WUs3bGZwQnkxK3ZHQlpWQVdzRUdCS1NBaWdBdmFKS2l2d1hQQzliQUFWU3F2VkRDNjJKY1g1QkJlU3o5ODhXOHZhT1NGRWVTaldmTDJXalE1ditjcnBEZTRjZ2FPanRheFV2L0pFbHBOZ3JEL2pEUnFEZTJyeGtvTkZTcXpzQnZ1eXB0RytTOFdDK0ErZWx3Q1kxZmpxTU16TmpaTzQwa29pWldGMCtHa3pyVTZEaDBVZytDOHVPQ1hQck5Hb3laZTRiTHlYZWdWSHlOMXp5di91eDhkdmxjdndGdnVDZ3Z0SmRQa1poaC94TXZZbU1veVROUmREcGlZTndNVnlUZ25BNUhrclRGTytpRzlVV0VUQlg3NEVUaldqZFZZd0lTaHpIQTBDd2pVclhwWGxOZlkyTXV2UnQ2Ry9KcWR2MmwzRkU5dS9aRVgzTDZEQ1RqM2JwK0t2cDE3UW5MZExzQkdEdGZkcW1IRGszdEc4dlM3UXppVEF0ODl4cFhneHl4V1RjVXFHTkhXUUVNWDJTN1dIaVdKeGY2UitjeXFKMlcyRFp0bTBMVUh1NmgvNGluVEN5TURXZjlnTURZNUZjS1ZMc1ZaUWJCZGdMMjlieTVpbDhYTFo4VHV3TzQwMUswQWVvMG15eUNVMVNuN01kbXZ2Zz09IzAjOGRjOWZmMzFhNjgzOWQ4ZWJlZWQ2MWViZjE0ZTU3YTU="
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "action": null
+        },
+        {
+          "kind": "dynamic-js-request",
+          "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+          "type": "request",
+          "method": "GET",
+          "status": null,
+          "staticPath": "3.25.1/sg.006.688a51c0f8283dcf"
+        },
+        {
+          "kind": "dynamic-js-request",
+          "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+          "type": "request",
+          "method": "GET",
+          "status": null,
+          "staticPath": null
+        },
+        {
+          "kind": "dynamic-js-response",
+          "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "staticPath": null
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "action": null
+        },
+        {
+          "kind": "init-response",
+          "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "certifyId": "8gIlr4320E",
+          "staticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+          "captchaType": "SLIDING",
+          "success": true,
+          "response": {
+            "CertifyId": "8gIlr4320E",
+            "Message": "success",
+            "RequestId": "AFFE6238-3BF6-44C9-868C-C1207B258CB4",
+            "Code": "Success",
+            "LimitFlow": false,
+            "Success": true,
+            "StaticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+            "CaptchaType": "SLIDING"
+          }
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "Log2"
+        },
+        {
+          "kind": "device-log",
+          "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "action": null
+        },
+        {
+          "kind": "dynamic-js-response",
+          "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "staticPath": "3.25.1/sg.006.688a51c0f8283dcf"
+        },
+        {
+          "kind": "upload-log",
+          "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+          "type": "request",
+          "method": "POST",
+          "status": null,
+          "action": "UploadLog",
+          "certifyId": "8gIlr4320E",
+          "sceneId": "m9m5hmjm",
+          "dynamicJsLoaded": true,
+          "uploadLog": {
+            "sId": "m9m5hmjm",
+            "pfx": "x0xnm7",
+            "mInit": {
+              "t": 1779377958538,
+              "s": true,
+              "msg": "INIT_SUCCESS",
+              "rt": 164
+            },
+            "hst": "captcha-open.aliyuncs.com",
+            "cId": "8gIlr4320E",
+            "js": {
+              "t": 1779377958848,
+              "s": true,
+              "msg": "DYNAMICJS_LOADED",
+              "rt": 310
+            },
+            "rt": 502
+          }
+        },
+        {
+          "kind": "init-response",
+          "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+          "type": "response",
+          "method": null,
+          "status": 200,
+          "certifyId": null,
+          "staticPath": null,
+          "captchaType": null,
+          "success": true,
+          "response": {
+            "Code": "Success",
+            "Success": true
+          }
+        }
+      ],
+      "hasDeviceLog1": true,
+      "hasDeviceLog2": true,
+      "hasDeviceLog3": true,
+      "hasInitRequest": true,
+      "hasInitResponse": true,
+      "hasDynamicJsRequest": true,
+      "hasDynamicJsResponse": true,
+      "hasDynamicJsLoadedLog": true,
+      "hasSignInRequest": false,
+      "certifyId": "8gIlr4320E",
+      "sceneId": "m9m5hmjm",
+      "staticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+      "captchaType": "SLIDING",
+      "readyEventIndex": 10,
+      "isReady": true
+    }
+  },
+  "dragResult": {
+    "sliderBox": {
+      "x": 692.1875,
+      "y": 181.375,
+      "width": 32,
+      "height": 32
+    },
+    "wrapperBox": {
+      "x": 692.1875,
+      "y": 181.375,
+      "width": 263.625,
+      "height": 32
+    },
+    "startX": 708.1875,
+    "startY": 197.375,
+    "endX": 935.8125
+  },
+  "dragError": null,
+  "afterDragSnapshot": {
+    "href": "https://minsubao.localhome.cn/home",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "hasMobileInput": true,
+    "hasPasswordInput": true,
+    "hasSlider": true,
+    "hasSliderWrapper": true,
+    "buttonClassName": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+    "buttonDisabled": false,
+    "sliderClassName": "slider-move initial",
+    "sliderText": "",
+    "hasAliyunCaptchaInstance": true,
+    "aliyunCaptchaConfig": {
+      "SceneId": "m9m5hmjm",
+      "verifyType": "3.0",
+      "CaptchaType": "SLIDING",
+      "securityToken": null,
+      "captchaResult": null,
+      "verifyResult": null,
+      "immediate": true
+    },
+    "signState": null
+  },
+  "afterDragLifecycle": {
+    "parsedEvents": [
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "Log1"
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "action": null
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "Log2"
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "Log3"
+      },
+      {
+        "kind": "init-request",
+        "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "InitCaptchaV3",
+        "sceneId": "m9m5hmjm",
+        "mode": "embed",
+        "deviceToken": "V0VCI2FiMDM0ZWMwNjQzZjkxMzk5ZWIzM2UwNjJkYzdmYWUxLWgtMTc3OTM3Nzk4NzQwNi0zZGUwOTU5ZGFlOTg0ZjgwYjg5NmY2OTUxY2QzOTQ1OSNDWFNDamliRjQ4NVNFeFlVRzFSMWVGU0JlUTB5WDBuTmM0V2NSTitkeDJNbnNTV2ZyMjM1UU5SM3NaTmxlb2huZm5ZYXpzUTNUenJ1L1lvRlZJQXNQV1RZYjZ3eFljb2hXSWUrVHU0UGJSSlJEcWZ2MTEwMzR6K0pPdGdzZlJWR2ZPSCtYQkhjS2NSVmtLUEZSWXA2T1pjM2orQlh3T1VXazJKZHhUL0U1SGF6eGQ1SGFoM0VwVzk3dG1QdUNXMkJkRThuVlpWRlhMRHZ6dS9oVy9TampBc2lLdHhseUNxSHozYlkrUmlFeEI1enlFdjBzWWN4K3E3UHZEdlJxUDRsaDhkOXpwSjFjRGY2dmNYMTZxdExHZ3lQN09VbWNvVlVhUk96V2U4MkxhWUtiaXhmcnRpQXNoL1FWalpOTHpreWhjMStCSnB6ZkxzWDZzNzRlTEZPbTBTNm1vSk14eDVIRitjU3BWVnV5Q2o2MFJwR3hSM0Y4ZXJUZTBVbGVFWlBEVnZwdTZ0cldoUTRhWXdVQ29RQzQyN3lRZmNFK2hNYVNIMzFXNDVnQUgvNGluWEt1NVczdXRCVXE2SFVZWU95YXJzcDdYYUlNNHFVSE9qYzc1RlorZ29mWFRFUk9FczV3UXBhRDdRTFdLbEZLWmc4dkc3MFZVdXpaMC9uMmc3RnR5T2wvQTM4d2I5OWUzVW1RMjVESWphcXJEZkZNRmhhbjB4WUs3bGZwQnkxK3ZHQlpWQVdzRUdCS1NBaWdBdmFKS2l2d1hQQzliQUFWU3F2VkRDNjJKY1g1QkJlU3o5ODhXOHZhT1NGRWVTaldmTDJXalE1ditjcnBEZTRjZ2FPanRheFV2L0pFbHBOZ3JEL2pEUnFEZTJyeGtvTkZTcXpzQnZ1eXB0RytTOFdDK0ErZWx3Q1kxZmpxTU16TmpaTzQwa29pWldGMCtHa3pyVTZEaDBVZytDOHVPQ1hQck5Hb3laZTRiTHlYZWdWSHlOMXp5di91eDhkdmxjdndGdnVDZ3Z0SmRQa1poaC94TXZZbU1veVROUmREcGlZTndNVnlUZ25BNUhrclRGTytpRzlVV0VUQlg3NEVUaldqZFZZd0lTaHpIQTBDd2pVclhwWGxOZlkyTXV2UnQ2Ry9KcWR2MmwzRkU5dS9aRVgzTDZEQ1RqM2JwK0t2cDE3UW5MZExzQkdEdGZkcW1IRGszdEc4dlM3UXppVEF0ODl4cFhneHl4V1RjVXFHTkhXUUVNWDJTN1dIaVdKeGY2UitjeXFKMlcyRFp0bTBMVUh1NmgvNGluVEN5TURXZjlnTURZNUZjS1ZMc1ZaUWJCZGdMMjlieTVpbDhYTFo4VHV3TzQwMUswQWVvMG15eUNVMVNuN01kbXZ2Zz09IzAjOGRjOWZmMzFhNjgzOWQ4ZWJlZWQ2MWViZjE0ZTU3YTU="
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "action": null
+      },
+      {
+        "kind": "dynamic-js-request",
+        "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+        "type": "request",
+        "method": "GET",
+        "status": null,
+        "staticPath": "3.25.1/sg.006.688a51c0f8283dcf"
+      },
+      {
+        "kind": "dynamic-js-request",
+        "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+        "type": "request",
+        "method": "GET",
+        "status": null,
+        "staticPath": null
+      },
+      {
+        "kind": "dynamic-js-response",
+        "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "staticPath": null
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "action": null
+      },
+      {
+        "kind": "init-response",
+        "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "certifyId": "8gIlr4320E",
+        "staticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+        "captchaType": "SLIDING",
+        "success": true,
+        "response": {
+          "CertifyId": "8gIlr4320E",
+          "Message": "success",
+          "RequestId": "AFFE6238-3BF6-44C9-868C-C1207B258CB4",
+          "Code": "Success",
+          "LimitFlow": false,
+          "Success": true,
+          "StaticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+          "CaptchaType": "SLIDING"
+        }
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "Log2"
+      },
+      {
+        "kind": "device-log",
+        "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "action": null
+      },
+      {
+        "kind": "dynamic-js-response",
+        "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "staticPath": "3.25.1/sg.006.688a51c0f8283dcf"
+      },
+      {
+        "kind": "upload-log",
+        "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+        "type": "request",
+        "method": "POST",
+        "status": null,
+        "action": "UploadLog",
+        "certifyId": "8gIlr4320E",
+        "sceneId": "m9m5hmjm",
+        "dynamicJsLoaded": true,
+        "uploadLog": {
+          "sId": "m9m5hmjm",
+          "pfx": "x0xnm7",
+          "mInit": {
+            "t": 1779377958538,
+            "s": true,
+            "msg": "INIT_SUCCESS",
+            "rt": 164
+          },
+          "hst": "captcha-open.aliyuncs.com",
+          "cId": "8gIlr4320E",
+          "js": {
+            "t": 1779377958848,
+            "s": true,
+            "msg": "DYNAMICJS_LOADED",
+            "rt": 310
+          },
+          "rt": 502
+        }
+      },
+      {
+        "kind": "init-response",
+        "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+        "type": "response",
+        "method": null,
+        "status": 200,
+        "certifyId": null,
+        "staticPath": null,
+        "captchaType": null,
+        "success": true,
+        "response": {
+          "Code": "Success",
+          "Success": true
+        }
+      }
+    ],
+    "hasDeviceLog1": true,
+    "hasDeviceLog2": true,
+    "hasDeviceLog3": true,
+    "hasInitRequest": true,
+    "hasInitResponse": true,
+    "hasDynamicJsRequest": true,
+    "hasDynamicJsResponse": true,
+    "hasDynamicJsLoadedLog": true,
+    "hasSignInRequest": false,
+    "certifyId": "8gIlr4320E",
+    "sceneId": "m9m5hmjm",
+    "staticPath": "3.25.1/sg.006.688a51c0f8283dcf",
+    "captchaType": "SLIDING",
+    "readyEventIndex": 10,
+    "isReady": true
+  },
+  "probeState": {
+    "probeEvents": [
+      {
+        "at": "2026-05-21T15:39:17.236Z",
+        "type": "probe:init",
+        "detail": {}
+      },
+      {
+        "at": "2026-05-21T15:39:17.274Z",
+        "type": "window:initAliyunCaptcha:set",
+        "detail": {
+          "valueType": "function"
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.349Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.387Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.404Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.408Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.420Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.420Z",
+        "type": "initAliyunCaptcha:called",
+        "detail": {
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "mode": "embed",
+            "element": "#ncContainer",
+            "button": "#ncContainer",
+            "slideStyle": {
+              "width": 332,
+              "height": 40
+            },
+            "hasSuccess": true,
+            "hasFail": true,
+            "hasGetInstance": true
+          }
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.841Z",
+        "type": "window:AliyunCaptcha:set",
+        "detail": {
+          "valueType": "function"
+        }
+      },
+      {
+        "at": "2026-05-21T15:39:18.841Z",
+        "type": "AliyunCaptcha:wrapped",
+        "detail": {}
+      },
+      {
+        "at": "2026-05-21T15:39:18.859Z",
+        "type": "business:getInstance",
+        "detail": {
+          "hasInstance": true,
+          "config": {
+            "SceneId": "m9m5hmjm",
+            "CaptchaType": "SLIDING",
+            "verifyType": "3.0",
+            "mode": "float",
+            "immediate": true,
+            "securityToken": null,
+            "captchaResult": null,
+            "verifyResult": null
+          }
+        }
+      }
+    ],
+    "signState": null
+  },
+  "interestingEvents": [
+    {
+      "at": "2026-05-21T15:39:17.274Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log1&Data=byAgDBTTWK6iQ63aLnMRvywYbJ50c453wUz9CdNf4pWB%2BH4EOu7koqzwbASi1Zy3zgHU8sTKNHpOkNOGqQFYFiCpOJ3LalCqYbFhgZ4XnXghkXEopFso2Vh4IzTDRTPtJYSMMGWfCx8pPxsr6oCgxZN3SDxRpIk6y5QgH%2FKJd%2FE%3D&SignatureNonce=7f7b6a45-f4d7-4882-9a50-55313e420b2c&Signature=%2BGLrFLv%2B7C8%2F5oJduHQB%2B8FDYl8%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:17.849Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "body": "{\"ResultObject\":{\"DeviceConfig\":\"E42OJVRyphU78FJdbOWT3lWpay/GTQVQ4n9cmJnYd6mrXTAnx3WCHVspNzA3LzYjoqLcprEeVu49iDK/X31mSAUOVBVZ3TI1ptTxYJJnmVHpE0hyhQDHya5Z9qinTP2HC3g7/VU2JA1i6TJa6nCVkkadDXRZxoTjeNdPYiCkgdE9pCMzhL4+Z0Lkkes/vv8iErskAs6WoDW174Smw4Jb116OLLVI2YeTxromCqnWCUTlKl5CGMeyFLOmBY9pv5BQ7cCbYcXFEXGT+UG85VF0Sskf3OKwJe1LpI6srqzJxm0=\"},\"Message\":\"success\",\"RequestId\":\"5BD41F56-7FCF-5D79-BBA7-E6D1B1A2C84D\",\"Code\":\"200\"}"
+    },
+    {
+      "at": "2026-05-21T15:39:18.368Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log2&Data=0blQ85dGJrY0HYY8GlS4tTBVuksZpLI2N7miYiBeU9t%2Btt3hwY9tix%2BkeuSQdu6c776XRuAeqwha3HODfaa%2F7qO7WUnZK3k4MYZfHSl5UVBB6DkFEJo5YgU4NsPBLTwwyUq82qVLeRE%2B7KjGWjG%2BWppPi%2B56sXJOdOlnJlQaxoYZxrnc0zqVCkpJexfhAIRnKSrRa%2FCb6RWNLuHPUM9cHxl61pG%2FNkZelW%2BFxmGtVCLMC905TebudgmHktuJGgWQ9D0dK7%2BtTE7ZT5BOMnqHqswm2uMiBy53GGoAiSZ5h2HqZW6VKdQ0xLQ24Ps44NE2cx0MFrlnMlXCwIg%2FZ8PqtUp2hMOnnyhA8E4BL%2BYAn18I%2BnseiWzjzJmkRrbY4Nb217kPtrERm2YiGyqawYMjnWELXn4u%2FzpSW%2BfTX7vqFTtRs%2BDZmah5%2BXxQhbEMVuzyMz9strjn%2B3ppaRF59nvyRmissN1bG%2FPBYJuQc8vIAd74CdyMc5iVqv8BM6cT3eHUMKZlSIYlnYy5g6QwoUridyMxmWbaBqpfJSZYJX%2F5d0nik3zavKF%2BSXqVSLvavbMN6hBJ4GaMsRX6MrBv7qdyXuZ6tBJndRPSWSkQbSRrdDf2M9w%2BPmYD8Ln2krVK5yW8EslBUD7E7K%2B7GfpKix6T3rdCr22XF0I9KY0vmRsQoNlvJIgxYjOLyGZyIKwBj4%2Bbm78Sb1QOuEVVbIprj2rHBGm5%2BnWwyfn1zaA53tQfy5OjEUaUbUq3WECsb2ZBj1H4pEhhXsiq2WOMxJoYN2IJpPc%2BgVDiqC1%2FVW6ysgXTySq04x%2BbCM3FDaRde4DTqgzhO6jjbiYigErQSRmkan%2B2YFAQSlta37iPAuKuTwqeDNsuWJfIxKIFTUlzQ0aXy1P2qywc9mKIZa7HMbYm6IbGttDFLcCYsIBrlUXCywPxt046nqOWDqg1%2FZT5vUAJMhn84vrLdcfCZLuDqFepUZBp1U%2BfbcKwTVjqx3vE3gZ90neg%2FNgf%2FYsmZS%2BVP9swJx6t3Lf80ysbrwr0UixLArIwE8eegE8ECGxjzJCDgifQbLp9UIpPGAQMQ89Uh4KuuQvxxfYMiO2eHZ4UjtW0DNkhzoYKNBsJU%2FeJjhL42Gzi5OqCwaSbvirQzrJGM1W3Eo8X8APgsU6WX0X2oZz0byyd6%2BWvus2BJU8sNI9dKEwsMHxyXFJWtzBnsIGmQ7KfMe5nzGRy%2ByxF4zTGEowS7Ttkz%2B8OkURKhA%2B8I4VUam8kGxd%2FiiCD2sAE3xZlgRbC2G4xOm5j6ryR6LuoXaTjQYnWT6GSYe3ZUYNzkYFdv6SpY0HiadN2sUxhsZ3ZGtXREjk7qFF28A14dOGeySZ6L2CcQyOhwDPuXxLBHrIOtU5qxjAKK%2BsK0pB9m%2FiZVqrGJs0EkTVnwdshbqjW0yy7lrI4u0gONWvLsp2YwiAYNzRX1P7NNc4%2F8527uAFNAfx30oS4KrkX%2FmzWGtqLVLddAKIclx6rp7%2F8KbkEUJx4rSESMDBp9%2Buxqx%2B%2FPVaX1%2BgUc9dowCsYCyb84zyiSZo6t734INJfQqB6RaV4HaVeKlq3I6txFtFVYT8SBlTxy3Mw%2FhYkKdaHX%2FoXa6%2FGy%2BmLWUxhZQreWStkXiE%2FBiQntxY0kYhHLAfxV3zh13GX4sGdyWpKB%2FN5g6lZTZo%2B%2BWSvKNwZECSbkYj3oXbK1EyzCAZmfpV13aIP4XEEfpJoyU%2B8bN5DyAhn14f8GzNTPndQ8ud0hC4CXS%2BpsC1lMb1miVDd5JthA26i4SbUx%2BXNd8FVEcMzcwELIip1Lo9cYpeyKzzOl9UDPF2Hh3qFJlEEGSBDoqsbjUS46MFFWNltuFF0lvh7JHiF0QloHgQri%2BYKrnydZx5Xem55azSiaNL%2FP5JEt7CyMMl%2F3BPwqRI7bKmBF9f4XFu61HFy9%2FoujSpMTuWZHIQ%2F9dqzhvl%2FqwRTGMa0J3xT1dOLAR231kznu7PvFObz9uc%2BYKmc9IWu5571fwDeIKuSoswa%2FSmSvnhNatTcxYHqGxcqdiJ0uJ8s%2FJbFFm7if9pHE5MtIM%2FHrLZUhbkartG0f%2Fg1ZQlioOYhXtNAKSz9d%2F8ey0TuIY3KjUuzfyu1y9ryB4uYXsN7tBhY6UL07%2BOKn6Q%2FezoingscpOoL7OEfEKYVcAFEaA2Y%2FKOEgjFnKkJdwm7h6FS0G%2F%2BTpQNedjZBlsQcslbs4pWIVH9hB9HflxQfxMNQVzYWDr%2BHG3x6&SignatureNonce=900d374e-87d4-4de6-8ed7-da7ba4f6b2b4&Signature=LU6REd54tjO%2Fj7rDKUQaILH8N2I%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:18.425Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log3&Data=0blQ85dGJrY0HYY8GlS4tTBVuksZpLI2N7miYiBeU9t%2Btt3hwY9tix%2BkeuSQdu6c776XRuAeqwha3HODfaa%2F7qO7WUnZK3k4MYZfHSl5UVBB6DkFEJo5YgU4NsPBLTwwtwF75uZ%2FUnIW6Bzbpuyuza1jERkUvLrb7E%2BIiUGb00HqYA%2Fz3jWZAqq5KLvoh066v1wV5J%2FIHnEQ4KCYYHYBC7cQToQJ2%2F3kDi85TMpAAOvIQpSY%2FWFOLCInH9vLwcdSuzammtLFNDVxMHnGFcpcrmWy7qjlfijwzz620ekcN04zfwFLczw5VBtbpFcqDqv1TrAxcNfXfoOdvpgMYzgA0oxWizryOBlOMhAiA0qoFOMD9yj6G8IiM3NLdh%2F1UECF2T6%2BAwCAhK7ZO%2BOPZaf9UF6SlosC%2Bk8%2BK2FMcIVyEWyNcDimIOUr%2FZUjuQuhlRwjkHsyorPeE40BYmOg9tbuQk9nnLZzylSjEgOG87R2JzhQRQdwnNRieJd3EBdpcUMWofobbClqq2tt4lRL8zlv4CkBTEiTAmAC8SDlGEtRR9CetCcvLw2JiTPpobFvFDSjvKFsW9ZGpshK%2FWj%2BN081S7WUzbR79COQLsEWToIkyNVTbl2Vk%2BosdAah88%2FEtngHR4eJosO1lA%2BlgvlXO%2BfbBmUzDcY%2F%2Fjer0e0kApXvEwLdFS8Vu5QZdXrhbvtbm4J9YlD7en4TlJyTABhBruoRC8m2cyCcHFBM3PpcsBnUM7A94Ar%2BjE6WC7G%2FR8ZUwaroMrcSrUILYOMrAHfUVDPsNvP7kG3xWCIZPs0%2FkIylRYPZ1%2B86fVbL7yZ438WopCSN4ewoIGxNVR3Vy0NsUlZMlWJKXCSOQMKewidNonJptZn9DgZMDEeHLVSdp5bvB2%2BmyEV5olwNUUwMdhgv22sYF8AEyu%2B4Nqp1svz37fjl0gsarl%2F7gW1mvlKhYwzBK1KE2%2FESzJWK8%2FtqlAKx7l3bCwiCmgn5kQMzltd2wgSq642qd0oCWRlktiJ%2BPvk8QX4T2u6uSFDJeFH2FMaioXFvlmfhYAxyr9Gs3pVeugRcMLzfIamcn7VEx9dxpyf9bfggbdDH4Wrg8HBc9OKo8YlFGy8L7ddrHgp%2BOSQEtbQYUwvqR828NzeT01KWrq1WCybYAvx%2FID3nU2Mc7ZQHrARQVHCkYj4Sf302GUEA7s9TUvac9cEFh1HDcgaqNoVxdxH9p5OU1qoP4qPSvEMcWiw%2BrmSx2kVnmnrfm7a%2FUNQ0NEZk1084O2JTDKGOQFg0hnYKrBIX%2F58mZKImcF0A%2F5qLBikU4DI44NxaTK%2BdzsoIrSkTi7iBrqqsKxmXD%2BSQ%2BSAVpZniWiz6NOZYEhQ9umeGWqkbDLQ2LQ1icsYsoY7LzL2wtFB%2B4xQWpbCPdhlwauP9067HRJAbH6PHHkrvRkup%2Bg%3D%3D&SignatureNonce=0ba178c9-9a65-4c3e-bfc5-c63791e81a77&Signature=GNHRBliflwFtQsWbgOr13lQxGv8%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:18.425Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-21T15%3A39%3A18Z&Version=2023-03-05&Action=InitCaptchaV3&SceneId=m9m5hmjm&Language=cn&Mode=embed&DeviceToken=V0VCI2FiMDM0ZWMwNjQzZjkxMzk5ZWIzM2UwNjJkYzdmYWUxLWgtMTc3OTM3Nzk4NzQwNi0zZGUwOTU5ZGFlOTg0ZjgwYjg5NmY2OTUxY2QzOTQ1OSNDWFNDamliRjQ4NVNFeFlVRzFSMWVGU0JlUTB5WDBuTmM0V2NSTitkeDJNbnNTV2ZyMjM1UU5SM3NaTmxlb2huZm5ZYXpzUTNUenJ1L1lvRlZJQXNQV1RZYjZ3eFljb2hXSWUrVHU0UGJSSlJEcWZ2MTEwMzR6K0pPdGdzZlJWR2ZPSCtYQkhjS2NSVmtLUEZSWXA2T1pjM2orQlh3T1VXazJKZHhUL0U1SGF6eGQ1SGFoM0VwVzk3dG1QdUNXMkJkRThuVlpWRlhMRHZ6dS9oVy9TampBc2lLdHhseUNxSHozYlkrUmlFeEI1enlFdjBzWWN4K3E3UHZEdlJxUDRsaDhkOXpwSjFjRGY2dmNYMTZxdExHZ3lQN09VbWNvVlVhUk96V2U4MkxhWUtiaXhmcnRpQXNoL1FWalpOTHpreWhjMStCSnB6ZkxzWDZzNzRlTEZPbTBTNm1vSk14eDVIRitjU3BWVnV5Q2o2MFJwR3hSM0Y4ZXJUZTBVbGVFWlBEVnZwdTZ0cldoUTRhWXdVQ29RQzQyN3lRZmNFK2hNYVNIMzFXNDVnQUgvNGluWEt1NVczdXRCVXE2SFVZWU95YXJzcDdYYUlNNHFVSE9qYzc1RlorZ29mWFRFUk9FczV3UXBhRDdRTFdLbEZLWmc4dkc3MFZVdXpaMC9uMmc3RnR5T2wvQTM4d2I5OWUzVW1RMjVESWphcXJEZkZNRmhhbjB4WUs3bGZwQnkxK3ZHQlpWQVdzRUdCS1NBaWdBdmFKS2l2d1hQQzliQUFWU3F2VkRDNjJKY1g1QkJlU3o5ODhXOHZhT1NGRWVTaldmTDJXalE1ditjcnBEZTRjZ2FPanRheFV2L0pFbHBOZ3JEL2pEUnFEZTJyeGtvTkZTcXpzQnZ1eXB0RytTOFdDK0ErZWx3Q1kxZmpxTU16TmpaTzQwa29pWldGMCtHa3pyVTZEaDBVZytDOHVPQ1hQck5Hb3laZTRiTHlYZWdWSHlOMXp5di91eDhkdmxjdndGdnVDZ3Z0SmRQa1poaC94TXZZbU1veVROUmREcGlZTndNVnlUZ25BNUhrclRGTytpRzlVV0VUQlg3NEVUaldqZFZZd0lTaHpIQTBDd2pVclhwWGxOZlkyTXV2UnQ2Ry9KcWR2MmwzRkU5dS9aRVgzTDZEQ1RqM2JwK0t2cDE3UW5MZExzQkdEdGZkcW1IRGszdEc4dlM3UXppVEF0ODl4cFhneHl4V1RjVXFHTkhXUUVNWDJTN1dIaVdKeGY2UitjeXFKMlcyRFp0bTBMVUh1NmgvNGluVEN5TURXZjlnTURZNUZjS1ZMc1ZaUWJCZGdMMjlieTVpbDhYTFo4VHV3TzQwMUswQWVvMG15eUNVMVNuN01kbXZ2Zz09IzAjOGRjOWZmMzFhNjgzOWQ4ZWJlZWQ2MWViZjE0ZTU3YTU%3D&SignatureNonce=7a3f657d-0b1b-4ddc-b389-baf8d3c416f0&Signature=DlTLAV4rCCpeG34rxa6WJflwp6g%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:18.536Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "body": "{\"ResultObject\":true,\"RequestId\":\"C2957C4B-8E8D-5B62-88AD-2C7DE3BD6EDA\",\"Code\":\"200\"}"
+    },
+    {
+      "at": "2026-05-21T15:39:18.539Z",
+      "type": "request",
+      "method": "GET",
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+      "postData": null
+    },
+    {
+      "at": "2026-05-21T15:39:18.539Z",
+      "type": "request",
+      "method": "GET",
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "postData": null
+    },
+    {
+      "at": "2026-05-21T15:39:18.547Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "body": null
+    },
+    {
+      "at": "2026-05-21T15:39:18.549Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "body": "{\"ResultObject\":true,\"RequestId\":\"D6D0CBDC-EA20-541B-BB07-C59DBF9F9858\",\"Code\":\"200\"}"
+    },
+    {
+      "at": "2026-05-21T15:39:18.549Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "body": "{\"CertifyId\":\"8gIlr4320E\",\"Message\":\"success\",\"RequestId\":\"AFFE6238-3BF6-44C9-868C-C1207B258CB4\",\"Code\":\"Success\",\"LimitFlow\":false,\"Success\":true,\"StaticPath\":\"3.25.1/sg.006.688a51c0f8283dcf\",\"CaptchaType\":\"SLIDING\"}"
+    },
+    {
+      "at": "2026-05-21T15:39:18.571Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tGjnK9uu9GbT9GQw72p&Version=2020-10-15&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Action=Log2&Data=0blQ85dGJrY0HYY8GlS4tTBVuksZpLI2N7miYiBeU9t%2Btt3hwY9tix%2BkeuSQdu6c776XRuAeqwha3HODfaa%2F7qO7WUnZK3k4MYZfHSl5UVBB6DkFEJo5YgU4NsPBLTwwt65xjGiLFR2%2BzGBB6lxfew9BcGY3yBEOwiOEo66ADmo22fJMsAKly6qNlNEZluGtAE6iabm5Lj%2BPyxMyr%2Bm0YjlwD%2BLyHrCZBAm%2Fl3amW7BWDqLoR5RwNw2sLZIYBR60zekrtqHeR%2Bf9CjaDmSxXhVyQZLk0o%2FSBTi7ms9ROASBfEOWPhYjxTgMNccsIa0cXDW6TymliU9xYbgbSbW9dZ5OHHmkrYr7z1SY2n%2Ffh7HwzvmyJBVjPeGMBpwJv7p2bkSs%2BCCQcuj5Ly5R7ANJXrtu9BZYNpF%2Fbr18GRPlK%2FHUqXcJBtzZd%2FplGt7zpqrHhgwjimr3dbPckPd6K2SKp8HsGUzUhWfNPxlIalNhXgZs%2B4cVpXrW9tWbxjuoPBATlE3gs8Wm5ske65B01Yza95W4CadIeXyURjE80CeqR57EjbcxF6XMKA%2FBN%2F8pedVzestIYqBCrgPjN1jbWFm9tKowvasZY2tTANv18BYP742B6Ddgj9geF%2FIUHW9sYoOEWgPQ2Vo%2BY3GOcxx3WxGfEEuIWOlXxEmoGFKAp4uCjetLhd68AgJy8bMB37t6vuDWQhWQk9XQk%2FECCNntS6P9y9cNis9ipH0311g3GZ6y0JbE0GNoYFJO%2BYkc4mGKvaqGV6OfbJnFEsYEKHSyNM7tWiVYFXvFHy%2FkWyQJjrz5W274v%2B956%2B15C8k7ZT%2BXkxQvoVxC5YPPOQhLEEhuulht%2Bl%2B%2F8KVc040y2Ky8HuYJyfQS91q%2FfJ1WyeYXB4esv6lhQJ0QD4cCxvHTmPU4Jksb4i0O%2BB0KA7x7kSMr9%2FPARSLOV1L5bOP7iGE8j6tu9F0nvZOoaoKIqTC9S4pprnEg5OfLQ5Ff%2B%2B56zc8bqiMfV9KoQ4I1y3pA65NfnnaXB5%2FsBrom9Ka0hJXDhW1oyaddfi4ChZA1TNQgVqMKKADtg6Q%2F2RBEAVhx7%2BqHzsZAOW2hzRN7YEqoWvGT2v%2BAaZPn%2BqGc%2BO6EMflPE6rOmCRgw3t9MRZ5YxsNlVPzp169HF%2BA%2BGOROtSn5f2LtE1SITjyhqTxlCyhyeZQuAP0%2BbVN%2BvByK25nQVpp0FrflU8zI4TmrzIrIlRYfWU45ZdRBGOpPL6XxIg9reT4UC4aOI4VPpHPH4upGKLYo%2F1U7SvqrFpONPKVE4OfCMwqV26nOZ%2FOkjC6JR7%2F9ng08ZMIm4MV30m7eo9H3W7Jta5%2ByCLBjrl9wzsltVl9%2BnbJ%2FZC48dPcO5FhSPboqlqt6FI50pfFkak%2BFgOrGfatpWJwMZCE7d7fy0w96rFBIqFaWVk%2FBrehIVD9Jtr0LctL7Ks8OoZhpoL0gAHWwmbhzpiq5XldrE3DiN4bH1aPqI2Y8xT8bkNoix538BWeLlGZCLIMe4TIOe7lf8QYynrtzMhiBhWE%2FpvLBcPuP7nIGv3Czk7HJkgOAw1yprqb961OaoQPoLy2s6chSfLE5O%2Fl%2B9s43JugKEPgEJ4hLIQdVTp0F3MjwgYHEjY8EP74OuphCE3Dwbew5Vcuf7OiKWPbCIrKgJYhpf4EwyHAcUAjgzgUnJdwS2wCVM8Vbs9%2F2aGuJceEz1n9NB%2BgzrdxrRzFIgVIJq6MWVoKQJHlG0D070oBi4rOkZuJEVmiKltocHcYHM06JP48eU8QSx43SW6%2BowlfDILK1wxeY%2FlW%2Bqy0QGbXcEmBpv4hL3%2FueNsUrdexu8JDflCV6FdRs9tfqFZU%2BwSCBKjReCkIcriJ30650IQOsF%2Bu%2FQjvxksdXQsdLN%2FpDCbenZVM4Byt5tINGx0cu6GCZ8AoaEvUASv7OqGJCm4YdtIX880uyaf8RJc1Hv06jTo3zuCyTE4qX7slLtaMi2BZhHqzYz2hMvOGkJq6SK29orITi7F6yloWCGh0VN6XZ0XFguTW%2BR%2B20kxrN2ceQ%2FNaldThpFycVm8dACsJF%2FYP5WjKnZBJ7eyBAIwnQVD7ZMtRrqo3FyB94cMRyX0gXtsHhV%2FLwzmvpGeldEL92uLJLZUzxLdWCCMvsCcfDOuutkexv36XU3069cbQu7ZY1QjqnjZLw%2Bcms86D5BhZ6pE2TJ%2FMrJJxLPfRCnFMAz%2BrGEhEwxnvwXfymc%2B5%2BIx4TooMu4Q8%2Bvv1n2T%2Fm3cHmuwQvpjDeLr%2BFSCruZFgXYBWIJWhnEwbSCddk11R5jTZ9XF6q76AzwAkfXdr3XPBcBV3FRTmZHngZHk2DubikEDNNgnHZtjX21gZb9b9GQSLJIdTMOY9GCfndIxRi2j1UxrHDk%2BfhKIyD0Bmr3N5oar2k9t94Hk%2F%2FMpmsSBYK9REYZ0sDLxUtl4wUCu4jEnrxYl1IQnmCxsaweXfOlm95ItFmyPMKOohD3pM8w1HrkAzyNKQH9GhwUX0Ti%2F74uhKayG36vGBrd%2BnHprVg3fDh6R20WqC0rCkKL%2FpW22DRiFFgFM4GjFGzyPfiJamvLp0SbVvm%2FMyWKjOY8PjHHxtl19dGPtoD9KGEgl4Rk3O1i%2Ffs4ZYRRibmTT8UjrASO4NTNsPiSHQ8dburTjTj7gdn3SrLOurdZfPeii2mv5i3rYeJu3nta5UTvwZVlJrJtnnGjh2etFzQ5jd%2BAEJsftAtfFg3HyvDee9vvb8oPVX1p3G1Vjo1b6dpzG%2BRiwZq%2FXMPWqhiATToGmTKWQ8KuDLy2qJVlWGhoJdBfBM3qw%2FzB7JAQzorKD9Jy34827PBnBx8RaX0pnN2BpsFY%2FN6EYwFIPD3hVEF%2FJUd39jR2wHkoxFPg0Jg4rqKj5DiJ%2BjQbCNg9q551I2nXIR1NZAniuqdUoShQ3thYIChUDO7ji35PRuao03nBoeHZyNhU0TxhNjFdQhOlHmB5k61ZvZhiSCExK%2FHuzqUd5NZ6WmYtMPYXMYIrf%2BtDpHTxAz0jCnVfkdHSKR4gmUt1gjpLNcqZELWyrvgYsx44Zd%2FgY2VCvZZ%2B%2Bjx%2FQIrdLC6ZeNCMesUcNMo%2FkAhH6YlTKuoGa0hQ%2FUHWutZdtxYr1%2FXv2Xlkd2puFd%2BSxyRr3G0wrf%2Bmzip%2BEaDltZXsp0n5jLq5iknIAyTABVYIkuaHeN38LQL5dJYwyIarLSYWbjmbpU3Mj27C0or2krG%2FMRRzXmJGiBlCi6FMvLc7iOtchsOFY%2BD2YCVF%2FyXegXpzk27kqujvF4vMmg8%2FRPUMg8%2FSRDBSviSbu7xqDjj%2FFfOgRMdyMO2cZLftpeKMTWa7O9UGhFXYMJFriLDOI0PWzeMHAbaHU1BeTvilmhkYZ5WpAbKW779z743rrVUTO%2FyH8iVntR31fS2yKdnyT466TAlknZhuY4NQklZ1suYkAvw%2FoMogPl1WgSlq%2F%2Bxvq%2B3Olk2enp4Es66ObVjwaTx%2FLCl3ROXntQjIfwGDcYUv%2FCFIstEzRiQI6JA1QDQpiIeEDGzynhIOCDP510OmZ685%2F49rHeq00NqO9m2fchSUyEhhdGPQNGOnwDotCJuN4EIdPK0lwifE1hVeWNmRqW3uls%2FES7WEOQ1d0lCt2wze7nSEBDAh%2BGhRpE5WKSesk%2Fs7rLYyKn69TPiuWaAEqGHhw29GmOni8VC1OsUZCVvIHCC4PdbCFuSxVQTrnWlFvAh0KMYFRF4lLnFta2C17VvJNKJ1hBs9UulUUqvXAPVQrOuSg8zX%2F%2FsIVIOiiYf8SzgCFI3mIo7jVVOyd30In6XtRXGwIAL5tQzehQSQ0Cip%2BxV5fVwHNq8HSYRdwtFD5FQCM47gOttgMVPolcgKUcrBciAhG0nfHXbiKU9AkFseV4IPun4i0%2BXo18KHG0jWCtE22nve5s3ls01WuBI5iX2nxx9WwsKVTTVFTBvo4LcLNzKCy98BqWx1FlgNE50xEqUZTmVd%2FdjhHtT8pIARZpZbqjhUj3y3zrU7notVmlXaFDINXHH9Sy1RG9bhM9mvoq3VCnwJWeBVSbrFLBFjo%2BSIgOqVV0%2FUwhlAAbHhALjFnSKkcSGa8ib6yVJ8ubTxOLuAzK5KV16Utj9RrI%2F6TABLFas%2BYfAovtB%2FJ2NG5GszYhLhiJnMnm9cUKUZZc0w9pJLXM9Kx3Lvr7wElW7v6Hti%2FCYWnFR0C3IYGAHB7lm4YekKsfyiDRQKLzUXZjxbwZCAe2SDj8J%2BqpN9RBmaNszjbNUKEa3LeNq5eY8FMqHZd7N25%2B316gx2NUdOM%2BtJTkFktCMK8TRhrPlj3SL1VoWnt%2FKuT1eM3qNN%2BS2Fcj8%2FNRk2vOxRYEMvPw9BzCX%2Bm4kOKZgsl0usUKIOsZTTsZSo%2FORsTucuBIlGcELTB4Y3kh7Ym5BjAhv7Bk8nGsihOBSVrsBCHugxZFbp5JF5NVJ2OLGN%2F5qc8hTK1FyPzgl8a698J37fHN38A%2Fpo62HtllsBDUotqGjd%2FmGWWIW3cYqbC7Vi0HVR8ikYtajQhl4xce9hsXTXVmNufFF7HQUIANjHOL0oLpzgm8kVMS0gQHKeP%2BWaaRTF6Y2CdgkZAMbxhPuudpc%2BKDhLdvAg1cJ9zyXvRCw3sRT2C1IP%2F3Pylt2yl6A10GmeMm42%2BODUkLEPBrMowC9kNKvQBW1Wi32nQt6cMnVUqihsBn8Tut2bZ97brZDQ5RinvHnX1BNiEnxrjw3RVmEb3GKTLctNHiwUkWIxSrVTT6fBRQUZGVRHHdrOaJGq0r7U4sDiev%2FrOVTaZyK241KWUz9SYHp%2B1X2Lsj9Qj4Qgajv1c51NCDsVwtWFnMfoPDpZrFBpwduEP51RxHmXNMN16ntQKbeqyhtZCOAVugeIak7EDzxrssSOBqDnowFiL6Zyu0w7jUyytKvbid0Iz9dWG4%3D&SignatureNonce=d0724e13-b1a5-40fa-8ff9-186ca31384dd&Signature=ewWlJI2kcEV6gw4Q5mxxdrolnkQ%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:18.670Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "body": "{\"ResultObject\":true,\"RequestId\":\"290B997A-6D63-5629-A31B-B99154BED68A\",\"Code\":\"200\"}"
+    },
+    {
+      "at": "2026-05-21T15:39:18.741Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.006.688a51c0f8283dcf.js",
+      "body": null
+    },
+    {
+      "at": "2026-05-21T15:39:18.868Z",
+      "type": "request",
+      "method": "POST",
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "postData": "AccessKeyId=LTAI5tSEBwYMwVKAQGpxmvTd&SignatureMethod=HMAC-SHA1&SignatureVersion=1.0&Format=JSON&Timestamp=2026-05-21T15%3A39%3A18Z&Version=2023-03-05&Action=UploadLog&log=%7B%22sId%22%3A%22m9m5hmjm%22%2C%22pfx%22%3A%22x0xnm7%22%2C%22mInit%22%3A%7B%22t%22%3A1779377958538%2C%22s%22%3Atrue%2C%22msg%22%3A%22INIT_SUCCESS%22%2C%22rt%22%3A164%7D%2C%22hst%22%3A%22captcha-open.aliyuncs.com%22%2C%22cId%22%3A%228gIlr4320E%22%2C%22js%22%3A%7B%22t%22%3A1779377958848%2C%22s%22%3Atrue%2C%22msg%22%3A%22DYNAMICJS_LOADED%22%2C%22rt%22%3A310%7D%2C%22rt%22%3A502%7D&SignatureNonce=c10de39e-56eb-4cec-8f98-a229129ca9fd&Signature=7Kl%2BoIiazGQ5aVkLPHWLVpvnz%2B4%3D"
+    },
+    {
+      "at": "2026-05-21T15:39:18.913Z",
+      "type": "response",
+      "status": 200,
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "body": "{\"Code\":\"Success\",\"Success\":true}"
+    }
+  ]
+}

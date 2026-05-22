@@ -27,6 +27,7 @@ export interface MonthRoomGroup {
   id: string
   label: string
   roomLabel: string
+  roomCategoryId?: string
   roomId: string
   typeCells: MonthCell[]
   roomCells: MonthCell[]
@@ -321,7 +322,7 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
         {
           roomCategoryId: 'room-category-sky',
           roomId: 'room-1206',
-          date: orderDate(9),
+          date: orderDate(3),
           guestName: '赵晨',
           channelName: '飞猪旅行',
           roomFee: 398,
@@ -334,7 +335,7 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
         {
           roomCategoryId: 'room-category-movie',
           roomId: 'room-706',
-          date: orderDate(5),
+          date: orderDate(3),
           guestName: '张张',
           channelName: '去哪儿旅行',
           roomFee: 218,
@@ -455,12 +456,13 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
       const roomId = pickString(room, ['roomId', 'id', 'roomInfoId', 'i']) || `${categoryId}-room-${roomIndex}`
       const roomLabel = pickString(room, ['roomName', 'name', 'label', 'title', 'n']) || `房间${roomIndex + 1}`
 
-      return {
-        id: `${categoryId}-${roomId}`,
-        label,
-        roomLabel,
-        roomId,
-        typeCells: columns.map((column, columnIndex) => buildTypeCell(categoryId, column.isoDate, columnIndex, inventoryRecords)),
+        return {
+          id: `${categoryId}-${roomId}`,
+          label,
+          roomCategoryId: categoryId,
+          roomLabel,
+          roomId,
+          typeCells: columns.map((column, columnIndex) => buildTypeCell(categoryId, column.isoDate, columnIndex, inventoryRecords)),
         roomCells: columns.map((column) =>
           buildRoomCell(categoryId, roomId, column.isoDate, orderRecords, orderArrangementRecords, blockRecords),
         ),
@@ -515,12 +517,15 @@ function buildRoomCell(
   const totalIncome = pickMoney(order, ['totalIncome', 'orderTotalIncome', 'totalAmount', 'income'], ['oep', 'otp'])
 
   return {
-    title: guest,
-    subtitle: channel,
-    amount: typeof amount === 'number' ? formatMoney(amount) : undefined,
-    totalIncome: typeof totalIncome === 'number' ? formatMoney(totalIncome) : undefined,
-    liveStatus: pickString(order, ['liveStatus', 'liveStatusName', 'statusName', 'roomStatusName', 'liveName', 'lsn']) ?? inferLiveStatus(order),
-    stayRange: pickString(order, ['stayRange', 'dateRange', 'checkInOutDate']) ?? formatStayRange(order),
+      title: guest,
+      subtitle: channel,
+      amount: typeof amount === 'number' ? formatMoney(amount) : undefined,
+      totalIncome: typeof totalIncome === 'number' ? formatMoney(totalIncome) : undefined,
+      liveStatus:
+        pickString(order, ['liveStatusName', 'statusName', 'roomStatusName', 'liveName', 'lsn']) ??
+        inferLiveStatus(order) ??
+        pickString(order, ['liveStatus']),
+      stayRange: pickString(order, ['stayRange', 'dateRange', 'checkInOutDate']) ?? formatStayRange(order),
     phone: pickString(order, ['phone', 'mobile', 'contactPhone', 'gm']),
     remark: pickString(order, ['remark', 'orderRemark', 'rmk']),
     orderId: pickString(order, ['orderId', 'id', 'orderNo', 'oi', 'odi']),

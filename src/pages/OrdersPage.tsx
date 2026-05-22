@@ -28,7 +28,7 @@ const quickFilters = [
   '异常订单',
 ]
 
-const columns = [
+const houseBaseColumns = [
   '订单号',
   '渠道',
   '订单状态',
@@ -49,13 +49,9 @@ const columns = [
   '订单欠款',
   '预订时间',
   '渠道单号',
-  '操作',
-  '占库存',
-  '已排房',
-  '计入统计',
 ]
 
-const longRentalColumns = [
+const longRentalBaseColumns = [
   '订单号',
   '渠道',
   '租客姓名',
@@ -76,11 +72,10 @@ const longRentalColumns = [
   '缴费方式',
   '缴费时间',
   '预订时间',
-  '操作',
-  '占库存',
-  '已排房',
-  '计入统计',
 ]
+
+const collapsedTrailingColumns = ['操作']
+const expandedTrailingColumns = ['操作', '占库存', '已排房', '计入统计']
 
 const longRentalAdvancedFilters = [
   ['日期类型', '请选择日期类型'],
@@ -112,6 +107,92 @@ function formatDateRange(order: OrderRow) {
 
 function formatLongContractTime(order: LongRentalOrderRow) {
   return `${order.contractStart} 至 ${order.contractEnd}`
+}
+
+type OrderFlagKind = 'stock' | 'room' | 'plan'
+
+function resolveOrderFlagState(kind: OrderFlagKind, value: string | undefined, fallbackState = false) {
+  const normalized = value?.trim().toLowerCase() ?? ''
+
+  if (['1', 'true', 'yes', '是', '√', '✓', '占库存', '已排房', '计入统计'].includes(normalized)) {
+    return true
+  }
+
+  if (['0', 'false', 'no', '否', '×', '✕', '未排房', '不占库存', '不计入统计'].includes(normalized)) {
+    return false
+  }
+
+  if (kind === 'room' && normalized === '-') {
+    return false
+  }
+
+  return fallbackState
+}
+
+function renderOrderFlagIndicator(kind: OrderFlagKind, value: string | undefined, fallbackState = false) {
+  const enabled = resolveOrderFlagState(kind, value, fallbackState)
+
+  return (
+    <span className={`order-flag-indicator ${enabled ? 'is-positive' : 'is-negative'}`} aria-label={enabled ? '是' : '否'}>
+      {enabled ? '√' : '×'}
+    </span>
+  )
+}
+
+function resolveVisibleColumns(baseColumns: string[], expanded: boolean) {
+  return [...baseColumns, ...(expanded ? expandedTrailingColumns : collapsedTrailingColumns)]
+}
+
+function resolveFixedColumnClassName(column: string) {
+  if (column === '操作') return 'order-action-head order-action-head--edge'
+  if (column === '占库存') return 'order-fixed-flag-head order-fixed-flag-head--stock'
+  if (column === '已排房') return 'order-fixed-flag-head order-fixed-flag-head--room'
+  if (column === '计入统计') return 'order-fixed-flag-head order-fixed-flag-head--plan'
+  return undefined
+}
+
+function OrderColumnToggle({
+  expanded,
+  onToggle,
+}: {
+  expanded: boolean
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className={`order-column-toggle ${expanded ? 'is-expanded' : ''}`}
+      aria-label={expanded ? '隐藏操作列' : '显示操作列'}
+      data-testid="order-column-toggle"
+      onClick={onToggle}
+    >
+      <span className="order-column-toggle__icon" aria-hidden="true">
+        {expanded ? '‹' : '›'}
+      </span>
+      <span>{expanded ? '收起' : '展开'}</span>
+    </button>
+  )
+}
+
+function renderOrderColumnHeader(column: string, expanded: boolean, onToggle: () => void) {
+  if (column === '操作') {
+    return (
+      <div key={column} role="columnheader" className={resolveFixedColumnClassName(column)}>
+        <span>操作</span>
+        <OrderColumnToggle expanded={expanded} onToggle={onToggle} />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      key={column}
+      role="columnheader"
+      className={resolveFixedColumnClassName(column)}
+    >
+      {column}
+    </div>
+  )
 }
 
 function OrderDetail({
@@ -451,7 +532,8 @@ function LongRentalOrderDetail({
 
 function LongRentalOrdersPage() {
   const [activeFilter, setActiveFilter] = useState('全部')
-  const [expanded, setExpanded] = useState(false)
+  const [filtersExpanded, setFiltersExpanded] = useState(false)
+  const [columnsExpanded, setColumnsExpanded] = useState(false)
   const [keyword, setKeyword] = useState('')
   const [appliedKeyword, setAppliedKeyword] = useState('')
   const [dateType, setDateType] = useState('')
@@ -539,7 +621,8 @@ function LongRentalOrdersPage() {
     setKeyword('')
     setAppliedKeyword('')
     setActiveFilter('全部')
-    setExpanded(false)
+    setFiltersExpanded(false)
+    setColumnsExpanded(false)
     setDateType('')
     setOrderStatus('')
     setChannel('')
@@ -563,6 +646,8 @@ function LongRentalOrdersPage() {
   }, [])
 
   const requestSummary = `orderType=${orderType || 'all'} keyword=${appliedKeyword || 'all'} dateType=${dateType || 'all'}`
+  const visibleColumns = useMemo(() => resolveVisibleColumns(longRentalBaseColumns, columnsExpanded), [columnsExpanded])
+  const tableClassName = `order-table order-table--long-rental ${columnsExpanded ? 'is-columns-expanded' : 'is-columns-collapsed'}`
 
   return (
     <div className="page-stack order-page order-page--long-rental">
@@ -612,8 +697,13 @@ function LongRentalOrdersPage() {
             <button type="button" className="order-primary-action" onClick={handleQuery} disabled={isLoading}>
               查询
             </button>
-            <button type="button" className="order-link-action" onClick={() => setExpanded((value) => !value)}>
-              {expanded ? '收起' : '展开'}
+            <button
+              type="button"
+              className="order-link-action"
+              data-testid="order-filter-toggle"
+              onClick={() => setFiltersExpanded((value) => !value)}
+            >
+              {filtersExpanded ? '收起' : '展开'}
             </button>
             <button
               type="button"
@@ -651,7 +741,7 @@ function LongRentalOrdersPage() {
           </div>
         </div>
 
-        {expanded ? (
+        {filtersExpanded ? (
           <div className="order-advanced-filters order-advanced-filters--long-rental">
             <LongRentalSelect label="日期类型" placeholder="请选择日期类型" value={dateType} options={options?.dateTypes ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('日期类型', value, setDateType)} />
             <LongRentalSelect label="订单状态" placeholder="请选择订单状态" value={orderStatus} options={options?.orderStatuses ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单状态', value, setOrderStatus)} />
@@ -676,17 +766,9 @@ function LongRentalOrdersPage() {
 
       <section className="order-table-card">
         <div className="order-table-scroll">
-          <div className="order-table" role="table" aria-label="长租订单列表">
+          <div className={tableClassName} role="table" aria-label="长租订单列表">
             <div className="order-table__head" role="row">
-              {longRentalColumns.map((column) => (
-                <div
-                  key={column}
-                  role="columnheader"
-                  className={column === '操作' ? 'order-action-head' : undefined}
-                >
-                  {column}
-                </div>
-              ))}
+              {visibleColumns.map((column) => renderOrderColumnHeader(column, columnsExpanded, () => setColumnsExpanded((value) => !value)))}
             </div>
             {isLoading ? (
               <div className="order-table__empty" role="row">
@@ -724,14 +806,24 @@ function LongRentalOrdersPage() {
                 <div role="cell">{order.paymentMethod}</div>
                 <div role="cell">{order.paymentDate}</div>
                 <div role="cell">{order.bookedAt}</div>
-                <div role="cell" className="order-action-cell">
+                <div role="cell" className="order-action-cell order-action-cell--edge">
                   <button type="button" onClick={() => setSelectedOrder(order)}>
                     详情
                   </button>
                 </div>
-                <div role="cell">{order.stockFlag || '1'}</div>
-                <div role="cell">{order.roomFlag}</div>
-                <div role="cell">{order.planFlag}</div>
+                {columnsExpanded ? (
+                  <>
+                    <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--stock">
+                      {renderOrderFlagIndicator('stock', order.stockFlag)}
+                    </div>
+                    <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--room">
+                      {renderOrderFlagIndicator('room', order.roomFlag, order.room !== '-')}
+                    </div>
+                    <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--plan">
+                      {renderOrderFlagIndicator('plan', order.planFlag)}
+                    </div>
+                  </>
+                ) : null}
               </div>
             )) : null}
             {!isLoading && !requestError && orders.length === 0 ? (
@@ -861,7 +953,8 @@ const orderTypeByFilter: Record<string, string> = {
 
 function HouseOrdersPage() {
   const [activeFilter, setActiveFilter] = useState('全部')
-  const [expanded, setExpanded] = useState(false)
+  const [filtersExpanded, setFiltersExpanded] = useState(false)
+  const [columnsExpanded, setColumnsExpanded] = useState(false)
   const [keyword, setKeyword] = useState('')
   const [selectedOrder, setSelectedOrder] = useState<OrderRow | null>(null)
   const [data, setData] = useState<HouseOrderData | null>(null)
@@ -930,7 +1023,8 @@ function HouseOrdersPage() {
   const handleReset = useCallback(() => {
     setKeyword('')
     setActiveFilter('全部')
-    setExpanded(false)
+    setFiltersExpanded(false)
+    setColumnsExpanded(false)
     setActionMessage('筛选条件已重置，正在重新请求住宿订单。')
     setRequestRevision((value) => value + 1)
   }, [])
@@ -955,6 +1049,8 @@ function HouseOrdersPage() {
     : isLoading
       ? '正在请求住宿订单数据服务'
       : '等待住宿订单请求结果'
+  const visibleColumns = useMemo(() => resolveVisibleColumns(houseBaseColumns, columnsExpanded), [columnsExpanded])
+  const tableClassName = `order-table order-table--house ${columnsExpanded ? 'is-columns-expanded' : 'is-columns-collapsed'}`
 
   return (
     <div className="page-stack order-page">
@@ -985,8 +1081,13 @@ function HouseOrdersPage() {
             aria-label="住宿订单关键词"
           />
           <div className="order-filter-actions">
-            <button type="button" className="order-link-action" onClick={() => setExpanded((value) => !value)}>
-              {expanded ? '收起' : '展开'}
+            <button
+              type="button"
+              className="order-link-action"
+              data-testid="order-filter-toggle"
+              onClick={() => setFiltersExpanded((value) => !value)}
+            >
+              {filtersExpanded ? '收起' : '展开'}
             </button>
             <button type="button" className="order-outline-action" onClick={handleReset} disabled={isLoading}>
               重置筛选
@@ -1000,7 +1101,7 @@ function HouseOrdersPage() {
           </div>
         </div>
 
-        {expanded ? (
+        {filtersExpanded ? (
           <div className="order-advanced-filters">
             <label>
               <span>订单状态</span>
@@ -1053,17 +1154,9 @@ function HouseOrdersPage() {
 
       <section className="order-table-card" aria-busy={isLoading}>
         <div className="order-table-scroll">
-          <div className="order-table" role="table" aria-label="住宿订单列表">
+          <div className={tableClassName} role="table" aria-label="住宿订单列表">
             <div className="order-table__head" role="row">
-              {columns.map((column) => (
-                <div
-                  key={column}
-                  role="columnheader"
-                  className={column === '操作' ? 'order-action-head' : undefined}
-                >
-                  {column}
-                </div>
-              ))}
+              {visibleColumns.map((column) => renderOrderColumnHeader(column, columnsExpanded, () => setColumnsExpanded((value) => !value)))}
             </div>
             {isLoading ? (
               <div className="order-table__empty" role="row">
@@ -1110,7 +1203,7 @@ function HouseOrdersPage() {
                     <div role="cell">{order.debt}</div>
                     <div role="cell">{order.bookedAt}</div>
                     <div role="cell">{order.channelOrderNo}</div>
-                    <div role="cell" className="order-action-cell">
+                    <div role="cell" className="order-action-cell order-action-cell--edge">
                       {order.needsRoomAssignment ? (
                         <button type="button" onClick={() => handleBlockedAction('排房')}>
                           排房
@@ -1120,9 +1213,19 @@ function HouseOrdersPage() {
                         详情
                       </button>
                     </div>
-                    <div role="cell">{order.stockFlag}</div>
-                    <div role="cell">{order.roomFlag}</div>
-                    <div role="cell">{order.planFlag}</div>
+                    {columnsExpanded ? (
+                      <>
+                        <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--stock">
+                          {renderOrderFlagIndicator('stock', order.stockFlag)}
+                        </div>
+                        <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--room">
+                          {renderOrderFlagIndicator('room', order.roomFlag, !order.needsRoomAssignment)}
+                        </div>
+                        <div role="cell" className="order-fixed-flag-cell order-fixed-flag-cell--plan">
+                          {renderOrderFlagIndicator('plan', order.planFlag)}
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 ))
               : null}

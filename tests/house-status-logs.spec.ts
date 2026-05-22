@@ -59,7 +59,7 @@ test('/houseManage/logs/status sends captured real endpoint params and renders r
   await page.getByLabel('日志关键词').fill('总裁')
   await page.getByLabel('调整方式').selectOption({ label: '系统调整' })
   await page.getByLabel('操作渠道').selectOption({ label: '途家' })
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
 
   await expect(page.getByRole('status')).toContainText('已加载 1 条房态日志')
   await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('总裁套间')
@@ -86,7 +86,7 @@ test('/houseManage/logs/status uses explicit mock provider by default', async ({
   })
 
   await page.goto(appUrl('/houseManage/logs/status'))
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
 
   await expect(page.getByRole('status')).toContainText('已加载 2 条房态日志')
   await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('总裁套间')
@@ -94,15 +94,33 @@ test('/houseManage/logs/status uses explicit mock provider by default', async ({
   expect(realRequestCount).toBe(0)
 })
 
+test('/houseManage/logs/status exposes operation date as date inputs when expanded', async ({ page }) => {
+  await page.goto(appUrl('/houseManage/logs/status'))
+  await page.getByRole('button', { name: /展开/ }).click()
+
+  const operationDateGroup = page.locator('.status-log-range--date')
+  const startInput = operationDateGroup.locator('input').first()
+  const endInput = operationDateGroup.locator('input').nth(1)
+
+  await expect(operationDateGroup).toBeVisible()
+  await expect(startInput).toHaveAttribute('type', 'date')
+  await expect(endInput).toHaveAttribute('type', 'date')
+
+  await startInput.fill('2026-05-13')
+  await endInput.fill('2026-05-18')
+  await expect(startInput).toHaveValue('2026-05-13')
+  await expect(endInput).toHaveValue('2026-05-18')
+})
+
 test('/houseManage/logs/status mock provider exposes empty and error states', async ({ page }) => {
   await page.goto(appUrl('/houseManage/logs/status?mockScenario=empty'))
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
   await expect(page.getByRole('status')).toContainText('暂无符合条件的房态日志')
   await expect(page.getByText('暂无数据')).toBeVisible()
   await expect(page.getByText('mock 接口')).toHaveCount(0)
 
   await page.goto(appUrl('/houseManage/logs/status?mockScenario=error'))
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
   await expect(page.getByRole('alert')).toContainText('房态日志服务暂不可用，请稍后重试')
   await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
   await expect(page.getByText('mock 接口')).toHaveCount(0)
@@ -121,12 +139,12 @@ test('/houseManage/logs/status exposes missing context and real request failures
   })
 
   await page.goto(appUrl('/houseManage/logs/status'))
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
   await expect(page.getByRole('alert')).toContainText('缺少门店上下文，无法查询房态日志')
   expect(requestCount).toBe(0)
 
   await page.goto(appUrl('/houseManage/logs/status?campId=1796067693589061634'))
-  await page.getByRole('button', { name: '查 询' }).click()
+  await page.getByRole('button', { name: '查询' }).click()
   await expect(page.getByRole('alert')).toContainText('房态日志查询暂时失败，请稍后重试')
   await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
   expect(requestCount).toBe(1)

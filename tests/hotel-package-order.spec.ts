@@ -40,11 +40,13 @@ test('/mallManagement/hotelPackageOrder uses explicit mock provider response pac
   )
   await expect(page.getByLabel('酒店套餐订单表格')).toContainText('总裁套间双晚套餐')
   await expect(page.getByLabel('酒店套餐订单表格')).toContainText('13800001234')
+  await expect(page.getByLabel('酒店套餐订单表格')).toContainText('电竞麻将房三小时套餐')
+  await expect(page.getByRole('button', { name: '下一页' })).toBeDisabled()
   await expect(page.locator('.hotel-package-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
   expect(hudsonRequests).toEqual([])
 })
 
-test('/mallManagement/hotelPackageOrder supports filters, refresh, export, detail and pagination feedback', async ({ page }) => {
+test('/mallManagement/hotelPackageOrder supports filters, refresh, export and detail feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/mallManagement/hotelPackageOrder'))
 
@@ -68,13 +70,19 @@ test('/mallManagement/hotelPackageOrder supports filters, refresh, export, detai
   await expect(page.getByRole('dialog', { name: '酒店套餐订单详情' })).toContainText('总裁套间双晚套餐')
   await page.getByRole('button', { name: '关闭详情' }).click()
 
-  await page.getByRole('button', { name: '下一页' }).click()
-  await expect(page.getByLabel('酒店套餐订单分页')).toContainText('第 2 页')
-  await expect(page.getByRole('status', { name: '酒店套餐订单操作反馈' })).toContainText('已切换到第 2 页')
-
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByRole('button', { name: '订单来源 请选择订单来源' })).toBeVisible()
   await expect(page.getByPlaceholder('请输入订单编号/买家联系方式')).toHaveValue('')
+})
+
+test('/mallManagement/hotelPackageOrder still supports explicit smaller page sizes', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/mallManagement/hotelPackageOrder?pageSize=2'))
+
+  await expect(page.getByRole('button', { name: '下一页' })).toBeEnabled()
+  await page.getByRole('button', { name: '下一页' }).click()
+  await expect(page.getByLabel('酒店套餐订单分页')).toContainText('第 2 页')
+  await expect(page.getByRole('status', { name: '酒店套餐订单操作反馈' })).toContainText('已切换到第 2 页')
 })
 
 test('/mallManagement/hotelPackageOrder supports mock empty and error states with business copy', async ({ page }) => {

@@ -8,6 +8,7 @@ import {
   getHotelPackageOrderMockState,
   loadHotelPackageOrderData,
   readInitialHotelPackageOrderFilters,
+  HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE,
 } from '../services/hotelPackageOrder'
 import './PresaleOrderPage.css'
 
@@ -21,7 +22,7 @@ const defaultFilters: HotelPackageOrderFilters = {
   startDate: '',
   endDate: '',
   pageNum: 1,
-  pageSize: 2,
+  pageSize: HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE,
 }
 
 const fallbackOptions: HotelPackageOrderData['options'] = {
@@ -56,7 +57,7 @@ export function HotelPackageOrderPage() {
   const [selectedRow, setSelectedRow] = useState<HotelPackageOrderRow | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('首屏数据加载中')
+  const [notice, setNotice] = useState('')
   const initialFiltersRef = useRef(filters)
 
   const optionsByFilter = useMemo<Record<FilterKey, HotelPackageOrderOption[]>>(
@@ -77,17 +78,17 @@ export function HotelPackageOrderPage() {
   async function requestOrders(nextFilters: HotelPackageOrderFilters, signal?: AbortSignal, reason = '搜索') {
     setLoading(true)
     setError('')
-    setNotice(`${reason}中`)
+    setNotice(reason === '首屏加载' ? '' : `${reason}中`)
     const result = await loadHotelPackageOrderData(nextFilters, {
       signal,
       mockState: getHotelPackageOrderMockState(),
     })
     if (result.ok) {
       setData(result.data)
-      setNotice(`${reason}完成，当前展示 ${result.data.rows.length} 条，共 ${result.data.pagination.total} 条`)
+      setNotice(reason === '首屏加载' ? '' : `${reason}完成，当前展示 ${result.data.rows.length} 条，共 ${result.data.pagination.total} 条`)
     } else {
       setError(result.message)
-      setNotice(`${reason}失败，可调整条件后重试`)
+      setNotice(reason === '首屏加载' ? '' : `${reason}失败，可调整条件后重试`)
     }
     setLoading(false)
   }
@@ -128,8 +129,6 @@ export function HotelPackageOrderPage() {
     setNotice(`导出任务已创建，范围为第 ${filters.pageNum} 页、${data?.pagination.total ?? 0} 条订单`)
   }
 
-  const currentFilter = openFilter
-  const currentOptions = currentFilter ? optionsByFilter[currentFilter] : []
   const requestPreview = data?.requestBody ?? createHotelPackageOrderRequestBody(filters)
   const hasNextPage = Boolean(data && filters.pageNum * filters.pageSize < data.pagination.total)
 
@@ -156,6 +155,7 @@ export function HotelPackageOrderPage() {
             options={optionsByFilter.orderState}
             isOpen={openFilter === 'orderState'}
             onToggle={() => setOpenFilter(openFilter === 'orderState' ? null : 'orderState')}
+            onSelect={(option) => chooseFilter('orderState', option)}
           />
           <FilterSelect
             filterKey="source"
@@ -165,6 +165,7 @@ export function HotelPackageOrderPage() {
             options={optionsByFilter.source}
             isOpen={openFilter === 'source'}
             onToggle={() => setOpenFilter(openFilter === 'source' ? null : 'source')}
+            onSelect={(option) => chooseFilter('source', option)}
           />
           <div className="presale-order-field presale-order-date" role="group" aria-label="下单时间">
             <span>下单时间</span>
@@ -203,24 +204,9 @@ export function HotelPackageOrderPage() {
             options={optionsByFilter.afterSale}
             isOpen={openFilter === 'afterSale'}
             onToggle={() => setOpenFilter(openFilter === 'afterSale' ? null : 'afterSale')}
+            onSelect={(option) => chooseFilter('afterSale', option)}
           />
         </div>
-
-        {currentFilter ? (
-          <div className="presale-order-options" role="listbox" aria-label={`${labelForFilter(currentFilter)}选项`}>
-            {currentOptions.map((option) => (
-              <button
-                key={`${currentFilter}-${option.value}`}
-                type="button"
-                role="option"
-                aria-selected={filters[currentFilter] === option.value}
-                onClick={() => chooseFilter(currentFilter, option)}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
 
         <div className="presale-order-actions">
           <button type="button" onClick={resetFilters} disabled={loading}>
@@ -241,9 +227,11 @@ export function HotelPackageOrderPage() {
         </button>
       </div>
 
-      <div className="presale-order-notice" role="status" aria-label="酒店套餐订单操作反馈">
-        {notice}
-      </div>
+      {notice ? (
+        <div className="presale-order-notice" role="status" aria-label="酒店套餐订单操作反馈">
+          {notice}
+        </div>
+      ) : null}
       {error ? (
         <div className="presale-order-alert" role="alert">
           {error}
@@ -367,6 +355,7 @@ function FilterSelect({
   options,
   isOpen,
   onToggle,
+  onSelect,
 }: {
   filterKey: FilterKey
   label: string
@@ -375,6 +364,7 @@ function FilterSelect({
   options: HotelPackageOrderOption[]
   isOpen: boolean
   onToggle: () => void
+  onSelect: (option: HotelPackageOrderOption) => void
 }) {
   const selected = options.find((option) => option.value === value)
   const displayValue = selected?.label ?? placeholder
@@ -382,17 +372,34 @@ function FilterSelect({
   return (
     <label className="presale-order-field">
       <span>{label}</span>
-      <button
-        type="button"
-        className="presale-order-select"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-label={`${label} ${displayValue}`}
-        data-filter={filterKey}
-        onClick={onToggle}
-      >
-        {displayValue}
-      </button>
+      <div className="presale-order-select-wrap">
+        <button
+          type="button"
+          className="presale-order-select"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-label={`${label} ${displayValue}`}
+          data-filter={filterKey}
+          onClick={onToggle}
+        >
+          {displayValue}
+        </button>
+        {isOpen ? (
+          <div className="presale-order-options" role="listbox" aria-label={`${label}閫夐」`}>
+            {options.map((option) => (
+              <button
+                key={`${filterKey}-${option.value}`}
+                type="button"
+                role="option"
+                aria-selected={value === option.value}
+                onClick={() => onSelect(option)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </label>
   )
 }

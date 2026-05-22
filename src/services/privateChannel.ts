@@ -98,6 +98,7 @@ const successData: PrivateChannelData = {
       actionText: '订阅开通',
       accent: 'green',
       description: '搭建自有预订入口，沉淀门店私域流量',
+      targetPath: '/version/applicationPayment',
     },
   ],
   enterprise: {

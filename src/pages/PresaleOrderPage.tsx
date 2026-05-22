@@ -78,7 +78,7 @@ export function PresaleOrderPage() {
   const [data, setData] = useState<PresaleOrderData | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('正在加载预售券订单')
+  const [notice, setNotice] = useState('')
   const [selectedOrder, setSelectedOrder] = useState<PresaleOrderRow | null>(null)
   const [serviceContract, setServiceContract] = useState({
     provider: '',
@@ -108,7 +108,7 @@ export function PresaleOrderPage() {
   async function requestOrders(nextFilters: PresaleOrderFilters, signal?: AbortSignal, reason = '查询') {
     setLoading(true)
     setError('')
-    setNotice(`${reason}中`)
+    setNotice(reason === '首屏加载' ? '' : `${reason}中`)
 
     try {
       const result = await loadPresaleOrderData(nextFilters, signal)
@@ -119,7 +119,7 @@ export function PresaleOrderPage() {
           responseState: result.data.responseState,
           traceId: result.data.traceId,
         })
-        setNotice(`${reason}完成：展示 ${result.data.rows.length} 条订单`)
+        setNotice(reason === '首屏加载' ? '' : `${reason}完成：展示 ${result.data.rows.length} 条订单`)
       } else {
         setServiceContract({
           provider: result.providerName,
@@ -174,8 +174,6 @@ export function PresaleOrderPage() {
     navigate(path)
   }
 
-  const currentFilter = openFilter
-  const currentOptions = currentFilter ? optionsByFilter[currentFilter] : []
   const requestPreview = createPresaleOrderRequestBody(filters, data?.campId ?? filters.campId ?? '待获取')
 
   return (
@@ -200,6 +198,7 @@ export function PresaleOrderPage() {
             options={orderStateOptions}
             isOpen={openFilter === 'orderState'}
             onToggle={() => setOpenFilter(openFilter === 'orderState' ? null : 'orderState')}
+            onSelect={(option) => chooseFilter('orderState', option)}
           />
           <FilterSelect
             filterKey="productType"
@@ -209,6 +208,7 @@ export function PresaleOrderPage() {
             options={productTypeOptions}
             isOpen={openFilter === 'productType'}
             onToggle={() => setOpenFilter(openFilter === 'productType' ? null : 'productType')}
+            onSelect={(option) => chooseFilter('productType', option)}
           />
           <FilterSelect
             filterKey="source"
@@ -218,6 +218,7 @@ export function PresaleOrderPage() {
             options={optionsByFilter.source}
             isOpen={openFilter === 'source'}
             onToggle={() => setOpenFilter(openFilter === 'source' ? null : 'source')}
+            onSelect={(option) => chooseFilter('source', option)}
           />
           <FilterSelect
             filterKey="category"
@@ -227,6 +228,7 @@ export function PresaleOrderPage() {
             options={optionsByFilter.category}
             isOpen={openFilter === 'category'}
             onToggle={() => setOpenFilter(openFilter === 'category' ? null : 'category')}
+            onSelect={(option) => chooseFilter('category', option)}
           />
           <FilterSelect
             filterKey="payment"
@@ -236,6 +238,7 @@ export function PresaleOrderPage() {
             options={optionsByFilter.payment}
             isOpen={openFilter === 'payment'}
             onToggle={() => setOpenFilter(openFilter === 'payment' ? null : 'payment')}
+            onSelect={(option) => chooseFilter('payment', option)}
           />
           <div className="presale-order-field presale-order-date" role="group" aria-label="下单时间">
             <span>下单时间</span>
@@ -274,28 +277,10 @@ export function PresaleOrderPage() {
             options={afterSaleOptions}
             isOpen={openFilter === 'afterSale'}
             onToggle={() => setOpenFilter(openFilter === 'afterSale' ? null : 'afterSale')}
+            onSelect={(option) => chooseFilter('afterSale', option)}
+            emptyText="鏆傛棤鍙€夐」"
           />
         </div>
-
-        {currentFilter ? (
-          <div className="presale-order-options" role="listbox" aria-label={`${labelForFilter(currentFilter)}选项`}>
-            {currentOptions.length ? (
-              currentOptions.map((option) => (
-                <button
-                  key={`${currentFilter}-${option.value}`}
-                  type="button"
-                  role="option"
-                  aria-selected={filters[currentFilter] === option.value}
-                  onClick={() => chooseFilter(currentFilter, option)}
-                >
-                  {option.label}
-                </button>
-              ))
-            ) : (
-              <span className="presale-order-options__empty">暂无可选项</span>
-            )}
-          </div>
-        ) : null}
 
         <div className="presale-order-actions">
           <button type="button" onClick={resetFilters} disabled={loading}>
@@ -320,14 +305,16 @@ export function PresaleOrderPage() {
         ))}
       </section>
 
-      <section className="presale-order-source" aria-label="预售券数据加载">
-        <div>
-          <strong>{loading ? '订单加载中' : error ? '加载失败' : '订单数据'}</strong>
-          <span role={error ? 'alert' : 'status'} aria-label="预售券订单操作反馈">
-            {error || notice}
-          </span>
-        </div>
-      </section>
+      {error || notice ? (
+        <section className="presale-order-source" aria-label="预售券数据加载">
+          <div>
+            <strong>{loading ? '订单加载中' : error ? '加载失败' : '订单数据'}</strong>
+            <span role={error ? 'alert' : 'status'} aria-label="预售券订单操作反馈">
+              {error || notice}
+            </span>
+          </div>
+        </section>
+      ) : null}
 
       <div className="presale-order-toolbar" aria-label="预售券订单快捷操作">
         <button type="button" onClick={handleExport}>
@@ -475,6 +462,8 @@ function FilterSelect({
   options,
   isOpen,
   onToggle,
+  onSelect,
+  emptyText = '鏆傛棤鍙€夐」',
 }: {
   filterKey: FilterKey
   label: string
@@ -483,6 +472,8 @@ function FilterSelect({
   options: SelectOption[]
   isOpen: boolean
   onToggle: () => void
+  onSelect: (option: SelectOption) => void
+  emptyText?: string
 }) {
   const selected = options.find((option) => option.value === value)
   const displayValue = selected?.label ?? placeholder
@@ -490,17 +481,38 @@ function FilterSelect({
   return (
     <label className="presale-order-field">
       <span>{label}</span>
-      <button
-        type="button"
-        className="presale-order-select"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-label={`${label} ${displayValue}`}
-        data-filter={filterKey}
-        onClick={onToggle}
-      >
-        {displayValue}
-      </button>
+      <div className="presale-order-select-wrap">
+        <button
+          type="button"
+          className="presale-order-select"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-label={`${label} ${displayValue}`}
+          data-filter={filterKey}
+          onClick={onToggle}
+        >
+          {displayValue}
+        </button>
+        {isOpen ? (
+          <div className="presale-order-options" role="listbox" aria-label={`${label}閫夐」`}>
+            {options.length ? (
+              options.map((option) => (
+                <button
+                  key={`${filterKey}-${option.value}`}
+                  type="button"
+                  role="option"
+                  aria-selected={value === option.value}
+                  onClick={() => onSelect(option)}
+                >
+                  {option.label}
+                </button>
+              ))
+            ) : (
+              <span className="presale-order-options__empty">{emptyText}</span>
+            )}
+          </div>
+        ) : null}
+      </div>
     </label>
   )
 }

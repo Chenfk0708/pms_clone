@@ -14,6 +14,7 @@ import {
 import './PresaleGoodsPage.css'
 
 type FilterKey = 'channelId' | 'ticketType' | 'categoryId' | 'shelfStatus'
+type OpenMenuKey = FilterKey | 'store'
 type EditStep = 1 | 2
 
 const filterMeta: Array<{ key: FilterKey; label: string; placeholder: string; optionKey: keyof PresaleGoodsData['options'] }> = [
@@ -48,7 +49,7 @@ function PresaleGoodsListPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const scenario = readScenario(location.search)
-  const [openFilter, setOpenFilter] = useState<FilterKey | null>(null)
+  const [openFilter, setOpenFilter] = useState<OpenMenuKey | null>(null)
   const [filters, setFilters] = useState<PresaleGoodsFilters>(defaultPresaleGoodsFilters)
   const [draftKeyword, setDraftKeyword] = useState('')
   const [data, setData] = useState<PresaleGoodsData | null>(null)
@@ -82,8 +83,13 @@ function PresaleGoodsListPage() {
   }, [filters, scenario, reloadKey])
 
   const selectedStore = data?.options.stores.find((store) => store.value === filters.poiId)
-  const currentFilter = openFilter ? filterMeta.find((filter) => filter.key === openFilter) : null
-  const currentOptions = currentFilter && data ? data.options[currentFilter.optionKey] : []
+  const defaultStore = data?.options.stores.find((store) => store.value) ?? data?.options.stores[0]
+  const realStoreOptions = data?.options.stores ?? []
+  const canSwitchStore = realStoreOptions.length > 1
+  const storeOptions = useMemo(
+    () => [{ value: '', label: '全部门店' }, ...(data?.options.stores ?? [])],
+    [data?.options.stores],
+  )
   const statusTabs = data?.options.shelfStatuses ?? [
     { value: '', label: '全部' },
     { value: 'selling', label: '销售中' },
@@ -93,11 +99,19 @@ function PresaleGoodsListPage() {
   const rows = data?.rows ?? []
 
   function chooseFilter(value: string) {
-    if (!openFilter) return
+    if (!openFilter || openFilter === 'store') return
     setIsLoading(true)
     setError('')
     setFilters((current) => ({ ...current, [openFilter]: value, page: 1 }))
     setOpenFilter(null)
+  }
+
+  function chooseStore(value: string) {
+    setIsLoading(true)
+    setError('')
+    setFilters((current) => ({ ...current, poiId: value, page: 1 }))
+    setOpenFilter(null)
+    setNotice(value ? '已切换当前门店' : '已切换到全部门店')
   }
 
   function applySearch() {
@@ -145,13 +159,58 @@ function PresaleGoodsListPage() {
       <h1 className="sr-only-heading">预售券</h1>
 
       <section className="presale-goods-query" aria-label="预售券商品筛选">
-        <div className="presale-goods-query__grid">
-          <label className="presale-goods-field presale-goods-store">
-            <span>全部门店</span>
-            <button type="button" className="presale-goods-select is-fixed" aria-label={`全部门店 ${selectedStore?.label ?? ''}`}>
-              {selectedStore?.label ?? '加载门店中'}
+        <div className="presale-goods-storebar" aria-label="门店切换">
+          <button
+            type="button"
+            className={`presale-goods-storebar__tab${filters.poiId ? '' : ' is-active'}`}
+            aria-label="全部门店"
+            onClick={() => chooseStore('')}
+          >
+            全部门店
+          </button>
+          <div className="presale-goods-storebar__current">
+            <button
+              type="button"
+              className={`presale-goods-storebar__tab${filters.poiId ? ' is-active' : ''}`}
+              aria-haspopup={canSwitchStore ? 'listbox' : undefined}
+              aria-expanded={canSwitchStore ? openFilter === 'store' : undefined}
+              aria-label={`当前门店 ${selectedStore?.label ?? ''}`}
+              onClick={() => {
+                if (!canSwitchStore) {
+                  if (defaultStore?.value !== undefined) chooseStore(defaultStore.value)
+                  return
+                }
+                setOpenFilter(openFilter === 'store' ? null : 'store')
+              }}
+            >
+              {defaultStore?.label ?? '加载门店中'}
             </button>
-          </label>
+            {canSwitchStore && openFilter === 'store' ? (
+              <div className="presale-goods-storebar__options" role="listbox" aria-label="门店列表">
+                {storeOptions.map((option) => (
+                  <button
+                    key={option.value || option.label}
+                    type="button"
+                    role="option"
+                    aria-selected={filters.poiId === option.value}
+                    onClick={() => chooseStore(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            className="presale-goods-storebar__setting"
+            aria-label="门店设置"
+            onClick={() => navigate('/InformationMaintenance/campInfo')}
+          >
+            ⚙
+          </button>
+        </div>
+        <div className="presale-goods-query__grid">
           {filterMeta.map((filter) => (
             <FilterSelect
               key={filter.key}
@@ -160,6 +219,7 @@ function PresaleGoodsListPage() {
               value={filters[filter.key]}
               isOpen={openFilter === filter.key}
               onToggle={() => setOpenFilter(openFilter === filter.key ? null : filter.key)}
+              onChoose={(nextValue) => chooseFilter(nextValue)}
             />
           ))}
           <label className="presale-goods-field presale-goods-keyword">
@@ -171,22 +231,6 @@ function PresaleGoodsListPage() {
             />
           </label>
         </div>
-
-        {currentFilter ? (
-          <div className="presale-goods-options" role="listbox" aria-label={`${currentFilter.label}选项`}>
-            {currentOptions.map((option) => (
-              <button
-                key={option.value || option.label}
-                type="button"
-                role="option"
-                aria-selected={filters[currentFilter.key] === option.value}
-                onClick={() => chooseFilter(option.value)}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
 
         <div className="presale-goods-actions">
           <button type="button" onClick={resetFilters} disabled={isLoading}>
@@ -597,12 +641,14 @@ function FilterSelect({
   value,
   isOpen,
   onToggle,
+  onChoose,
 }: {
   filter: { key: FilterKey; label: string; placeholder: string }
   options: SelectOption[]
   value: string
   isOpen: boolean
   onToggle: () => void
+  onChoose: (value: string) => void
 }) {
   const displayValue = useMemo(() => {
     const option = options.find((item) => item.value === value)
@@ -610,18 +656,35 @@ function FilterSelect({
   }, [filter.placeholder, options, value])
 
   return (
-    <label className="presale-goods-field">
+    <label className="presale-goods-field presale-goods-field--select">
       <span>{filter.label}</span>
-      <button
-        type="button"
-        className="presale-goods-select"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-label={`${filter.label} ${displayValue}`}
-        onClick={onToggle}
-      >
-        {displayValue}
-      </button>
+      <div className="presale-goods-select-wrap">
+        <button
+          type="button"
+          className="presale-goods-select"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-label={`${filter.label} ${displayValue}`}
+          onClick={onToggle}
+        >
+          {displayValue}
+        </button>
+        {isOpen ? (
+          <div className="presale-goods-options" role="listbox" aria-label={`${filter.label}选项`}>
+            {options.map((option) => (
+              <button
+                key={option.value || option.label}
+                type="button"
+                role="option"
+                aria-selected={value === option.value}
+                onClick={() => onChoose(option.value)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </label>
   )
 }

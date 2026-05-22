@@ -1,0 +1,34 @@
+{
+  "outPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\tmp\\smart-checkin-guide-create-rich-probe-3media-20260521134803.json",
+  "generatedAt": "2026-05-21T13:48:57.678Z",
+  "events": [
+    {
+      "phase": "response",
+      "url": "https://hudson-prod.localhome.cn/media",
+      "status": 200,
+      "method": "POST",
+      "text": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"mediaId\":\"2057458730974003201\"}}"
+    },
+    {
+      "phase": "response",
+      "url": "https://hudson-prod.localhome.cn/media",
+      "status": 200,
+      "method": "POST",
+      "text": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"mediaId\":\"2057458737076854786\"}}"
+    },
+    {
+      "phase": "response",
+      "url": "https://hudson-prod.localhome.cn/media",
+      "status": 200,
+      "method": "POST",
+      "text": "{\"success\":true,\"errorCode\":null,\"errorMsg\":null,\"errorDetail\":null,\"data\":{\"mediaId\":\"2057458743456309250\"}}"
+    },
+    {
+      "phase": "request",
+      "url": "https://hudson-prod.localhome.cn/checkinGuide",
+      "method": "POST",
+      "postData": "{\"campId\":\"1796067693589061634\",\"name\":\"probe-rich-guide-3media-202605\",\"routeContent\":\"probe-arrival-3media-20260521\",\"processContent\":\"probe-process-3media-20260521\",\"otherContent\":\"probe-notice-3media-20260521\",\"routeMedias\":[{\"mediaId\":\"2057458730974003201\",\"mediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4277596140295862.png\",\"seq\":0,\"uid\":\"4490241452969712\"}],\"processMedias\":[{\"mediaId\":\"2057458737076854786\",\"mediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/7687205167803313.png\",\"seq\":0,\"uid\":\"4946636916264161\"}],\"otherMedias\":[{\"mediaId\":\"2057458743456309250\",\"mediaUrl\":\"https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/7919010819041736.png\",\"seq\":0,\"uid\":\"4822601233047946\"}]}",
+      "intercepted": true
+    }
+  ]
+}

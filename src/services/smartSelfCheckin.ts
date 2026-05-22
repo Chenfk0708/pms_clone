@@ -129,42 +129,42 @@ function buildMockEnvelope(
       requestedAt: DEFAULT_TIMESTAMP,
       requestedAtLabel: '最近同步：2026-05-19 10:00',
       enabled: true,
-      description: '房客在到店前，通过短信完成入住相关操作。',
+      description: '房客在到店前，通过短信完成入住相关操作',
       plans: [
         {
           id: 'password-only',
-          title: '仅发送门锁密码（直接入住）',
-          description: '房客通过短信查看门锁密码，直接办理入住。',
+          title: '仅发送门锁密码(直接入住)',
+          description: '房客通过短信查看门锁密码，直接入住。',
           messageTemplate:
-            '【路客云】您入住的房间{房源名称} {房间号}，门锁密码：{密码}#；点击 minsubao.net/{小程序跳转短链接} 查看入住指引。',
+            '【路客云】您入住的房间 {房源名称} {房间号}，门锁码：{密码}#;点击 minsubao.net/{小程序跳转短链接} 查看入住指引',
           badge: 'default',
           routePath: '/smartHotel/checkInGuide',
           routeLabel: '查看规则',
         },
         {
           id: 'mini-program',
-          title: '短信 + 智住小程序（自助登记）',
+          title: '短信+智住小程序(自助登记)',
           description: '房客自行完成入住登记并获取门锁密码。',
           messageTemplate:
             '【路客云】您预订的房间可智能入住，点击 minsubao.net/{小程序跳转短链接} 登记入住，获取门锁密码。',
           badge: 'recommended',
           routePath: '/smartHotel/smartSettings',
-          routeLabel: '装修小程序',
+          routeLabel: '智住小程序',
         },
         {
           id: 'wecom-service',
-          title: '短信 + 企微客服（人工接待）',
-          description: '引导房客添加企微，由客服进行接待和入住协助。',
+          title: '短信+企微客服(人工接待)',
+          description: '引导房客添加企微，由客服进行接待。',
           messageTemplate:
-            '【路客云】您预订的房间可智能入住，点击 minsubao.net/{小程序跳转短链接} 添加企微，获取入住指引与门锁密码。',
+            '【路客云】您预订的房间可智能入住，点击 minsubao.net/{小程序跳转短链接} 添加企微，进行登记入住，获取入住指引与门锁码。',
           badge: 'locked',
         },
         {
           id: 'wechat-official',
-          title: '短信 + 公众号（自助登记）',
-          description: '引导房客进入酒店公众号完成咨询和登记。',
+          title: '短信+公众号(自助登记)',
+          description: '引导房客进入酒店公众号进行咨询。',
           messageTemplate:
-            '【路客云】您预订的房间可智能入住，点击 minsubao.net/{小程序跳转短链接} 关注酒店公众号并办理入住。',
+            '【路客云】您预订的房间可智能入住，点击 minsubao.net/{小程序跳转短链接} 关注微信公众号进行登记入住，获取门锁码。',
           badge: 'locked',
         },
       ],
@@ -189,7 +189,7 @@ function createEmptyPayload(): SmartSelfCheckinPayload {
     requestedAt: DEFAULT_TIMESTAMP,
     requestedAtLabel: '最近同步：2026-05-19 10:00',
     enabled: false,
-    description: '房客在到店前，通过短信完成入住相关操作。',
+    description: '房客在到店前，通过短信完成入住相关操作',
     plans: [],
     flowSteps: [
       { id: 'sms', label: '接收短信' },

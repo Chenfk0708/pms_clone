@@ -7,11 +7,252 @@ import {
   type HouseDaysRoomCard,
   type HouseDaysViewModel,
 } from '../services/houseDays'
+import {
+  createHoveredBooking,
+  MonthOrderDrawer,
+  MonthOrderPopover,
+  type HoveredBooking,
+  type SelectedBooking,
+} from './HouseMonthsPage'
+import { OrderRefreshPopover } from './HouseStatusSharingPage'
 import './HouseDaysPage.css'
+
+const ROOM_TYPE_VIEW = '按房型'
+const ROOM_NUMBER_VIEW = '按房间号'
+const FLOOR_VIEW = '按楼层'
+
+type RoomTypeSummaryCard = {
+  roomType: string
+  rooms: HouseDaysRoomCard[]
+}
+
+function buildRoomTypeSummaryCards(rooms: HouseDaysRoomCard[]): RoomTypeSummaryCard[] {
+  const grouped = new Map<string, RoomTypeSummaryCard>()
+
+  for (const room of rooms) {
+    const summary = grouped.get(room.roomType) ?? {
+      roomType: room.roomType,
+      rooms: [],
+    }
+
+    summary.rooms.push(room)
+    grouped.set(room.roomType, summary)
+  }
+
+  return Array.from(grouped.values())
+}
+
+function FloorEmptyState({ onOpenSettings }: { onOpenSettings: () => void }) {
+  return (
+    <div className="day-floor-empty-state" data-testid="day-floor-empty-state">
+      <div className="day-floor-empty-state__illustration" aria-hidden="true">
+        <span className="day-floor-empty-state__building" />
+        <span className="day-floor-empty-state__bubble" />
+      </div>
+      <strong>请先设置楼层</strong>
+      <button type="button" className="primary-action" onClick={onOpenSettings}>
+        前往设置
+      </button>
+    </div>
+  )
+}
+
+function RoomNumberView({
+  rooms,
+  loading,
+  error,
+  setHoveredBooking,
+  setSelectedBooking,
+  setSelectedRoom,
+  setFeedback,
+}: {
+  rooms: HouseDaysRoomCard[]
+  loading: boolean
+  error: string
+  setHoveredBooking: (value: HoveredBooking | null) => void
+  setSelectedBooking: (value: SelectedBooking | null) => void
+  setSelectedRoom: (value: HouseDaysRoomCard | null) => void
+  setFeedback: (value: string) => void
+}) {
+  return (
+    <>
+      {rooms.map((room) => (
+        <section key={room.id} className="day-room-group">
+          <h3>{room.roomType}</h3>
+          <article
+            className="day-room-card"
+            data-tone={room.booking?.tone ?? 'empty'}
+            aria-label={`${room.roomType} ${room.roomName}`}
+            tabIndex={0}
+            onMouseEnter={(event) => {
+              if (!room.booking?.monthOrder) return
+              const rect = event.currentTarget.getBoundingClientRect()
+              setHoveredBooking(
+                createHoveredBooking(
+                  rect,
+                  room.booking.monthOrder.cell,
+                  room.booking.monthOrder.roomType,
+                  room.booking.monthOrder.roomLabel,
+                ),
+              )
+            }}
+            onMouseLeave={() => setHoveredBooking(null)}
+            onClick={() => {
+              if (room.booking?.monthOrder) {
+                setSelectedBooking({
+                  cell: room.booking.monthOrder.cell,
+                  roomType: room.booking.monthOrder.roomType,
+                  roomLabel: room.booking.monthOrder.roomLabel,
+                })
+                setSelectedRoom(null)
+                setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
+                return
+              }
+              setSelectedRoom(room)
+              setFeedback(`已打开 ${room.roomName} 房间详情。`)
+            }}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter' && event.key !== ' ') return
+              event.preventDefault()
+              if (room.booking?.monthOrder) {
+                setSelectedBooking({
+                  cell: room.booking.monthOrder.cell,
+                  roomType: room.booking.monthOrder.roomType,
+                  roomLabel: room.booking.monthOrder.roomLabel,
+                })
+                setSelectedRoom(null)
+                setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
+                return
+              }
+              setSelectedRoom(room)
+              setFeedback(`已打开 ${room.roomName} 房间详情。`)
+            }}
+          >
+            <strong>{room.roomName}</strong>
+            <span>{room.roomType}</span>
+            {room.booking ? (
+              <div className="day-room-booking">
+                <strong>{room.booking.guest}</strong>
+                <span>{room.booking.channel}</span>
+                <span>{room.booking.price}</span>
+              </div>
+            ) : null}
+            {room.hasTag ? <b aria-label="备注标签">●</b> : null}
+          </article>
+        </section>
+      ))}
+      {!loading && !error && rooms.length === 0 ? (
+        <div className="day-empty-state">
+          <strong>暂无日房态数据</strong>
+          <span>当前条件下没有可展示房间，请调整筛选条件后重试。</span>
+        </div>
+      ) : null}
+    </>
+  )
+}
+
+function RoomTypeView({
+  summaries,
+  loading,
+  error,
+  setHoveredBooking,
+  setSelectedBooking,
+  setSelectedRoom,
+  setFeedback,
+}: {
+  summaries: RoomTypeSummaryCard[]
+  loading: boolean
+  error: string
+  setHoveredBooking: (value: HoveredBooking | null) => void
+  setSelectedBooking: (value: SelectedBooking | null) => void
+  setSelectedRoom: (value: HouseDaysRoomCard | null) => void
+  setFeedback: (value: string) => void
+}) {
+  return (
+    <div className="day-room-type-list" data-testid="day-room-type-grid">
+      {summaries.map((summary) => (
+        <section key={summary.roomType} className="day-room-type-section">
+          <h3>{summary.roomType}</h3>
+          <div className="day-room-type-section__rooms">
+            {summary.rooms.map((room) => (
+              <article
+                key={room.id}
+                className="day-room-card"
+                data-tone={room.booking?.tone ?? 'empty'}
+                aria-label={`${room.roomType} ${room.roomName}`}
+                tabIndex={0}
+                onMouseEnter={(event) => {
+                  if (!room.booking?.monthOrder) return
+                  const rect = event.currentTarget.getBoundingClientRect()
+                  setHoveredBooking(
+                    createHoveredBooking(
+                      rect,
+                      room.booking.monthOrder.cell,
+                      room.booking.monthOrder.roomType,
+                      room.booking.monthOrder.roomLabel,
+                    ),
+                  )
+                }}
+                onMouseLeave={() => setHoveredBooking(null)}
+                onClick={() => {
+                  if (room.booking?.monthOrder) {
+                    setSelectedBooking({
+                      cell: room.booking.monthOrder.cell,
+                      roomType: room.booking.monthOrder.roomType,
+                      roomLabel: room.booking.monthOrder.roomLabel,
+                    })
+                    setSelectedRoom(null)
+                    setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
+                    return
+                  }
+                  setSelectedRoom(room)
+                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Enter' && event.key !== ' ') return
+                  event.preventDefault()
+                  if (room.booking?.monthOrder) {
+                    setSelectedBooking({
+                      cell: room.booking.monthOrder.cell,
+                      roomType: room.booking.monthOrder.roomType,
+                      roomLabel: room.booking.monthOrder.roomLabel,
+                    })
+                    setSelectedRoom(null)
+                    setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
+                    return
+                  }
+                  setSelectedRoom(room)
+                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
+                }}
+              >
+                <strong>{room.roomName}</strong>
+                <span>{room.roomType}</span>
+                {room.booking ? (
+                  <div className="day-room-booking">
+                    <strong>{room.booking.guest}</strong>
+                    <span>{room.booking.channel}</span>
+                    <span>{room.booking.price}</span>
+                  </div>
+                ) : null}
+                {room.hasTag ? <b aria-label="备注标签">●</b> : null}
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+      {!loading && !error && summaries.length === 0 ? (
+        <div className="day-empty-state">
+          <strong>暂无日房态数据</strong>
+          <span>当前条件下没有可展示房型，请调整筛选条件后重试。</span>
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export function HouseDaysPage() {
   const navigate = useNavigate()
-  const [viewMode, setViewMode] = useState('按房型')
+  const [viewMode, setViewMode] = useState(ROOM_NUMBER_VIEW)
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [selectedChannel, setSelectedChannel] = useState('')
   const [selectedRoomType, setSelectedRoomType] = useState('')
@@ -21,9 +262,12 @@ export function HouseDaysPage() {
   const [showLegend, setShowLegend] = useState(false)
   const [showStatusSettings, setShowStatusSettings] = useState(false)
   const [selectedRoom, setSelectedRoom] = useState<HouseDaysRoomCard | null>(null)
+  const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
+  const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
   const [keyword, setKeyword] = useState('')
-  const [activeStoreChip, setActiveStoreChip] = useState('全部门店')
+  const [activeStoreChip, setActiveStoreChip] = useState('all')
   const [feedback, setFeedback] = useState('')
+  const [refreshPopoverOpen, setRefreshPopoverOpen] = useState(false)
   const [data, setData] = useState<HouseDaysViewModel | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -42,6 +286,7 @@ export function HouseDaysPage() {
           {
             provider: source.provider,
             mockState: source.mockState,
+            storeId: activeStoreChip,
             keyword: queryKeyword,
             viewMode,
             statusFilters: selectedFilters,
@@ -66,18 +311,35 @@ export function HouseDaysPage() {
       })
 
     return () => controller.abort()
-  }, [queryKeyword, viewMode, selectedFilters, selectedChannel, selectedRoomType, selectedTag, refreshTick])
+  }, [activeStoreChip, queryKeyword, refreshTick, selectedChannel, selectedFilters, selectedRoomType, selectedTag, viewMode])
 
   useEffect(() => {
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpenMenu(null)
         setShowLegend(false)
+        setSelectedBooking(null)
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  useEffect(() => {
+    const handlePointer = (event: MouseEvent) => {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      if (!target.closest('.day-toolbar__refresh-group')) {
+        setRefreshPopoverOpen(false)
+      }
+      if (!target.closest('.month-order-drawer') && !target.closest('.day-room-card[data-tone]')) {
+        setSelectedBooking(null)
+      }
+    }
+
+    window.addEventListener('click', handlePointer)
+    return () => window.removeEventListener('click', handlePointer)
   }, [])
 
   const toggleFilter = (label: string) => {
@@ -99,25 +361,33 @@ export function HouseDaysPage() {
     setSelectedChannel('')
     setSelectedRoomType('')
     setSelectedTag('')
+    setActiveStoreChip('all')
     setRefreshTick((tick) => tick + 1)
     setFeedback('日房态已刷新，筛选条件已重置。')
   }
 
   const handleSearchKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      setQueryKeyword(keyword)
-      setFeedback(`已按“${keyword || '全部房间'}”更新日房态。`)
-    }
+    if (event.key !== 'Enter') return
+    setQueryKeyword(keyword)
+    setFeedback(`已按“${keyword || '全部房间'}”更新日房态。`)
   }
 
-  const viewModes = data?.viewModes ?? ['按房型', '按房间号', '按楼层']
+  const viewModes = data?.viewModes ?? [ROOM_TYPE_VIEW, ROOM_NUMBER_VIEW, FLOOR_VIEW]
   const statusGroups = data?.statusGroups ?? []
   const roomCards = data?.rooms ?? []
+  const roomTypeSummaries = buildRoomTypeSummaryCards(roomCards)
+  const storeOptions = data?.storeOptions ?? [
+    { id: 'all', name: '全部门店' },
+    { id: 'poi-1796067693589061634', name: '天落会宿公寓(前海壹方城宝安中心店)' },
+  ]
   const routeTargets = data?.routeTargets ?? {
     months: '/houseManage/months',
     price: '/houseManage/houseCale',
     storeSettings: '/InformationMaintenance/campInfo',
   }
+  const isRoomTypeView = viewMode === ROOM_TYPE_VIEW
+  const isRoomNumberView = viewMode === ROOM_NUMBER_VIEW
+  const isFloorView = viewMode === FLOOR_VIEW
 
   return (
     <div className="page-stack day-status-page">
@@ -130,11 +400,11 @@ export function HouseDaysPage() {
             </button>
           </div>
         ) : null}
-        <div className="day-feedback" role="status" aria-label="日房态操作反馈" aria-live="polite">
+        <div className="day-feedback-sr-only" role="status" aria-label="日房态操作反馈" aria-live="polite">
           {feedback}
         </div>
         <div className="day-notice">
-          <span>ⓘ</span>
+          <span>•</span>
           <p>智能调价监测到您当前入住率低于 50%，建议调价获得额外更多订单</p>
           <button type="button">忽略</button>
           <button type="button">立即调价</button>
@@ -156,7 +426,11 @@ export function HouseDaysPage() {
               onChange={(event) => setKeyword(event.target.value)}
               onKeyDown={handleSearchKeyDown}
             />
-            <button type="button" className="primary-action" onClick={() => blockAction('请连接读卡器后重试，或手动搜索住客信息。')}>
+            <button
+              type="button"
+              className="primary-action"
+              onClick={() => blockAction('请连接读卡器后重试，或手动搜索住客信息。')}
+            >
               读卡
             </button>
             <button type="button" className="primary-action" onClick={() => navigate(routeTargets.price)}>
@@ -164,77 +438,75 @@ export function HouseDaysPage() {
             </button>
             <div className="month-settings">
               <button
-              type="button"
-              className="primary-action"
-              onClick={() => setOpenMenu(openMenu === 'settings' ? null : 'settings')}
-            >
-              更多设置
-            </button>
-            {openMenu === 'settings' ? (
-              <div className="day-popover-menu month-settings__menu" role="menu" aria-label="更多设置">
-                <button
-                  type="button"
-                  role="menuitem"
-                  onClick={() => {
-                    setShowLegend(true)
-                    setOpenMenu(null)
-                    setFeedback('已打开图例说明。')
-                  }}
-                >
-                  图例说明
-                </button>
-                <button
-                  type="button"
-                  role="menuitem"
-                  onClick={() => {
-                    setShowStatusSettings(true)
-                    setOpenMenu(null)
-                    setFeedback('已打开房态设置。')
-                  }}
-                >
-                  房态设置
-                </button>
-              </div>
-            ) : null}
+                type="button"
+                className="primary-action"
+                onClick={() => setOpenMenu(openMenu === 'settings' ? null : 'settings')}
+              >
+                更多设置
+              </button>
+              {openMenu === 'settings' ? (
+                <div className="day-popover-menu month-settings__menu" role="menu" aria-label="更多设置">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setShowLegend(true)
+                      setOpenMenu(null)
+                      setFeedback('已打开图例说明。')
+                    }}
+                  >
+                    图例说明
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setShowStatusSettings(true)
+                      setOpenMenu(null)
+                      setFeedback('已打开房态设置。')
+                    }}
+                  >
+                    房态设置
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
         <div className="month-toolbar__filters">
           <div className="month-store-control">
-            <div className="month-store-switch" aria-label="闂ㄥ簵鑼冨洿">
-          <button
-            type="button"
-            className={`chip month-store-chip${activeStoreChip === '鍏ㄩ儴闂ㄥ簵' ? ' is-active' : ''}`}
-            aria-pressed={activeStoreChip === '鍏ㄩ儴闂ㄥ簵'}
-            onClick={() => setActiveStoreChip((current) => (current === '鍏ㄩ儴闂ㄥ簵' ? '' : '鍏ㄩ儴闂ㄥ簵'))}
-          >
-            全部门店
-          </button>
-          <button
-            type="button"
-            className={`chip${activeStoreChip === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)' ? ' is-active' : ''}`}
-            aria-pressed={activeStoreChip === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)'}
-            onClick={() =>
-              setActiveStoreChip((current) =>
-                current === '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)' ? '' : '澶╄惤浼氬鍏瘬(鍓嶆捣澹规柟鍩庡疂瀹変腑蹇冨簵)'
-              )
-            }
-          >
-            天落会宿公寓(前海壹方城宝安中心店)
-          </button>
+            <div className="month-store-switch" aria-label="门店切换">
+              {storeOptions.map((store, index) => (
+                <button
+                  key={store.id}
+                  type="button"
+                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeStoreChip === store.id ? ' is-active' : ''}`}
+                  aria-pressed={activeStoreChip === store.id}
+                  onClick={() => {
+                    setActiveStoreChip(store.id)
+                    setFeedback(store.id === 'all' ? '已切换到全部门店。' : `已切换到${store.name}。`)
+                  }}
+                >
+                  {store.name}
+                </button>
+              ))}
             </div>
-          <button
-            type="button"
-            className="month-store-settings"
-            aria-label="门店设置"
-            onClick={() => navigate(routeTargets.storeSettings)}
-          >
-            ⚙
-          </button>
+            <button
+              type="button"
+              className="month-store-settings"
+              aria-label="门店设置"
+              onClick={() => navigate(routeTargets.storeSettings)}
+            >
+              ⚙
+            </button>
           </div>
           <div className="toolbar-actions">
             <div className="day-action-popover month-batch-action month-batch-action--first">
-              <button type="button" className="month-outline-action" onClick={() => setOpenMenu(openMenu === 'clean' ? null : 'clean')}>
+              <button
+                type="button"
+                className="month-outline-action"
+                onClick={() => setOpenMenu(openMenu === 'clean' ? null : 'clean')}
+              >
                 批量设脏/净
               </button>
               {openMenu === 'clean' ? (
@@ -249,7 +521,11 @@ export function HouseDaysPage() {
               ) : null}
             </div>
             <div className="day-action-popover month-batch-action">
-              <button type="button" className="month-outline-action" onClick={() => setOpenMenu(openMenu === 'openClose' ? null : 'openClose')}>
+              <button
+                type="button"
+                className="month-outline-action"
+                onClick={() => setOpenMenu(openMenu === 'openClose' ? null : 'openClose')}
+              >
                 批量开/关房
               </button>
               {openMenu === 'openClose' ? (
@@ -263,57 +539,60 @@ export function HouseDaysPage() {
                 </div>
               ) : null}
             </div>
-            <button type="button" className="month-refresh-action" aria-label="刷新" onClick={resetFilters}>
-              ↻
-            </button>
-            <button type="button" className="month-refresh-action" aria-label="重新加载" onClick={resetFilters}>
-              ⟳
-            </button>
+            <div className="day-toolbar__refresh-group">
+              <button
+                type="button"
+                className="month-refresh-action"
+                aria-label="分享房态"
+                onClick={() => navigate('/houseManage/months/sharingRoomStatus')}
+              >
+                ↺
+              </button>
+              <button
+                type="button"
+                className="month-refresh-action"
+                aria-label="订单刷新"
+                onClick={() => setRefreshPopoverOpen((current) => !current)}
+              >
+                ⟳
+              </button>
+              <OrderRefreshPopover
+                open={refreshPopoverOpen}
+                onRefresh={() => {
+                  setRefreshPopoverOpen(false)
+                  setFeedback('美团酒店订单已刷新。')
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>
 
       <section className="day-status-layout">
-        <div className="day-room-area">
-          {roomCards.map((room) => (
-            <section key={room.id} className="day-room-group">
-              <h3>{room.roomType}</h3>
-              <article
-                className="day-room-card"
-                data-tone={room.booking?.tone ?? 'empty'}
-                aria-label={`${room.roomType} ${room.roomName}`}
-                tabIndex={0}
-                onClick={() => {
-                  setSelectedRoom(room)
-                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault()
-                    setSelectedRoom(room)
-                    setFeedback(`已打开 ${room.roomName} 房间详情。`)
-                  }
-                }}
-              >
-                <strong>{room.roomName}</strong>
-                <span>{room.roomType}</span>
-                {room.booking ? (
-                  <div className="day-room-booking">
-                    <strong>{room.booking.guest}</strong>
-                    <span>{room.booking.channel}</span>
-                    <span>{room.booking.price}</span>
-                  </div>
-                ) : null}
-                {room.hasTag ? <b aria-label="备注标签">◇</b> : null}
-              </article>
-            </section>
-          ))}
-          {!loading && !error && roomCards.length === 0 ? (
-            <div className="day-empty-state">
-              <strong>暂无日房态数据</strong>
-              <span>当前条件下没有可展示房间，请调整筛选条件后重试。</span>
-            </div>
+        <div className={`day-room-area${isFloorView ? ' day-room-area--floor' : ''}`}>
+          {isRoomNumberView ? (
+            <RoomNumberView
+              rooms={roomCards}
+              loading={loading}
+              error={error}
+              setHoveredBooking={setHoveredBooking}
+              setSelectedBooking={setSelectedBooking}
+              setSelectedRoom={setSelectedRoom}
+              setFeedback={setFeedback}
+            />
           ) : null}
+          {isRoomTypeView ? (
+            <RoomTypeView
+              summaries={roomTypeSummaries}
+              loading={loading}
+              error={error}
+              setHoveredBooking={setHoveredBooking}
+              setSelectedBooking={setSelectedBooking}
+              setSelectedRoom={setSelectedRoom}
+              setFeedback={setFeedback}
+            />
+          ) : null}
+          {isFloorView ? <FloorEmptyState onOpenSettings={() => navigate('/setting/roomTypeInfo')} /> : null}
         </div>
 
         <aside className="day-filter-panel">
@@ -333,7 +612,7 @@ export function HouseDaysPage() {
             ))}
           </div>
           <div className="day-filter-summary">{viewMode}视图</div>
-          {selectedFilters.length ? (
+          {selectedFilters.length > 0 ? (
             <div className="day-filter-tags">
               {selectedFilters.map((filter) => (
                 <span key={filter}>已筛选：{filter}</span>
@@ -341,82 +620,87 @@ export function HouseDaysPage() {
             </div>
           ) : null}
 
-          {statusGroups.map((group) => (
-            <section key={group.title} className="day-filter-group">
-              <h3>{group.title}</h3>
-              <div className="day-filter-options">
-                {group.items.map((item) => (
-                  <label key={item.label}>
-                    <span style={{ '--tag-color': item.color ?? '#eef1f6' } as CSSProperties}>{item.label}</span>
-                    <strong>{item.value}</strong>
-                    <input
-                      type="checkbox"
-                      aria-label={item.label}
-                      checked={selectedFilters.includes(item.label)}
-                      onChange={() => {
-                        toggleFilter(item.label)
-                        setFeedback('')
-                      }}
-                    />
-                  </label>
-                ))}
-              </div>
-            </section>
-          ))}
+          {!isFloorView ? (
+            <>
+              {statusGroups.map((group) => (
+                <section key={group.title} className="day-filter-group">
+                  <h3>{group.title}</h3>
+                  <div className="day-filter-options">
+                    {group.items.map((item) => (
+                      <label key={item.label}>
+                        <span style={{ '--tag-color': item.color ?? '#eef1f6' } as CSSProperties}>{item.label}</span>
+                        <strong>{item.value}</strong>
+                        <input
+                          type="checkbox"
+                          aria-label={item.label}
+                          checked={selectedFilters.includes(item.label)}
+                          onChange={() => {
+                            toggleFilter(item.label)
+                            setFeedback('')
+                          }}
+                        />
+                      </label>
+                    ))}
+                  </div>
+                </section>
+              ))}
 
-          <section className="day-filter-group">
-            <h3>渠道</h3>
-            <select
-              aria-label="渠道"
-              value={selectedChannel}
-              onChange={(event) => {
-                setSelectedChannel(event.target.value)
-                setFeedback(`渠道筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
-              }}
-            >
-              {(data?.channelOptions ?? [{ id: '', name: '渠道' }]).map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </section>
-          <section className="day-filter-group">
-            <h3>房型</h3>
-            <select
-              aria-label="房型"
-              value={selectedRoomType}
-              onChange={(event) => {
-                setSelectedRoomType(event.target.value)
-                setFeedback(`房型筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
-              }}
-            >
-              {(data?.roomTypeOptions ?? [{ id: '', name: '房型' }]).map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </section>
-          <section className="day-filter-group">
-            <h3>标签</h3>
-            <select
-              aria-label="标签"
-              value={selectedTag}
-              onChange={(event) => {
-                setSelectedTag(event.target.value)
-                setFeedback(`标签筛选已切换：${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
-              }}
-            >
-              {(data?.tagOptions ?? [{ id: '', name: '房型标签' }]).map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </section>
+              <section className="day-filter-group">
+                <h3>渠道</h3>
+                <select
+                  aria-label="渠道"
+                  value={selectedChannel}
+                  onChange={(event) => {
+                    setSelectedChannel(event.target.value)
+                    setFeedback(`渠道筛选已切换，${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+                  }}
+                >
+                  {(data?.channelOptions ?? [{ id: '', name: '渠道' }]).map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              </section>
+              <section className="day-filter-group">
+                <h3>房型</h3>
+                <select
+                  aria-label="房型"
+                  value={selectedRoomType}
+                  onChange={(event) => {
+                    setSelectedRoomType(event.target.value)
+                    setFeedback(`房型筛选已切换，${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+                  }}
+                >
+                  {(data?.roomTypeOptions ?? [{ id: '', name: '房型' }]).map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              </section>
+              <section className="day-filter-group">
+                <h3>标签</h3>
+                <select
+                  aria-label="标签"
+                  value={selectedTag}
+                  onChange={(event) => {
+                    setSelectedTag(event.target.value)
+                    setFeedback(`标签筛选已切换，${event.target.selectedOptions[0]?.text ?? event.target.value}。`)
+                  }}
+                >
+                  {(data?.tagOptions ?? [{ id: '', name: '房型标签' }]).map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              </section>
+            </>
+          ) : null}
         </aside>
       </section>
+
       {showLegend ? (
         <aside className="day-legend-dialog" role="dialog" aria-label="图例说明">
           <header>
@@ -425,9 +709,13 @@ export function HouseDaysPage() {
               ×
             </button>
           </header>
-          <p>空净：可售且已清洁；空脏：可售但待清洁；关房：不可售房间。</p>
+          <p>空净：可售且已清洁，空脏：可售但待清洁，关房：不可售房间。</p>
           <p>批量操作需要先选择房间，执行前会再次确认。</p>
         </aside>
+      ) : null}
+      {hoveredBooking ? <MonthOrderPopover hoveredBooking={hoveredBooking} /> : null}
+      {selectedBooking ? (
+        <MonthOrderDrawer selectedBooking={selectedBooking} onClose={() => setSelectedBooking(null)} onAction={blockAction} />
       ) : null}
       {selectedRoom ? (
         <aside className="day-detail-dialog" role="dialog" aria-label="房间详情">
@@ -468,8 +756,14 @@ export function HouseDaysPage() {
             ) : null}
           </div>
           <footer>
-            <button type="button" onClick={() => blockAction('已为当前房间创建保洁提醒。')}>保洁提醒</button>
-            <button type="button" className="primary-action" onClick={() => blockAction(selectedRoom.booking ? '已打开办理入住流程。' : '已打开新增预订流程。')}>
+            <button type="button" onClick={() => blockAction('已为当前房间创建保洁提醒。')}>
+              保洁提醒
+            </button>
+            <button
+              type="button"
+              className="primary-action"
+              onClick={() => blockAction(selectedRoom.booking ? '已打开办理入住流程。' : '已打开新增预订流程。')}
+            >
               {selectedRoom.booking ? '办理入住' : '新增预订'}
             </button>
           </footer>
@@ -504,7 +798,9 @@ export function HouseDaysPage() {
             </label>
           </div>
           <footer>
-            <button type="button" onClick={() => setShowStatusSettings(false)}>取消</button>
+            <button type="button" onClick={() => setShowStatusSettings(false)}>
+              取消
+            </button>
             <button
               type="button"
               className="primary-action"

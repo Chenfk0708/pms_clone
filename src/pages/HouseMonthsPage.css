@@ -243,6 +243,8 @@
 }
 
 .month-store-settings {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 32px;
@@ -253,6 +255,7 @@
   border-radius: 0 4px 4px 0;
   background: #fff;
   color: #666;
+  cursor: pointer;
   padding: 0;
   font-size: 16px;
   line-height: 1;
@@ -542,6 +545,13 @@
   padding: 0;
   font-size: 16px;
   line-height: 1;
+}
+
+.month-toolbar__refresh-group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .month-clear-filter {

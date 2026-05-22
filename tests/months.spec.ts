@@ -221,6 +221,8 @@ test('month room status page shows filters and calendar matrix', async ({ page }
   await expect(page.locator('.month-toolbar__actions input')).toBeVisible()
   await expect(page.locator('.month-outline-action')).toHaveCount(2)
   await expect(page.locator('.month-store-chip')).toBeVisible()
+  await expect(page.getByRole('button', { name: '分享房态' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '订单刷新' })).toBeVisible()
   await expect(page.getByText(today).first()).toBeVisible()
   await expect(page.getByTestId('month-date-column')).toHaveCount(33)
   await expect(page.getByTestId('month-date-column').first()).toContainText(firstWindowDay)
@@ -228,6 +230,23 @@ test('month room status page shows filters and calendar matrix', async ({ page }
   await expect(page.getByTestId('month-type-row')).toHaveCount(4)
   await expect(page.getByTestId('month-room-row')).toHaveCount(4)
   await expect(page.getByTestId('month-grid')).toContainText('房间1')
+})
+
+test('month room status page opens sharing room status page and order refresh popover', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/houseManage/months')
+
+  await page.getByRole('button', { name: '分享房态' }).click()
+  await expect(page).toHaveURL(/\/houseManage\/months\/sharingRoomStatus$/)
+  await expect(page.getByRole('button', { name: '新增房态分享' })).toBeVisible()
+  await expect(page.getByLabel('房态分享空状态')).toContainText('暂无数据')
+
+  await page.goto('/houseManage/months')
+  await page.getByRole('button', { name: '订单刷新' }).click()
+  const refreshDialog = page.getByRole('dialog', { name: '订单刷新' })
+  await expect(refreshDialog).toContainText('美团酒店订单')
+  await refreshDialog.getByRole('button', { name: '刷新' }).click()
+  await expect(page.locator('.month-status-toast')).toContainText('美团酒店订单已刷新')
 })
 
 test('month room status page loads core grid from real request layer', async ({ page }) => {
@@ -318,17 +337,19 @@ test('month room status page exposes centralized mock empty and error envelopes'
   await page.unroute(`${HUDSON_API}/**`)
   await page.addInitScript(() => {
     window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
-    window.localStorage.setItem('pms.houseMonthsMockMode', 'empty')
   })
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseMonthsMockMode', 'empty')
+  })
   await page.goto('/houseManage/months')
 
   await expect(page.getByText('暂无月房态数据')).toBeVisible()
 
-  await page.evaluate(() => {
+  await page.addInitScript(() => {
     window.localStorage.setItem('pms.houseMonthsMockMode', 'error')
   })
-  await page.getByRole('button', { name: '刷新房态' }).click()
+  await page.goto('/houseManage/months')
 
   await expect(page.getByRole('alert')).toContainText('月房态数据加载失败，请稍后重试')
   await expect(page.getByRole('button', { name: '重试请求' })).toBeVisible()

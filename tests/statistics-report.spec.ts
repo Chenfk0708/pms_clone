@@ -25,10 +25,12 @@ test('/statistics/report loads through the statistics report provider contract',
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
 
   await expect(page.getByRole('button', { name: '统计总览' })).toHaveClass(/is-active/)
-  await expect(page.getByRole('button', { name: '全部门店' })).toHaveClass(/is-active/)
+  await expect(page.getByRole('button', { name: '全部门店' })).not.toHaveClass(/is-active/)
+  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toHaveClass(/is-active/)
   await expect(page.getByRole('button', { name: '昨天' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-18')
   await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-18')
+  await expect(page.locator('.statistics-report-feedback')).not.toBeVisible()
   await expect(page.getByLabel('统计概览反馈')).toContainText('统计概览看板已加载')
 
   await expect(page.getByLabel('营收统计')).toContainText('总营业收入')
@@ -52,9 +54,9 @@ test('/statistics/report loads through the statistics report provider contract',
 test('/statistics/report refreshes metrics and contract when switching presets and modes', async ({ page }) => {
   await openStatisticsReport(page)
 
-  await expect(page.getByRole('button', { name: '上周' })).toBeDisabled()
-  await expect(page.getByRole('button', { name: '本周' })).toBeDisabled()
-  await expect(page.getByRole('button', { name: '上月' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '上周' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: '本周' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: '上月' })).toBeEnabled()
 
   await page.getByRole('button', { name: '今天' }).click()
   await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-19')
@@ -73,8 +75,7 @@ test('/statistics/report refreshes metrics and contract when switching presets a
   await expect(page.getByTestId('statistics-report-contract')).toContainText('"predictStartDate":"2026-05-01"')
   await expect(page.getByTestId('statistics-report-contract')).toContainText('"predictEndDate":"2026-05-31"')
 
-  await page.getByRole('button', { name: '刷新看板' }).click()
-  await expect(page.getByLabel('统计概览反馈')).toContainText('统计概览看板已刷新')
+  await expect(page.getByRole('button', { name: '刷新看板' })).toHaveCount(0)
   await expect(page.getByTestId('statistics-report-contract')).toContainText('"startDate":"2026-05-01"')
 
   await page.getByRole('button', { name: '入住率OCC' }).click()
@@ -87,6 +88,37 @@ test('/statistics/report refreshes metrics and contract when switching presets a
   await expect(page.getByLabel('远期趋势分析')).toContainText('1272.05')
   await expect(page.getByLabel('远期趋势分析')).toContainText('预计总营业收入')
   await expect(page.getByLabel('远期趋势分析')).toContainText('13810.00')
+
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await expect(page.getByRole('button', { name: '全部门店' })).toHaveClass(/is-active/)
+  await expect(page.getByLabel('统计概览反馈')).toContainText('已切换到全部门店视角')
+})
+
+test('/statistics/report supports all preset buttons and custom date selection from the calendar panel', async ({ page }) => {
+  await openStatisticsReport(page)
+
+  await page.getByRole('button', { name: '上周' }).click()
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"startDate":"2026-05-12"')
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"endDate":"2026-05-18"')
+
+  await page.getByRole('button', { name: '本周' }).click()
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"startDate":"2026-05-19"')
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"endDate":"2026-05-25"')
+
+  await page.getByRole('button', { name: '上月' }).click()
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"startDate":"2026-04-01"')
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"endDate":"2026-04-30"')
+
+  await page.getByLabel('统计日期').click()
+  await expect(page.getByRole('dialog', { name: '统计日期面板' })).toBeVisible()
+  await expect(page.locator('.report-date-panel-wrap')).toBeVisible()
+  await page.getByRole('button', { name: '2026-05-20' }).click()
+  await page.getByRole('button', { name: '2026-05-21' }).click()
+
+  await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-20')
+  await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-21')
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"startDate":"2026-05-20"')
+  await expect(page.getByTestId('statistics-report-contract')).toContainText('"endDate":"2026-05-21"')
 })
 
 test('/statistics/report updates request filters and surfaces empty room tag feedback', async ({ page }) => {

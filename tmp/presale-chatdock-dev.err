@@ -1,0 +1,435 @@
+[2m10:49:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:50:09[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:50:09[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:51:51[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:51:56[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:53:09[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:53:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:53:14[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:54:56[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:54:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m10:54:59[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:00:19[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:00:21[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:00:22[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:04:56[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:04:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:04:59[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:16:25[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:16:28[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m11:16:29[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m14:05:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m14:05:39[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m14:05:40[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mAbortError[22m: signal is aborted without reason
+[39m > src/pages/PresaleOrderPage.tsx:105:28
+    103 |      const controller = new AbortController()
+    104 |      void requestOrders(initialFiltersRef.current, controller.signal, '首屏加载')
+    105 |      return () => controller.abort()
+        |                              ^
+    106 |    }, [])
+    107 |  
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:26001:12
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListUnmount node_modules/react-dom/cjs/react-dom-client.development.js:13316:16
+ > commitHookPassiveUnmountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13347:10
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16216:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16230:10
+ > recursivelyTraverseDisconnectPassiveEffects node_modules/react-dom/cjs/react-dom-client.development.js:16204:8
+ > disconnectPassiveEffect node_modules/react-dom/cjs/react-dom-client.development.js:16221:10
+
+[2m14:27:50[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/OtaPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m14:40:45[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/SocialPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m14:43:18[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/SocialPage.css. This could be due to syntax errors or importing non-existent modules. (see errors above)

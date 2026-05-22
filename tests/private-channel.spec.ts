@@ -40,6 +40,17 @@ test.describe('private channel page', () => {
     await expect(page.getByText('丰富的活动运营数据分析和精细化的管理')).toBeVisible()
   })
 
+  test('navigates back to private list from enterprise breadcrumb', async ({ page }) => {
+    await page.goto(appUrl('/channels/private/setting/weComSetting'))
+
+    const breadcrumbBack = page.locator('.private-breadcrumb button')
+    await expect(breadcrumbBack).toBeVisible()
+    await breadcrumbBack.click()
+
+    await expect(page).toHaveURL(/\/channels\/private$/)
+    await expect(page.locator('.private-card-grid')).toBeVisible()
+  })
+
   test('opens captured official-account authorization route', async ({ page }) => {
     await page.getByRole('article', { name: '公众号' }).getByRole('button', { name: '立即关联' }).click()
 
@@ -60,8 +71,8 @@ test.describe('private channel page', () => {
     await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
 
     await page.getByRole('article', { name: '品牌小程序' }).getByRole('button', { name: '订阅开通' }).click()
-    await expect(page).toHaveURL(/\/channels\/private$/)
-    await expect(page.getByRole('article', { name: '品牌小程序' })).toBeVisible()
+    await expect(page).toHaveURL(/\/version\/applicationPayment$/)
+    await expect(page.locator('[data-testid="application-payment-page"], .application-payment-page')).toBeVisible()
   })
 
   test('uses private channel mock provider contract without development copy', async ({ page }) => {
@@ -72,7 +83,7 @@ test.describe('private channel page', () => {
     expect(visibleText).not.toMatch(/mock|未接入|阻塞|后端未就绪|后端接口未完成|后端|provider/i)
 
     await page.getByRole('article', { name: '品牌小程序' }).getByRole('button', { name: '订阅开通' }).click()
-    await expect(page.getByRole('status', { name: '私域渠道操作反馈' })).toContainText('品牌小程序订阅方案已加入开通清单')
+    await expect(page).toHaveURL(/\/version\/applicationPayment$/)
   })
 
   test('shows business empty and error states from private channel service', async ({ browser }) => {

@@ -167,9 +167,9 @@ export const statisticsReportPresetOptions: Array<{
 }> = [
   { key: 'yesterday', label: '昨天', supported: true },
   { key: 'today', label: '今天', supported: true },
-  { key: 'lastWeek', label: '上周', supported: false },
-  { key: 'thisWeek', label: '本周', supported: false },
-  { key: 'lastMonth', label: '上月', supported: false },
+  { key: 'lastWeek', label: '上周', supported: true },
+  { key: 'thisWeek', label: '本周', supported: true },
+  { key: 'lastMonth', label: '上月', supported: true },
   { key: 'thisMonth', label: '本月', supported: true },
 ]
 
@@ -428,8 +428,20 @@ export function buildStatisticsReportQueryForPreset(
   current?: StatisticsReportQuery,
 ): StatisticsReportQuery {
   const base = current ?? createDefaultStatisticsReportQuery()
+  if (preset === 'yesterday') {
+    return { ...base, preset, startDate: '2026-05-18', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+  }
   if (preset === 'today') {
     return { ...base, preset, startDate: '2026-05-19', endDate: '2026-05-19', predictStartDate: '', predictEndDate: '' }
+  }
+  if (preset === 'lastWeek') {
+    return { ...base, preset, startDate: '2026-05-12', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+  }
+  if (preset === 'thisWeek') {
+    return { ...base, preset, startDate: '2026-05-19', endDate: '2026-05-25', predictStartDate: '', predictEndDate: '' }
+  }
+  if (preset === 'lastMonth') {
+    return { ...base, preset, startDate: '2026-04-01', endDate: '2026-04-30', predictStartDate: '', predictEndDate: '' }
   }
   if (preset === 'thisMonth') {
     return {
@@ -497,7 +509,7 @@ export async function fetchStatisticsReportDashboard(
   }
 
   const requestBody = createStatisticsReportRequestBody(request)
-  const raw = state === 'empty' ? createEmptyResponse() : resolveMockResponse(requestBody)
+  const raw = state === 'empty' ? createEmptyResponse() : resolveMockResponse(request, requestBody)
   const envelope = createEnvelope(raw, state === 'empty' ? 'empty' : mockSuffixForRequest(requestBody))
   return adaptDashboard(provider, state, requestBody, envelope)
 }
@@ -656,18 +668,21 @@ function adaptSourceItems(list: RawOrderSource[], total: number): StatisticsRepo
   }))
 }
 
-function resolveMockResponse(requestBody: Record<string, unknown>) {
+function resolveMockResponse(request: StatisticsReportQuery, requestBody: Record<string, unknown>) {
   const signature = buildSignature(requestBody)
   const response = mockResponseMap[signature]
-  if (!response) {
-    throw new StatisticsReportServiceError(
-      '当前筛选条件暂不支持统计概览查询，请调整后重试',
-      'mock',
-      normalizeQuery(createDefaultStatisticsReportQuery()),
-      createNullEnvelope(422, `unsupported mock request: ${signature}`, 'unsupported'),
-    )
+  if (response) {
+    return response
   }
-  return response
+  if (isUnfilteredRangeQuery(request)) {
+    return createRangeResponse(request)
+  }
+  throw new StatisticsReportServiceError(
+    '当前筛选条件暂不支持统计概览查询，请调整后重试',
+    'mock',
+    normalizeQuery(createDefaultStatisticsReportQuery()),
+    createNullEnvelope(422, `unsupported mock request: ${signature}`, 'unsupported'),
+  )
 }
 
 function mockSuffixForRequest(requestBody: Record<string, unknown>) {
@@ -761,6 +776,59 @@ function createEmptyResponse(): RawStatisticsReport {
     orderTotalCount: 0,
     allDayRoomFeePriceIncludingCommission: 0,
   })
+}
+
+function isUnfilteredRangeQuery(request: StatisticsReportQuery) {
+  return (
+    request.roomCategoryIds.length === 0 &&
+    request.channelIds.length === 0 &&
+    request.roomCategoryGroupIds.length === 0
+  )
+}
+
+function createRangeResponse(request: StatisticsReportQuery): RawStatisticsReport {
+  const trend = baseMonthTrend.filter((item) => item.date >= request.startDate && item.date <= request.endDate)
+  if (trend.length === 0) {
+    return createEmptyResponse()
+  }
+
+  const businessIncome = roundTo2(sumTrendValues(trend, 'businessIncome'))
+  const roomFeePriceIncludingCommission = roundTo2(sumTrendValues(trend, 'roomFeePriceIncludingCommission'))
+  const otherOrderExpense = roundTo2(sumTrendValues(trend, 'otherOrderExpense'))
+  const writeDownIncome = roundTo2(sumTrendValues(trend, 'writeDownIncome'))
+  const openRoomCount = sumTrendValues(trend, 'openRoomCount')
+  const roomCount = trend.length * 4
+  const occ = roomCount > 0 ? roundTo2((openRoomCount / roomCount) * 100) : 0
+  const adr = openRoomCount > 0 ? roundTo2(businessIncome / openRoomCount) : 0
+  const revPar = roomCount > 0 ? roundTo2(businessIncome / roomCount) : 0
+  const orderCount = Math.max(1, Math.round(openRoomCount))
+
+  return rawResponse({
+    businessIncome,
+    predictForwardBusinessIncome: null,
+    predictTotalBusinessIncome: null,
+    roomFeePriceIncludingCommission,
+    otherOrderExpense,
+    writeDownIncome,
+    occ,
+    adr,
+    revPar,
+    openRoomCount,
+    roomCount,
+    allDayOpenRoomCount: openRoomCount,
+    growthTrendAnalysisList: trend,
+    orderOriginAnalysisList: [{ channelId: '17', channelName: '路客云聚合', orderCount }],
+    orderTotalCount: orderCount,
+    allDayRoomFeePriceIncludingCommission: roomFeePriceIncludingCommission,
+  })
+}
+
+function sumTrendValues(list: RawTrendPoint[], key: keyof RawTrendPoint) {
+  return list.reduce((total, item) => total + (typeof item[key] === 'number' ? item[key] : 0), 0)
+}
+
+function roundTo2(value: number) {
+  return Number(value.toFixed(2))
 }
 
 function createEnvelope(data: RawStatisticsReport, suffix: string): ApiEnvelope<RawStatisticsReport> {

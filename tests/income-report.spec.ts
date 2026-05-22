@@ -17,7 +17,7 @@ async function openIncomeReport(page: Page, state: 'success' | 'empty' | 'error'
 
 test('/statistics/stay loads through the income report provider contract', async ({ page }) => {
   await openIncomeReport(page)
-  await expect(page.getByText('正在加载收入报表数据')).toBeVisible()
+  await expect(page.locator('.income-report-page')).toBeVisible()
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.getByRole('link', { name: '报表', exact: true })).toHaveClass(/is-active/)
@@ -34,6 +34,7 @@ test('/statistics/stay loads through the income report provider contract', async
   await expect(page.getByLabel('收入报表筛选')).toBeVisible()
   await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-01')
   await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-19')
+  await expect(page.locator('.income-report-notice')).not.toBeVisible()
   await expect(page.getByRole('button', { name: '导出' })).toBeVisible()
   await expect(page.getByRole('button', { name: '说明' })).toBeVisible()
 
@@ -64,6 +65,13 @@ test('/statistics/stay refreshes data from filters and exposes actionable feedba
   await expect(page.getByLabel('收入报表表格')).toContainText('2026-05')
   await expect(page.getByTestId('income-report-contract')).toContainText('"dimension":"month"')
 
+  await page.getByLabel('收入报表日期范围').click()
+  await expect(page.getByRole('dialog', { name: '收入报表日期面板' })).toBeVisible()
+  await page.getByRole('button', { name: '2026-05-20' }).click()
+  await page.getByRole('button', { name: '2026-05-21' }).click()
+  await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-20')
+  await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-21')
+
   await page.getByRole('button', { name: '按房型' }).click()
   await page.getByRole('button', { name: '房型 请选择' }).click()
   await page.getByRole('option', { name: '观影大床房' }).click()
@@ -73,13 +81,15 @@ test('/statistics/stay refreshes data from filters and exposes actionable feedba
 
   const contract = page.getByTestId('income-report-contract')
   await expect(contract).toContainText('"dimension":"roomType"')
+  await expect(contract).toContainText('"startDate":"2026-05-20"')
+  await expect(contract).toContainText('"endDate":"2026-05-21"')
   await expect(contract).toContainText('"roomTypeName":"观影大床房"')
   await expect(contract).toContainText('"channelName":"携程"')
   await expect(page.getByLabel('收入报表表格')).toContainText('2707.45')
-  await expect(page.getByRole('status', { name: '收入报表操作反馈' })).toContainText('收入报表已刷新')
+  await expect(page.locator('.income-report-notice')).toContainText('收入报表已刷新')
 
   await page.getByRole('button', { name: '导出' }).click()
-  await expect(page.getByRole('status', { name: '收入报表操作反馈' })).toContainText('收入报表导出任务已创建')
+  await expect(page.locator('.income-report-notice')).toContainText('收入报表导出任务已创建')
 
   await page.getByRole('button', { name: '说明' }).click()
   await expect(page.getByRole('dialog', { name: '报表字段说明' })).toContainText('房费(减佣)')
@@ -93,15 +103,41 @@ test('/statistics/stay refreshes data from filters and exposes actionable feedba
   await expect(page).toHaveURL(/\/statistics\/orderLedger$/)
 })
 
-test('/statistics/stay exposes invalid filter parameters clearly', async ({ page }) => {
+test('/statistics/stay supports picking a custom date range from the calendar panel', async ({ page }) => {
   await openIncomeReport(page)
 
-  await page.getByLabel('开始日期').fill('2026-05-20')
-  await page.getByLabel('结束日期').fill('2026-05-01')
+  await page.getByLabel('收入报表日期范围').click()
+  await expect(page.getByRole('dialog', { name: '收入报表日期面板' })).toBeVisible()
+  await page.getByRole('button', { name: '2026-05-20' }).click()
+  await page.getByRole('button', { name: '2026-05-21' }).click()
   await page.getByRole('button', { name: /查\s*询/ }).click()
 
-  await expect(page.getByRole('alert')).toContainText('收入报表查询参数不合法')
-  await expect(page.getByRole('alert')).toContainText('开始日期不能晚于结束日期')
+  await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-20')
+  await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-21')
+  await expect(page.getByTestId('income-report-contract')).toContainText('"startDate":"2026-05-20"')
+  await expect(page.getByTestId('income-report-contract')).toContainText('"endDate":"2026-05-21"')
+})
+
+test('/statistics/stay expands grouped income columns from the table header', async ({ page }) => {
+  await openIncomeReport(page)
+
+  const roomFeeToggle = page.locator('.income-table-expand', { hasText: '房费(含佣)' })
+  await roomFeeToggle.click()
+  await expect(roomFeeToggle).toHaveClass(/is-expanded/)
+  await expect(page.getByRole('columnheader', { name: '全日房费(含佣)' })).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: '钟点房费(含佣)' })).toBeVisible()
+
+  const otherExpenseToggle = page.locator('.income-table-expand', { hasText: '其他消费' })
+  await otherExpenseToggle.click()
+  await expect(otherExpenseToggle).toHaveClass(/is-expanded/)
+  await expect(page.getByRole('columnheader', { name: '其他消费(住宿)' })).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: '其他消费(场地)' })).toBeVisible()
+
+  const manualIncomeToggle = page.locator('.income-table-expand', { hasText: '记一笔收入' })
+  await manualIncomeToggle.click()
+  await expect(manualIncomeToggle).toHaveClass(/is-expanded/)
+  await expect(page.getByRole('columnheader', { name: '记一笔收入(住宿)' })).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: '记一笔收入(场地)' })).toBeVisible()
 })
 
 test('/statistics/stay handles empty provider responses without collapsing the page', async ({ page }) => {

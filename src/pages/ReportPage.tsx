@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   buildStatisticsReportQueryForPreset,
   createDefaultStatisticsReportQuery,
@@ -14,8 +15,11 @@ import './ReportPage.css'
 
 type ReportMode = 'overview' | 'future'
 type FilterKey = 'roomType' | 'channel' | 'tag' | null
-
+type StoreScope = 'all' | 'current'
+type DatePickTarget = 'start' | 'end'
+type DatePanelPosition = { top: number; left: number }
 export function ReportPage() {
+  const navigate = useNavigate()
   const [query, setQuery] = useState(createInitialQuery)
   const [dashboard, setDashboard] = useState<StatisticsReportDashboard | null>(null)
   const [loading, setLoading] = useState(true)
@@ -24,6 +28,12 @@ export function ReportPage() {
   const [mode, setMode] = useState<ReportMode>('overview')
   const [openFilter, setOpenFilter] = useState<FilterKey>(null)
   const [activeTrendKey, setActiveTrendKey] = useState<StatisticsReportTrendKey>('businessIncome')
+  const [isDatePanelOpen, setIsDatePanelOpen] = useState(false)
+  const [storeScope, setStoreScope] = useState<StoreScope>('current')
+  const [calendarMonth, setCalendarMonth] = useState(() => query.startDate.slice(0, 7))
+  const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
+  const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
+  const dateRangeRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -70,11 +80,13 @@ export function ReportPage() {
   )
 
   const isEmpty = !loading && !error && dashboard?.state === 'empty'
+  const activePreset = findMatchingPreset(query.startDate, query.endDate)
 
   function switchPreset(preset: StatisticsReportPreset, label: string) {
     setLoading(true)
     setError('')
     setOpenFilter(null)
+    setIsDatePanelOpen(false)
     setQuery((current) => {
       const next = buildStatisticsReportQueryForPreset(preset, current)
       return {
@@ -96,12 +108,33 @@ export function ReportPage() {
     setNotice(message)
   }
 
-  function refreshDashboard() {
-    setLoading(true)
-    setError('')
+  function openDatePanel(target: DatePickTarget = 'start') {
     setOpenFilter(null)
-    setQuery((current) => ({ ...current }))
-    setNotice('统计概览看板已刷新')
+    setDatePickTarget(target)
+    setCalendarMonth(query.startDate.slice(0, 7))
+    const rect = dateRangeRef.current?.getBoundingClientRect()
+    if (rect) {
+      setDatePanelPosition({
+        top: rect.bottom + 8,
+        left: Math.max(16, Math.min(rect.left, window.innerWidth - 600)),
+      })
+    }
+    setIsDatePanelOpen(true)
+  }
+
+  function applyDateSelection(date: string) {
+    if (datePickTarget === 'start') {
+      const nextEndDate = date <= query.endDate ? query.endDate : date
+      updateQuery({ startDate: date, endDate: nextEndDate }, '已更新统计日期')
+      setDatePickTarget('end')
+      return
+    }
+
+    const nextStartDate = date < query.startDate ? date : query.startDate
+    const nextEndDate = date < query.startDate ? query.startDate : date
+    updateQuery({ startDate: nextStartDate, endDate: nextEndDate }, '已更新统计日期')
+    setDatePickTarget('start')
+    setIsDatePanelOpen(false)
   }
 
   function retryDashboard() {
@@ -110,6 +143,11 @@ export function ReportPage() {
     setOpenFilter(null)
     setQuery(createInitialQuery())
     setNotice('统计概览看板已重新加载')
+  }
+
+  function switchStoreScope(nextScope: StoreScope) {
+    setStoreScope(nextScope)
+    setNotice(nextScope === 'all' ? '已切换到全部门店视角' : '已切换到当前门店视角')
   }
 
   function openTagSelect() {
@@ -159,23 +197,38 @@ export function ReportPage() {
         </div>
 
         <div className="statistics-report-store">
-          <button type="button" className="store-scope is-active" aria-pressed="true">
+          <button
+            type="button"
+            className={`store-scope${storeScope === 'all' ? ' is-active' : ''}`}
+            aria-pressed={storeScope === 'all'}
+            onClick={() => switchStoreScope('all')}
+          >
             全部门店
           </button>
-          <button type="button" className="store-current">
+          <button
+            type="button"
+            className={`store-current${storeScope === 'current' ? ' is-active' : ''}`}
+            aria-pressed={storeScope === 'current'}
+            onClick={() => switchStoreScope('current')}
+          >
             {dashboard?.currentStoreName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
           </button>
+          <button
+            type="button"
+            className="store-settings-button"
+            aria-label="打开门店信息设置"
+            onClick={() => navigate('/InformationMaintenance/campInfo')}
+          >
+            <span aria-hidden="true" />
+          </button>
         </div>
-
         <div className="statistics-report-filters">
           <div className="statistics-report-presets" role="group" aria-label="日期快捷筛选">
             {statisticsReportPresetOptions.map((preset) => (
               <button
                 key={preset.key}
                 type="button"
-                className={query.preset === preset.key ? 'is-active' : ''}
-                disabled={!preset.supported}
-                title={preset.supported ? undefined : '当前 mock 仅覆盖昨天、今天和本月'}
+                className={activePreset === preset.key ? 'is-active' : ''}
                 onClick={() => switchPreset(preset.key, preset.label)}
               >
                 {preset.label}
@@ -183,10 +236,40 @@ export function ReportPage() {
             ))}
           </div>
 
-          <div className="report-date-range" role="group" aria-label="统计日期">
-            <input aria-label="开始日期" value={query.startDate} readOnly />
+          <div
+            ref={dateRangeRef}
+            className="report-date-range"
+            role="button"
+            tabIndex={0}
+            aria-label="统计日期"
+            onClick={() => openDatePanel('start')}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                openDatePanel('start')
+              }
+            }}
+          >
+            <input
+              aria-label="开始日期"
+              value={query.startDate}
+              readOnly
+              onClick={(event) => {
+                event.stopPropagation()
+                openDatePanel('start')
+              }}
+            />
             <span>至</span>
-            <input aria-label="结束日期" value={query.endDate} readOnly />
+            <input
+              aria-label="结束日期"
+              value={query.endDate}
+              readOnly
+              onClick={(event) => {
+                event.stopPropagation()
+                openDatePanel('end')
+              }}
+            />
+            <i aria-hidden="true" />
           </div>
 
           <FilterSelect
@@ -221,19 +304,26 @@ export function ReportPage() {
             onToggle={openTagSelect}
             onSelect={() => setOpenFilter(null)}
           />
-
-          <button
-            type="button"
-            className="report-refresh-button"
-            aria-label="刷新看板"
-            onClick={refreshDashboard}
-            disabled={loading}
-          >
-            刷新看板
-          </button>
         </div>
 
-        <div className="statistics-report-feedback" role="status" aria-label="统计概览反馈">
+        {isDatePanelOpen ? (
+          <DatePanel
+            month={calendarMonth}
+            startDate={query.startDate}
+            endDate={query.endDate}
+            pickTarget={datePickTarget}
+            position={datePanelPosition}
+            onClose={() => {
+              setIsDatePanelOpen(false)
+              setDatePickTarget('start')
+            }}
+            onPrevious={() => setCalendarMonth((current) => shiftMonth(current, -1))}
+            onNext={() => setCalendarMonth((current) => shiftMonth(current, 1))}
+            onPick={applyDateSelection}
+          />
+        ) : null}
+
+        <div className="statistics-report-feedback sr-only-heading" role="status" aria-label="统计概览反馈">
           {loading ? '正在刷新统计概览数据' : notice}
         </div>
 
@@ -251,7 +341,7 @@ export function ReportPage() {
           <section className="statistics-report-empty" aria-label="统计概览空状态">
             <strong>暂无统计数据</strong>
             <p>当前筛选条件下没有可展示的经营数据，请调整条件后重试。</p>
-            <button type="button" onClick={refreshDashboard}>
+            <button type="button" onClick={retryDashboard}>
               刷新
             </button>
           </section>
@@ -495,6 +585,111 @@ function FilterSelect({
   )
 }
 
+function DatePanel({
+  month,
+  startDate,
+  endDate,
+  pickTarget,
+  position,
+  onClose,
+  onPrevious,
+  onNext,
+  onPick,
+}: {
+  month: string
+  startDate: string
+  endDate: string
+  pickTarget: DatePickTarget
+  position: DatePanelPosition
+  onClose: () => void
+  onPrevious: () => void
+  onNext: () => void
+  onPick: (date: string) => void
+}) {
+  const months = [month, shiftMonth(month, 1)]
+
+  return (
+    <div className="report-date-panel-wrap" role="presentation" onMouseDown={onClose}>
+      <section className="report-date-panel" role="dialog" aria-label="统计日期面板" style={{ top: `${position.top}px`, left: `${position.left}px` }} onMouseDown={(event) => event.stopPropagation()}>
+        <div className="report-date-panel__header">
+          <strong>{pickTarget === 'start' ? '请选择开始日期' : '请选择结束日期'}</strong>
+          <button type="button" aria-label="关闭统计日期面板" onClick={onClose}>
+            ×
+          </button>
+        </div>
+        <div className="report-date-panel__months">
+          {months.map((item, index) => (
+            <CalendarMonth
+              key={item}
+              month={item}
+              startDate={startDate}
+              endDate={endDate}
+              onPrevious={index === 0 ? onPrevious : undefined}
+              onNext={index === months.length - 1 ? onNext : undefined}
+              onPick={onPick}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function CalendarMonth({
+  month,
+  startDate,
+  endDate,
+  onPrevious,
+  onNext,
+  onPick,
+}: {
+  month: string
+  startDate: string
+  endDate: string
+  onPrevious?: () => void
+  onNext?: () => void
+  onPick: (date: string) => void
+}) {
+  const days = buildCalendarDays(month)
+  const monthLabel = formatMonthLabel(month)
+
+  return (
+    <section className="report-calendar-month" aria-label={monthLabel}>
+      <header>
+        <button type="button" aria-label="上个月" onClick={onPrevious} disabled={!onPrevious}>
+          ‹
+        </button>
+        <strong>{monthLabel}</strong>
+        <button type="button" aria-label="下个月" onClick={onNext} disabled={!onNext}>
+          ›
+        </button>
+      </header>
+      <div className="report-calendar-month__weekdays">
+        {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
+          <span key={day}>{day}</span>
+        ))}
+      </div>
+      <div className="report-calendar-month__days">
+        {days.map((day) => {
+          const inRange = day.date >= startDate && day.date <= endDate
+          const isSelected = day.date === startDate || day.date === endDate
+          return (
+            <button
+              key={day.date}
+              type="button"
+              aria-label={day.date}
+              className={`${day.isMuted ? 'is-muted' : ''}${inRange ? ' is-in-range' : ''}${isSelected ? ' is-selected' : ''}`}
+              onClick={() => onPick(day.date)}
+            >
+              {day.label}
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 function createInitialQuery() {
   const query = createDefaultStatisticsReportQuery()
   query.state =
@@ -511,6 +706,43 @@ function createInitialQuery() {
 function selectedLabel(options: StatisticsReportOption[], id: string | undefined, fallback: string) {
   if (!id) return fallback
   return options.find((item) => item.id === id)?.label ?? fallback
+}
+
+function findMatchingPreset(startDate: string, endDate: string) {
+  for (const preset of statisticsReportPresetOptions) {
+    const presetQuery = buildStatisticsReportQueryForPreset(preset.key)
+    if (presetQuery.startDate === startDate && presetQuery.endDate === endDate) {
+      return preset.key
+    }
+  }
+  return null
+}
+
+function shiftMonth(month: string, offset: number) {
+  const [year, monthIndex] = month.split('-').map(Number)
+  const nextDate = new Date(year, monthIndex - 1 + offset, 1)
+  return `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}`
+}
+
+function formatMonthLabel(month: string) {
+  const [year, monthValue] = month.split('-')
+  return `${year}年${Number(monthValue)}月`
+}
+
+function buildCalendarDays(month: string) {
+  const [year, monthValue] = month.split('-').map(Number)
+  const firstDay = new Date(year, monthValue - 1, 1)
+  const startOffset = (firstDay.getDay() + 6) % 7
+  const gridStart = new Date(year, monthValue - 1, 1 - startOffset)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index)
+    return {
+      date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+      label: String(date.getDate()),
+      isMuted: date.getMonth() !== monthValue - 1,
+    }
+  })
 }
 
 function buildYAxis(values: number[]) {

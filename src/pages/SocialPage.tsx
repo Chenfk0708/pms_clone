@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   defaultSocialFilters,
   fetchSocialOverview,
-  type SocialAccountRow,
   type SocialChannel,
   type SocialFilters,
   type SocialViewModel,
@@ -13,26 +12,28 @@ import './SocialPage.css'
 type DialogState =
   | { type: 'channel'; channel: SocialChannel }
   | { type: 'subscription'; channel: SocialChannel }
-  | { type: 'more' }
   | null
 
-function logoText(name: string) {
-  if (name === '抖音来客' || name === '抖音特价酒店') return '♪'
-  if (name === '小红书') return '小红书'
-  if (name === '视频号') return '视频号'
-  return name.slice(0, 2)
+type ActionDialogState =
+  | { type: 'disconnect'; authorizationName: string }
+  | { type: 'addAccount' }
+  | { type: 'syncRoomType'; tab: '日历房型' | '预售房型' }
+  | null
+
+function getLogoLabel(channel: SocialChannel) {
+  if (channel.id.startsWith('xiaohongshu')) return '小红书'
+  if (channel.id.startsWith('shipinhao')) return '视频号'
+  return '抖音'
 }
 
 export function SocialPage() {
   const navigate = useNavigate()
-  const [filters, setFilters] = useState<SocialFilters>(defaultSocialFilters)
-  const [query, setQuery] = useState<SocialFilters>(defaultSocialFilters)
+  const [query] = useState<SocialFilters>(defaultSocialFilters)
   const [viewModel, setViewModel] = useState<SocialViewModel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [feedback, setFeedback] = useState('社媒数据加载中')
   const [dialog, setDialog] = useState<DialogState>(null)
-  const nextSuccessFeedback = useRef('')
+  const hasLoaded = useRef(false)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,13 +41,12 @@ export function SocialPage() {
     fetchSocialOverview(query, controller.signal)
       .then((data) => {
         setViewModel(data)
-        setFeedback(nextSuccessFeedback.current || '社媒数据已更新')
-        nextSuccessFeedback.current = ''
+        setError('')
+        hasLoaded.current = true
       })
       .catch((loadError: Error) => {
         if (controller.signal.aborted) return
         setError(loadError.message || '社媒数据加载失败')
-        setFeedback('社媒数据加载失败')
       })
       .finally(() => {
         if (!controller.signal.aborted) setIsLoading(false)
@@ -61,54 +61,24 @@ export function SocialPage() {
   )
   const requestBody = viewModel ? JSON.stringify(viewModel.requestBody) : '{}'
 
-  function updateFilter<K extends keyof SocialFilters>(key: K, value: SocialFilters[K]) {
-    setFilters((current) => ({ ...current, [key]: value }))
-  }
-
-  function submitFilters() {
-    nextSuccessFeedback.current = '已按当前条件更新'
-    setIsLoading(true)
-    setError('')
-    setFeedback('社媒数据加载中')
-    setQuery(filters)
-  }
-
-  function resetFilters() {
-    nextSuccessFeedback.current = '筛选条件已重置'
-    setIsLoading(true)
-    setError('')
-    setFeedback('社媒数据加载中')
-    setFilters(defaultSocialFilters)
-    setQuery(defaultSocialFilters)
-  }
-
-  function refreshData() {
-    nextSuccessFeedback.current = '社媒数据已刷新'
-    setIsLoading(true)
-    setError('')
-    setFeedback('社媒数据加载中')
-    setQuery((current) => ({ ...current }))
-  }
-
-  function exportData() {
-    setFeedback('导出任务已创建，请在下载中心查看')
-  }
-
   function showChannelDetail(channel: SocialChannel) {
     setDialog({ type: 'channel', channel })
   }
 
   function showSubscription(channel: SocialChannel) {
-    setDialog({ type: 'subscription', channel })
+    navigate('/version/applicationPayment', { state: { source: 'social-channel', channel: channel.id } })
+  }
+
+  function openChannelManage(channel: SocialChannel) {
+    if (channel.status === 'connected') {
+      navigate('/channels/social/setting')
+      return
+    }
+    showChannelDetail(channel)
   }
 
   function confirmSubscription() {
     setDialog(null)
-    setFeedback('订阅开通申请已提交，客户经理将在今日跟进')
-  }
-
-  function syncRoomTypes(row: SocialAccountRow) {
-    setFeedback(`${row.channel}房型同步任务已提交`)
   }
 
   return (
@@ -120,177 +90,37 @@ export function SocialPage() {
       data-request-body={requestBody}
     >
       <h1 className="sr-only-heading">社媒</h1>
-      <section className="social-channel-surface">
-        <header className="social-ops-header">
-          <div>
-            <p>OTA / 社媒 / 社媒</p>
-            <h2>社媒渠道运营</h2>
+      <section className="social-channel-surface social-channel-surface--list">
+        {isLoading && !hasLoaded.current ? (
+          <div className="social-feedback" role="status">
+            社媒数据加载中
           </div>
-          <div className="social-ops-header__actions">
-            <button type="button" onClick={refreshData} disabled={isLoading}>
-              刷新
-            </button>
-            <button type="button" onClick={exportData} disabled={isLoading || !viewModel}>
-              导出
-            </button>
-            <button type="button" onClick={() => setDialog({ type: 'more' })}>
-              更多
-            </button>
-          </div>
-        </header>
-
-        <form className="social-filter-bar" onSubmit={(event) => event.preventDefault()}>
-          <label>
-            <span>运营日期</span>
-            <input
-              aria-label="运营日期"
-              type="date"
-              value={filters.date}
-              onChange={(event) => updateFilter('date', event.target.value)}
-            />
-          </label>
-          <label>
-            <span>门店</span>
-            <select aria-label="门店" value={filters.campId} onChange={(event) => updateFilter('campId', event.target.value)}>
-              {(viewModel?.filterOptions.camps ?? [{ label: '全部门店', value: 'all' }]).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>项目</span>
-            <select
-              aria-label="项目"
-              value={filters.projectId}
-              onChange={(event) => updateFilter('projectId', event.target.value)}
-            >
-              {(viewModel?.filterOptions.projects ?? [{ label: '全部项目', value: 'all' }]).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>渠道状态</span>
-            <select
-              aria-label="渠道状态"
-              value={filters.status}
-              onChange={(event) => updateFilter('status', event.target.value as SocialFilters['status'])}
-            >
-              {(viewModel?.filterOptions.statuses ?? [{ label: '全部状态', value: 'all' as const }]).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>关键词</span>
-            <input
-              aria-label="关键词"
-              value={filters.keyword}
-              placeholder="渠道/账号"
-              onChange={(event) => updateFilter('keyword', event.target.value)}
-            />
-          </label>
-          <div className="social-filter-bar__actions">
-            <button type="button" onClick={submitFilters} disabled={isLoading}>
-              查询
-            </button>
-            <button type="button" onClick={resetFilters} disabled={isLoading}>
-              重置
-            </button>
-          </div>
-        </form>
-
-        <div className="social-feedback" role="status">
-          {isLoading ? '社媒数据加载中' : feedback}
-        </div>
+        ) : null}
 
         {error ? (
           <section className="social-state-panel social-state-panel--error" role="alert">
             <strong>社媒数据加载失败</strong>
-            <span>请检查当前筛选条件后重新加载。</span>
-            <button type="button" onClick={refreshData}>
-              重新加载
-            </button>
+            <span>请稍后刷新页面后重试。</span>
           </section>
         ) : null}
 
         {viewModel ? (
-          <>
-            <section className="social-metric-grid" aria-label="社媒核心指标">
-              {viewModel.metrics.map((metric) => (
-                <article key={metric.label} className={`social-metric-card social-metric-card--${metric.tone}`}>
-                  <span>{metric.label}</span>
-                  <strong>{metric.value}</strong>
-                  <small>{metric.change}</small>
-                </article>
-              ))}
+          allChannels.length === 0 ? (
+            <section className="social-state-panel">
+              <strong>暂无符合当前条件的社媒渠道</strong>
+              <span>当前没有可展示的渠道卡片。</span>
             </section>
-
-            {allChannels.length === 0 ? (
-              <section className="social-state-panel">
-                <strong>暂无符合当前筛选条件的社媒渠道</strong>
-                <span>调整门店、状态或关键词后可重新查询。</span>
-              </section>
-            ) : (
-              <>
-                <ChannelSection title="已直连渠道" channels={viewModel.connectedChannels} onDetail={showChannelDetail} />
-                <ChannelSection
-                  title="未直连渠道"
-                  channels={viewModel.pendingChannels}
-                  onDetail={showChannelDetail}
-                  onSubscribe={showSubscription}
-                />
-              </>
-            )}
-
-            <section className="social-dashboard-grid">
-              <section className="social-panel" aria-label="社媒运营趋势">
-                <PanelTitle title="社媒运营趋势" />
-                <TrendChart viewModel={viewModel} />
-              </section>
-
-              <section className="social-panel" aria-label="社媒待办">
-                <PanelTitle title="待办提醒" />
-                <div className="social-todo-list">
-                  {viewModel.todos.length === 0 ? (
-                    <span className="social-empty-inline">暂无待办事项</span>
-                  ) : (
-                    viewModel.todos.map((todo) => (
-                      <button key={todo.id} type="button" onClick={() => setFeedback(`${todo.title}已加入今日处理队列`)}>
-                        <strong>{todo.title}</strong>
-                        <span>{todo.channel}</span>
-                        <small>
-                          {todo.priority} / {todo.dueText}
-                        </small>
-                      </button>
-                    ))
-                  )}
-                </div>
-              </section>
-
-              <section className="social-panel" aria-label="快捷入口">
-                <PanelTitle title="快捷入口" />
-                <div className="social-quick-links">
-                  {viewModel.quickLinks.map((link) => (
-                    <button key={link.path} type="button" onClick={() => navigate(link.path)}>
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-              </section>
-            </section>
-
-            <section className="social-panel social-account-panel">
-              <PanelTitle title="账号管理" />
-              <AccountTable rows={viewModel.accounts.list} onDetail={showChannelDetail} onSync={syncRoomTypes} channels={allChannels} />
-            </section>
-          </>
+          ) : (
+            <div className="social-channel-list">
+              <ChannelSection title="已直连渠道" channels={viewModel.connectedChannels} onDetail={openChannelManage} />
+              <ChannelSection
+                title="未直连渠道"
+                channels={viewModel.pendingChannels}
+                onDetail={openChannelManage}
+                onSubscribe={showSubscription}
+              />
+            </div>
+          )
         ) : null}
       </section>
 
@@ -298,7 +128,6 @@ export function SocialPage() {
       {dialog?.type === 'subscription' ? (
         <SubscriptionDialog channel={dialog.channel} onConfirm={confirmSubscription} onClose={() => setDialog(null)} />
       ) : null}
-      {dialog?.type === 'more' ? <MoreDialog onClose={() => setDialog(null)} /> : null}
     </div>
   )
 }
@@ -329,132 +158,43 @@ function ChannelSection({
     <section className="social-channel-section">
       <PanelTitle title={title} />
       <div className={channels.length === 1 ? 'social-channel-grid social-channel-grid--single' : 'social-channel-grid'}>
-        {channels.map((card) => (
+        {channels.map((channel) => (
           <article
-            key={card.id}
-            className={`social-channel-card social-channel-card--${card.status}`}
-            aria-label={card.name}
+            key={channel.id}
+            className={`social-channel-card social-channel-card--${channel.status}`}
+            aria-label={channel.name}
             tabIndex={0}
-            onClick={() => onDetail(card)}
+            onClick={() => onDetail(channel)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter') onDetail(card)
+              if (event.key === 'Enter') onDetail(channel)
             }}
           >
             <div className="social-channel-card__meta">
-              <strong>{card.name}</strong>
-              <span>{card.relation}</span>
-              <span>支持：{card.support.join('、') || '渠道运营'}</span>
-              <span>
-                今日订单 {card.dailyOrders}，转化率 {card.conversionRate}
-              </span>
+              <strong>{channel.name}</strong>
+              {channel.status === 'connected' ? (
+                <>
+                  <span>{channel.relation}</span>
+                  <span>支持：{channel.support.join('、') || '渠道运营'}</span>
+                </>
+              ) : null}
             </div>
-            <div className={`social-channel-card__logo social-channel-card__logo--${card.accent}`}>{logoText(card.name)}</div>
+            <div className={`social-channel-card__logo social-channel-card__logo--${channel.accent}`}>{getLogoLabel(channel)}</div>
             <div className="social-channel-card__actions">
               <button
                 type="button"
                 onClick={(event) => {
                   event.stopPropagation()
-                  if (card.status === 'pending' && onSubscribe) onSubscribe(card)
-                  else onDetail(card)
+                  if (channel.status === 'pending' && onSubscribe) onSubscribe(channel)
+                  else onDetail(channel)
                 }}
               >
-                {card.action}
+                {channel.action}
               </button>
             </div>
           </article>
         ))}
       </div>
     </section>
-  )
-}
-
-function TrendChart({ viewModel }: { viewModel: SocialViewModel }) {
-  return (
-    <>
-      <div className="social-trend-chart">
-        {viewModel.trend.length === 0 ? (
-          <span className="social-empty-inline">暂无趋势数据</span>
-        ) : (
-          viewModel.trend.map((point) => (
-            <div key={point.label} className="social-trend-chart__row">
-              <span>{point.label}</span>
-              <i style={{ width: `${Math.max(point.douyin * 5, 8)}px` }} title="抖音来客" />
-              <b style={{ width: `${Math.max(point.xiaohongshu * 8, 8)}px` }} title="小红书" />
-              <em style={{ width: `${Math.max(point.shipinhao * 9, 8)}px` }} title="视频号" />
-            </div>
-          ))
-        )}
-      </div>
-      <div className="social-trend-legend">
-        <span>抖音来客</span>
-        <span>小红书</span>
-        <span>视频号</span>
-      </div>
-    </>
-  )
-}
-
-function AccountTable({
-  rows,
-  channels,
-  onDetail,
-  onSync,
-}: {
-  rows: SocialAccountRow[]
-  channels: SocialChannel[]
-  onDetail: (channel: SocialChannel) => void
-  onSync: (row: SocialAccountRow) => void
-}) {
-  if (rows.length === 0) return <div className="social-empty-inline">暂无符合当前筛选条件的账号</div>
-
-  return (
-    <div className="social-detail-table-wrap">
-      <table className="social-detail-table" aria-label="社媒账号管理列表">
-        <thead>
-          <tr>
-            <th>渠道账号id</th>
-            <th>账号ID</th>
-            <th>门店</th>
-            <th>授权业务</th>
-            <th>审核状态</th>
-            <th>同步状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => {
-            const channel = channels.find((item) => item.name === row.channel)
-            return (
-              <tr key={row.id}>
-                <td>{row.id}</td>
-                <td>{row.accountId}</td>
-                <td>{row.store}</td>
-                <td>{row.authorization.map((item) => <span key={item}>{item}</span>)}</td>
-                <td>
-                  <span className={row.auditStatus === '已发布' ? 'social-detail-status' : 'social-detail-status--reviewing'}>
-                    {row.auditStatus}
-                  </span>
-                </td>
-                <td>{row.syncStatus}</td>
-                <td>
-                  <div className="social-detail-actions">
-                    <button type="button" onClick={() => channel && onDetail(channel)}>
-                      查看详情
-                    </button>
-                    <button type="button" onClick={() => onSync(row)}>
-                      拉取房型
-                    </button>
-                    <button type="button" onClick={() => onSync(row)}>
-                      授权日历房
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
   )
 }
 
@@ -547,39 +287,315 @@ function SubscriptionDialog({
   )
 }
 
-function MoreDialog({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="social-modal-backdrop" role="presentation" onClick={onClose}>
-      <section
-        className="social-modal social-modal--small"
-        role="dialog"
-        aria-modal="true"
-        aria-label="更多操作"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <header>
-          <h3>更多操作</h3>
-          <button type="button" aria-label="关闭更多操作" onClick={onClose}>
-            ×
-          </button>
-        </header>
-        <div className="social-more-actions">
-          <button type="button">渠道日志</button>
-          <button type="button">订阅记录</button>
-          <button type="button">同步记录</button>
-        </div>
-      </section>
-    </div>
-  )
-}
-
 export function SocialSettingPage() {
+  const tabs = ['账号管理', '门店管理', '日历房型', '预售房型'] as const
+  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('账号管理')
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [keyword, setKeyword] = useState('')
+  const [draftKeyword, setDraftKeyword] = useState('')
+  const [refreshTick, setRefreshTick] = useState(0)
+  const [storeAccountFilter, setStoreAccountFilter] = useState('all')
+  const [storeKeyword, setStoreKeyword] = useState('')
+  const [calendarChannelFilter, setCalendarChannelFilter] = useState('all')
+  const [calendarAuditFilter, setCalendarAuditFilter] = useState('all')
+  const [calendarShelfFilter, setCalendarShelfFilter] = useState('all')
+  const [calendarKeyword, setCalendarKeyword] = useState('')
+  const [presaleChannelFilter, setPresaleChannelFilter] = useState('all')
+  const [presaleAuditFilter, setPresaleAuditFilter] = useState('all')
+  const [presaleShelfFilter, setPresaleShelfFilter] = useState('all')
+  const [presaleKeyword, setPresaleKeyword] = useState('')
+  const [actionDialog, setActionDialog] = useState<ActionDialogState>(null)
+  const [toastMessage, setToastMessage] = useState('')
+  const [selectedSolution, setSelectedSolution] = useState('presale')
+
+  const accountRows = [
+    {
+      id: '7370207731854149643',
+      accountId: '1820360983796908034',
+      storeCount: '0',
+      authorizations: [
+        { name: '酒店行业预售券解决方案', status: '已发布' },
+        { name: '酒店行业日历房解决方案', status: '审核中' },
+      ],
+    },
+  ]
+
+  const filteredAccountRows = accountRows.filter((row) => {
+    const matchesStatus =
+      statusFilter === 'all' ||
+      row.authorizations.some((item) => (statusFilter === 'published' ? item.status === '已发布' : item.status === '审核中'))
+    const matchesKeyword = keyword.trim() === '' || row.accountId.includes(keyword.trim()) || row.id.includes(keyword.trim())
+    return matchesStatus && matchesKeyword
+  })
+
+  const accountCountText =
+    filteredAccountRows.length > 0 ? `第 1-${filteredAccountRows.length} 条/总共 ${filteredAccountRows.length} 条` : '第 0-0 条/总共 0 条'
+
+  useEffect(() => {
+    if (!toastMessage) return
+    const timer = window.setTimeout(() => setToastMessage(''), 1800)
+    return () => window.clearTimeout(timer)
+  }, [toastMessage])
+
+  function handleSearch() {
+    setKeyword(draftKeyword.trim())
+  }
+
+  function handleReset() {
+    setStatusFilter('all')
+    setDraftKeyword('')
+    setKeyword('')
+  }
+
+  function handlePullRoomType() {
+    setToastMessage('刷新成功')
+  }
+
+  function handleDisconnect(authorizationName: string) {
+    setActionDialog({ type: 'disconnect', authorizationName })
+  }
+
+  function confirmDisconnect() {
+    setActionDialog(null)
+    setToastMessage('操作成功')
+  }
+
+  const tabView = {
+    账号管理: (
+      <>
+        <div className="social-detail-toolbar">
+          <div className="social-detail-toolbar__filters">
+            <label className="social-detail-field">
+              <span>审核状态：</span>
+              <select aria-label="审核状态" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+                <option value="all">全部</option>
+                <option value="published">已发布</option>
+                <option value="reviewing">审核中</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>账号：</span>
+              <input aria-label="账号" value={draftKeyword} onChange={(event) => setDraftKeyword(event.target.value)} />
+            </label>
+          </div>
+          <div className="social-detail-toolbar__actions">
+            <button type="button" className="social-detail-toolbar__primary" onClick={() => setActionDialog({ type: 'addAccount' })}>
+              添加账号
+            </button>
+            <button type="button" className="social-detail-toolbar__submit" onClick={handleSearch}>
+              查 询
+            </button>
+            <button type="button" className="social-detail-toolbar__outline" onClick={handleReset}>
+              重 置
+            </button>
+            <button
+              type="button"
+              className="social-detail-toolbar__refresh"
+              aria-label="刷新账号管理"
+              onClick={() => setRefreshTick((value) => value + 1)}
+            >
+              ↻
+            </button>
+          </div>
+        </div>
+        <div className="social-detail-table-wrap" data-refresh-tick={refreshTick}>
+          <table className="social-detail-table" aria-label="社媒账号管理列表">
+            <thead>
+              <tr>
+                <th>渠道账号id</th>
+                <th>账号ID</th>
+                <th>门店</th>
+                <th>授权业务</th>
+                <th>审核状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAccountRows.length > 0 ? (
+                filteredAccountRows.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.id}</td>
+                    <td>{row.accountId}</td>
+                    <td>{row.storeCount}</td>
+                    <td>
+                      <div className="social-detail-stack">
+                        {row.authorizations.map((item) => (
+                          <span key={item.name}>{item.name}</span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="social-detail-stack">
+                        {row.authorizations.map((item) => (
+                          <span
+                            key={`${item.name}-${item.status}`}
+                            className={item.status === '审核中' ? 'social-detail-status social-detail-status--reviewing' : 'social-detail-status'}
+                          >
+                            {item.status}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="social-detail-stack social-detail-stack--actions">
+                        <div className="social-detail-actions">
+                          <button type="button" className="social-detail-actions__danger" onClick={() => handleDisconnect(row.authorizations[0].name)}>
+                            断开直连
+                          </button>
+                          <button type="button" onClick={handlePullRoomType}>
+                            拉取房型
+                          </button>
+                        </div>
+                        <div className="social-detail-actions">
+                          <button type="button" className="social-detail-actions__danger" onClick={() => handleDisconnect(row.authorizations[1].name)}>
+                            断开直连
+                          </button>
+                          <button type="button" onClick={handlePullRoomType}>
+                            拉取房型
+                          </button>
+                          <button type="button">授权日历房</button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6}>
+                    <div className="social-detail-empty">暂无符合条件的账号记录</div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <footer className="social-detail-pagination">
+          <span>{accountCountText}</span>
+          <div className="social-detail-pagination__controls">
+            <button type="button" aria-label="上一页" disabled>
+              ‹
+            </button>
+            <button type="button" className="is-active">
+              1
+            </button>
+            <button type="button" aria-label="下一页" disabled>
+              ›
+            </button>
+            <button type="button" className="social-detail-pagination__size">
+              10 条/页
+            </button>
+          </div>
+        </footer>
+      </>
+    ),
+    门店管理: (
+      <SocialDetailScaffold
+        intro="您已开通抖音来客直连，可在下方【门店管理】处读取渠道门店，并和路客云门店进行关联操作，完成【门店关联】后可进行房型管理。"
+        primaryAction="读取门店"
+        onPrimaryAction={handlePullRoomType}
+        filters={
+          <>
+            <label className="social-detail-field">
+              <span>全部账号：</span>
+              <select value={storeAccountFilter} onChange={(event) => setStoreAccountFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>门店名称:</span>
+              <input value={storeKeyword} placeholder="请输入门店名称" onChange={(event) => setStoreKeyword(event.target.value)} />
+            </label>
+          </>
+        }
+        columns={['渠道门店', '渠道账号', '房型数量', '路客云门店关联状态', '关联路客云门店', '操作']}
+      />
+    ),
+    日历房型: (
+      <SocialDetailScaffold
+        intro="您已开通抖音来客直连，请在【门店管理】处关联门店后，在下方【日历房型】处操作【同步房型】；"
+        primaryAction="同步房型"
+        onPrimaryAction={() => setActionDialog({ type: 'syncRoomType', tab: '日历房型' })}
+        filters={
+          <>
+            <label className="social-detail-field">
+              <span>渠道门店:</span>
+              <select value={calendarChannelFilter} onChange={(event) => setCalendarChannelFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>审核状态:</span>
+              <select value={calendarAuditFilter} onChange={(event) => setCalendarAuditFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>上架状态:</span>
+              <select value={calendarShelfFilter} onChange={(event) => setCalendarShelfFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>房型名称:</span>
+              <input value={calendarKeyword} placeholder="请输入房型名称" onChange={(event) => setCalendarKeyword(event.target.value)} />
+            </label>
+          </>
+        }
+        columns={['房型', '门店', '关联账号', '房型图片', '上架状态', '审核状态', '路客云房型关联状态', '关联路客云房型', '操作']}
+      />
+    ),
+    预售房型: (
+      <SocialDetailScaffold
+        intro="您已开通抖音来客直连，请在【门店管理】处关联门店后，在下方【预售房型】处操作【同步房型】。"
+        notes={[
+          '注：1. 同步预售房型至抖音来客后，需要在抖音来客创建预售券关联同步的预售房型，才可实现房态、订单同步。',
+          '2. 预售房型不支持设置房型价格，因此在【价格库存】无法设置预售房型价格；',
+        ]}
+        primaryAction="同步房型"
+        onPrimaryAction={() => setActionDialog({ type: 'syncRoomType', tab: '预售房型' })}
+        filters={
+          <>
+            <label className="social-detail-field">
+              <span>渠道门店:</span>
+              <select value={presaleChannelFilter} onChange={(event) => setPresaleChannelFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>审核状态:</span>
+              <select value={presaleAuditFilter} onChange={(event) => setPresaleAuditFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>上架状态:</span>
+              <select value={presaleShelfFilter} onChange={(event) => setPresaleShelfFilter(event.target.value)}>
+                <option value="all">全部</option>
+              </select>
+            </label>
+            <label className="social-detail-field">
+              <span>房型名称:</span>
+              <input value={presaleKeyword} placeholder="请输入房型名称" onChange={(event) => setPresaleKeyword(event.target.value)} />
+            </label>
+          </>
+        }
+        columns={['房型', '门店', '关联账号', '房型图片', '上架状态', '审核状态', '路客云房型关联状态', '关联路客云房型', '操作']}
+      />
+    ),
+  } satisfies Record<(typeof tabs)[number], ReactNode>
+
   return (
     <div className="social-channel-page social-channel-page--detail" data-testid="social-channel-detail">
       <h1 className="sr-only-heading">社媒</h1>
       <section className="social-detail-surface">
+        {toastMessage ? (
+          <div className="social-inline-toast" role="status" aria-live="polite">
+            {toastMessage}
+          </div>
+        ) : null}
         <div className="social-detail-breadcrumb">
-          <span>社媒/</span>
+          <Link to="/channels/social">社媒</Link>
+          <span>/</span>
           <strong>渠道详情</strong>
         </div>
 
@@ -587,78 +603,260 @@ export function SocialSettingPage() {
           <header className="social-detail-card__head">
             <div>
               <h2>抖音来客直连</h2>
-              <p>账号已完成授权，可继续维护门店、房型和预售券业务。</p>
+              <p>您已开通抖音来客直连，请在账号审核通过后进行门店管理、房型管理操作。</p>
             </div>
           </header>
           <div className="social-detail-tabs" role="tablist" aria-label="社媒渠道详情">
-            {['账号管理', '门店管理', '日历房型', '预售房型'].map((tab, index) => (
-              <button key={tab} type="button" role="tab" aria-selected={index === 0} className={index === 0 ? 'is-active' : ''}>
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab}
+                className={activeTab === tab ? 'is-active' : ''}
+                onClick={() => setActiveTab(tab)}
+              >
                 {tab}
               </button>
             ))}
           </div>
-          <div className="social-detail-toolbar">
-            <button type="button" className="social-detail-toolbar__primary">
-              添加账号
-            </button>
-            <label>
-              <span>审核状态：</span>
-              <select aria-label="审核状态" defaultValue="all">
-                <option value="all">全部</option>
-                <option value="published">已发布</option>
-                <option value="reviewing">审核中</option>
+          {tabView[activeTab]}
+        </section>
+      </section>
+      {actionDialog?.type === 'disconnect' ? (
+        <DisconnectConfirmDialog
+          authorizationName={actionDialog.authorizationName}
+          onClose={() => setActionDialog(null)}
+          onConfirm={confirmDisconnect}
+        />
+      ) : null}
+      {actionDialog?.type === 'addAccount' ? (
+        <AddAccountDialog
+          selectedSolution={selectedSolution}
+          onChangeSolution={setSelectedSolution}
+          onClose={() => setActionDialog(null)}
+          onConfirm={() => setActionDialog(null)}
+        />
+      ) : null}
+      {actionDialog?.type === 'syncRoomType' ? (
+        <SyncRoomTypeDialog title="同步房型至渠道" onClose={() => setActionDialog(null)} onConfirm={() => setActionDialog(null)} />
+      ) : null}
+    </div>
+  )
+}
+
+function SocialDetailScaffold({
+  intro,
+  notes,
+  primaryAction,
+  onPrimaryAction,
+  filters,
+  columns,
+}: {
+  intro: string
+  notes?: string[]
+  primaryAction: string
+  onPrimaryAction?: () => void
+  filters: ReactNode
+  columns: string[]
+}) {
+  return (
+    <>
+      <div className="social-detail-subtoolbar">
+        <p className="social-detail-subtoolbar__intro">{intro}</p>
+        {notes?.length ? (
+          <div className="social-detail-subtoolbar__notes">
+            {notes.map((note) => (
+              <p key={note}>{note}</p>
+            ))}
+          </div>
+        ) : null}
+      </div>
+      <div className="social-detail-toolbar">
+        <div className="social-detail-toolbar__filters">{filters}</div>
+        <div className="social-detail-toolbar__actions">
+          <button type="button" className="social-detail-toolbar__primary" onClick={onPrimaryAction}>
+            {primaryAction}
+          </button>
+          <button type="button" className="social-detail-toolbar__submit">
+            查 询
+          </button>
+          <button type="button" className="social-detail-toolbar__outline">
+            重 置
+          </button>
+          <button type="button" className="social-detail-toolbar__refresh" aria-label={`刷新${primaryAction}`}>
+            ↻
+          </button>
+        </div>
+      </div>
+      <div className="social-detail-table-wrap">
+        <table className="social-detail-table" aria-label={columns.join(' / ')}>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan={columns.length}>
+                <div className="social-detail-empty">
+                  <span className="social-detail-empty__icon" aria-hidden="true" />
+                  <span className="social-detail-empty__text">暂无数据</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  )
+}
+
+function DisconnectConfirmDialog({
+  authorizationName,
+  onClose,
+  onConfirm,
+}: {
+  authorizationName: string
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div className="social-confirm-backdrop" role="presentation" onClick={onClose}>
+      <section
+        className="social-confirm-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`断开直连确认：${authorizationName}`}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="social-confirm-dialog__body">是否确认断开直连?</div>
+        <footer className="social-confirm-dialog__footer">
+          <button type="button" className="social-confirm-dialog__ghost" onClick={onClose}>
+            取 消
+          </button>
+          <button type="button" className="social-confirm-dialog__primary" onClick={onConfirm}>
+            确 定
+          </button>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+function AddAccountDialog({
+  selectedSolution,
+  onChangeSolution,
+  onClose,
+  onConfirm,
+}: {
+  selectedSolution: string
+  onChangeSolution: (value: string) => void
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div className="social-confirm-backdrop" role="presentation" onClick={onClose}>
+      <section
+        className="social-selection-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="选择抖音解决方案"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="social-selection-dialog__header">
+          <h3>选择抖音解决方案</h3>
+          <button type="button" aria-label="关闭选择抖音解决方案" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <div className="social-selection-dialog__body">
+          <label className="social-radio-option">
+            <input
+              type="radio"
+              name="douyin-solution"
+              value="presale"
+              checked={selectedSolution === 'presale'}
+              onChange={(event) => onChangeSolution(event.target.value)}
+            />
+            <span>酒店行业预售券解决方案</span>
+          </label>
+          <label className="social-radio-option">
+            <input
+              type="radio"
+              name="douyin-solution"
+              value="calendar"
+              checked={selectedSolution === 'calendar'}
+              onChange={(event) => onChangeSolution(event.target.value)}
+            />
+            <span>酒店行业日历房解决方案</span>
+          </label>
+        </div>
+        <footer className="social-selection-dialog__footer">
+          <button type="button" className="social-confirm-dialog__ghost" onClick={onClose}>
+            取 消
+          </button>
+          <button type="button" className="social-confirm-dialog__primary" onClick={onConfirm}>
+            确 定
+          </button>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+function SyncRoomTypeDialog({
+  title,
+  onClose,
+  onConfirm,
+}: {
+  title: string
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div className="social-confirm-backdrop" role="presentation" onClick={onClose}>
+      <section className="social-sync-dialog" role="dialog" aria-modal="true" aria-label={title} onClick={(event) => event.stopPropagation()}>
+        <header className="social-selection-dialog__header">
+          <h3>{title}</h3>
+          <button type="button" aria-label={`关闭${title}`} onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <div className="social-sync-dialog__body">
+          <div className="social-sync-dialog__toolbar">
+            <label className="social-detail-field">
+              <span>渠道门店:</span>
+              <select defaultValue="none">
+                <option value="none">请选择渠道门店</option>
               </select>
             </label>
-            <label>
-              <span>账号：</span>
-              <input aria-label="账号" />
-            </label>
-            <button type="button">查 询</button>
-            <button type="button">重 置</button>
+            <span className="social-sync-dialog__warning">暂无渠道门店</span>
           </div>
-          <div className="social-detail-table-wrap">
-            <table className="social-detail-table" aria-label="社媒账号管理列表">
-              <thead>
-                <tr>
-                  <th>渠道账号id</th>
-                  <th>账号ID</th>
-                  <th>门店</th>
-                  <th>授权业务</th>
-                  <th>审核状态</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>7370207731854149643</td>
-                  <td>1820360983796908034</td>
-                  <td>天落会宿公寓(前海壹方城宝安中心店)</td>
-                  <td>
-                    <span>酒店行业预售券解决方案</span>
-                    <span>酒店行业日历房解决方案</span>
-                  </td>
-                  <td>
-                    <span className="social-detail-status">已发布</span>
-                  </td>
-                  <td>
-                    <div className="social-detail-actions">
-                      <button type="button">断开直连</button>
-                      <button type="button">拉取房型</button>
-                      <button type="button">授权日历房</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="social-sync-dialog__alert">未选择任何房型</div>
+          <div className="social-sync-dialog__table">
+            <div className="social-sync-dialog__table-head">
+              <span />
+              <span>房型</span>
+              <span>房型图片</span>
+              <span>原因</span>
+            </div>
+            <div className="social-sync-dialog__empty">
+              <span className="social-detail-empty__icon" aria-hidden="true" />
+              <span className="social-detail-empty__text">暂无数据</span>
+            </div>
           </div>
-          <footer className="social-detail-pagination">
-            <span>第 1-1 条/总共 1 条</span>
-            <button type="button" className="is-active">
-              1
-            </button>
-            <span>10 条/页</span>
-          </footer>
-        </section>
+        </div>
+        <footer className="social-sync-dialog__footer">
+          <button type="button" className="social-confirm-dialog__ghost" onClick={onClose}>
+            取 消
+          </button>
+          <button type="button" className="social-sync-dialog__disabled" onClick={onConfirm} disabled>
+            确 定
+          </button>
+        </footer>
       </section>
     </div>
   )

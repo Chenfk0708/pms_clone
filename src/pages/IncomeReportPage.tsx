@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   createDefaultIncomeReportQuery,
@@ -13,6 +13,9 @@ import {
 import './IncomeReportPage.css'
 
 type SelectKey = 'roomType' | 'channel' | 'roomGroup' | null
+type DatePickTarget = 'start' | 'end'
+type DatePanelPosition = { top: number; left: number }
+type ExpandableIncomeColumn = 'roomFeeIncludingCommission' | 'otherExpense' | 'manualIncome'
 
 export function IncomeReportPage() {
   const navigate = useNavigate()
@@ -26,6 +29,12 @@ export function IncomeReportPage() {
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [detailRow, setDetailRow] = useState<IncomeReportRow | null>(null)
   const [openSelect, setOpenSelect] = useState<SelectKey>(null)
+  const [isDatePanelOpen, setIsDatePanelOpen] = useState(false)
+  const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
+  const [calendarMonth, setCalendarMonth] = useState(() => draft.startDate.slice(0, 7))
+  const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
+  const [expandedColumns, setExpandedColumns] = useState<ExpandableIncomeColumn[]>([])
+  const dateRangeRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const abort = new AbortController()
@@ -85,6 +94,41 @@ export function IncomeReportPage() {
     setOpenSelect(null)
     setQuery({ ...draft, pageNum: 1 })
     setNotice('收入报表已刷新')
+  }
+
+  function openDatePanel(target: DatePickTarget = 'start') {
+    setOpenSelect(null)
+    setDatePickTarget(target)
+    setCalendarMonth(draft.startDate.slice(0, 7))
+    const rect = dateRangeRef.current?.getBoundingClientRect()
+    if (rect) {
+      setDatePanelPosition({
+        top: rect.bottom + 8,
+        left: Math.max(16, Math.min(rect.left, window.innerWidth - 600)),
+      })
+    }
+    setIsDatePanelOpen(true)
+  }
+
+  function applyDateSelection(date: string) {
+    if (datePickTarget === 'start') {
+      const nextEndDate = date <= draft.endDate ? draft.endDate : date
+      patchDraft({ startDate: date, endDate: nextEndDate })
+      setDatePickTarget('end')
+      return
+    }
+
+    const nextStartDate = date < draft.startDate ? date : draft.startDate
+    const nextEndDate = date < draft.startDate ? draft.startDate : date
+    patchDraft({ startDate: nextStartDate, endDate: nextEndDate })
+    setDatePickTarget('start')
+    setIsDatePanelOpen(false)
+  }
+
+  function toggleExpandedColumn(column: ExpandableIncomeColumn) {
+    setExpandedColumns((current) =>
+      current.includes(column) ? current.filter((item) => item !== column) : [...current, column],
+    )
   }
 
   function resetFilters() {
@@ -161,19 +205,41 @@ export function IncomeReportPage() {
             <div className="income-report-filter-row">
               <label className="income-date-field">
                 <span>开始日期</span>
-                <input
-                  aria-label="开始日期"
-                  value={draft.startDate}
-                  onChange={(event) => patchDraft({ startDate: event.target.value })}
-                />
-              </label>
-              <label className="income-date-field">
-                <span>结束日期</span>
-                <input
-                  aria-label="结束日期"
-                  value={draft.endDate}
-                  onChange={(event) => patchDraft({ endDate: event.target.value })}
-                />
+                <div
+                  ref={dateRangeRef}
+                  className="income-date-range"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="收入报表日期范围"
+                  onClick={() => openDatePanel('start')}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      openDatePanel('start')
+                    }
+                  }}
+                >
+                  <input
+                    aria-label="开始日期"
+                    value={draft.startDate}
+                    readOnly
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      openDatePanel('start')
+                    }}
+                  />
+                  <span>至</span>
+                  <input
+                    aria-label="结束日期"
+                    value={draft.endDate}
+                    readOnly
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      openDatePanel('end')
+                    }}
+                  />
+                  <i aria-hidden="true" />
+                </div>
               </label>
               <SelectField
                 label="房型"
@@ -240,11 +306,26 @@ export function IncomeReportPage() {
         </div>
       </section>
 
-      {notice ? (
-        <div className="income-report-notice" role="status" aria-label="收入报表操作反馈">
-          {notice}
-        </div>
+      {isDatePanelOpen ? (
+        <DatePanel
+          month={calendarMonth}
+          startDate={draft.startDate}
+          endDate={draft.endDate}
+          pickTarget={datePickTarget}
+          position={datePanelPosition}
+          onClose={() => {
+            setIsDatePanelOpen(false)
+            setDatePickTarget('start')
+          }}
+          onPrevious={() => setCalendarMonth((current) => shiftMonth(current, -1))}
+          onNext={() => setCalendarMonth((current) => shiftMonth(current, 1))}
+          onPick={applyDateSelection}
+        />
       ) : null}
+
+      <div className="income-report-notice sr-only-heading" role="status" aria-label="收入报表操作反馈">
+        {notice}
+      </div>
 
       {error ? (
         <section className="income-report-error" role="alert" aria-label="收入报表数据错误">
@@ -273,10 +354,46 @@ export function IncomeReportPage() {
               {isChannelDimension ? <th>占比</th> : null}
               <th>佣金</th>
               {isChannelDimension ? <th>占比</th> : null}
-              <th>房费(含佣)</th>
-              <th>其他消费</th>
+              <ExpandableHeader
+                label="房费(含佣)"
+                expanded={expandedColumns.includes('roomFeeIncludingCommission')}
+                onClick={() => toggleExpandedColumn('roomFeeIncludingCommission')}
+              />
+              {expandedColumns.includes('roomFeeIncludingCommission') ? (
+                <>
+                  <th className="is-expanded-group">全日房费(含佣)</th>
+                  <th className="is-expanded-group">钟点房费(含佣)</th>
+                </>
+              ) : null}
+              <ExpandableHeader
+                label="其他消费"
+                expanded={expandedColumns.includes('otherExpense')}
+                onClick={() => toggleExpandedColumn('otherExpense')}
+              />
+              {expandedColumns.includes('otherExpense') ? (
+                <>
+                  <th className="is-expanded-group">其他消费(住宿)</th>
+                  <th className="is-expanded-group">其他消费(餐饮)</th>
+                  <th className="is-expanded-group">其他消费(商超)</th>
+                  <th className="is-expanded-group">其他消费(娱乐)</th>
+                  <th className="is-expanded-group">其他消费(场地)</th>
+                </>
+              ) : null}
               <th>订单总收入</th>
-              <th>记一笔收入</th>
+              <ExpandableHeader
+                label="记一笔收入"
+                expanded={expandedColumns.includes('manualIncome')}
+                onClick={() => toggleExpandedColumn('manualIncome')}
+              />
+              {expandedColumns.includes('manualIncome') ? (
+                <>
+                  <th className="is-expanded-group">记一笔收入(住宿)</th>
+                  <th className="is-expanded-group">记一笔收入(餐饮)</th>
+                  <th className="is-expanded-group">记一笔收入(商超)</th>
+                  <th className="is-expanded-group">记一笔收入(娱乐)</th>
+                  <th className="is-expanded-group">记一笔收入(场地)</th>
+                </>
+              ) : null}
               <th>总营收(含佣)</th>
               <th>总营收(减佣)</th>
               <th>操作</th>
@@ -292,9 +409,33 @@ export function IncomeReportPage() {
                   <td>{row.channelCommission}</td>
                   {isChannelDimension ? <td>{row.channelCommissionRatio ?? '-'}</td> : null}
                   <td>{row.roomFeeIncludingCommission}</td>
+                  {expandedColumns.includes('roomFeeIncludingCommission') ? (
+                    <>
+                      <td>{row.allDayRoomFeeIncludingCommission}</td>
+                      <td>{row.hourRoomFeeIncludingCommission}</td>
+                    </>
+                  ) : null}
                   <td>{row.otherExpense}</td>
+                  {expandedColumns.includes('otherExpense') ? (
+                    <>
+                      <td>{row.accommodationExpense}</td>
+                      <td>{row.cateringExpense}</td>
+                      <td>{row.supermarketExpense}</td>
+                      <td>{row.entertainmentExpense}</td>
+                      <td>{row.venueExpense}</td>
+                    </>
+                  ) : null}
                   <td>{row.orderTotalIncome}</td>
                   <td>{row.manualIncome}</td>
+                  {expandedColumns.includes('manualIncome') ? (
+                    <>
+                      <td>{row.manualAccommodationIncome}</td>
+                      <td>{row.manualCateringIncome}</td>
+                      <td>{row.manualSupermarketIncome}</td>
+                      <td>{row.manualEntertainmentIncome}</td>
+                      <td>{row.manualVenueIncome}</td>
+                    </>
+                  ) : null}
                   <td>{row.businessIncomeIncludingCommission}</td>
                   <td>{row.businessIncomeMinusCommission}</td>
                   <td>
@@ -412,6 +553,117 @@ export function IncomeReportPage() {
   )
 }
 
+function DatePanel({
+  month,
+  startDate,
+  endDate,
+  pickTarget,
+  position,
+  onClose,
+  onPrevious,
+  onNext,
+  onPick,
+}: {
+  month: string
+  startDate: string
+  endDate: string
+  pickTarget: DatePickTarget
+  position: DatePanelPosition
+  onClose: () => void
+  onPrevious: () => void
+  onNext: () => void
+  onPick: (date: string) => void
+}) {
+  const months = [month, shiftMonth(month, 1)]
+
+  return (
+    <div className="income-date-panel-wrap" role="presentation" onMouseDown={onClose}>
+      <section
+        className="income-date-panel"
+        role="dialog"
+        aria-label="收入报表日期面板"
+        style={{ top: `${position.top}px`, left: `${position.left}px` }}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="income-date-panel__header">
+          <strong>{pickTarget === 'start' ? '请选择开始日期' : '请选择结束日期'}</strong>
+          <button type="button" aria-label="关闭收入报表日期面板" onClick={onClose}>
+            ×
+          </button>
+        </div>
+        <div className="income-date-panel__months">
+          {months.map((item, index) => (
+            <CalendarMonth
+              key={item}
+              month={item}
+              startDate={startDate}
+              endDate={endDate}
+              onPrevious={index === 0 ? onPrevious : undefined}
+              onNext={index === months.length - 1 ? onNext : undefined}
+              onPick={onPick}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function CalendarMonth({
+  month,
+  startDate,
+  endDate,
+  onPrevious,
+  onNext,
+  onPick,
+}: {
+  month: string
+  startDate: string
+  endDate: string
+  onPrevious?: () => void
+  onNext?: () => void
+  onPick: (date: string) => void
+}) {
+  const days = buildCalendarDays(month)
+  const monthLabel = formatMonthLabel(month)
+
+  return (
+    <section className="income-calendar-month" aria-label={monthLabel}>
+      <header>
+        <button type="button" aria-label="上个月" onClick={onPrevious} disabled={!onPrevious}>
+          ‹
+        </button>
+        <strong>{monthLabel}</strong>
+        <button type="button" aria-label="下个月" onClick={onNext} disabled={!onNext}>
+          ›
+        </button>
+      </header>
+      <div className="income-calendar-month__weekdays">
+        {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
+          <span key={day}>{day}</span>
+        ))}
+      </div>
+      <div className="income-calendar-month__days">
+        {days.map((day) => {
+          const inRange = day.date >= startDate && day.date <= endDate
+          const isSelected = day.date === startDate || day.date === endDate
+          return (
+            <button
+              key={day.date}
+              type="button"
+              aria-label={day.date}
+              className={`${day.isMuted ? 'is-muted' : ''}${inRange ? ' is-in-range' : ''}${isSelected ? ' is-selected' : ''}`}
+              onClick={() => onPick(day.date)}
+            >
+              {day.label}
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 function SelectField({
   label,
   selectedId,
@@ -459,6 +711,31 @@ function SelectField({
   )
 }
 
+function ExpandableHeader({
+  label,
+  expanded,
+  onClick,
+}: {
+  label: string
+  expanded: boolean
+  onClick: () => void
+}) {
+  return (
+    <th className={expanded ? 'is-expanded-group' : ''}>
+      <button
+        type="button"
+        className={`income-table-expand${expanded ? ' is-expanded' : ''}`}
+        aria-expanded={expanded}
+        aria-label={`${label}${expanded ? '收起子列' : '展开子列'}`}
+        onClick={onClick}
+      >
+        <span>{label}</span>
+        <i aria-hidden="true" />
+      </button>
+    </th>
+  )
+}
+
 function createInitialQuery() {
   if (typeof window === 'undefined') return createDefaultIncomeReportQuery()
   const defaults = createDefaultIncomeReportQuery()
@@ -481,4 +758,31 @@ function paginationText(page: number, pageSize: number, total: number) {
   const start = total === 0 ? 0 : (page - 1) * pageSize + 1
   const end = Math.min(page * pageSize, total)
   return `第 ${start}-${end} 条/总共 ${total} 条`
+}
+
+function shiftMonth(month: string, offset: number) {
+  const [year, monthIndex] = month.split('-').map(Number)
+  const nextDate = new Date(year, monthIndex - 1 + offset, 1)
+  return `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}`
+}
+
+function formatMonthLabel(month: string) {
+  const [year, monthValue] = month.split('-')
+  return `${year}年${Number(monthValue)}月`
+}
+
+function buildCalendarDays(month: string) {
+  const [year, monthValue] = month.split('-').map(Number)
+  const firstDay = new Date(year, monthValue - 1, 1)
+  const startOffset = (firstDay.getDay() + 6) % 7
+  const gridStart = new Date(year, monthValue - 1, 1 - startOffset)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index)
+    return {
+      date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+      label: String(date.getDate()),
+      isMuted: date.getMonth() !== monthValue - 1,
+    }
+  })
 }

@@ -1,0 +1,120 @@
+{
+  "outPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\tmp\\smart-checkin-guide-rule-save-probe-20260521143000.json",
+  "generatedAt": "2026-05-21T13:07:12.845Z",
+  "probes": {
+    "identityRequirement": {
+      "targetIndex": 0,
+      "before": [
+        {
+          "index": 0,
+          "value": "id",
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "index": 1,
+          "value": "deposit",
+          "checked": false,
+          "disabled": false
+        }
+      ],
+      "action": {
+        "targetIndex": 0,
+        "clicked": false,
+        "error": "locator.check: Clicking the checkbox did not change its state\nCall log:\n\u001b[2m  - waiting for locator('input[type=\"checkbox\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"id\" type=\"checkbox\" class=\"ant-checkbox-input\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for elem",
+        "fallbackClicked": true
+      },
+      "captured": [
+        {
+          "url": "https://hudson-prod.localhome.cn/systemConfig/checkInGuideShowStrategy",
+          "method": "PUT",
+          "resourceType": "fetch",
+          "postData": "{\"campId\":\"1796067693589061634\",\"isCheckInGuideIdentityRegCompleted\":1,\"isCheckInGuideVerifyPayDeposit\":0}"
+        },
+        {
+          "url": "https://hudson-prod.localhome.cn/systemConfig/checkInGuideShowStrategy",
+          "method": "PUT",
+          "resourceType": "fetch",
+          "postData": "{\"campId\":\"1796067693589061634\",\"isCheckInGuideIdentityRegCompleted\":1,\"isCheckInGuideVerifyPayDeposit\":0}"
+        }
+      ],
+      "after": {
+        "checkboxes": [
+          {
+            "index": 0,
+            "value": "id",
+            "checked": false,
+            "disabled": false
+          },
+          {
+            "index": 1,
+            "value": "deposit",
+            "checked": false,
+            "disabled": false
+          }
+        ],
+        "messages": [
+          "保存失败"
+        ],
+        "bodySample": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 智住管理 自助入住 全局设置 智住小程序 智能硬件 智能硬件商城 智能门锁 身份证读卡器 公安对接 PSB公安对接 上报日志 版本号：v4.10.7 入住规则 入住指引 WIFI上网 入住指引查看规则 入住指引可查看条件： 完成身份登记要求 完成押金要求 入住指引 搜 索 重 置 新增入住指引 入住指引名称 应用房型 操作 暂无数据 全部会话 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 携程民宿-【_WECHAT349】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） CqBv9667 咨询中 途家 房:不客气哈~ 携程民宿-【M500370348】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:是的 楼顶 去哪民宿-【dukx6737】 咨询中 途家 02.03-02.05（2晚） 顶层套房（浴缸巨幕电竞麻将） 房:您留个绿色号加您 去哪民宿-【去哪儿用户】 咨询中 途家 02.19-02.21（2晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:亲 有的 携程民宿-【M614718025】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:什么时间段呢几号到几… EBCU1529 咨询中 途家 01.21-01.22（1晚） 顶层套房（浴缸巨幕电竞麻将） 房:要 会给卡 也可以客… CsDy6465 咨询中 途家 01.23-01.24（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:您好平台上发送不了视… 去哪民宿-【owen9629】 咨询中 途家 01.19-01.20（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:是cut000吗 或… 携程民宿-【M127640447】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:您好 您是几人聚会,… DtyH35951180 咨询中 途家 25.12.31-26.01.01（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:是这个吗 携程民宿-【M362021381】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:您绿色号多少 加发您 携程民宿-【M273380912】 咨询中 途家 25.12.31-26.01.01（1晚） 顶层套房（浴缸巨幕电竞麻将） 客:宝安体育馆? 60分钟前 wgki6t 已取消 小猪 25.12.23-25.12.24（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 客:可以发身份证照片给你… 60分钟前 携程民宿-【M326666448】 咨询中 途家 25.12.12-25.12.1"
+      }
+    },
+    "depositRequirement": {
+      "targetIndex": 1,
+      "before": [
+        {
+          "index": 0,
+          "value": "id",
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "index": 1,
+          "value": "deposit",
+          "checked": false,
+          "disabled": false
+        }
+      ],
+      "action": {
+        "targetIndex": 1,
+        "clicked": false,
+        "error": "locator.check: Clicking the checkbox did not change its state\nCall log:\n\u001b[2m  - waiting for locator('input[type=\"checkbox\"]').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"checkbox\" value=\"deposit\" class=\"ant-checkbox-input\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for ",
+        "fallbackClicked": true
+      },
+      "captured": [
+        {
+          "url": "https://hudson-prod.localhome.cn/systemConfig/checkInGuideShowStrategy",
+          "method": "PUT",
+          "resourceType": "fetch",
+          "postData": "{\"campId\":\"1796067693589061634\",\"isCheckInGuideIdentityRegCompleted\":0,\"isCheckInGuideVerifyPayDeposit\":1}"
+        },
+        {
+          "url": "https://hudson-prod.localhome.cn/systemConfig/checkInGuideShowStrategy",
+          "method": "PUT",
+          "resourceType": "fetch",
+          "postData": "{\"campId\":\"1796067693589061634\",\"isCheckInGuideIdentityRegCompleted\":0,\"isCheckInGuideVerifyPayDeposit\":1}"
+        }
+      ],
+      "after": {
+        "checkboxes": [
+          {
+            "index": 0,
+            "value": "id",
+            "checked": false,
+            "disabled": false
+          },
+          {
+            "index": 1,
+            "value": "deposit",
+            "checked": false,
+            "disabled": false
+          }
+        ],
+        "messages": [
+          "保存失败"
+        ],
+        "bodySample": "路客云6TS5的店铺 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销 SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 智住管理 自助入住 全局设置 智住小程序 智能硬件 智能硬件商城 智能门锁 身份证读卡器 公安对接 PSB公安对接 上报日志 版本号：v4.10.7 入住规则 入住指引 WIFI上网 入住指引查看规则 入住指引可查看条件： 完成身份登记要求 完成押金要求 入住指引 搜 索 重 置 新增入住指引 入住指引名称 应用房型 操作 暂无数据 全部会话 携程民宿-【M335275070】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:加了 携程民宿-【M566739056】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:已办理退房 携程民宿-【_WECHAT349】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） CqBv9667 咨询中 途家 房:不客气哈~ 携程民宿-【M500370348】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:是的 楼顶 去哪民宿-【dukx6737】 咨询中 途家 02.03-02.05（2晚） 顶层套房（浴缸巨幕电竞麻将） 房:您留个绿色号加您 去哪民宿-【去哪儿用户】 咨询中 途家 02.19-02.21（2晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:亲 有的 携程民宿-【M614718025】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:什么时间段呢几号到几… EBCU1529 咨询中 途家 01.21-01.22（1晚） 顶层套房（浴缸巨幕电竞麻将） 房:要 会给卡 也可以客… CsDy6465 咨询中 途家 01.23-01.24（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:您好平台上发送不了视… 去哪民宿-【owen9629】 咨询中 途家 01.19-01.20（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:是cut000吗 或… 携程民宿-【M127640447】 咨询中 途家 顶层套房（浴缸巨幕电竞麻将） 房:您好 您是几人聚会,… DtyH35951180 咨询中 途家 25.12.31-26.01.01（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 房:是这个吗 携程民宿-【M362021381】 咨询中 途家 总裁套间（桑拿浴缸露台电竞麻将） 房:您绿色号多少 加发您 携程民宿-【M273380912】 咨询中 途家 25.12.31-26.01.01（1晚） 顶层套房（浴缸巨幕电竞麻将） 客:宝安体育馆? 60分钟前 wgki6t 已取消 小猪 25.12.23-25.12.24（1晚） 总裁套间（桑拿浴缸露台电竞麻将） 客:可以发身份证照片给你… 60分钟前 携程民宿-【M326666448】 咨询中 途家 25.12.12-25.12.1"
+      }
+    }
+  }
+}

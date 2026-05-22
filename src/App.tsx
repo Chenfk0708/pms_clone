@@ -20,6 +20,7 @@ import { ComprehensiveMonthlyReportPage } from './pages/ComprehensiveMonthlyRepo
 import { CouponPage } from './pages/CouponPage'
 import { CustomChannelPage } from './pages/CustomChannelPage'
 import { CustomerAddBatchPage } from './pages/CustomerAddBatchPage'
+import { CustomerDetailPage } from './pages/CustomerDetailPage'
 import { CustomerListPage } from './pages/CustomerListPage'
 import { CustomerMarketingPage } from './pages/CustomerMarketingPage'
 import { CustomerTagPage } from './pages/CustomerTagPage'
@@ -34,6 +35,7 @@ import { HotelPackageOrderPage } from './pages/HotelPackageOrderPage'
 import { HotelProductPage } from './pages/HotelProductPage'
 import { HouseDaysPage } from './pages/HouseDaysPage'
 import { HouseMonthsPage } from './pages/HouseMonthsPage'
+import { HouseStatusSharingPage } from './pages/HouseStatusSharingPage'
 import { HouseStatusLogsPage } from './pages/HouseStatusLogsPage'
 import { ImSettingPage } from './pages/ImSettingPage'
 import { IncomeReportPage } from './pages/IncomeReportPage'
@@ -101,6 +103,7 @@ const pageTitles: Record<string, string> = {
   '/workspace': '首页工作台',
   '/houseManage/months': '月房态',
   '/houseManage/days': '日房态',
+  '/houseManage/months/sharingRoomStatus': '分享房态',
   '/houseManage/logs/status': '房态日志',
   '/houseManage/houseCale': '中央价',
   '/houseManage/channelPrice': '渠道 RP 价',
@@ -131,6 +134,7 @@ const pageTitles: Record<string, string> = {
   '/mallManagement/distribution': '全员营销',
   '/channels/ota': 'OTA',
   '/channels/ota/log': 'OTA',
+  '/channels/ota/detail': 'OTA',
   '/channels/social': '社媒',
   '/channels/social/setting': '社媒',
   '/channels/private': '私域',
@@ -150,6 +154,7 @@ const pageTitles: Record<string, string> = {
   '/scrm/wechatService/receptionConfig': '接待配置',
   '/scrm/marketing/customer': '客户营销',
   '/customer/list': '客户列表',
+  '/customer/list/detail': '客户详情',
   '/customer/tag': '客户标签',
   '/customer/addBatch': '批量加好友',
   '/customer/staffList': '企微员工列表',
@@ -234,6 +239,7 @@ function RoutedApp() {
 
         <Route path="/houseManage/months" element={<HouseMonthsPage />} />
         <Route path="/houseManage/days" element={<HouseDaysPage />} />
+        <Route path="/houseManage/months/sharingRoomStatus" element={<HouseStatusSharingPage />} />
         <Route path="/houseManage/logs/status" element={<HouseStatusLogsPage />} />
         <Route path="/houseManage/houseCale" element={<PricePage />} />
         <Route path="/houseManage/channelPrice" element={<PricePage />} />
@@ -298,10 +304,11 @@ function RoutedApp() {
 
         <Route path="/channels/ota" element={<OtaPage />} />
         <Route path="/channels/ota/log" element={<OtaPage />} />
+        <Route path="/channels/ota/detail" element={<OtaPage />} />
         <Route path="/channels/social" element={<SocialPage />} />
         <Route path="/channels/social/setting" element={<SocialSettingPage />} />
         <Route path="/channels/private" element={<PrivatePage />} />
-        <Route path="/channels/private/program" element={<PrivatePage />} />
+        <Route path="/channels/private/program" element={<BrandWebsitePage variant="program" />} />
         <Route path="/channels/private/setting/weComSetting" element={<PrivatePage />} />
         <Route path="/channels/private/setting/authorizationSettings" element={<PrivatePage />} />
         <Route path="/setting/weComSetting" element={<PrivatePage />} />
@@ -321,6 +328,7 @@ function RoutedApp() {
         <Route path="/scrm/marketing/customer" element={<CustomerMarketingPage />} />
 
         <Route path="/customer/list" element={<CustomerListPage />} />
+        <Route path="/customer/list/detail" element={<CustomerDetailPage />} />
         <Route path="/customer/tag" element={<CustomerTagPage />} />
         <Route path="/customer/addBatch" element={<CustomerAddBatchPage />} />
         <Route path="/customer/staffList" element={<StaffListPage />} />

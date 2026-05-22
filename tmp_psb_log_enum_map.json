@@ -1,0 +1,46 @@
+{
+  "bizResults": [
+    {
+      "idx": 0,
+      "label": "入住",
+      "bizType": "1"
+    },
+    {
+      "idx": 1,
+      "label": "续住",
+      "bizType": "2"
+    },
+    {
+      "idx": 2,
+      "label": "换房",
+      "bizType": "3"
+    },
+    {
+      "idx": 3,
+      "label": "退房",
+      "bizType": "4"
+    },
+    {
+      "idx": 4,
+      "label": "未知",
+      "bizType": "5"
+    },
+    {
+      "idx": 5,
+      "label": "删除入住登记",
+      "bizType": "6"
+    }
+  ],
+  "stateResults": [
+    {
+      "idx": 0,
+      "label": "失败",
+      "state": "0"
+    },
+    {
+      "idx": 1,
+      "label": "成功",
+      "state": "1"
+    }
+  ]
+}

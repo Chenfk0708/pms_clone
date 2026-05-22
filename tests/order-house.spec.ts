@@ -168,7 +168,7 @@ test('/order/house-order/list matches captured lodging order table', async ({ pa
   await expect(page.getByRole('button', { name: '录入订单' })).toBeVisible()
 
   const table = page.getByRole('table', { name: '住宿订单列表' })
-  await expect(table.getByRole('columnheader')).toHaveCount(24)
+  await expect(table.getByRole('columnheader')).toHaveCount(21)
   await expect(table).toContainText('2055526750698446849')
   await expect(table).toContainText('携程')
   await expect(table).toContainText('蔡勇君')

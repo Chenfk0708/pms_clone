@@ -54,6 +54,11 @@
   white-space: nowrap;
 }
 
+.presale-order-select-wrap {
+  position: relative;
+  min-width: 0;
+}
+
 .presale-order-select,
 .presale-order-keyword input,
 .presale-order-date__range {
@@ -120,11 +125,29 @@
 }
 
 .presale-order-actions button,
-.presale-order-toolbar button,
-.presale-order-pagination button,
+.presale-order-toolbar button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
 .presale-order-row button {
   position: relative;
-  z-index: 40;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.presale-order-pagination button {
+  position: relative;
   height: 32px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -201,11 +224,12 @@
 
 .presale-order-options {
   position: absolute;
-  left: 390px;
-  top: 38px;
-  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
   display: grid;
-  min-width: 218px;
+  min-width: 100%;
   max-height: 260px;
   overflow-y: auto;
   padding: 4px;

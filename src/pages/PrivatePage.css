@@ -247,6 +247,19 @@
   font-size: 14px;
 }
 
+.private-breadcrumb button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.private-breadcrumb button:hover {
+  color: #4d65f6;
+}
+
 .private-breadcrumb strong {
   color: #1f2937;
   font-weight: 500;

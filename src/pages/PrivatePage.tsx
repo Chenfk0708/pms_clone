@@ -86,6 +86,7 @@ function DefaultPrivatePage({ data, onAction }: { data: ReturnType<typeof loadPr
 }
 
 function EnterpriseDetailPage({ data, onAction }: { data: ReturnType<typeof loadPrivateChannel>; onAction: (card: PrivateChannelApiCard) => void }) {
+  const navigate = useNavigate()
   const actionCard = data.cards.find((card) => card.actionCode === 'connect_wecom') ?? data.cards[0]
 
   return (
@@ -93,7 +94,9 @@ function EnterpriseDetailPage({ data, onAction }: { data: ReturnType<typeof load
       <h1 className="sr-only-heading">私域</h1>
       <section className="private-detail-panel">
         <div className="private-breadcrumb">
-          <span>私域</span>
+          <button type="button" onClick={() => navigate('/channels/private')}>
+            私域
+          </button>
           <span>/</span>
           <strong>渠道详情</strong>
         </div>
@@ -123,6 +126,7 @@ function EnterpriseDetailPage({ data, onAction }: { data: ReturnType<typeof load
 }
 
 function OfficialAuthorizationPage({ data, onAction }: { data: ReturnType<typeof loadPrivateChannel>; onAction: (card: PrivateChannelApiCard) => void }) {
+  const navigate = useNavigate()
   const actionCard = data.cards.find((card) => card.actionCode === 'authorize_official') ?? data.cards[0]
 
   return (
@@ -130,7 +134,9 @@ function OfficialAuthorizationPage({ data, onAction }: { data: ReturnType<typeof
       <h1 className="sr-only-heading">私域</h1>
       <section className="private-detail-panel">
         <div className="private-breadcrumb">
-          <span>私域</span>
+          <button type="button" onClick={() => navigate('/channels/private')}>
+            私域
+          </button>
           <span>/</span>
           <strong>渠道详情</strong>
         </div>

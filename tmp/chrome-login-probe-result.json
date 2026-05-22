@@ -1,0 +1,33 @@
+{
+  "mode": "storageState",
+  "authStatePath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\playwright\\.auth\\pms-user.json",
+  "checkedAt": "2026-05-21T15:26:53.217Z",
+  "targetUrl": "https://minsubao.localhome.cn/workspace",
+  "probeApiUrl": "https://hudson-prod.localhome.cn/checkinGuide/page/get",
+  "probe": {
+    "href": "https://minsubao.localhome.cn/home",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "lastSelectCampId": null,
+    "hasMobileInput": true,
+    "hasPasswordInput": true,
+    "hasSlider": false,
+    "bodySample": "首页\n产品服务\n版本介绍\n新闻中心\n公司介绍\n登 录\n免费试用\n账号登录\n+86\n登 录\n其他登录方式\n新用户立即体验\n新用户\n忘记密码\n让流量获取与房源管理更加轻松高效\n27 万+房东与酒店管理者选择路客云SPMS\n多渠道直连\n\n全网酒旅渠道同步直连 OTA、社媒、私域三大层次流量同步管理\n\n免费体验\n智能价态\n\nOTA、社媒、私域三大渠道价态同步管理，中央价设置+AI智能调价\n\n免费体验\n聚合分销\n\n覆盖同城酒店、去哪儿酒店、抖音共营、百度地图等13+独特分销渠道\n\n免费体验\n多门店经营\n\n适配集团酒店、连锁酒店等多门店经用户\n\n免费体验\n多岗位协同\n\n电脑端、手机APP、微信小程序三端支",
+    "apiResult": {
+      "skipped": true
+    }
+  },
+  "summary": {
+    "authenticated": false,
+    "reason": "missing_lastSelectCampId",
+    "href": "https://minsubao.localhome.cn/home",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "lastSelectCampId": null,
+    "hasLoginInputs": true,
+    "hasSlider": false,
+    "bodySample": "首页\n产品服务\n版本介绍\n新闻中心\n公司介绍\n登 录\n免费试用\n账号登录\n+86\n登 录\n其他登录方式\n新用户立即体验\n新用户\n忘记密码\n让流量获取与房源管理更加轻松高效\n27 万+房东与酒店管理者选择路客云SPMS\n多渠道直连\n\n全网酒旅渠道同步直连 OTA、社媒、私域三大层次流量同步管理\n\n免费体验\n智能价态\n\nOTA、社媒、私域三大渠道价态同步管理，中央价设置+AI智能调价\n\n免费体验\n聚合分销\n\n覆盖同城酒店、去哪儿酒店、抖音共营、百度地图等13+独特分销渠道\n\n免费体验\n多门店经营\n\n适配集团酒店、连锁酒店等多门店经用户\n\n免费体验\n多岗位协同\n\n电脑端、手机APP、微信小程序三端支",
+    "apiResult": {
+      "skipped": true
+    }
+  },
+  "cdpFailure": null
+}

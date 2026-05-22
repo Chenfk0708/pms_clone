@@ -161,7 +161,7 @@ function createBackendData(query: CalendarRoomQuery, rows: CalendarRoomRow[]): C
     routeTargets: {
       roomTypeList: '/setting/roomTypeInfo',
       roomTypeEdit: '/setting/roomTypeInfo/edit',
-      price: '/houseManage/houseCale',
+      price: '/houseManage/channelPrice',
       createProduct: '/setting/localRoomTypeProductionSetting/channelGoodsSetting',
     },
   }

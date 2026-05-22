@@ -10,6 +10,7 @@ import {
 import './BrandWebsitePage.css'
 
 type BrandSection = 'templates' | 'store' | 'profile' | 'coupon' | 'navigation' | 'float' | 'popup' | 'style'
+type BrandDecorateVariant = 'website' | 'program'
 
 const pageNavGroups: Array<{ title?: string; items: Array<{ key: BrandSection; label: string }> }> = [
   { items: [{ key: 'templates', label: '模板市场' }] },
@@ -38,28 +39,88 @@ type LoadState =
   | { kind: 'ready'; data: BrandWebsiteViewModel }
   | { kind: 'error'; message: string }
 
-function initialState(): LoadState {
+type DecorateCopy = {
+  pageTitle: string
+  activeLabel: string
+  activePath: string
+  contractTestId: string
+  statusLabel: string
+  loadedNotice: string
+  refreshedNotice: string
+  retryNotice: string
+  filterNotice: string
+  resetNotice: string
+  exportNotice: string
+  loadingNotice: string
+  errorTitle: string
+  emptyTitle: string
+  emptyDescription: string
+  showOperationsHeader: boolean
+}
+
+const decorateCopy: Record<BrandDecorateVariant, DecorateCopy> = {
+  website: {
+    pageTitle: '品牌官网',
+    activeLabel: '品牌官网',
+    activePath: '/mallManagement/weapp/decorate',
+    contractTestId: 'brand-website-contract',
+    statusLabel: '品牌官网操作反馈',
+    loadedNotice: '品牌官网数据已更新',
+    refreshedNotice: '品牌官网数据已刷新',
+    retryNotice: '已重新加载品牌官网',
+    filterNotice: '已按当前条件更新品牌官网',
+    resetNotice: '已恢复默认条件',
+    exportNotice: '导出任务已创建，可在下载中心查看',
+    loadingNotice: '正在更新品牌官网数据',
+    errorTitle: '品牌官网数据加载失败',
+    emptyTitle: '暂无符合当前条件的品牌官网配置',
+    emptyDescription: '可以重置条件后查看默认门店配置，或新建模板方案继续运营。',
+    showOperationsHeader: true,
+  },
+  program: {
+    pageTitle: '品牌小程序',
+    activeLabel: '品牌小程序',
+    activePath: '/channels/private/program',
+    contractTestId: 'brand-program-contract',
+    statusLabel: '品牌小程序操作反馈',
+    loadedNotice: '品牌小程序页面已更新',
+    refreshedNotice: '品牌小程序页面已刷新',
+    retryNotice: '已重新加载品牌小程序页面',
+    filterNotice: '已按当前条件更新品牌小程序页面',
+    resetNotice: '已恢复默认条件',
+    exportNotice: '品牌小程序页面已刷新',
+    loadingNotice: '正在更新品牌小程序页面',
+    errorTitle: '品牌小程序页面加载失败',
+    emptyTitle: '暂无符合当前条件的品牌小程序配置',
+    emptyDescription: '可以重置条件后查看默认门店配置，或继续调整页面内容。',
+    showOperationsHeader: false,
+  },
+}
+
+function initialState(copy: DecorateCopy): LoadState {
   try {
     return { kind: 'ready', data: loadBrandWebsiteData() }
   } catch (error) {
-    return { kind: 'error', message: error instanceof Error ? error.message : '品牌官网数据加载失败' }
+    return { kind: 'error', message: error instanceof Error ? error.message : copy.errorTitle }
   }
 }
 
-export function BrandWebsitePage() {
+export function BrandWebsitePage({ variant = 'website' }: { variant?: BrandDecorateVariant }) {
+  const copy = decorateCopy[variant]
   const navigate = useNavigate()
   const [active, setActive] = useState<BrandSection>('templates')
-  const [state, setState] = useState<LoadState>(() => initialState())
+  const [state, setState] = useState<LoadState>(() => initialState(copy))
   const [query, setQuery] = useState({ campId: 'camp-ts5', businessDate: '2026-05-18', keyword: '' })
-  const [notice, setNotice] = useState('品牌官网数据已更新')
+  const [notice, setNotice] = useState(copy.loadedNotice)
   const [isLoading, setIsLoading] = useState(false)
   const [metricDetail, setMetricDetail] = useState<BrandWebsiteMetric | null>(null)
   const [templateDetail, setTemplateDetail] = useState<BrandWebsiteTemplate | null>(null)
   const [couponDetail, setCouponDetail] = useState<BrandWebsiteCoupon | null>(null)
+  const [appliedTemplateId, setAppliedTemplateId] = useState<string | null>(null)
 
   const data = state.kind === 'ready' ? state.data : null
 
-  function loadWithFeedback(nextQuery = query, message = '品牌官网数据已刷新') {
+  function loadWithFeedback(nextQuery = query, message = copy.refreshedNotice) {
     setIsLoading(true)
     window.setTimeout(() => {
       try {
@@ -67,7 +128,7 @@ export function BrandWebsitePage() {
         setState({ kind: 'ready', data: next })
         setNotice(message)
       } catch (error) {
-        setState({ kind: 'error', message: error instanceof Error ? error.message : '品牌官网数据加载失败' })
+        setState({ kind: 'error', message: error instanceof Error ? error.message : copy.errorTitle })
       } finally {
         setIsLoading(false)
       }
@@ -76,13 +137,13 @@ export function BrandWebsitePage() {
 
   function retry() {
     window.localStorage.setItem('pms.brandWebsiteMockMode', 'success')
-    loadWithFeedback(query, '已重新加载品牌官网')
+    loadWithFeedback(query, copy.retryNotice)
   }
 
   function resetFilters() {
     const nextQuery = { campId: 'camp-ts5', businessDate: '2026-05-18', keyword: '' }
     setQuery(nextQuery)
-    loadWithFeedback(nextQuery, '已恢复默认条件')
+    loadWithFeedback(nextQuery, copy.resetNotice)
   }
 
   function updateSection(section: BrandSection) {
@@ -92,15 +153,15 @@ export function BrandWebsitePage() {
 
   if (state.kind === 'error') {
     return (
-      <BrandShell active={active} onSectionChange={updateSection}>
+      <BrandShell active={active} onSectionChange={updateSection} activeLabel={copy.activeLabel} activePath={copy.activePath}>
         <section className="brand-state-card" role="alert">
-          <h1>品牌官网数据加载失败</h1>
+          <h1>{copy.errorTitle}</h1>
           <p>{state.message}</p>
           <button type="button" onClick={retry}>
             重试
           </button>
         </section>
-        <ActionStatus message={notice} />
+        {copy.showOperationsHeader ? <ActionStatus message={notice} label={copy.statusLabel} /> : null}
       </BrandShell>
     )
   }
@@ -108,68 +169,72 @@ export function BrandWebsitePage() {
   if (!data) return null
 
   return (
-    <BrandShell active={active} onSectionChange={updateSection}>
-      <header className="brand-toolbar" aria-label="品牌官网筛选区">
-        <div>
-          <h1>品牌官网</h1>
-          <p>{data.camp.name}，{data.businessDate} 运营概览</p>
-        </div>
-        <label>
-          <span>门店</span>
-          <select
-            aria-label="门店"
-            value={query.campId}
-            onChange={(event) => setQuery((current) => ({ ...current, campId: event.target.value }))}
-            disabled={isLoading}
-          >
-            {data.stores.map((store) => (
-              <option key={store.id} value={store.id}>
-                {store.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>运营日期</span>
-          <input
-            aria-label="运营日期"
-            type="date"
-            value={query.businessDate}
-            onChange={(event) => setQuery((current) => ({ ...current, businessDate: event.target.value }))}
-            disabled={isLoading}
-          />
-        </label>
-        <button type="button" onClick={() => loadWithFeedback(query, '已按当前条件更新品牌官网')} disabled={isLoading}>
-          查询
-        </button>
-        <button type="button" onClick={resetFilters} disabled={isLoading}>
-          重置
-        </button>
-        <button type="button" onClick={() => loadWithFeedback(query, '品牌官网数据已刷新')} disabled={isLoading}>
-          刷新
-        </button>
-        <button type="button" onClick={() => setNotice('导出任务已创建，可在下载中心查看')} disabled={isLoading}>
-          导出
-        </button>
-      </header>
+    <BrandShell active={active} onSectionChange={updateSection} activeLabel={copy.activeLabel} activePath={copy.activePath}>
+      {copy.showOperationsHeader ? (
+        <header className="brand-toolbar" aria-label={`${copy.pageTitle}筛选区`}>
+          <div>
+            <h1>{copy.pageTitle}</h1>
+            <p>{data.camp.name}，{data.businessDate} 运营概览</p>
+          </div>
+          <label>
+            <span>门店</span>
+            <select
+              aria-label="门店"
+              value={query.campId}
+              onChange={(event) => setQuery((current) => ({ ...current, campId: event.target.value }))}
+              disabled={isLoading}
+            >
+              {data.stores.map((store) => (
+                <option key={store.id} value={store.id}>
+                  {store.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>运营日期</span>
+            <input
+              aria-label="运营日期"
+              type="date"
+              value={query.businessDate}
+              onChange={(event) => setQuery((current) => ({ ...current, businessDate: event.target.value }))}
+              disabled={isLoading}
+            />
+          </label>
+          <button type="button" onClick={() => loadWithFeedback(query, copy.filterNotice)} disabled={isLoading}>
+            查询
+          </button>
+          <button type="button" onClick={resetFilters} disabled={isLoading}>
+            重置
+          </button>
+          <button type="button" onClick={() => loadWithFeedback(query, copy.refreshedNotice)} disabled={isLoading}>
+            刷新
+          </button>
+          <button type="button" onClick={() => setNotice(copy.exportNotice)} disabled={isLoading}>
+            导出
+          </button>
+        </header>
+      ) : null}
 
-      <ActionStatus message={isLoading ? '正在更新品牌官网数据' : notice} />
-      <span className="brand-contract" data-testid="brand-website-contract">
+      {copy.showOperationsHeader ? <ActionStatus message={isLoading ? copy.loadingNotice : notice} label={copy.statusLabel} /> : null}
+      <span className="brand-contract" data-testid={copy.contractTestId}>
         {JSON.stringify(data.contract)}
       </span>
 
       <main className="brand-workspace">
-        <MetricStrip
-          data={data}
-          onMetricDetail={(metric) => {
-            setMetricDetail(metric)
-            setNotice(`\u5df2\u67e5\u770b${metric.label}\u8be6\u60c5`)
-          }}
-        />
+        {copy.showOperationsHeader ? (
+          <MetricStrip
+            data={data}
+            onMetricDetail={(metric) => {
+              setMetricDetail(metric)
+              setNotice(`已查看${metric.label}详情`)
+            }}
+          />
+        ) : null}
         {data.templates.length === 0 ? (
-          <section className="brand-state-card" role="status" aria-label="品牌官网空态">
-            <h2>暂无符合当前条件的品牌官网配置</h2>
-            <p>可以重置条件后查看默认门店配置，或新建模板方案继续运营。</p>
+          <section className="brand-state-card" role="status" aria-label={`${copy.pageTitle}空态`}>
+            <h2>{copy.emptyTitle}</h2>
+            <p>{copy.emptyDescription}</p>
             <button type="button" onClick={resetFilters}>
               重置条件
             </button>
@@ -181,7 +246,11 @@ export function BrandWebsitePage() {
             keyword={query.keyword}
             onKeywordChange={(keyword) => setQuery((current) => ({ ...current, keyword }))}
             onSearchCoupons={() => loadWithFeedback(query, '已筛选领券活动')}
-            onTemplateApply={(template) => setNotice(`已应用${template.name}`)}
+            appliedTemplateId={appliedTemplateId}
+            onTemplateApply={(template) => {
+              setAppliedTemplateId(template.id)
+              setNotice(`已应用${template.name}`)
+            }}
             onTemplateDetail={setTemplateDetail}
             onCouponDetail={setCouponDetail}
             onNavigate={(path) => navigate(path)}
@@ -228,10 +297,14 @@ function BrandShell({
   active,
   children,
   onSectionChange,
+  activeLabel,
+  activePath,
 }: {
   active: BrandSection
   children: ReactNode
   onSectionChange: (section: BrandSection) => void
+  activeLabel: string
+  activePath: string
 }) {
   return (
     <div className="brand-website-page">
@@ -241,8 +314,8 @@ function BrandShell({
         <div className="brand-module-menu__group is-open">
           <span>私域</span>
           <Link to="/channels/private">私域渠道</Link>
-          <Link className="is-active" to="/mallManagement/weapp/decorate">
-            品牌官网
+          <Link className="is-active" to={activePath}>
+            {activeLabel}
           </Link>
         </div>
         <small>版本号：v4.10.7</small>
@@ -273,9 +346,9 @@ function BrandShell({
   )
 }
 
-function ActionStatus({ message }: { message: string }) {
+function ActionStatus({ message, label }: { message: string; label: string }) {
   return (
-    <div className="brand-action-status" role="status" aria-label="品牌官网操作反馈">
+    <div className="brand-action-status" role="status" aria-label={label}>
       {message}
     </div>
   )
@@ -306,6 +379,7 @@ function BrandWorkspace({
   active,
   data,
   keyword,
+  appliedTemplateId,
   onKeywordChange,
   onSearchCoupons,
   onTemplateApply,
@@ -317,6 +391,7 @@ function BrandWorkspace({
   active: BrandSection
   data: BrandWebsiteViewModel
   keyword: string
+  appliedTemplateId: string | null
   onKeywordChange: (keyword: string) => void
   onSearchCoupons: () => void
   onTemplateApply: (template: BrandWebsiteTemplate) => void
@@ -343,15 +418,17 @@ function BrandWorkspace({
   if (active === 'float') return <ComponentState title="悬浮框" enabled={data.pageConfig.floatingButtonEnabled} onNotice={onNotice} />
   if (active === 'popup') return <ComponentState title="首页弹窗" enabled={data.pageConfig.popupEnabled} onNotice={onNotice} />
   if (active === 'style') return <StyleState data={data} onNotice={onNotice} />
-  return <TemplateMarket templates={data.templates} onApply={onTemplateApply} onDetail={onTemplateDetail} />
+  return <TemplateMarket templates={data.templates} appliedTemplateId={appliedTemplateId} onApply={onTemplateApply} onDetail={onTemplateDetail} />
 }
 
 function TemplateMarket({
   templates,
+  appliedTemplateId,
   onApply,
   onDetail,
 }: {
   templates: BrandWebsiteTemplate[]
+  appliedTemplateId: string | null
   onApply: (template: BrandWebsiteTemplate) => void
   onDetail: (template: BrandWebsiteTemplate) => void
 }) {
@@ -365,7 +442,8 @@ function TemplateMarket({
               <p>{template.scene}</p>
             </div>
             <button type="button" onClick={() => onApply(template)}>
-              <span>{template.name}</span> <b>一键使用</b>
+              <span>{template.name}</span>{' '}
+              <b>{appliedTemplateId === template.id || (!appliedTemplateId && template.status === 'using') ? '已使用' : '一键使用'}</b>
             </button>
             <button type="button" className="brand-secondary-button" onClick={() => onDetail(template)}>
               查看{template.name}详情

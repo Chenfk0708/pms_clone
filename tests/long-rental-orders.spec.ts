@@ -6,7 +6,7 @@ function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
-const developmentCopy = /mock provider|mock 数据|未接入|阻塞|后端未就绪|后端接口未完成|真实接口|未取证|缺少 campId/i
+const developmentCopy = /mock provider|mock 数据|未接入占位|后端未就绪|后端接口未完成|真实接口|未取值|缺少 campId/i
 
 test('/order/house-longRental-order/list loads through the explicit data provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -59,16 +59,17 @@ test('/order/house-longRental-order/list handles detail tabs and footer actions'
   await page.goto(appUrl('/order/house-longRental-order/list'))
 
   await page.getByRole('button', { name: '详情' }).click()
-  await expect(page.getByRole('dialog', { name: '长租订单详情' })).toContainText('美团民宿')
-  await page.getByRole('button', { name: '合同信息' }).click()
-  await expect(page.getByRole('dialog', { name: '长租订单详情' })).toContainText('合同周期')
-  await page.getByRole('button', { name: '缴费记录' }).click()
-  await expect(page.getByRole('dialog', { name: '长租订单详情' })).toContainText('缴费计划')
+  const detailDialog = page.getByRole('dialog', { name: '长租订单详情' })
+  await expect(detailDialog).toContainText('美团民宿')
+  await detailDialog.getByRole('button', { name: '合同信息' }).click()
+  await expect(detailDialog).toContainText('合同周期')
+  await detailDialog.getByRole('button', { name: '缴费记录' }).click()
+  await expect(detailDialog).toContainText('缴费计划')
 
-  await page.getByRole('button', { name: '收 款' }).click()
+  await detailDialog.getByRole('button', { name: '收 款' }).click()
   await expect(page.getByRole('status', { name: '长租订单操作反馈' })).toContainText('收款流程已记录')
-  await page.getByRole('button', { name: '关闭长租订单详情' }).click()
-  await expect(page.getByRole('dialog', { name: '长租订单详情' })).toHaveCount(0)
+  await detailDialog.getByRole('button', { name: '关闭长租订单详情' }).click()
+  await expect(detailDialog).toHaveCount(0)
 })
 
 test('/order/house-longRental-order/list exposes provider error and retry', async ({ page }) => {
@@ -88,4 +89,25 @@ test('/order/house-longRental-order/list renders provider empty state without st
   await expect(page.getByRole('table', { name: '长租订单列表' })).toContainText('暂无长租订单')
   await expect(page.getByRole('table', { name: '长租订单列表' })).not.toContainText('1871589898539520001')
   await expect(page.locator('.order-page--long-rental')).not.toContainText(developmentCopy)
+})
+
+test('/order/house-longRental-order/list keeps check-in and leave-time columns as single-line widths', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-longRental-order/list'))
+
+  const timeColumnWidths = await page.locator('.order-table__head > div').evaluateAll((nodes) => {
+    const texts = nodes.map((node) => node.textContent?.trim())
+    const checkInIndex = texts.indexOf('入住时间')
+    const leaveIndex = texts.indexOf('离开时间')
+
+    return {
+      checkInWidth: checkInIndex >= 0 ? nodes[checkInIndex].getBoundingClientRect().width : 0,
+      leaveWidth: leaveIndex >= 0 ? nodes[leaveIndex].getBoundingClientRect().width : 0,
+    }
+  })
+
+  expect(timeColumnWidths).toEqual({
+    checkInWidth: 150,
+    leaveWidth: 150,
+  })
 })

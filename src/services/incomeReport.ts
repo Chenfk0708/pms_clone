@@ -45,9 +45,21 @@ export type IncomeReportRow = {
   roomFeeMinusCommission: string
   channelCommission: string
   roomFeeIncludingCommission: string
+  allDayRoomFeeIncludingCommission: string
+  hourRoomFeeIncludingCommission: string
   otherExpense: string
+  accommodationExpense: string
+  cateringExpense: string
+  supermarketExpense: string
+  entertainmentExpense: string
+  venueExpense: string
   orderTotalIncome: string
   manualIncome: string
+  manualAccommodationIncome: string
+  manualCateringIncome: string
+  manualSupermarketIncome: string
+  manualEntertainmentIncome: string
+  manualVenueIncome: string
   businessIncomeIncludingCommission: string
   businessIncomeMinusCommission: string
   roomFeeMinusCommissionRatio?: string
@@ -499,9 +511,21 @@ function incomeRow(
     roomFeeMinusCommission,
     channelCommission,
     roomFeeIncludingCommission,
+    allDayRoomFeeIncludingCommission: roomFeeIncludingCommission,
+    hourRoomFeeIncludingCommission: '0',
     otherExpense,
+    accommodationExpense: '0',
+    cateringExpense: '0',
+    supermarketExpense: '0',
+    entertainmentExpense: '0',
+    venueExpense: '0',
     orderTotalIncome,
     manualIncome,
+    manualAccommodationIncome: '0',
+    manualCateringIncome: '0',
+    manualSupermarketIncome: '0',
+    manualEntertainmentIncome: '0',
+    manualVenueIncome: '0',
     businessIncomeIncludingCommission,
     businessIncomeMinusCommission,
     roomFeeMinusCommissionRatio,

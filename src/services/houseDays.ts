@@ -1,3 +1,5 @@
+import { fetchDayOrderCardsFromMonthSource, type DayOrderBooking, type DayOrderCard } from './houseDaysShared'
+
 const MOCK_ENDPOINT = '/houseManage/days/overview'
 const REAL_ENDPOINT = 'https://hudson-prod.localhome.cn/roomStatusesToday/get'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
@@ -9,6 +11,7 @@ export type HouseDaysMockState = 'success' | 'empty' | 'error'
 export type HouseDaysQuery = {
   provider?: HouseDaysProviderMode
   mockState?: HouseDaysMockState
+  storeId: string
   keyword: string
   viewMode: string
   statusFilters: string[]
@@ -25,6 +28,8 @@ export type HouseDaysStatusFilterItem = {
 
 export type HouseDaysRoomCard = {
   id: string
+  storeId: string
+  storeName: string
   roomType: string
   roomName: string
   status: 'cleanVacant' | 'dirtyVacant' | 'occupiedClean' | 'occupiedDirty' | 'closed'
@@ -35,6 +40,7 @@ export type HouseDaysRoomCard = {
     channel: string
     price: string
     tone: 'blue' | 'orange'
+    monthOrder?: DayOrderBooking
   }
 }
 
@@ -131,7 +137,8 @@ async function fetchMockHouseDays(
     }
   }
 
-  const baseRooms = responseState === 'empty' ? [] : filterRooms(mockRooms, query, false)
+  const sharedRooms = responseState === 'empty' ? [] : await fetchDayOrderCardsFromMonthSource(query.keyword)
+  const baseRooms = responseState === 'empty' ? [] : filterRooms(sharedRooms.map(adaptSharedCardToHouseDayRoom), query, false)
   const rooms = responseState === 'empty' ? [] : filterRooms(baseRooms, query, true)
   return {
     code: 0,
@@ -175,7 +182,7 @@ function createMockData(
     ],
     roomTypeOptions: [
       { id: '', name: '房型' },
-      ...Array.from(new Set(mockRooms.map((room) => room.roomType))).map((roomType) => ({
+      ...Array.from(new Set(statusGroupRooms.map((room) => room.roomType))).map((roomType) => ({
         id: roomType,
         name: roomType,
       })),
@@ -200,7 +207,7 @@ function createMockData(
 function buildRequestParams(query: HouseDaysQuery) {
   return {
     date: '2026-05-18',
-    storeId: 'poi-1796067693589061634',
+    storeId: query.storeId || 'all',
     keyword: query.keyword,
     viewMode: query.viewMode,
     statusFilters: query.statusFilters,
@@ -210,8 +217,31 @@ function buildRequestParams(query: HouseDaysQuery) {
   }
 }
 
+function adaptSharedCardToHouseDayRoom(card: DayOrderCard): HouseDaysRoomCard {
+  return {
+    id: card.id,
+    storeId: resolveMockStoreId(card),
+    storeName: resolveMockStoreName(card),
+    roomType: card.roomType,
+    roomName: card.roomName,
+    status: card.status,
+    hasTag: card.hasTag,
+    filterLabels: card.filterLabels,
+    booking: card.booking
+      ? {
+          guest: card.booking.cell.title,
+          channel: card.booking.cell.subtitle ?? '-',
+          price: card.booking.cell.amount ?? '-',
+          tone: card.booking.cell.tone === 'booking-blue' ? 'blue' : 'orange',
+          monthOrder: card.booking,
+        }
+      : undefined,
+  }
+}
+
 function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery, includeStatusFilters: boolean) {
   return rooms.filter((room) => {
+    const matchesStore = !query.storeId || query.storeId === 'all' || room.storeId === query.storeId
     const keyword = query.keyword.trim()
     const matchesKeyword =
       !keyword ||
@@ -227,8 +257,20 @@ function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery, includeS
       query.statusFilters.length === 0 ||
       query.statusFilters.some((filterLabel) => room.filterLabels?.includes(filterLabel))
 
-    return matchesKeyword && matchesChannel && matchesRoomType && matchesTag && matchesStatus
+    return matchesStore && matchesKeyword && matchesChannel && matchesRoomType && matchesTag && matchesStatus
   })
+}
+
+function resolveMockStoreId(card: DayOrderCard) {
+  return card.roomName === '1206' || card.roomName === '706'
+    ? 'poi-1796067693589061634'
+    : 'poi-1796067693589061635'
+}
+
+function resolveMockStoreName(card: DayOrderCard) {
+  return resolveMockStoreId(card) === 'poi-1796067693589061634'
+    ? '天落会宿公寓(前海壹方城宝安中心店)'
+    : '天落会宿公寓(深圳湾科技园店)'
 }
 
 function buildStatusGroups(rooms: HouseDaysRoomCard[]): HouseDaysStatusGroup[] {

@@ -7,12 +7,13 @@ import {
   type MonthDateColumn,
   type MonthRoomGroup,
 } from '../services/houseMonths'
+import { OrderRefreshPopover } from './HouseStatusSharingPage'
 import './HouseMonthsPage.css'
 
 type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
 type BatchMenu = 'dirty-clean' | 'open-close' | null
 
-interface HoveredBooking {
+export interface HoveredBooking {
   cell: MonthCell
   roomType: string
   roomLabel: string
@@ -20,7 +21,7 @@ interface HoveredBooking {
   top: number
 }
 
-interface SelectedBooking {
+export interface SelectedBooking {
   cell: MonthCell
   roomType: string
   roomLabel: string
@@ -230,6 +231,57 @@ function createMonthPickerCells(cursorMonth: Date, selectedDate: Date): MonthPic
   })
 }
 
+export function createHoveredBooking(
+  rect: Pick<DOMRect, 'right' | 'top' | 'height'>,
+  cell: MonthCell,
+  roomType: string,
+  roomLabel: string,
+): HoveredBooking {
+  const popoverWidth = 300
+  const popoverHeight = 232
+  const left = Math.min(rect.right + 18, window.innerWidth - popoverWidth - 12)
+  const top = Math.max(8, Math.min(Math.round(rect.top + rect.height / 2 - popoverHeight / 2), window.innerHeight - popoverHeight - 12))
+
+  return {
+    cell,
+    roomType,
+    roomLabel,
+    left: Math.round(left),
+    top,
+  }
+}
+
+export function MonthOrderPopover({ hoveredBooking }: { hoveredBooking: HoveredBooking }) {
+  return (
+    <section
+      className="month-order-popover"
+      style={{ left: hoveredBooking.left, top: hoveredBooking.top }}
+      aria-label="订单悬浮信息"
+    >
+      <header>
+        {hoveredBooking.roomType}-{hoveredBooking.roomLabel}
+      </header>
+      <div className="month-order-popover__content">
+        <div>预订人: {hoveredBooking.cell.title}</div>
+        <div>手机号: {hoveredBooking.cell.phone ?? '-'}</div>
+        <div>入离时间: {hoveredBooking.cell.stayRange ?? '2026-05-18-05-20'}</div>
+        <div>
+          渠道来源: <span>{hoveredBooking.cell.subtitle ?? '-'}</span>
+        </div>
+        <div className="month-order-popover__price">
+          <span>
+            房费(减佣): <em>{hoveredBooking.cell.amount ?? '-'}</em>
+          </span>
+          <span>
+            订单总收入: <em>{hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-'}</em>
+          </span>
+        </div>
+        <div>备注: {hoveredBooking.cell.remark ?? '-'}</div>
+      </div>
+    </section>
+  )
+}
+
 const batchConfig: Record<BatchMode, { title: string; enter: string; apply: string; result: string }> = {
   dirty: { title: '批量设脏', enter: '已进入批量设脏模式', apply: '设为脏房', result: '脏房' },
   clean: { title: '批量设净', enter: '已进入批量设净模式', apply: '设为净房', result: '净房' },
@@ -250,7 +302,7 @@ export function HouseMonthsPage() {
   const [windowStartDate, setWindowStartDate] = useState(() => shiftDate(today, WINDOW_START_OFFSET_DAYS))
   const [pickerMonth, setPickerMonth] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1))
   const [toastMessage, setToastMessage] = useState('')
-  const [activeChip, setActiveChip] = useState('')
+  const [activeChip, setActiveChip] = useState('all')
   const [query, setQuery] = useState('')
   const [roomType, setRoomType] = useState('')
   const [batchMenu, setBatchMenu] = useState<BatchMenu>(null)
@@ -262,8 +314,15 @@ export function HouseMonthsPage() {
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
   const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [loadError, setLoadError] = useState('')
+  const [refreshPopoverOpen, setRefreshPopoverOpen] = useState(false)
   const [roomGroups, setRoomGroups] = useState<MonthRoomGroup[]>([])
   const [dateColumns, setDateColumns] = useState<MonthDateColumn[]>(() => createMonthDateColumns(shiftDate(today, WINDOW_START_OFFSET_DAYS)))
+  const initialCampId = useMemo(() => {
+    const queryCampId = new URLSearchParams(location.search).get('campId')?.trim()
+    if (queryCampId) return queryCampId
+    return window.localStorage.getItem('pms.currentCampId')?.trim() || ''
+  }, [location.search])
+  const resolvedCampIdRef = useRef('')
 
   const selectedDateIso = useMemo(() => formatIsoDate(selectedDate), [selectedDate])
   const selectedDateIndex = useMemo(
@@ -273,6 +332,7 @@ export function HouseMonthsPage() {
   const activeSelectedDateIndex = selectedDateIndex >= 0 ? selectedDateIndex : DEFAULT_SELECTED_DATE_INDEX
   const monthPickerCells = useMemo(() => createMonthPickerCells(pickerMonth, selectedDate), [pickerMonth, selectedDate])
   const pickerMonthLabel = `${pickerMonth.getFullYear()}\u5e74 ${pickerMonth.getMonth() + 1}\u6708`
+  const activeStoreCampId = useMemo(() => initialCampId || resolvedCampIdRef.current, [initialCampId])
 
   useEffect(() => {
     if (!toastMessage) return undefined
@@ -296,19 +356,12 @@ export function HouseMonthsPage() {
     if (monthBoardRef.current) monthBoardRef.current.scrollLeft = 184
   }, [windowStartDate])
 
-  const initialCampId = useMemo(() => {
-    const queryCampId = new URLSearchParams(location.search).get('campId')?.trim()
-    if (queryCampId) return queryCampId
-    return window.localStorage.getItem('pms.currentCampId')?.trim() || ''
-  }, [location.search])
-  const resolvedCampIdRef = useRef('')
-
   const loadSnapshot = useCallback(async (nextRoomType = roomType, nextQuery = query) => {
     setLoadState('loading')
     setLoadError('')
     try {
       const requestColumns = createMonthDateColumns(windowStartDate)
-      let activeCampId = initialCampId || resolvedCampIdRef.current
+      let activeCampId = activeStoreCampId || resolvedCampIdRef.current
       if (!activeCampId) {
         activeCampId = await fetchHouseMonthsDefaultCampId()
         window.localStorage.setItem('pms.currentCampId', activeCampId)
@@ -334,7 +387,7 @@ export function HouseMonthsPage() {
       setLoadState('error')
       setLoadError(error instanceof Error ? error.message : String(error))
     }
-  }, [initialCampId, query, roomType, windowStartDate])
+  }, [activeStoreCampId, query, roomType, windowStartDate])
 
   useEffect(() => {
     let cancelled = false
@@ -364,6 +417,7 @@ export function HouseMonthsPage() {
       if (!target.closest('.month-settings')) setSettingsOpen(false)
       if (!target.closest('.month-filter-menu')) setFilterMenu(null)
       if (!target.closest('.month-batch-action')) setBatchMenu(null)
+      if (!target.closest('.month-toolbar__refresh-group')) setRefreshPopoverOpen(false)
       if (!target.closest('.month-calendar-title') && !target.closest('.month-date-picker')) setDatePickerOpen(false)
       if (!target.closest('.month-order-drawer') && !target.closest('.tone-booking-blue, .tone-booking-gold, .tone-booking-teal')) {
         setSelectedBooking(null)
@@ -443,6 +497,23 @@ export function HouseMonthsPage() {
     void loadSnapshot('', '')
   }
 
+  const storeOptions = [
+    { id: 'all', name: '????' },
+    { id: 'poi-1796067693589061634', name: '??????(??????????)' },
+  ]
+
+  const handleStoreSwitch = (storeId: string) => {
+    const nextStore = storeOptions.find((store) => store.id === storeId)
+    const nextCampId = activeStoreCampId.trim()
+
+    setActiveChip(storeId)
+    if (nextCampId) {
+      window.localStorage.setItem('pms.currentCampId', nextCampId)
+      resolvedCampIdRef.current = nextCampId
+    }
+    setToastMessage(storeId === 'all' ? '????????' : `????${nextStore?.name ?? '????'}`)
+  }
+
   const clearRoomTypeFilter = () => {
     setRoomType('')
     setFilterMenu(null)
@@ -452,18 +523,7 @@ export function HouseMonthsPage() {
   const hasFilters = Boolean(query || roomType)
   const showBookingPopover = (event: ReactMouseEvent<HTMLElement>, cell: MonthCell, row: MonthRoomGroup) => {
     const rect = event.currentTarget.getBoundingClientRect()
-    const popoverWidth = 300
-    const popoverHeight = 232
-    const left = Math.min(rect.right + 18, window.innerWidth - popoverWidth - 12)
-    const top = Math.max(8, Math.min(Math.round(rect.top + rect.height / 2 - popoverHeight / 2), window.innerHeight - popoverHeight - 12))
-
-    setHoveredBooking({
-      cell,
-      roomType: row.label,
-      roomLabel: row.roomLabel,
-      left: Math.round(left),
-      top,
-    })
+    setHoveredBooking(createHoveredBooking(rect, cell, row.label, row.roomLabel))
   }
 
   const openOrderDrawer = (cell: MonthCell, row: MonthRoomGroup) => {
@@ -538,15 +598,15 @@ export function HouseMonthsPage() {
         <div className="month-toolbar__filters">
           <div className="month-store-control">
             <div className="month-store-switch" aria-label="门店范围">
-              {['全部门店', '天落会宿公寓(前海壹方城宝安中心店)'].map((chip, index) => (
+              {storeOptions.map((store, index) => (
                 <button
-                  key={chip}
+                  key={store.id}
                   type="button"
-                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeChip === chip ? ' is-active' : ''}`}
-                  aria-pressed={activeChip === chip}
-                  onClick={() => setActiveChip((current) => (current === chip ? '' : chip))}
+                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeChip === store.id ? ' is-active' : ''}`}
+                  aria-pressed={activeChip === store.id}
+                  onClick={() => handleStoreSwitch(store.id)}
                 >
-                  {chip}
+                  {store.name}
                 </button>
               ))}
             </div>
@@ -665,12 +725,32 @@ export function HouseMonthsPage() {
               </div>
             ) : null}
           </div>
-          <button type="button" className="month-refresh-action" aria-label="刷新房态" disabled={loadState === 'loading'} onClick={() => void loadSnapshot()}>
-            ↻
-          </button>
-          <button type="button" className="month-refresh-action" aria-label="重新加载" disabled={loadState === 'loading'} onClick={() => void loadSnapshot()}>
-            ⟳
-          </button>
+          <div className="month-toolbar__refresh-group">
+            <button
+              type="button"
+              className="month-refresh-action"
+              aria-label="分享房态"
+              onClick={() => navigate('/houseManage/months/sharingRoomStatus')}
+            >
+              ↺
+            </button>
+            <button
+              type="button"
+              className="month-refresh-action"
+              aria-label="订单刷新"
+              disabled={loadState === 'loading'}
+              onClick={() => setRefreshPopoverOpen((current) => !current)}
+            >
+              ⟳
+            </button>
+            <OrderRefreshPopover
+              open={refreshPopoverOpen}
+              onRefresh={() => {
+                setRefreshPopoverOpen(false)
+                setToastMessage('美团酒店订单已刷新')
+              }}
+            />
+          </div>
         </div>
 
         {loadState === 'loading' ? (
@@ -901,7 +981,7 @@ interface MonthOrderDrawerProps {
   onAction: (action: string) => void
 }
 
-function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDrawerProps) {
+export function MonthOrderDrawer({ selectedBooking, onClose, onAction }: MonthOrderDrawerProps) {
   const [activeTab, setActiveTab] = useState<OrderDrawerTab>('order')
   const [openDialog, setOpenDialog] = useState<MonthOrderDialog>(null)
   const [collectDialogOpen, setCollectDialogOpen] = useState(false)

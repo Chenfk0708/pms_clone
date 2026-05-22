@@ -147,6 +147,7 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
   await page.getByRole('button', { name: '导出明细' }).click()
   await expect(page.getByRole('status', { name: '预售券订单操作反馈' })).toContainText('导出任务已创建')
 
+  await page.locator('aside[aria-label="全部会话"] button[aria-label="收起会话"]').click()
   await page.getByRole('button', { name: '订单详情' }).click()
   await expect(page.getByRole('dialog', { name: '预售券订单详情' })).toContainText('ORDER-001')
   await page.getByRole('button', { name: '关闭详情', exact: true }).click()
@@ -158,6 +159,234 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
     ),
     fullPage: true,
   })
+})
+
+test('/mallManagement/orderManagement keeps action and pagination buttons beneath the chat dock overlay', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await mockPresaleSupportApis(page)
+
+  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          total: 3,
+          pageNum: 1,
+          size: 20,
+          current: 1,
+          hasNextPage: false,
+          list: [
+            {
+              orderId: 'ORDER-001',
+              orderState: 6,
+              refundDisplayState: 1,
+              realPayAmount: 19900,
+              totalAmount: 19900,
+              buyerName: '张三',
+              buyerMobile: '13800000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-001',
+                  roomCategoryName: '早鸟预售券',
+                  roomCategoryProductName: '周末双人早餐券',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 19900,
+                  count: 1,
+                },
+              ],
+            },
+            {
+              orderId: 'ORDER-002',
+              orderState: 4,
+              refundDisplayState: 2,
+              realPayAmount: 16800,
+              totalAmount: 16800,
+              buyerName: '李四',
+              buyerMobile: '13900000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-002',
+                  roomCategoryName: '晚安预售券',
+                  roomCategoryProductName: '家庭双床套餐',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 16800,
+                  count: 1,
+                },
+              ],
+            },
+            {
+              orderId: 'ORDER-003',
+              orderState: 3,
+              refundDisplayState: 3,
+              realPayAmount: 16900,
+              totalAmount: 16900,
+              buyerName: '王五',
+              buyerMobile: '13700000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-003',
+                  roomCategoryName: '连住预售券',
+                  roomCategoryProductName: '影音大床套餐',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 16900,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/mallManagement/orderManagement'))
+
+  const chatDock = page.locator('.chat-dock')
+  const detailButtons = page.locator('.presale-order-row button')
+  const previousButton = page.getByRole('button', { name: '上一页' })
+  const nextButton = page.getByRole('button', { name: '下一页' })
+
+  await expect(chatDock).toBeVisible()
+  await expect(detailButtons).toHaveCount(3)
+  await expect(previousButton).toBeVisible()
+  await expect(nextButton).toBeVisible()
+
+  const dockBox = await chatDock.boundingBox()
+  expect(dockBox).not.toBeNull()
+
+  for (const locator of [detailButtons.first(), previousButton, nextButton]) {
+    const buttonBox = await locator.boundingBox()
+    expect(buttonBox).not.toBeNull()
+
+    const overlapLeft = Math.max(buttonBox!.x, dockBox!.x)
+    const overlapRight = Math.min(buttonBox!.x + buttonBox!.width, dockBox!.x + dockBox!.width)
+    const overlapTop = Math.max(buttonBox!.y, dockBox!.y)
+    const overlapBottom = Math.min(buttonBox!.y + buttonBox!.height, dockBox!.y + dockBox!.height)
+
+    expect(overlapRight > overlapLeft).toBe(true)
+    expect(overlapBottom > overlapTop).toBe(true)
+
+    const overlayOwnsTopLayer = await page.evaluate(
+      ({ x, y }) => Boolean(document.elementFromPoint(x, y)?.closest('.chat-dock')),
+      { x: overlapLeft + 8, y: overlapTop + 8 },
+    )
+
+    expect(overlayOwnsTopLayer).toBe(true)
+  }
+})
+
+test('/mallManagement/orderManagement keeps toolbar quick links beneath the chat dock overlay', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 520 })
+  await mockPresaleSupportApis(page)
+
+  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          total: 3,
+          pageNum: 1,
+          size: 20,
+          current: 1,
+          hasNextPage: false,
+          list: [
+            {
+              orderId: 'ORDER-001',
+              orderState: 6,
+              refundDisplayState: 1,
+              realPayAmount: 19900,
+              totalAmount: 19900,
+              buyerName: '张三',
+              buyerMobile: '13800000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-001',
+                  roomCategoryName: '早鸟预售券',
+                  roomCategoryProductName: '周末双人早餐券',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 19900,
+                  count: 1,
+                },
+              ],
+            },
+            {
+              orderId: 'ORDER-002',
+              orderState: 4,
+              refundDisplayState: 2,
+              realPayAmount: 16800,
+              totalAmount: 16800,
+              buyerName: '李四',
+              buyerMobile: '13900000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-002',
+                  roomCategoryName: '晚安预售券',
+                  roomCategoryProductName: '家庭双床套餐',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 16800,
+                  count: 1,
+                },
+              ],
+            },
+            {
+              orderId: 'ORDER-003',
+              orderState: 3,
+              refundDisplayState: 3,
+              realPayAmount: 16900,
+              totalAmount: 16900,
+              buyerName: '王五',
+              buyerMobile: '13700000000',
+              orderDetailViews: [
+                {
+                  orderDetailId: 'DETAIL-003',
+                  roomCategoryName: '连住预售券',
+                  roomCategoryProductName: '影音大床套餐',
+                  roomCategoryType: 1,
+                  categoryName: '住宿套餐',
+                  salePrice: 16900,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/mallManagement/orderManagement'))
+
+  const chatDock = page.locator('.chat-dock')
+  const quickLinkButton = page.getByRole('button', { name: '卡券核销' })
+
+  await expect(chatDock).toBeVisible()
+  await expect(quickLinkButton).toBeVisible()
+
+  const dockBox = await chatDock.boundingBox()
+  const buttonBox = await quickLinkButton.boundingBox()
+
+  expect(dockBox).not.toBeNull()
+  expect(buttonBox).not.toBeNull()
+
+  const overlapLeft = Math.max(buttonBox!.x, dockBox!.x)
+  const overlapRight = Math.min(buttonBox!.x + buttonBox!.width, dockBox!.x + dockBox!.width)
+  const overlapTop = Math.max(buttonBox!.y, dockBox!.y)
+  const overlapBottom = Math.min(buttonBox!.y + buttonBox!.height, dockBox!.y + dockBox!.height)
+
+  expect(overlapRight > overlapLeft).toBe(true)
+  expect(overlapBottom > overlapTop).toBe(true)
+
+  const overlayOwnsTopLayer = await page.evaluate(
+    ({ x, y }) => Boolean(document.elementFromPoint(x, y)?.closest('.chat-dock')),
+    { x: overlapLeft + 8, y: overlapTop + 8 },
+  )
+
+  expect(overlayOwnsTopLayer).toBe(true)
 })
 
 test('/mallManagement/orderManagement exposes request failures without fake success', async ({ page }) => {

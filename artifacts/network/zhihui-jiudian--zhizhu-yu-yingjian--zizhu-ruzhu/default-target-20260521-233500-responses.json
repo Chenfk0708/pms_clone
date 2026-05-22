@@ -1,0 +1,3824 @@
+{
+  "taskId": "zhihui-jiudian--zhizhu-yu-yingjian--zizhu-ruzhu",
+  "mode": "target",
+  "state": "default",
+  "stamp": "20260521-233500",
+  "url": "https://minsubao.localhome.cn/smartHotel/smartHome",
+  "responses": [
+    {
+      "url": "https://minsubao.localhome.cn/smartHotel/smartHome",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/umi.f9c39b80.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/x-javascript"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/antv.a431a2e7.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://o.alicdn.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/NMessage/NMessage.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/vendors.086c7e42.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://s.union.360.cn/574989.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/plain"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/umi.c5bcc2ef.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/FeiLin/1.4.2/feilin051.de3c64d80144020e4654570820f545c27a022919d28518049eb1f1dec2b30df8.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://360fenxi.mediav.com/mediav1130.html",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/antdesigns.667af312.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=100&si=574989&ldt=1&vis=visible&prv=0&guid=225393859.295986900119379968.1779361912001.1631&huid=116kczUHddSTKiIGwwMvH7GfQ6DUzOddSOsdTI4UhPRXo%253D&t=1779361884121&v=3.2.0&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif"
+    },
+    {
+      "url": "https://e.so.com/search/c.js?u=3496203270&_=1779361884126",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript;charset=utf-8"
+    },
+    {
+      "url": "https://s.union.360.cn/proxy.html",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camps/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {},
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "camps": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "name",
+                  "type",
+                  "networkNum",
+                  "nationId",
+                  "nationName",
+                  "provinceId",
+                  "provinceName",
+                  "cityId",
+                  "cityName",
+                  "countyId",
+                  "countyName",
+                  "address",
+                  "joinTime",
+                  "roles",
+                  "logoPhotoMediaId",
+                  "logoPhoto",
+                  "consoleLogoPhotoMediaId",
+                  "consoleLogoPhotoMediaUrl",
+                  "contactNumber",
+                  "description",
+                  "isOwner",
+                  "scaleType"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/loading.svg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/svg+xml"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/common.76db7af9.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/layouts__index.ffab234b.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/camp/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campId": "1796067693589061634",
+          "name": "路客云6TS5的店铺",
+          "type": 1,
+          "isModifyConsoleLogo": 0,
+          "networkNum": "835466",
+          "nationId": null,
+          "nationName": null,
+          "provinceId": null,
+          "provinceName": null,
+          "cityId": null,
+          "cityName": null,
+          "countyId": null,
+          "countyName": null,
+          "address": null,
+          "qrUrl": "https://hudson-prod.localhome.cn/qr?text=https://hudson-prod.localhome.cn/camp/invite/qr?networkNum=835466%26inviteUserId=1796067693261905922",
+          "logoPhotoMediaId": null,
+          "logoPhotoMediaUrl": null,
+          "consoleLogoPhotoMediaId": null,
+          "consoleLogoPhotoMediaUrl": null,
+          "contactNumber": null,
+          "description": null,
+          "bizLicenceMediaId": null,
+          "bizLicenceMediaUrl": null,
+          "industryLicenseMediaId": null,
+          "industryLicenseMediaUrl": null,
+          "hasAuditQualification": false,
+          "scaleType": 2,
+          "accounts": {
+            "type": "array",
+            "length": 9,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "accountId",
+                  "channelId",
+                  "channelName",
+                  "accountName",
+                  "outAccountId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "accountId",
+                  "channelId",
+                  "channelName",
+                  "accountName",
+                  "outAccountId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "accountId",
+                  "channelId",
+                  "channelName",
+                  "accountName",
+                  "outAccountId"
+                ]
+              }
+            ]
+          },
+          "accountCamps": {
+            "type": "array",
+            "length": 9,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "accountCampId",
+                  "channelId",
+                  "accountName",
+                  "outAccountId",
+                  "outCampName",
+                  "accountId",
+                  "channelName"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "accountCampId",
+                  "channelId",
+                  "accountName",
+                  "outAccountId",
+                  "outCampName",
+                  "accountId",
+                  "channelName"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "accountCampId",
+                  "channelId",
+                  "accountName",
+                  "outAccountId",
+                  "outCampName",
+                  "accountId",
+                  "channelName"
+                ]
+              }
+            ]
+          },
+          "isComplete": false,
+          "campPhotos": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          }
+        }
+      }
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=20&mvosr=&eid=1293812&ep=&vid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&ctn=&vvid=%3Ei%23teB%5E%2F_T%3EKq0TGZdE%5B&_mvnf=1&_mvctn=0&_mvck=0&_refnf=1&url=https%3A%2F%2Fminsubao.localhome.cn%2FsmartHotel%2FsmartHome&si=574989&su=&flt=1779361884&lt=1779361884&pt=72322063057952500&guid=225393859.295986900119379968.1779361912001.1631&huid=116kczUHddSTKiIGwwMvH7GfQ6DUzOddSOsdTI4UhPRXo%253D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779361884347&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/common.53269018.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/user/own/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {},
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "userId": "1796067693261905922",
+          "mobile": "[redacted]",
+          "email": null,
+          "headImages": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+          "nickName": "路客云6TS5",
+          "areaCode": "+86",
+          "area": null,
+          "inviter": null,
+          "isBindingMp": 0,
+          "mpQrUrl": "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/wAALCAGuAa4BAREA/8QAHwAAAQUBAQEBAQEAAA...",
+          "isLoginBindMp": 0,
+          "roles": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          },
+          "userIpv4": "223.73.185.32"
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/antdesigns.99ad5dd0.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://s.union.360.cn/s.gif?lts=1&et=0&ck=0&adb=0&cl=24&ds=1440x900&ln=zh-CN&url=https%3A%2F%2Fminsubao.localhome.cn%2FsmartHotel%2FsmartHome&si=574989&su=&flt=1779361884&lt=1779361884&pt=72322063057952500&guid=225393859.295986900119379968.1779361912001.1631&huid=116kczUHddSTKiIGwwMvH7GfQ6DUzOddSOsdTI4UhPRXo%253D&v=3.2.0&lt2=1778652410&pt2=756392771820028300&t=1779361884402&qhclickid=&_mtd=im",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/gif"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/layouts__index.3a435595.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "141",
+        "param": {
+          "campId": "1796067693589061634",
+          "host": "minsubao.localhome.cn"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "editionId": "9",
+          "editionName": "畅享版",
+          "editionType": 1,
+          "editionLevel": 1,
+          "isOwner": 1,
+          "currentVersion": null,
+          "paymentInfo": "1615234787452768257",
+          "isEditionLongTerm": 0,
+          "isEditionTrial": 0,
+          "contractStartDate": 1758988800000,
+          "contractEndDate": 1822060800000,
+          "expireDay": "495",
+          "storeNum": 1,
+          "storeQuotaNum": 1,
+          "isStoreOverLimit": 0,
+          "poiNum": 1,
+          "poiQuotaNum": 1,
+          "isPoiOverLimit": 0,
+          "inventory": 4,
+          "roomNum": 4,
+          "roomQuotaNum": 10,
+          "isRoomOverLimit": 0,
+          "userRoleNum": 1,
+          "employeeNum": 1,
+          "employeeQuotaNum": 3,
+          "isEmployeeOverLimit": 0,
+          "isEditionReplace": 0,
+          "appVersionInfoViews": {
+            "type": "array",
+            "length": 5,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              }
+            ]
+          },
+          "applyGoodsViews": {
+            "type": "array",
+            "length": 15,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              }
+            ]
+          },
+          "applyRoomCategoryViews": {
+            "type": "array",
+            "length": 21,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "traces": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            {
+              "pageName": "/smartHotel/smartHome",
+              "extraInfo": "",
+              "actionTime": 1779361884692,
+              "sessionSeq": 1,
+              "sessionId": "0174534a-46eb-4564-9e90-5edcb104337d",
+              "pageContextId": "fb38b7a4-f93f-4d29-9e8b-9c9f4662259e",
+              "screenHeight": 900,
+              "screenWidth": 1440
+            }
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": true
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menus/project/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "projectMenuId": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 25,
+          "sample": [
+            {
+              "menuId": "1",
+              "parentId": "0",
+              "type": 1,
+              "icon": "#",
+              "code": "hudson-pc",
+              "name": "民宿宝PC端",
+              "path": "#",
+              "uiComponentId": null,
+              "isOpen": 0,
+              "seq": 1,
+              "isShow": 0,
+              "children": {
+                "type": "array",
+                "length": 55,
+                "sample": [
+                  {
+                    "type": "object",
+                    "keys": [
+                      "menuId",
+                      "parentId",
+                      "type",
+                      "icon",
+                      "code",
+                      "name",
+                      "path",
+                      "uiComponentId",
+                      "isOpen",
+                      "seq",
+                      "isShow",
+                      "children"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "menuId",
+                      "parentId",
+                      "type",
+                      "icon",
+                      "code",
+                      "name",
+                      "path",
+                      "uiComponentId",
+                      "isOpen",
+                      "seq",
+                      "isShow",
+                      "children"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "keys": [
+                      "menuId",
+                      "parentId",
+                      "type",
+                      "icon",
+                      "code",
+                      "name",
+                      "path",
+                      "uiComponentId",
+                      "isOpen",
+                      "seq",
+                      "isShow",
+                      "children"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "menuId": "1624963956244021250",
+              "parentId": "1727138421807992833",
+              "type": 3,
+              "icon": "",
+              "code": "statisticsByDay_check",
+              "name": "按营业日统计查看",
+              "path": "",
+              "uiComponentId": null,
+              "isOpen": 0,
+              "seq": 999,
+              "isShow": 0,
+              "children": {
+                "type": "array",
+                "length": 0,
+                "sample": []
+              }
+            },
+            {
+              "menuId": "1727138751662157825",
+              "parentId": "1727138421807992833",
+              "type": 3,
+              "icon": "",
+              "code": "staticStayData_check",
+              "name": "住宿数据查看按钮",
+              "path": "",
+              "uiComponentId": null,
+              "isOpen": 0,
+              "seq": 999,
+              "isShow": 0,
+              "children": {
+                "type": "array",
+                "length": 0,
+                "sample": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://cloudauth-device-dualstack.cn-shanghai.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=utf-8"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/hudson-web-base-zh.json",
+      "status": 304,
+      "method": "GET",
+      "resourceType": "fetch",
+      "contentType": "application/json"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/channels/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "hasAllChannel": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "channels": {
+            "type": "array",
+            "length": 100,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "imageLogo",
+                  "image2Logo",
+                  "isCustom",
+                  "isLongRent",
+                  "isSupportIcs",
+                  "isEnable",
+                  "seq",
+                  "color",
+                  "isCal"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "imageLogo",
+                  "image2Logo",
+                  "isCustom",
+                  "isLongRent",
+                  "isSupportIcs",
+                  "isEnable",
+                  "seq",
+                  "color",
+                  "isCal"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "imageLogo",
+                  "image2Logo",
+                  "isCustom",
+                  "isLongRent",
+                  "isSupportIcs",
+                  "isEnable",
+                  "seq",
+                  "color",
+                  "isCal"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/daily/remind/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "platform": 2
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "isRemind": 0,
+          "remindContent": null,
+          "remindType": null,
+          "editionDailyRemindDataList": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "systemConfigs": {
+            "type": "array",
+            "length": 96,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": 47,
+        "param": {}
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 69,
+          "sample": [
+            {
+              "channelId": "17",
+              "channelName": "路客云聚合",
+              "shortChannelName": "路客云",
+              "color": "#274080",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
+              "image2Logo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_open.png",
+              "isSupportIcs": 1,
+              "isLongRent": 0,
+              "isOpen": 1
+            },
+            {
+              "channelId": "34",
+              "channelName": "品牌小程序",
+              "shortChannelName": "品牌小程序",
+              "color": "#7fd53e",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8355758831771595.png",
+              "isSupportIcs": 0,
+              "isLongRent": 0,
+              "isOpen": 1
+            },
+            {
+              "channelId": "33",
+              "channelName": "抖音小程序",
+              "shortChannelName": "抖音小程序",
+              "color": "#7b1b69",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/douyinma.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/douyinma_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4750954965072472.png",
+              "isSupportIcs": 0,
+              "isLongRent": 0,
+              "isOpen": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": 48,
+        "param": {}
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 2219,
+          "sample": [
+            {
+              "channelId": "1763419426095210497",
+              "channelName": "线下自来客",
+              "shortChannelName": "线下自来客",
+              "color": "#3E7EFF"
+            },
+            {
+              "channelId": "1763515441183764482",
+              "channelName": "携程",
+              "shortChannelName": "携程",
+              "color": "#170B99"
+            },
+            {
+              "channelId": "1764368144203890690",
+              "channelName": "线下到店",
+              "shortChannelName": "线下到店",
+              "color": "#7AA553"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "104",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "editionId": "9",
+          "editionName": "畅享版",
+          "editionType": 1,
+          "editionLevel": 1,
+          "isOwner": 1,
+          "currentVersion": null,
+          "paymentInfo": "1615234787452768257",
+          "isEditionLongTerm": 0,
+          "isEditionTrial": 0,
+          "contractStartDate": 1758988800000,
+          "contractEndDate": 1822060800000,
+          "expireDay": "495",
+          "storeNum": 1,
+          "storeQuotaNum": 1,
+          "isStoreOverLimit": 0,
+          "poiNum": 1,
+          "poiQuotaNum": 1,
+          "isPoiOverLimit": 0,
+          "inventory": 4,
+          "roomNum": 4,
+          "roomQuotaNum": 10,
+          "isRoomOverLimit": 0,
+          "userRoleNum": 1,
+          "employeeNum": 1,
+          "employeeQuotaNum": 3,
+          "isEmployeeOverLimit": 0,
+          "isEditionReplace": 0,
+          "appVersionInfoViews": {
+            "type": "array",
+            "length": 5,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "tagId",
+                  "appVersionName",
+                  "userRoleNumLimited",
+                  "poiNumLimited",
+                  "inventoryLimited",
+                  "limitedPrice",
+                  "unlimitedPrice",
+                  "isRecommend",
+                  "description",
+                  "appVersionFunctions"
+                ]
+              }
+            ]
+          },
+          "applyGoodsViews": {
+            "type": "array",
+            "length": 15,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "isFreeApply",
+                  "isLongTerm",
+                  "applyStartDate",
+                  "applyEndDate"
+                ]
+              }
+            ]
+          },
+          "applyRoomCategoryViews": {
+            "type": "array",
+            "length": 21,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "applyId",
+                  "applyName",
+                  "channelRoomCategoryId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "134",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "isPaid": "1",
+          "isEffectiveEdition": "1"
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemMessage/unReadCount/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "count": 0,
+          "countDetail": {
+            "orderNotificationCount": 0,
+            "campWarnCount": 0,
+            "campDynamicCount": 0
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "param": {
+          "campId": "1796067693589061634"
+        },
+        "action": "168"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "isNeedInit": false
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1779292800000,
+        "queryCode": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "basic": {
+            "preComeNum": 0,
+            "liveNum": 0,
+            "preLeaveNum": 0,
+            "arrangeSameRoomNum": 0,
+            "orderRemarkNum": 0,
+            "ltNum": 0,
+            "debtNum": 0,
+            "hourRoomOrderNum": 0,
+            "roomNum": 4,
+            "soldNum": 0,
+            "idleNum": 1,
+            "occNum": 3,
+            "occ": 0,
+            "idleCleanNum": 0,
+            "idleDirtyNum": 1,
+            "liveCleanNum": 0,
+            "liveDirtyNum": 0,
+            "extendStayNum": 0
+          },
+          "roomCategories": {
+            "type": "array",
+            "length": 4,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              }
+            ]
+          },
+          "roomViews": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          },
+          "floorViews": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          },
+          "isInitFloor": null
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/p__pc__SmartHotel__SmartHome__index.4a160d00.chunk.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "159",
+        "param": {
+          "campId": "1796067693589061634"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "hasCardDevice": false,
+          "cardDeviceSystem": 0
+        }
+      }
+    },
+    {
+      "url": "https://minsubao.localhome.cn/static1779245357325/js/p__pc__SmartHotel__SmartHome__index.697165fe.chunk.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "text/javascript"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down2.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/edition/resource/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "editionId": "9",
+          "editionName": "畅享版",
+          "editionType": 1,
+          "resourceGetViews": {
+            "type": "array",
+            "length": 14,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "resourceName",
+                  "quotaNum",
+                  "isUnlimitedQuotaNum",
+                  "usedQuotaView",
+                  "resourceFrom",
+                  "editionStatus",
+                  "goodsType",
+                  "expirationDate",
+                  "isLongTerm"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "resourceName",
+                  "quotaNum",
+                  "isUnlimitedQuotaNum",
+                  "usedQuotaView",
+                  "resourceFrom",
+                  "editionStatus",
+                  "goodsType",
+                  "expirationDate",
+                  "isLongTerm"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "resourceName",
+                  "quotaNum",
+                  "isUnlimitedQuotaNum",
+                  "usedQuotaView",
+                  "resourceFrom",
+                  "editionStatus",
+                  "goodsType",
+                  "expirationDate",
+                  "isLongTerm"
+                ]
+              }
+            ]
+          },
+          "valueAddServices": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "",
+      "requestBody": null,
+      "responseSummary": "����\u0000\u0010JFIF\u0000\u0001\u0002\u0000\u0000\u0001\u0000\u0001\u0000\u0000��\u0000C\u0000\b\u0006\u0006\u0007\u0006\u0005\b\u0007\u0007\u0007 \b \u0014 \u0019\u0012\u0013\u000f\u0014\u001d\u001a\u001f\u001e\u001d\u001a\u001c\u001c $.' \",#\u001c\u001c(7),01444\u001f'9=82<.342��\u0000C\u0001 \u0018 \u00182!\u001c!22222222222222222222222222222222222222222222222222��\u0000\u0011\b\u0001,\u0001,\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001��\u0000\u001f\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b ��\u0000�\u0010\u0000\u0002\u0001\u0003\u0003\u0002\u0004\u0003\u0005\u0005\u0004\u0004\u0000\u0000\u0001}\u0001\u0002\u0003\u0000\u0004\u0011\u0005\u0012!1A\u0006\u0013Qa\u0007\"q\u00142���\b#B��\u0015R��$3br� \u0016\u0017\u0018\u0019\u001a%&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������\u0000\u001f\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b ��\u0000�\u0011\u0000\u0002\u0001\u0002\u0004\u0004\u0003\u0004\u0007\u0005\u0004\u0004\u0000\u0001\u0002w\u0000\u0001\u0002\u0003\u0011\u0004\u0005!1\u0006\u0012AQ\u0007aq\u0013\"2�\b\u0014B���� #3R�\u0015br� \u0016$4�%�\u0017\u0018\u0019\u001a&'()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz��������������������������������������������������������������������������\u0000 \u0003\u0001\u0000\u0002"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_gadj_current.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_reception_current%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_hardware_hover%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/jhot.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://minsubao.localhome.cn/assets/smartHomeTopbg.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentTypes": {
+            "type": "array",
+            "length": 53,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "paymentTypeId",
+                  "paymentTypeName",
+                  "ignoreOrderGetItem",
+                  "isCustom",
+                  "isIncome",
+                  "isEnable",
+                  "bizType",
+                  "groupType"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "paymentTypeId",
+                  "paymentTypeName",
+                  "ignoreOrderGetItem",
+                  "isCustom",
+                  "isIncome",
+                  "isEnable",
+                  "bizType",
+                  "groupType"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "paymentTypeId",
+                  "paymentTypeName",
+                  "ignoreOrderGetItem",
+                  "isCustom",
+                  "isIncome",
+                  "isEnable",
+                  "bizType",
+                  "groupType"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/imYunxinUser/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "appKey": "8d0514326dbd437d73cf9dc837543884",
+          "accid": "prod_0_1796067702522908674",
+          "token": "[redacted]"
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/order/report/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "overview": 2,
+          "todayNewOrder": 0,
+          "todayCheckOut": 2,
+          "todayCheckIn": 0,
+          "todayPredictCheckIn": null,
+          "todayPredictCheckOut": null,
+          "staying": 1,
+          "tomorrowCheckIn": 0,
+          "tomorrowCheckOut": 0,
+          "pending": 0,
+          "refunding": 0,
+          "exception": 0,
+          "orderBox": null,
+          "arrangeSameRoom": 0,
+          "unArrangeRoom": 0,
+          "arrangeRoom": 1,
+          "unOccupation": 0,
+          "unStatistics": 0,
+          "expiredNotCheckIn": 0,
+          "expiredNotCheckOut": 0
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/advancedLogov2.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExec/express",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": "183",
+        "param": {
+          "campId": "1796067693589061634",
+          "type": "门店"
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": null
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "1848317056370487297"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/poi/digitization/process/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "hasDigitalProcess": 0,
+          "isComplete": null,
+          "state": null,
+          "failReason": null,
+          "currentProgress": null,
+          "estimatedTime": null,
+          "isHandleRoomCategory": null,
+          "ydPoiId": null,
+          "channelId": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/select/poi/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "channelId": 0,
+        "isAvailability": "1"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 1,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "poiId",
+                  "poiName"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_qrcode.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_wechat.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250320makeCardContainer.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/orders/strongReminder/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 0,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 0,
+          "list": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_message.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/wxCp/authInfo/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "isAuthWxCp": 0,
+          "isAuthWxMa": 0,
+          "isWxCpVerified": 0,
+          "isSamePrincipal": 0,
+          "corpId": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "systemConfigs": {
+            "type": "array",
+            "length": 96,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "systemConfigId",
+                  "campId",
+                  "configCodeDesc",
+                  "configCode",
+                  "configValue"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/tpAuthorizeApps/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "channelId": 34,
+        "type": 3
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "isMapping": 0,
+          "tpAuthorizeAppGetViewList": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/wxCpOpen/accounts/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "isValidKfAndCustomerAuth": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "accountId": null,
+          "corpName": null,
+          "corpId": null,
+          "corpType": null,
+          "isTrial": null,
+          "expiredDay": null,
+          "wxCpAccountGetViews": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/smsTemplateMsgConfig/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "sendType": 0,
+        "pageNum": 1,
+        "pageSize": 100
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 15,
+          "size": 100,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 15,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "smsTemplateMsgConfigId",
+                  "type",
+                  "name",
+                  "sendTimeText",
+                  "passContent",
+                  "auditContent",
+                  "sendStatus",
+                  "isEnabled",
+                  "signPosition",
+                  "signName",
+                  "fixedContentPrefix",
+                  "fixedContentSuffix",
+                  "passCustomContent",
+                  "auditCustomContent",
+                  "exampleParam",
+                  "auditStatus"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "smsTemplateMsgConfigId",
+                  "type",
+                  "name",
+                  "sendTimeText",
+                  "passContent",
+                  "auditContent",
+                  "sendStatus",
+                  "isEnabled",
+                  "signPosition",
+                  "signName",
+                  "fixedContentPrefix",
+                  "fixedContentSuffix",
+                  "passCustomContent",
+                  "auditCustomContent",
+                  "exampleParam",
+                  "auditStatus"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "smsTemplateMsgConfigId",
+                  "type",
+                  "name",
+                  "sendTimeText",
+                  "passContent",
+                  "auditContent",
+                  "sendStatus",
+                  "isEnabled",
+                  "signPosition",
+                  "signName",
+                  "fixedContentPrefix",
+                  "fixedContentSuffix",
+                  "passCustomContent",
+                  "auditCustomContent",
+                  "exampleParam",
+                  "auditStatus"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/sg.014.74158290d82170eb.js",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/cancelOrder.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/im-ring1.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "pageSize": 999,
+        "pageNum": 1,
+        "roomCategoryName": "",
+        "keyword": "",
+        "cityIds": {
+          "type": "array",
+          "length": 0,
+          "sample": []
+        },
+        "channelId": ""
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 4,
+          "size": 999,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": false,
+          "pages": 1,
+          "list": {
+            "type": "array",
+            "length": 4,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "campId",
+                  "saleCampId",
+                  "upstreamCampId",
+                  "downstreamCampId",
+                  "fromType",
+                  "channelId",
+                  "parentId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "inventory",
+                  "checkinGuestCount",
+                  "roomCategoryTransferId",
+                  "checkinGuideId",
+                  "isCampHasMultiInventoryRoomCategory",
+                  "isTransfer",
+                  "priority",
+                  "basePrice",
+                  "weekendPrice",
+                  "holidayPrice",
+                  "channelOrderTotalNum",
+                  "expectedChannelOrderTotalNum",
+                  "roomViews",
+                  "isAvailability",
+                  "auditStatus",
+                  "failReason",
+                  "depositPrice",
+                  "fullAddress",
+                  "waitMappingChannelNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "campId",
+                  "saleCampId",
+                  "upstreamCampId",
+                  "downstreamCampId",
+                  "fromType",
+                  "channelId",
+                  "parentId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "inventory",
+                  "checkinGuestCount",
+                  "roomCategoryTransferId",
+                  "checkinGuideId",
+                  "isCampHasMultiInventoryRoomCategory",
+                  "isTransfer",
+                  "priority",
+                  "basePrice",
+                  "weekendPrice",
+                  "holidayPrice",
+                  "channelOrderTotalNum",
+                  "expectedChannelOrderTotalNum",
+                  "roomViews",
+                  "isAvailability",
+                  "auditStatus",
+                  "failReason",
+                  "depositPrice",
+                  "fullAddress",
+                  "waitMappingChannelNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "campId",
+                  "saleCampId",
+                  "upstreamCampId",
+                  "downstreamCampId",
+                  "fromType",
+                  "channelId",
+                  "parentId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "inventory",
+                  "checkinGuestCount",
+                  "roomCategoryTransferId",
+                  "checkinGuideId",
+                  "isCampHasMultiInventoryRoomCategory",
+                  "isTransfer",
+                  "priority",
+                  "basePrice",
+                  "weekendPrice",
+                  "holidayPrice",
+                  "channelOrderTotalNum",
+                  "expectedChannelOrderTotalNum",
+                  "roomViews",
+                  "isAvailability",
+                  "auditStatus",
+                  "failReason",
+                  "depositPrice",
+                  "fullAddress",
+                  "waitMappingChannelNum"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/newOrder.wav",
+      "status": 206,
+      "method": "GET",
+      "resourceType": "media",
+      "contentType": "audio/wav"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "2000745252682776577"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "bizTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            3
+          ]
+        },
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "groupType",
+                  "groupTypeName",
+                  "paymentTypes"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://lbs.netease.im/lbs/webconf.jsp?id=prod_0_1796067702522908674&sv=90500&pv=1&networkType=0&k=8d0514326dbd437d73cf9dc837543884",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/commons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "code": "hudson.im.picture.support.channels"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "commons": {
+            "type": "array",
+            "length": 6,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "commonId",
+                  "code",
+                  "value",
+                  "codeName",
+                  "groupId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "commonId",
+                  "code",
+                  "value",
+                  "codeName",
+                  "groupId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "commonId",
+                  "code",
+                  "value",
+                  "codeName",
+                  "groupId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            1
+          ]
+        },
+        "goodsTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            7
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://statistic.live.126.net/dispatcher/req?deviceId=4c664c84e1c1a9f472e357e8a5e0a2a0&sdktype=IM&sdkVer=9.5.0&platform=Web&appkey=8d0514326dbd437d73cf9dc837543884",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://x0xnm7.captcha-open.aliyuncs.com/",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "xhr",
+      "contentType": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentTypes/get/v2",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "bizTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            2
+          ]
+        },
+        "isEnable": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentGroups": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "groupType",
+                  "groupTypeName",
+                  "paymentTypes"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/rooms/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "roomCategoryIds": {
+          "type": "array",
+          "length": 4,
+          "sample": [
+            "1796425099485822977",
+            "1796425099729092609",
+            "1796425099242553345"
+          ]
+        },
+        "saleType": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "roomCategoryRooms": {
+            "type": "array",
+            "length": 4,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "rooms"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "rooms"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "rooms"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomStatusesToday/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "channelIds": null,
+        "roomCategoryGroupIds": null,
+        "roomCategoryIds": null,
+        "poiIds": null,
+        "cleanStatus": null,
+        "date": 1779292800000,
+        "queryCode": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "basic": {
+            "preComeNum": 0,
+            "liveNum": 0,
+            "preLeaveNum": 0,
+            "arrangeSameRoomNum": 0,
+            "orderRemarkNum": 0,
+            "ltNum": 0,
+            "debtNum": 0,
+            "hourRoomOrderNum": 0,
+            "roomNum": 4,
+            "soldNum": 0,
+            "idleNum": 1,
+            "occNum": 3,
+            "occ": 0,
+            "idleCleanNum": 0,
+            "idleDirtyNum": 1,
+            "liveCleanNum": 0,
+            "liveDirtyNum": 0,
+            "extendStayNum": 0
+          },
+          "roomCategories": {
+            "type": "array",
+            "length": 4,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "roomCategoryId",
+                  "roomCategoryName",
+                  "roomCategorySeq",
+                  "rooms",
+                  "roomNum",
+                  "soldNum",
+                  "liveNum",
+                  "idleNum",
+                  "occNum"
+                ]
+              }
+            ]
+          },
+          "roomViews": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          },
+          "floorViews": {
+            "type": "array",
+            "length": 0,
+            "sample": []
+          },
+          "isInitFloor": null
+        }
+      }
+    },
+    {
+      "url": "https://weblink-bgp.netease.im/socket.io/1/?t=1779361888826",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "text/plain; charset=UTF-8"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/roomCategoryFlow/closeRoomCategoryRemind",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "isNormalOperation": 0
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "title": null,
+          "content": null,
+          "operationResult": null
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/paymentWays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "paymentWays": {
+            "type": "array",
+            "length": 11,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "paymentWayId",
+                  "paymentWayName",
+                  "isCustom",
+                  "isEnable"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "paymentWayId",
+                  "paymentWayName",
+                  "isCustom",
+                  "isEnable"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "paymentWayId",
+                  "paymentWayName",
+                  "isCustom",
+                  "isEnable"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/exchangeRate/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "isSupport": 1
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 12,
+          "sample": [
+            {
+              "name": "新加坡元",
+              "currency": "SGD",
+              "symbol": "S$"
+            },
+            {
+              "name": "新西兰元",
+              "currency": "NZD",
+              "symbol": "NZ$"
+            },
+            {
+              "name": "新台币",
+              "currency": "TWD",
+              "symbol": "NT$"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Source%20Han%20Sans%20CN%20Regular.woff2",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "font",
+      "contentType": "application/font-woff2"
+    },
+    {
+      "url": "https://dr.netease.im/1.gif?event=ws_connected&appkey=8d0514326dbd437d73cf9dc837543884&uid=prod_0_1796067702522908674&os=web&session=&ver=90500&type=im&platform=chrome148",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "xhr",
+      "contentType": "image/gif"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/oneClickReading.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": 47,
+        "param": {}
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 69,
+          "sample": [
+            {
+              "channelId": "17",
+              "channelName": "路客云聚合",
+              "shortChannelName": "路客云",
+              "color": "#274080",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals.png",
+              "image2Logo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/9486244515685627.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/locals_open.png",
+              "isSupportIcs": 1,
+              "isLongRent": 0,
+              "isOpen": 1
+            },
+            {
+              "channelId": "34",
+              "channelName": "品牌小程序",
+              "shortChannelName": "品牌小程序",
+              "color": "#7fd53e",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/wxma_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/8355758831771595.png",
+              "isSupportIcs": 0,
+              "isLongRent": 0,
+              "isOpen": 1
+            },
+            {
+              "channelId": "33",
+              "channelName": "抖音小程序",
+              "shortChannelName": "抖音小程序",
+              "color": "#7b1b69",
+              "imageLogo": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/douyinma.png",
+              "imageClose": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/douyinma_close.png",
+              "imageOpen": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/4750954965072472.png",
+              "isSupportIcs": 0,
+              "isLongRent": 0,
+              "isOpen": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imScaleSetting.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imEnlarge.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "userId": "1796067693261905922"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "userShortcuts": {
+            "type": "array",
+            "length": 12,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "code",
+                  "name",
+                  "win",
+                  "mac",
+                  "isOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "code",
+                  "name",
+                  "win",
+                  "mac",
+                  "isOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "code",
+                  "name",
+                  "win",
+                  "mac",
+                  "isOpen"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "1876219663445012481"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "1754323708553199617"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/actionExecs/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "action": 48,
+        "param": {}
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "type": "array",
+          "length": 2219,
+          "sample": [
+            {
+              "channelId": "1763419426095210497",
+              "channelName": "线下自来客",
+              "shortChannelName": "线下自来客",
+              "color": "#3E7EFF"
+            },
+            {
+              "channelId": "1763515441183764482",
+              "channelName": "携程",
+              "shortChannelName": "携程",
+              "color": "#170B99"
+            },
+            {
+              "channelId": "1764368144203890690",
+              "channelName": "线下到店",
+              "shortChannelName": "线下到店",
+              "color": "#7AA553"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campId": "1796067693589061634",
+          "expectedChannelOrderTotalNum": 59,
+          "isOpenFlow": 1,
+          "orderMobile": "[redacted]",
+          "isStopFlow": 0,
+          "stopType": 0,
+          "channelInfos": {
+            "type": "array",
+            "length": 13,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              }
+            ]
+          },
+          "isEnableEbk": 0
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/campFlow/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634"
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "campId": "1796067693589061634",
+          "expectedChannelOrderTotalNum": 59,
+          "isOpenFlow": 1,
+          "orderMobile": "[redacted]",
+          "isStopFlow": 0,
+          "stopType": 0,
+          "channelInfos": {
+            "type": "array",
+            "length": 13,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "channelId",
+                  "channelName",
+                  "expectedChannelOrderNum",
+                  "imageLogo",
+                  "isStopFlow",
+                  "isApplyOpen"
+                ]
+              }
+            ]
+          },
+          "isEnableEbk": 0
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            1
+          ]
+        },
+        "goodsTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            7
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/weiRoomCategories/page/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "64",
+        "buyCampId": "1796067693589061634",
+        "roomCategoryTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            1
+          ]
+        },
+        "goodsTypes": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            7
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "total": 21,
+          "size": 20,
+          "current": 1,
+          "extraInfo": null,
+          "pageNum": 1,
+          "hasNextPage": true,
+          "pages": 2,
+          "list": {
+            "type": "array",
+            "length": 20,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "campId",
+                  "channelRoomCategoryId",
+                  "channelRoomCategoryName",
+                  "parentRoomCategoryId",
+                  "mainPhotoMediaId",
+                  "mainPhotoMediaUrl",
+                  "mainPhoto",
+                  "bedroomNum",
+                  "ableArea",
+                  "hallNum",
+                  "personCapacity",
+                  "bedNum",
+                  "bedMetas",
+                  "lowestSellingPrice",
+                  "lowestSettlementPrice",
+                  "lowestOriginalPrice",
+                  "reducePrice",
+                  "isCanBooking",
+                  "totalStock",
+                  "roomCategoryType",
+                  "goodsType",
+                  "isLongTermEffective",
+                  "effectiveStartTime",
+                  "effectiveEndTime",
+                  "poiType",
+                  "parentPoiId",
+                  "poiTags",
+                  "channelPoiId",
+                  "promotionDirectRatio",
+                  "editionId"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "1947569513926946818"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/menu/optionJsons/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "menuIds": {
+          "type": "array",
+          "length": 1,
+          "sample": [
+            "1953303333244473346"
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "optionJsonViews": {
+            "type": "array",
+            "length": 1,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "menuId",
+                  "optionJson"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://pic.tujia.com/upload/festatic/crn/defaultAvatarM_s.png",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/png"
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c0812000na9jbqk7A54_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2f12000na9jaezFEED_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://dimg04.c-ctrip.com/images/27c2m12000na9j4bl5392_R_640_428_Q50.jpg",
+      "status": 200,
+      "method": "GET",
+      "resourceType": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/holidays/get",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {},
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": {
+          "holidayInfos": {
+            "type": "array",
+            "length": 50,
+            "sample": [
+              {
+                "type": "object",
+                "keys": [
+                  "date",
+                  "type",
+                  "workStatus",
+                  "name",
+                  "holiday"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "date",
+                  "type",
+                  "workStatus",
+                  "name",
+                  "holiday"
+                ]
+              },
+              {
+                "type": "object",
+                "keys": [
+                  "date",
+                  "type",
+                  "workStatus",
+                  "name",
+                  "holiday"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "url": "https://hudson-prod.localhome.cn/traceLog",
+      "status": 200,
+      "method": "POST",
+      "resourceType": "fetch",
+      "contentType": "application/json",
+      "requestBody": {
+        "campId": "1796067693589061634",
+        "traces": {
+          "type": "array",
+          "length": 3,
+          "sample": [
+            {
+              "pageName": "/smartHotel/smartHome",
+              "extraInfo": "",
+              "actionCode": "modal_strongReminder",
+              "actionTime": 1779361888348,
+              "sessionSeq": 2,
+              "sessionId": "0174534a-46eb-4564-9e90-5edcb104337d",
+              "pageContextId": "fb38b7a4-f93f-4d29-9e8b-9c9f4662259e",
+              "screenHeight": 900,
+              "screenWidth": 1440
+            },
+            {
+              "pageName": "/smartHotel/smartHome",
+              "extraInfo": "",
+              "actionCode": "workspace_ad_show",
+              "actionTime": 1779361888812,
+              "sessionSeq": 3,
+              "sessionId": "0174534a-46eb-4564-9e90-5edcb104337d",
+              "pageContextId": "fb38b7a4-f93f-4d29-9e8b-9c9f4662259e",
+              "screenHeight": 900,
+              "screenWidth": 1440
+            },
+            {
+              "pageName": "/smartHotel/smartHome",
+              "extraInfo": "14278.699999999255",
+              "actionCode": "global-init-speed",
+              "actionTime": 1779361898327,
+              "sessionSeq": 4,
+              "sessionId": "0174534a-46eb-4564-9e90-5edcb104337d",
+              "pageContextId": "fb38b7a4-f93f-4d29-9e8b-9c9f4662259e",
+              "screenHeight": 900,
+              "screenWidth": 1440
+            }
+          ]
+        }
+      },
+      "responseSummary": {
+        "success": true,
+        "errorCode": null,
+        "errorMsg": null,
+        "errorDetail": null,
+        "data": true
+      }
+    }
+  ]
+}

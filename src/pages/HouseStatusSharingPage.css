@@ -1,0 +1,510 @@
+.page-content:has(.room-status-sharing-page) {
+  padding: 0 8px 0 0;
+  background: #fff;
+}
+
+.page-content:has(.room-status-sharing-page) > .page-header {
+  display: none;
+}
+
+.room-status-sharing-page {
+  gap: 0;
+  padding-right: 0;
+}
+
+.room-status-sharing-card {
+  width: 100%;
+  min-width: 0;
+  background: #fff;
+}
+
+.room-status-sharing-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  border-bottom: 1px solid #efefef;
+  padding: 0 0 8px;
+}
+
+.room-status-sharing-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.room-status-sharing-breadcrumb button {
+  border: 0;
+  background: transparent;
+  color: #333;
+  padding: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.room-status-sharing-breadcrumb button:hover {
+  color: #4d65f6;
+}
+
+.room-status-sharing-breadcrumb span {
+  color: #8c8c8c;
+}
+
+.room-status-sharing-breadcrumb strong {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.room-status-sharing-card__primary {
+  height: 28px;
+  min-width: 116px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.room-status-sharing-table {
+  margin-top: 46px;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.room-status-sharing-table__row {
+  display: grid;
+  grid-template-columns: 2fr 0.6fr 1.2fr 0.8fr 1fr 1.2fr 4fr 1fr;
+  min-width: 100%;
+}
+
+.room-status-sharing-table__row--head {
+  min-height: 34px;
+  background: #edf3ff;
+  color: #333;
+  font-size: 14px;
+}
+
+.room-status-sharing-table__row--head > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  border-right: 1px solid #e6ebf4;
+  padding: 0 10px;
+}
+
+.room-status-sharing-table__row--head > div:last-child {
+  border-right: 0;
+}
+
+.room-status-sharing-table__body {
+  min-height: 156px;
+  background: #fff;
+}
+
+.room-status-sharing-empty {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  min-height: 156px;
+  color: #c3c3c3;
+  font-size: 14px;
+}
+
+.room-status-sharing-empty__icon {
+  position: relative;
+  width: 42px;
+  height: 30px;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+}
+
+.room-status-sharing-empty__icon span {
+  position: absolute;
+  left: 8px;
+  top: -9px;
+  width: 24px;
+  height: 16px;
+  border: 1px solid #dddddd;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: #fff;
+}
+
+.room-status-sharing-empty p {
+  margin: 0;
+}
+
+.room-status-sharing-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(17, 24, 39, 0.16);
+  padding: 24px;
+}
+
+.room-status-sharing-dialog {
+  width: min(100%, 800px);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+  overflow: hidden;
+}
+
+.room-status-sharing-dialog--picker {
+  width: min(100%, 900px);
+}
+
+.room-status-sharing-dialog__header,
+.room-status-sharing-dialog__footer {
+  display: flex;
+  align-items: center;
+}
+
+.room-status-sharing-dialog__header {
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.room-status-sharing-dialog__header strong {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.room-status-sharing-dialog__header p {
+  margin: 6px 0 0;
+  color: #ff4d4f;
+  font-size: 12px;
+}
+
+.room-status-sharing-dialog__header button {
+  border: 0;
+  background: transparent;
+  color: #666;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.room-status-sharing-dialog__body {
+  display: grid;
+  gap: 22px;
+  padding: 20px;
+}
+
+.room-status-sharing-dialog__field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 28px;
+}
+
+.room-status-sharing-dialog__field > span {
+  flex: 0 0 168px;
+  color: #333;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.room-status-sharing-dialog__field--title {
+  align-items: flex-start;
+}
+
+.room-status-sharing-dialog__title-wrap {
+  position: relative;
+  width: 460px;
+}
+
+.room-status-sharing-dialog__title-wrap input {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  padding: 0 64px 0 12px;
+  font-size: 14px;
+}
+
+.room-status-sharing-dialog__title-wrap em {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.room-status-sharing-dialog__radio-group,
+.room-status-sharing-dialog__checkbox-row,
+.room-status-sharing-dialog__inline {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.room-status-sharing-dialog__radio-group label,
+.room-status-sharing-dialog__checkbox-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.room-status-sharing-dialog__radio-group input,
+.room-status-sharing-dialog__checkbox-row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.room-status-sharing-dialog__outline-button {
+  height: 30px;
+  min-width: 112px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.room-status-sharing-dialog__inline small {
+  color: #999;
+  font-size: 12px;
+}
+
+.room-status-sharing-room-picker {
+  min-height: 500px;
+}
+
+.room-status-sharing-room-picker__toolbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 16px 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.room-status-sharing-room-picker__toolbar select,
+.room-status-sharing-room-picker__toolbar input {
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #666;
+  font-size: 14px;
+}
+
+.room-status-sharing-room-picker__toolbar select {
+  width: 198px;
+  padding: 0 12px;
+}
+
+.room-status-sharing-room-picker__toolbar input {
+  width: 240px;
+  padding: 0 12px;
+}
+
+.room-status-sharing-room-picker__list {
+  padding: 14px 16px 24px;
+}
+
+.room-status-sharing-room-picker__group {
+  display: grid;
+  gap: 8px;
+}
+
+.room-status-sharing-room-picker__group + .room-status-sharing-room-picker__group {
+  margin-top: 10px;
+}
+
+.room-status-sharing-room-picker__group-row,
+.room-status-sharing-room-picker__room-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  font-size: 14px;
+}
+
+.room-status-sharing-room-picker__group-row input,
+.room-status-sharing-room-picker__room-row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.room-status-sharing-room-picker__group-row {
+  min-height: 28px;
+}
+
+.room-status-sharing-room-picker__children {
+  display: grid;
+  gap: 8px;
+  padding-left: 24px;
+}
+
+.room-status-sharing-room-picker__arrow {
+  border: 0;
+  background: transparent;
+  color: #666;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  transform: rotate(-90deg);
+}
+
+.room-status-sharing-room-picker__arrow.is-open {
+  transform: rotate(0deg);
+}
+
+.room-status-sharing-dialog__switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #d9d9d9;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.room-status-sharing-dialog__switch span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  transition: transform 0.2s ease;
+}
+
+.room-status-sharing-dialog__switch.is-on {
+  background: #5a6ff1;
+}
+
+.room-status-sharing-dialog__switch.is-on span {
+  transform: translateX(20px);
+}
+
+.room-status-sharing-dialog__date-input {
+  width: 160px;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.room-status-sharing-dialog__date-placeholder {
+  color: #bfbfbf;
+  font-style: normal;
+}
+
+.room-status-sharing-dialog__footer {
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.room-status-sharing-dialog__footer-button {
+  height: 32px;
+  min-width: 112px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+.room-status-sharing-dialog__footer-button.is-primary {
+  background: #4d65f6;
+  color: #fff;
+}
+
+.room-status-sharing-feedback {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  min-height: 32px;
+  max-width: min(420px, calc(100vw - 48px));
+  border-radius: 4px;
+  background: rgba(17, 24, 39, 0.92);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.room-status-refresh-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 30;
+  width: 228px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.room-status-refresh-popover header,
+.room-status-refresh-popover__body,
+.room-status-refresh-popover footer {
+  padding: 0 18px;
+}
+
+.room-status-refresh-popover header {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-size: 14px;
+}
+
+.room-status-refresh-popover__body {
+  min-height: 34px;
+  color: #666;
+  font-size: 14px;
+}
+
+.room-status-refresh-popover footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}
+
+.room-status-refresh-popover__primary {
+  height: 32px;
+  min-width: 74px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 14px;
+}

@@ -28,6 +28,13 @@ const tableColumns = [
   '操作',
 ]
 
+type CardVerifyToast = {
+  tone: 'success' | 'error'
+  role: 'status' | 'alert'
+  label?: string
+  text: string
+}
+
 export function CardVerificationPage() {
   const [code, setCode] = useState('')
   const [data, setData] = useState<CardVerificationData | null>(null)
@@ -35,17 +42,20 @@ export function CardVerificationPage() {
   const [selectedRow, setSelectedRow] = useState<CardVerificationRow | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [validationError, setValidationError] = useState('')
   const [dataNotice, setDataNotice] = useState('')
-  const [actionNotice, setActionNotice] = useState('')
+  const [toast, setToast] = useState<CardVerifyToast | null>(null)
   const requestRef = useRef(0)
+  const toastTimerRef = useRef<number | null>(null)
+
+  function showToast(nextToast: CardVerifyToast) {
+    setToast(nextToast)
+  }
 
   async function requestData(reason = '刷新') {
     const requestId = requestRef.current + 1
     requestRef.current = requestId
     setLoading(true)
     setError('')
-    setValidationError('')
     setDataNotice(reason === '刷新' ? '正在刷新核销记录' : '正在加载核销记录')
 
     try {
@@ -54,6 +64,14 @@ export function CardVerificationPage() {
       setData(result)
       setRows(result.rows)
       setDataNotice('核销记录已更新')
+      if (reason === '刷新') {
+        showToast({
+          tone: 'success',
+          role: 'status',
+          label: '卡券核销操作反馈',
+          text: '核销记录已更新',
+        })
+      }
     } catch (caught) {
       if (requestRef.current !== requestId) return
       const message = caught instanceof Error ? caught.message : String(caught)
@@ -72,6 +90,23 @@ export function CardVerificationPage() {
     return () => window.clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    if (!toast) return undefined
+
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current)
+    toastTimerRef.current = window.setTimeout(() => {
+      setToast(null)
+      toastTimerRef.current = null
+    }, 2200)
+
+    return () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current)
+        toastTimerRef.current = null
+      }
+    }
+  }, [toast])
+
   const contract = useMemo(() => {
     return {
       provider: data?.provider ?? 'mock',
@@ -83,11 +118,13 @@ export function CardVerificationPage() {
 
   async function submitVerification() {
     const trimmedCode = code.trim()
-    setActionNotice('')
-    setValidationError('')
 
     if (!trimmedCode) {
-      setValidationError('请输入卡券码')
+      showToast({
+        tone: 'error',
+        role: 'alert',
+        text: '请输入卡券码',
+      })
       return
     }
 
@@ -101,27 +138,50 @@ export function CardVerificationPage() {
           return [verifiedRow, ...withoutDuplicate]
         })
       }
-      setActionNotice(`核销成功：${trimmedCode}`)
+      showToast({
+        tone: 'success',
+        role: 'status',
+        label: '卡券核销操作反馈',
+        text: `核销成功：${trimmedCode}`,
+      })
       setCode('')
     } catch (caught) {
       const message = caught instanceof Error ? caught.message : String(caught)
-      setValidationError(message || '卡券核销失败')
+      showToast({
+        tone: 'error',
+        role: 'alert',
+        text: message || '卡券核销失败',
+      })
     } finally {
       setLoading(false)
     }
   }
 
   function exportRecords() {
-    setValidationError('')
-    setActionNotice(`导出任务已创建，共 ${rows.length} 条核销记录`)
+    showToast({
+      tone: 'success',
+      role: 'status',
+      label: '卡券核销操作反馈',
+      text: `导出任务已创建，共 ${rows.length} 条核销记录`,
+    })
   }
 
   function nextPage() {
     if (!data?.pagination.hasNextPage) {
-      setActionNotice('已经是最后一页')
+      showToast({
+        tone: 'success',
+        role: 'status',
+        label: '卡券核销操作反馈',
+        text: '已经是最后一页',
+      })
       return
     }
-    setActionNotice(`已切换到第 ${data.pagination.page + 1} 页`)
+    showToast({
+      tone: 'success',
+      role: 'status',
+      label: '卡券核销操作反馈',
+      text: `已切换到第 ${data.pagination.page + 1} 页`,
+    })
   }
 
   const total = data?.pagination.total ?? rows.length
@@ -156,21 +216,20 @@ export function CardVerificationPage() {
         </button>
       </section>
 
-      <div className="card-verify-feedback">
-        {validationError ? (
-          <div className="card-verify-alert" role="alert">
-            {validationError}
-          </div>
-        ) : null}
+      <div className="sr-only-heading">
         <div className="card-verify-status" role="status" aria-label="卡券核销数据状态" aria-live="polite">
           {loading ? '正在处理，请稍候' : dataNotice || '核销记录已更新'}
         </div>
-        {actionNotice ? (
-          <div className="card-verify-status card-verify-status--action" role="status" aria-label="卡券核销操作反馈">
-            {actionNotice}
-          </div>
-        ) : null}
       </div>
+      {toast ? (
+        <div
+          className={`card-verify-toast${toast.tone === 'error' ? ' card-verify-toast--error' : ''}`}
+          role={toast.role}
+          aria-label={toast.label}
+        >
+          {toast.text}
+        </div>
+      ) : null}
 
       <section className="card-verify-records" aria-label="核销记录">
         <header className="card-verify-records__head">

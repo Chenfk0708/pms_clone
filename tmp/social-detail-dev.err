@@ -1,0 +1,216 @@
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to load url /src/pages/CustomerListPage.tsx (resolved id: C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/CustomerListPage.tsx) in C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx. Does the file exist?
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 2)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:13[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 2)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m17:44:26[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:26[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:26[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:26[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:26[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 2)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m17:44:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to load url /src/pages/CustomerListPage.css (resolved id: C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/CustomerListPage.css) in C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/CustomerListPage.tsx. Does the file exist?
+[2m17:44:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+[2m17:44:37[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../services/ota" from "src/pages/OtaPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx[39m:16:7
+[33m  1  |  import { useEffect, useMemo, useState } from "react";
+  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  ...nelDetail, fetchOtaDashboard, fetchOtaOperationLogs } from "../services/ota";
+     |                                                                 ^
+  4  |  import "./OtaPage.css";
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 2)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m17:45:03[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to load url /src/pages/OtaPage.tsx (resolved id: C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/OtaPage.tsx) in C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx. Does the file exist?
+[2m18:17:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Unterminated string
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/ReportPage.tsx:25:40 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m25 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mN[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m'统计概览看板已加�?)
+ [38;5;240m   │[0m                                        ───────────┬─────────  
+ [38;5;240m   │[0m                                                   ╰─────────── 
+[38;5;246m────╯[0m
+
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/ReportPage.tsx[39m
+[2m18:17:17[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Unterminated string
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/ReportPage.tsx:25:40 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m25 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mN[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m'统计概览看板已加�?)
+ [38;5;240m   │[0m                                        ───────────┬─────────  
+ [38;5;240m   │[0m                                                   ╰─────────── 
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/ReportPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+[2m18:17:17[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] Error:[0m Unterminated string
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/ReportPage.tsx:25:40 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m25 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mN[0m[38;5;249mo[0m[38;5;249mt[0m[38;5;249mi[0m[38;5;249mc[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m'统计概览看板已加�?)
+ [38;5;240m   │[0m                                        ───────────┬─────────  
+ [38;5;240m   │[0m                                                   ╰─────────── 
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/ReportPage.tsx[39m
+      at transformWithOxc (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3340:19)
+      at TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:3408:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+      at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)

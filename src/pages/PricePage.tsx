@@ -1229,11 +1229,7 @@ function PriceMatrix({
             </button>
           </div>
         </div>
-        <div>
-          <span className="price-coeff-badge price-coeff-badge--central central-price-grid__summary-icon" aria-hidden="true">
-            {isChannelRpCentralReuse ? '\u4e2d' : '+'}
-          </span>
-        </div>
+        <div className="central-price-grid__summary-gap" aria-hidden="true" />
         <div>{isChannelRpCentralReuse ? '-' : room.basePrice}</div>
         {visibleDates.map((dateItem, index) => {
           const status = room.prices[index] ?? { price: '-', stock: '-' }
@@ -1255,7 +1251,6 @@ function PriceMatrix({
   }
 
   function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
-    const product = 'product' in row && typeof row.product === 'string' ? row.product : ''
     const rowClassName = isCentral ? 'price-grid__row price-grid__row--central' : 'price-grid__row'
 
     if (isCentral) {
@@ -1270,7 +1265,6 @@ function PriceMatrix({
         >
           <div className="price-room-header price-room-header--central" data-testid="central-price-matrix-row-header">
             <strong>{row.channel}</strong>
-            {product ? <span>{product}</span> : null}
           </div>
           <div>
             <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
@@ -1386,7 +1380,7 @@ function PriceMatrix({
             </div>
           ) : null}
         </div>
-        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <div className="central-price-grid__merged-head" aria-hidden="true" />
         <div>{'\u57fa\u7840\u4ef7'}</div>
       </div>
     )
@@ -1718,7 +1712,6 @@ function ChannelRpPriceMatrix({
   }
 
   function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
-    const product = 'product' in row && typeof row.product === 'string' ? row.product : ''
     const compareBasePrice = getCentralBaseComparePrice(row)
 
     return (
@@ -1730,7 +1723,6 @@ function ChannelRpPriceMatrix({
       >
         <div className="price-room-header price-room-header--central" data-testid="central-price-matrix-row-header">
           <strong>{row.channel}</strong>
-          {product ? <span>{product}</span> : null}
         </div>
         <div>
           <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
@@ -1767,11 +1759,7 @@ function ChannelRpPriceMatrix({
             </button>
           </div>
         </div>
-        <div>
-          <span className="price-coeff-badge price-coeff-badge--central central-price-grid__summary-icon" aria-hidden="true">
-            {'\u4e2d'}
-          </span>
-        </div>
+        <div className="central-price-grid__summary-gap" aria-hidden="true" />
         <div>-</div>
         {visibleDates.map((dateItem, index) => {
           const status = room.prices[index] ?? { price: '-', stock: '-' }
@@ -1847,7 +1835,7 @@ function ChannelRpPriceMatrix({
             </div>
           ) : null}
         </div>
-        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <div className="central-price-grid__merged-head" aria-hidden="true" />
         <div>{'\u57fa\u7840\u4ef7'}</div>
       </div>
     )

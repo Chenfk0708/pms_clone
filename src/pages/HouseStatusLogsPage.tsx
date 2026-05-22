@@ -181,10 +181,10 @@ export function HouseStatusLogsPage() {
             <>
               <div className="status-log-field status-log-range-field" role="group" aria-label="房态日期">
                 <span>房态日期</span>
-                <div className="status-log-range">
+                <div className="status-log-range status-log-range--date">
                   <input
                     aria-label="房态日期开始"
-                    type="text"
+                    type="date"
                     placeholder="请选择"
                     value={roomStatusDateStart}
                     onChange={(event) => setRoomStatusDateStart(event.target.value)}
@@ -192,7 +192,7 @@ export function HouseStatusLogsPage() {
                   <i aria-hidden="true">-</i>
                   <input
                     aria-label="房态日期结束"
-                    type="text"
+                    type="date"
                     placeholder="请选择"
                     value={roomStatusDateEnd}
                     onChange={(event) => setRoomStatusDateEnd(event.target.value)}
@@ -202,10 +202,10 @@ export function HouseStatusLogsPage() {
 
               <div className="status-log-field status-log-range-field" role="group" aria-label="操作日期">
                 <span>操作日期</span>
-                <div className="status-log-range">
+                <div className="status-log-range status-log-range--date">
                   <input
                     aria-label="操作日期开始"
-                    type="text"
+                    type="date"
                     placeholder="请选择"
                     value={operationDateStart}
                     onChange={(event) => setOperationDateStart(event.target.value)}
@@ -213,7 +213,7 @@ export function HouseStatusLogsPage() {
                   <i aria-hidden="true">-</i>
                   <input
                     aria-label="操作日期结束"
-                    type="text"
+                    type="date"
                     placeholder="请选择"
                     value={operationDateEnd}
                     onChange={(event) => setOperationDateEnd(event.target.value)}

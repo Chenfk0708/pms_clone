@@ -1,0 +1,61 @@
+{
+  "steps": [
+    {
+      "at": "2026-05-21T14:20:52.136Z",
+      "name": "filled"
+    },
+    {
+      "at": "2026-05-21T14:20:52.233Z",
+      "name": "boxes",
+      "sliderBox": {
+        "x": 932.1875,
+        "y": 181.375,
+        "width": 32,
+        "height": 32
+      },
+      "wrapperBox": {
+        "x": 932.1875,
+        "y": 181.375,
+        "width": 263.625,
+        "height": 32
+      }
+    },
+    {
+      "at": "2026-05-21T14:20:52.733Z",
+      "name": "dragged"
+    },
+    {
+      "at": "2026-05-21T14:20:54.242Z",
+      "name": "before_click",
+      "className": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+      "disabled": false,
+      "text": "登 录",
+      "bodySample": "首页\n产品服务\n版本介绍\n新闻中心\n公司介绍\n登 录\n免费试用\n账号登录\n+86\n请按住滑块，拖动到最右边\n登 录\n其他登录方式\n新用户立即体验\n新用户\n忘记密码\n让流量获取与房源管理更加轻松高效\n27 万+房东与酒店管理者选择路客云SPMS\n多渠道直连\n\n全网酒旅渠道同步直连 OTA、社媒、私域三大层次流量同步管理\n\n免费体验\n智能价态\n\nOTA、社媒、私域三大渠道价态同步管理，中央价设置+AI"
+    },
+    {
+      "at": "2026-05-21T14:20:54.263Z",
+      "name": "clicked"
+    }
+  ],
+  "result": {
+    "href": "https://minsubao.localhome.cn/home",
+    "title": "路客云PMS - 免费酒店公寓民宿管理系统_官网",
+    "buttonClass": "ant-btn ant-btn-primary submitBtn submitBtnCaptchaWait",
+    "buttonText": "登 录",
+    "bodySample": "首页\n产品服务\n版本介绍\n新闻中心\n公司介绍\n登 录\n免费试用\n账号登录\n+86\n请按住滑块，拖动到最右边\n登 录\n其他登录方式\n新用户立即体验\n新用户\n忘记密码\n让流量获取与房源管理更加轻松高效\n27 万+房东与酒店管理者选择路客云SPMS\n多渠道直连\n\n全网酒旅渠道同步直连 OTA、社媒、私域三大层次流量同步管理\n\n免费体验\n智能价态\n\nOTA、社媒、私域三大渠道价态同步管理，中央价设置+AI智能调价\n\n免费体验\n聚合分销\n\n覆盖同城酒店、去哪儿酒店、抖音共营、百度地图等13+独特分销渠道\n\n免费体验\n多门店经营\n\n适配集团酒店、连锁酒店等多门店经用户\n\n免费体验\n多岗位协同\n\n电脑端、手机APP、微信小程序三端支持；自定义专属信息视图与操作界面\n\n免费体验\n智慧报表\n\n覆盖日结夜申、经营分析报表、多维度订单数据统计；覆盖面广、专业性强\n\n免费体验\n多渠道直连\n\n全网酒旅渠道同步直连 ",
+    "hasSlider": false,
+    "hasLogin": false,
+    "campId": null,
+    "api": {
+      "ok": true,
+      "status": 200,
+      "json": {
+        "success": false,
+        "errorCode": "COMMON_CONSTRAINT_VIOLATION_ERR",
+        "errorMsg": "campId:不能为null",
+        "errorDetail": "campId:不能为null",
+        "data": null
+      }
+    }
+  }
+}

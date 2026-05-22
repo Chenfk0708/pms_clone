@@ -33,17 +33,98 @@
 .presale-goods-query {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px 12px;
-  min-height: 120px;
-  padding: 8px 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  min-height: 132px;
+  padding: 8px 8px 10px;
+}
+
+.presale-goods-storebar {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid #d8deea;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.presale-goods-storebar__current {
+  position: relative;
+}
+
+.presale-goods-storebar__tab,
+.presale-goods-storebar__setting {
+  height: 24px;
+  border: 0;
+  border-right: 1px solid #d8deea;
+  background: #fff;
+  color: #4b5565;
+  padding: 0 14px;
+  font-size: 12px;
+}
+
+.presale-goods-storebar__tab {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presale-goods-storebar__tab.is-active {
+  color: #4d65f6;
+}
+
+.presale-goods-storebar__setting {
+  width: 30px;
+  color: #7a8598;
+  padding: 0;
+  font-size: 14px;
+}
+
+.presale-goods-storebar > *:last-child {
+  border-right: 0;
+}
+
+.presale-goods-storebar__options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 22;
+  display: grid;
+  min-width: 220px;
+  max-width: 320px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid #dce2ef;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(31, 42, 68, 0.14);
+}
+
+.presale-goods-storebar__options button {
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #31415d;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.presale-goods-storebar__options button:hover,
+.presale-goods-storebar__options [aria-selected='true'] {
+  background: #eef2ff;
+  color: #4d65f6;
 }
 
 .presale-goods-query__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(260px, 1fr));
-  gap: 8px 16px;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 10px 16px;
   align-items: center;
+  border-top: 1px solid #eef2f7;
+  padding-top: 6px;
 }
 
 .presale-goods-field {
@@ -61,8 +142,17 @@
   white-space: nowrap;
 }
 
-.presale-goods-store {
-  grid-column: span 2;
+.presale-goods-field--select {
+  position: relative;
+}
+
+.presale-goods-select-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.presale-goods-keyword {
+  grid-column: 1 / 2;
 }
 
 .presale-goods-select,
@@ -111,10 +201,11 @@
 
 .presale-goods-options {
   position: absolute;
-  top: 38px;
-  left: 380px;
+  top: calc(100% + 4px);
+  left: 0;
   z-index: 20;
   display: grid;
+  width: 100%;
   min-width: 218px;
   max-height: 260px;
   overflow-y: auto;
@@ -146,7 +237,7 @@
   justify-content: flex-end;
   gap: 8px;
   padding-right: 0;
-  padding-bottom: 8px;
+  padding-bottom: 0;
 }
 
 .presale-goods-actions button,
@@ -170,6 +261,16 @@
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
+}
+
+@media (max-width: 1600px) {
+  .presale-goods-query__grid {
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+  }
+
+  .presale-goods-keyword {
+    grid-column: span 2;
+  }
 }
 
 .presale-goods-main {

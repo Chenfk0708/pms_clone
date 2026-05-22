@@ -1,0 +1,311 @@
+{
+  "outPath": "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\tmp\\smart-self-checkin-inner-minprobe-20260521124529..json",
+  "innerClick": {
+    "ok": true,
+    "index": 6,
+    "text": "下载二维码",
+    "className": "ant-btn ant-btn-primary"
+  },
+  "eventsAfterInnerClick": [
+    {
+      "type": "appendChild.iframe",
+      "detail": {
+        "src": "https://360fenxi.mediav.com/mediav1130.html",
+        "className": ""
+      },
+      "ts": 1779367548253
+    },
+    {
+      "type": "appendChild.iframe",
+      "detail": {
+        "src": "https://s.union.360.cn/proxy.html",
+        "className": ""
+      },
+      "ts": 1779367548253
+    },
+    {
+      "type": "appendChild.iframe",
+      "detail": {
+        "src": "",
+        "className": ""
+      },
+      "ts": 1779367548253
+    },
+    {
+      "type": "document.createElement",
+      "detail": {
+        "tag": "iframe"
+      },
+      "ts": 1779367548258
+    },
+    {
+      "type": "appendChild.iframe",
+      "detail": {
+        "src": "",
+        "className": "html2canvas-container"
+      },
+      "ts": 1779367548261
+    }
+  ],
+  "requestsAfterInnerClick": [
+    {
+      "ts": 1779367548277,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/advancedLogov2.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548277,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/menu/jhot.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548277,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503181444buy.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548280,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20250320makeCardContainer.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548280,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/timg.jpeg",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548280,
+      "url": "https://hudson-prod.localhome.cn/qr?text=https%3A%2F%2Fh.localhome.cn%2Fuser%2Fhudson%2Fparseurl%3Fschema%3Dhudsonaction%253A%252F%252Fminsubao.localhome.cn%252FFETCSET_CHANNELSH_JOIN_NETWORK%253FnetworkNum%253D%2526inviteUserId%253D1796067693261905922%2526inviteWay%253D1",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548280,
+      "url": "https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548281,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_reception_current%402x.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548281,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_hardware_hover%402x.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548281,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pcmenu/nav_gadj_current.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548281,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_qrcode.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_wechat.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/20240827_message.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/oneClickReading.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imScaleSetting.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/homeIcon/imEnlarge.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://dimg04.c-ctrip.com/images/27c0812000na9jbqk7A54_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548284,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/tujia001.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548285,
+      "url": "https://dimg04.c-ctrip.com/images/27c2f12000na9jaezFEED_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548285,
+      "url": "https://dimg04.c-ctrip.com/images/27c2m12000na9j4bl5392_R_640_428_Q50.jpg",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548285,
+      "url": "https://pic.tujia.com/upload/festatic/crn/defaultAvatarM_s.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/logo2%402x.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/channel/xiaozhu006.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/hudson/3575905411796521.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/pc/SelfoccupationminiprogramBG.png?x-oss-process=image/watermark,image_bG9jYWxob21lcXkvY2hlY2tpbi84NWEzZDk1MTYyZmY0M2Y1YmQ1MmVlYzM5MDc5NDAxMS5wbmc_eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsUF8zMA==,g_sw,x_413,y_260/watermark,type_d3F5LXplbmhlaQ,size_35,text_6Lev5a6i5LqRNlRTNeeahOW6l-mTug==,color_F8E9C1,g_nw,x_50,y_65",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/umi.f9c39b80.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/antdesigns.667af312.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/common.76db7af9.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/layouts__index.ffab234b.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://minsubao.localhome.cn/static1779245357325/css/p__pc__SmartHotel__SmartHome__index.4a160d00.chunk.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://g.alicdn.com/captcha-frontend/dynamicJS/3.25.1/main.css",
+      "method": "GET",
+      "resourceType": "stylesheet"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://360fenxi.mediav.com/mediav1130.html",
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "ts": 1779367548290,
+      "url": "https://s.union.360.cn/proxy.html",
+      "method": "GET",
+      "resourceType": "document"
+    },
+    {
+      "ts": 1779367548302,
+      "url": "https://local.info.g9hc4.cn:54360/?callback=uuidjsonpcb2020&t=1779367548303",
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "ts": 1779367548380,
+      "url": "https://minsubao.localhome.cn/assets/smartHomeTopbg.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548428,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Source%20Han%20Sans%20CN%20Regular.woff2",
+      "method": "GET",
+      "resourceType": "font"
+    },
+    {
+      "ts": 1779367548430,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down2.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548430,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/202503191500down.png",
+      "method": "GET",
+      "resourceType": "image"
+    },
+    {
+      "ts": 1779367548430,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/im-ring1.wav",
+      "method": "GET",
+      "resourceType": "media"
+    },
+    {
+      "ts": 1779367548430,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/newOrder.wav",
+      "method": "GET",
+      "resourceType": "media"
+    },
+    {
+      "ts": 1779367548430,
+      "url": "https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com/localhomeqy/hudson_pc/cancelOrder.wav",
+      "method": "GET",
+      "resourceType": "media"
+    },
+    {
+      "ts": 1779367553311,
+      "url": "https://local.info.g9hc4.cn:51360/?callback=uuidjsonpcb2020&t=1779367553311",
+      "method": "GET",
+      "resourceType": "script"
+    },
+    {
+      "ts": 1779367554628,
+      "url": "https://local.info.g9hc4.cn:51360/?callback=uuidjsonpcb2020&t=1779367554628",
+      "method": "GET",
+      "resourceType": "script"
+    }
+  ],
+  "downloadsAfterInnerClick": []
+}

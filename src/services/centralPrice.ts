@@ -437,7 +437,7 @@ function buildDates(rooms: Array<Record<string, unknown>>, fallbackDate: string)
 function addDays(date: string, offset: number) {
   const parsed = new Date(`${date}T00:00:00+08:00`)
   parsed.setDate(parsed.getDate() + offset)
-  return parsed.toISOString().slice(0, 10)
+  return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}-${String(parsed.getDate()).padStart(2, '0')}`
 }
 
 function resolveChannelIds(channel: string) {

@@ -25,6 +25,8 @@ export interface MonthCell {
 
 export interface MonthRoomGroup {
   id: string
+  storeId: string
+  storeName: string
   label: string
   roomLabel: string
   roomCategoryId?: string
@@ -52,6 +54,8 @@ export interface HouseMonthsFilters {
 
 const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn'
 const CAMPS_PATH = '/camps/get'
+const DEFAULT_MONTH_STORE_ID = 'poi-1796067693589061634'
+const DEFAULT_MONTH_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'
 const REQUEST_PATHS = [
   '/roomStatuses/rooms/get',
   '/roomStatuses/occ/get',
@@ -216,24 +220,32 @@ function mockEmptyHouseMonthsBundle() {
 function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, columns: MonthDateColumn[]) {
   const roomCategories = [
     {
+      storeId: DEFAULT_MONTH_STORE_ID,
+      storeName: DEFAULT_MONTH_STORE_NAME,
       roomCategoryId: 'room-category-deluxe',
       roomCategoryName: '豪华大床房',
       roomId: 'room-801',
       roomName: '801',
     },
     {
+      storeId: DEFAULT_MONTH_STORE_ID,
+      storeName: DEFAULT_MONTH_STORE_NAME,
       roomCategoryId: 'room-category-president',
       roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
       roomId: 'room-902',
       roomName: '902',
     },
     {
+      storeId: 'poi-other-demo-store',
+      storeName: '天落会宿公寓(演示分店)',
       roomCategoryId: 'room-category-sky',
       roomCategoryName: '天落大床电竞套间',
       roomId: 'room-1206',
       roomName: '1206',
     },
     {
+      storeId: 'poi-other-demo-store',
+      storeName: '天落会宿公寓(演示分店)',
       roomCategoryId: 'room-category-movie',
       roomCategoryName: '观影大床房',
       roomId: 'room-706',
@@ -251,6 +263,8 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
     rooms: successEnvelope('mock-fangtai--fangtai-guanli--yuefangtai-rooms-001', {
       isSingleInventory: 0,
       list: roomCategories.map((category) => ({
+        storeId: category.storeId,
+        storeName: category.storeName,
         roomCategoryId: category.roomCategoryId,
         roomCategoryName: category.roomCategoryName,
         rooms: [{ roomId: category.roomId, roomName: category.roomName }],
@@ -445,9 +459,19 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
   const orderArrangementRecords = toArray(readPath(bundle.orderDetails, ['orderArrangementInfos']))
   const inventoryRecords = toArray(readPath(bundle.inv, ['list']))
   const blockRecords = toArray(readPath(bundle.block, ['list']))
+  const fallbackStoreId =
+    pickString(bundle.rooms, ['storeId', 'campId']) ||
+    pickString(roomCategories[0], ['storeId', 'campId', 'poiId']) ||
+    DEFAULT_MONTH_STORE_ID
+  const fallbackStoreName =
+    pickString(bundle.rooms, ['storeName', 'campName']) ||
+    pickString(roomCategories[0], ['storeName', 'campName', 'poiName']) ||
+    DEFAULT_MONTH_STORE_NAME
 
   return roomCategories.flatMap((category, categoryIndex) => {
     const categoryId = pickString(category, ['roomCategoryId', 'categoryId', 'id', 'rcId', 'i']) || `category-${categoryIndex}`
+    const storeId = pickString(category, ['storeId', 'campId', 'poiId']) || fallbackStoreId
+    const storeName = pickString(category, ['storeName', 'campName', 'poiName']) || fallbackStoreName
     const label = pickString(category, ['roomCategoryName', 'categoryName', 'name', 'label', 'title', 'n']) || `未识别房型 ${categoryIndex + 1}`
     const rooms = toArray(firstExisting(category, ['rooms', 'roomList', 'roomViews', 'children', 'roomInfos', 'rs']))
     const normalizedRooms = rooms.length ? rooms : [{ roomId: `${categoryId}-room`, roomName: '房间1' }]
@@ -458,6 +482,8 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
 
         return {
           id: `${categoryId}-${roomId}`,
+          storeId,
+          storeName,
           label,
           roomCategoryId: categoryId,
           roomLabel,

@@ -2,6 +2,15 @@ const TASK_ID = 'shoumai-chanpin--rilifang--rilifang'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
 const MOCK_ENDPOINT = '/setting/localRoomTypeProductionSetting/products/page'
 const REAL_ENDPOINT = 'https://hudson-prod.localhome.cn/weiRoomCategories/page/get'
+import ctripIcon from '../assets/channel-icons/ctrip.png'
+import meituanHomestayIcon from '../assets/channel-icons/meituan-homestay.png'
+import feizhuIcon from '../assets/channel-icons/feizhu.png'
+import meituanHotelIcon from '../assets/channel-icons/meituan-hotel.png'
+import tujiaIcon from '../assets/channel-icons/tujia.png'
+import muniaoIcon from '../assets/channel-icons/muniao.png'
+import xiaozhuIcon from '../assets/channel-icons/xiaozhu.png'
+import localsIcon from '../assets/channel-icons/locals.png'
+import addIcon from '../assets/channel-icons/add.png'
 
 export type CalendarRoomProviderMode = 'mock' | 'real'
 export type CalendarRoomMockState = 'success' | 'empty' | 'error'
@@ -31,8 +40,17 @@ export type CalendarRoomProduct = {
 export type CalendarRoomRow = {
   id: string
   name: string
-  channelBadges: string[]
+  channelBadges: CalendarRoomChannelBadge[]
   products: CalendarRoomProduct[]
+}
+
+export type CalendarRoomChannelBadge = {
+  id: string
+  name: string
+  shortLabel: string
+  iconUrl: string
+  route: string
+  target?: '_blank'
 }
 
 export type CalendarRoomViewModel = {
@@ -128,7 +146,7 @@ async function fetchMockCalendarRoom(
   return {
     code: 0,
     message: 'success',
-    data: createBackendData(query, state === 'empty' ? [] : filterRows(mockRows, query)),
+    data: createBackendData(query, state === 'empty' ? [] : filterRows(getMockRows(), query)),
     traceId: `mock-${TASK_ID}-${state}-001`,
     timestamp: MOCK_TIMESTAMP,
   }
@@ -228,11 +246,13 @@ function delay(ms: number, signal?: AbortSignal) {
   })
 }
 
-const mockRows: CalendarRoomRow[] = [
+
+function getMockRows(): CalendarRoomRow[] {
+  return [
   {
     id: 'room-top-suite',
     name: '顶层套房（浴缸巨幕电竞麻将）',
-    channelBadges: ['途', '美', '猪', '携', '飞', '聚', '鸟'],
+    channelBadges: buildChannelBadges(['tujia', 'meituanHomestay', 'xiaozhu', 'ctrip', 'feizhu', 'locals', 'muniao', 'add']),
     products: [
       product('top-tujia-1', '桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心', '途家', '灵活价 A'),
       product('top-tujia-2', '浴缸可观影打麻将电竞电脑/聚会派对/近湾区之光摩天轮/近地铁/万元天落床宝安中心深圳湾欢乐海岸近机场', '途家', '灵活价 B'),
@@ -250,7 +270,17 @@ const mockRows: CalendarRoomRow[] = [
   {
     id: 'room-president-suite',
     name: '总裁套间（桑拿浴缸露台电竞麻将）',
-    channelBadges: ['途', '美', '猪', '携', '飞', '聚', '鸟'],
+    channelBadges: buildChannelBadges([
+      'ctrip',
+      'meituanHomestay',
+      'feizhu',
+      'meituanHotel',
+      'tujia',
+      'muniao',
+      'xiaozhu',
+      'locals',
+      'add',
+    ]),
     products: [
       product('president-tujia-1', '桑拿浴缸百平露台台球桌天落床俯瞰摩天轮深圳湾｜电竞百寸电脑｜天落床｜欢乐海岸宝安中心｜会展中心', '途家', '灵活价'),
       product('president-meituan-1', '轰趴浴缸麻将桑拿观', '美团民宿', '阶梯退', 'offline'),
@@ -266,7 +296,7 @@ const mockRows: CalendarRoomRow[] = [
   {
     id: 'room-sky-bed',
     name: '天落大床电竞套间',
-    channelBadges: ['美', '猪', '携', '飞', '聚', '鸟'],
+    channelBadges: buildChannelBadges(['meituanHomestay', 'xiaozhu', 'ctrip', 'feizhu', 'locals', 'muniao', 'add']),
     products: [
       product('sky-meituan-1', '万元天落床｜观影电竞房40寸4K4060显卡升降电脑｜河流桌按摩椅｜俯瞰摩天轮深圳湾欢乐海岸｜宝安中心壹方城机场会展', '美团民宿', '阶梯退', 'offline'),
       product('sky-xiaozhu-1', '天落床真悬浮体验', '小猪', '标准价'),
@@ -281,7 +311,7 @@ const mockRows: CalendarRoomRow[] = [
   {
     id: 'room-movie-bed',
     name: '观影大床房',
-    channelBadges: ['途', '美', '携', '飞', '聚', '鸟'],
+    channelBadges: buildChannelBadges(['tujia', 'meituanHomestay', 'ctrip', 'feizhu', 'locals', 'muniao', 'add']),
     products: [
       product('movie-tujia-1', '90寸4K影院｜珍藏河流桌｜深圳湾欢乐海岸宝安中心壹方城前海机场会展中心', '途家', '标准价'),
       product('movie-meituan-1', '90寸4K影院｜珍藏河流桌｜深圳湾欢乐海岸宝安中心壹方城前海机场会展中心', '美团民宿', '阶梯退'),
@@ -293,7 +323,8 @@ const mockRows: CalendarRoomRow[] = [
       product('movie-tujia-2', '观影大床房-途家早鸟价', '途家', '早鸟价'),
     ],
   },
-]
+  ]
+}
 
 function product(
   id: string,
@@ -313,4 +344,76 @@ function product(
     status,
     actions: actions ?? ['预览', '编辑', '修改价格', status === 'offline' ? '上架' : '下架'],
   }
+}
+
+const CHANNEL_BADGE_LIBRARY = {
+  ctrip: {
+    id: 'ctrip',
+    name: '携程',
+    shortLabel: '携',
+    iconUrl: ctripIcon,
+    route: '/channels/ota/detail?channel=ctrip',
+  },
+  meituanHomestay: {
+    id: 'meituanHomestay',
+    name: '美团民宿',
+    shortLabel: '民',
+    iconUrl: meituanHomestayIcon,
+    route: '/channels/ota/detail?channel=meituan-homestay',
+  },
+  feizhu: {
+    id: 'feizhu',
+    name: '飞猪',
+    shortLabel: '飞',
+    iconUrl: feizhuIcon,
+    route: '/channels/ota/detail?channel=fliggy',
+  },
+  meituanHotel: {
+    id: 'meituanHotel',
+    name: '美团酒店',
+    shortLabel: '酒',
+    iconUrl: meituanHotelIcon,
+    route: '/channels/ota/detail?channel=meituan-hotel',
+  },
+  tujia: {
+    id: 'tujia',
+    name: '途家',
+    shortLabel: '途',
+    iconUrl: tujiaIcon,
+    route: '/channels/ota/detail?channel=tujia',
+  },
+  muniao: {
+    id: 'muniao',
+    name: '木鸟',
+    shortLabel: '鸟',
+    iconUrl: muniaoIcon,
+    route: '/channels/ota/detail?channel=muniao',
+  },
+  xiaozhu: {
+    id: 'xiaozhu',
+    name: '小猪民宿',
+    shortLabel: '猪',
+    iconUrl: xiaozhuIcon,
+    route: '/channels/ota/detail?channel=xiaozhu',
+  },
+  locals: {
+    id: 'locals',
+    name: '路客云聚合',
+    shortLabel: '聚',
+    iconUrl: localsIcon,
+    route: '/channels/ota/detail?channel=locals',
+  },
+  add: {
+    id: 'add',
+    name: '新增渠道',
+    shortLabel: '+',
+    iconUrl: addIcon,
+    route: '/channels/ota',
+  },
+} satisfies Record<string, CalendarRoomChannelBadge>
+
+function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+  return keys.map((key) => ({
+    ...CHANNEL_BADGE_LIBRARY[key],
+  }))
 }

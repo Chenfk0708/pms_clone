@@ -146,22 +146,16 @@ export async function fetchPsbLogPageData(
     fetchPsbLogs(query, signal),
   ])
 
-  if (logResult.status === 'rejected') {
-    throw logResult.reason
-  }
-  if (storeResult.status === 'rejected') {
-    throw storeResult.reason
-  }
+  if (logResult.status === 'rejected') throw logResult.reason
+  if (storeResult.status === 'rejected') throw storeResult.reason
 
-  const storeEnvelope = storeResult.value
-  const logEnvelope = logResult.value
-  const logs = unwrapEnvelope(logEnvelope)
-  const stores = unwrapEnvelope(storeEnvelope)
+  const logs = unwrapEnvelope(logResult.value)
+  const stores = unwrapEnvelope(storeResult.value)
   const diagnostics: PsbLogDiagnostics = {
     endpoint: provider === 'api' ? PSB_LOG_ENDPOINT : PSB_LOG_MOCK_ENDPOINT,
     provider,
     state,
-    traceId: logEnvelope.traceId,
+    traceId: logResult.value.traceId,
     request,
     storeRequest,
   }
@@ -172,7 +166,7 @@ export async function fetchPsbLogPageData(
       stores,
       rows: logs.list.map(adaptPsbLogRow),
       pagination: logs.pagination,
-      refreshedAt: logEnvelope.timestamp,
+      refreshedAt: logResult.value.timestamp,
     },
     diagnostics,
   }
@@ -229,7 +223,7 @@ export async function retryPsbLogReport(
 export function resolvePsbLogRuntimeConfig(
   location: Location,
 ): Pick<PsbLogQuery, 'provider' | 'mockState'> {
-  const params = new URLSearchParams(location.search)
+  const params = readLocationParams(location)
   const provider = params.get('psbLogProvider')
   const mockState = params.get('mockState')
 
@@ -250,12 +244,22 @@ export function resolvePsbLogProvider(): PsbLogProvider {
 export function createDefaultPsbLogQuery(
   location: Location,
 ): Pick<PsbLogQuery, 'campId' | 'page' | 'pageSize'> {
-  const params = new URLSearchParams(location.search)
+  const params = readLocationParams(location)
   return {
     campId: params.get('campId') || DEFAULT_CAMP_ID,
     page: 1,
     pageSize: DEFAULT_PAGE_SIZE,
   }
+}
+
+function readLocationParams(location: Location) {
+  const searchParams = new URLSearchParams(location.search)
+  if (searchParams.toString()) return searchParams
+
+  const hashQueryIndex = location.hash.indexOf('?')
+  if (hashQueryIndex === -1) return searchParams
+
+  return new URLSearchParams(location.hash.slice(hashQueryIndex + 1))
 }
 
 export const psbLogBizTypeOptions: PsbLogOption[] = [
@@ -341,7 +345,7 @@ async function fetchApiPsbStores(
   }
 
   const stores = Array.isArray(payload.data?.list)
-    ? payload.data?.list.map((row) => ({
+    ? payload.data.list.map((row) => ({
         label: readString(row.poiName, '未命名门店'),
         value: readString(row.poiId, ''),
       }))
@@ -594,7 +598,7 @@ const stateLabelMap: Record<string, string> = {
 
 const mockStores: PsbLogOption[] = [
   { label: '全部门店', value: '' },
-  { label: '天鹅会宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
+  { label: '天蓉名宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
 ]
 
 const mockRows: PsbLogBackendRow[] = [
@@ -632,11 +636,11 @@ const mockRows: PsbLogBackendRow[] = [
   },
   {
     id: 'psb-log-003',
-    guestName: '陈北望',
+    guestName: '陈北木',
     mobile: '13800138003',
     idCard: '440301198805265419',
     roomNo: 'A-903',
-    channelName: '旅客云',
+    channelName: '路客云',
     orderNo: '2053550785075990531',
     channelOrderNo: 'lk-2053550785075990531',
     uploadTime: '2026-05-17 20:18:09',

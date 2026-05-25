@@ -74,7 +74,7 @@ test('/psb/list keeps the captured empty shell and exposes service diagnostics',
   await expect(diagnostics).toContainText('/account/roomPoliceSubmission/page/get')
   await expect(diagnostics).toContainText('/select/poi/page/get')
   await expect(diagnostics).toContainText('/roomCategories/page/get')
-  await expect(page.locator('.chat-dock')).toContainText('全部会话')
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 })
 
 test('/psb/list validates required fields and resets the add dialog on cancel', async ({ page }) => {

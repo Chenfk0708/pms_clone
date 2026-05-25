@@ -33,8 +33,8 @@ export type OrderAutoPendingValue = '1' | '2' | '3'
 export type OrderAutoSettleValue = '0' | '1'
 export type NegotiateRefundValue = '0' | '1'
 export type InventoryOccupationValue = '0' | '1'
-export type RoomAssignStrategyValue = '2'
-export type DirtyRoomStrategyValue = '1'
+export type RoomAssignStrategyValue = '0' | '1' | '2'
+export type DirtyRoomStrategyValue = '1' | '2' | '3' | '4' | '5'
 
 export type AutoStrategySettingQuery = {
   campId: string
@@ -51,6 +51,8 @@ export type AutoStrategySettingConfigItem = {
 export type AutoStrategySettingOption<TValue extends string> = {
   label: string
   value: TValue
+  description?: string
+  actionText?: string
 }
 
 export type AutoStrategySettingBooleanItem = {
@@ -106,20 +108,23 @@ export type AutoStrategySettingViewModel = {
     }
     autoCheckIn: {
       title: string
+      description: string
+      label: string
       switchLabel: string
       checked: boolean
-      timeLabel: string
       time: string
     }
     autoCheckOut: {
       title: string
+      description: string
+      label: string
       switchLabel: string
       checked: boolean
-      timeLabel: string
       time: string
     }
     dirtyRoom: {
       title: string
+      description: string
       configKey: string
       value: DirtyRoomStrategyValue
       options: AutoStrategySettingOption<DirtyRoomStrategyValue>[]
@@ -133,18 +138,21 @@ export type AutoStrategySettingViewModel = {
   inventoryOccupation: {
     pendingOrder: {
       title: string
+      description: string
       configKey: string
       value: InventoryOccupationValue
       options: AutoStrategySettingOption<InventoryOccupationValue>[]
     }
     unpaidOrder: {
       title: string
+      description: string
       configKey: string
       value: InventoryOccupationValue
       options: AutoStrategySettingOption<InventoryOccupationValue>[]
     }
     hourlyRoom: {
       title: string
+      description?: string
       configKey: string
       value: InventoryOccupationValue
       options: AutoStrategySettingOption<InventoryOccupationValue>[]
@@ -196,20 +204,39 @@ const negotiateRefundOptions: AutoStrategySettingOption<NegotiateRefundValue>[] 
 ]
 
 const roomAssignOptions: AutoStrategySettingOption<RoomAssignStrategyValue>[] = [
-  { label: '按房间顺序排房', value: '2' },
+  { label: '不自动排房', value: '0' },
+  { label: '随机均匀排房', value: '1' },
+  { label: '按房间顺序排房', value: '2', actionText: '设置房间优先级' },
 ]
 
-const dirtyRoomOptions: AutoStrategySettingOption<DirtyRoomStrategyValue>[] = [{ label: '手动设置', value: '1' }]
+const dirtyRoomOptions: AutoStrategySettingOption<DirtyRoomStrategyValue>[] = [
+  { label: '手动设置', value: '1', description: '自行切换脏净，系统不自动更改' },
+  { label: '全部房间定时转脏', value: '2', description: '系统将在每日 6:00 后将全部房间自动转脏' },
+  {
+    label: '在住订单定时转脏（酒店适用）',
+    value: '3',
+    description: '房间有入住中的订单，系统将在每日 6:00 后自动转脏',
+  },
+  {
+    label: '退房日订单定时转脏（民宿适用)',
+    value: '4',
+    description: '房间有退房日期为当天的订单，系统将在每日 6:00 后自动转脏',
+  },
+  { label: '订单办理退房后变脏', value: '5', description: '当订单办理退房后，系统立即将房间自动转脏' },
+]
 
 const pendingOrderOccupationOptions: AutoStrategySettingOption<InventoryOccupationValue>[] = [
   { label: '待接单不占库存', value: '0' },
+  { label: '待接单占库存', value: '1' },
 ]
 
 const unpaidOrderOccupationOptions: AutoStrategySettingOption<InventoryOccupationValue>[] = [
   { label: '待支付订单不占库存', value: '0' },
+  { label: '待支付订单占库存', value: '1' },
 ]
 
 const hourlyRoomOccupationOptions: AutoStrategySettingOption<InventoryOccupationValue>[] = [
+  { label: '钟点房订单不占库存', value: '0' },
   { label: '钟点房订单占库存', value: '1' },
 ]
 
@@ -421,7 +448,7 @@ function adaptEnvelope(
     roomAutomation: {
       roomAssign: {
         title: '自动排房设置',
-        strategyLabel: '排房策略默认',
+        strategyLabel: '排房策略',
         configKey: ROOM_ASSIGN_STRATEGY_CONFIG_KEY,
         value: normalizeRoomAssignStrategyValue(configMap[ROOM_ASSIGN_STRATEGY_CONFIG_KEY]),
         options: cloneOptions(roomAssignOptions),
@@ -438,20 +465,23 @@ function adaptEnvelope(
       },
       autoCheckIn: {
         title: '自动办理入住',
+        description: '开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。',
+        label: '自动办理入住',
         switchLabel: '自动办理入住开关',
         checked: configMap[AUTO_CHECK_IN_ENABLED_CONFIG_KEY] !== '0',
-        timeLabel: '办理入住时间',
         time: configMap[AUTO_CHECK_IN_TIME_CONFIG_KEY] ?? '15:00:00',
       },
       autoCheckOut: {
         title: '自动办理退房',
+        description: '开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。',
+        label: '自动办理退房',
         switchLabel: '自动办理退房开关',
         checked: configMap[AUTO_CHECK_OUT_ENABLED_CONFIG_KEY] !== '0',
-        timeLabel: '办理退房时间',
         time: configMap[AUTO_CHECK_OUT_TIME_CONFIG_KEY] ?? '12:00:00',
       },
       dirtyRoom: {
         title: '房间转脏策略',
+        description: '选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。',
         configKey: DIRTY_ROOM_STRATEGY_CONFIG_KEY,
         value: normalizeDirtyRoomStrategyValue(configMap[DIRTY_ROOM_STRATEGY_CONFIG_KEY]),
         options: cloneOptions(dirtyRoomOptions),
@@ -465,18 +495,23 @@ function adaptEnvelope(
     inventoryOccupation: {
       pendingOrder: {
         title: '待接单占库存设置',
+        description:
+          '1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；\n2.设置“占库存”，待接单会占库存，但不会自动排房；\n3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。',
         configKey: PENDING_ORDER_OCCUPATION_CONFIG_KEY,
         value: normalizeInventoryOccupationValue(configMap[PENDING_ORDER_OCCUPATION_CONFIG_KEY], '0'),
         options: cloneOptions(pendingOrderOccupationOptions),
       },
       unpaidOrder: {
         title: '待支付订单占库存设置',
+        description:
+          '1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；\n2.设置“占库存”，待支付订单会占库存，但不会自动排房；\n3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。',
         configKey: UNPAID_ORDER_OCCUPATION_CONFIG_KEY,
         value: normalizeInventoryOccupationValue(configMap[UNPAID_ORDER_OCCUPATION_CONFIG_KEY], '0'),
         options: cloneOptions(unpaidOrderOccupationOptions),
       },
       hourlyRoom: {
         title: '钟点房订单占库存设置',
+        description: '',
         configKey: HOURLY_ROOM_OCCUPATION_CONFIG_KEY,
         value: normalizeInventoryOccupationValue(configMap[HOURLY_ROOM_OCCUPATION_CONFIG_KEY], '1'),
         options: cloneOptions(hourlyRoomOccupationOptions),
@@ -619,11 +654,13 @@ function normalizeInventoryOccupationValue(
 }
 
 function normalizeRoomAssignStrategyValue(value: string | undefined): RoomAssignStrategyValue {
-  return value === '2' ? '2' : '2'
+  if (value === '0' || value === '1' || value === '2') return value
+  return '2'
 }
 
 function normalizeDirtyRoomStrategyValue(value: string | undefined): DirtyRoomStrategyValue {
-  return value === '1' ? '1' : '1'
+  if (value === '1' || value === '2' || value === '3' || value === '4' || value === '5') return value
+  return '1'
 }
 
 function readProvider(): AutoStrategySettingProvider {

@@ -25,66 +25,133 @@
 .presale-coupon-query {
   display: grid;
   gap: 12px;
-  padding: 18px 20px;
+  padding: 2px 0 12px;
 }
 
-.presale-coupon-store-field,
-.presale-coupon-select-field,
-.presale-coupon-keyword,
-.presale-coupon-date-range {
-  display: grid;
-  gap: 8px;
+.presale-coupon-store-switch,
+.presale-coupon-filter-row,
+.presale-coupon-actions,
+.presale-coupon-options {
+  padding: 0 14px;
 }
 
-.presale-coupon-store-field span,
-.presale-coupon-select-field span,
-.presale-coupon-keyword span,
-.presale-coupon-date-range > span {
-  color: rgb(0 0 0 / 45%);
-  font-size: 12px;
-}
-
-.presale-coupon-store-field strong {
-  display: inline-flex;
+.presale-coupon-store-switch {
+  display: flex;
   align-items: center;
-  min-height: 38px;
+  gap: 0;
+  padding-top: 2px;
+}
+
+.presale-coupon-store-switch button {
+  height: 32px;
   border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  padding: 0 12px;
-  background: #fafafa;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.presale-coupon-filter-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(180px, 220px)) minmax(240px, 1fr);
-  gap: 12px;
-  align-items: end;
-}
-
-.presale-coupon-date-inputs {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 8px;
-  align-items: center;
-}
-
-.presale-coupon-date-inputs input,
-.presale-coupon-select-field button,
-.presale-coupon-keyword input {
-  height: 38px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
   background: #fff;
-  padding: 0 12px;
   color: rgb(0 0 0 / 85%);
   font-size: 14px;
 }
 
-.presale-coupon-date-inputs em {
+.presale-coupon-store-switch > button:first-child {
+  min-width: 98px;
+  border-radius: 4px 0 0 4px;
+}
+
+.presale-coupon-store-switch .is-store {
+  max-width: 128px;
+  overflow: hidden;
+  border-left: 0;
+  border-radius: 0;
+  padding: 0 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presale-coupon-store-switch .is-setting {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+  color: rgb(0 0 0 / 45%);
+}
+
+.presale-coupon-store-switch .is-active {
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
+.presale-coupon-store-switch .is-setting span {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.presale-coupon-filter-row {
+  display: grid;
+  grid-template-columns: minmax(0, 430px) minmax(0, 370px) minmax(0, 328px) minmax(0, 1fr);
+  gap: 14px 16px;
+  align-items: center;
+}
+
+.presale-coupon-date-range,
+.presale-coupon-select-field,
+.presale-coupon-keyword {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.presale-coupon-date-range > span,
+.presale-coupon-select-field > span,
+.presale-coupon-keyword > span {
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.presale-coupon-date-trigger,
+.presale-coupon-select-field button,
+.presale-coupon-keyword input {
+  height: 38px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+}
+
+.presale-coupon-date-trigger {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  text-align: left;
+}
+
+.presale-coupon-date-trigger strong {
+  font-weight: 500;
+}
+
+.presale-coupon-date-trigger em {
   color: rgb(0 0 0 / 45%);
   font-style: normal;
+}
+
+.presale-coupon-date-trigger i {
+  justify-self: end;
+  color: rgb(0 0 0 / 35%);
+  font-style: normal;
+}
+
+.presale-coupon-select-field button,
+.presale-coupon-keyword input {
+  width: 100%;
+  padding: 0 12px;
+}
+
+.presale-coupon-select-field__control {
+  position: relative;
 }
 
 .presale-coupon-select-field button {
@@ -95,54 +162,91 @@
 .presale-coupon-select-field button::after {
   content: '⌄';
   position: absolute;
-  top: 7px;
+  top: 8px;
   right: 12px;
   color: rgb(0 0 0 / 35%);
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.presale-coupon-keyword input::placeholder {
+  color: rgb(0 0 0 / 35%);
 }
 
 .presale-coupon-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  border: 1px solid #eef1f6;
-  border-radius: 8px;
-  padding: 12px;
-  background: #fbfcff;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 24;
+  display: grid;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 10%);
 }
 
 .presale-coupon-options button {
-  min-width: 88px;
-  height: 32px;
-  border: 1px solid #d8def2;
-  border-radius: 999px;
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  border-top: 1px solid #f0f0f0;
   background: #fff;
-  color: #334155;
+  color: rgb(0 0 0 / 85%);
   padding: 0 14px;
+  text-align: left;
 }
 
-.presale-coupon-options button[aria-selected='true'] {
-  border-color: #4d65f6;
-  background: #eef2ff;
+.presale-coupon-options button:first-child {
+  border-top: 0;
+}
+
+.presale-coupon-options button[aria-selected='true'],
+.presale-coupon-options button:hover {
+  background: #f5f7ff;
   color: #3651f3;
+}
+
+.presale-coupon-options-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 20px 12px 16px;
+  color: rgb(0 0 0 / 35%);
+}
+
+.presale-coupon-options-empty strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.presale-coupon-options-empty__icon {
+  width: 28px;
+  height: 20px;
+  border: 1px solid #e1e5ef;
+  border-radius: 6px;
+  background:
+    linear-gradient(#f0f2f6, #f0f2f6) 5px 6px / 18px 1px no-repeat,
+    linear-gradient(#f0f2f6, #f0f2f6) 7px 11px / 14px 1px no-repeat,
+    #fff;
 }
 
 .presale-coupon-actions {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .presale-coupon-actions button {
   height: 36px;
-  min-width: 88px;
-  border-radius: 6px;
+  min-width: 66px;
+  border-radius: 4px;
   padding: 0 16px;
   font-size: 14px;
 }
 
 .presale-coupon-actions .is-outline {
-  border: 1px solid #d8def2;
+  border: 1px solid #4d65f6;
   background: #fff;
   color: #3651f3;
 }
@@ -153,27 +257,12 @@
   color: #fff;
 }
 
-.presale-coupon-notice,
-.presale-coupon-alert {
-  margin-top: 14px;
-}
-
-.presale-coupon-notice {
-  display: inline-flex;
-  align-items: center;
-  min-height: 38px;
-  border: 1px solid #dbe5ff;
-  border-radius: 8px;
-  padding: 0 14px;
-  background: #f4f7ff;
-  color: #3651f3;
-}
-
 .presale-coupon-alert {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 18px;
   align-items: center;
+  margin-top: 14px;
   padding: 16px 18px;
 }
 
@@ -292,76 +381,122 @@
     #fff;
 }
 
-.presale-coupon-date-range {
-  position: relative;
-}
-
 .presale-coupon-date-panel {
   position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
+  top: calc(100% + 8px);
+  left: 74px;
   z-index: 30;
   display: grid;
-  grid-template-columns: 248px 248px 72px;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid #dce2ef;
-  border-radius: 8px;
+  grid-template-columns: 88px minmax(0, 1fr);
+  width: 676px;
+  border: 1px solid #d9d9d9;
   background: #fff;
-  box-shadow: 0 16px 40px rgb(15 23 42 / 14%);
+  box-shadow: 0 12px 24px rgb(15 23 42 / 12%);
+}
+
+.presale-coupon-date-presets {
+  display: grid;
+  align-content: start;
+  gap: 0;
+  border-right: 1px solid #f0f0f0;
+  padding: 12px 0;
+}
+
+.presale-coupon-date-presets > span {
+  padding: 0 14px 10px;
+  color: rgb(0 0 0 / 45%);
+  font-size: 12px;
+}
+
+.presale-coupon-date-presets button {
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 85%);
+  text-align: left;
+  padding: 0 14px;
+}
+
+.presale-coupon-date-presets button.is-active,
+.presale-coupon-date-presets button:hover {
+  color: #4d65f6;
+}
+
+.presale-coupon-date-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.presale-coupon-calendar-month {
+  padding: 12px;
+}
+
+.presale-coupon-calendar-month + .presale-coupon-calendar-month {
+  border-left: 1px solid #f0f0f0;
+}
+
+.presale-coupon-calendar-month header {
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.presale-coupon-calendar-month header button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 35%);
+  font-size: 18px;
+}
+
+.presale-coupon-calendar-month header button:disabled {
+  visibility: hidden;
 }
 
 .presale-coupon-calendar-month h2 {
-  margin: 0 0 8px;
+  margin: 0;
   color: rgb(0 0 0 / 85%);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
 }
 
 .presale-coupon-calendar-weekdays,
 .presale-coupon-calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 2px;
 }
 
 .presale-coupon-calendar-weekdays span {
-  height: 24px;
-  color: rgb(0 0 0 / 45%);
+  display: grid;
+  place-items: center;
+  height: 28px;
+  color: rgb(0 0 0 / 65%);
   font-size: 12px;
-  line-height: 24px;
-  text-align: center;
 }
 
 .presale-coupon-calendar-days button {
   height: 28px;
   border: 0;
-  border-radius: 4px;
   background: transparent;
-  color: rgb(0 0 0 / 75%);
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
 }
 
-.presale-coupon-calendar-days button.is-picked,
-.presale-coupon-calendar-days button:hover {
-  background: #edf1ff;
-  color: #3651f3;
+.presale-coupon-calendar-days .is-muted {
+  color: rgb(0 0 0 / 20%);
 }
 
-.presale-coupon-date-presets {
-  display: grid;
-  align-content: start;
-  gap: 6px;
-  padding-left: 8px;
-  border-left: 1px solid #eef1f6;
+.presale-coupon-calendar-days .is-in-range {
+  background: #f4f6fb;
 }
 
-.presale-coupon-date-presets button {
-  height: 28px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: #3651f3;
+.presale-coupon-calendar-days .is-picked {
+  background: #4d65f6;
+  color: #fff;
 }
 
 .presale-coupon-modal-backdrop {
@@ -458,7 +593,7 @@
   color: rgb(0 0 0 / 85%);
 }
 
-@media (max-width: 1320px) {
+@media (max-width: 1380px) {
   .presale-coupon-filter-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -469,13 +604,40 @@
 }
 
 @media (max-width: 900px) {
+  .presale-coupon-store-switch,
+  .presale-coupon-actions {
+    flex-wrap: wrap;
+  }
+
   .presale-coupon-filter-row,
   .presale-coupon-metrics {
     grid-template-columns: 1fr;
   }
 
-  .presale-coupon-date-panel {
+  .presale-coupon-date-range,
+  .presale-coupon-select-field,
+  .presale-coupon-keyword {
     grid-template-columns: 1fr;
+  }
+
+  .presale-coupon-date-panel {
+    left: 0;
+    grid-template-columns: 1fr;
+    width: min(100vw - 32px, 676px);
+  }
+
+  .presale-coupon-date-presets {
+    border-right: 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .presale-coupon-date-months {
+    grid-template-columns: 1fr;
+  }
+
+  .presale-coupon-calendar-month + .presale-coupon-calendar-month {
+    border-left: 0;
+    border-top: 1px solid #f0f0f0;
   }
 
   .presale-coupon-table-wrap {

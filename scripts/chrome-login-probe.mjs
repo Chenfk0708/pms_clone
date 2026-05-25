@@ -108,9 +108,10 @@ async function main() {
   ensureParentDir(logPath)
 
   let cdpFailure = null
+  let cdpResult = null
 
   try {
-    const cdpResult = await tryConnectExistingChrome()
+    cdpResult = await tryConnectExistingChrome()
     writeJson(logPath, cdpResult)
 
     if (cdpResult.summary.authenticated) {
@@ -123,6 +124,7 @@ async function main() {
 
   const storageStateResult = await verifyStorageState()
   const finalResult = {
+    cdpResult,
     ...storageStateResult,
     cdpFailure,
   }

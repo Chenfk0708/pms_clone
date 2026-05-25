@@ -65,7 +65,6 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
   const [mockStateOverride, setMockStateOverride] = useState<AutoStrategySettingMockState | null>(null)
   const [activeTab, setActiveTab] = useState<AutoStrategySettingTabKey>('orderRules')
   const [busyKey, setBusyKey] = useState('')
-  const [feedback, setFeedback] = useState('正在加载自动策略设置...')
   const [orderAutoPendingValue, setOrderAutoPendingValue] = useState<OrderAutoPendingValue>('1')
   const [orderAutoSettleChecked, setOrderAutoSettleChecked] = useState(false)
   const [negotiateRefundValue, setNegotiateRefundValue] = useState<NegotiateRefundValue>('0')
@@ -111,7 +110,6 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
           contract: toContract(data),
         })
         setActiveTab('orderRules')
-        setFeedback(data.state === 'empty' ? '' : '自动策略设置已同步')
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
@@ -122,7 +120,6 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
           message,
           contract: toErrorContract(error, requestQuery),
         })
-        setFeedback(message)
       })
 
     return () => abort.abort()
@@ -160,11 +157,9 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
           lastRequestBody: result.requestBody,
         },
       })
-      setFeedback(result.statusMessage)
       callbacks?.onSuccess?.(result.viewModel)
     } catch (error) {
       const message = error instanceof Error ? error.message : '自动策略设置保存失败，请稍后重试'
-      setFeedback(message)
       callbacks?.onError?.()
       setState((current) => {
         if (current.kind !== 'ready') {
@@ -190,7 +185,6 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
   function handleRetry() {
     setMockStateOverride('success')
     setReloadKey((current) => current + 1)
-    setFeedback('正在重新加载自动策略设置...')
   }
 
   return (
@@ -210,12 +204,6 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
       />
 
       <section className="auto-strategy-page__shell" aria-label="自动策略设置">
-        {feedback ? (
-          <div className="auto-strategy-page__status" role="status">
-            {feedback}
-          </div>
-        ) : null}
-
         {state.kind === 'error' ? (
           <section className="auto-strategy-page__state auto-strategy-page__state--error" role="alert">
             <h2>自动策略设置加载失败，请稍后重试</h2>
@@ -364,35 +352,40 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
                 </div>
               </StrategyCard>
 
-              <StrategyCard title={readyData.roomAutomation.autoCheckIn.title}>
-                <div className="auto-strategy-vertical-switch">
-                  <div className="auto-strategy-switch-row">
-                    <span>{readyData.roomAutomation.autoCheckIn.timeLabel}</span>
-                    <SwitchButton
-                      label={readyData.roomAutomation.autoCheckIn.switchLabel}
-                      checked={readyData.roomAutomation.autoCheckIn.checked}
-                      disabled
-                    />
-                  </div>
+              <StrategyCard
+                title={readyData.roomAutomation.autoCheckIn.title}
+                description={readyData.roomAutomation.autoCheckIn.description}
+              >
+                <div className="auto-strategy-time-row">
+                  <span>{readyData.roomAutomation.autoCheckIn.label}</span>
+                  <SwitchButton
+                    label={readyData.roomAutomation.autoCheckIn.switchLabel}
+                    checked={readyData.roomAutomation.autoCheckIn.checked}
+                    disabled
+                  />
                   <div className="auto-strategy-time-chip">{readyData.roomAutomation.autoCheckIn.time}</div>
                 </div>
               </StrategyCard>
 
-              <StrategyCard title={readyData.roomAutomation.autoCheckOut.title}>
-                <div className="auto-strategy-vertical-switch">
-                  <div className="auto-strategy-switch-row">
-                    <span>{readyData.roomAutomation.autoCheckOut.timeLabel}</span>
-                    <SwitchButton
-                      label={readyData.roomAutomation.autoCheckOut.switchLabel}
-                      checked={readyData.roomAutomation.autoCheckOut.checked}
-                      disabled
-                    />
-                  </div>
+              <StrategyCard
+                title={readyData.roomAutomation.autoCheckOut.title}
+                description={readyData.roomAutomation.autoCheckOut.description}
+              >
+                <div className="auto-strategy-time-row">
+                  <span>{readyData.roomAutomation.autoCheckOut.label}</span>
+                  <SwitchButton
+                    label={readyData.roomAutomation.autoCheckOut.switchLabel}
+                    checked={readyData.roomAutomation.autoCheckOut.checked}
+                    disabled
+                  />
                   <div className="auto-strategy-time-chip">{readyData.roomAutomation.autoCheckOut.time}</div>
                 </div>
               </StrategyCard>
 
-              <StrategyCard title={readyData.roomAutomation.dirtyRoom.title}>
+              <StrategyCard
+                title={readyData.roomAutomation.dirtyRoom.title}
+                description={readyData.roomAutomation.dirtyRoom.description}
+              >
                 <RadioGroup
                   name="dirty-room-strategy"
                   options={readyData.roomAutomation.dirtyRoom.options}
@@ -421,7 +414,10 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
               aria-label="库存占用规则"
               hidden={activeTab !== 'inventoryOccupation'}
             >
-              <StrategyCard title={readyData.inventoryOccupation.pendingOrder.title}>
+              <StrategyCard
+                title={readyData.inventoryOccupation.pendingOrder.title}
+                description={readyData.inventoryOccupation.pendingOrder.description}
+              >
                 <RadioGroup
                   name="pending-order-occupation"
                   options={readyData.inventoryOccupation.pendingOrder.options}
@@ -431,7 +427,10 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
                 />
               </StrategyCard>
 
-              <StrategyCard title={readyData.inventoryOccupation.unpaidOrder.title}>
+              <StrategyCard
+                title={readyData.inventoryOccupation.unpaidOrder.title}
+                description={readyData.inventoryOccupation.unpaidOrder.description}
+              >
                 <RadioGroup
                   name="unpaid-order-occupation"
                   options={readyData.inventoryOccupation.unpaidOrder.options}
@@ -441,7 +440,10 @@ function AutoStrategySettingSurface({ query }: { query: AutoStrategySettingQuery
                 />
               </StrategyCard>
 
-              <StrategyCard title={readyData.inventoryOccupation.hourlyRoom.title}>
+              <StrategyCard
+                title={readyData.inventoryOccupation.hourlyRoom.title}
+                description={readyData.inventoryOccupation.hourlyRoom.description}
+              >
                 <RadioGroup
                   name="hourly-room-occupation"
                   options={readyData.inventoryOccupation.hourlyRoom.options}
@@ -486,7 +488,7 @@ function RadioGroup({
   onChange,
 }: {
   name: string
-  options: Array<{ label: string; value: string }>
+  options: Array<{ label: string; value: string; description?: string; actionText?: string }>
   value: string
   disabled?: boolean
   onChange: (nextValue: string) => void
@@ -503,7 +505,13 @@ function RadioGroup({
             disabled={disabled}
             onChange={() => onChange(option.value)}
           />
-          <span>{option.label}</span>
+          <span className="auto-strategy-radio__content">
+            <span className="auto-strategy-radio__main">
+              <span>{option.label}</span>
+              {option.actionText ? <span className="auto-strategy-radio__action">{option.actionText}</span> : null}
+            </span>
+            {option.description ? <span className="auto-strategy-radio__description">{option.description}</span> : null}
+          </span>
         </label>
       ))}
     </div>

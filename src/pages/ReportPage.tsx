@@ -21,6 +21,8 @@ type DatePanelPosition = { top: number; left: number }
 export function ReportPage() {
   const navigate = useNavigate()
   const [query, setQuery] = useState(createInitialQuery)
+  const [expanded, setExpanded] = useState(true)
+  const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [dashboard, setDashboard] = useState<StatisticsReportDashboard | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -145,6 +147,31 @@ export function ReportPage() {
     setNotice('统计概览看板已重新加载')
   }
 
+  function resetFilters() {
+    setLoading(true)
+    setError('')
+    setOpenFilter(null)
+    setIsDatePanelOpen(false)
+    setQuery(createInitialQuery())
+    setStoreScope('current')
+    setMode('overview')
+    setActiveTrendKey('businessIncome')
+    setNotice('已恢复默认筛选')
+  }
+
+  function refreshDashboard() {
+    setLoading(true)
+    setError('')
+    setOpenFilter(null)
+    setIsDatePanelOpen(false)
+    setQuery((current) => ({ ...current }))
+    setNotice('统计概览看板已刷新')
+  }
+
+  function exportDashboard() {
+    setNotice('统计概览导出任务已创建')
+  }
+
   function switchStoreScope(nextScope: StoreScope) {
     setStoreScope(nextScope)
     setNotice(nextScope === 'all' ? '已切换到全部门店视角' : '已切换到当前门店视角')
@@ -173,138 +200,172 @@ export function ReportPage() {
       </pre>
 
       <section className="statistics-report-panel">
-        <div className="statistics-report-mode" role="group" aria-label="统计模式">
-          <button
-            type="button"
-            className={mode === 'overview' ? 'is-active' : ''}
-            onClick={() => {
-              setMode('overview')
-              setNotice('已切换到统计总览')
-            }}
-          >
-            统计总览
-          </button>
-          <button
-            type="button"
-            className={mode === 'future' ? 'is-active' : ''}
-            onClick={() => {
-              setMode('future')
-              setNotice('已切换到远期分析')
-            }}
-          >
-            远期分析
-          </button>
-        </div>
+        <section className="statistics-report-query" aria-label="统计概览筛选">
+          <div className="statistics-report-mode" role="group" aria-label="统计模式">
+            <button
+              type="button"
+              className={mode === 'overview' ? 'is-active' : ''}
+              onClick={() => {
+                setMode('overview')
+                setNotice('已切换到统计总览')
+              }}
+            >
+              统计总览
+            </button>
+            <button
+              type="button"
+              className={mode === 'future' ? 'is-active' : ''}
+              onClick={() => {
+                setMode('future')
+                setNotice('已切换到远期分析')
+              }}
+            >
+              远期分析
+            </button>
+          </div>
 
-        <div className="statistics-report-store">
-          <button
-            type="button"
-            className={`store-scope${storeScope === 'all' ? ' is-active' : ''}`}
-            aria-pressed={storeScope === 'all'}
-            onClick={() => switchStoreScope('all')}
-          >
-            全部门店
-          </button>
-          <button
-            type="button"
-            className={`store-current${storeScope === 'current' ? ' is-active' : ''}`}
-            aria-pressed={storeScope === 'current'}
-            onClick={() => switchStoreScope('current')}
-          >
-            {dashboard?.currentStoreName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
-          </button>
-          <button
-            type="button"
-            className="store-settings-button"
-            aria-label="打开门店信息设置"
-            onClick={() => navigate('/InformationMaintenance/campInfo')}
-          >
-            <span aria-hidden="true" />
-          </button>
-        </div>
-        <div className="statistics-report-filters">
-          <div className="statistics-report-presets" role="group" aria-label="日期快捷筛选">
-            {statisticsReportPresetOptions.map((preset) => (
+          <div className="statistics-report-form">
+            <div className="statistics-report-presets" role="group" aria-label="日期快捷筛选">
+              {statisticsReportPresetOptions.map((preset) => (
+                <button
+                  key={preset.key}
+                  type="button"
+                  className={activePreset === preset.key ? 'is-active' : ''}
+                  onClick={() => switchPreset(preset.key, preset.label)}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="statistics-report-store">
               <button
-                key={preset.key}
                 type="button"
-                className={activePreset === preset.key ? 'is-active' : ''}
-                onClick={() => switchPreset(preset.key, preset.label)}
+                className={`store-scope${storeScope === 'all' ? ' is-active' : ''}`}
+                aria-pressed={storeScope === 'all'}
+                onClick={() => switchStoreScope('all')}
               >
-                {preset.label}
+                全部门店
               </button>
-            ))}
+              <button
+                type="button"
+                className={`store-current${storeScope === 'current' ? ' is-active' : ''}`}
+                aria-pressed={storeScope === 'current'}
+                onClick={() => switchStoreScope('current')}
+              >
+                {dashboard?.currentStoreName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
+              </button>
+              <button
+                type="button"
+                className="store-settings-button"
+                aria-label="打开门店信息设置"
+                onClick={() => navigate('/InformationMaintenance/campInfo')}
+              >
+                <span aria-hidden="true" />
+              </button>
+            </div>
+
+            {expanded ? (
+              <div className="statistics-report-filters">
+                <label className="statistics-date-field">
+                  <span>开始日期</span>
+                  <div
+                    ref={dateRangeRef}
+                    className="report-date-range"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="统计日期"
+                    onClick={() => openDatePanel('start')}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        openDatePanel('start')
+                      }
+                    }}
+                  >
+                    <input
+                      aria-label="开始日期"
+                      value={query.startDate}
+                      readOnly
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        openDatePanel('start')
+                      }}
+                    />
+                    <span>至</span>
+                    <input
+                      aria-label="结束日期"
+                      value={query.endDate}
+                      readOnly
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        openDatePanel('end')
+                      }}
+                    />
+                    <i aria-hidden="true" />
+                  </div>
+                </label>
+
+                <FilterSelect
+                  label="房型"
+                  value={roomTypeLabel}
+                  open={openFilter === 'roomType'}
+                  options={dashboard?.roomTypeOptions ?? []}
+                  onToggle={() => setOpenFilter(openFilter === 'roomType' ? null : 'roomType')}
+                  onSelect={(option) =>
+                    updateQuery(
+                      { roomCategoryIds: option ? [option.id] : [], channelIds: query.channelIds },
+                      '已按房型筛选',
+                    )
+                  }
+                />
+                <FilterSelect
+                  label="渠道"
+                  value={channelLabel}
+                  open={openFilter === 'channel'}
+                  options={dashboard?.channelOptions ?? []}
+                  onToggle={() => setOpenFilter(openFilter === 'channel' ? null : 'channel')}
+                  onSelect={(option) =>
+                    updateQuery({ channelIds: option ? [option.id] : [] }, '已按渠道筛选')
+                  }
+                />
+                <FilterSelect
+                  label="房型标签"
+                  value={roomTagLabel}
+                  open={openFilter === 'tag'}
+                  options={dashboard?.roomTagOptions ?? []}
+                  emptyLabel="暂无房型标签"
+                  onToggle={openTagSelect}
+                  onSelect={() => setOpenFilter(null)}
+                />
+              </div>
+            ) : null}
           </div>
 
-          <div
-            ref={dateRangeRef}
-            className="report-date-range"
-            role="button"
-            tabIndex={0}
-            aria-label="统计日期"
-            onClick={() => openDatePanel('start')}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                openDatePanel('start')
-              }
-            }}
-          >
-            <input
-              aria-label="开始日期"
-              value={query.startDate}
-              readOnly
-              onClick={(event) => {
-                event.stopPropagation()
-                openDatePanel('start')
+          <div className="statistics-report-actions">
+            <button type="button" onClick={resetFilters} disabled={loading}>
+              重置
+            </button>
+            <button type="button" className="is-primary" onClick={refreshDashboard} disabled={loading}>
+              查询
+            </button>
+            <button type="button" onClick={exportDashboard} disabled={loading || Boolean(error)}>
+              导出
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setDescriptionOpen(true)
+                setOpenFilter(null)
               }}
-            />
-            <span>至</span>
-            <input
-              aria-label="结束日期"
-              value={query.endDate}
-              readOnly
-              onClick={(event) => {
-                event.stopPropagation()
-                openDatePanel('end')
-              }}
-            />
-            <i aria-hidden="true" />
+            >
+              说明
+            </button>
+            <button type="button" className="is-link" onClick={() => setExpanded((current) => !current)}>
+              {expanded ? '收起' : '展开'}
+            </button>
           </div>
-
-          <FilterSelect
-            label="房型"
-            value={roomTypeLabel}
-            open={openFilter === 'roomType'}
-            options={dashboard?.roomTypeOptions ?? []}
-            onToggle={() => setOpenFilter(openFilter === 'roomType' ? null : 'roomType')}
-            onSelect={(option) =>
-              updateQuery(
-                { roomCategoryIds: option ? [option.id] : [], channelIds: query.channelIds },
-                '已按房型筛选',
-              )
-            }
-          />
-          <FilterSelect
-            label="渠道"
-            value={channelLabel}
-            open={openFilter === 'channel'}
-            options={dashboard?.channelOptions ?? []}
-            onToggle={() => setOpenFilter(openFilter === 'channel' ? null : 'channel')}
-            onSelect={(option) =>
-              updateQuery({ channelIds: option ? [option.id] : [] }, '已按渠道筛选')
-            }
-          />
-          <FilterSelect
-            label="房型标签"
-            value={roomTagLabel}
-            open={openFilter === 'tag'}
-            options={dashboard?.roomTagOptions ?? []}
-            emptyLabel="暂无房型标签"
-            onToggle={openTagSelect}
-            onSelect={() => setOpenFilter(null)}
-          />
-        </div>
+        </section>
 
         {isDatePanelOpen ? (
           <DatePanel
@@ -361,6 +422,43 @@ export function ReportPage() {
           ) : (
             <FutureContent dashboard={dashboard} />
           )
+        ) : null}
+
+        {descriptionOpen ? (
+          <div className="statistics-modal-backdrop" role="presentation" onClick={() => setDescriptionOpen(false)}>
+            <section
+              className="statistics-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-label="统计概览字段说明"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <header>
+                <h2>统计概览字段说明</h2>
+                <button type="button" aria-label="关闭统计概览字段说明" onClick={() => setDescriptionOpen(false)}>
+                  ×
+                </button>
+              </header>
+              <div className="statistics-description-list">
+                <div className="statistics-description-row">
+                  <strong>总营业收入</strong>
+                  <span>当前筛选日期内房费、其他消费、记一笔收入的汇总。</span>
+                </div>
+                <div className="statistics-description-row">
+                  <strong>入住率 OCC</strong>
+                  <span>已售房间数占总房间数的比例，用于观察出租效率。</span>
+                </div>
+                <div className="statistics-description-row">
+                  <strong>平均房费 ADR</strong>
+                  <span>已售房间对应的平均房费，反映客房售价水平。</span>
+                </div>
+                <div className="statistics-description-row">
+                  <strong>RevPAR</strong>
+                  <span>平均可售客房收入，综合反映房量和房价表现。</span>
+                </div>
+              </div>
+            </section>
+          </div>
         ) : null}
       </section>
     </div>
@@ -556,11 +654,13 @@ function FilterSelect({
   onSelect: (option: StatisticsReportOption | null) => void
 }) {
   return (
-    <div className="report-filter-select">
-      <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={`${label} ${value}`} onClick={onToggle}>
-        <span>{label}</span>
-        <strong>{value}</strong>
-      </button>
+    <label className="statistics-select-field">
+      <span>{label}</span>
+      <div className="report-filter-select">
+        <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={`${label} ${value}`} onClick={onToggle}>
+          <strong>{value}</strong>
+        </button>
+      </div>
       {open ? (
         <div className="report-filter-options" role="listbox" aria-label={`${label}选项`}>
           {options.length > 0 ? (
@@ -581,7 +681,7 @@ function FilterSelect({
           )}
         </div>
       ) : null}
-    </div>
+    </label>
   )
 }
 

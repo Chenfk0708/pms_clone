@@ -67,6 +67,38 @@ export type RoomTypeInfoDashboard = {
   floorSnapshots: Array<{ id: string; name: string; roomCount: number }>
 }
 
+export type RoomTypeTagRow = {
+  id: string
+  name: string
+  roomTypeIds: string[]
+  roomTypeNames: string[]
+}
+
+export type RoomTypeTagPageData = {
+  provider: RoomTypeInfoProviderName
+  endpoint: string
+  traceId: string
+  timestamp: string
+  rows: RoomTypeTagRow[]
+  roomTypeOptions: Array<{ id: string; label: string }>
+}
+
+export type RoomTypeFloorRow = {
+  id: string
+  name: string
+  roomTypeIds: string[]
+  roomTypeNames: string[]
+}
+
+export type RoomTypeFloorPageData = {
+  provider: RoomTypeInfoProviderName
+  endpoint: string
+  traceId: string
+  timestamp: string
+  rows: RoomTypeFloorRow[]
+  roomTypeOptions: Array<{ id: string; label: string }>
+}
+
 export type RoomTypeInfoEditMode = 'create' | 'detail'
 
 export type RoomTypeInfoDraft = {
@@ -82,8 +114,28 @@ export type RoomTypeInfoDraft = {
     storeId: string
     groupId: string
     roomCount: string
-    roomNo: string
-    description: string
+    roomNos: string[]
+    weekdayPrice: string
+    weekendPrice: string
+    holidayPrice: string
+    locationMode: 'same-store' | 'independent'
+    rentalType: string
+    propertyType: string
+    suiteArea: string
+    guestCount: string
+    bedroomCount: string
+    livingRoomCount: string
+    kitchenCount: string
+    bathroomCount: string
+    bathroomType: 'private' | 'shared'
+    displayName: string
+    earliestCheckIn: string
+    latestCheckOut: string
+    latestCheckIn: string
+    highlightDescription: string
+    nearbyDescription: string
+    articleDescription: string
+    photoCounts: Record<string, number>
   }
 }
 
@@ -216,6 +268,10 @@ const mockTags = [
   { id: 'tag-003', name: '麻将', roomTypeCount: 2, detail: '用于整租和聚会类场景。' },
 ]
 
+const mockTagGroups: RoomTypeTagRow[] = []
+
+const mockFloorGroups: RoomTypeFloorRow[] = []
+
 const mockFloors = [
   { id: 'floor-001', name: '顶层露台', roomCount: 1, detail: '包含顶层套房房间1。' },
   { id: 'floor-002', name: '行政区', roomCount: 2, detail: '包含总裁套间与观影大床房。' },
@@ -268,6 +324,84 @@ export async function loadRoomTypeInfoDashboard(
   return adaptMockDashboardEnvelope(envelope, requestBody, query, mockState)
 }
 
+export async function loadRoomTypeTagPage(signal?: AbortSignal): Promise<RoomTypeTagPageData> {
+  await waitForMockLatency(signal)
+  if (resolveMockState() === 'error') {
+    throw new Error('房型标签加载失败')
+  }
+
+  return {
+    provider: resolveProvider(),
+    endpoint: '/roomType/tag/get',
+    traceId: buildTraceId('tag-page'),
+    timestamp: mockTimestamp,
+    rows: mockTagGroups.map((item) => ({ ...item, roomTypeIds: [...item.roomTypeIds], roomTypeNames: [...item.roomTypeNames] })),
+    roomTypeOptions: mockRows.map((item) => ({ id: item.id, label: item.name })),
+  }
+}
+
+export async function loadRoomTypeFloorPage(signal?: AbortSignal): Promise<RoomTypeFloorPageData> {
+  await waitForMockLatency(signal)
+  if (resolveMockState() === 'error') {
+    throw new Error('楼层信息加载失败')
+  }
+
+  return {
+    provider: resolveProvider(),
+    endpoint: '/roomType/floor/get',
+    traceId: buildTraceId('floor-page'),
+    timestamp: mockTimestamp,
+    rows: mockFloorGroups.map((item) => ({ ...item, roomTypeIds: [...item.roomTypeIds], roomTypeNames: [...item.roomTypeNames] })),
+    roomTypeOptions: mockRows.map((item) => ({ id: item.id, label: item.name })),
+  }
+}
+
+export async function createRoomTypeTag(
+  input: { name: string; roomTypeId: string },
+  signal?: AbortSignal,
+): Promise<{ message: string; traceId: string }> {
+  await waitForMockLatency(signal)
+  const name = input.name.trim()
+  if (!name) throw new Error('请先填写分组名称')
+  if (!input.roomTypeId) throw new Error('请选择关联房型')
+
+  const roomType = findRowOrThrow(input.roomTypeId)
+  mockTagGroups.unshift({
+    id: `tag-group-${Date.now()}`,
+    name,
+    roomTypeIds: [roomType.id],
+    roomTypeNames: [roomType.name],
+  })
+
+  return {
+    message: '房型标签已创建',
+    traceId: buildTraceId('create-tag'),
+  }
+}
+
+export async function createRoomTypeFloor(
+  input: { name: string; roomTypeId: string },
+  signal?: AbortSignal,
+): Promise<{ message: string; traceId: string }> {
+  await waitForMockLatency(signal)
+  const name = input.name.trim()
+  if (!name) throw new Error('请先填写楼层名称')
+  if (!input.roomTypeId) throw new Error('请选择关联房间')
+
+  const roomType = findRowOrThrow(input.roomTypeId)
+  mockFloorGroups.unshift({
+    id: `floor-group-${Date.now()}`,
+    name,
+    roomTypeIds: [roomType.id],
+    roomTypeNames: [roomType.name],
+  })
+
+  return {
+    message: '楼层信息已创建',
+    traceId: buildTraceId('create-floor'),
+  }
+}
+
 export async function loadRoomTypeInfoDraft(
   mode: RoomTypeInfoEditMode,
   roomTypeId?: string,
@@ -281,7 +415,7 @@ export async function loadRoomTypeInfoDraft(
     traceId: buildTraceId(mode === 'create' ? 'draft-create' : 'draft-detail'),
     timestamp: mockTimestamp,
     mode,
-    title: mode === 'create' ? '新增房型' : '详细信息',
+    title: mode === 'create' ? '新增房型' : '房型详情',
     steps: roomTypeSteps,
     form: {
       roomTypeId: row?.id ?? '',
@@ -289,8 +423,37 @@ export async function loadRoomTypeInfoDraft(
       storeId: row?.storeId ?? defaultStoreId,
       groupId: row?.groupId ?? groupOptions[0].id,
       roomCount: String(row?.roomCount ?? 1),
-      roomNo: row?.roomNames.join('、') || '房间1',
-      description: row ? `${row.name}的房型详情草案。` : '',
+      roomNos: row?.roomNames.length ? [...row.roomNames] : ['房间1'],
+      weekdayPrice: row ? '388' : '',
+      weekendPrice: row ? '468' : '',
+      holidayPrice: row ? '588' : '',
+      locationMode: 'same-store',
+      rentalType: 'entire',
+      propertyType: 'apartment',
+      suiteArea: row ? '68' : '',
+      guestCount: row ? '2' : '',
+      bedroomCount: row ? '1' : '',
+      livingRoomCount: row ? '1' : '',
+      kitchenCount: row ? '1' : '',
+      bathroomCount: row ? '1' : '',
+      bathroomType: 'private',
+      displayName: row?.name ?? '',
+      earliestCheckIn: '12',
+      latestCheckOut: '14',
+      latestCheckIn: '24',
+      highlightDescription: row ? `${row.name}，适合观影、电竞与聚会场景。` : '',
+      nearbyDescription: row ? '近商圈、地铁站与夜间餐饮区域，步行可达。' : '',
+      articleDescription: row ? `${row.name} 图文介绍示例。` : '',
+      photoCounts: {
+        cover: 0,
+        livingRoom: 0,
+        kitchen: 0,
+        other: 0,
+        bathroom: 0,
+        building: 0,
+        entertainment: 0,
+        uncategorized: 0,
+      },
     },
   }
 }
@@ -405,7 +568,7 @@ export async function saveRoomTypeDraft(
 
 export function createQuickRoomNoSuggestion(roomCount: string) {
   const count = Math.max(1, Number.parseInt(roomCount, 10) || 1)
-  return Array.from({ length: count }, (_, index) => `房间${index + 1}`).join('、')
+  return Array.from({ length: count }, (_, index) => `房间${index + 1}`)
 }
 
 export function getRoomTypeInfoProviderName() {

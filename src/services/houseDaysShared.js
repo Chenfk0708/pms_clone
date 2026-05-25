@@ -1,0 +1,99 @@
+import { fetchHouseMonthsSnapshot, } from './houseMonths';
+const WINDOW_START_OFFSET_DAYS = -3;
+const MONTH_WINDOW_DAYS = 33;
+const DEFAULT_SELECTED_DATE_INDEX = 3;
+const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
+export function createHouseMonthDateColumns(today = new Date()) {
+    const localMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const startDate = new Date(localMidnight.getFullYear(), localMidnight.getMonth(), localMidnight.getDate() + WINDOW_START_OFFSET_DAYS);
+    return Array.from({ length: MONTH_WINDOW_DAYS }, (_, index) => {
+        const date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + index);
+        return {
+            fullDate: `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`,
+            isoDate: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+            date: `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`,
+            weekday: WEEKDAYS[date.getDay()] ?? '',
+            remain: '余4间',
+            hot: date.getDay() === 5 || date.getDay() === 6,
+        };
+    });
+}
+export async function fetchDayOrderCardsFromMonthSource(queryCode) {
+    const columns = createHouseMonthDateColumns();
+    const snapshot = await fetchHouseMonthsSnapshot({
+        campId: 'camp-001',
+        startDate: columns[0].isoDate,
+        days: MONTH_WINDOW_DAYS,
+        queryCode,
+    }, columns);
+    return adaptDayOrderCards(snapshot.rows, columns[DEFAULT_SELECTED_DATE_INDEX].isoDate, queryCode);
+}
+export function adaptDayOrderCards(rows, todayIsoDate, queryCode) {
+    const normalizedQuery = queryCode.trim();
+    const todayIndex = createHouseMonthDateColumns()
+        .findIndex((column) => column.isoDate === todayIsoDate);
+    const effectiveTodayIndex = todayIndex >= 0 ? todayIndex : DEFAULT_SELECTED_DATE_INDEX;
+    return rows
+        .map((row) => {
+        const roomCell = row.roomCells[effectiveTodayIndex];
+        const booking = roomCell && roomCell.tone.startsWith('booking')
+            ? {
+                cell: roomCell,
+                roomType: row.label,
+                roomLabel: row.roomLabel,
+            }
+            : undefined;
+        const status = resolveDayRoomStatus(roomCell);
+        const filterLabels = buildFilterLabels(roomCell, booking);
+        const card = {
+            id: row.id,
+            roomType: row.label,
+            roomName: row.roomLabel,
+            roomCategoryId: row.roomCategoryId,
+            status,
+            hasTag: Boolean(roomCell?.badge),
+            filterLabels,
+            booking,
+        };
+        return card;
+    })
+        .filter((card) => matchesDayQuery(card, normalizedQuery));
+}
+function matchesDayQuery(card, queryCode) {
+    if (!queryCode)
+        return true;
+    return [card.roomType, card.roomName, card.booking?.cell.title, card.booking?.cell.subtitle, card.booking?.cell.remark]
+        .filter(Boolean)
+        .some((value) => value?.includes(queryCode));
+}
+function resolveDayRoomStatus(cell) {
+    if (!cell)
+        return 'cleanVacant';
+    if (cell.tone === 'disabled')
+        return 'closed';
+    if (!cell.tone.startsWith('booking'))
+        return 'cleanVacant';
+    if (cell.liveStatus?.includes('入住中'))
+        return 'occupiedClean';
+    return 'occupiedDirty';
+}
+function buildFilterLabels(cell, booking) {
+    if (!booking)
+        return ['空净'];
+    const labels = new Set();
+    const liveStatus = booking.cell.liveStatus ?? '';
+    if (liveStatus.includes('待入住'))
+        labels.add('预抵');
+    if (liveStatus.includes('入住中'))
+        labels.add('在住');
+    if (booking.cell.remark)
+        labels.add('备注');
+    if (booking.cell.tone === 'booking-blue')
+        labels.add('住净');
+    if (booking.cell.tone === 'booking-gold' || booking.cell.tone === 'booking-teal')
+        labels.add('住脏');
+    const stayRange = cell?.stayRange ?? '';
+    if (stayRange.includes('-'))
+        labels.add('预离');
+    return Array.from(labels);
+}

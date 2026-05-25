@@ -6,11 +6,16 @@ import {
   type ExpendSettingDashboard,
   type ExpendSettingGroup,
   type ExpendSettingItem,
+  type ExpendSettingItemStatus,
   type ExpendSettingTab,
 } from '../services/expendSetting'
 import './ExpendSettingPage.css'
 
 const pageHint = '系统默认项目不支持编辑和删除，可直接拖动调整排序。'
+const statusOptions: Array<{ id: ExpendSettingItemStatus; name: string }> = [
+  { id: 'enabled', name: '启用' },
+  { id: 'disabled', name: '停用' },
+]
 
 export function ExpendSettingPage() {
   const defaultQuery = useMemo(() => getDefaultExpendSettingQuery(), [])
@@ -21,14 +26,16 @@ export function ExpendSettingPage() {
   const [feedback, setFeedback] = useState('正在加载收入/支出设置')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [groupMenuOpen, setGroupMenuOpen] = useState(false)
-  const [selectedGroupName, setSelectedGroupName] = useState('住宿')
+  const [statusMenuOpen, setStatusMenuOpen] = useState(false)
+  const [selectedGroupName, setSelectedGroupName] = useState('')
+  const [selectedStatus, setSelectedStatus] = useState<ExpendSettingItemStatus>('enabled')
   const [nameDraft, setNameDraft] = useState('')
   const [dialogError, setDialogError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [draggingItem, setDraggingItem] = useState<{ groupName: string; itemId: string } | null>(null)
 
   useEffect(() => {
     void loadDashboard(activeTab)
-    // The service reads mockState from the current URL; activeTab is the only local dependency.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab])
 
@@ -45,11 +52,16 @@ export function ExpendSettingPage() {
   const currentListLabel = activeTab === 'income' ? '收入项目列表' : '支出项目列表'
   const currentEmptyLabel = activeTab === 'income' ? '收入项目空态' : '支出项目空态'
   const currentEmptyMessage = activeTab === 'income' ? '当前门店暂未配置收入项目' : '当前门店暂未配置支出项目'
+  const currentSyncTitle = activeTab === 'income' ? '已同步收入项目配置' : '已同步支出项目配置'
+  const businessTypeOptions = dashboard?.businessTypeOptions ?? []
+  const disabledItems = dashboard?.disabledGroups.flatMap((group) => group.items) ?? []
+  const selectedStatusOption = statusOptions.find((option) => option.id === selectedStatus) ?? statusOptions[0]
 
   async function loadDashboard(nextTab: ExpendSettingTab) {
     setIsLoading(true)
     setError('')
     setDialogError('')
+    setGroupMenuOpen(false)
     setFeedback(nextTab === 'income' ? '正在加载收入项目' : '正在加载支出项目')
 
     try {
@@ -58,34 +70,52 @@ export function ExpendSettingPage() {
         tab: nextTab,
       })
       setDashboard(nextDashboard)
-      setSelectedGroupName(nextDashboard.businessTypeOptions[0]?.name ?? '住宿')
       setFeedback(nextTab === 'income' ? '已同步收入项目配置' : '已同步支出项目配置')
     } catch (loadError) {
       setDashboard(null)
-      setError(loadError instanceof Error ? loadError.message : '收入/支出设置数据加载失败，请稍后重试')
-      setFeedback('收入/支出设置数据加载失败，请稍后重试')
+      const nextError = loadError instanceof Error ? loadError.message : '收入/支出设置数据加载失败，请稍后重试'
+      setError(nextError)
+      setFeedback(nextError)
     } finally {
       setIsLoading(false)
     }
   }
 
-  function openDialog() {
+  function openDialog(groupName = '') {
     setDialogOpen(true)
     setGroupMenuOpen(false)
+    setStatusMenuOpen(false)
+    setSelectedGroupName(groupName)
+    setSelectedStatus('enabled')
     setNameDraft('')
     setDialogError('')
-    setSelectedGroupName(dashboard?.businessTypeOptions[0]?.name ?? '住宿')
   }
 
   function closeDialog() {
     setDialogOpen(false)
     setGroupMenuOpen(false)
-    setDialogError('')
+    setStatusMenuOpen(false)
+    setSelectedGroupName('')
+    setSelectedStatus('enabled')
     setNameDraft('')
+    setDialogError('')
+    setIsSubmitting(false)
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const trimmedName = nameDraft.trim()
+
+    if (!selectedGroupName) {
+      setDialogError('请选择业态')
+      return
+    }
+
+    if (!trimmedName) {
+      setDialogError('请输入项目名称')
+      return
+    }
+
     setDialogError('')
     setIsSubmitting(true)
 
@@ -94,14 +124,22 @@ export function ExpendSettingPage() {
         campId: serviceRequest.campId,
         tab: activeTab,
         groupName: selectedGroupName,
-        name: nameDraft,
+        name: trimmedName,
+        status: selectedStatus,
       })
 
       setDashboard((current) => {
         if (!current) return current
         return {
           ...current,
-          groups: appendItemToGroups(current.groups, selectedGroupName, result.item),
+          groups:
+            selectedStatus === 'enabled'
+              ? appendItemToGroups(current.groups, selectedGroupName, result.item)
+              : current.groups,
+          disabledGroups:
+            selectedStatus === 'disabled'
+              ? appendItemToGroups(current.disabledGroups, selectedGroupName, result.item)
+              : current.disabledGroups,
         }
       })
       setFeedback(result.message)
@@ -110,9 +148,41 @@ export function ExpendSettingPage() {
       const nextError = submitError instanceof Error ? submitError.message : '新增项目失败，请稍后重试'
       setDialogError(nextError)
       setFeedback(nextError)
-    } finally {
       setIsSubmitting(false)
     }
+  }
+
+  function handleSortDrop(groupName: string, targetItemId: string) {
+    if (!draggingItem || draggingItem.groupName !== groupName || draggingItem.itemId === targetItemId) {
+      setDraggingItem(null)
+      return
+    }
+
+    setDashboard((current) => {
+      if (!current) return current
+      return {
+        ...current,
+        groups: current.groups.map((group) => {
+          if (group.name !== groupName) return group
+
+          const items = [...group.items]
+          const fromIndex = items.findIndex((item) => item.id === draggingItem.itemId)
+          const toIndex = items.findIndex((item) => item.id === targetItemId)
+          if (fromIndex < 0 || toIndex < 0 || fromIndex === toIndex) return group
+
+          const [movedItem] = items.splice(fromIndex, 1)
+          items.splice(toIndex, 0, movedItem)
+
+          return {
+            ...group,
+            items,
+          }
+        }),
+      }
+    })
+
+    setFeedback(activeTab === 'income' ? '收入项目排序已更新' : '支出项目排序已更新')
+    setDraggingItem(null)
   }
 
   return (
@@ -129,10 +199,21 @@ export function ExpendSettingPage() {
       </pre>
 
       <section className="expend-setting-card" aria-label="收入支出设置">
+        <div className="expend-setting-feedback" role="status" aria-label="收入支出设置操作反馈">
+          {feedback}
+        </div>
+
         <header className="expend-setting-toolbar">
           <p>{pageHint}</p>
-          <button type="button" className="expend-setting-primary" onClick={openDialog} disabled={isLoading || isSubmitting}>
-            新 增
+          <button
+            type="button"
+            className="expend-setting-primary"
+            aria-label="新增"
+            data-testid="expend-setting-top-add"
+            onClick={() => openDialog()}
+            disabled={isLoading || isSubmitting}
+          >
+            新增
           </button>
         </header>
 
@@ -157,12 +238,8 @@ export function ExpendSettingPage() {
           </button>
         </div>
 
-        <div role="status" aria-label="收入支出设置操作反馈" className="expend-setting-toolbar">
-          <p>{feedback}</p>
-        </div>
-
         {error ? (
-          <section role="alert" aria-label="收入支出设置加载失败" className="expend-setting-empty-box">
+          <section role="alert" aria-label="收入支出设置加载失败" className="expend-setting-alert">
             <p>{error}</p>
             <button type="button" onClick={() => void loadDashboard(activeTab)}>
               重新加载
@@ -177,7 +254,9 @@ export function ExpendSettingPage() {
         ) : null}
 
         {!isLoading && !error && dashboard ? (
-          <>
+          <section className="expend-setting-content">
+            <p className="expend-setting-section-title">{currentSyncTitle}</p>
+
             {dashboard.groups.length === 0 ? (
               <section role="status" aria-label={currentEmptyLabel} className="expend-setting-empty-box">
                 <p>{currentEmptyMessage}</p>
@@ -185,17 +264,33 @@ export function ExpendSettingPage() {
             ) : (
               <section className="expend-setting-groups" aria-label={currentListLabel}>
                 {dashboard.groups.map((group) => (
-                  <section key={`${activeTab}-${group.id}`} className="expend-setting-group">
+                  <section
+                    key={`${activeTab}-${group.id}`}
+                    className="expend-setting-group"
+                    data-testid="expend-setting-group"
+                    data-group-name={group.name}
+                  >
                     <h2>{group.name}</h2>
                     {group.items.length > 0 ? (
                       <div className="expend-setting-item-grid">
                         {group.items.map((item) => (
-                          <ExpendItemCard key={item.id} item={item} />
+                          <ExpendItemCard
+                            key={item.id}
+                            item={item}
+                            groupName={group.name}
+                            isDragging={draggingItem?.itemId === item.id}
+                            onDragStart={() => setDraggingItem({ groupName: group.name, itemId: item.id })}
+                            onDragEnd={() => setDraggingItem(null)}
+                            onDrop={() => handleSortDrop(group.name, item.id)}
+                          />
                         ))}
                       </div>
                     ) : (
                       <div className="expend-setting-empty-box">
-                        <p>暂无项目，点击新增</p>
+                        <p>暂无项目，</p>
+                        <button type="button" onClick={() => openDialog(group.name)}>
+                          点击新增
+                        </button>
                       </div>
                     )}
                   </section>
@@ -205,13 +300,30 @@ export function ExpendSettingPage() {
 
                 <section className="expend-setting-disabled">
                   <h2>已停用项</h2>
-                  <div className="expend-setting-empty-box">
-                    <p>暂无停用项目</p>
-                  </div>
+                  {disabledItems.length > 0 ? (
+                    <div className="expend-setting-item-grid" aria-label="已停用项目列表">
+                      {disabledItems.map((item) => (
+                        <ExpendItemCard
+                          key={item.id}
+                          item={item}
+                          groupName={item.groupName}
+                          isDragging={false}
+                          onDragStart={() => undefined}
+                          onDragEnd={() => undefined}
+                          onDrop={() => undefined}
+                          isStatic
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="expend-setting-empty-box">
+                      <p>暂无停用项目</p>
+                    </div>
+                  )}
                 </section>
               </section>
             )}
-          </>
+          </section>
         ) : null}
       </section>
 
@@ -227,52 +339,112 @@ export function ExpendSettingPage() {
 
             <form onSubmit={handleSubmit}>
               <div className="expend-setting-form-row">
-                <span>选择业态</span>
-                <div className="expend-setting-select">
-                  <button type="button" onClick={() => setGroupMenuOpen((current) => !current)} disabled={isSubmitting}>
-                    选择业态
+                <span>选择业态:</span>
+                <div className="expend-setting-select-shell">
+                  <button
+                    type="button"
+                    className={`expend-setting-select${groupMenuOpen ? ' is-open' : ''}`}
+                    data-testid="expend-setting-group-select"
+                    aria-haspopup="listbox"
+                    aria-expanded={groupMenuOpen}
+                    onClick={() => {
+                      setGroupMenuOpen((current) => !current)
+                      setStatusMenuOpen(false)
+                    }}
+                    disabled={isSubmitting}
+                  >
+                    <span className={selectedGroupName ? '' : 'is-placeholder'}>{selectedGroupName || ''}</span>
+                    <span className="expend-setting-select-arrow" aria-hidden="true" />
                   </button>
-                  <i>{selectedGroupName}</i>
+                  {groupMenuOpen ? (
+                    <ul className="expend-setting-option-list" role="listbox" aria-label="业态选项">
+                      {businessTypeOptions.map((option) => (
+                        <li key={option.id}>
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={option.name === selectedGroupName}
+                            className={option.name === selectedGroupName ? 'is-active' : ''}
+                            onClick={() => {
+                              setSelectedGroupName(option.name)
+                              setGroupMenuOpen(false)
+                              setDialogError('')
+                            }}
+                          >
+                            {option.name}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </div>
-                {groupMenuOpen ? (
-                  <ul role="listbox" aria-label="业态选项">
-                    {(dashboard?.businessTypeOptions ?? []).map((option) => (
-                      <li
-                        key={option.id}
-                        role="option"
-                        aria-selected={option.name === selectedGroupName}
-                        onClick={() => {
-                          setSelectedGroupName(option.name)
-                          setGroupMenuOpen(false)
-                        }}
-                      >
-                        {option.name}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
               </div>
 
               <label className="expend-setting-form-row">
                 <span>
                   <em>*</em>
-                  名称
+                  名称:
                 </span>
-                <input aria-label="名称" value={nameDraft} onChange={(event) => setNameDraft(event.target.value)} disabled={isSubmitting} />
+                <input
+                  aria-label="名称"
+                  value={nameDraft}
+                  onChange={(event) => {
+                    setNameDraft(event.target.value)
+                    setDialogError('')
+                  }}
+                  disabled={isSubmitting}
+                />
               </label>
 
-              {dialogError ? (
-                <div role="alert" className="expend-setting-empty-box">
-                  <p>{dialogError}</p>
+              <div className="expend-setting-form-row">
+                <span>选择状态:</span>
+                <div className="expend-setting-select-shell">
+                  <button
+                    type="button"
+                    className={`expend-setting-select${statusMenuOpen ? ' is-open' : ''}`}
+                    data-testid="expend-setting-status-select"
+                    aria-haspopup="listbox"
+                    aria-expanded={statusMenuOpen}
+                    onClick={() => {
+                      setStatusMenuOpen((current) => !current)
+                      setGroupMenuOpen(false)
+                    }}
+                    disabled={isSubmitting}
+                  >
+                    <span>{selectedStatusOption.name}</span>
+                    <span className="expend-setting-select-arrow" aria-hidden="true" />
+                  </button>
+                  {statusMenuOpen ? (
+                    <ul className="expend-setting-option-list" role="listbox" aria-label="状态选项">
+                      {statusOptions.map((option) => (
+                        <li key={option.id}>
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={option.id === selectedStatus}
+                            className={option.id === selectedStatus ? 'is-active' : ''}
+                            onClick={() => {
+                              setSelectedStatus(option.id)
+                              setStatusMenuOpen(false)
+                            }}
+                          >
+                            {option.name}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
+
+              {dialogError ? <p className="expend-setting-form-error">{dialogError}</p> : null}
 
               <footer>
                 <button type="button" onClick={closeDialog} disabled={isSubmitting}>
-                  取 消
+                  取消
                 </button>
                 <button type="submit" className="expend-setting-primary" disabled={isSubmitting}>
-                  完 成
+                  完成
                 </button>
               </footer>
             </form>
@@ -283,10 +455,40 @@ export function ExpendSettingPage() {
   )
 }
 
-function ExpendItemCard({ item }: { item: ExpendSettingItem }) {
+function ExpendItemCard({
+  item,
+  groupName,
+  isDragging,
+  onDragStart,
+  onDragEnd,
+  onDrop,
+  isStatic = false,
+}: {
+  item: ExpendSettingItem
+  groupName: string
+  isDragging: boolean
+  onDragStart: () => void
+  onDragEnd: () => void
+  onDrop: () => void
+  isStatic?: boolean
+}) {
   return (
-    <div className="expend-setting-item">
-      <span className="expend-setting-drag">⋮⋮</span>
+    <div
+      className={`expend-setting-item${isDragging ? ' is-dragging' : ''}${isStatic ? ' is-static' : ''}`}
+      data-testid="expend-setting-item"
+      data-group-name={groupName}
+      data-item-id={item.id}
+      draggable={!isStatic}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={(event) => {
+        if (!isStatic) event.preventDefault()
+      }}
+      onDrop={onDrop}
+    >
+      <span className="expend-setting-drag" aria-hidden="true">
+        ⋮⋮
+      </span>
       <span className="expend-setting-item-name">{item.name}</span>
       <span className="expend-setting-lock" aria-hidden="true" />
       {item.isDefault ? <span className="expend-setting-default-badge">默认</span> : null}

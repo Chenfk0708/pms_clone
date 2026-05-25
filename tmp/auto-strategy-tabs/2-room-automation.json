@@ -1,0 +1,146 @@
+{
+  "tabs": [
+    {
+      "text": "接单规则",
+      "className": "bottom___1gSfa"
+    },
+    {
+      "text": "房态自动化",
+      "className": "bottom___1gSfa Bottonselected___3jzFF"
+    },
+    {
+      "text": "库存占用规则",
+      "className": "bottom___1gSfa"
+    }
+  ],
+  "text": "接单规则 房态自动化 库存占用规则 自动排房设置 排房策略 不自动排房 随机均匀排房 按房间顺序排房设置房间优先级 高级功能 当日订单优先排空净 智能排房 自动办理入住 开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。 自动办理入住 自动办理退房 开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。 自动办理退房 房间转脏策略 选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。 手动设置自行切换脏净，系统不自动更改 全部房间定时转脏系统将在每日6：00后将全部房间自动转脏 在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏 退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏 订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏 房间转净策略 保洁任务完成后房间自动转净",
+  "smartItems": [
+    {
+      "title": "自动排房设置",
+      "tips": "",
+      "radios": [
+        "不自动排房",
+        "随机均匀排房",
+        "按房间顺序排房设置房间优先级",
+        "当日订单优先排空净",
+        "智能排房"
+      ],
+      "switches": [],
+      "plainTexts": [
+        "自动排房设置",
+        "自动排房设置",
+        "排房策略不自动排房随机均匀排房按房间顺序排房设置房间优先级高级功能当日订单优先排空净智能排房",
+        "排房策略不自动排房随机均匀排房按房间顺序排房设置房间优先级高级功能当日订单优先排空净智能排房",
+        "排房策略不自动排房随机均匀排房按房间顺序排房设置房间优先级",
+        "排房策略",
+        "不自动排房随机均匀排房按房间顺序排房设置房间优先级",
+        "不自动排房随机均匀排房按房间顺序排房设置房间优先级",
+        "不自动排房随机均匀排房按房间顺序排房设置房间优先级",
+        "不自动排房",
+        "不自动排房",
+        "随机均匀排房",
+        "随机均匀排房",
+        "按房间顺序排房设置房间优先级",
+        "按房间顺序排房设置房间优先级",
+        "设置房间优先级",
+        "高级功能当日订单优先排空净智能排房",
+        "高级功能",
+        "当日订单优先排空净智能排房",
+        "当日订单优先排空净"
+      ]
+    },
+    {
+      "title": "自动办理入住",
+      "tips": "开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。",
+      "radios": [],
+      "switches": [
+        {
+          "ariaChecked": "true",
+          "className": "ant-switch ant-switch-checked"
+        }
+      ],
+      "plainTexts": [
+        "自动办理入住",
+        "自动办理入住",
+        "开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。自动办理入住",
+        "开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。",
+        "开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。",
+        "自动办理入住",
+        "自动办理入住"
+      ]
+    },
+    {
+      "title": "自动办理退房",
+      "tips": "开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。",
+      "radios": [],
+      "switches": [
+        {
+          "ariaChecked": "true",
+          "className": "ant-switch ant-switch-checked"
+        }
+      ],
+      "plainTexts": [
+        "自动办理退房",
+        "自动办理退房",
+        "开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。自动办理退房",
+        "开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。",
+        "开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。",
+        "自动办理退房",
+        "自动办理退房"
+      ]
+    },
+    {
+      "title": "房间转脏策略",
+      "tips": "选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。",
+      "radios": [
+        "手动设置自行切换脏净，系统不自动更改",
+        "全部房间定时转脏系统将在每日6：00后将全部房间自动转脏",
+        "在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏",
+        "退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏",
+        "订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏"
+      ],
+      "switches": [],
+      "plainTexts": [
+        "房间转脏策略",
+        "房间转脏策略",
+        "选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。",
+        "手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "手动设置自行切换脏净，系统不自动更改全部房间定时转脏系统将在每日6：00后将全部房间自动转脏在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏订单办理退房后变脏当订单办理退房后，系统立即将房间自动转脏",
+        "手动设置自行切换脏净，系统不自动更改",
+        "手动设置自行切换脏净，系统不自动更改",
+        "自行切换脏净，系统不自动更改",
+        "全部房间定时转脏系统将在每日6：00后将全部房间自动转脏",
+        "全部房间定时转脏系统将在每日6：00后将全部房间自动转脏",
+        "系统将在每日6：00后将全部房间自动转脏",
+        "在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏",
+        "在住订单定时转脏（酒店适用）房间有入住中的订单，系统将在每日6:00后自动转脏",
+        "房间有入住中的订单，系统将在每日6:00后自动转脏",
+        "退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏",
+        "退房日订单定时转脏（民宿适用)房间有退房日期为当天的订单，系统将在每日6:00后自动转脏"
+      ]
+    },
+    {
+      "title": "房间转净策略",
+      "tips": "",
+      "radios": [],
+      "switches": [
+        {
+          "ariaChecked": "true",
+          "className": "ant-switch ant-switch-checked"
+        }
+      ],
+      "plainTexts": [
+        "房间转净策略",
+        "房间转净策略",
+        "保洁任务完成后房间自动转净",
+        "保洁任务完成后房间自动转净",
+        "保洁任务完成后房间自动转净"
+      ]
+    }
+  ],
+  "html": "<div style=\"height: 0px; width: 100%; padding-top: 8px;\"></div><div class=\"otherSetiing___2QG9j\"><div class=\"tabsButton___MqUTI\" style=\"margin-bottom: 16px;\"><div class=\"bottom___1gSfa\"><span>接单规则</span></div><div class=\"bottom___1gSfa Bottonselected___3jzFF\"><span>房态自动化</span></div><div class=\"bottom___1gSfa\"><span>库存占用规则</span></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">自动排房设置</div></div><div class=\"content___3m3_7\"><div><div style=\"display: flex;\"><div style=\"font-size: 16px; margin-right: 8px;\">排房策略</div><div class=\"radioStyle___2aqQe\"><div class=\"ant-radio-group ant-radio-group-outline\"><div class=\"ant-space ant-space-vertical\" style=\"gap: 8px;\"><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"1\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>不自动排房<span></span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"4\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>随机均匀排房<span></span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper ant-radio-wrapper-checked\"><span class=\"ant-radio ant-radio-checked\"><input type=\"radio\" class=\"ant-radio-input\" value=\"2\" checked=\"\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>按房间顺序排房<span>设置房间优先级</span></span></label></div></div></div></div></div><div style=\"display: flex; margin-top: 30px; align-items: baseline;\"><div style=\"font-size: 16px; margin-right: 8px;\">高级功能</div><div><div style=\"margin-bottom: 8px;\"><label class=\"ant-checkbox-wrapper\"><span class=\"ant-checkbox\"><input type=\"checkbox\" class=\"ant-checkbox-input\" value=\"\" style=\"\"><span class=\"ant-checkbox-inner\"></span></span><span><span>当日订单优先排空净</span></span></label></div><div style=\"margin-bottom: 8px;\"><label class=\"ant-checkbox-wrapper\"><span class=\"ant-checkbox\"><input type=\"checkbox\" class=\"ant-checkbox-input\" value=\"\" style=\"\"><span class=\"ant-checkbox-inner\"></span></span><span><span>智能排房<span role=\"img\" aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" style=\"margin: 0px 0px 0px 4px; color: rgb(77, 101, 246);\"><svg viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"info-circle\" width=\"1em\" height=\"1em\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path><path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path></svg></span></span></span></label></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">自动办理入住</div></div><div class=\"content___3m3_7\"><div class=\"tips___2st8K\"><div>开启后，订单在入住当天到达指定时间将自助办理入住，变成【入住中】。您仍可以在触发自动操作前，手动办理入住。</div></div><div class=\"switch___3WLW_\"><span>自动办理入住</span><button type=\"button\" role=\"switch\" aria-checked=\"true\" class=\"ant-switch ant-switch-checked\"><div class=\"ant-switch-handle\"></div><span class=\"ant-switch-inner\"></span></button><div style=\"margin-left: 8px;\"><div class=\"ant-picker\"><div class=\"ant-picker-input\"><input readonly=\"\" placeholder=\"请选择时间\" title=\"15:00:00\" size=\"10\" autocomplete=\"off\" value=\"15:00:00\" style=\"\"><span class=\"ant-picker-suffix\"><span role=\"img\" aria-label=\"clock-circle\" class=\"anticon anticon-clock-circle\"><svg viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"clock-circle\" width=\"1em\" height=\"1em\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path><path d=\"M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z\"></path></svg></span></span><span class=\"ant-picker-clear\" role=\"button\"><span role=\"img\" aria-label=\"close-circle\" class=\"anticon anticon-close-circle\"><svg viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"close-circle\" width=\"1em\" height=\"1em\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z\"></path></svg></span></span></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">自动办理退房</div></div><div class=\"content___3m3_7\"><div class=\"tips___2st8K\"><div>开启后，订单在离店当天到达指定时间将自助办理退房，变成【已退房】。您仍可以在触发自动操作前，手动办理退房。</div></div><div class=\"switch___3WLW_\"><span>自动办理退房</span><button type=\"button\" role=\"switch\" aria-checked=\"true\" class=\"ant-switch ant-switch-checked\"><div class=\"ant-switch-handle\"></div><span class=\"ant-switch-inner\"></span></button><div style=\"margin-left: 8px;\"><div class=\"ant-picker\"><div class=\"ant-picker-input\"><input readonly=\"\" placeholder=\"请选择时间\" title=\"12:00:00\" size=\"10\" autocomplete=\"off\" value=\"12:00:00\" style=\"\"><span class=\"ant-picker-suffix\"><span role=\"img\" aria-label=\"clock-circle\" class=\"anticon anticon-clock-circle\"><svg viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"clock-circle\" width=\"1em\" height=\"1em\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path><path d=\"M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z\"></path></svg></span></span><span class=\"ant-picker-clear\" role=\"button\"><span role=\"img\" aria-label=\"close-circle\" class=\"anticon anticon-close-circle\"><svg viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"close-circle\" width=\"1em\" height=\"1em\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z\"></path></svg></span></span></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">房间转脏策略</div></div><div class=\"content___3m3_7\"><div class=\"tips___2st8K\">选择您需要的策略，开启后下个凌晨6:00，系统会自动帮您的房间标记为【脏房】，便于管理脏净。</div><div><div><div></div><div class=\"radioStyle___2aqQe\"><div class=\"ant-radio-group ant-radio-group-outline\"><div class=\"ant-space ant-space-vertical\" style=\"gap: 8px;\"><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper ant-radio-wrapper-checked\"><span class=\"ant-radio ant-radio-checked\"><input type=\"radio\" class=\"ant-radio-input\" value=\"1\" checked=\"\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>手动设置<span>自行切换脏净，系统不自动更改</span></span></label></div><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"2\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>全部房间定时转脏<span>系统将在每日6：00后将全部房间自动转脏</span></span></label></div><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"3\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>在住订单定时转脏（酒店适用）<span>房间有入住中的订单，系统将在每日6:00后自动转脏</span></span></label></div><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"4\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>退房日订单定时转脏（民宿适用)<span>房间有退房日期为当天的订单，系统将在每日6:00后自动转脏</span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"5\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>订单办理退房后变脏<span>当订单办理退房后，系统立即将房间自动转脏</span></span></label></div></div></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">房间转净策略</div></div><div class=\"content___3m3_7\"><div class=\"switch___3WLW_\"><span>保洁任务完成后房间自动转净</span><button type=\"button\" role=\"switch\" aria-checked=\"true\" class=\"ant-switch ant-switch-checked\"><div class=\"ant-switch-handle\"></div><span class=\"ant-switch-inner\"></span></button></div></div></div></div>"
+}

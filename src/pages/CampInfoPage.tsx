@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   createCampInfoImportTask,
   fetchCampInfoDetail,
@@ -14,12 +14,14 @@ import {
 import './CampInfoPage.css'
 
 type LoadIntent = 'initial' | 'query' | 'reset' | 'retry'
+type DetailTabKey = 'basic' | 'detail'
 
 const defaultQuery = { keyword: '', page: 1, pageSize: 20 }
 
 export function CampInfoPage() {
   const location = useLocation()
 
+  if (location.pathname.endsWith('/detail')) return <CampInfoDetailPage />
   if (location.pathname.endsWith('/edit')) return <CampInfoEditPage />
   if (location.pathname.endsWith('/sort')) return <CampInfoSortPage />
   return <CampInfoListPage />
@@ -33,15 +35,11 @@ function CampInfoListPage() {
   const [loadIntent, setLoadIntent] = useState<LoadIntent>('initial')
   const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  const [statusMessage, setStatusMessage] = useState('门店信息加载中')
+  const [, setStatusMessage] = useState('门店信息加载中')
   const [expandedStoreIds, setExpandedStoreIds] = useState<string[]>([])
   const [showImportDialog, setShowImportDialog] = useState(false)
   const [selectedImportOptionId, setSelectedImportOptionId] = useState('room-types')
   const [showNewStoreLimit, setShowNewStoreLimit] = useState(false)
-  const [detailStoreId, setDetailStoreId] = useState('')
-  const [detail, setDetail] = useState<CampInfoDetail | null>(null)
-  const [detailError, setDetailError] = useState('')
-  const [detailLoading, setDetailLoading] = useState(false)
   const [reloadSeed, setReloadSeed] = useState(0)
 
   useEffect(() => {
@@ -63,22 +61,6 @@ function CampInfoListPage() {
 
     return () => controller.abort()
   }, [appliedQuery, loadIntent, reloadSeed])
-
-  useEffect(() => {
-    if (!detailStoreId) return
-    const controller = new AbortController()
-    fetchCampInfoDetail(detailStoreId, controller.signal)
-      .then((nextDetail) => setDetail(nextDetail))
-      .catch((error: unknown) => {
-        if (controller.signal.aborted) return
-        setDetailError(error instanceof Error ? error.message : '门店详情加载失败')
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setDetailLoading(false)
-      })
-
-    return () => controller.abort()
-  }, [detailStoreId])
 
   const contractPayload = overview
     ? {
@@ -106,14 +88,6 @@ function CampInfoListPage() {
 
   return (
     <div className="camp-info-page">
-      <section className="camp-info-toolbar">
-        <div>
-          <h1>门店信息</h1>
-          <p>门店、房型、详情和排序统一由当前数据服务承接。</p>
-        </div>
-        <CampInfoStatus message={statusMessage} />
-      </section>
-
       {contractPayload ? (
         <pre data-testid="camp-info-contract" className="camp-info-contract" hidden>
           {JSON.stringify(contractPayload)}
@@ -254,12 +228,7 @@ function CampInfoListPage() {
                           <div role="cell" className="camp-info-actions">
                             <button
                               type="button"
-                              onClick={() => {
-                                setDetailLoading(true)
-                                setDetailError('')
-                                setDetail(null)
-                                setDetailStoreId(store.id)
-                              }}
+                              onClick={() => navigate(`/InformationMaintenance/campInfo/detail?storeId=${store.id}`)}
                             >
                               详情
                             </button>
@@ -388,60 +357,175 @@ function CampInfoListPage() {
           </section>
         </div>
       ) : null}
+    </div>
+  )
+}
 
-      {detailStoreId ? (
-        <div className="camp-info-modal-backdrop">
-          <section className="camp-info-detail-modal" role="dialog" aria-modal="true" aria-label="门店详情">
-            <header>
-              <div>
-                <strong>门店详情</strong>
-                <span>基础信息与房型展示统一由当前数据服务返回。</span>
-              </div>
-              <button
-                type="button"
-                aria-label="关闭门店详情"
-                onClick={() => {
-                  setDetailStoreId('')
-                  setDetail(null)
-                  setDetailError('')
-                }}
-              >
-                ×
-              </button>
-            </header>
-            {detailLoading ? <CampInfoLoadingState compact /> : null}
-            {detailError ? <CampInfoErrorState message={detailError} onRetry={() => setDetailStoreId(detailStoreId)} compact /> : null}
-            {detail ? (
-              <div className="camp-info-detail-grid">
-                <div>
-                  <span>门店名称</span>
-                  <strong>{detail.store.name}</strong>
-                </div>
-                <div>
-                  <span>门店类型</span>
-                  <strong>{detail.store.typeLabel}</strong>
-                </div>
-                <div>
-                  <span>联系电话</span>
-                  <strong>{detail.store.phone}</strong>
-                </div>
-                <div>
-                  <span>所在城市</span>
-                  <strong>{detail.cityPath}</strong>
-                </div>
-                <div className="is-wide">
-                  <span>详细地址</span>
-                  <strong>{detail.fullAddress}</strong>
-                </div>
-                <div className="is-wide">
-                  <span>门店图片</span>
-                  <strong>共 {detail.albumImageCount} 张，第一张作为封面展示。</strong>
-                </div>
-              </div>
-            ) : null}
-          </section>
+function CampInfoDetailPage() {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const storeId = searchParams.get('storeId') ?? 'store-qianhai-001'
+  const [detail, setDetail] = useState<CampInfoDetail | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [activeTab, setActiveTab] = useState<DetailTabKey>('basic')
+  const [reloadSeed, setReloadSeed] = useState(0)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setLoading(true)
+    setErrorMessage('')
+    setDetail(null)
+
+    fetchCampInfoDetail(storeId, controller.signal)
+      .then((nextDetail) => setDetail(nextDetail))
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) return
+        setErrorMessage(error instanceof Error ? error.message : '门店详情加载失败')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [reloadSeed, storeId])
+
+  const tags = detail?.store.tagLine.split('/').map((item) => item.trim()).filter(Boolean) ?? []
+
+  return (
+    <div className="camp-info-page camp-info-detail-page">
+      <div className="camp-info-detail-breadcrumb" aria-label="门店信息路径">
+        <button type="button" onClick={() => navigate('/InformationMaintenance/campInfo')}>
+          门店信息
+        </button>
+        <span>/</span>
+        <strong>详情</strong>
+      </div>
+
+      <section className="camp-info-detail-shell">
+        <div className="camp-info-detail-shell__header">
+          <div className="camp-info-detail-tabs" role="tablist" aria-label="门店详情页签">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'basic'}
+              className={activeTab === 'basic' ? 'is-active' : ''}
+              onClick={() => setActiveTab('basic')}
+            >
+              基础信息
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'detail'}
+              className={activeTab === 'detail' ? 'is-active' : ''}
+              onClick={() => setActiveTab('detail')}
+            >
+              详细信息
+            </button>
+          </div>
+          <button type="button" className="is-primary camp-info-detail-edit" onClick={() => navigate('/InformationMaintenance/campInfo/edit')}>
+            编辑
+          </button>
         </div>
-      ) : null}
+
+        {loading ? <CampInfoLoadingState /> : null}
+        {errorMessage ? (
+          <CampInfoErrorState
+            message={errorMessage}
+            onRetry={() => {
+              setReloadSeed((value) => value + 1)
+            }}
+          />
+        ) : null}
+
+        {!loading && detail ? (
+          <div className="camp-info-detail-content">
+            <div className="camp-info-detail-title">
+              <h1>{detail.store.name}</h1>
+              <p>门店资料与房型信息统一按当前服务返回结果展示，字段按目标页布局重新对齐。</p>
+            </div>
+
+            {activeTab === 'basic' ? (
+              <>
+                <section className="camp-info-detail-facts" aria-label="门店基础信息">
+                  <article className="camp-info-detail-field">
+                    <span>门店类型</span>
+                    <strong>{detail.store.typeLabel}</strong>
+                  </article>
+                  <article className="camp-info-detail-field">
+                    <span>联系电话</span>
+                    <strong>{detail.store.phone}</strong>
+                  </article>
+                  <article className="camp-info-detail-field">
+                    <span>所在城市</span>
+                    <strong>{detail.cityPath}</strong>
+                  </article>
+                  <article className="camp-info-detail-field">
+                    <span>门店标签</span>
+                    <div className="camp-info-detail-tags" aria-label="门店标签列表">
+                      {tags.map((item) => (
+                        <b key={item}>{item}</b>
+                      ))}
+                    </div>
+                  </article>
+                  <article className="camp-info-detail-field is-wide">
+                    <span>详细地址</span>
+                    <strong>{detail.fullAddress}</strong>
+                  </article>
+                  <article className="camp-info-detail-field is-wide">
+                    <span>门店图片</span>
+                    <div className="camp-info-detail-photo-grid" aria-label="门店图片">
+                      {Array.from({ length: detail.albumImageCount }, (_, index) => (
+                        <div key={index} className={`camp-info-photo camp-info-photo--${(index % 9) + 1}`} />
+                      ))}
+                    </div>
+                  </article>
+                </section>
+
+                <section className="camp-info-detail-map-card" aria-label="门店地图">
+                  <div className="camp-info-detail-map-card__header">
+                    <strong>地图位置</strong>
+                    <span>{detail.mapCopyright}</span>
+                  </div>
+                  <div className="camp-info-detail-map">
+                    <div className="camp-info-detail-map__marker" />
+                  </div>
+                </section>
+              </>
+            ) : (
+              <section className="camp-info-detail-panel" aria-label="门店详细信息">
+                <article className="camp-info-detail-note">
+                  <span>门店介绍</span>
+                  <p>{detail.store.name} 当前已同步 {detail.store.listedRoomTypeCount} 个上架房型，图片共 {detail.albumImageCount} 张，标签与城市信息可直接用于 OTA 渠道展示。</p>
+                </article>
+                <article className="camp-info-detail-note">
+                  <span>地址拆分</span>
+                  <p>
+                    街道地址：{detail.streetAddress}
+                    <br />
+                    小区名称：{detail.communityName}
+                    <br />
+                    单元门牌：{detail.unitNo}
+                  </p>
+                </article>
+                <section className="camp-info-detail-room-list" aria-label="房型概览">
+                  {detail.store.roomTypes.map((room) => (
+                    <article key={room.id} className="camp-info-detail-room-card">
+                      <div className={`camp-info-room-image camp-info-room-image--${room.imageKey}`} />
+                      <div>
+                        <strong>{room.name}</strong>
+                        <p>房间数量：{room.roomCount}</p>
+                        <p>{room.roomLabel}</p>
+                      </div>
+                    </article>
+                  ))}
+                </section>
+              </section>
+            )}
+          </div>
+        ) : null}
+      </section>
     </div>
   )
 }

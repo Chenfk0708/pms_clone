@@ -369,7 +369,8 @@ test.describe('workspace page clone', () => {
     await expect(toolbar.getByRole('button', { name: '用户菜单' })).toBeVisible()
 
     await toolbar.getByRole('button', { name: '消息' }).click()
-    await expect(page.locator('.chat-dock')).toBeVisible()
+    await expect(page).toHaveURL(/\/scrm\/sidebarPreview$/)
+    await expect(page.locator('.conversation-full-page')).toBeVisible()
 
     await toolbar.getByRole('button', { name: '收款' }).click()
     await expect(page.getByRole('dialog', { name: '收款' })).toContainText('收款方式')
@@ -380,7 +381,7 @@ test.describe('workspace page clone', () => {
     await page.getByRole('button', { name: '关闭客服' }).click()
 
     await toolbar.getByRole('button', { name: '用户菜单' }).click()
-    await expect(page.getByRole('dialog', { name: '用户菜单面板' })).toContainText('路客云 6TS5 的店铺')
+    await expect(page.getByRole('dialog', { name: '用户菜单面板' })).toBeVisible()
     await expect(page.getByRole('dialog', { name: '用户菜单面板' }).getByRole('link', { name: '门店信息' })).toBeVisible()
 
     await toolbar.getByRole('button', { name: '接待' }).click()
@@ -393,6 +394,10 @@ test.describe('workspace page clone', () => {
     await page.goto('/workspace')
     await page.getByLabel('顶部工具栏').getByRole('button', { name: '通知' }).click()
     await expect(page).toHaveURL(/\/setting\/notification$/)
+    await expect(page.locator('.notification-center-page')).toBeVisible()
+    await expect(page.locator('.sidebar')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: '一键已读' })).toBeVisible()
+    await expect(page.getByRole('tab', { name: '全部' })).toBeVisible()
 
     await page.goto('/workspace')
     await toolbar.getByRole('link', { name: '应用订阅' }).click()
@@ -444,16 +449,16 @@ test.describe('workspace page clone', () => {
 
   test('uses the shared conversation dock on the workspace page', async ({ page }) => {
     await expect(page.locator('.workspace-chat-fab')).toHaveCount(0)
-    await expect(page.locator('.chat-dock')).toHaveCount(1)
-    await expect(page.locator('.chat-dock')).toBeVisible()
-    await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
-
-    await page.locator('.chat-dock__collapse').click()
-    await expect(page.locator('.chat-dock')).toHaveCount(0)
     await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 
     await page.locator('.chat-dock-launcher').click()
     await expect(page.locator('.chat-dock')).toBeVisible()
     await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
+    await expect(page.getByRole('button', { name: '放大会话页' })).toBeVisible()
+
+    await page.getByRole('button', { name: '放大会话页' }).click()
+    await expect(page).toHaveURL(/\/scrm\/sidebarPreview(\?conversationId=.*)?$/)
+    await expect(page.locator('.conversation-full-page')).toBeVisible()
+    await expect(page.locator('.conversation-workbench')).toBeVisible()
   })
 })

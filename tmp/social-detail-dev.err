@@ -214,3 +214,22 @@
       at EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:51)
       at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
       at async viteTransformMiddleware (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24305:20)
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: UNKNOWN: unknown error, lstat 'C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-clone-default-20260519120505\Default\heavy_ad_intervention_opt_out.db-journal'
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:9667:146)
+    at NodeFsHandler._boundHandleError (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:8627:44)
+    at ReaddirpStream.emit (node:events:509:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -4094,
+  code: 'UNKNOWN',
+  syscall: 'lstat',
+  path: 'C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\.tmp\\capture-shezhi--xinxi-weihu--fangxing-xinxi-clone-default-20260519120505\\Default\\heavy_ad_intervention_opt_out.db-journal'
+}
+
+Node.js v24.15.0

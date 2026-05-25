@@ -12,6 +12,7 @@ export type ChannelPriceRow = {
   prices: string[]
   comparePrices: string[]
   product?: string
+  channelBadgeId?: string
 }
 
 export type ChannelPriceProviderName = 'mock' | 'real'
@@ -158,6 +159,7 @@ function adaptRow(value: unknown): ChannelPriceRow | null {
     prices,
     comparePrices,
     product: product ?? undefined,
+    channelBadgeId: inferChannelBadgeId(record, channel, product),
   }
 }
 
@@ -176,6 +178,50 @@ function readPriceCells(record: Record<string, unknown>) {
   }
 
   return []
+}
+
+function inferChannelBadgeId(record: Record<string, unknown>, channel?: string | null, product?: string | null) {
+  const explicit =
+    readString(record.channelBadgeId) ??
+    readString(record.badgeId) ??
+    readString(record.channelKey) ??
+    readString(record.channelCode) ??
+    readString(record.channelType) ??
+    readString(record.providerCode)
+
+  const explicitMatch = matchBadgeId(explicit)
+  if (explicitMatch) return explicitMatch
+
+  const combined = [
+    channel,
+    product,
+    readString(record.channelName),
+    readString(record.platformName),
+    readString(record.platform),
+    readString(record.providerName),
+    readString(record.otaName),
+    readString(record.title),
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  return matchBadgeId(combined)
+}
+
+function matchBadgeId(value?: string | null) {
+  if (!value) return undefined
+  const text = value.toLowerCase()
+
+  if (text.includes('tujia') || value.includes('途家')) return 'tujia'
+  if (text.includes('ctrip') || value.includes('携程')) return 'ctrip'
+  if (text.includes('feizhu') || text.includes('fliggy') || value.includes('飞猪')) return 'feizhu'
+  if (text.includes('meituan-hotel') || value.includes('美团酒店')) return 'meituanHotel'
+  if (text.includes('meituan-homestay') || value.includes('美团民宿') || value.includes('美团')) return 'meituanHomestay'
+  if (text.includes('muniao') || value.includes('木鸟')) return 'muniao'
+  if (text.includes('xiaozhu') || value.includes('小猪')) return 'xiaozhu'
+  if (text.includes('locals') || value.includes('路客云聚合')) return 'locals'
+
+  return undefined
 }
 
 function resolveChannelPriceProviderName(explicitProvider?: ChannelPriceProviderName): ChannelPriceProviderName {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   createDefaultPsbLogQuery,
   fetchPsbLogPageData,
@@ -21,12 +22,14 @@ const tableColumns = [
   '房间号',
   '订单来源',
   '订单号',
-  '旅客云订单号',
+  '路客云订单号',
   '上报时间',
   '上报类型',
   '上报状态',
   '备注',
 ]
+
+const calendarWeekdays = ['一', '二', '三', '四', '五', '六', '日']
 
 type OpenPanel = 'date' | 'bizType' | 'state' | null
 type PageViewState = 'loading' | 'success' | 'empty' | 'error'
@@ -35,9 +38,27 @@ type DraftFilters = Pick<
   'storeId' | 'keyword' | 'bizType' | 'state' | 'startDate' | 'endDate'
 >
 
+type CalendarMonth = {
+  year: number
+  month: number
+  days: Array<{
+    key: string
+    label: number
+    value: string
+    isCurrentMonth: boolean
+  }>
+}
+
 export function PsbLogPage() {
-  const runtime = useMemo(() => resolvePsbLogRuntimeConfig(window.location), [])
-  const defaults = useMemo(() => createDefaultPsbLogQuery(window.location), [])
+  const location = useLocation()
+  const runtime = useMemo(
+    () => resolvePsbLogRuntimeConfig(window.location),
+    [location.pathname, location.search, location.hash],
+  )
+  const defaults = useMemo(
+    () => createDefaultPsbLogQuery(window.location),
+    [location.pathname, location.search, location.hash],
+  )
   const [openPanel, setOpenPanel] = useState<OpenPanel>(null)
   const [draftFilters, setDraftFilters] = useState<DraftFilters>({
     storeId: '',
@@ -76,9 +97,7 @@ export function PsbLogPage() {
 
   useEffect(() => {
     function closePanelsOnEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setOpenPanel(null)
-      }
+      if (event.key === 'Escape') setOpenPanel(null)
     }
 
     window.addEventListener('keydown', closePanelsOnEscape)
@@ -112,7 +131,7 @@ export function PsbLogPage() {
 
   const stores = result?.view.stores ?? [
     { label: '全部门店', value: '' },
-    { label: '天鹅会宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
+    { label: '天蓉名宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
   ]
   const rows = result?.view.rows ?? []
   const provider = result?.diagnostics.provider ?? runtime.provider ?? 'mock'
@@ -159,14 +178,11 @@ export function PsbLogPage() {
     setRetryingLogId(selectedLog.id)
     setError('')
     try {
-      const nextLog = await retryPsbLogReport(
-        selectedLog,
-        {
-          campId: defaults.campId,
-          provider: query.provider,
-          mockState: runtime.mockState as PsbLogMockState | undefined,
-        },
-      )
+      const nextLog = await retryPsbLogReport(selectedLog, {
+        campId: defaults.campId,
+        provider: query.provider,
+        mockState: runtime.mockState as PsbLogMockState | undefined,
+      })
       setSelectedLog(nextLog)
       setResult((current) =>
         current
@@ -190,7 +206,6 @@ export function PsbLogPage() {
   return (
     <div className="psb-log-page" data-provider={provider} data-view-state={viewState}>
       <h1 className="psb-log-title">上报日志</h1>
-      <span className="psb-log-version">版本号：v4.10.7</span>
 
       <section className="psb-log-panel" aria-label="上报日志">
         <div className="psb-log-store-row" role="radiogroup" aria-label="门店范围">
@@ -209,23 +224,25 @@ export function PsbLogPage() {
               <span>{store.label}</span>
             </label>
           ))}
+
+          <button type="button" className="psb-log-store-settings" aria-label="门店设置">
+            <span>⚙</span>
+          </button>
         </div>
 
         <div className="psb-log-toolbar">
           <label className="psb-log-field psb-log-field--keyword">
-            <span>搜索</span>
+            <span>搜索：</span>
             <input
               aria-label="搜索"
               value={draftFilters.keyword}
-              onChange={(event) =>
-                setDraftFilters((current) => ({ ...current, keyword: event.target.value }))
-              }
+              onChange={(event) => setDraftFilters((current) => ({ ...current, keyword: event.target.value }))}
               placeholder="请输入订单号/手机号/房号"
             />
           </label>
 
           <div className="psb-log-field psb-log-field--date">
-            <span>上报时间</span>
+            <span>上报时间：</span>
             <button
               type="button"
               className={`psb-log-control-button${openPanel === 'date' ? ' is-open' : ''}`}
@@ -239,19 +256,13 @@ export function PsbLogPage() {
               <DatePanel
                 startDate={draftFilters.startDate}
                 endDate={draftFilters.endDate}
-                onChange={(field, value) =>
-                  setDraftFilters((current) => ({ ...current, [field]: value }))
-                }
-                onApply={() => setOpenPanel(null)}
-                onClear={() =>
-                  setDraftFilters((current) => ({ ...current, startDate: '', endDate: '' }))
-                }
+                onChange={(field, value) => setDraftFilters((current) => ({ ...current, [field]: value }))}
               />
             ) : null}
           </div>
 
           <SelectPanel
-            label="上报类型"
+            label="上报类型："
             selected={selectedBizType}
             options={psbLogBizTypeOptions}
             open={openPanel === 'bizType'}
@@ -263,7 +274,7 @@ export function PsbLogPage() {
           />
 
           <SelectPanel
-            label="上报状态"
+            label="上报状态："
             selected={selectedState}
             options={psbLogStateOptions}
             open={openPanel === 'state'}
@@ -275,21 +286,11 @@ export function PsbLogPage() {
           />
 
           <div className="psb-log-actions">
-            <button
-              type="button"
-              className="psb-log-button is-primary"
-              onClick={applyQuery}
-              disabled={viewState === 'loading'}
-            >
-              查询
+            <button type="button" className="psb-log-button is-primary" onClick={applyQuery} disabled={viewState === 'loading'}>
+              查 询
             </button>
-            <button
-              type="button"
-              className="psb-log-button is-ghost"
-              onClick={reset}
-              disabled={viewState === 'loading'}
-            >
-              重置
+            <button type="button" className="psb-log-button is-ghost" onClick={reset} disabled={viewState === 'loading'}>
+              重 置
             </button>
           </div>
         </div>
@@ -321,7 +322,12 @@ export function PsbLogPage() {
           ) : null}
 
           {viewState === 'empty' ? (
-            <div className="psb-log-table__feedback">暂无上报日志</div>
+            <div className="psb-log-table__feedback psb-log-table__feedback--empty">
+              <div className="psb-log-empty-icon" aria-hidden="true">
+                <span />
+              </div>
+              <p>暂无数据</p>
+            </div>
           ) : null}
 
           {rows.map((row) => (
@@ -344,11 +350,7 @@ export function PsbLogPage() {
               <div role="cell">{row.channelOrderNo}</div>
               <div role="cell">{row.reportTime}</div>
               <div role="cell">{row.bizTypeLabel}</div>
-              <div role="cell">
-                <span className={`psb-log-state-badge is-${row.stateCode === '1' ? 'success' : 'error'}`}>
-                  {row.stateLabel}
-                </span>
-              </div>
+              <div role="cell">{row.stateLabel}</div>
               <div role="cell">{row.remark}</div>
             </div>
           ))}
@@ -465,45 +467,145 @@ function DatePanel({
   startDate,
   endDate,
   onChange,
-  onApply,
-  onClear,
 }: {
   startDate: string
   endDate: string
   onChange: (field: 'startDate' | 'endDate', value: string) => void
-  onApply: () => void
-  onClear: () => void
 }) {
+  const selectedDate = endDate || startDate || '2026-05-23'
+  const baseDate = new Date(`${selectedDate}T00:00:00`)
+  const leftMonth = createCalendarMonth(baseDate.getFullYear(), baseDate.getMonth())
+  const rightDate = new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, 1)
+  const rightMonth = createCalendarMonth(rightDate.getFullYear(), rightDate.getMonth())
+
+  function selectDate(value: string) {
+    onChange('startDate', value)
+    onChange('endDate', value)
+  }
+
   return (
     <div className="psb-log-calendar" role="dialog" aria-label="上报时间">
-      <label>
-        <span>开始日期</span>
-        <input
-          aria-label="开始日期"
-          type="date"
-          value={startDate}
-          onChange={(event) => onChange('startDate', event.target.value)}
-        />
-      </label>
-      <label>
-        <span>结束日期</span>
-        <input
-          aria-label="结束日期"
-          type="date"
-          value={endDate}
-          onChange={(event) => onChange('endDate', event.target.value)}
-        />
-      </label>
-      <footer>
-        <button type="button" className="psb-log-button is-ghost" onClick={onClear}>
-          清空日期
-        </button>
-        <button type="button" className="psb-log-button is-primary" onClick={onApply}>
-          应用日期
-        </button>
-      </footer>
+      <CalendarMonthPanel month={leftMonth} selectedValue={selectedDate} onSelect={selectDate} />
+      <CalendarMonthPanel month={rightMonth} selectedValue={selectedDate} onSelect={selectDate} />
     </div>
   )
+}
+
+function CalendarMonthPanel({
+  month,
+  selectedValue,
+  onSelect,
+}: {
+  month: CalendarMonth
+  selectedValue: string
+  onSelect: (value: string) => void
+}) {
+  return (
+    <section className="psb-log-calendar-month">
+      <header>
+        <button type="button" aria-label="上一月">
+          ‹‹
+        </button>
+        <button type="button" aria-label="上个月">
+          ‹
+        </button>
+        <strong>
+          {month.year}年 {month.month + 1}月
+        </strong>
+        <button type="button" aria-label="下个月">
+          ›
+        </button>
+        <button type="button" aria-label="下一月">
+          ››
+        </button>
+      </header>
+
+      <div className="psb-log-calendar-weekdays">
+        {calendarWeekdays.map((weekday) => (
+          <span key={weekday}>{weekday}</span>
+        ))}
+      </div>
+
+      <div className="psb-log-calendar-grid">
+        {month.days.map((day) => (
+          <button
+            key={day.key}
+            type="button"
+            className={[
+              'psb-log-calendar-day',
+              day.isCurrentMonth ? '' : 'is-muted',
+              day.value === selectedValue ? 'is-selected' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={() => selectDateIfCurrent(day, onSelect)}
+          >
+            {day.label}
+          </button>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function selectDateIfCurrent(
+  day: CalendarMonth['days'][number],
+  onSelect: (value: string) => void,
+) {
+  if (!day.isCurrentMonth) return
+  onSelect(day.value)
+}
+
+function createCalendarMonth(year: number, month: number): CalendarMonth {
+  const firstDay = new Date(year, month, 1)
+  const startWeekday = (firstDay.getDay() + 6) % 7
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const prevMonthDays = new Date(year, month, 0).getDate()
+  const days: CalendarMonth['days'] = []
+
+  for (let index = 0; index < 42; index += 1) {
+    const dayNumber = index - startWeekday + 1
+
+    if (dayNumber <= 0) {
+      const label = prevMonthDays + dayNumber
+      const prevDate = new Date(year, month - 1, label)
+      days.push({
+        key: `prev-${label}-${index}`,
+        label,
+        value: formatDate(prevDate),
+        isCurrentMonth: false,
+      })
+      continue
+    }
+
+    if (dayNumber > daysInMonth) {
+      const nextLabel = dayNumber - daysInMonth
+      const nextDate = new Date(year, month + 1, nextLabel)
+      days.push({
+        key: `next-${nextLabel}-${index}`,
+        label: nextLabel,
+        value: formatDate(nextDate),
+        isCurrentMonth: false,
+      })
+      continue
+    }
+
+    days.push({
+      key: `current-${dayNumber}`,
+      label: dayNumber,
+      value: formatDate(new Date(year, month, dayNumber)),
+      isCurrentMonth: true,
+    })
+  }
+
+  return { year, month, days }
+}
+
+function formatDate(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 function readSelectedOption(options: PsbLogOption[], value: string) {
@@ -512,7 +614,8 @@ function readSelectedOption(options: PsbLogOption[], value: string) {
 
 function buildDateLabel(startDate: string, endDate: string) {
   if (!startDate && !endDate) return '请选择'
-  if (startDate && endDate) return `${startDate} 至 ${endDate}`
+  if (startDate && endDate && startDate === endDate) return startDate
+  if (startDate && endDate) return `${startDate} - ${endDate}`
   return startDate || endDate
 }
 

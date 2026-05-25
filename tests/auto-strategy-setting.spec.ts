@@ -11,8 +11,6 @@ test('/setting/IntelligenceSetting 通过服务层加载并对齐真实默认值
   await page.goto(appUrl('/setting/IntelligenceSetting'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.locator('.topnav').getByRole('link', { name: '设置', exact: true })).toHaveClass(/is-active/)
-  await expect(page.getByRole('link', { name: '自动策略设置' })).toHaveClass(/is-active/)
 
   const contract = page.getByTestId('auto-strategy-setting-service-contract')
   await expect(contract).toHaveAttribute('data-provider', 'mock')
@@ -20,6 +18,8 @@ test('/setting/IntelligenceSetting 通过服务层加载并对齐真实默认值
   await expect(contract).toHaveAttribute('data-response-state', 'success')
   await expect(contract).toHaveAttribute('data-mock-state', 'success')
   await expect(contract).toHaveAttribute('data-request-body', /"campId":"1796067693589061634"/)
+  await expect(page.locator('.auto-strategy-page__status')).toHaveCount(0)
+  await expect(page.getByText('自动策略设置已同步')).toHaveCount(0)
 
   await expect(page.getByRole('tab', { name: '接单规则' })).toHaveAttribute('aria-selected', 'true')
   await expect(page.getByRole('tab', { name: '房态自动化' })).toBeVisible()
@@ -44,23 +44,24 @@ test('/setting/IntelligenceSetting 支持保存接单规则、结账开关和取
   await page.goto(appUrl('/setting/IntelligenceSetting'))
 
   const contract = page.getByTestId('auto-strategy-setting-service-contract')
+  await expect(page.locator('.auto-strategy-page__status')).toHaveCount(0)
 
   await page.getByLabel('逾期前自动同意').check()
-  await expect(page.getByRole('status')).toContainText('住宿订单接单规则已保存')
   await expect(page.getByLabel('逾期前自动同意')).toBeChecked()
+  await expect(page.locator('.auto-strategy-page__status')).toHaveCount(0)
   await expect(contract).toHaveAttribute('data-last-action', 'update-order-auto-pending-strategy')
   await expect(contract).toHaveAttribute('data-last-request-body', /"configKey":"hudson\.basic\.orderAutoPendingStrategy"/)
   await expect(contract).toHaveAttribute('data-last-request-body', /"configValue":"2"/)
 
   await page.getByRole('switch', { name: '信用住自动结账' }).click()
-  await expect(page.getByRole('status')).toContainText('信用住自动结账已保存')
   await expect(page.getByRole('switch', { name: '信用住自动结账' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.locator('.auto-strategy-page__status')).toHaveCount(0)
   await expect(contract).toHaveAttribute('data-last-action', 'update-order-auto-settle-strategy')
   await expect(contract).toHaveAttribute('data-last-request-body', /"configValue":"1"/)
 
   await page.getByRole('radio', { name: '同意取消', exact: true }).check()
-  await expect(page.getByRole('status')).toContainText('规则外取消订单设置已保存')
   await expect(page.getByRole('radio', { name: '同意取消', exact: true })).toBeChecked()
+  await expect(page.locator('.auto-strategy-page__status')).toHaveCount(0)
   await expect(contract).toHaveAttribute('data-last-action', 'update-negotiate-refund-automatic-accept-strategy')
   await expect(contract).toHaveAttribute('data-last-request-body', /"configKey":"hudson\.basic\.negotiateRefundAutomaticAcceptStrategy"/)
   await expect(contract).toHaveAttribute('data-last-request-body', /"configValue":"1"/)
@@ -74,21 +75,31 @@ test('/setting/IntelligenceSetting 支持切换其他页签并展示真实内容
   await expect(page.getByRole('tab', { name: '房态自动化' })).toHaveAttribute('aria-selected', 'true')
 
   const roomAutomation = page.getByRole('tabpanel', { name: '房态自动化' })
-  await expect(roomAutomation.getByRole('region', { name: '自动排房设置' })).toContainText('按房间顺序排房')
-  await expect(roomAutomation.getByLabel('按房间顺序排房')).toBeChecked()
-  await expect(roomAutomation.getByLabel('当日订单优先排空净')).not.toBeChecked()
-  await expect(roomAutomation.getByLabel('智能排房')).not.toBeChecked()
+  const roomAssign = roomAutomation.getByRole('region', { name: '自动排房设置' })
+  await expect(roomAssign.getByLabel('不自动排房')).toBeVisible()
+  await expect(roomAssign.getByLabel('随机均匀排房')).toBeVisible()
+  await expect(roomAssign.getByLabel('按房间顺序排房')).toBeChecked()
+  await expect(roomAssign.getByText('设置房间优先级')).toBeVisible()
+  await expect(roomAssign.getByLabel('当日订单优先排空净')).not.toBeChecked()
+  await expect(roomAssign.getByLabel('智能排房')).not.toBeChecked()
 
   const autoCheckIn = roomAutomation.getByRole('region', { name: '自动办理入住' })
   await expect(autoCheckIn.getByRole('switch', { name: '自动办理入住开关' })).toHaveAttribute('aria-checked', 'true')
   await expect(autoCheckIn).toContainText('15:00:00')
+  await expect(autoCheckIn).toContainText('开启后，订单在入住当天到达指定时间将自助办理入住')
 
   const autoCheckout = roomAutomation.getByRole('region', { name: '自动办理退房' })
   await expect(autoCheckout.getByRole('switch', { name: '自动办理退房开关' })).toHaveAttribute('aria-checked', 'true')
   await expect(autoCheckout).toContainText('12:00:00')
+  await expect(autoCheckout).toContainText('开启后，订单在离店当天到达指定时间将自助办理退房')
 
   const dirtyStrategy = roomAutomation.getByRole('region', { name: '房间转脏策略' })
+  await expect(dirtyStrategy).toContainText('选择您需要的策略')
   await expect(dirtyStrategy.getByLabel('手动设置')).toBeChecked()
+  await expect(dirtyStrategy.getByLabel('全部房间定时转脏')).toBeVisible()
+  await expect(dirtyStrategy.getByLabel('在住订单定时转脏（酒店适用）')).toBeVisible()
+  await expect(dirtyStrategy.getByLabel('退房日订单定时转脏（民宿适用)')).toBeVisible()
+  await expect(dirtyStrategy.getByLabel('订单办理退房后变脏')).toBeVisible()
 
   const cleanStrategy = roomAutomation.getByRole('region', { name: '房间转净策略' })
   await expect(cleanStrategy.getByRole('switch', { name: '保洁任务完成后房间自动转净' })).toHaveAttribute(
@@ -101,12 +112,17 @@ test('/setting/IntelligenceSetting 支持切换其他页签并展示真实内容
 
   const stockRule = page.getByRole('tabpanel', { name: '库存占用规则' })
   const pendingOccupation = stockRule.getByRole('region', { name: '待接单占库存设置' })
+  await expect(pendingOccupation).toContainText('可同步待接单的渠道有')
   await expect(pendingOccupation.getByLabel('待接单不占库存')).toBeChecked()
+  await expect(pendingOccupation.getByLabel('待接单占库存')).toBeVisible()
 
   const unpaidOccupation = stockRule.getByRole('region', { name: '待支付订单占库存设置' })
+  await expect(unpaidOccupation).toContainText('可同步待支付订单的渠道有')
   await expect(unpaidOccupation.getByLabel('待支付订单不占库存')).toBeChecked()
+  await expect(unpaidOccupation.getByLabel('待支付订单占库存')).toBeVisible()
 
   const hourlyOccupation = stockRule.getByRole('region', { name: '钟点房订单占库存设置' })
+  await expect(hourlyOccupation.getByLabel('钟点房订单不占库存')).toBeVisible()
   await expect(hourlyOccupation.getByLabel('钟点房订单占库存')).toBeChecked()
 })
 

@@ -130,7 +130,7 @@ const initialStore: NotificationStore = {
     {
       key: 'order',
       title: '订单通知',
-      description: '新订单、取消订单、待接单、退款申请等核心订单节点通知。',
+      description: '新订单/取消订单/待接单/退款申请等提醒;',
       toggles: {
         pcApp: true,
         wechat: true,
@@ -139,7 +139,7 @@ const initialStore: NotificationStore = {
     {
       key: 'storeAlert',
       title: '门店预警',
-      description: '账号过期、渠道异常、退款失败、库存同步异常等经营预警通知。',
+      description: '渠道账号过期/渠道账号即将过期/退款失败/渠道房源关联异常/房态房价同步渠道失败/重单等提醒;',
       toggles: {
         pcApp: true,
         wechat: true,
@@ -148,7 +148,7 @@ const initialStore: NotificationStore = {
     {
       key: 'storeUpdate',
       title: '门店动态',
-      description: '人员变更、基础配置调整、交接班等门店运营动态通知。',
+      description: '人员变更/自定义设置变更/交接班等提醒',
       toggles: {
         pcApp: true,
         wechat: true,
@@ -157,7 +157,7 @@ const initialStore: NotificationStore = {
     {
       key: 'im',
       title: 'IM消息通知',
-      description: '收到新的 IM 会话消息时，通过工作台提醒和系统弹窗同步告知。',
+      description: '有新IM会话消息时，有小红点和系统弹框提醒',
       toggles: {
         pcApp: true,
       },
@@ -351,7 +351,7 @@ function buildPayload(state: NotificationSettingMockState): NotificationSettingP
 
   return {
     intro: {
-      title: '扫码关注公众号【路客云】，快速通过微信推送订单、房态与门店经营动态。',
+      title: '扫码关注公众号【路客云】，快速通过微信推送订单、房态',
       detailButtonText: '查看接受微信通知公众号',
     },
     qrCode: {

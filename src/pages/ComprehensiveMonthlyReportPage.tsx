@@ -93,7 +93,11 @@ function ComprehensiveMonthlyListPage() {
 
   return (
     <div className="comprehensive-monthly-page">
-      <ComprehensiveMonthlyDiagnostics view={view} requestBody={requestQuery} responseState={view?.state ?? runtime.mockState} />
+      <ComprehensiveMonthlyDiagnostics
+        view={view}
+        requestBody={requestQuery}
+        responseState={view?.state ?? runtime.mockState}
+      />
 
       {toast ? (
         <div key={toast.id} className="comprehensive-toast" role="status">
@@ -152,7 +156,7 @@ function ComprehensiveMonthlyListPage() {
                     <td>{row.occText}</td>
                     <td>{row.adrText}</td>
                     <td>{row.revParText}</td>
-                    <td>{row.generatedAtText}</td>
+                    <td className="comprehensive-report-table__time">{row.generatedAtText.replace('\n', ' ')}</td>
                     <td>{row.creatorText}</td>
                     <td>
                       <button
@@ -160,7 +164,9 @@ function ComprehensiveMonthlyListPage() {
                         type="button"
                         className="comprehensive-link-button"
                         onClick={() =>
-                          navigate(`/statistics/Comprehensive/Monthly?startDate=${row.startDate}&endDate=${row.endDate}`)
+                          navigate(
+                            `/statistics/Comprehensive/Monthly?startDate=${row.startDate}&endDate=${row.endDate}`,
+                          )
                         }
                       >
                         查看报表
@@ -206,6 +212,7 @@ function ComprehensiveMonthlyListPage() {
 
 function ComprehensiveMonthlyDetailPage() {
   const location = useLocation()
+  const navigate = useNavigate()
   const runtime = resolveComprehensiveMonthlyRuntimeConfig(location.search)
   const selection = readComprehensiveMonthlySelection(location.search)
   const [reloadKey, setReloadKey] = useState(0)
@@ -214,6 +221,7 @@ function ComprehensiveMonthlyDetailPage() {
   const [error, setError] = useState('')
   const [toast, setToast] = useState<ToastState | null>(null)
   const [actionLoading, setActionLoading] = useState<ComprehensiveMonthlyReportAction | null>(null)
+  const [refreshConfirmOpen, setRefreshConfirmOpen] = useState(false)
 
   const requestQuery = createDefaultComprehensiveMonthlyReportQuery({
     provider: runtime.provider,
@@ -274,9 +282,17 @@ function ComprehensiveMonthlyDetailPage() {
       })
   }
 
+  function backToList() {
+    navigate('/statistics/Comprehensive')
+  }
+
   return (
     <div className="comprehensive-monthly-page comprehensive-monthly-detail-page">
-      <ComprehensiveMonthlyDiagnostics view={view} requestBody={requestQuery} responseState={view?.state ?? runtime.mockState} />
+      <ComprehensiveMonthlyDiagnostics
+        view={view}
+        requestBody={requestQuery}
+        responseState={view?.state ?? runtime.mockState}
+      />
 
       {toast ? (
         <div key={toast.id} className="comprehensive-toast" role="status">
@@ -287,7 +303,10 @@ function ComprehensiveMonthlyDetailPage() {
       <section className="comprehensive-card">
         <header className="comprehensive-detail-bar">
           <div className="comprehensive-breadcrumb">
-            <span>综合月报 /</span>
+            <button type="button" className="comprehensive-breadcrumb-link" onClick={backToList}>
+              综合月报
+            </button>
+            <span>/</span>
             <strong>综合月报表（住宿）</strong>
           </div>
           <div className="comprehensive-detail-actions">
@@ -295,9 +314,9 @@ function ComprehensiveMonthlyDetailPage() {
               data-testid="comprehensive-monthly-refresh-action"
               type="button"
               disabled={loading || actionLoading !== null}
-              onClick={() => runAction('refresh')}
+              onClick={() => setRefreshConfirmOpen(true)}
             >
-              {actionLoading === 'refresh' ? '更新中...' : '更新报告'}
+              {actionLoading === 'refresh' ? '更新中...' : '更新报表'}
             </button>
             <button
               data-testid="comprehensive-monthly-print-action"
@@ -310,7 +329,11 @@ function ComprehensiveMonthlyDetailPage() {
           </div>
         </header>
 
-        <section className="comprehensive-detail" aria-label="综合月报表固化详情" data-testid="comprehensive-monthly-detail">
+        <section
+          className="comprehensive-detail"
+          aria-label="综合月报表固化详情"
+          data-testid="comprehensive-monthly-detail"
+        >
           <h1>综合月报表（固化）</h1>
 
           {error ? (
@@ -324,16 +347,16 @@ function ComprehensiveMonthlyDetailPage() {
           ) : null}
 
           {loading ? (
-            <div className="comprehensive-loading comprehensive-loading--detail">报告加载中...</div>
+            <div className="comprehensive-loading comprehensive-loading--detail">报表加载中...</div>
           ) : currentRow ? (
             <>
               <div className="comprehensive-meta-row">
-                <span>企业/门店：天鹅会宿公寓（前海壹方城宝安中心店）</span>
+                <span>企业/门店：</span>
                 <span>
                   营业月份：<strong>{currentRow.monthLabel}</strong>
                 </span>
                 <span>
-                  统计周期：<strong>{currentRow.startDate} ~ {currentRow.endDate}</strong>
+                  统计周期：<strong>{currentRow.startDate}~{currentRow.endDate}</strong>
                 </span>
                 <span>
                   生成时间：<strong>{currentRow.generatedAtText.replace('\n', ' ')}</strong>
@@ -388,6 +411,44 @@ function ComprehensiveMonthlyDetailPage() {
           )}
         </section>
       </section>
+
+      {refreshConfirmOpen ? (
+        <div
+          className="comprehensive-confirm-backdrop"
+          role="presentation"
+          onMouseDown={() => setRefreshConfirmOpen(false)}
+        >
+          <section
+            className="comprehensive-confirm-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label="确认更新报表"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="comprehensive-confirm-dialog__icon" aria-hidden="true">
+              !
+            </div>
+            <div className="comprehensive-confirm-dialog__content">
+              <p>更新报表后将会按照当前数据重新生成报表数据，是否确认更新</p>
+              <footer>
+                <button type="button" onClick={() => setRefreshConfirmOpen(false)}>
+                  取消
+                </button>
+                <button
+                  type="button"
+                  className="is-primary"
+                  onClick={() => {
+                    setRefreshConfirmOpen(false)
+                    runAction('refresh')
+                  }}
+                >
+                  确认
+                </button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </div>
   )
 }

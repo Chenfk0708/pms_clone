@@ -1,6 +1,6 @@
 .page-content:has(.auto-strategy-page) {
-  padding: 5px 8px 0;
-  background: #f3f5fb;
+  padding: 8px 8px 0;
+  background: #f5f7fb;
   overflow: auto;
 }
 
@@ -10,9 +10,9 @@
 
 .auto-strategy-page {
   min-height: calc(100vh - 66px);
-  padding: 0 8px 40px;
+  padding: 0 16px 40px 12px;
   background: #fff;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
   color: rgb(0 0 0 / 85%);
 }
 
@@ -26,30 +26,13 @@
 }
 
 .auto-strategy-page__shell {
-  padding: 0 0 24px;
-}
-
-.auto-strategy-page__status {
-  position: sticky;
-  top: 12px;
-  z-index: 12;
-  display: inline-flex;
-  min-height: 36px;
-  align-items: center;
-  padding: 0 14px;
-  margin: 0 0 14px;
-  border: 1px solid #e8ecf6;
-  border-radius: 10px;
-  background: rgb(255 255 255 / 92%);
-  box-shadow: 0 8px 30px rgb(15 23 42 / 10%);
-  color: #2f3440;
-  font-size: 13px;
+  padding: 10px 0 24px;
 }
 
 .auto-strategy-page__state {
   padding: 28px 24px;
   border: 1px solid #e9edf6;
-  border-radius: 14px;
+  border-radius: 10px;
   background: linear-gradient(180deg, #fff 0%, #f8faff 100%);
 }
 
@@ -89,20 +72,21 @@
 
 .auto-strategy-tabs {
   display: inline-flex;
-  margin-bottom: 18px;
-  border: 1px solid #d8deef;
-  border-radius: 7px;
+  margin-bottom: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .auto-strategy-tabs__button {
   min-width: 110px;
-  height: 34px;
+  height: 31px;
   border: 0;
-  border-right: 1px solid #d8deef;
+  border-right: 1px solid #d9d9d9;
   background: #fff;
-  color: #354052;
+  color: rgb(0 0 0 / 85%);
   font-size: 14px;
+  line-height: 31px;
 }
 
 .auto-strategy-tabs__button:last-child {
@@ -116,19 +100,19 @@
 }
 
 .auto-strategy-card {
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .auto-strategy-card__header {
-  padding-bottom: 8px;
-  border-bottom: 1px solid #d9d9d9;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ebedf0;
 }
 
 .auto-strategy-card__header h2 {
   display: flex;
   align-items: center;
   margin: 0;
-  color: #2f3440;
+  color: rgb(0 0 0 / 85%);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -144,10 +128,11 @@
 }
 
 .auto-strategy-card__header p {
-  margin: 10px 0 0;
-  color: #8f96a3;
+  margin: 14px 0 0;
+  color: rgb(0 0 0 / 65%);
   font-size: 12px;
-  line-height: 18px;
+  line-height: 1.7;
+  white-space: pre-line;
 }
 
 .auto-strategy-card__body {
@@ -156,15 +141,15 @@
 
 .auto-strategy-radio-group {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .auto-strategy-radio,
 .auto-strategy-checkbox {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
-  width: max-content;
+  width: fit-content;
   min-height: 22px;
   color: rgb(0 0 0 / 85%);
   font-size: 14px;
@@ -180,8 +165,31 @@
 .auto-strategy-checkbox input {
   width: 14px;
   height: 14px;
-  margin: 0;
+  margin: 4px 0 0;
   accent-color: #4d65f6;
+}
+
+.auto-strategy-radio__content {
+  display: grid;
+  gap: 2px;
+}
+
+.auto-strategy-radio__main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.auto-strategy-radio__action {
+  color: #a0a9b8;
+  font-size: 14px;
+}
+
+.auto-strategy-radio__description {
+  color: rgb(0 0 0 / 45%);
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .auto-strategy-switch-row {
@@ -230,11 +238,11 @@
 
 .auto-strategy-stack {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .auto-strategy-inline-copy {
-  color: #5c6471;
+  color: rgb(0 0 0 / 85%);
   font-size: 14px;
   line-height: 22px;
 }
@@ -245,29 +253,34 @@
 
 .auto-strategy-advanced {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .auto-strategy-advanced__title {
-  color: #5c6471;
-  font-size: 13px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
   font-weight: 500;
 }
 
-.auto-strategy-vertical-switch {
-  display: grid;
+.auto-strategy-time-row {
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
+  min-height: 32px;
+  color: rgb(0 0 0 / 85%);
+  font-size: 14px;
+  flex-wrap: wrap;
 }
 
 .auto-strategy-time-chip {
   display: inline-flex;
-  width: fit-content;
+  min-width: 164px;
   align-items: center;
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid #dfe4f3;
-  border-radius: 8px;
-  background: #fbfcff;
+  min-height: 30px;
+  padding: 0 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
   color: #2f3440;
   font-size: 14px;
   line-height: 22px;
@@ -275,7 +288,7 @@
 
 @media (max-width: 768px) {
   .auto-strategy-page {
-    padding: 0 0 28px;
+    padding: 0 12px 28px;
   }
 
   .auto-strategy-tabs {
@@ -285,5 +298,9 @@
 
   .auto-strategy-tabs__button {
     min-width: 0;
+  }
+
+  .auto-strategy-time-chip {
+    min-width: 128px;
   }
 }

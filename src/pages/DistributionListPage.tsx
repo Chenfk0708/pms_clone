@@ -21,10 +21,11 @@ const actionButtons = [
 ]
 
 type ImportDialogMode = 'store' | 'room' | null
+type UndistributedStoreMode = 'all' | 'current'
 
 const importStoreOptions = [
-  '天落会宿公寓(前海壹方城宝安中心店)',
-  '天落会宿公寓(科技园店)',
+  '天洛会宿公寓(前海壹方城宝安中心店)',
+  '天洛会宿公寓(科技园店)',
 ]
 
 export function DistributionListPage() {
@@ -41,6 +42,7 @@ export function DistributionListPage() {
   const [roomProgressMap, setRoomProgressMap] = useState<Record<string, DistributionProgress>>({})
   const [importMenuOpen, setImportMenuOpen] = useState(false)
   const [importDialogMode, setImportDialogMode] = useState<ImportDialogMode>(null)
+  const [undistributedStoreMode, setUndistributedStoreMode] = useState<UndistributedStoreMode>('all')
 
   const updateFilters = (nextFilters: (current: DistributionFilters) => DistributionFilters) => {
     setNotice('')
@@ -90,24 +92,30 @@ export function DistributionListPage() {
     return () => window.clearTimeout(timer)
   }, [notice])
 
+  const currentStoreLabel = useMemo(() => {
+    const matched = dashboard?.stores.find((store) => store.id === filters.poiId)
+    return matched?.label ?? dashboard?.stores[1]?.label ?? '当前门店'
+  }, [dashboard, filters.poiId])
+
   const visibleRows = useMemo(() => {
     if (!dashboard) return []
+
     const list = filters.tab === 'distributed' ? dashboard.distributedRooms : dashboard.undistributedRooms
-    return list.map((room) => ({
+    const filteredByStore =
+      filters.tab === 'undistributed' && undistributedStoreMode === 'current'
+        ? list.filter((room) => room.storeId === filters.poiId || filters.poiId === 'ALL')
+        : list
+
+    return filteredByStore.map((room) => ({
       ...room,
       progress: roomProgressMap[room.id] ?? room.progress,
     }))
-  }, [dashboard, filters.tab, roomProgressMap])
+  }, [dashboard, filters.poiId, filters.tab, roomProgressMap, undistributedStoreMode])
 
   const selectedRoom = useMemo(
     () => visibleRows.find((room) => room.id === drawerRoomId) ?? null,
     [drawerRoomId, visibleRows],
   )
-
-  const currentStoreLabel = useMemo(() => {
-    const matched = dashboard?.stores.find((store) => store.id === filters.poiId)
-    return matched?.label ?? dashboard?.stores[1]?.label ?? '天落会宿...'
-  }, [dashboard, filters.poiId])
 
   const requestSnapshot = dashboard ? JSON.stringify(dashboard.request) : JSON.stringify({ filters })
 
@@ -181,10 +189,25 @@ export function DistributionListPage() {
         {filters.tab === 'undistributed' ? (
           <div className="distribution-undistributed-toolbar">
             <div className="distribution-store-switch" aria-label="未分销门店切换">
-              <button type="button" className="is-active">
+              <button
+                type="button"
+                className={undistributedStoreMode === 'all' ? 'is-active' : ''}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setUndistributedStoreMode('all')
+                }}
+              >
                 全部门店
               </button>
-              <button type="button" className="is-store" title={currentStoreLabel}>
+              <button
+                type="button"
+                className={`is-store${undistributedStoreMode === 'current' ? ' is-active' : ''}`}
+                title={currentStoreLabel}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setUndistributedStoreMode('current')
+                }}
+              >
                 {currentStoreLabel}
               </button>
               <button
@@ -322,48 +345,51 @@ function RoomTable({
         </thead>
         <tbody>
           {rows.length > 0 ? (
-            rows.map((room) => (
-              <tr key={room.id}>
-                <td>
-                  <div className="distribution-room-cell">
-                    <img src={room.thumbnail} alt="" />
-                    <div className="distribution-room-cell__content">
-                      <strong>{room.name}</strong>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span className={`distribution-progress distribution-progress--${room.progress}`} data-progress={room.progress}>
-                    {room.progress === 'distributing' ? '分销中' : '关闭'}
-                  </span>
-                </td>
-                <td>
-                  <div className="distribution-more">
-                    <button
-                      type="button"
-                      className="distribution-more__trigger"
-                      aria-expanded={openMenuId === room.id}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        onToggleMenu(openMenuId === room.id ? null : room.id)
-                      }}
-                    >
-                      更多
-                    </button>
-                    {openMenuId === room.id ? (
-                      <div className="distribution-more__menu" role="menu" onClick={(event) => event.stopPropagation()}>
-                        <button type="button" role="menuitem" onClick={() => onToggleDistribution(room)}>
-                          {room.progress === 'closed' ? '打开' : '关闭'}
-                        </button>
-                        <button type="button" role="menuitem" onClick={() => onEditChannel(room)}>
-                          编辑渠道
-                        </button>
+            rows.map((room) => {
+              const currentProgress = room.progress
+              return (
+                <tr key={room.id}>
+                  <td>
+                    <div className="distribution-room-cell">
+                      <img src={room.thumbnail} alt="" />
+                      <div className="distribution-room-cell__content">
+                        <strong>{room.name}</strong>
                       </div>
-                    ) : null}
-                  </div>
-                </td>
-              </tr>
-            ))
+                    </div>
+                  </td>
+                  <td>
+                    <span className={`distribution-progress distribution-progress--${currentProgress}`} data-progress={currentProgress}>
+                      {currentProgress === 'distributing' ? '分销中' : '关闭'}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="distribution-more">
+                      <button
+                        type="button"
+                        className="distribution-more__trigger"
+                        aria-expanded={openMenuId === room.id}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          onToggleMenu(openMenuId === room.id ? null : room.id)
+                        }}
+                      >
+                        更多
+                      </button>
+                      {openMenuId === room.id ? (
+                        <div className="distribution-more__menu" role="menu" onClick={(event) => event.stopPropagation()}>
+                          <button type="button" role="menuitem" onClick={() => onToggleDistribution(room)}>
+                            {currentProgress === 'closed' ? '打开' : '关闭'}
+                          </button>
+                          <button type="button" role="menuitem" onClick={() => onEditChannel(room)}>
+                            渠道编辑
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                  </td>
+                </tr>
+              )
+            })
           ) : (
             <tr className="distribution-empty-row">
               <td colSpan={3}>
@@ -453,7 +479,7 @@ function DistributionConfigDrawer({
               <div>
                 <h3>聚合分销渠道</h3>
                 <p>
-                  当前分销情况：{selectedChannelIds.length}/{channels.length}
+                  当前分销情况: {selectedChannelIds.length}/{channels.length}
                 </p>
               </div>
               {isEditing ? (
@@ -552,7 +578,7 @@ function ChannelImportDialog({
           ×
         </button>
 
-        <p className="distribution-import-dialog__intro">请选择您上线的渠道（单选），酒店渠道能导入的信息能完善~</p>
+        <p className="distribution-import-dialog__intro">请选择您上线的渠道(单选)，酒店渠道能导入的信息能完善。</p>
 
         <div className="distribution-import-dialog__channels">
           <button type="button" className="is-active">
@@ -561,7 +587,7 @@ function ChannelImportDialog({
           {mode === 'room' ? <button type="button">美团民宿</button> : null}
         </div>
 
-        <p className="distribution-import-dialog__desc">请授权渠道，我们将会为您自动直连并完善门店信息</p>
+        <p className="distribution-import-dialog__desc">请授权渠道，我们将会为您自动直连并完善门店信息。</p>
 
         <div className="distribution-import-form">
           <label className="distribution-import-form__row">
@@ -603,7 +629,7 @@ function ChannelImportDialog({
           </label>
 
           <div className="distribution-import-form__row">
-            <span>子酒店类型:</span>
+            <span>子酒店类型</span>
             <div className="distribution-import-form__radios">
               <label>
                 <input type="radio" checked={roomType === 'prepay'} onChange={() => setRoomType('prepay')} />
@@ -628,7 +654,7 @@ function ChannelImportDialog({
 
           <label className="distribution-import-form__row">
             <span>酒店名称:</span>
-            <input type="text" placeholder="请确保输入与携程一致的酒店名称" />
+            <input type="text" placeholder="请确认输入与携程一致的酒店名称" />
           </label>
 
           <label className="distribution-import-form__checkbox">

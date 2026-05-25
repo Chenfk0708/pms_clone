@@ -8,6 +8,8 @@ import {
   type HouseDaysViewModel,
 } from '../services/houseDays'
 import {
+  BatchOperationDialog,
+  type BatchMode,
   createHoveredBooking,
   MonthOrderDrawer,
   MonthOrderPopover,
@@ -24,6 +26,12 @@ const FLOOR_VIEW = '按楼层'
 type RoomTypeSummaryCard = {
   roomType: string
   rooms: HouseDaysRoomCard[]
+}
+
+type DayRoomActionAnchor = {
+  left: number
+  top: number
+  room: HouseDaysRoomCard
 }
 
 function buildRoomTypeSummaryCards(rooms: HouseDaysRoomCard[]): RoomTypeSummaryCard[] {
@@ -63,7 +71,7 @@ function RoomNumberView({
   error,
   setHoveredBooking,
   setSelectedBooking,
-  setSelectedRoom,
+  setRoomActionAnchor,
   setFeedback,
 }: {
   rooms: HouseDaysRoomCard[]
@@ -71,7 +79,7 @@ function RoomNumberView({
   error: string
   setHoveredBooking: (value: HoveredBooking | null) => void
   setSelectedBooking: (value: SelectedBooking | null) => void
-  setSelectedRoom: (value: HouseDaysRoomCard | null) => void
+  setRoomActionAnchor: (value: DayRoomActionAnchor | null) => void
   setFeedback: (value: string) => void
 }) {
   return (
@@ -97,35 +105,45 @@ function RoomNumberView({
               )
             }}
             onMouseLeave={() => setHoveredBooking(null)}
-            onClick={() => {
+            onClick={(event) => {
               if (room.booking?.monthOrder) {
                 setSelectedBooking({
                   cell: room.booking.monthOrder.cell,
                   roomType: room.booking.monthOrder.roomType,
                   roomLabel: room.booking.monthOrder.roomLabel,
                 })
-                setSelectedRoom(null)
+                setRoomActionAnchor(null)
                 setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
                 return
               }
-              setSelectedRoom(room)
-              setFeedback(`已打开 ${room.roomName} 房间详情。`)
+              const rect = event.currentTarget.getBoundingClientRect()
+              setRoomActionAnchor({
+                room,
+                left: Math.min(window.innerWidth - 156, rect.right + 12),
+                top: Math.max(12, rect.top + rect.height / 2 - 128),
+              })
+              setFeedback(`已打开 ${room.roomName} 房间操作菜单。`)
             }}
             onKeyDown={(event) => {
               if (event.key !== 'Enter' && event.key !== ' ') return
               event.preventDefault()
               if (room.booking?.monthOrder) {
                 setSelectedBooking({
-                  cell: room.booking.monthOrder.cell,
-                  roomType: room.booking.monthOrder.roomType,
-                  roomLabel: room.booking.monthOrder.roomLabel,
-                })
-                setSelectedRoom(null)
+                    cell: room.booking.monthOrder.cell,
+                    roomType: room.booking.monthOrder.roomType,
+                    roomLabel: room.booking.monthOrder.roomLabel,
+                  })
+                setRoomActionAnchor(null)
                 setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
                 return
               }
-              setSelectedRoom(room)
-              setFeedback(`已打开 ${room.roomName} 房间详情。`)
+              const rect = event.currentTarget.getBoundingClientRect()
+              setRoomActionAnchor({
+                room,
+                left: Math.min(window.innerWidth - 156, rect.right + 12),
+                top: Math.max(12, rect.top + rect.height / 2 - 128),
+              })
+              setFeedback(`已打开 ${room.roomName} 房间操作菜单。`)
             }}
           >
             <strong>{room.roomName}</strong>
@@ -157,7 +175,7 @@ function RoomTypeView({
   error,
   setHoveredBooking,
   setSelectedBooking,
-  setSelectedRoom,
+  setRoomActionAnchor,
   setFeedback,
 }: {
   summaries: RoomTypeSummaryCard[]
@@ -165,7 +183,7 @@ function RoomTypeView({
   error: string
   setHoveredBooking: (value: HoveredBooking | null) => void
   setSelectedBooking: (value: SelectedBooking | null) => void
-  setSelectedRoom: (value: HouseDaysRoomCard | null) => void
+  setRoomActionAnchor: (value: DayRoomActionAnchor | null) => void
   setFeedback: (value: string) => void
 }) {
   return (
@@ -194,35 +212,45 @@ function RoomTypeView({
                   )
                 }}
                 onMouseLeave={() => setHoveredBooking(null)}
-                onClick={() => {
+                onClick={(event) => {
                   if (room.booking?.monthOrder) {
                     setSelectedBooking({
                       cell: room.booking.monthOrder.cell,
                       roomType: room.booking.monthOrder.roomType,
                       roomLabel: room.booking.monthOrder.roomLabel,
                     })
-                    setSelectedRoom(null)
+                    setRoomActionAnchor(null)
                     setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
                     return
                   }
-                  setSelectedRoom(room)
-                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
+                  const rect = event.currentTarget.getBoundingClientRect()
+                  setRoomActionAnchor({
+                    room,
+                    left: Math.min(window.innerWidth - 156, rect.right + 12),
+                    top: Math.max(12, rect.top + rect.height / 2 - 128),
+                  })
+                  setFeedback(`已打开 ${room.roomName} 房间操作菜单。`)
                 }}
                 onKeyDown={(event) => {
                   if (event.key !== 'Enter' && event.key !== ' ') return
                   event.preventDefault()
                   if (room.booking?.monthOrder) {
                     setSelectedBooking({
-                      cell: room.booking.monthOrder.cell,
-                      roomType: room.booking.monthOrder.roomType,
-                      roomLabel: room.booking.monthOrder.roomLabel,
-                    })
-                    setSelectedRoom(null)
+                        cell: room.booking.monthOrder.cell,
+                        roomType: room.booking.monthOrder.roomType,
+                        roomLabel: room.booking.monthOrder.roomLabel,
+                      })
+                    setRoomActionAnchor(null)
                     setFeedback(`已打开 ${room.booking.monthOrder.roomLabel} 的订单详情。`)
                     return
                   }
-                  setSelectedRoom(room)
-                  setFeedback(`已打开 ${room.roomName} 房间详情。`)
+                  const rect = event.currentTarget.getBoundingClientRect()
+                  setRoomActionAnchor({
+                    room,
+                    left: Math.min(window.innerWidth - 156, rect.right + 12),
+                    top: Math.max(12, rect.top + rect.height / 2 - 128),
+                  })
+                  setFeedback(`已打开 ${room.roomName} 房间操作菜单。`)
                 }}
               >
                 <strong>{room.roomName}</strong>
@@ -259,9 +287,19 @@ export function HouseDaysPage() {
   const [selectedTag, setSelectedTag] = useState('')
   const [queryKeyword, setQueryKeyword] = useState('')
   const [openMenu, setOpenMenu] = useState<'settings' | 'clean' | 'openClose' | null>(null)
+  const [batchDialogMode, setBatchDialogMode] = useState<BatchMode | null>(null)
+  const [batchDialogState, setBatchDialogState] = useState({
+    roomText: '',
+    dateStart: '',
+    dateEnd: '',
+    channel: 'all',
+    closeType: 'disabled',
+    remark: '',
+    mode: 'dirty' as BatchMode,
+  })
   const [showLegend, setShowLegend] = useState(false)
   const [showStatusSettings, setShowStatusSettings] = useState(false)
-  const [selectedRoom, setSelectedRoom] = useState<HouseDaysRoomCard | null>(null)
+  const [roomActionAnchor, setRoomActionAnchor] = useState<DayRoomActionAnchor | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
   const [keyword, setKeyword] = useState('')
@@ -319,6 +357,8 @@ export function HouseDaysPage() {
         setOpenMenu(null)
         setShowLegend(false)
         setSelectedBooking(null)
+        setBatchDialogMode(null)
+        setRoomActionAnchor(null)
       }
     }
 
@@ -332,6 +372,9 @@ export function HouseDaysPage() {
       if (!(target instanceof Element)) return
       if (!target.closest('.day-toolbar__refresh-group')) {
         setRefreshPopoverOpen(false)
+      }
+      if (!target.closest('.day-room-actions-popover') && !target.closest('.day-room-card[data-tone=\"empty\"]')) {
+        setRoomActionAnchor(null)
       }
       if (!target.closest('.month-order-drawer') && !target.closest('.day-room-card[data-tone]')) {
         setSelectedBooking(null)
@@ -352,6 +395,20 @@ export function HouseDaysPage() {
   const blockAction = (message: string) => {
     setOpenMenu(null)
     setFeedback(message)
+  }
+
+  const openBatchDialog = (mode: BatchMode) => {
+    setOpenMenu(null)
+    setBatchDialogState({
+      roomText: '',
+      dateStart: '',
+      dateEnd: '',
+      channel: 'all',
+      closeType: 'disabled',
+      remark: '',
+      mode,
+    })
+    setBatchDialogMode(mode)
   }
 
   const resetFilters = () => {
@@ -577,7 +634,7 @@ export function HouseDaysPage() {
               error={error}
               setHoveredBooking={setHoveredBooking}
               setSelectedBooking={setSelectedBooking}
-              setSelectedRoom={setSelectedRoom}
+              setRoomActionAnchor={setRoomActionAnchor}
               setFeedback={setFeedback}
             />
           ) : null}
@@ -588,7 +645,7 @@ export function HouseDaysPage() {
               error={error}
               setHoveredBooking={setHoveredBooking}
               setSelectedBooking={setSelectedBooking}
-              setSelectedRoom={setSelectedRoom}
+              setRoomActionAnchor={setRoomActionAnchor}
               setFeedback={setFeedback}
             />
           ) : null}
@@ -714,59 +771,56 @@ export function HouseDaysPage() {
         </aside>
       ) : null}
       {hoveredBooking ? <MonthOrderPopover hoveredBooking={hoveredBooking} /> : null}
+      {batchDialogMode ? (
+        <BatchOperationDialog
+          mode={batchDialogMode}
+          state={batchDialogState}
+          onChange={(patch) => setBatchDialogState((current) => ({ ...current, ...patch }))}
+          onClose={() => setBatchDialogMode(null)}
+          onConfirm={() => {
+            setBatchDialogMode(null)
+            setFeedback(
+              batchDialogState.mode === 'dirty'
+                ? '批量设脏已处理。'
+                : batchDialogState.mode === 'clean'
+                  ? '批量设净已处理。'
+                  : batchDialogState.mode === 'close'
+                    ? '批量关房已处理。'
+                    : '批量开房已处理。',
+            )
+          }}
+        />
+      ) : null}
       {selectedBooking ? (
         <MonthOrderDrawer selectedBooking={selectedBooking} onClose={() => setSelectedBooking(null)} onAction={blockAction} />
       ) : null}
-      {selectedRoom ? (
-        <aside className="day-detail-dialog" role="dialog" aria-label="房间详情">
-          <header>
-            <strong>房间详情</strong>
-            <button type="button" aria-label="关闭房间详情" onClick={() => setSelectedRoom(null)}>
-              ×
-            </button>
-          </header>
-          <div className="day-detail-dialog__body">
-            <p>
-              <span>房型</span>
-              <strong>{selectedRoom.roomType}</strong>
-            </p>
-            <p>
-              <span>房间</span>
-              <strong>{selectedRoom.roomName}</strong>
-            </p>
-            <p>
-              <span>状态</span>
-              <strong>{selectedRoom.booking ? '在住' : '空净'}</strong>
-            </p>
-            {selectedRoom.booking ? (
-              <>
-                <p>
-                  <span>住客</span>
-                  <strong>{selectedRoom.booking.guest}</strong>
-                </p>
-                <p>
-                  <span>渠道</span>
-                  <strong>{selectedRoom.booking.channel}</strong>
-                </p>
-                <p>
-                  <span>房费</span>
-                  <strong>{selectedRoom.booking.price}</strong>
-                </p>
-              </>
-            ) : null}
-          </div>
-          <footer>
-            <button type="button" onClick={() => blockAction('已为当前房间创建保洁提醒。')}>
-              保洁提醒
-            </button>
+      {roomActionAnchor ? (
+        <aside
+          className="day-room-actions-popover"
+          role="menu"
+          aria-label="房间操作"
+          style={{ left: roomActionAnchor.left, top: roomActionAnchor.top }}
+        >
+          {[
+            ['录单', `已打开 ${roomActionAnchor.room.roomName} 的录单流程。`],
+            ['关房', `已打开 ${roomActionAnchor.room.roomName} 的关房流程。`],
+            ['设为脏房', `已将 ${roomActionAnchor.room.roomName} 设为脏房。`],
+            ['查看房态日历', `已打开 ${roomActionAnchor.room.roomName} 的房态日历。`],
+            ['房态日志', `已打开 ${roomActionAnchor.room.roomName} 的房态日志。`],
+            ['保洁', `已打开 ${roomActionAnchor.room.roomName} 的保洁操作。`],
+          ].map(([label, message]) => (
             <button
+              key={label}
               type="button"
-              className="primary-action"
-              onClick={() => blockAction(selectedRoom.booking ? '已打开办理入住流程。' : '已打开新增预订流程。')}
+              role="menuitem"
+              onClick={() => {
+                setRoomActionAnchor(null)
+                blockAction(message)
+              }}
             >
-              {selectedRoom.booking ? '办理入住' : '新增预订'}
+              {label}
             </button>
-          </footer>
+          ))}
         </aside>
       ) : null}
       {showStatusSettings ? (

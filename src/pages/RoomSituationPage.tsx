@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   dailyRoomSituationEndpoint,
   fetchDailyRoomSituation,
@@ -34,33 +35,28 @@ const dayColumns: Array<{ key: keyof Omit<DailyRoomSituationRow, 'id' | 'name'>;
 ]
 
 const metricDescriptions = [
-  '总房间数：企业的房间总数。',
-  '已售房间数：今日已销售的房间总数，已售房间数=在住-预离+预抵。',
-  '剩余可售数：今日可销售的房间数量，不包含已售。',
-  '总关房数：今日关房不可销售的房间数量。',
-  '停用房：关房类型为停用房。',
-  '保留房：关房类型为保留房。',
-  '维修房：关房类型为维修房。',
-  '联动关房：与其他房型绑定联动关系后产生的关房。',
-  '总可用房数：当前可安排客人入住的房间数量。',
-  '预抵：今日待入住订单数。',
-  '在住：今日入住状态为入住中的订单数。',
-  '预离：预计今日退房的订单数。',
-  '净房：已完成清洁、可直接安排入住的房间数量。',
-  '脏房：待清洁或清洁中的房间数量。',
-]
+  { label: '总房间数', text: '企业的房间总数；' },
+  { label: '剩余可售', text: '当天剩余的可售房间数量；' },
+  { label: '占用', text: '订单占用、停用房占用、维修房占用、保留房占用的占用房间总数；' },
+] as const
 
 const dayMs = 24 * 60 * 60 * 1000
 const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+const forwardWindowDays = 30
 
 export function RoomSituationPage() {
+  const navigate = useNavigate()
+  const today = useMemo(() => startOfDay(new Date()), [])
   const [mode, setMode] = useState<RoomSituationMode>('day')
+  const [forwardStartDate, setForwardStartDate] = useState(today)
+  const [forwardPickerMonth, setForwardPickerMonth] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1))
+  const [forwardCalendarOpen, setForwardCalendarOpen] = useState(false)
   const [pageSizeOpen, setPageSizeOpen] = useState(false)
   const [pageSize, setPageSize] = useState(20)
   const [showMetricHelp, setShowMetricHelp] = useState(false)
-  const [tooltip, setTooltip] = useState<string | null>(null)
   const [stores, setStores] = useState<RoomSituationStore[]>([])
   const [storeError, setStoreError] = useState('')
+  const [activeStoreId, setActiveStoreId] = useState('all')
   const [dailyRows, setDailyRows] = useState<DailyRoomSituationRow[]>([])
   const [forwardRows, setForwardRows] = useState<ForwardRoomSituationRow[]>([])
   const [total, setTotal] = useState(0)
@@ -101,18 +97,26 @@ export function RoomSituationPage() {
 
       try {
         const campId = resolveRoomSituationCampId()
-        const today = formatDate()
+        const todayLabel = formatDate()
 
         if (mode === 'day') {
           const nextData = await fetchDailyRoomSituation(
-            { campId, date: today, poiIds: [], pageNum: 1, pageSize },
+            { campId, date: todayLabel, poiIds: activeStoreId === 'all' ? [] : [activeStoreId], pageNum: 1, pageSize },
             controller.signal,
           )
           setDailyRows(nextData.rows)
           setTotal(nextData.total)
         } else {
+          const startDate = formatDateFromValue(forwardStartDate)
           const nextData = await fetchForwardRoomSituation(
-            { campId, startDate: today, endDate: formatDate(30), poiIds: [], pageNum: 1, pageSize },
+            {
+              campId,
+              startDate,
+              endDate: formatDateFromValue(shiftDate(forwardStartDate, forwardWindowDays)),
+              poiIds: activeStoreId === 'all' ? [] : [activeStoreId],
+              pageNum: 1,
+              pageSize,
+            },
             controller.signal,
           )
           setForwardRows(nextData.rows)
@@ -133,15 +137,23 @@ export function RoomSituationPage() {
 
     void loadTableData()
     return () => controller.abort()
-  }, [mode, pageSize, reloadKey])
+  }, [activeStoreId, forwardStartDate, mode, pageSize, reloadKey])
 
   const rowsInView = mode === 'day' ? dailyRows.length : forwardRows.length
-  const futureDates = useMemo(() => buildFutureDates(Math.max(1, maxForwardDays(forwardRows))), [forwardRows])
-  const currentStoreName = stores[0]?.poiName ?? (storeError ? '门店请求失败' : '全部门店')
-
-  function showTooltip(text: string) {
-    setTooltip(text)
-  }
+  const futureDates = useMemo(
+    () => buildFutureDates(forwardStartDate, Math.max(1, maxForwardDays(forwardRows))),
+    [forwardRows, forwardStartDate],
+  )
+  const storeOptions = useMemo(
+    () => [{ poiId: 'all', poiName: '全部门店' }, ...stores.filter((store) => store.poiId && store.poiId !== 'all')],
+    [stores],
+  )
+  const forwardDateLabel = `${formatDateFromValue(forwardStartDate)} ${weekdays[forwardStartDate.getDay()]}`
+  const forwardCalendarCells = useMemo(
+    () => buildCalendarCells(forwardPickerMonth, forwardStartDate),
+    [forwardPickerMonth, forwardStartDate],
+  )
+  const forwardPickerLabel = `${forwardPickerMonth.getFullYear()}年 ${forwardPickerMonth.getMonth() + 1}月`
 
   function retry() {
     setReloadKey((value) => value + 1)
@@ -160,26 +172,111 @@ export function RoomSituationPage() {
         </div>
 
         <div className="room-situation-filters">
-          <div className="room-store-select">
-            <button type="button" className="room-store-scope" onClick={() => showTooltip('全部门店')}>
-              全部门店
+          <div className="month-store-control room-situation-store-control">
+            <div className="month-store-switch" aria-label="门店范围">
+              {storeOptions.map((store, index) => (
+                <button
+                  key={store.poiId}
+                  type="button"
+                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeStoreId === store.poiId ? ' is-active' : ''}`}
+                  aria-pressed={activeStoreId === store.poiId}
+                  title={store.poiName}
+                  onClick={() => setActiveStoreId(store.poiId)}
+                >
+                  {store.poiName}
+                </button>
+              ))}
+            </div>
+            <button type="button" className="month-store-settings" aria-label="门店设置" onClick={() => navigate('/InformationMaintenance/campInfo')}>
+              <span aria-hidden="true">⚙</span>
             </button>
-            <button type="button" className="room-store-current" onClick={() => showTooltip(currentStoreName)}>
-              {currentStoreName}
-            </button>
-            {tooltip ? (
-              <div className="room-store-tooltip" role="tooltip">
-                {tooltip}
-              </div>
-            ) : null}
           </div>
-          <button type="button" className="room-icon-button" aria-label="设置" onClick={() => showTooltip('列设置已应用')}>
-            ⚙
-          </button>
           <button type="button" className="room-metric-help" onClick={() => setShowMetricHelp(true)}>
             指标说明
           </button>
         </div>
+
+        {mode === 'future' ? (
+          <div className="room-forward-toolbar">
+            <div className="room-forward-date-nav" aria-label="远期开始日期">
+              <button type="button" className="room-forward-date-nav__arrow" aria-label="上一天" onClick={() => setForwardStartDate((current) => shiftDate(current, -1))}>
+                ‹
+              </button>
+              <button
+                type="button"
+                className="room-forward-date-display"
+                aria-expanded={forwardCalendarOpen}
+                onClick={() => {
+                  setForwardPickerMonth(new Date(forwardStartDate.getFullYear(), forwardStartDate.getMonth(), 1))
+                  setForwardCalendarOpen((current) => !current)
+                }}
+              >
+                <strong>{forwardDateLabel}</strong>
+                <span aria-hidden="true">📅</span>
+              </button>
+              <button type="button" className="room-forward-date-nav__arrow" aria-label="下一天" onClick={() => setForwardStartDate((current) => shiftDate(current, 1))}>
+                ›
+              </button>
+              {forwardCalendarOpen ? (
+                <div className="room-forward-calendar" role="dialog" aria-label="选择远期开始日期">
+                  <div className="room-forward-calendar__header">
+                    <div className="room-forward-calendar__nav">
+                      <button type="button" aria-label="上一年" onClick={() => setForwardPickerMonth((current) => new Date(current.getFullYear() - 1, current.getMonth(), 1))}>
+                        «
+                      </button>
+                      <button type="button" aria-label="上一月" onClick={() => setForwardPickerMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}>
+                        ‹
+                      </button>
+                    </div>
+                    <strong>{forwardPickerLabel}</strong>
+                    <div className="room-forward-calendar__nav">
+                      <button type="button" aria-label="下一月" onClick={() => setForwardPickerMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}>
+                        ›
+                      </button>
+                      <button type="button" aria-label="下一年" onClick={() => setForwardPickerMonth((current) => new Date(current.getFullYear() + 1, current.getMonth(), 1))}>
+                        »
+                      </button>
+                    </div>
+                  </div>
+                  <div className="room-forward-calendar__weekdays">
+                    {['一', '二', '三', '四', '五', '六', '日'].map((weekday) => (
+                      <span key={weekday}>{weekday}</span>
+                    ))}
+                  </div>
+                  <div className="room-forward-calendar__grid">
+                    {forwardCalendarCells.map((cell) => (
+                      <button
+                        key={cell.isoDate}
+                        type="button"
+                        className={`room-forward-calendar__cell${cell.inViewMonth ? ' is-in-month' : ''}${cell.isSelected ? ' is-selected' : ''}`}
+                        onClick={() => {
+                          setForwardStartDate(parseDateValue(cell.isoDate))
+                          setForwardCalendarOpen(false)
+                        }}
+                      >
+                        {cell.label}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="room-forward-calendar__today"
+                    onClick={() => {
+                      setForwardStartDate(today)
+                      setForwardPickerMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+                      setForwardCalendarOpen(false)
+                    }}
+                  >
+                    今天
+                  </button>
+                </div>
+              ) : null}
+            </div>
+            <div className="room-situation-caption">
+              <span>可售=当天剩余可售，占用=订单占用+关房占用</span>
+            </div>
+          </div>
+        ) : null}
 
         <div className="room-request-status" aria-live="polite" data-provider={providerName} data-endpoint={activeEndpoint}>
           <div className="room-data-source" aria-label="房情表数据来源">
@@ -261,8 +358,11 @@ export function RoomSituationPage() {
               </button>
             </header>
             <div className="room-metric-drawer__body">
-              {metricDescriptions.map((description) => (
-                <p key={description}>{description}</p>
+              {metricDescriptions.map((item) => (
+                <p key={item.label}>
+                  <strong>{item.label}：</strong>
+                  {item.text}
+                </p>
               ))}
             </div>
           </section>
@@ -303,13 +403,12 @@ function DaySituationTable({ rows }: { rows: DailyRoomSituationRow[] }) {
 }
 
 function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]; dates: string[] }) {
+  const tableMinWidth = Math.max(1400, 220 + dates.length * 112)
+
   return (
-    <>
-      <div className="room-situation-caption">
-        <span>可售=当天剩余可售，占用=订单占用+关房占用</span>
-      </div>
+    <div className="room-situation-future-wrap">
       <div className="room-situation-table-scroll" data-testid="room-situation-table-scroll">
-        <table className="room-situation-table room-situation-table--future">
+        <table className="room-situation-table room-situation-table--future" style={{ minWidth: `${tableMinWidth}px` }}>
           <thead>
             <tr>
               <th className="room-type-column" rowSpan={2}>
@@ -346,7 +445,7 @@ function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -358,14 +457,44 @@ function formatDate(offset = 0) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }
 
-function buildFutureDates(length: number) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
+function buildFutureDates(startDate: Date, length: number) {
   return Array.from({ length }, (_, index) => {
-    const date = new Date(today.getTime() + index * dayMs)
+    const date = shiftDate(startDate, index)
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${weekdays[date.getDay()]}`
   })
+}
+
+function buildCalendarCells(cursorMonth: Date, selectedDate: Date) {
+  const monthStart = new Date(cursorMonth.getFullYear(), cursorMonth.getMonth(), 1)
+  const firstGridDate = shiftDate(monthStart, -((monthStart.getDay() + 6) % 7))
+  const selectedIsoDate = formatDateFromValue(selectedDate)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = shiftDate(firstGridDate, index)
+    return {
+      isoDate: formatDateFromValue(date),
+      label: String(date.getDate()),
+      inViewMonth: date.getMonth() === cursorMonth.getMonth(),
+      isSelected: formatDateFromValue(date) === selectedIsoDate,
+    }
+  })
+}
+
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function shiftDate(date: Date, offset: number) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + offset)
+}
+
+function formatDateFromValue(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function parseDateValue(value: string) {
+  const [year, month, day] = value.split('-').map(Number)
+  return new Date(year, (month || 1) - 1, day || 1)
 }
 
 function maxForwardDays(rows: ForwardRoomSituationRow[]) {

@@ -1034,10 +1034,6 @@
   line-height: 1.6;
 }
 
-.app-shell:has(.workspace-grid.workspace-home) .chat-dock__list {
-  max-height: 110px;
-}
-
 .workspace-order-dialog-mask {
   position: fixed;
   inset: 0;

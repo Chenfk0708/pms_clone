@@ -363,6 +363,116 @@
   cursor: not-allowed;
 }
 
+.month-batch-dialog-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+  background: rgba(15, 23, 42, 0.28);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.month-batch-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-width: 520px;
+  border-radius: 10px;
+}
+
+.month-batch-dialog--wide {
+  width: min(520px, calc(100vw - 32px));
+}
+
+.month-batch-dialog__body {
+  display: grid;
+  gap: 18px;
+  padding: 18px 24px 22px;
+}
+
+.month-batch-dialog__field {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+}
+
+.month-batch-dialog__field > span {
+  padding-top: 10px;
+  color: #333;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.month-batch-dialog__room-picker,
+.month-batch-dialog__date-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-batch-dialog__room-picker .month-order-dialog__input,
+.month-batch-dialog__date-range .month-order-dialog__input,
+.month-batch-dialog__select {
+  height: 32px;
+}
+
+.month-batch-dialog__room-picker .month-order-dialog__input {
+  flex: 1;
+}
+
+.month-batch-dialog__link,
+.month-batch-dialog__hint button {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  cursor: pointer;
+  padding: 0;
+}
+
+.month-batch-dialog__date-range em {
+  color: #b4b9c3;
+  font-style: normal;
+}
+
+.month-batch-dialog__field--radios {
+  grid-template-columns: 66px minmax(0, 1fr);
+}
+
+.month-batch-dialog__radio-group {
+  min-height: 32px;
+  gap: 26px;
+}
+
+.month-batch-dialog__radio-group label {
+  gap: 6px;
+}
+
+.month-batch-dialog__field--textarea {
+  grid-template-columns: 38px minmax(0, 1fr);
+}
+
+.month-batch-dialog__textarea-wrap {
+  display: grid;
+  gap: 6px;
+}
+
+.month-batch-dialog__textarea-wrap b {
+  justify-self: end;
+  color: #b4b9c3;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.month-batch-dialog__hint {
+  margin: -8px 0 0 46px;
+  color: #666;
+  font-size: 13px;
+}
+
+.month-batch-dialog__hint--inline {
+  margin-top: -4px;
+}
+
 .month-toolbar__filters .chip,
 .month-toolbar__filters input {
   height: 28px;
@@ -388,10 +498,14 @@
 .month-store-chip {
   width: 96px !important;
   min-width: 96px !important;
-  border-color: #4d65f6 !important;
   border-radius: 4px 0 0 4px !important;
-  color: #4d65f6 !important;
   padding: 0 8px !important;
+}
+
+.month-store-chip:not(.is-active) {
+  border-color: #d8d8d8 !important;
+  background: #fff !important;
+  color: #334155 !important;
 }
 
 .month-store-switch .chip + .chip {
@@ -1022,9 +1136,31 @@
   outline-offset: -2px;
 }
 
+.month-cell.is-selectable {
+  cursor: pointer;
+}
+
 .month-cell.is-selected {
-  outline: 3px solid rgba(70, 100, 244, 0.65);
-  outline-offset: -3px;
+  outline: 2px solid #4d63ff;
+  outline-offset: -2px;
+}
+
+.month-cell__check {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-top-left-radius: 4px;
+  background: #5870ff;
+  color: #fff;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .tone-booking-blue,
@@ -1092,6 +1228,64 @@
     0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
   pointer-events: none;
+}
+
+.month-selection-actions {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 88;
+  overflow: visible;
+  min-width: 118px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 14px 30px rgba(31, 42, 68, 0.12),
+    0 2px 8px rgba(31, 42, 68, 0.06);
+}
+
+.month-selection-actions::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  z-index: 2;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.month-selection-actions::after {
+  display: none;
+}
+
+.month-selection-actions button {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 38px;
+  border-bottom: 1px solid #edf1f7;
+  color: #4c5870;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  background: transparent;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.month-selection-actions button:last-child {
+  border-bottom: 0;
+}
+
+.month-selection-actions button:hover {
+  background: #f6f8fc;
+  color: #3f5de8;
 }
 
 .month-order-popover::after {

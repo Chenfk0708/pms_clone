@@ -1,8 +1,30 @@
-2026/05/21-23:26:33.504 22cc Creating DB C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\Local Storage\leveldb since it was missing.
-2026/05/21-23:26:33.731 22cc Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\Local Storage\leveldb/MANIFEST-000001
-2026/05/22-10:10:02.000 b08c Level-0 table #5: started
-2026/05/22-10:10:02.013 b08c Level-0 table #5: 150114 bytes OK
-2026/05/22-10:10:02.020 b08c Delete type=0 #3
-2026/05/22-10:10:31.837 b08c Level-0 table #7: started
-2026/05/22-10:10:31.868 b08c Level-0 table #7: 175411 bytes OK
-2026/05/22-10:10:31.875 b08c Delete type=0 #4
+2026/05/22-13:49:45.648 9cac Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\Local Storage\leveldb/MANIFEST-000001
+2026/05/22-13:49:45.653 9cac Recovering log #6
+2026/05/22-13:49:45.662 9cac Reusing old log C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\Local Storage\leveldb/000006.log 
+2026/05/22-13:51:45.996 cf04 Level-0 table #10: started
+2026/05/22-13:51:46.012 cf04 Level-0 table #10: 51313 bytes OK
+2026/05/22-13:51:46.020 cf04 Delete type=0 #6
+2026/05/22-13:54:09.418 cf04 Level-0 table #12: started
+2026/05/22-13:54:09.448 cf04 Level-0 table #12: 49523 bytes OK
+2026/05/22-13:54:09.455 cf04 Delete type=0 #9
+2026/05/22-13:56:22.098 cf04 Level-0 table #14: started
+2026/05/22-13:56:22.112 cf04 Level-0 table #14: 49596 bytes OK
+2026/05/22-13:56:22.117 cf04 Delete type=0 #11
+2026/05/22-13:58:53.638 cf04 Level-0 table #16: started
+2026/05/22-13:58:53.656 cf04 Level-0 table #16: 50289 bytes OK
+2026/05/22-13:58:53.661 cf04 Delete type=0 #13
+2026/05/22-13:58:53.667 cf04 Compacting 4@0 + 1@1 files
+2026/05/22-13:58:53.689 cf04 Generated table #17@0: 32 keys, 226270 bytes
+2026/05/22-13:58:53.689 cf04 Compacted 4@0 + 1@1 files => 226270 bytes
+2026/05/22-13:58:53.693 cf04 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/22-13:58:53.694 cf04 Delete type=2 #7
+2026/05/22-13:58:53.694 cf04 Delete type=2 #10
+2026/05/22-13:58:53.695 cf04 Delete type=2 #12
+2026/05/22-13:58:53.695 cf04 Delete type=2 #14
+2026/05/22-13:58:53.695 cf04 Delete type=2 #16
+2026/05/22-16:03:24.817 cf04 Level-0 table #19: started
+2026/05/22-16:03:24.830 cf04 Level-0 table #19: 18299 bytes OK
+2026/05/22-16:03:24.834 cf04 Delete type=0 #15
+2026/05/23-17:20:57.859 9cac Level-0 table #21: started
+2026/05/23-17:20:57.889 9cac Level-0 table #21: 55523 bytes OK
+2026/05/23-17:20:57.897 9cac Delete type=0 #18

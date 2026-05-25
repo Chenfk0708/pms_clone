@@ -21,8 +21,7 @@ test.describe('private channel page', () => {
     await expect(page.getByRole('button', { name: '立即关联' })).toHaveCount(2)
     await expect(page.getByRole('button', { name: '订阅开通' })).toBeVisible()
     await expect(page.locator('.private-chat')).toHaveCount(0)
-    await expect(page.locator('.chat-dock')).toHaveCount(1)
-    await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
+    await expect(page.locator('.chat-dock-launcher')).toBeVisible()
   })
 
   test('opens captured enterprise wecom detail route', async ({ page }) => {
@@ -62,11 +61,13 @@ test.describe('private channel page', () => {
   })
 
   test('supports captured chat collapse and program subscription baseline', async ({ page }) => {
+    await page.locator('.chat-dock-launcher').click()
+    await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
     await page.locator('.chat-dock__collapse').click()
     await expect(page.locator('.chat-dock')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: '打开全部会话' })).toBeVisible()
+    await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 
-    await page.getByRole('button', { name: '打开全部会话' }).click()
+    await page.locator('.chat-dock-launcher').click()
     await expect(page.locator('.chat-dock')).toBeVisible()
     await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
 

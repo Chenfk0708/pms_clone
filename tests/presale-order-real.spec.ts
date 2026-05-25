@@ -147,6 +147,7 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
   await page.getByRole('button', { name: '导出明细' }).click()
   await expect(page.getByRole('status', { name: '预售券订单操作反馈' })).toContainText('导出任务已创建')
 
+  await page.locator('.chat-dock-launcher').click()
   await page.locator('aside[aria-label="全部会话"] button[aria-label="收起会话"]').click()
   await page.getByRole('button', { name: '订单详情' }).click()
   await expect(page.getByRole('dialog', { name: '预售券订单详情' })).toContainText('ORDER-001')
@@ -249,6 +250,7 @@ test('/mallManagement/orderManagement keeps action and pagination buttons beneat
   const previousButton = page.getByRole('button', { name: '上一页' })
   const nextButton = page.getByRole('button', { name: '下一页' })
 
+  await page.locator('.chat-dock-launcher').click()
   await expect(chatDock).toBeVisible()
   await expect(detailButtons).toHaveCount(3)
   await expect(previousButton).toBeVisible()
@@ -364,6 +366,7 @@ test('/mallManagement/orderManagement keeps toolbar quick links beneath the chat
   const chatDock = page.locator('.chat-dock')
   const quickLinkButton = page.getByRole('button', { name: '卡券核销' })
 
+  await page.locator('.chat-dock-launcher').click()
   await expect(chatDock).toBeVisible()
   await expect(quickLinkButton).toBeVisible()
 

@@ -46,6 +46,7 @@ import { MemberEquityPage } from './pages/MemberEquityPage'
 import { MemberPointsPage } from './pages/MemberPointsPage'
 import { MemberSettingPage } from './pages/MemberSettingPage'
 import { MyBenefitPage } from './pages/MyBenefitPage'
+import { NotificationCenterPage } from './pages/NotificationCenterPage'
 import { NotificationSettingPage } from './pages/NotificationSettingPage'
 import { OrderLedgerPage } from './pages/OrderLedgerPage'
 import { OrdersPage } from './pages/OrdersPage'
@@ -187,10 +188,13 @@ const pageTitles: Record<string, string> = {
   '/setting/localRoomTypeProductionSetting': '日历房',
   '/setting/localRoomTypeProductionSetting/channelGoodsSetting': '日历房',
   '/setting/roomTypeInfo': '房型信息',
+  '/setting/roomTypeInfo/tag': '房型信息',
+  '/setting/roomTypeInfo/tags': '房型信息',
+  '/setting/roomTypeInfo/tagManage': '房型信息',
   '/setting/roomTypeInfo/edit': '房型信息',
   '/setting/picturesAndVideos': '图片视频',
   '/setting/imSetting': '会话设置',
-  '/setting/notification': '通知设置',
+  '/setting/notification': '消息通知',
   '/setting/wechatPushSetting': '通知设置',
   '/setting/customChannel': '自定义渠道',
   '/setting/paymentSetting': '支付方式设置',
@@ -214,6 +218,7 @@ const pageTitles: Record<string, string> = {
   '/version/localsMall/detail': '路客商城',
   '/InformationMaintenance/informationOverview': '设置',
   '/InformationMaintenance/campInfo': '门店信息',
+  '/InformationMaintenance/campInfo/detail': '门店信息',
   '/InformationMaintenance/campInfo/edit': '门店信息',
   '/InformationMaintenance/campInfo/sort': '门店信息',
   '/InformationMaintenance/qualification': '企业资质',
@@ -275,10 +280,18 @@ function RoutedApp() {
         <Route path="/setting/localRoomTypeProductionSetting" element={<CalendarRoomPage />} />
         <Route path="/setting/localRoomTypeProductionSetting/channelGoodsSetting" element={<CalendarRoomPage />} />
         <Route path="/setting/roomTypeInfo" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/floor" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/floor/*" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/floors" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/floorManage" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/tag" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/tag/*" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/tags" element={<RoomTypeInfoPage />} />
+        <Route path="/setting/roomTypeInfo/tagManage" element={<RoomTypeInfoPage />} />
         <Route path="/setting/roomTypeInfo/edit" element={<RoomTypeInfoPage />} />
         <Route path="/setting/picturesAndVideos" element={<PicturesVideosPage />} />
         <Route path="/setting/imSetting" element={<ImSettingPage />} />
-        <Route path="/setting/notification" element={<NotificationSettingPage />} />
+        <Route path="/setting/notification" element={<NotificationCenterPage />} />
         <Route path="/setting/wechatPushSetting" element={<NotificationSettingPage />} />
         <Route path="/setting/customChannel" element={<CustomChannelPage />} />
         <Route path="/setting/paymentSetting" element={<PaymentSettingPage />} />
@@ -369,6 +382,7 @@ function RoutedApp() {
         <Route path="/InformationMaintenance/informationOvervie" element={<Navigate to="/InformationMaintenance/informationOverview" replace />} />
         <Route path="/InformationMaintenance/informationOverview" element={<InformationOverviewPage />} />
         <Route path="/InformationMaintenance/campInfo" element={<CampInfoPage />} />
+        <Route path="/InformationMaintenance/campInfo/detail" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/campInfo/edit" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/campInfo/sort" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/companyInfo" element={<Navigate to="/CompanySetting/CompanyInfo" replace />} />

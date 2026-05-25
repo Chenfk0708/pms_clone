@@ -60,6 +60,7 @@ test('/setting/customChannel supports system edit, create, update, disable and d
   await expect(feedback).toContainText('系统默认渠道设置已保存')
   await expect(page.getByRole('button', { name: '编 辑' })).toBeVisible()
 
+  await page.locator('.chat-dock-launcher').click()
   await page.getByRole('button', { name: '收起会话' }).click()
   await page.getByRole('button', { name: '添加渠道' }).click()
   await expect(page.getByRole('dialog', { name: '添加渠道' })).toBeVisible()

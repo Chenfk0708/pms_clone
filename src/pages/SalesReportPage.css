@@ -1,7 +1,7 @@
 .app-shell:has(.sales-report-page) .page-content {
-  padding: 8px 8px 0;
+  padding: 8px 8px 0 12px;
   overflow: auto;
-  background: #f3f5f8;
+  background: #f0f2f5;
 }
 
 .app-shell:has(.sales-report-page) .page-header {
@@ -10,32 +10,49 @@
 
 .sales-report-page {
   min-height: 840px;
-  padding: 8px 10px 36px;
-  border-radius: 8px 8px 0 0;
+  padding: 0 8px 36px;
+  border-radius: 4px;
   background: #fff;
   color: rgb(0 0 0 / 85%);
 }
 
 .sales-report-panel {
   display: grid;
+}
+
+.sales-report-query {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'tabs tabs'
+    'form actions';
   gap: 12px;
+  padding: 8px 0 12px;
 }
 
 .sales-report-tabs {
+  grid-area: tabs;
   display: inline-flex;
   width: max-content;
-  padding: 3px;
-  border-radius: 8px;
-  background: #eef3fb;
+  overflow: hidden;
+  background: #f1f3f8;
+  border-radius: 4px;
+}
+
+.sales-report-tabs button,
+.sales-report-actions button,
+.sales-date-shortcuts button,
+.sales-description-modal header button {
+  font: inherit;
 }
 
 .sales-report-tabs button {
   min-width: 74px;
-  height: 32px;
+  height: 30px;
+  padding: 0 14px;
   border: 0;
-  border-radius: 6px;
   background: transparent;
-  color: rgb(0 0 0 / 70%);
+  color: rgb(0 0 0 / 85%);
 }
 
 .sales-report-tabs button.is-active {
@@ -43,28 +60,38 @@
   color: #fff;
 }
 
+.sales-report-form {
+  grid-area: form;
+}
+
 .sales-report-store-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  display: inline-flex;
+  margin-bottom: 10px;
 }
 
 .sales-report-store-row label {
   position: relative;
+  height: 30px;
+  padding: 0 14px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
   display: inline-flex;
   align-items: center;
-  min-height: 30px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  background: #fff;
-  color: rgb(0 0 0 / 70%);
-  padding: 0 12px;
+}
+
+.sales-report-store-row label:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.sales-report-store-row label + label {
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .sales-report-store-row label.is-active {
-  border-color: #4d65f6;
   color: #4d65f6;
+  border-color: #4d65f6;
 }
 
 .sales-report-store-row input {
@@ -73,127 +100,134 @@
   opacity: 0;
 }
 
-.sales-store-name {
-  color: rgb(0 0 0 / 85%);
-}
-
 .sales-report-filter-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 16px;
-  padding: 0 4px;
+  gap: 12px;
 }
 
-.sales-date-range,
+.sales-date-field,
 .sales-select-field {
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  min-width: 280px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.sales-date-range legend,
-.sales-select-field > span {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
   color: #333;
 }
 
-.sales-date-range input,
+.sales-date-field__body {
+  display: grid;
+  gap: 0;
+}
+
+.sales-date-range,
 .sales-select-field select {
-  width: 100%;
-  min-height: 32px;
+  min-width: 168px;
+  height: 30px;
+  padding: 0 11px;
   border: 1px solid #d9d9d9;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   color: rgb(0 0 0 / 85%);
-  padding: 0 10px;
-  font-size: 14px;
 }
 
 .sales-date-range {
-  grid-template-columns: 48px minmax(0, 1fr) 20px minmax(0, 1fr);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 244px;
 }
 
-.sales-date-range legend {
-  grid-column: 1;
+.sales-date-range--month {
+  min-width: 264px;
 }
 
-.sales-date-range input:first-of-type {
-  grid-column: 2;
+.sales-date-range input {
+  width: 88px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 85%);
+}
+
+.sales-date-range--month input {
+  width: 96px;
 }
 
 .sales-date-range span {
-  grid-column: 3;
-  text-align: center;
   color: rgb(0 0 0 / 45%);
 }
 
-.sales-date-range input:last-of-type {
-  grid-column: 4;
+.sales-date-range i {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  border: 1px solid #c9ced8;
+  border-radius: 3px;
+  position: relative;
 }
 
-.sales-date-shortcuts {
-  grid-column: 2 / 5;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.sales-date-range i::before,
+.sales-date-range i::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  background: #c9ced8;
 }
 
-.sales-date-shortcuts button {
-  min-width: 52px;
-  min-height: 28px;
-  border: 1px solid #d9d9d9;
-  border-radius: 999px;
-  background: #fff;
-  color: rgb(0 0 0 / 65%);
-  padding: 0 12px;
-  font-size: 12px;
+.sales-date-range i::before {
+  top: 3px;
+  height: 2px;
 }
 
-.sales-date-shortcuts button:hover {
-  border-color: #4d65f6;
-  color: #4d65f6;
+.sales-date-range i::after {
+  top: 6px;
+  height: 5px;
+  background: linear-gradient(to bottom, #c9ced8 0 1px, transparent 1px);
+}
+
+.sales-select-field select {
+  min-width: 168px;
 }
 
 .sales-report-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
+  grid-area: actions;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-top: 40px;
 }
 
 .sales-report-actions button {
-  min-width: 72px;
-  min-height: 32px;
-  border-radius: 6px;
-  padding: 0 14px;
+  min-width: 64px;
+  height: 30px;
+  padding: 0 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
 }
 
 .sales-report-actions .is-outline {
-  border: 1px solid #4d65f6;
   background: #fff;
-  color: #4d65f6;
+  color: rgb(0 0 0 / 85%);
 }
 
 .sales-report-actions .is-primary {
-  border: 1px solid #4d65f6;
+  border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
 }
 
 .sales-report-actions .is-link {
+  min-width: 52px;
   border: 0;
   background: transparent;
   color: #4d65f6;
-  padding: 0 4px;
 }
 
-.sales-report-alert,
-.sales-report-notice {
+.sales-report-alert {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -227,21 +261,17 @@
   color: #9f3a00;
 }
 
-.sales-report-notice {
-  border: 1px solid #d9e4ff;
-  background: #f4f7ff;
-  color: #3855d6;
-}
-
 .sales-report-table-wrap {
-  margin-top: 14px;
+  width: 100%;
+  min-height: 0;
+  margin-top: 8px;
   overflow: auto;
   border-top: 1px solid #edf0f5;
 }
 
 .sales-report-table {
   width: max-content;
-  min-width: 1180px;
+  min-width: 100%;
   border-collapse: collapse;
   background: #fff;
 }
@@ -268,8 +298,63 @@
   font-weight: 400;
 }
 
+.sales-report-table thead th.is-expanded-group {
+  color: #4d65f6;
+}
+
 .sales-report-table thead tr:first-child th {
   background: #eef5ff;
+}
+
+.sales-table-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  line-height: 1;
+  overflow: visible;
+}
+
+.sales-table-expand.is-expanded {
+  color: #4d65f6;
+}
+
+.sales-table-expand i {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.sales-table-expand i::before,
+.sales-table-expand i::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.sales-table-expand i::before {
+  top: 6px;
+  left: 1px;
+  width: 12px;
+  height: 2px;
+}
+
+.sales-table-expand i::after {
+  top: 1px;
+  left: 6px;
+  width: 2px;
+  height: 12px;
+  opacity: 0;
+}
+
+.sales-table-expand:not(.is-expanded) i::after {
+  opacity: 1;
 }
 
 .sales-report-table tbody tr:nth-child(even) {
@@ -382,13 +467,34 @@
   border-top: 1px solid #f0f0f0;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1320px) {
+  .sales-report-query {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'tabs'
+      'form'
+      'actions';
+  }
+
   .sales-report-actions {
-    justify-content: flex-start;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .sales-report-filter-row {
+    gap: 10px;
+  }
+
+  .sales-date-field,
+  .sales-select-field {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .sales-date-range,
-  .sales-select-field {
-    min-width: 100%;
+  .sales-date-range--month,
+  .sales-select-field select {
+    width: 100%;
   }
 }

@@ -129,7 +129,7 @@ export class PresaleGoodsServiceError extends Error {
 const timestamp = '2026-05-18T10:00:00+08:00'
 
 const options = {
-  stores: [{ value: '1796425098638573570', label: '天落会宿公寓(前海壹方城宝安中心店)' }],
+  stores: [{ value: '1796425098638573570', label: '天洛会宿公寓(前海壹方城宝安中心店)' }],
   channels: [
     { value: '17', label: '路客云聚合' },
     { value: '3', label: '美团民宿' },
@@ -151,9 +151,8 @@ const options = {
   ],
   shelfStatuses: [
     { value: '', label: '全部' },
-    { value: 'selling', label: '销售中' },
-    { value: 'soldOut', label: '已售罄' },
-    { value: 'warehouse', label: '仓库中' },
+    { value: 'listed', label: '已上架' },
+    { value: 'unlisted', label: '已下架' },
   ],
 }
 
@@ -177,7 +176,7 @@ const rows: PresaleGoodsApiRow[] = [
     createdAt: '2026-05-12 09:20:00',
     updatedAt: '2026-05-18 09:40:00',
     description: '适用于顶层套房双人下午茶，含双人茶歇与延迟退房权益。',
-    refundRule: '核销前随时退',
+    refundRule: '核销前可随时退',
     products: [
       {
         roomCategoryProductId: 'mock-presale-sku-001-1',
@@ -290,7 +289,12 @@ export function buildPresaleGoodsRequestBody(filters: PresaleGoodsFilters) {
     channelIds: filters.channelId ? [Number(filters.channelId)] : [0],
     campId: filters.campId,
     poiIds: filters.poiId ? [filters.poiId] : [],
-    shelfStatuses: filters.shelfStatus ? [filters.shelfStatus] : [],
+    shelfStatuses:
+      filters.shelfStatus === 'listed'
+        ? ['selling', 'soldOut']
+        : filters.shelfStatus === 'unlisted'
+          ? ['warehouse']
+          : [],
   }
 }
 
@@ -341,7 +345,7 @@ function createResponse(
         total,
       },
     },
-    traceId: `mock-shoumai-chanpin--yushouquan--yushouquan-${code === 0 ? 'list' : 'error'}-001`,
+    traceId: `mock-mall-goods-presale-${code === 0 ? 'list' : 'error'}-001`,
     timestamp,
   }
 }
@@ -352,7 +356,12 @@ function filterRows(filters: PresaleGoodsFilters) {
     const matchesChannel = filters.channelId ? row.channelIds.includes(filters.channelId) : true
     const matchesTicketType = filters.ticketType ? String(row.roomCategoryType) === filters.ticketType : true
     const matchesCategory = filters.categoryId ? row.categoryId === filters.categoryId : true
-    const matchesStatus = filters.shelfStatus ? row.shelfStatus === filters.shelfStatus : true
+    const matchesStatus =
+      filters.shelfStatus === 'listed'
+        ? row.shelfStatus === 'selling' || row.shelfStatus === 'soldOut'
+        : filters.shelfStatus === 'unlisted'
+          ? row.shelfStatus === 'warehouse'
+          : true
     const matchesKeyword = keyword ? row.channelRoomCategoryName.toLowerCase().includes(keyword) : true
     return matchesChannel && matchesTicketType && matchesCategory && matchesStatus && matchesKeyword
   })

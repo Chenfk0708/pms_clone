@@ -8,11 +8,12 @@ import {
   type SmsSettingRechargePlan,
   type SmsSettingRechargeRecord,
   type SmsSettingSection,
+  type SmsSettingTemplate,
   type SmsSettingViewModel,
 } from '../services/smsSetting'
 import './SmsSettingPage.css'
 
-type SmsDialogState = 'recharge' | 'rechargeRecord' | 'channel' | 'sign' | null
+type LocalDialogState = 'recharge' | 'rechargeRecord' | 'channel' | 'sign' | 'template' | null
 
 export function SmsSettingPage() {
   const navigate = useNavigate()
@@ -23,10 +24,11 @@ export function SmsSettingPage() {
   const [viewModel, setViewModel] = useState<SmsSettingViewModel | null>(null)
   const [settledRequestKey, setSettledRequestKey] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [feedback, setFeedback] = useState('短信设置数据加载中')
-  const [dialog, setDialog] = useState<SmsDialogState>(null)
+  const [feedback, setFeedback] = useState('正在加载短信设置...')
+  const [dialog, setDialog] = useState<LocalDialogState>(null)
   const [selectedRechargePlan, setSelectedRechargePlan] = useState('')
   const [selectedChannelId, setSelectedChannelId] = useState('')
+  const [activeTemplate, setActiveTemplate] = useState<SmsSettingTemplate | null>(null)
   const loading = settledRequestKey !== requestKey
   const hasError = !loading && Boolean(errorMessage)
 
@@ -37,15 +39,13 @@ export function SmsSettingPage() {
       .then((result) => {
         setViewModel(result)
         setSelectedChannelId(result.currentChannel.id)
-        setDialog(null)
         setErrorMessage('')
-        setFeedback(result.emptyState ? result.emptyState.title : '短信设置数据已同步')
+        setFeedback(result.emptyState ? result.emptyState.title : '短信设置已同步')
         setSettledRequestKey(requestKey)
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
         setViewModel(null)
-        setDialog(null)
         setErrorMessage(error instanceof Error ? error.message : '短信设置数据加载失败，请稍后重试')
         setFeedback(error instanceof Error ? error.message : '短信设置数据加载失败，请稍后重试')
         setSettledRequestKey(requestKey)
@@ -77,7 +77,8 @@ export function SmsSettingPage() {
 
   function retryLoad() {
     setDialog(null)
-    setFeedback('短信设置数据加载中')
+    setActiveTemplate(null)
+    setFeedback('正在重新加载短信设置...')
     setReloadKey((current) => current + 1)
   }
 
@@ -103,9 +104,15 @@ export function SmsSettingPage() {
     setFeedback('已打开短信签名说明')
   }
 
+  function openTemplateDialog(template: SmsSettingTemplate) {
+    setActiveTemplate(template)
+    setDialog('template')
+    setFeedback(`已打开 ${template.title} 模板详情`)
+  }
+
   function handleRechargePlanSelect(plan: SmsSettingRechargePlan) {
     setSelectedRechargePlan(plan.id)
-    setFeedback(`已选择 ${plan.countLabel.replace('条', ' 条')}短信套餐`)
+    setFeedback(`已选择 ${plan.countLabel}短信套餐`)
   }
 
   function handleChannelSave() {
@@ -121,6 +128,32 @@ export function SmsSettingPage() {
     })
     setDialog(null)
     setFeedback(`启用渠道已切换为 ${selected.name}`)
+  }
+
+  function handleTemplateToggle(sectionId: string, templateId: string) {
+    setViewModel((current) => {
+      if (!current) return current
+      return {
+        ...current,
+        sections: current.sections.map((section) => {
+          if (section.id !== sectionId) return section
+          return {
+            ...section,
+            templates: section.templates.map((template) =>
+              template.id === templateId ? { ...template, enabled: !template.enabled } : template,
+            ),
+          }
+        }),
+      }
+    })
+
+    const template = viewModel?.sections
+      .find((item) => item.id === sectionId)
+      ?.templates.find((item) => item.id === templateId)
+
+    if (template) {
+      setFeedback(`${template.title}${template.enabled ? ' 已停用' : ' 已启用'}`)
+    }
   }
 
   function handleCloseDialog() {
@@ -140,39 +173,84 @@ export function SmsSettingPage() {
         {contractText}
       </pre>
 
-      <section className="sms-setting-panel" aria-label="短信设置">
+      <section className="sms-setting-shell" aria-label="短信设置">
+        <div className="sms-setting-status" role="status" aria-label="短信设置操作反馈">
+          {loading ? '正在加载短信设置...' : feedback}
+        </div>
+
         <header className="sms-setting-header">
-          <div>
-            <h1>{viewModel?.title ?? '短信设置'}</h1>
-            <span>{viewModel?.versionLabel ?? '版本号：v4.10.7'}</span>
+          <div className="sms-setting-header__main" data-testid="sms-setting-overview">
+            <div className="sms-setting-header__toolbar">
+              <div className="sms-setting-header__balance">
+                <h1>{viewModel?.title ?? '短信设置'}</h1>
+                <div className="sms-setting-header__balance-text">
+                  <span>剩余短信：</span>
+                  <strong>{viewModel?.balance.remaining ?? '--'}</strong>
+                </div>
+                <button type="button" className="sms-setting-primary" onClick={openRechargeDialog}>
+                  充值
+                </button>
+                <button type="button" className="sms-setting-secondary" onClick={openRechargeRecordDialog}>
+                  充值记录
+                </button>
+              </div>
+
+              <p className="sms-setting-header__hint">{viewModel?.introText ?? '启用短信推送模版后，系统将在预设条件下自动向客人发送短信通知'}</p>
+            </div>
+
+            {!loading && !hasError && !viewModel?.emptyState && viewModel ? (
+              <div className="sms-setting-header__meta">
+                <div className="sms-setting-channel-row" data-testid="sms-channel-row">
+                  <span className="sms-setting-label">启用渠道:</span>
+                  <div className="sms-setting-channel-list" aria-label="已启用短信渠道">
+                    {viewModel.channelOptions.map((channel) => (
+                      <span
+                        key={channel.id}
+                        className={`sms-setting-channel-badge sms-setting-channel-badge--${channel.tone}${channel.enabled ? ' is-active' : ''}`}
+                        title={channel.name}
+                      >
+                        {channel.badgeText}
+                      </span>
+                    ))}
+                  </div>
+                  <button type="button" className="sms-setting-text-button" onClick={openChannelDialog}>
+                    修改
+                  </button>
+                </div>
+
+                <div className="sms-setting-sign-row" data-testid="sms-sign-row">
+                  <span className="sms-setting-label">签名:</span>
+                  <strong>{viewModel.sign.value}</strong>
+                  <button type="button" className="sms-setting-text-button" onClick={openSignDialog}>
+                    修改
+                  </button>
+                </div>
+              </div>
+            ) : null}
           </div>
         </header>
 
-        <div className="sms-setting-status" role="status" aria-label="短信设置操作反馈">
-          {loading ? '短信设置数据加载中' : feedback}
-        </div>
-
         {loading ? (
-          <section className="sms-setting-loading" aria-label="短信设置加载状态">
-            <div className="sms-setting-skeleton sms-setting-skeleton--wide" />
-            <div className="sms-setting-skeleton" />
-            <div className="sms-setting-skeleton sms-setting-skeleton--card" />
+          <section className="sms-setting-state sms-setting-state--loading" aria-live="polite" aria-label="短信设置加载中">
+            <div className="sms-setting-skeleton sms-setting-skeleton--overview" />
+            <div className="sms-setting-skeleton sms-setting-skeleton--section" />
+            <div className="sms-setting-skeleton sms-setting-skeleton--section" />
           </section>
         ) : null}
 
         {hasError ? (
-          <section className="sms-setting-error" role="alert" aria-label="短信设置数据错误">
-            <strong>短信设置数据加载失败，请稍后重试</strong>
+          <section className="sms-setting-state sms-setting-state--error" role="alert" aria-label="短信设置数据错误">
+            <h2>短信设置数据加载失败，请稍后重试</h2>
             <p>{errorMessage}</p>
-            <button type="button" className="sms-setting-secondary" onClick={retryLoad}>
+            <button type="button" className="sms-setting-primary" onClick={retryLoad}>
               重新加载
             </button>
           </section>
         ) : null}
 
         {!loading && !hasError && viewModel?.emptyState ? (
-          <section className="sms-setting-empty" aria-label="短信设置空状态">
-            <strong>{viewModel.emptyState.title}</strong>
+          <section className="sms-setting-state sms-setting-state--empty" aria-label="短信设置空状态">
+            <h2>{viewModel.emptyState.title}</h2>
             <p>{viewModel.emptyState.description}</p>
             <button
               type="button"
@@ -185,54 +263,20 @@ export function SmsSettingPage() {
         ) : null}
 
         {!loading && !hasError && !viewModel?.emptyState && viewModel ? (
-          <>
-            <section className="sms-setting-balance">
-              <div className="sms-setting-balance__count">
-                <span>剩余短信</span>
-                <strong>{viewModel.balance.remaining}</strong>
-              </div>
-              <div className="sms-setting-balance__actions">
-                <button type="button" className="sms-setting-primary" onClick={openRechargeDialog}>
-                  充值
-                </button>
-                <button type="button" className="sms-setting-secondary" onClick={openRechargeRecordDialog}>
-                  充值记录
-                </button>
-              </div>
-            </section>
-
-            <p className="sms-setting-intro">{viewModel.introText}</p>
-
-            <div className="sms-setting-meta">
-              <div>
-                <span>启用渠道</span>
-                <em>{viewModel.currentChannel.name}</em>
-                <button type="button" aria-label="修改启用渠道" onClick={openChannelDialog}>
-                  修改
-                </button>
-              </div>
-              <div>
-                <span>签名</span>
-                <em>{viewModel.sign.value}</em>
-                <button type="button" aria-label="修改签名" onClick={openSignDialog}>
-                  修改
-                </button>
-              </div>
-            </div>
-
-            <div className="sms-setting-section-list">
-              {viewModel.sections.map((section) => (
-                <SmsTemplateSection
-                  key={section.id}
-                  section={section}
-                  onRoute={(route) => {
-                    setFeedback(`正在前往「${section.title}」承接页`)
-                    navigate(route)
-                  }}
-                />
-              ))}
-            </div>
-          </>
+          <div className="sms-setting-section-list" data-testid="sms-section-list">
+            {viewModel.sections.map((section) => (
+              <SmsTemplateSection
+                key={section.id}
+                section={section}
+                onRoute={(route) => {
+                  setFeedback(`正在前往 ${section.title} 承接页`)
+                  navigate(route)
+                }}
+                onToggle={handleTemplateToggle}
+                onEdit={openTemplateDialog}
+              />
+            ))}
+          </div>
         ) : null}
       </section>
 
@@ -262,6 +306,10 @@ export function SmsSettingPage() {
       {dialog === 'sign' && viewModel ? (
         <SignDialog signValue={viewModel.sign.value} description={viewModel.sign.description} onClose={handleCloseDialog} />
       ) : null}
+
+      {dialog === 'template' && activeTemplate ? (
+        <TemplateDialog template={activeTemplate} onClose={handleCloseDialog} />
+      ) : null}
     </div>
   )
 }
@@ -269,37 +317,89 @@ export function SmsSettingPage() {
 function SmsTemplateSection({
   section,
   onRoute,
+  onToggle,
+  onEdit,
 }: {
   section: SmsSettingSection
   onRoute: (route: string) => void
+  onToggle: (sectionId: string, templateId: string) => void
+  onEdit: (template: SmsSettingTemplate) => void
 }) {
   return (
-    <section className="sms-template-card" aria-label={section.title}>
-      <header className="sms-template-card__header">
-        <span className="sms-template-card__icon" aria-hidden="true" />
-        <div>
+    <section className="sms-section-card" data-accent={section.accent} aria-label={section.title}>
+      <header className="sms-section-card__header">
+        <span className="sms-section-card__icon" aria-hidden="true">
+          {section.iconLabel}
+        </span>
+
+        <div className="sms-section-card__copy">
           <h2>{section.title}</h2>
           <p>{section.description}</p>
-          {section.actionLabel && section.actionRoute ? (
-            <button type="button" className="sms-setting-link-button" onClick={() => onRoute(section.actionRoute!)}>
-              {section.actionLabel}
-            </button>
-          ) : null}
         </div>
+
+        {section.actionLabel && section.actionRoute ? (
+          <button type="button" className="sms-setting-text-button" onClick={() => onRoute(section.actionRoute!)}>
+            {section.actionLabel}
+          </button>
+        ) : (
+          <span />
+        )}
       </header>
 
-      <div className="sms-template-card__body">
+      <div className="sms-section-card__body">
         {section.templates.map((template) => (
-          <article className="sms-template-row" key={template.id}>
-            <div className="sms-template-row__title">
-              <span className="sms-template-row__dot" aria-hidden="true" />
-              <strong>{template.title}</strong>
+          <article className="sms-template-item" key={template.id}>
+            <div className="sms-template-item__top">
+              <div className="sms-template-item__title">
+                <span className="sms-template-item__clock" aria-hidden="true" />
+                <strong>{template.title}</strong>
+              </div>
+
+              <SmsSwitch
+                checked={template.enabled}
+                label={`${template.title}开关`}
+                onChange={() => onToggle(section.id, template.id)}
+              />
             </div>
-            <p>{template.content}</p>
+
+            <div className="sms-template-item__body">
+              <p>{template.content}</p>
+              <button
+                type="button"
+                className="sms-template-item__edit"
+                aria-label={`编辑${template.title}`}
+                onClick={() => onEdit(template)}
+              >
+                <span />
+              </button>
+            </div>
           </article>
         ))}
       </div>
     </section>
+  )
+}
+
+function SmsSwitch({
+  checked,
+  label,
+  onChange,
+}: {
+  checked: boolean
+  label: string
+  onChange: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className={`sms-switch${checked ? ' is-on' : ''}`}
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+    >
+      <span />
+    </button>
   )
 }
 
@@ -315,14 +415,15 @@ function RechargeDialog({
   onClose: () => void
 }) {
   return (
-    <div className="sms-recharge-backdrop">
-      <section className="sms-recharge-dialog" role="dialog" aria-modal="true" aria-label="短信充值">
-        <header>
+    <div className="sms-dialog-backdrop">
+      <section className="sms-dialog sms-dialog--recharge" role="dialog" aria-modal="true" aria-label="短信充值">
+        <header className="sms-dialog__header">
           <h2>短信充值</h2>
           <button type="button" aria-label="关闭短信充值" onClick={onClose}>
             ×
           </button>
         </header>
+
         <div className="sms-recharge-grid">
           {plans.map((plan) => (
             <button
@@ -338,8 +439,9 @@ function RechargeDialog({
             </button>
           ))}
         </div>
-        <footer>
-          <button type="button" onClick={onClose}>
+
+        <footer className="sms-dialog__footer">
+          <button type="button" className="sms-setting-secondary" onClick={onClose}>
             取消
           </button>
         </footer>
@@ -356,28 +458,31 @@ function RechargeRecordDialog({
   onClose: () => void
 }) {
   return (
-    <div className="sms-recharge-backdrop">
-      <section className="sms-recharge-dialog sms-recharge-dialog--record" role="dialog" aria-modal="true" aria-label="短信充值记录">
-        <header>
+    <div className="sms-dialog-backdrop">
+      <section className="sms-dialog" role="dialog" aria-modal="true" aria-label="短信充值记录">
+        <header className="sms-dialog__header">
           <h2>短信充值记录</h2>
           <button type="button" aria-label="关闭充值记录" onClick={onClose}>
             ×
           </button>
         </header>
-        <div className="sms-record-list">
-          <strong>最近充值记录</strong>
-          {records.map((record) => (
-            <article key={record.id} className="sms-record-item">
-              <div>
-                <span>{record.createdAt}</span>
-                <strong>{record.packageLabel}</strong>
-              </div>
-              <div>
-                <em>{record.amountLabel}</em>
-                <span>{record.statusLabel}</span>
-              </div>
-            </article>
-          ))}
+
+        <div className="sms-dialog__content">
+          <strong className="sms-dialog__label">最近充值记录</strong>
+          <div className="sms-record-list">
+            {records.map((record) => (
+              <article key={record.id} className="sms-record-item">
+                <div>
+                  <span>{record.createdAt}</span>
+                  <strong>{record.packageLabel}</strong>
+                </div>
+                <div>
+                  <em>{record.amountLabel}</em>
+                  <span>{record.statusLabel}</span>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </div>
@@ -398,30 +503,35 @@ function ChannelDialog({
   onSave: () => void
 }) {
   return (
-    <div className="sms-recharge-backdrop">
-      <section className="sms-recharge-dialog sms-recharge-dialog--form" role="dialog" aria-modal="true" aria-label="启用渠道">
-        <header>
+    <div className="sms-dialog-backdrop">
+      <section className="sms-dialog" role="dialog" aria-modal="true" aria-label="启用渠道">
+        <header className="sms-dialog__header">
           <h2>启用渠道</h2>
           <button type="button" aria-label="关闭启用渠道弹窗" onClick={onClose}>
             ×
           </button>
         </header>
-        <div className="sms-dialog-form">
-          {options.map((option) => (
-            <label key={option.id} className="sms-radio-option">
-              <input
-                type="radio"
-                name="sms-channel"
-                checked={selectedChannelId === option.id}
-                onChange={() => onChange(option.id)}
-                aria-label={option.name}
-              />
-              <span>{option.name}</span>
-            </label>
-          ))}
+
+        <div className="sms-dialog__content">
+          <div className="sms-channel-option-list">
+            {options.map((option) => (
+              <label key={option.id} className={`sms-channel-option${selectedChannelId === option.id ? ' is-selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="sms-channel"
+                  checked={selectedChannelId === option.id}
+                  onChange={() => onChange(option.id)}
+                  aria-label={option.name}
+                />
+                <span className={`sms-setting-channel-badge sms-setting-channel-badge--${option.tone}`}>{option.badgeText}</span>
+                <strong>{option.name}</strong>
+              </label>
+            ))}
+          </div>
         </div>
-        <footer>
-          <button type="button" onClick={onClose}>
+
+        <footer className="sms-dialog__footer">
+          <button type="button" className="sms-setting-secondary" onClick={onClose}>
             取消
           </button>
           <button type="button" className="sms-setting-primary" onClick={onSave}>
@@ -443,18 +553,51 @@ function SignDialog({
   onClose: () => void
 }) {
   return (
-    <div className="sms-recharge-backdrop">
-      <section className="sms-recharge-dialog sms-recharge-dialog--form" role="dialog" aria-modal="true" aria-label="短信签名">
-        <header>
+    <div className="sms-dialog-backdrop">
+      <section className="sms-dialog" role="dialog" aria-modal="true" aria-label="短信签名">
+        <header className="sms-dialog__header">
           <h2>短信签名</h2>
           <button type="button" aria-label="关闭签名说明" onClick={onClose}>
             ×
           </button>
         </header>
-        <div className="sms-dialog-form">
-          <strong>{signValue}</strong>
-          <p>{description}</p>
+
+        <div className="sms-dialog__content">
+          <strong className="sms-dialog__title">{signValue}</strong>
+          <p className="sms-dialog__paragraph">{description}</p>
         </div>
+      </section>
+    </div>
+  )
+}
+
+function TemplateDialog({
+  template,
+  onClose,
+}: {
+  template: SmsSettingTemplate
+  onClose: () => void
+}) {
+  return (
+    <div className="sms-dialog-backdrop">
+      <section className="sms-dialog" role="dialog" aria-modal="true" aria-label={`${template.title}模板`}>
+        <header className="sms-dialog__header">
+          <h2>{template.title}</h2>
+          <button type="button" aria-label={`关闭${template.title}模板`} onClick={onClose}>
+            ×
+          </button>
+        </header>
+
+        <div className="sms-dialog__content">
+          <strong className="sms-dialog__title">{template.signName}</strong>
+          <p className="sms-dialog__paragraph">{template.content}</p>
+        </div>
+
+        <footer className="sms-dialog__footer">
+          <button type="button" className="sms-setting-secondary" onClick={onClose}>
+            关闭
+          </button>
+        </footer>
       </section>
     </div>
   )

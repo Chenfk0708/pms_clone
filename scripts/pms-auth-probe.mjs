@@ -69,6 +69,19 @@ export async function collectPmsAuthProbe(page, apiUrl = defaultProbeApiUrl) {
 
 export function classifyPmsAuthProbe(probe) {
   const apiJson = probe?.apiResult?.json
+  const href = typeof probe?.href === 'string' ? probe.href : ''
+  const pathname = (() => {
+    try {
+      return new URL(href).pathname
+    } catch {
+      return ''
+    }
+  })()
+  const hasBusinessContext =
+    Boolean(probe?.lastSelectCampId) &&
+    pathname !== '' &&
+    pathname !== '/' &&
+    pathname !== '/home'
 
   if (apiJson && typeof apiJson === 'object') {
     if (apiJson.success === true) {
@@ -78,18 +91,32 @@ export function classifyPmsAuthProbe(probe) {
       }
     }
 
-    if (apiJson.errorCode === 'USER_NOT_LOGIN') {
-      return {
-        authenticated: false,
-        reason: 'api_user_not_login',
-      }
-    }
-
     if (apiJson.errorCode) {
+      if (hasBusinessContext) {
+        return {
+          authenticated: true,
+          reason: `business_context_with_api_error:${apiJson.errorCode}`,
+        }
+      }
+
+      if (apiJson.errorCode === 'USER_NOT_LOGIN') {
+        return {
+          authenticated: false,
+          reason: 'api_user_not_login',
+        }
+      }
+
       return {
         authenticated: false,
         reason: `api_error:${apiJson.errorCode}`,
       }
+    }
+  }
+
+  if (hasBusinessContext) {
+    return {
+      authenticated: true,
+      reason: 'business_context_visible',
     }
   }
 

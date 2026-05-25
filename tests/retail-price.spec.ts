@@ -93,7 +93,7 @@ test('/houseManage/retailPrice matches captured setup-required state', async ({ 
   await expect(retailPage.getByRole('button', { name: '去设置' })).toBeVisible()
   await expect(page.getByText('门市价规则')).toHaveCount(0)
   await expect(page.locator('.retail-chat-fab')).toHaveCount(0)
-  await expect(page.locator('.chat-dock')).toBeVisible()
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 
   await retailPage.getByRole('button', { name: /^房型\s*⌄$/ }).click()
   await expect(retailPage.getByText('1796425099729092609')).toBeVisible()

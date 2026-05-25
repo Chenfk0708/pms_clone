@@ -292,12 +292,19 @@
 }
 
 .member-equity-upload {
+  display: grid;
+  place-items: center;
   width: 104px;
   height: 104px;
   border: 1px dashed #d9d9d9;
   border-radius: 2px;
   background: #fafafa;
   color: rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.member-equity-upload-input {
+  display: none;
 }
 
 .member-equity-modal footer {

@@ -1,0 +1,97 @@
+{
+  "tabs": [
+    {
+      "text": "接单规则",
+      "className": "bottom___1gSfa"
+    },
+    {
+      "text": "房态自动化",
+      "className": "bottom___1gSfa"
+    },
+    {
+      "text": "库存占用规则",
+      "className": "bottom___1gSfa Bottonselected___3jzFF"
+    }
+  ],
+  "text": "接单规则 房态自动化 库存占用规则 待接单占库存设置 1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店； 2.设置“占库存”，待接单会占库存，但不会自动排房； 3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。 待接单不占库存 待接单占库存 待支付订单占库存设置 1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序； 2.设置“占库存”，待支付订单会占库存，但不会自动排房； 3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。 待支付订单不占库存 待支付订单占库存 钟点房订单占库存设置 钟点房订单不占库存 钟点房订单占库存",
+  "smartItems": [
+    {
+      "title": "待接单占库存设置",
+      "tips": "1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；2.设置“占库存”，待接单会占库存，但不会自动排房；3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。",
+      "radios": [
+        "待接单不占库存",
+        "待接单占库存"
+      ],
+      "switches": [],
+      "plainTexts": [
+        "待接单占库存设置",
+        "待接单占库存设置",
+        "1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；2.设置“占库存”，待接单会占库存，但不会自动排房；3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。待接单不占库存待接单占库存",
+        "1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；2.设置“占库存”，待接单会占库存，但不会自动排房；3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。",
+        "1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；",
+        "2.设置“占库存”，待接单会占库存，但不会自动排房；",
+        "3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。",
+        "待接单不占库存待接单占库存",
+        "待接单不占库存待接单占库存",
+        "待接单不占库存待接单占库存",
+        "待接单不占库存待接单占库存",
+        "待接单不占库存待接单占库存",
+        "待接单不占库存",
+        "待接单不占库存",
+        "待接单占库存",
+        "待接单占库存"
+      ]
+    },
+    {
+      "title": "待支付订单占库存设置",
+      "tips": "1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；2.设置“占库存”，待支付订单会占库存，但不会自动排房；3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。",
+      "radios": [
+        "待支付订单不占库存",
+        "待支付订单占库存"
+      ],
+      "switches": [],
+      "plainTexts": [
+        "待支付订单占库存设置",
+        "待支付订单占库存设置",
+        "1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；2.设置“占库存”，待支付订单会占库存，但不会自动排房；3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。待支付订单不占库存待支付订单占库存",
+        "1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；2.设置“占库存”，待支付订单会占库存，但不会自动排房；3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。",
+        "1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；",
+        "2.设置“占库存”，待支付订单会占库存，但不会自动排房；",
+        "3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。",
+        "待支付订单不占库存待支付订单占库存",
+        "待支付订单不占库存待支付订单占库存",
+        "待支付订单不占库存待支付订单占库存",
+        "待支付订单不占库存待支付订单占库存",
+        "待支付订单不占库存待支付订单占库存",
+        "待支付订单不占库存",
+        "待支付订单不占库存",
+        "待支付订单占库存",
+        "待支付订单占库存"
+      ]
+    },
+    {
+      "title": "钟点房订单占库存设置",
+      "tips": "",
+      "radios": [
+        "钟点房订单不占库存",
+        "钟点房订单占库存"
+      ],
+      "switches": [],
+      "plainTexts": [
+        "钟点房订单占库存设置",
+        "钟点房订单占库存设置",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存钟点房订单占库存",
+        "钟点房订单不占库存",
+        "钟点房订单不占库存",
+        "钟点房订单占库存",
+        "钟点房订单占库存"
+      ]
+    }
+  ],
+  "html": "<div style=\"height: 0px; width: 100%; padding-top: 8px;\"></div><div class=\"otherSetiing___2QG9j\"><div class=\"tabsButton___MqUTI\" style=\"margin-bottom: 16px;\"><div class=\"bottom___1gSfa\"><span>接单规则</span></div><div class=\"bottom___1gSfa\"><span>房态自动化</span></div><div class=\"bottom___1gSfa Bottonselected___3jzFF\"><span>库存占用规则</span></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">待接单占库存设置</div></div><div class=\"content___3m3_7\"><div class=\"tips___2st8K\"><div>1.可同步待接单的渠道有：美团民宿、小猪、木鸟、途家、美团酒店；</div><div>2.设置“占库存”，待接单会占库存，但不会自动排房；</div><div>3.设置“不占库存”，待接单不会占库存，订单量多时，可能会导致超售。</div></div><div><div style=\"\"><div style=\"\"></div><div class=\"radioStyle___2aqQe\"><div class=\"ant-radio-group ant-radio-group-outline\"><div class=\"ant-space ant-space-vertical\" style=\"gap: 8px;\"><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper ant-radio-wrapper-checked\"><span class=\"ant-radio ant-radio-checked\"><input type=\"radio\" class=\"ant-radio-input\" value=\"0\" checked=\"\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>待接单不占库存<span></span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"1\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>待接单占库存<span></span></span></label></div></div></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">待支付订单占库存设置</div></div><div class=\"content___3m3_7\"><div class=\"tips___2st8K\"><div>1.可同步待支付订单的渠道有：美团民宿、途家、小猪、木鸟、飞猪、抖音来客、booking、微信小程序；</div><div>2.设置“占库存”，待支付订单会占库存，但不会自动排房；</div><div>3.设置“不占库存”，待支付订单不会占库存，订单量多时，可能会导致超售。</div></div><div><div><div></div><div class=\"radioStyle___2aqQe\"><div class=\"ant-radio-group ant-radio-group-outline\"><div class=\"ant-space ant-space-vertical\" style=\"gap: 8px;\"><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper ant-radio-wrapper-checked\"><span class=\"ant-radio ant-radio-checked\"><input type=\"radio\" class=\"ant-radio-input\" value=\"0\" checked=\"\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>待支付订单不占库存<span></span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"1\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>待支付订单占库存<span></span></span></label></div></div></div></div></div></div></div></div><div class=\"smartItem___x2n4M\"><div class=\"title___g-jWF\"><div class=\"titleText___338Fv\">钟点房订单占库存设置</div></div><div class=\"content___3m3_7\"><div><div><div></div><div class=\"radioStyle___2aqQe\"><div class=\"ant-radio-group ant-radio-group-outline\"><div class=\"ant-space ant-space-vertical\" style=\"gap: 8px;\"><div class=\"ant-space-item\" style=\"\"><label class=\"ant-radio-wrapper\"><span class=\"ant-radio\"><input type=\"radio\" class=\"ant-radio-input\" value=\"0\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>钟点房订单不占库存<span></span></span></label></div><div class=\"ant-space-item\"><label class=\"ant-radio-wrapper ant-radio-wrapper-checked\"><span class=\"ant-radio ant-radio-checked\"><input type=\"radio\" class=\"ant-radio-input\" value=\"1\" checked=\"\" style=\"\"><span class=\"ant-radio-inner\"></span></span><span>钟点房订单占库存<span></span></span></label></div></div></div></div></div></div></div></div></div>"
+}

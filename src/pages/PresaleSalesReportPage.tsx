@@ -19,7 +19,6 @@ export function PresaleSalesReportPage() {
   const [trendMode, setTrendMode] = useState<PresaleTrendMode>('amount')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -56,13 +55,11 @@ export function PresaleSalesReportPage() {
   function handleRetry() {
     setDashboard(null)
     setError('')
-    setNotice('')
     setQuery(createInitialPresaleSalesQuery())
   }
 
   function handleTrendModeChange(nextMode: PresaleTrendMode) {
     setTrendMode(nextMode)
-    setNotice(nextMode === 'orders' ? '已切换到订单量趋势' : '已切换到交易额趋势')
   }
 
   return (
@@ -85,13 +82,6 @@ export function PresaleSalesReportPage() {
             查看明细数据&gt;
           </button>
         </header>
-
-        {notice ? (
-          <div className="presale-sales-notice" role="status" aria-label="预售券销售统计操作反馈">
-            {notice}
-          </div>
-        ) : null}
-
         {error ? (
           <section className="presale-sales-error" role="alert" aria-label="预售券销售统计错误提示">
             <strong>预售券销售统计加载失败</strong>

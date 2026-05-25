@@ -70,10 +70,15 @@
   line-height: 26px;
 }
 
-.distribution-store-switch .is-active {
+.distribution-store-switch button.is-active {
   border-color: #4d65f6;
-  border-radius: 4px 0 0 4px;
   color: #4d65f6;
+  position: relative;
+  z-index: 1;
+}
+
+.distribution-store-switch button:first-child.is-active {
+  border-radius: 4px 0 0 4px;
 }
 
 .distribution-store-switch .is-store {
@@ -82,6 +87,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.distribution-store-switch .is-store.is-active {
+  border-radius: 0;
 }
 
 .distribution-store-switch .is-setting {

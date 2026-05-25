@@ -1,5 +1,5 @@
 .app-shell:has(.order-ledger-page) .page-content {
-  padding: 8px 344px 0 12px;
+  padding: 8px 8px 0 12px;
   background: #f0f2f5;
 }
 
@@ -19,24 +19,25 @@
 }
 
 .order-ledger-filter {
-  position: relative;
   display: grid;
-  grid-template-columns: auto auto 118px auto auto auto minmax(180px, 1fr);
-  gap: 10px 18px;
+  gap: 12px;
+  padding: 10px 0 14px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.order-ledger-filter__top,
+.order-ledger-filter__bottom {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  min-height: 116px;
-  padding: 10px 0 8px;
+  gap: 10px 16px;
 }
 
 .order-ledger-store-row,
 .order-ledger-presets {
   display: inline-flex;
   align-items: center;
-  height: 28px;
-}
-
-.order-ledger-store-row {
-  grid-column: 1 / 3;
+  min-height: 32px;
 }
 
 .order-ledger-store-row button,
@@ -45,7 +46,6 @@
 .order-ledger-select-field > button,
 .order-ledger-room-select,
 .order-ledger-keyword input,
-.order-ledger-date-range input,
 .order-ledger-project-actions button,
 .order-ledger-error button,
 .order-ledger-payment-empty,
@@ -53,26 +53,44 @@
 .order-ledger-room-dialog__toolbar button,
 .order-ledger-room-dialog footer button,
 .order-ledger-drawer footer button,
-.order-ledger-more-menu button {
-  min-height: 28px;
+.order-ledger-more-menu button,
+.order-ledger-date-field,
+.order-ledger-date-panel button {
+  min-height: 32px;
   border: 1px solid #d9d9d9;
   background: #fff;
   color: rgb(0 0 0 / 85%);
   padding: 0 12px;
-  font-size: 14px;
+  font: inherit;
 }
 
 .order-ledger-store-row button:first-child {
-  min-width: 96px;
+  min-width: 108px;
   border-radius: 4px 0 0 4px;
 }
 
 .order-ledger-store-row button:nth-child(2) {
-  max-width: 240px;
+  max-width: 350px;
 }
 
 .order-ledger-store-row button + button {
   border-left: 0;
+}
+
+.order-ledger-store-row button,
+.order-ledger-store-row .is-active,
+.order-ledger-store-row button span {
+  white-space: nowrap;
+}
+
+.order-ledger-store-row button:not(:first-child):not(.order-ledger-gear) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 18px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
 }
 
 .order-ledger-store-row .is-active,
@@ -83,7 +101,7 @@
 }
 
 .order-ledger-gear {
-  width: 32px;
+  width: 40px;
   border-left: 0;
   border-radius: 0 4px 4px 0;
   padding: 0;
@@ -91,7 +109,7 @@
 }
 
 .order-ledger-presets button {
-  min-width: 45px;
+  min-width: 48px;
 }
 
 .order-ledger-presets button:first-child {
@@ -109,40 +127,75 @@
 .order-ledger-date-range {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  min-width: 286px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
 }
 
-.order-ledger-date-range input {
-  width: 88px;
-  padding: 0 8px;
+.order-ledger-date-range:focus-visible {
+  outline: 2px solid rgb(77 101 246 / 18%);
+  outline-offset: 1px;
 }
 
-.order-ledger-date-range input:first-child {
-  border-radius: 4px 0 0 4px;
-}
-
-.order-ledger-date-range input:last-child {
-  border-radius: 0 4px 4px 0;
+.order-ledger-date-field {
+  min-width: 92px;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
 }
 
 .order-ledger-date-range span {
-  display: inline-flex;
-  align-items: center;
-  height: 28px;
-  padding: 0 5px;
-  border-block: 1px solid #d9d9d9;
   color: #7c8798;
+}
+
+.order-ledger-date-range i {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  border: 1px solid #c9ced8;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.order-ledger-date-range i::before,
+.order-ledger-date-range i::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  background: #c9ced8;
+}
+
+.order-ledger-date-range i::before {
+  top: 3px;
+  height: 2px;
+}
+
+.order-ledger-date-range i::after {
+  top: 6px;
+  height: 5px;
+  background: linear-gradient(to bottom, #c9ced8 0 1px, transparent 1px);
 }
 
 .order-ledger-select-field {
   position: relative;
   display: inline-flex;
   align-items: center;
-  height: 28px;
+  min-height: 32px;
   white-space: nowrap;
 }
 
 .order-ledger-select-label {
-  margin-right: 4px;
+  margin-right: 6px;
+  color: #1f2a44;
 }
 
 .order-ledger-select-field > button,
@@ -151,9 +204,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  width: 132px;
+  width: 214px;
   border-radius: 4px;
   text-align: left;
+}
+
+.order-ledger-room-select {
+  width: 172px;
 }
 
 .order-ledger-select-field > button::after,
@@ -165,7 +222,7 @@
 
 .order-ledger-select-field strong,
 .order-ledger-room-select strong {
-  max-width: 88px;
+  max-width: 150px;
   overflow: hidden;
   color: rgb(0 0 0 / 45%);
   font-weight: 400;
@@ -246,7 +303,7 @@
 }
 
 .order-ledger-keyword input {
-  width: 180px;
+  width: 264px;
   border-radius: 4px;
 }
 
@@ -254,6 +311,7 @@
   display: inline-flex;
   justify-content: flex-end;
   gap: 14px;
+  margin-left: auto;
 }
 
 .order-ledger-actions button {
@@ -286,19 +344,6 @@
   color: #fff;
 }
 
-.order-ledger-notice {
-  position: fixed;
-  top: 68px;
-  right: 356px;
-  z-index: 36;
-  padding: 8px 14px;
-  border: 1px solid #dce5ff;
-  border-radius: 6px;
-  background: #f4f7ff;
-  color: #4d65f6;
-  box-shadow: 0 8px 24px rgb(31 42 68 / 12%);
-}
-
 .order-ledger-error,
 .order-ledger-empty {
   margin: 8px 0 16px;
@@ -328,7 +373,7 @@
 .order-ledger-summary h2,
 .order-ledger-table-section h2 {
   position: relative;
-  margin: 4px 0 10px;
+  margin: 12px 0 10px;
   padding-left: 8px;
   color: #152238;
   font-size: 16px;
@@ -338,8 +383,8 @@
 .order-ledger-summary h2::before,
 .order-ledger-table-section h2::before {
   position: absolute;
-  left: 0;
   top: 4px;
+  left: 0;
   width: 3px;
   height: 15px;
   border-radius: 999px;
@@ -450,6 +495,21 @@
   min-width: 170px;
 }
 
+.order-ledger-table th:last-child,
+.order-ledger-table td:last-child {
+  position: sticky;
+  right: 0;
+  min-width: 112px;
+  background: #fff;
+  box-shadow: -10px 0 12px -12px rgb(15 23 42 / 28%);
+  z-index: 2;
+}
+
+.order-ledger-table th:last-child {
+  background: #f3f8ff;
+  z-index: 3;
+}
+
 .order-ledger-link {
   border: 0;
   background: transparent;
@@ -498,6 +558,133 @@
   width: 88px;
   border-color: #d9d9d9;
   color: rgb(0 0 0 / 85%);
+}
+
+.order-ledger-date-panel-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(15 23 42 / 4%);
+}
+
+.order-ledger-date-panel {
+  position: fixed;
+  width: 608px;
+  padding: 12px;
+  border: 1px solid #d9dfe9;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgb(15 23 42 / 14%);
+}
+
+.order-ledger-date-panel__header,
+.order-ledger-date-panel__range {
+  display: flex;
+  align-items: center;
+}
+
+.order-ledger-date-panel__header {
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-ledger-date-panel__header strong {
+  color: #1f2a3d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-ledger-date-panel__header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 45%);
+  font-size: 18px;
+}
+
+.order-ledger-date-panel__range {
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #f6f8fc;
+  color: #4f5d75;
+}
+
+.order-ledger-date-panel__range em {
+  color: rgb(0 0 0 / 35%);
+  font-style: normal;
+}
+
+.order-ledger-date-panel__months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.order-ledger-calendar-month header {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.order-ledger-calendar-month header strong {
+  color: #1f2a3d;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-ledger-calendar-month header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: rgb(0 0 0 / 45%);
+  font-size: 20px;
+}
+
+.order-ledger-calendar-month header button:disabled {
+  visibility: hidden;
+}
+
+.order-ledger-calendar-month__weekdays,
+.order-ledger-calendar-month__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.order-ledger-calendar-month__weekdays span {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  color: rgb(0 0 0 / 40%);
+  font-size: 12px;
+}
+
+.order-ledger-calendar-month__days button {
+  height: 30px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(0 0 0 / 85%);
+  font-size: 13px;
+}
+
+.order-ledger-calendar-month__days .is-muted {
+  color: rgb(0 0 0 / 20%);
+}
+
+.order-ledger-calendar-month__days .is-in-range {
+  background: #f1f4fb;
+}
+
+.order-ledger-calendar-month__days .is-selected {
+  background: #315cff;
+  color: #fff;
 }
 
 .order-ledger-dialog-layer {
@@ -679,9 +866,9 @@
 
 .order-ledger-drawer-block table {
   width: 100%;
+  margin-top: 12px;
   border-collapse: collapse;
   background: #f7f9fc;
-  margin-top: 12px;
 }
 
 .order-ledger-drawer-block th,
@@ -835,18 +1022,540 @@
   color: #7c8798;
 }
 
+.order-ledger-page .month-order-drawer.order-ledger-detail-drawer {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: min(680px, calc(100vw - 280px));
+  min-width: 600px;
+  overflow: hidden;
+  border-radius: 10px 0 0 0;
+  background: #fff;
+  color: rgb(0 0 0 / 85%);
+  box-shadow:
+    -6px 0 16px -8px rgb(0 0 0 / 8%),
+    -9px 0 28px 0 rgb(0 0 0 / 5%),
+    -12px 0 48px 16px rgb(0 0 0 / 3%);
+}
+
+.order-ledger-page .month-order-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 41px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.order-ledger-page .month-order-drawer__header div,
+.order-ledger-page .month-order-card__guest,
+.order-ledger-page .month-room-order-card__top,
+.order-ledger-page .month-room-order-card__guest,
+.order-ledger-page .month-finance-summary,
+.order-ledger-page .month-finance-meta,
+.order-ledger-page .month-order-footer-row,
+.order-ledger-page .month-order-footer-row div {
+  display: flex;
+  align-items: center;
+}
+
+.order-ledger-page .month-order-drawer__header div {
+  gap: 8px;
+}
+
+.order-ledger-page .month-order-drawer__header strong {
+  color: rgb(0 0 0 / 85%);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.order-ledger-page .month-order-drawer__header span {
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: #eef2ff;
+  color: #4d65f6;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.order-ledger-page .month-order-drawer__header button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #999;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.order-ledger-page .month-order-drawer__tabs {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.order-ledger-page .month-order-drawer__tabs button {
+  position: relative;
+  height: 42px;
+  border: 0;
+  background: transparent;
+  color: #333;
+  padding: 0 20px 0 0;
+  font-size: 14px;
+}
+
+.order-ledger-page .month-order-drawer__tabs button.is-active {
+  color: #4d65f6;
+}
+
+.order-ledger-page .month-order-drawer__tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #4d65f6;
+}
+
+.order-ledger-page .month-order-drawer__body {
+  flex: 1;
+  overflow: auto;
+  padding: 14px 16px 18px;
+  background: #fff;
+}
+
+.order-ledger-page .month-order-card,
+.order-ledger-page .month-room-order-card,
+.order-ledger-page .month-finance-card,
+.order-ledger-page .month-info-block {
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.order-ledger-page .month-order-card {
+  color: #333;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-order-card__guest {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.order-ledger-page .month-order-card__guest strong {
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.order-ledger-page .month-order-card__guest span {
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: #f7b84b;
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.order-ledger-page .month-order-card p {
+  margin: 0;
+  color: #666;
+  line-height: 24px;
+}
+
+.order-ledger-page .month-room-order-card {
+  position: relative;
+  min-height: 149px;
+  padding: 14px 14px 12px;
+  border: 1px solid #f0a43c;
+  border-radius: 4px;
+  color: #333;
+}
+
+.order-ledger-page .month-room-order-card__top {
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.order-ledger-page .month-room-order-card__top strong {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.order-ledger-page .month-room-order-card__top span {
+  flex: 0 0 auto;
+  color: #fa8c16;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-room-order-card__stay {
+  margin-top: 12px;
+  color: #666;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-room-order-card__amount {
+  position: absolute;
+  top: 58px;
+  right: 14px;
+  color: #333;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.order-ledger-page .month-room-order-card__guest {
+  gap: 12px;
+  margin-top: 18px;
+  color: #666;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-room-order-card__guest button {
+  border: 0;
+  background: transparent;
+  color: #4d65f6;
+  padding: 0;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-room-order-card em {
+  display: block;
+  margin-top: 14px;
+  color: #666;
+  font-size: 13px;
+  font-style: normal;
+}
+
+.order-ledger-page .month-finance-card {
+  color: #333;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-finance-summary {
+  gap: 30px;
+  min-height: 28px;
+}
+
+.order-ledger-page .month-finance-summary strong {
+  color: #ff4d4f;
+  font-weight: 500;
+}
+
+.order-ledger-page .month-finance-meta {
+  gap: 22px;
+  min-height: 24px;
+  color: #666;
+}
+
+.order-ledger-page .month-finance-card table {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #666;
+  font-size: 12px;
+}
+
+.order-ledger-page .month-finance-card th,
+.order-ledger-page .month-finance-card td {
+  height: 34px;
+  border: 1px solid #f0f0f0;
+  padding: 0 8px;
+  text-align: left;
+  font-weight: 400;
+}
+
+.order-ledger-page .month-finance-card th {
+  background: #fafafa;
+  color: #666;
+}
+
+.order-ledger-page .month-info-block {
+  padding-top: 3px;
+  border-top: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.order-ledger-page .month-info-block--plain {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.order-ledger-page .month-info-block h3 {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+.order-ledger-page .month-order-section-row {
+  padding-top: 10px;
+}
+
+.order-ledger-page .month-order-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+}
+
+.order-ledger-page .month-order-section-header--summary {
+  justify-content: space-between;
+}
+
+.order-ledger-page .month-order-section-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  color: #666;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.order-ledger-page .month-order-empty-table {
+  margin-top: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #999;
+  padding: 18px 14px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.order-ledger-page .month-order-key-value-list {
+  display: grid;
+  gap: 10px;
+}
+
+.order-ledger-page .month-order-key-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0 14px;
+  gap: 12px;
+}
+
+.order-ledger-page .month-order-key-value-row span {
+  color: #666;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-order-key-value-row strong {
+  color: #333;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: right;
+}
+
+.order-ledger-page .month-channel-panel {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 6px;
+}
+
+.order-ledger-page .month-channel-section {
+  overflow: hidden;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+}
+
+.order-ledger-page .month-channel-section__header {
+  padding: 12px 24px;
+  background: #e8eefc;
+}
+
+.order-ledger-page .month-channel-section__header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.order-ledger-page .month-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 48px;
+  padding: 12px 24px 16px;
+}
+
+.order-ledger-page .month-channel-kv {
+  display: flex;
+  align-items: baseline;
+  min-height: 52px;
+  padding: 7px 0;
+}
+
+.order-ledger-page .month-channel-kv span {
+  flex: 0 0 auto;
+  color: #333;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.order-ledger-page .month-channel-kv strong {
+  margin-left: 8px;
+  color: #333;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  word-break: break-word;
+}
+
+.order-ledger-page .month-log-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-ledger-page .month-log-list li {
+  min-height: 40px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #666;
+  padding: 10px 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.order-ledger-page .month-order-drawer__footer {
+  flex: 0 0 auto;
+  border-top: 1px solid #f0f0f0;
+  background: #f4f4f4;
+}
+
+.order-ledger-page .month-order-footer-row {
+  position: relative;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+}
+
+.order-ledger-page .month-order-footer-row div {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  color: #666;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.order-ledger-page .month-order-footer-row button {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.order-ledger-page .month-order-footer-row button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.order-ledger-page .month-order-more-menu {
+  position: absolute;
+  right: 140px;
+  bottom: 52px;
+  z-index: 5;
+  display: grid;
+  min-width: 140px;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
+  overflow: hidden;
+}
+
+.order-ledger-page .month-order-more-menu button {
+  height: 38px;
+  border: 0;
+  border-bottom: 1px solid #f2f2f2;
+  background: #fff;
+  color: #333;
+  padding: 0 14px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.order-ledger-page .month-order-more-menu button:last-child {
+  border-bottom: 0;
+}
+
+.order-ledger-detail-table-wrap {
+  overflow: auto;
+  margin-top: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+}
+
+.order-ledger-detail-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.order-ledger-detail-table th,
+.order-ledger-detail-table td {
+  min-height: 38px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #666;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.order-ledger-detail-table th {
+  background: #fafafa;
+  color: #333;
+}
+
+.order-ledger-detail-table td button {
+  border: 0;
+  background: transparent;
+  color: #315cff;
+  padding: 0;
+}
+
 @media (max-width: 1320px) {
   .app-shell:has(.order-ledger-page) .page-content {
     padding-right: 8px;
   }
 
-  .order-ledger-filter {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .order-ledger-filter__top,
+  .order-ledger-filter__bottom {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .order-ledger-store-row,
-  .order-ledger-presets {
-    grid-column: auto;
+  .order-ledger-actions {
+    margin-left: 0;
   }
 
   .order-ledger-table-scroll,
@@ -854,7 +1563,42 @@
     width: 100%;
   }
 
-  .order-ledger-drawer {
+  .order-ledger-drawer,
+  .order-ledger-page .month-order-drawer.order-ledger-detail-drawer {
     width: min(100vw, 674px);
+  }
+}
+
+@media (max-width: 760px) {
+  .order-ledger-filter__top,
+  .order-ledger-filter__bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .order-ledger-keyword input,
+  .order-ledger-select-field > button,
+  .order-ledger-room-select,
+  .order-ledger-date-range {
+    width: 100%;
+  }
+
+  .order-ledger-date-panel {
+    width: min(608px, calc(100vw - 24px));
+  }
+
+  .order-ledger-date-panel__months {
+    grid-template-columns: 1fr;
+  }
+
+  .order-ledger-page .month-order-drawer.order-ledger-detail-drawer {
+    top: 0;
+    width: 100vw;
+    min-width: 0;
+    border-radius: 0;
+  }
+
+  .order-ledger-page .month-channel-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
-  customerTagSaveEndpoint,
-  customerTagSyncEndpoint,
   defaultCustomerTagFilters,
   loadCustomerTagData,
   type CustomerTagData,
@@ -21,9 +19,7 @@ export function CustomerTagPage() {
     ...defaultCustomerTagFilters,
     keyword: searchParams.get('tagGroupName') ?? '',
   })
-  const [scenario, setScenario] = useState<CustomerTagScenario>(
-    normalizeScenario(searchParams.get('customerTagMockState')),
-  )
+  const [scenario, setScenario] = useState<CustomerTagScenario>(normalizeScenario(searchParams.get('customerTagMockState')))
   const [draftKeyword, setDraftKeyword] = useState(searchParams.get('tagGroupName') ?? '')
   const [data, setData] = useState<CustomerTagData | null>(null)
   const [selectedRow, setSelectedRow] = useState<CustomerTagRow | null>(null)
@@ -35,7 +31,6 @@ export function CustomerTagPage() {
 
   useEffect(() => {
     void loadData(filters, scenario)
-    // Initial URL state should drive exactly one provider call.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -72,63 +67,49 @@ export function CustomerTagPage() {
   }
 
   function handleExport() {
-    setFeedback(`导出任务已创建，稍后可在任务中心查看`)
+    setFeedback('导出任务已创建，稍后可在任务中心查看')
   }
 
   function handleCreate(groupName: string, tags: string[]) {
     setShowCreateDialog(false)
-    setFeedback(`标签组已保存，${customerTagSaveEndpoint.replace('https://hudson-prod.localhome.cn', '')} 已接收 ${groupName} / ${tags.length} 个标签`)
-  }
-
-  function handleSyncConfirm() {
-    setShowSyncDialog(false)
-    setFeedback(`企微标签同步任务已提交，来源 ${customerTagSyncEndpoint.replace('https://hudson-prod.localhome.cn', '')}`)
+    setFeedback(`标签组已保存：${groupName}，共 ${tags.length} 个标签`)
   }
 
   const rows = data?.rows ?? []
-  const summary = data?.summary ?? { groupCount: 0, tagCount: 0, coveredMembers: 0, syncingGroups: 0 }
   const isEmpty = !loading && !error && rows.length === 0
+  const requestEcho = useMemo(
+    () => data?.requestEcho ?? JSON.stringify({ provider: 'mock', responseCode: error ? 503 : 0, state: scenario }),
+    [data, error, scenario],
+  )
 
   return (
     <div className="customer-tag-page">
       <h1 className="sr-only-heading">客户标签</h1>
       <output hidden aria-label="客户标签服务契约">
-        {data?.requestEcho ?? JSON.stringify({ provider: 'mock', responseCode: error ? 503 : 0, state: scenario })}
+        {requestEcho}
       </output>
 
       <section className="customer-tag-filter" aria-label="客户标签筛选">
         <label className="customer-tag-field">
           <span>标签组:</span>
-          <input
-            aria-label="标签组"
-            value={draftKeyword}
-            placeholder="请输入"
-            onChange={(event) => setDraftKeyword(event.target.value)}
-          />
+          <input aria-label="标签组" value={draftKeyword} placeholder="请输入" onChange={(event) => setDraftKeyword(event.target.value)} />
         </label>
         <div className="customer-tag-filter__actions">
           <button type="button" disabled={loading} onClick={handleReset}>
-            重 置
+            重置
           </button>
           <button type="button" className="is-primary" disabled={loading} onClick={handleSearch}>
-            查 询
+            查询
           </button>
         </div>
       </section>
 
-      <section className="customer-tag-summary" aria-label="客户标签统计">
-        <MetricCard label="标签组数" value={summary.groupCount} caption="启用中的业务标签组" />
-        <MetricCard label="标签数量" value={summary.tagCount} caption="可用于客户画像" />
-        <MetricCard label="覆盖客户" value={summary.coveredMembers} caption="按当前筛选统计" />
-        <MetricCard label="同步中" value={summary.syncingGroups} caption="企微任务队列" />
-      </section>
-
       <div className="customer-tag-toolbar">
         <button type="button" disabled={loading} onClick={handleRefresh}>
-          刷 新
+          刷新
         </button>
         <button type="button" onClick={handleExport}>
-          导 出
+          导出
         </button>
         <button type="button" className="is-primary" onClick={() => setShowSyncDialog(true)}>
           同步企微标签
@@ -146,8 +127,8 @@ export function CustomerTagPage() {
         <section className="customer-tag-error" role="alert">
           <strong>客户标签数据加载失败</strong>
           <span>{error}</span>
-          <button type="button" onClick={() => loadData({ ...filters }, 'success', '数据已恢复')}>
-            重 试
+          <button type="button" onClick={() => void loadData({ ...filters }, 'success', '数据已恢复')}>
+            重试
           </button>
         </section>
       ) : null}
@@ -169,28 +150,27 @@ export function CustomerTagPage() {
               </button>
             </div>
           ) : null}
-          {!loading && rows.map((row) => (
-            <div className="customer-tag-table__row" key={row.id}>
-              <div>
-                <strong>{row.groupName}</strong>
-                <span>{row.sourceLabel} · {row.statusLabel}</span>
+          {!loading &&
+            rows.map((row) => (
+              <div className="customer-tag-table__row" key={row.id}>
+                <div>
+                  <strong>{row.groupName}</strong>
+                  <span>
+                    {row.sourceLabel} · {row.statusLabel}
+                  </span>
+                </div>
+                <div>{row.tagNames}</div>
+                <div>{row.createdBy}</div>
+                <div>{row.createdAt}</div>
+                <div>
+                  <button type="button" aria-label={`查看 ${row.groupName}`} onClick={() => setSelectedRow(row)}>
+                    查看
+                  </button>
+                </div>
               </div>
-              <div>{row.tagNames}</div>
-              <div>{row.createdBy}</div>
-              <div>{row.createdAt}</div>
-              <div>
-                <button type="button" aria-label={`查看 ${row.groupName}`} onClick={() => setSelectedRow(row)}>
-                  查看
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
-        {data ? (
-          <div className="customer-tag-pagination">
-            第 {data.pagination.page} 页，共 {data.pagination.total} 条，每页 {data.pagination.pageSize} 条
-          </div>
-        ) : null}
+        {data ? <div className="customer-tag-pagination">第 {data.pagination.page} 页，共 {data.pagination.total} 条，每页 20 条</div> : null}
       </section>
 
       <section className="customer-tag-shortcuts" aria-label="客户标签快捷入口">
@@ -207,18 +187,8 @@ export function CustomerTagPage() {
 
       {selectedRow ? <TagDetailDialog row={selectedRow} onClose={() => setSelectedRow(null)} /> : null}
       {showCreateDialog ? <CreateTagGroupDialog onClose={() => setShowCreateDialog(false)} onConfirm={handleCreate} /> : null}
-      {showSyncDialog ? <SyncTagDialog onClose={() => setShowSyncDialog(false)} onConfirm={handleSyncConfirm} /> : null}
+      {showSyncDialog ? <SyncTagDialog onClose={() => setShowSyncDialog(false)} onAuthorize={() => navigate('/channels/private')} /> : null}
     </div>
-  )
-}
-
-function MetricCard({ label, value, caption }: { label: string; value: number; caption: string }) {
-  return (
-    <button type="button" className="customer-tag-metric">
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <em>{caption}</em>
-    </button>
   )
 }
 
@@ -228,7 +198,7 @@ function TagDetailDialog({ row, onClose }: { row: CustomerTagRow; onClose: () =>
       <section className="customer-tag-modal customer-tag-detail" role="dialog" aria-modal="true" aria-label="标签组详情">
         <header>
           <h2>标签组详情</h2>
-          <button type="button" aria-label="收起标签组详情" onClick={onClose}>
+          <button type="button" aria-label="关闭标签组详情" onClick={onClose}>
             ×
           </button>
         </header>
@@ -268,6 +238,18 @@ function CreateTagGroupDialog({
   const cleanTags = tagInputs.map((item) => item.trim()).filter(Boolean)
   const canSubmit = groupName.trim().length > 0 && cleanTags.length > 0
 
+  function addTagInput() {
+    setTagInputs((current) => [...current, ''])
+  }
+
+  function updateTag(index: number, value: string) {
+    setTagInputs((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))
+  }
+
+  function removeTag(index: number) {
+    setTagInputs((current) => current.filter((_, itemIndex) => itemIndex !== index))
+  }
+
   return (
     <div className="customer-tag-modal-backdrop">
       <section className="customer-tag-modal" role="dialog" aria-modal="true" aria-label="新建标签组">
@@ -277,33 +259,28 @@ function CreateTagGroupDialog({
             ×
           </button>
         </header>
-        <div className="customer-tag-modal__body">
+        <div className="customer-tag-modal__body customer-tag-create-body">
           <label className="customer-tag-dialog-field">
             <span>标签组名称</span>
-            <input
-              aria-label="标签组名称"
-              value={groupName}
-              placeholder="请输入标签组名称"
-              onChange={(event) => setGroupName(event.target.value)}
-            />
+            <input aria-label="标签组名称" value={groupName} placeholder="请输入标签组名称" onChange={(event) => setGroupName(event.target.value)} />
           </label>
           <div className="customer-tag-dialog-field customer-tag-dialog-tags">
             <span>标签</span>
             <div className="customer-tag-dialog-tags__content">
-              {tagInputs.map((value, index) => (
-                <input
-                  key={index}
-                  aria-label={`标签${index + 1}`}
-                  value={value}
-                  placeholder="请输入标签名称"
-                  onChange={(event) =>
-                    setTagInputs((current) =>
-                      current.map((item, itemIndex) => (itemIndex === index ? event.target.value : item)),
-                    )
-                  }
-                />
-              ))}
-              <button type="button" onClick={() => setTagInputs((current) => [...current, ''])}>
+              {tagInputs.length ? (
+                tagInputs.map((value, index) => (
+                  <div key={index} className="customer-tag-tag-row">
+                    <input aria-label={`标签${index + 1}`} value={value} onChange={(event) => updateTag(index, event.target.value)} />
+                    <button type="button" className="customer-tag-icon-button" aria-label={`拖动标签${index + 1}`}>
+                      ☰
+                    </button>
+                    <button type="button" className="customer-tag-icon-button" aria-label={`删除标签${index + 1}`} onClick={() => removeTag(index)}>
+                      🗑
+                    </button>
+                  </div>
+                ))
+              ) : null}
+              <button type="button" className="customer-tag-add-link" onClick={addTagInput}>
                 + 添加标签
               </button>
             </div>
@@ -322,20 +299,20 @@ function CreateTagGroupDialog({
   )
 }
 
-function SyncTagDialog({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) {
+function SyncTagDialog({ onClose, onAuthorize }: { onClose: () => void; onAuthorize: () => void }) {
   return (
     <div className="customer-tag-modal-backdrop">
-      <section className="customer-tag-auth-modal" role="dialog" aria-modal="true" aria-label="企微标签同步">
+      <section className="customer-tag-auth-modal" role="dialog" aria-modal="true" aria-label="企微标签同步授权">
         <div className="customer-tag-auth-modal__message">
           <span aria-hidden="true">!</span>
-          <p>预计同步 3 个标签组，完成后会刷新客户标签列表。</p>
+          <p>请先前往授权企微再操作</p>
         </div>
         <div className="customer-tag-auth-modal__actions">
           <button type="button" onClick={onClose}>
-            取消
+            我知道了
           </button>
-          <button type="button" className="is-primary" onClick={onConfirm}>
-            开始同步
+          <button type="button" className="is-primary" onClick={onAuthorize}>
+            前往授权
           </button>
         </div>
       </section>

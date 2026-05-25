@@ -128,7 +128,7 @@ export async function fetchSmartHotelSettingsDashboard(
     writeDiagnostics({
       provider: 'api',
       state: query.mockState,
-      traceId: `api-zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu-dashboard-pending`,
+      traceId: 'api-smart-hotel-settings-dashboard-pending',
       endpoint: SMART_HOTEL_SETTINGS_DASHBOARD_ENDPOINT,
       request,
     })
@@ -137,6 +137,7 @@ export async function fetchSmartHotelSettingsDashboard(
 
   await waitForLatency(signal, 160)
   const envelope = buildMockDashboardEnvelope(query)
+
   writeDiagnostics({
     provider: providerName,
     state: query.mockState,
@@ -164,7 +165,8 @@ export async function uploadSmartHotelSettingsButtonIcon(
   button: SmartHotelSettingsActionButton,
 ): Promise<{ traceId: string; timestamp: string; notice: string }> {
   await waitForLatency(undefined, 120)
-  const traceId = `mock-zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu-upload-${button.id}`
+  const traceId = `mock-smart-hotel-settings-upload-${button.id}`
+
   writeDiagnostics({
     provider: getSmartHotelSettingsProviderName(),
     state: 'success',
@@ -179,7 +181,7 @@ export async function uploadSmartHotelSettingsButtonIcon(
   return {
     traceId,
     timestamp: MOCK_TIMESTAMP,
-    notice: `已更新「${button.name || '新按钮'}」图标`,
+    notice: `已更新“${button.name || '新按钮'}”图标`,
   }
 }
 
@@ -187,7 +189,8 @@ export async function saveSmartHotelSettingsDecorate(
   buttons: SmartHotelSettingsActionButton[],
 ): Promise<{ traceId: string; timestamp: string; message: string }> {
   await waitForLatency(undefined, 180)
-  const traceId = 'mock-zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu-decorate-save-001'
+  const traceId = 'mock-smart-hotel-settings-decorate-save-001'
+
   writeDiagnostics({
     provider: getSmartHotelSettingsProviderName(),
     state: 'success',
@@ -202,6 +205,7 @@ export async function saveSmartHotelSettingsDecorate(
       })),
     },
   })
+
   return {
     traceId,
     timestamp: MOCK_TIMESTAMP,
@@ -213,7 +217,8 @@ export async function publishSmartHotelSettingsShare(
   shareDraft: SmartHotelSettingsShareDraft,
 ): Promise<{ traceId: string; timestamp: string; message: string }> {
   await waitForLatency(undefined, 180)
-  const traceId = 'mock-zhihui-jiudian--zhizhu-yu-yingjian--zhizhu-xiaochengxu-share-publish-001'
+  const traceId = 'mock-smart-hotel-settings-share-publish-001'
+
   writeDiagnostics({
     provider: getSmartHotelSettingsProviderName(),
     state: 'success',
@@ -225,6 +230,7 @@ export async function publishSmartHotelSettingsShare(
       customPosterName: shareDraft.customPosterName,
     },
   })
+
   return {
     traceId,
     timestamp: MOCK_TIMESTAMP,
@@ -241,19 +247,24 @@ function getSmartHotelSettingsProviderName(): SmartHotelSettingsProviderName {
 function buildMockDashboardEnvelope(
   query: SmartHotelSettingsQuery,
 ): UnifiedEnvelope<SmartHotelSettingsPayload> {
+  const baseData: SmartHotelSettingsPayload = {
+    version: 'v4.10.7',
+    updatedAtLabel: '最近同步：2026-05-19 17:30',
+    buttons: createDefaultSmartHotelSettingsButtons(),
+    shareDraft: createDefaultShareDraft(),
+    previewSummary: '住客可通过智住小程序完成入住登记、查看入住指引、续住和发票申请。',
+    routes: DEFAULT_ROUTES,
+  }
+
   if (query.mockState === 'error') {
     return {
       code: 50351,
       message: '智住小程序数据加载失败，请稍后重试',
       data: {
-        version: 'v4.10.7',
-        updatedAtLabel: '最近同步：2026-05-19 17:30',
+        ...baseData,
         buttons: [],
-        shareDraft: createDefaultShareDraft(),
-        previewSummary: '智住小程序可用于房客自助登记、查看入住指引和在线续住。',
-        routes: DEFAULT_ROUTES,
       },
-      traceId: 'mock-zhihui-jiudian--zhizhu-yingjian--zhizhu-xiaochengxu-error-001',
+      traceId: 'mock-smart-hotel-settings-error-001',
       timestamp: MOCK_TIMESTAMP,
     }
   }
@@ -263,19 +274,15 @@ function buildMockDashboardEnvelope(
       code: 0,
       message: 'success',
       data: {
-        version: 'v4.10.7',
-        updatedAtLabel: '最近同步：2026-05-19 17:30',
+        ...baseData,
         buttons: [],
-        shareDraft: createDefaultShareDraft(),
-        previewSummary: '智住小程序可用于房客自助登记、查看入住指引和在线续住。',
-        routes: DEFAULT_ROUTES,
         emptyState: {
           title: '当前还没有可展示的小程序按钮配置',
           description: '请先恢复默认按钮，或前往装修页重新配置住客操作入口。',
           actionLabel: '恢复默认按钮',
         },
       },
-      traceId: 'mock-zhihui-jiudian--zhizhu-yingjian--zhizhu-xiaochengxu-empty-001',
+      traceId: 'mock-smart-hotel-settings-empty-001',
       timestamp: MOCK_TIMESTAMP,
     }
   }
@@ -283,26 +290,19 @@ function buildMockDashboardEnvelope(
   return {
     code: 0,
     message: 'success',
-    data: {
-      version: 'v4.10.7',
-      updatedAtLabel: '最近同步：2026-05-19 17:30',
-      buttons: createDefaultSmartHotelSettingsButtons(),
-      shareDraft: createDefaultShareDraft(),
-      previewSummary: '智住小程序可用于房客自助登记、查看入住指引和在线续住。',
-      routes: DEFAULT_ROUTES,
-    },
-    traceId: 'mock-zhihui-jiudian--zhizhu-yingjian--zhizhu-xiaochengxu-dashboard-001',
+    data: baseData,
+    traceId: 'mock-smart-hotel-settings-dashboard-001',
     timestamp: MOCK_TIMESTAMP,
   }
 }
 
 function createDefaultShareDraft(): SmartHotelSettingsShareDraft {
   return {
-    titleTemplate: '欢迎使用智住小程序',
+    titleTemplate: '您好，欢迎于[入住日期]入住',
     imageMode: 'default',
     shareLink: 'https://h.localhome.cn/mini-program/smart-checkin',
     qrCodeHint: '扫码后住客可完成入住登记、查看入住指引与门锁密码。',
-    customPosterName: '酒店大厅迎宾海报.png',
+    customPosterName: '酒店大堂自定义分享海报.png',
     tokens: [
       { id: 'store-name', label: '门店名称', placeholder: '[门店名称]' },
       { id: 'guest-name', label: '预订人姓名', placeholder: '[预订人姓名]' },

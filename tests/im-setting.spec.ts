@@ -44,7 +44,7 @@ test('/setting/imSetting renders provider-driven conversation settings without b
   await page.goto(appUrl(pagePath))
 
   await expect(page.locator('.sidebar').getByRole('link', { name: '会话设置', exact: true })).toHaveClass(/is-active/)
-  await expect(page.getByRole('heading', { name: '会话设置中心' })).toBeVisible()
+  await expect(page.locator('.im-setting-header')).toHaveCount(0)
   await expect(page.getByRole('button', { name: '常用语' })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('button', { name: '自动回复设置' })).toBeVisible()
   await expect(page.getByRole('button', { name: '页面设置' })).toBeVisible()
@@ -52,12 +52,8 @@ test('/setting/imSetting renders provider-driven conversation settings without b
   await expect(page.getByRole('button', { name: '快捷键设置' })).toBeVisible()
   await expect(page.getByRole('button', { name: '版本设置' })).toBeVisible()
 
-  await expect(page.getByRole('button', { name: '微信客服运营台' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '聊天工具栏' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '接待配置' })).toBeVisible()
-
   const phrasePanel = page.getByRole('region', { name: '常用语管理' })
-  await expect(phrasePanel.getByRole('button', { name: '新增常用语' })).toBeVisible()
+  await expect(phrasePanel.getByRole('button', { name: '添加常用语' })).toBeVisible()
   await expect(phrasePanel.getByRole('button', { name: '新建分类' })).toBeVisible()
   await expect(phrasePanel.getByRole('button', { name: '导出常用语' })).toBeVisible()
   await expect(phrasePanel.getByText('入住前停车指引')).toBeVisible()
@@ -121,18 +117,24 @@ test('/setting/imSetting supports filtering, phrase editing, shortcut saving, an
   await expect(page.getByRole('dialog', { name: '常用语详情' })).toContainText('停车场位于 3 层')
   await page.getByRole('button', { name: '关闭常用语详情' }).click()
 
-  await phrasePanel.getByRole('button', { name: '新增常用语' }).click()
-  await page.getByLabel('常用语标题').fill('自助入住提醒')
-  await page.getByLabel('常用语内容').fill('已为您准备自助入住指引，抵店后可直接输入门锁密码办理入住。')
-  await page.getByRole('button', { name: '保存常用语' }).click()
+  await phrasePanel.getByRole('button', { name: '新建分类' }).click()
+  await page.getByRole('dialog', { name: '新建分类' }).getByLabel('分类名称').fill('平台问候')
+  await page.getByRole('dialog', { name: '新建分类' }).getByRole('button', { name: '确定' }).click()
+  await expect(page.getByRole('status')).toContainText('分类已创建')
+  await expect(phrasePanel.getByRole('button', { name: '平台问候' })).toBeVisible()
+
+  await phrasePanel.getByRole('button', { name: '添加常用语' }).click()
+  await page.getByRole('dialog', { name: '添加常用语' }).getByLabel('标题').fill('自助入住提醒')
+  await page.getByRole('dialog', { name: '添加常用语' }).getByLabel('回复内容').fill('已为您准备自助入住指引，抵店后可直接输入门锁密码办理入住。')
+  await page.getByRole('dialog', { name: '添加常用语' }).getByRole('button', { name: '确定' }).click()
   await expect(page.getByRole('status')).toContainText('常用语已保存')
   await expect(phrasePanel.getByText('自助入住提醒')).toBeVisible()
 
   await page.getByRole('button', { name: '快捷键设置' }).click()
   const shortcutPanel = page.getByRole('region', { name: '快捷键设置' })
   await expect(shortcutPanel.getByText('推荐房源')).toBeVisible()
-  await shortcutPanel.getByRole('button', { name: '启用 推荐房源' }).click()
-  await shortcutPanel.getByRole('button', { name: '保存快捷键' }).click()
+  await shortcutPanel.getByLabel('推荐房源开关').check()
+  await shortcutPanel.getByRole('button', { name: '保存' }).click()
   await expect(page.getByRole('status')).toContainText('快捷键设置已保存')
 
   diagnostics = await waitForDiagnostics(page, (value) => value?.lastAction?.endpoint === '/systemConfigs/user/shortcut/save')
@@ -142,9 +144,94 @@ test('/setting/imSetting supports filtering, phrase editing, shortcut saving, an
       userId: '1796067693261905922',
     },
   })
+})
 
-  await page.getByRole('button', { name: '微信客服运营台' }).click()
-  await expect(page).toHaveURL(/\/scrm\/wechatService\/manage$/)
+test('/setting/imSetting matches auto-reply panels and task dialog interactions', async ({ page }) => {
+  await page.goto(appUrl(pagePath))
+
+  await page.getByRole('button', { name: '自动回复设置' }).click()
+  const autoReplyPanel = page.getByRole('region', { name: '自动回复设置' })
+
+  await expect(autoReplyPanel.getByRole('button', { name: '欢迎语' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(autoReplyPanel.getByText('发送欢迎语')).toBeVisible()
+  await expect(autoReplyPanel.getByText('当顾客发送的第一条消息分配到人工接待时')).toBeVisible()
+
+  await autoReplyPanel.getByRole('button', { name: '超时提醒' }).click()
+  await expect(autoReplyPanel.getByRole('button', { name: '超时提醒' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(autoReplyPanel.locator('.im-auto-reply-toggle-row strong')).toHaveText('超时提醒')
+  await expect(autoReplyPanel.getByText('客户等待客服回复的时间超时后，发起这个回复')).toBeVisible()
+
+  await autoReplyPanel.getByRole('button', { name: '任务提醒' }).click()
+  await expect(autoReplyPanel.getByPlaceholder('输入任务名称或话术')).toBeVisible()
+  await expect(autoReplyPanel.getByLabel('任务场景筛选')).toHaveValue('全部任务场景')
+  await expect(autoReplyPanel.getByRole('button', { name: '新建任务' })).toBeVisible()
+  await expect(autoReplyPanel.getByRole('columnheader', { name: '任务名称' })).toBeVisible()
+  await expect(autoReplyPanel.getByText('暂无数据')).toBeVisible()
+
+  await autoReplyPanel.getByRole('button', { name: '新建任务' }).click()
+  const taskDialog = page.getByRole('dialog', { name: '新建任务' })
+  await expect(taskDialog).toBeVisible()
+  await expect(taskDialog.getByLabel('任务场景')).toHaveValue('【催单】咨询未下单')
+  await expect(taskDialog.getByLabel('发送分钟数')).toHaveValue('5')
+  await expect(taskDialog.getByLabel('催单话术')).toHaveValue(/您好，还有什么可以帮助的/)
+
+  await taskDialog.getByLabel('任务名称').fill('咨询未下单提醒')
+  await taskDialog.getByRole('button', { name: '确定' }).click()
+
+  await expect(page.getByRole('status')).toContainText('任务提醒已创建')
+  await expect(autoReplyPanel.getByText('咨询未下单提醒')).toBeVisible()
+  await expect(autoReplyPanel.getByRole('cell', { name: '【催单】咨询未下单' })).toBeVisible()
+})
+
+test('/setting/imSetting matches page tags shortcuts and version layouts', async ({ page }) => {
+  await page.goto(appUrl(pagePath))
+
+  await page.getByRole('button', { name: '页面设置' }).click()
+  const pagePanel = page.getByRole('region', { name: '页面设置' })
+  await expect(pagePanel.getByText('会话标签')).toBeVisible()
+  await expect(pagePanel.getByLabel('会话回复超时分钟数')).toHaveValue('3')
+  await expect(pagePanel.getByLabel('会话回复严重超时分钟数')).toHaveValue('6')
+  await expect(pagePanel.getByLabel('首回复提醒开关')).toHaveAttribute('aria-pressed', 'true')
+  await expect(pagePanel.getByLabel('高成交提醒条数')).toHaveValue('6')
+  await expect(pagePanel.getByLabel('消息通知音量')).toHaveValue('100')
+  await pagePanel.getByRole('button', { name: '保存' }).click()
+  await expect(page.getByRole('status')).toContainText('页面设置已保存')
+
+  await page.getByRole('button', { name: '标签设置' }).click()
+  const tagPanel = page.getByRole('region', { name: '标签设置' })
+  await expect(tagPanel.getByPlaceholder('输入标签内容')).toBeVisible()
+  await expect(tagPanel.getByRole('columnheader', { name: '标签类型' })).toBeVisible()
+  await expect(tagPanel.getByRole('cell', { name: '客户标签', exact: true })).toBeVisible()
+  await expect(tagPanel.getByLabel('客户标签启用开关')).toHaveAttribute('aria-pressed', 'true')
+  await expect(tagPanel.getByRole('button', { name: '编辑' })).toBeVisible()
+  await expect(tagPanel.getByText('第 1-1 条/总共 1 条')).toBeVisible()
+  await tagPanel.getByRole('button', { name: '编辑' }).click()
+  const tagDialog = page.getByRole('dialog', { name: '编辑标签' })
+  await expect(tagDialog).toBeVisible()
+  await expect(tagDialog.getByLabel('标签组')).toHaveValue('客户标签')
+  await expect(tagDialog.getByRole('textbox', { name: '标签内容1' })).toHaveValue('')
+  await tagDialog.getByRole('textbox', { name: '标签内容1' }).fill('高意向客户')
+  await tagDialog.getByRole('button', { name: '添加标签内容' }).click()
+  await tagDialog.getByRole('textbox', { name: '标签内容2' }).fill('复购用户')
+  await tagDialog.getByRole('button', { name: '确定' }).click()
+  await expect(page.getByRole('status')).toContainText('标签已保存')
+  await expect(tagPanel.getByText('高意向客户，复购用户')).toBeVisible()
+
+  await page.getByRole('button', { name: '快捷键设置' }).click()
+  const shortcutPanel = page.getByRole('region', { name: '快捷键设置' })
+  await expect(shortcutPanel.getByText('推荐激活键')).toBeVisible()
+  await expect(shortcutPanel.getByText('Ctrl+Shift+1')).toBeVisible()
+  await expect(shortcutPanel.getByText('Command+Shift+1')).toBeVisible()
+  await expect(shortcutPanel.getByLabel('推荐房源开关')).not.toBeChecked()
+
+  await page.getByRole('button', { name: '版本设置' }).click()
+  const versionPanel = page.getByRole('region', { name: '版本设置' })
+  await expect(versionPanel.getByText('会话默认基础版本，可根据需要切换版本')).toBeVisible()
+  await expect(versionPanel.getByRole('radio', { name: '会话基础版' })).toBeChecked()
+  await expect(versionPanel.getByRole('radio', { name: '会话升级版' })).toBeVisible()
+  await versionPanel.getByRole('radio', { name: '会话升级版' }).check()
+  await versionPanel.getByRole('button', { name: '保存' }).click()
+  await expect(page.getByRole('status')).toContainText('版本设置已保存')
 })
 
 test('/setting/imSetting exposes empty and error states from the mock provider', async ({ page }) => {
@@ -337,7 +424,9 @@ test('/setting/imSetting can switch to captured api contracts', async ({ page })
   await page.getByRole('button', { name: '快捷键设置' }).click()
   await expect(page.getByRole('region', { name: '快捷键设置' })).toContainText('Ctrl+Shift+1')
   await page.getByRole('button', { name: '版本设置' }).click()
-  await expect(page.getByRole('region', { name: '版本设置' })).toContainText('畅享版全新上线！')
+  await expect(page.getByRole('region', { name: '版本设置' })).toContainText('会话默认基础版本，可根据需要切换版本')
+  await expect(page.getByRole('radio', { name: '会话基础版' })).toBeChecked()
+  await expect(page.getByRole('radio', { name: '会话升级版' })).toBeVisible()
 
   expect(requests.phraseGroups).toEqual({
     campId: '1796067693589061634',

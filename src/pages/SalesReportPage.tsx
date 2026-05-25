@@ -6,13 +6,35 @@ import {
   getDefaultSalesReportQuery,
   getSalesReportStaticLookups,
   loadSalesReportDashboard,
+  type SalesReportColumnGroup,
   type SalesReportDashboard,
   type SalesReportExportTask,
   type SalesReportQuery,
   type SalesReportServiceError,
   type SalesReportTab,
+  type SalesReportTableRow,
 } from '../services/salesReport'
 import './SalesReportPage.css'
+
+type ExpandableSalesColumn =
+  | 'adr'
+  | 'adrMinusCommission'
+  | 'roomFeeIncludingCommission'
+  | 'accommodationOrderCount'
+
+type DerivedColumn = {
+  key: string
+  label: string
+  expanded?: boolean
+  expandable?: ExpandableSalesColumn
+}
+
+type ExpandableMeta = {
+  label: string
+  afterIndex: number
+  groupIndex: number
+  children: string[]
+}
 
 const tabs: Array<{ key: SalesReportTab; label: string }> = [
   { key: 'day', label: '按日' },
@@ -23,8 +45,34 @@ const tabs: Array<{ key: SalesReportTab; label: string }> = [
   { key: 'room', label: '按房间' },
 ]
 
-const defaultSalesReportQuery = getDefaultSalesReportQuery()
 const staticLookups = getSalesReportStaticLookups()
+
+const expandableColumnMeta: Record<ExpandableSalesColumn, ExpandableMeta> = {
+  adr: {
+    label: 'ADR',
+    afterIndex: 7,
+    groupIndex: 3,
+    children: ['全日房ADR', '钟点房ADR'],
+  },
+  adrMinusCommission: {
+    label: 'ADR(减佣)',
+    afterIndex: 8,
+    groupIndex: 3,
+    children: ['全日房ADR(减佣)', '钟点房ADR(减佣)'],
+  },
+  roomFeeIncludingCommission: {
+    label: '房费(含佣)',
+    afterIndex: 13,
+    groupIndex: 5,
+    children: ['全日房费(含佣)', '钟点房费(含佣)'],
+  },
+  accommodationOrderCount: {
+    label: '住宿订单总数',
+    afterIndex: 14,
+    groupIndex: 6,
+    children: ['自来客'],
+  },
+}
 
 export function SalesReportPage() {
   const [query, setQuery] = useState<SalesReportQuery>(createInitialSalesReportQuery)
@@ -36,10 +84,10 @@ export function SalesReportPage() {
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [filtersCollapsed, setFiltersCollapsed] = useState(false)
   const [exportTask, setExportTask] = useState<SalesReportExportTask | null>(null)
+  const [expandedColumns, setExpandedColumns] = useState<ExpandableSalesColumn[]>([])
 
   useEffect(() => {
     void runQuery(query)
-    // The initial request should only run once; follow-up changes go through explicit handlers.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -63,8 +111,21 @@ export function SalesReportPage() {
       }),
     [currentState, dashboard, errorTraceId, query.activeTab, query.provider, requestBody],
   )
-
   const exportContract = useMemo(() => JSON.stringify(exportTask ?? {}), [exportTask])
+
+  const isExpandableTable = Boolean(dashboard && dashboard.table.columns.length >= 15 && dashboard.table.groups.length >= 7)
+  const derivedColumns = useMemo(
+    () => (dashboard ? buildDerivedColumns(dashboard, expandedColumns) : []),
+    [dashboard, expandedColumns],
+  )
+  const derivedGroups = useMemo(
+    () => (dashboard ? buildDerivedGroups(dashboard, expandedColumns) : []),
+    [dashboard, expandedColumns],
+  )
+  const derivedRows = useMemo(
+    () => (dashboard ? buildDerivedRows(dashboard, expandedColumns) : []),
+    [dashboard, expandedColumns],
+  )
 
   async function runQuery(nextQuery: SalesReportQuery, nextNotice = '') {
     setIsLoading(true)
@@ -79,7 +140,8 @@ export function SalesReportPage() {
       setNotice(nextNotice)
     } catch (reason) {
       const nextError = reason instanceof Error ? reason.message : '销况报表加载失败，请稍后重试'
-      const traceId = reason instanceof Error && 'response' in reason ? readTraceId(reason as SalesReportServiceError) : ''
+      const traceId =
+        reason instanceof Error && 'response' in reason ? readTraceId(reason as SalesReportServiceError) : ''
       setDashboard(null)
       setQuery(nextQuery)
       setNotice('')
@@ -108,6 +170,7 @@ export function SalesReportPage() {
       monthEndDate: defaults.monthEndDate,
     }
     setExportTask(null)
+    setExpandedColumns([])
     void runQuery(nextQuery, `已切换到${tabs.find((item) => item.key === activeTab)?.label}`)
   }
 
@@ -120,11 +183,13 @@ export function SalesReportPage() {
       mockState: query.mockState,
     }
     setExportTask(null)
+    setExpandedColumns([])
     void runQuery(nextQuery, '已重置筛选条件')
   }
 
   function handleQuery() {
     setExportTask(null)
+    setExpandedColumns([])
     void runQuery({ ...query, pageNum: 1 }, '已按当前条件刷新销况报表')
   }
 
@@ -132,6 +197,12 @@ export function SalesReportPage() {
     const nextExportTask = await createSalesReportExportTask(query)
     setExportTask(nextExportTask)
     setNotice(nextExportTask.message)
+  }
+
+  function toggleExpandedColumn(column: ExpandableSalesColumn) {
+    setExpandedColumns((current) =>
+      current.includes(column) ? current.filter((item) => item !== column) : [...current, column],
+    )
   }
 
   const roomTypeValue = query.roomCategoryIds[0] ?? ''
@@ -155,133 +226,146 @@ export function SalesReportPage() {
         {exportContract}
       </pre>
 
-      <section className="sales-report-panel" aria-label="销况报表筛选">
-        <div className="sales-report-tabs" role="tablist" aria-label="销况报表维度">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              aria-pressed={query.activeTab === tab.key}
-              className={query.activeTab === tab.key ? 'is-active' : ''}
-              onClick={() => handleTabChange(tab.key)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      <section className="sales-report-panel">
+        <section className="sales-report-query" aria-label="销况报表筛选">
+          <div className="sales-report-tabs" role="tablist" aria-label="销况报表维度">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                aria-pressed={query.activeTab === tab.key}
+                className={query.activeTab === tab.key ? 'is-active' : ''}
+                onClick={() => handleTabChange(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-        <div className="sales-report-store-row" role="radiogroup" aria-label="门店范围">
-          {stores.map((item) => (
-            <label key={item.id} className={query.storeScope === item.id ? 'is-active' : ''}>
-              <input
-                type="radio"
-                name="sales-store-scope"
-                value={item.id}
-                checked={query.storeScope === item.id}
-                onChange={() => patchQuery({ storeScope: item.id })}
-              />
-              <span>{item.label}</span>
-            </label>
-          ))}
-          <span className="sales-store-name">{dashboard?.currentStoreName ?? staticLookups.currentStoreName}</span>
-        </div>
+          <div className="sales-report-form">
+            <div className="sales-report-store-row" role="radiogroup" aria-label="门店范围">
+              {stores.map((item) => (
+                <label key={item.id} className={query.storeScope === item.id ? 'is-active' : ''}>
+                  <input
+                    type="radio"
+                    name="sales-store-scope"
+                    value={item.id}
+                    aria-label={item.label}
+                    checked={query.storeScope === item.id}
+                    onChange={() => patchQuery({ storeScope: item.id })}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
+            </div>
 
-        {!filtersCollapsed ? (
-          <div className="sales-report-filter-row">
-            {query.activeTab === 'month' ? (
-              <DateMonthFields
-                startValue={query.monthStartDate.slice(0, 7)}
-                endValue={query.monthEndDate.slice(0, 7)}
-                onStartChange={(value) => patchQuery({ monthStartDate: `${value}-01` })}
-                onEndChange={(value) => patchQuery({ monthEndDate: `${value}-${lastDayOfMonth(value)}` })}
-              />
-            ) : (
-              <DateDayFields
-                startValue={query.dayStartDate}
-                endValue={query.dayEndDate}
-                onStartChange={(value) => patchQuery({ dayStartDate: value })}
-                onEndChange={(value) => patchQuery({ dayEndDate: value })}
-                onShortcutSelect={({ startDate, endDate }) =>
-                  patchQuery({
-                    dayStartDate: startDate,
-                    dayEndDate: endDate,
-                  })
-                }
-              />
-            )}
+            {!filtersCollapsed ? (
+              <div className="sales-report-filter-row">
+                {query.activeTab === 'month' ? (
+                  <DateMonthFields
+                    startValue={query.monthStartDate.slice(0, 7)}
+                    endValue={query.monthEndDate.slice(0, 7)}
+                    onStartChange={(value) => patchQuery({ monthStartDate: `${value}-01` })}
+                    onEndChange={(value) =>
+                      patchQuery({ monthEndDate: `${value}-${lastDayOfMonth(value)}` })
+                    }
+                  />
+                ) : (
+                  <DateDayFields
+                    startValue={query.dayStartDate}
+                    endValue={query.dayEndDate}
+                    onStartChange={(value) => patchQuery({ dayStartDate: value })}
+                    onEndChange={(value) => patchQuery({ dayEndDate: value })}
+                  />
+                )}
 
-            {query.activeTab !== 'store' ? (
-              <SelectField
-                id="sales-room-type"
-                label="房型"
-                value={roomTypeValue}
-                options={roomTypes}
-                onChange={(value) => patchQuery({ roomCategoryIds: value ? [value] : [], roomIds: [] })}
-              />
-            ) : null}
+                {query.activeTab !== 'store' ? (
+                  <SelectField
+                    id="sales-room-type"
+                    label="房型"
+                    value={roomTypeValue}
+                    options={roomTypes}
+                    onChange={(value) =>
+                      patchQuery({ roomCategoryIds: value ? [value] : [], roomIds: [] })
+                    }
+                  />
+                ) : null}
 
-            {query.activeTab === 'room' ? (
-              <SelectField
-                id="sales-room"
-                label="房间"
-                value={roomValue}
-                options={rooms}
-                onChange={(value) => patchQuery({ roomIds: value ? [value] : [] })}
-              />
-            ) : null}
+                {query.activeTab === 'room' ? (
+                  <SelectField
+                    id="sales-room"
+                    label="房间"
+                    value={roomValue}
+                    options={rooms}
+                    onChange={(value) => patchQuery({ roomIds: value ? [value] : [] })}
+                  />
+                ) : null}
 
-            <SelectField
-              id="sales-channel"
-              label="渠道"
-              value={channelValue}
-              options={channels}
-              onChange={(value) => patchQuery({ channelIds: value ? [value] : [] })}
-            />
+                <SelectField
+                  id="sales-channel"
+                  label="渠道"
+                  value={channelValue}
+                  options={channels}
+                  onChange={(value) => patchQuery({ channelIds: value ? [value] : [] })}
+                />
 
-            {query.activeTab !== 'store' ? (
-              <SelectField
-                id="sales-room-group"
-                label="房型分组"
-                value={roomGroupValue}
-                options={roomGroups}
-                onChange={(value) => patchQuery({ roomCategoryGroupIds: value ? [value] : [] })}
-              />
+                {query.activeTab !== 'store' ? (
+                  <SelectField
+                    id="sales-room-group"
+                    label="房型分组"
+                    value={roomGroupValue}
+                    options={roomGroups}
+                    onChange={(value) =>
+                      patchQuery({ roomCategoryGroupIds: value ? [value] : [] })
+                    }
+                  />
+                ) : null}
+              </div>
             ) : null}
           </div>
-        ) : null}
 
-        <div className="sales-report-actions">
-          <button type="button" className="is-outline" disabled={isLoading} onClick={handleReset}>
-            重置
-          </button>
-          <button type="button" className="is-primary" disabled={isLoading} onClick={handleQuery}>
-            查询
-          </button>
-          <button type="button" className="is-outline" disabled={isLoading} onClick={() => void handleExport()}>
-            导出
-          </button>
-          <button
-            type="button"
-            className="is-outline"
-            disabled={isLoading}
-            onClick={() => {
-              setDescriptionOpen(true)
-              setNotice('')
-            }}
-          >
-            说明
-          </button>
-          <button
-            type="button"
-            className="is-link"
-            disabled={isLoading}
-            aria-label={filtersCollapsed ? '展开筛选' : '收起筛选'}
-            onClick={() => setFiltersCollapsed((current) => !current)}
-          >
-            {filtersCollapsed ? '展开筛选' : '收起筛选'}
-          </button>
-        </div>
+          <div className="sales-report-actions">
+            <button type="button" className="is-outline" disabled={isLoading} onClick={handleReset}>
+              重置
+            </button>
+            <button type="button" className="is-primary" disabled={isLoading} onClick={handleQuery}>
+              查询
+            </button>
+            <button
+              type="button"
+              className="is-outline"
+              disabled={isLoading}
+              onClick={() => void handleExport()}
+            >
+              导出
+            </button>
+            <button
+              type="button"
+              className="is-outline"
+              disabled={isLoading}
+              onClick={() => {
+                setDescriptionOpen(true)
+                setNotice('')
+              }}
+            >
+              说明
+            </button>
+            <button
+              type="button"
+              className="is-link"
+              disabled={isLoading}
+              aria-label={filtersCollapsed ? '展开筛选' : '收起筛选'}
+              onClick={() => setFiltersCollapsed((current) => !current)}
+            >
+              {filtersCollapsed ? '展开' : '收起'}
+            </button>
+          </div>
+        </section>
       </section>
+
+      <div className="sr-only-heading" role="status" aria-label="销况报表操作反馈">
+        {notice}
+      </div>
 
       {error ? (
         <section className="sales-report-alert" role="alert" aria-label="销况报表加载失败">
@@ -293,12 +377,6 @@ export function SalesReportPage() {
         </section>
       ) : null}
 
-      {notice ? (
-        <div className="sales-report-notice" role="status" aria-label="销况报表操作反馈">
-          {notice}
-        </div>
-      ) : null}
-
       <section className="sales-report-table-wrap" aria-label="销况报表表格">
         {isLoading ? (
           <div className="sales-report-empty">正在加载销况报表...</div>
@@ -308,20 +386,31 @@ export function SalesReportPage() {
           <table className="sales-report-table" aria-label="销况报表表格">
             <thead>
               <tr>
-                {dashboard?.table.groups.map((group, index) => (
+                {derivedGroups.map((group, index) => (
                   <th key={`${group.label}-${index}`} colSpan={group.span}>
                     {group.label}
                   </th>
                 ))}
               </tr>
               <tr>
-                {dashboard?.table.columns.map((column) => (
-                  <th key={column}>{column}</th>
-                ))}
+                {derivedColumns.map((column) =>
+                  column.expandable && isExpandableTable ? (
+                    <ExpandableHeader
+                      key={column.key}
+                      label={column.label}
+                      expanded={Boolean(column.expanded)}
+                      onClick={() => toggleExpandedColumn(column.expandable!)}
+                    />
+                  ) : (
+                    <th key={column.key} className={column.expanded ? 'is-expanded-group' : ''}>
+                      {column.label}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>
-              {dashboard?.table.rows.map((row) => (
+              {derivedRows.map((row) => (
                 <tr key={row.id} className={row.summary ? 'is-summary' : ''}>
                   {row.cells.map((cell, index) => (
                     <td key={`${row.id}-${index}`}>{cell}</td>
@@ -380,36 +469,42 @@ function DateDayFields({
   endValue,
   onStartChange,
   onEndChange,
-  onShortcutSelect,
 }: {
   startValue: string
   endValue: string
   onStartChange: (value: string) => void
   onEndChange: (value: string) => void
-  onShortcutSelect: (range: { startDate: string; endDate: string }) => void
 }) {
-  const shortcuts = createDayShortcuts(defaultSalesReportQuery.dayEndDate)
-
   return (
-    <fieldset className="sales-date-range" aria-label="日期">
-      <legend>日期</legend>
-      <label htmlFor="sales-day-start" className="sr-only-heading">
-        开始日期
-      </label>
-      <input id="sales-day-start" aria-label="开始日期" type="date" value={startValue} onChange={(event) => onStartChange(event.target.value)} />
-      <span>至</span>
-      <label htmlFor="sales-day-end" className="sr-only-heading">
-        结束日期
-      </label>
-      <input id="sales-day-end" aria-label="结束日期" type="date" value={endValue} onChange={(event) => onEndChange(event.target.value)} />
-      <div className="sales-date-shortcuts" aria-label="日期快捷">
-        {shortcuts.map((shortcut) => (
-          <button key={shortcut.label} type="button" onClick={() => onShortcutSelect(shortcut)}>
-            {shortcut.label}
-          </button>
-        ))}
+    <div className="sales-date-field">
+      <span>开始日期</span>
+      <div className="sales-date-field__body">
+        <div className="sales-date-range" aria-label="日期">
+          <label htmlFor="sales-day-start" className="sr-only-heading">
+            开始日期
+          </label>
+          <input
+            id="sales-day-start"
+            aria-label="开始日期"
+            type="date"
+            value={startValue}
+            onChange={(event) => onStartChange(event.target.value)}
+          />
+          <span>至</span>
+          <label htmlFor="sales-day-end" className="sr-only-heading">
+            结束日期
+          </label>
+          <input
+            id="sales-day-end"
+            aria-label="结束日期"
+            type="date"
+            value={endValue}
+            onChange={(event) => onEndChange(event.target.value)}
+          />
+          <i aria-hidden="true" />
+        </div>
       </div>
-    </fieldset>
+    </div>
   )
 }
 
@@ -425,24 +520,35 @@ function DateMonthFields({
   onEndChange: (value: string) => void
 }) {
   return (
-    <fieldset className="sales-date-range" aria-label="月份">
-      <legend>月份</legend>
-      <label htmlFor="sales-month-start" className="sr-only-heading">
-        开始月份
-      </label>
-      <input
-        id="sales-month-start"
-        aria-label="开始月份"
-        type="month"
-        value={startValue}
-        onChange={(event) => onStartChange(event.target.value)}
-      />
-      <span>至</span>
-      <label htmlFor="sales-month-end" className="sr-only-heading">
-        结束月份
-      </label>
-      <input id="sales-month-end" aria-label="结束月份" type="month" value={endValue} onChange={(event) => onEndChange(event.target.value)} />
-    </fieldset>
+    <div className="sales-date-field">
+      <span>开始月份</span>
+      <div className="sales-date-field__body">
+        <div className="sales-date-range sales-date-range--month" aria-label="月份">
+          <label htmlFor="sales-month-start" className="sr-only-heading">
+            开始月份
+          </label>
+          <input
+            id="sales-month-start"
+            aria-label="开始月份"
+            type="month"
+            value={startValue}
+            onChange={(event) => onStartChange(event.target.value)}
+          />
+          <span>至</span>
+          <label htmlFor="sales-month-end" className="sr-only-heading">
+            结束月份
+          </label>
+          <input
+            id="sales-month-end"
+            aria-label="结束月份"
+            type="month"
+            value={endValue}
+            onChange={(event) => onEndChange(event.target.value)}
+          />
+          <i aria-hidden="true" />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -474,54 +580,129 @@ function SelectField({
   )
 }
 
+function ExpandableHeader({
+  label,
+  expanded,
+  onClick,
+}: {
+  label: string
+  expanded: boolean
+  onClick: () => void
+}) {
+  return (
+    <th className={expanded ? 'is-expanded-group' : ''}>
+      <button
+        type="button"
+        className={`sales-table-expand${expanded ? ' is-expanded' : ''}`}
+        aria-expanded={expanded}
+        aria-label={`${label}${expanded ? '收起子列' : '展开子列'}`}
+        onClick={onClick}
+      >
+        <span>{label}</span>
+        <i aria-hidden="true" />
+      </button>
+    </th>
+  )
+}
+
+function buildDerivedColumns(
+  dashboard: SalesReportDashboard,
+  expandedColumns: ExpandableSalesColumn[],
+): DerivedColumn[] {
+  const columns: DerivedColumn[] = dashboard.table.columns.map((label, index) => {
+    const expandable = getExpandableKey(index)
+    return {
+      key: `base-${index}`,
+      label,
+      expandable,
+      expanded: expandable ? expandedColumns.includes(expandable) : false,
+    }
+  })
+
+  const sortedExpanded = [...expandedColumns].sort(
+    (left, right) => expandableColumnMeta[left].afterIndex - expandableColumnMeta[right].afterIndex,
+  )
+
+  sortedExpanded.forEach((column) => {
+    const meta = expandableColumnMeta[column]
+    const insertIndex = columns.findIndex((item) => item.key === `base-${meta.afterIndex}`) + 1
+    if (insertIndex <= 0) return
+
+    columns.splice(
+      insertIndex,
+      0,
+      ...meta.children.map((label, childIndex) => ({
+        key: `${column}-${childIndex}`,
+        label,
+        expanded: true,
+      })),
+    )
+  })
+
+  return columns
+}
+
+function buildDerivedGroups(
+  dashboard: SalesReportDashboard,
+  expandedColumns: ExpandableSalesColumn[],
+): SalesReportColumnGroup[] {
+  const groups = dashboard.table.groups.map((group) => ({ ...group }))
+  expandedColumns.forEach((column) => {
+    const meta = expandableColumnMeta[column]
+    if (groups[meta.groupIndex]) {
+      groups[meta.groupIndex] = {
+        ...groups[meta.groupIndex],
+        span: groups[meta.groupIndex].span + meta.children.length,
+      }
+    }
+  })
+  return groups
+}
+
+function buildDerivedRows(
+  dashboard: SalesReportDashboard,
+  expandedColumns: ExpandableSalesColumn[],
+): SalesReportTableRow[] {
+  const sortedExpanded = [...expandedColumns].sort(
+    (left, right) => expandableColumnMeta[left].afterIndex - expandableColumnMeta[right].afterIndex,
+  )
+
+  return dashboard.table.rows.map((row) => {
+    const cells = [...row.cells]
+
+    sortedExpanded.forEach((column) => {
+      const insertIndex = expandableColumnMeta[column].afterIndex + 1
+      cells.splice(insertIndex, 0, ...buildExpandedCells(row.cells, column))
+    })
+
+    return {
+      ...row,
+      cells,
+    }
+  })
+}
+
+function buildExpandedCells(rowCells: string[], column: ExpandableSalesColumn) {
+  if (column === 'adr') return [rowCells[7] ?? '-', '0']
+  if (column === 'adrMinusCommission') return [rowCells[8] ?? '-', '0']
+  if (column === 'roomFeeIncludingCommission') return [rowCells[13] ?? '-', '0']
+  return ['0']
+}
+
+function getExpandableKey(index: number): ExpandableSalesColumn | undefined {
+  if (index === 7) return 'adr'
+  if (index === 8) return 'adrMinusCommission'
+  if (index === 13) return 'roomFeeIncludingCommission'
+  if (index === 14) return 'accommodationOrderCount'
+  return undefined
+}
+
 function lastDayOfMonth(monthValue: string) {
   const [yearText, monthText] = monthValue.split('-')
   const year = Number(yearText)
   const month = Number(monthText)
   if (!Number.isFinite(year) || !Number.isFinite(month)) return '31'
   return String(new Date(year, month, 0).getDate()).padStart(2, '0')
-}
-
-function createDayShortcuts(anchorDate: string) {
-  const anchor = parseDateValue(anchorDate)
-  const yesterday = shiftUtcDays(anchor, -1)
-  const weekStart = shiftUtcDays(anchor, -((anchor.getUTCDay() + 6) % 7))
-  const monthStart = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), 1))
-  const lastMonthStart = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth() - 1, 1))
-  const lastMonthEnd = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), 0))
-
-  return [
-    { label: '昨天', startDate: formatDateValue(yesterday), endDate: formatDateValue(yesterday) },
-    { label: '本周', startDate: formatDateValue(weekStart), endDate: formatDateValue(anchor) },
-    { label: '本月', startDate: formatDateValue(monthStart), endDate: formatDateValue(anchor) },
-    { label: '上月', startDate: formatDateValue(lastMonthStart), endDate: formatDateValue(lastMonthEnd) },
-  ]
-}
-
-function parseDateValue(value: string) {
-  const [yearText, monthText, dayText] = value.split('-')
-  const year = Number(yearText)
-  const month = Number(monthText)
-  const day = Number(dayText)
-
-  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
-    return parseDateValue(defaultSalesReportQuery.dayEndDate)
-  }
-
-  return new Date(Date.UTC(year, month - 1, day))
-}
-
-function shiftUtcDays(value: Date, amount: number) {
-  const next = new Date(value.getTime())
-  next.setUTCDate(next.getUTCDate() + amount)
-  return next
-}
-
-function formatDateValue(value: Date) {
-  const year = value.getUTCFullYear()
-  const month = String(value.getUTCMonth() + 1).padStart(2, '0')
-  const day = String(value.getUTCDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
 }
 
 function readTraceId(reason: SalesReportServiceError) {

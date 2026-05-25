@@ -1,0 +1,3335 @@
+{
+  "mode": "clone",
+  "state": "default",
+  "stamp": "20260523123000",
+  "facts": {
+    "url": "http://127.0.0.1:4174/#/setting/IntelligenceSetting",
+    "title": "pms_clone",
+    "bodyLength": 346,
+    "bodyTextSample": "LOCALS\n路客云 6TS5 的店铺\n畅享版\n首页\n房态\n房价\n订单\n售卖/产品\nOTA\n社媒\n私域\n聚合分销HOT\nSCRM\nAI全域雷达\n智慧酒店\n报表\n设置\n应用订阅\n限时试用\n信息维护\n企业设置\n通用设置\n会话设置\n自定义渠道\n支付方式设置\n收入/支出设置\n记一笔设置\n排序设置\n通知设置\n短信设置\n财务设置\n自动策略设置\n交接班设置\n打印设置\n自动策略设置\n接单规则\n房态自动化\n库存占用规则\n住宿订单接单规则\n\n设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单\n\n不操作\n逾期前自动同意\n逾期前自动拒绝\n飞猪自动结账\n\n开启设置后，客人离店当日自动发起结账\n\n信用住自动结账\n携程规则外取消订单设置\n\n超过25分钟后未确认，将自动按设置处理\n\n同意取消\n不同意取消",
+    "isLoginBlocked": false,
+    "hasBusinessText": true,
+    "interactions": [],
+    "componentScreenshots": [
+      "C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\artifacts\\screenshots\\shezhi--tongyong-shezhi--zidong-celue-shezhi\\default-clone-20260523123000-main-component.png"
+    ],
+    "headings": [
+      "自动策略设置",
+      "住宿订单接单规则",
+      "飞猪自动结账",
+      "携程规则外取消订单设置"
+    ],
+    "controls": [
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "首页",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "房态",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 320,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "房价",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 366,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "订单",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 412,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "售卖/产品",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 458,
+          "y": 1,
+          "width": 62,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "61.9844px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "OTA",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 538,
+          "y": 1,
+          "width": 27,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "27.4844px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "社媒",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 583,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "私域",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 629,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "聚合分销HOT",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 675,
+          "y": 1,
+          "width": 91,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "91.1406px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "SCRM",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 785,
+          "y": 1,
+          "width": 40,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "40.2656px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "AI全域雷达",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 843,
+          "y": 1,
+          "width": 70,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "69.9688px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "智慧酒店",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 931,
+          "y": 1,
+          "width": 56,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "56px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "报表",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1005,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link is-active",
+        "text": "设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1051,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "700",
+          "lineHeight": "21px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topbar-app-entry",
+        "text": "应用订阅 限时试用",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 80,
+          "height": 20
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "width": "80px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px 2px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--message",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1208,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--payment",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1236,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--reception",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1264,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--key",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1292,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--service",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1320,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-tool-button topbar-tool-button--notice",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1348,
+          "y": 16,
+          "width": 20,
+          "height": 20
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "20px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(52, 57, 66)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(52, 57, 66)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "topbar-user-menu",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1376,
+          "y": 10,
+          "width": 56,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "56px",
+          "height": "32px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(51, 57, 67)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 57, 67)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "text": "信息维护",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 64,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "155px",
+          "height": "44px",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "text": "信息维护",
+        "role": "heading",
+        "placeholder": null,
+        "rect": {
+          "x": 44,
+          "y": 75,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "81px",
+          "height": "22.5px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title",
+        "text": "企业设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 114,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "155px",
+          "height": "44px",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "text": "企业设置",
+        "role": "heading",
+        "placeholder": null,
+        "rect": {
+          "x": 44,
+          "y": 125,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "81px",
+          "height": "22.5px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "sidebar-group-title is-active",
+        "text": "通用设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 44
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "155px",
+          "height": "44px",
+          "padding": "0px 14px 0px 18px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "sidebar-group-heading",
+        "text": "通用设置",
+        "role": "heading",
+        "placeholder": null,
+        "rect": {
+          "x": 44,
+          "y": 175,
+          "width": 81,
+          "height": 23
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "81px",
+          "height": "22.5px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(70, 100, 244)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(70, 100, 244)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "会话设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 210,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "自定义渠道",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 249,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "支付方式设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 287,
+          "width": 155,
+          "height": 61
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "61px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "收入/支出设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 348,
+          "width": 155,
+          "height": 61
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "61px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "记一笔设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 409,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "排序设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 448,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "通知设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 486,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "短信设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 525,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "财务设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 563,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "text": "自动策略设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 602,
+          "width": 155,
+          "height": 61
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "61px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "交接班设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 663,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link",
+        "text": "打印设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 701,
+          "width": 155,
+          "height": 39
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "38.5px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(31, 41, 55)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(31, 41, 55)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-tabs",
+        "text": "接单规则 房态自动化 库存占用规则",
+        "role": "tablist",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 70,
+          "width": 332,
+          "height": 33
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "width": "332px",
+          "height": "33px",
+          "padding": "0px",
+          "margin": "0px 0px 20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "auto-strategy-tabs__button is-active",
+        "text": "接单规则",
+        "role": "tab",
+        "placeholder": null,
+        "rect": {
+          "x": 177,
+          "y": 71,
+          "width": 110,
+          "height": 31
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "110px",
+          "height": "31px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "31px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(77, 101, 246)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "auto-strategy-tabs__button",
+        "text": "房态自动化",
+        "role": "tab",
+        "placeholder": null,
+        "rect": {
+          "x": 287,
+          "y": 71,
+          "width": 110,
+          "height": 31
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "110px",
+          "height": "31px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "31px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "auto-strategy-tabs__button",
+        "text": "库存占用规则",
+        "role": "tab",
+        "placeholder": null,
+        "rect": {
+          "x": 397,
+          "y": 71,
+          "width": 110,
+          "height": 31
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "110px",
+          "height": "31px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "31px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "text": "住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": "tabpanel",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 123,
+          "width": 1240,
+          "height": 486
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "486.172px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 123,
+          "width": 1240,
+          "height": 175
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "175.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 212,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "14px",
+          "height": "14px",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 246,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "14px",
+          "height": "14px",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 280,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "14px",
+          "height": "14px",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 328,
+          "width": 1240,
+          "height": 109
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "109.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "auto-strategy-switch",
+        "text": "",
+        "role": "switch",
+        "placeholder": null,
+        "rect": {
+          "x": 284,
+          "y": 415,
+          "width": 44,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "44px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0.25)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "100px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 468,
+          "width": 1240,
+          "height": 141
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "141.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 557,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "14px",
+          "height": "14px",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "input",
+        "className": "",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 591,
+          "width": 14,
+          "height": 14
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "14px",
+          "height": "14px",
+          "padding": "0px",
+          "margin": "4px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "chat-dock-launcher",
+        "text": "",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1368,
+          "y": 828,
+          "width": 56,
+          "height": 56
+        },
+        "styles": {
+          "display": "grid",
+          "position": "fixed",
+          "width": "56px",
+          "height": "56px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "50%",
+          "boxShadow": "rgba(77, 101, 246, 0.32) 0px 12px 28px 0px",
+          "overflow": "visible"
+        }
+      }
+    ],
+    "keyElements": [
+      {
+        "tag": "div",
+        "className": "",
+        "text": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 信息维护 企业设置 通用设置 会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置 自动策略设置 接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1440px",
+          "height": "900px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "app-shell",
+        "text": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用 信息维护 企业设置 通用设置 会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置 自动策略设置 接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1440px",
+          "height": "900px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "topbar",
+        "text": "LOCALS 路客云 6TS5 的店铺 畅享版 首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置 应用订阅 限时试用",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 52
+        },
+        "styles": {
+          "display": "grid",
+          "position": "sticky",
+          "width": "1440px",
+          "height": "52px",
+          "padding": "0px 8px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(255, 255, 255, 0.98)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "nav",
+        "className": "topnav",
+        "text": "首页 房态 房价 订单 售卖/产品 OTA 社媒 私域 聚合分销HOT SCRM AI全域雷达 智慧酒店 报表 设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 274,
+          "y": 1,
+          "width": 828,
+          "height": 50
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "828px",
+          "height": "50px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto hidden"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topnav-link",
+        "text": "房态",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 320,
+          "y": 1,
+          "width": 28,
+          "height": 50
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "28px",
+          "height": "50px",
+          "padding": "16px 0px 13px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(47, 58, 81)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(47, 58, 81)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "topbar-actions",
+        "text": "应用订阅 限时试用",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1118,
+          "y": 10,
+          "width": 314,
+          "height": 32
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "width": "314px",
+          "height": "32px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "topbar-app-entry",
+        "text": "应用订阅 限时试用",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1118,
+          "y": 16,
+          "width": 80,
+          "height": 20
+        },
+        "styles": {
+          "display": "flex",
+          "position": "relative",
+          "width": "80px",
+          "height": "20px",
+          "padding": "0px",
+          "margin": "0px 2px 0px 0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "应用订阅",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 1142,
+          "y": 15,
+          "width": 56,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "56px",
+          "height": "21px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(51, 51, 51)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(51, 51, 51)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "page-body",
+        "text": "信息维护 企业设置 通用设置 会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置 自动策略设置 接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 1440,
+          "height": 848
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "1440px",
+          "height": "848px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(243, 246, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "aside",
+        "className": "sidebar",
+        "text": "信息维护 企业设置 通用设置 会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 52,
+          "width": 156,
+          "height": 848
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "156px",
+          "height": "848px",
+          "padding": "12px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "sidebar-group sidebar-group--module is-expanded is-active-group",
+        "text": "通用设置 会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 164,
+          "width": 155,
+          "height": 580
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "155px",
+          "height": "579.5px",
+          "padding": "0px",
+          "margin": "6px 0px 0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "sidebar-items",
+        "text": "会话设置 自定义渠道 支付方式设置 收入/支出设置 记一笔设置 排序设置 通知设置 短信设置 财务设置 自动策略设置 交接班设置 打印设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 208,
+          "width": 155,
+          "height": 536
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "155px",
+          "height": "535.5px",
+          "padding": "2px 0px 4px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "a",
+        "className": "sidebar-link is-active",
+        "text": "自动策略设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 602,
+          "width": 155,
+          "height": 61
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "155px",
+          "height": "61px",
+          "padding": "8px 18px 8px 56px",
+          "margin": "0px",
+          "fontSize": "15px",
+          "fontWeight": "400",
+          "lineHeight": "22.5px",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgb(70, 100, 244)",
+          "border": "0px none rgb(255, 255, 255)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "main",
+        "className": "page-content",
+        "text": "自动策略设置 接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 156,
+          "y": 52,
+          "width": 1284,
+          "height": 848
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1284px",
+          "height": "848px",
+          "padding": "8px 8px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgb(36, 50, 74)",
+          "backgroundColor": "rgb(245, 247, 251)",
+          "border": "0px none rgb(36, 50, 74)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "auto"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-page",
+        "text": "自动策略设置 接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 164,
+          "y": 60,
+          "width": 1268,
+          "height": 834
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1268px",
+          "height": "834px",
+          "padding": "0px 16px 40px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "8px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "h1",
+        "className": "auto-strategy-page__sr-title",
+        "text": "自动策略设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 175,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        "styles": {
+          "display": "block",
+          "position": "absolute",
+          "width": "1px",
+          "height": "1px",
+          "padding": "0px",
+          "margin": "-1px",
+          "fontSize": "32px",
+          "fontWeight": "700",
+          "lineHeight": "48px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-page__shell",
+        "text": "接单规则 房态自动化 库存占用规则 住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 60,
+          "width": 1240,
+          "height": 603
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "603.172px",
+          "padding": "10px 0px 24px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-tabs",
+        "text": "接单规则 房态自动化 库存占用规则",
+        "role": "tablist",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 70,
+          "width": 332,
+          "height": 33
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "width": "332px",
+          "height": "33px",
+          "padding": "0px",
+          "margin": "0px 0px 20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "1px solid rgb(217, 217, 217)",
+          "borderRadius": "4px",
+          "boxShadow": "none",
+          "overflow": "hidden"
+        }
+      },
+      {
+        "tag": "button",
+        "className": "auto-strategy-tabs__button",
+        "text": "房态自动化",
+        "role": "tab",
+        "placeholder": null,
+        "rect": {
+          "x": 287,
+          "y": 71,
+          "width": 110,
+          "height": 31
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "110px",
+          "height": "31px",
+          "padding": "1px 6px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "31px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgb(255, 255, 255)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "",
+        "text": "住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝 飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账 携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": "tabpanel",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 123,
+          "width": 1240,
+          "height": 486
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "486.172px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单 不操作 逾期前自动同意 逾期前自动拒绝",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 123,
+          "width": 1240,
+          "height": 175
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "175.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "auto-strategy-card__header",
+        "text": "住宿订单接单规则 设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 123,
+          "width": 1240,
+          "height": 71
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "71.3906px",
+          "padding": "0px 0px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "text": "设置后，待处理订单过期前5分钟，系统会按照您的设定自动处理订单",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 161,
+          "width": 1240,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "20.3906px",
+          "padding": "0px",
+          "margin": "14px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "20.4px",
+          "color": "rgba(0, 0, 0, 0.65)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.65)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-card__body",
+        "text": "不操作 逾期前自动同意 逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 194,
+          "width": 1240,
+          "height": 104
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "104px",
+          "padding": "14px 0px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-radio-group",
+        "text": "不操作 逾期前自动同意 逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 208,
+          "width": 1240,
+          "height": 90
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "1240px",
+          "height": "90px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "auto-strategy-radio",
+        "text": "逾期前自动同意",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 242,
+          "width": 120,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "120px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__content",
+        "text": "逾期前自动同意",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 242,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__main",
+        "text": "逾期前自动同意",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 242,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "逾期前自动同意",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 242,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "auto-strategy-radio",
+        "text": "逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 276,
+          "width": 120,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "120px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__content",
+        "text": "逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 276,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__main",
+        "text": "逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 276,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "逾期前自动拒绝",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 276,
+          "width": 98,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "98px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "飞猪自动结账 开启设置后，客人离店当日自动发起结账 信用住自动结账",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 328,
+          "width": 1240,
+          "height": 109
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "109.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "auto-strategy-card__header",
+        "text": "飞猪自动结账 开启设置后，客人离店当日自动发起结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 328,
+          "width": 1240,
+          "height": 71
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "71.3906px",
+          "padding": "0px 0px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "text": "飞猪自动结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 328,
+          "width": 1240,
+          "height": 24
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "1240px",
+          "height": "24px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "text": "开启设置后，客人离店当日自动发起结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 366,
+          "width": 1240,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "20.3906px",
+          "padding": "0px",
+          "margin": "14px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "20.4px",
+          "color": "rgba(0, 0, 0, 0.65)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.65)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-card__body",
+        "text": "信用住自动结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 400,
+          "width": 1240,
+          "height": 38
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "38px",
+          "padding": "14px 0px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-switch-row",
+        "text": "信用住自动结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 415,
+          "width": 152,
+          "height": 22
+        },
+        "styles": {
+          "display": "inline-flex",
+          "position": "static",
+          "width": "152px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "信用住自动结账",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 416,
+          "width": 98,
+          "height": 21
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "98px",
+          "height": "21px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "section",
+        "className": "auto-strategy-card",
+        "text": "携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理 同意取消 不同意取消",
+        "role": "region",
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 468,
+          "width": 1240,
+          "height": 141
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "141.391px",
+          "padding": "0px",
+          "margin": "0px 0px 30px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "header",
+        "className": "auto-strategy-card__header",
+        "text": "携程规则外取消订单设置 超过25分钟后未确认，将自动按设置处理",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 468,
+          "width": 1240,
+          "height": 71
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "71.3906px",
+          "padding": "0px 0px 12px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "h2",
+        "className": "",
+        "text": "携程规则外取消订单设置",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 468,
+          "width": 1240,
+          "height": 24
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "1240px",
+          "height": "24px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "p",
+        "className": "",
+        "text": "超过25分钟后未确认，将自动按设置处理",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 506,
+          "width": 1240,
+          "height": 20
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "20.3906px",
+          "padding": "0px",
+          "margin": "14px 0px 0px",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "20.4px",
+          "color": "rgba(0, 0, 0, 0.65)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.65)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-card__body",
+        "text": "同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 539,
+          "width": 1240,
+          "height": 70
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "1240px",
+          "height": "70px",
+          "padding": "14px 0px 0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "div",
+        "className": "auto-strategy-radio-group",
+        "text": "同意取消 不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 553,
+          "width": 1240,
+          "height": 56
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "1240px",
+          "height": "56px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "auto-strategy-radio",
+        "text": "同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 553,
+          "width": 78,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "78px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__content",
+        "text": "同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 553,
+          "width": 56,
+          "height": 22
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "56px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__main",
+        "text": "同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 553,
+          "width": 56,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "56px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 553,
+          "width": 56,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "56px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "label",
+        "className": "auto-strategy-radio",
+        "text": "不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 176,
+          "y": 587,
+          "width": 92,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "92px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__content",
+        "text": "不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 587,
+          "width": 70,
+          "height": 22
+        },
+        "styles": {
+          "display": "grid",
+          "position": "static",
+          "width": "70px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "auto-strategy-radio__main",
+        "text": "不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 587,
+          "width": 70,
+          "height": 22
+        },
+        "styles": {
+          "display": "flex",
+          "position": "static",
+          "width": "70px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      },
+      {
+        "tag": "span",
+        "className": "",
+        "text": "不同意取消",
+        "role": null,
+        "placeholder": null,
+        "rect": {
+          "x": 198,
+          "y": 587,
+          "width": 70,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "width": "70px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "22px",
+          "color": "rgba(0, 0, 0, 0.85)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "border": "0px none rgba(0, 0, 0, 0.85)",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      }
+    ],
+    "switches": [
+      {
+        "tag": "button",
+        "className": "auto-strategy-switch",
+        "text": "",
+        "role": "switch",
+        "placeholder": null,
+        "rect": {
+          "x": 284,
+          "y": 415,
+          "width": 44,
+          "height": 22
+        },
+        "styles": {
+          "display": "block",
+          "position": "relative",
+          "width": "44px",
+          "height": "22px",
+          "padding": "0px",
+          "margin": "0px",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "21px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0.25)",
+          "border": "0px none rgb(0, 0, 0)",
+          "borderRadius": "100px",
+          "boxShadow": "none",
+          "overflow": "visible"
+        }
+      }
+    ],
+    "dialogs": [],
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1
+    }
+  }
+}

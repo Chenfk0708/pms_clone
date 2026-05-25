@@ -4,8 +4,10 @@ export const SHIFT_SETTING_CONFIG_PATH = '/shiftWorkConfig/page/get'
 export const SHIFT_SETTING_GOODS_PATH = '/shiftWorkGoods/page/get'
 export const SHIFT_SETTING_MEMBER_PATH = '/campRoles/get'
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
-const defaultCampId = '1796067693589061634'
+const REAL_BASE_URL = 'https://hudson-prod.localhome.cn'
+const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_TRACE_PREFIX = 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi'
+const DEFAULT_TIMESTAMP = '2026-05-23 10:18:34'
 
 export type ShiftSettingProviderName = 'mock' | 'api'
 export type ShiftSettingMockState = 'success' | 'empty' | 'error'
@@ -43,6 +45,8 @@ export type ShiftSettingDashboard = {
   goodsConfigs: ShiftGoodsItem[]
   memberOptions: ShiftMemberOption[]
   requestedAt: string
+  shiftUpdatedAt: string
+  goodsUpdatedAt: string
   audit: string[]
 }
 
@@ -94,46 +98,17 @@ const baseMemberOptions: ShiftMemberOption[] = [
   { value: 'member-4', label: '王夜班' },
 ]
 
-const baseShiftConfigs: ShiftConfig[] = [
-  {
-    id: 'shift-1',
-    name: '早班',
-    startTime: '08:00',
-    endTime: '16:00',
-    memberIds: ['member-1', 'member-2'],
-    memberNames: ['路客云6TS5', '陈早班'],
-    updatedAt: '2026-05-19 11:18:34',
-  },
-  {
-    id: 'shift-2',
-    name: '夜班',
-    startTime: '16:00',
-    endTime: '23:30',
-    memberIds: ['member-3', 'member-4'],
-    memberNames: ['李前台', '王夜班'],
-    updatedAt: '2026-05-19 11:18:34',
-  },
-]
-
-const baseGoodsConfigs: ShiftGoodsItem[] = [
-  {
-    id: 'goods-1',
-    name: '房卡',
-    updatedAt: '2026-05-19 11:18:34',
-  },
-  {
-    id: 'goods-2',
-    name: '备用金',
-    updatedAt: '2026-05-19 11:18:34',
-  },
-]
-
-let mockShiftConfigs = cloneShiftConfigs(baseShiftConfigs)
-let mockGoodsConfigs = cloneGoodsConfigs(baseGoodsConfigs)
+function createBasePayload(): ShiftSettingPayload {
+  return {
+    shiftConfigs: [],
+    goodsConfigs: [],
+    memberOptions: baseMemberOptions.map((item) => ({ ...item })),
+  }
+}
 
 export function createDefaultShiftSettingFilters(searchParams = new URLSearchParams()): ShiftSettingFilters {
   return {
-    campId: searchParams.get('campId') || defaultCampId,
+    campId: searchParams.get('campId') || DEFAULT_CAMP_ID,
     mockState: toMockState(searchParams.get('mockState')),
   }
 }
@@ -167,11 +142,11 @@ export async function saveShiftConfigs(
   }
 
   await delay(120, signal)
-  mockShiftConfigs = drafts.map((draft, index) => toShiftConfig(draft, index))
+  const shiftConfigs = drafts.map((draft, index) => toShiftConfig(draft, index))
   const dashboard = adaptShiftSettingEnvelope(
     createMockSuccessEnvelope(filters, {
-      shiftConfigs: mockShiftConfigs,
-      goodsConfigs: mockGoodsConfigs,
+      shiftConfigs,
+      goodsConfigs: [],
       memberOptions: baseMemberOptions,
     }),
     filters,
@@ -199,11 +174,11 @@ export async function saveShiftGoods(
   }
 
   await delay(120, signal)
-  mockGoodsConfigs = drafts.map((draft, index) => toShiftGoodsItem(draft, index))
+  const goodsConfigs = drafts.map((draft, index) => toShiftGoodsItem(draft, index))
   const dashboard = adaptShiftSettingEnvelope(
     createMockSuccessEnvelope(filters, {
-      shiftConfigs: mockShiftConfigs,
-      goodsConfigs: mockGoodsConfigs,
+      shiftConfigs: [],
+      goodsConfigs,
       memberOptions: baseMemberOptions,
     }),
     filters,
@@ -233,13 +208,9 @@ async function fetchMockShiftSettingDashboard(
     return {
       code: 50310,
       message: '交接班设置加载失败，请稍后重试',
-      data: {
-        shiftConfigs: [],
-        goodsConfigs: [],
-        memberOptions: baseMemberOptions,
-      },
-      traceId: 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi-error-001',
-      timestamp: '2026-05-19T11:18:34+08:00',
+      data: createBasePayload(),
+      traceId: `${DEFAULT_TRACE_PREFIX}-error-001`,
+      timestamp: DEFAULT_TIMESTAMP,
     }
   }
 
@@ -247,21 +218,13 @@ async function fetchMockShiftSettingDashboard(
     return {
       code: 0,
       message: 'success',
-      data: {
-        shiftConfigs: [],
-        goodsConfigs: [],
-        memberOptions: baseMemberOptions,
-      },
-      traceId: 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi-empty-001',
-      timestamp: '2026-05-19T11:18:34+08:00',
+      data: createBasePayload(),
+      traceId: `${DEFAULT_TRACE_PREFIX}-empty-001`,
+      timestamp: DEFAULT_TIMESTAMP,
     }
   }
 
-  return createMockSuccessEnvelope(filters, {
-    shiftConfigs: mockShiftConfigs,
-    goodsConfigs: mockGoodsConfigs,
-    memberOptions: baseMemberOptions,
-  })
+  return createMockSuccessEnvelope(filters, createBasePayload())
 }
 
 function createMockSuccessEnvelope(filters: ShiftSettingFilters, payload: ShiftSettingPayload) {
@@ -273,11 +236,8 @@ function createMockSuccessEnvelope(filters: ShiftSettingFilters, payload: ShiftS
       goodsConfigs: cloneGoodsConfigs(payload.goodsConfigs),
       memberOptions: payload.memberOptions.map((item) => ({ ...item })),
     },
-    traceId:
-      filters.mockState === 'empty'
-        ? 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi-empty-001'
-        : 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi-success-001',
-    timestamp: '2026-05-19T11:18:34+08:00',
+    traceId: `${DEFAULT_TRACE_PREFIX}-${filters.mockState === 'empty' ? 'empty' : 'success'}-001`,
+    timestamp: DEFAULT_TIMESTAMP,
   } satisfies UnifiedEnvelope<ShiftSettingPayload>
 }
 
@@ -302,6 +262,8 @@ function adaptShiftSettingEnvelope(
     goodsConfigs: cloneGoodsConfigs(data.goodsConfigs),
     memberOptions: data.memberOptions.map((item) => ({ ...item })),
     requestedAt: envelope.timestamp,
+    shiftUpdatedAt: resolveLatestUpdatedAt(data.shiftConfigs),
+    goodsUpdatedAt: resolveLatestUpdatedAt(data.goodsConfigs),
     audit: [
       `provider=${provider}`,
       `configPath=${SHIFT_SETTING_CONFIG_PATH}`,
@@ -342,6 +304,8 @@ async function fetchApiShiftSettingDashboard(
     goodsConfigs,
     memberOptions,
     requestedAt: new Date().toISOString(),
+    shiftUpdatedAt: resolveLatestUpdatedAt(shiftConfigs),
+    goodsUpdatedAt: resolveLatestUpdatedAt(goodsConfigs),
     audit: [
       'provider=api',
       `configPath=${SHIFT_SETTING_CONFIG_PATH}`,
@@ -357,7 +321,7 @@ async function fetchApiShiftSettingDashboard(
 }
 
 async function postHudson<T>(path: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
-  const response = await fetch(`${realBaseUrl}${path}`, {
+  const response = await fetch(`${REAL_BASE_URL}${path}`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'content-type': 'application/json' },
@@ -420,11 +384,7 @@ function adaptApiGoodsItem(value: unknown, index: number): ShiftGoodsItem {
 }
 
 function adaptMemberOptions(payload: Record<string, unknown>) {
-  const candidates = [
-    ...asArray(payload.employees),
-    ...asArray(payload.list),
-    ...asArray(payload.records),
-  ]
+  const candidates = [...asArray(payload.employees), ...asArray(payload.list), ...asArray(payload.records)]
 
   const options = candidates
     .map((item) => {
@@ -452,7 +412,7 @@ function toShiftConfig(draft: ShiftConfigDraft, index: number): ShiftConfig {
     endTime: normalizeTime(draft.endTime),
     memberIds,
     memberNames,
-    updatedAt: '2026-05-19 11:18:34',
+    updatedAt: DEFAULT_TIMESTAMP,
   }
 }
 
@@ -460,8 +420,12 @@ function toShiftGoodsItem(draft: ShiftGoodsDraft, index: number): ShiftGoodsItem
   return {
     id: draft.id?.trim() || `goods-${index + 1}`,
     name: draft.name.trim(),
-    updatedAt: '2026-05-19 11:18:34',
+    updatedAt: DEFAULT_TIMESTAMP,
   }
+}
+
+function resolveLatestUpdatedAt(items: Array<{ updatedAt: string }>) {
+  return items[0]?.updatedAt || '-'
 }
 
 function validateFilters(filters: ShiftSettingFilters) {

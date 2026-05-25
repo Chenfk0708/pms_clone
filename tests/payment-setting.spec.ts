@@ -35,7 +35,15 @@ function feedbackBar(page: import('@playwright/test').Page) {
   return page.locator('[role="status"][aria-label="支付方式设置操作反馈"]')
 }
 
-test('/setting/paymentSetting loads contract-backed payment settings and supports detail actions', async ({ page }) => {
+function enabledList(page: import('@playwright/test').Page) {
+  return page.getByLabel('已启用支付方式列表')
+}
+
+function disabledList(page: import('@playwright/test').Page) {
+  return page.getByLabel('已停用支付方式列表')
+}
+
+test('/setting/paymentSetting renders compact tiles with empty disabled section', async ({ page }) => {
   await openPaymentSetting(page)
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
@@ -43,69 +51,68 @@ test('/setting/paymentSetting loads contract-backed payment settings and support
   await expect(page.getByRole('note')).toContainText('系统默认支付方式不支持编辑和删除，可直接拖动调整排序。')
   await expect(page.getByRole('heading', { name: '已启用支付方式', level: 2 })).toBeVisible()
   await expect(page.getByRole('heading', { name: '已停用支付方式', level: 2 })).toBeVisible()
-  await expect(page.getByRole('button', { name: '刷新列表' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '导出设置' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '新增支付方式' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '新增' })).toBeVisible()
 
   const contract = page.getByTestId('payment-setting-service-contract')
   await expect(contract).toContainText('provider=mock')
   await expect(contract).toContainText('/paymentSettings/list')
-  await expect(contract).toContainText('traceId=mock-shezhi--tongyong-shezhi--zhifu-fangshi-shezhi-list-success-001')
 
-  const enabledList = page.getByLabel('已启用支付方式列表')
-  const disabledList = page.getByLabel('已停用支付方式列表')
-  await expect(enabledList.getByRole('article')).toHaveCount(11)
-  await expect(disabledList.getByRole('article')).toHaveCount(3)
-  await expect(enabledList).toContainText('平台代收')
-  await expect(enabledList).toContainText('微信')
-  await expect(disabledList).toContainText('企业月结')
-
-  await page.getByRole('button', { name: '查看 微信 详情' }).click()
-  await expect(page.getByRole('dialog', { name: '支付方式详情' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: '微信' })).toBeVisible()
-  await expect(page.getByText('系统默认支付方式')).toBeVisible()
-  await page.getByRole('button', { name: '设为默认支付方式' }).click()
-  await expect(feedbackBar(page)).toContainText('已将微信设为默认支付方式')
-  await expect(contract).toContainText('/paymentSettings/default/update')
-  await page.getByRole('button', { name: '关闭详情' }).click()
-  await expect(page.getByRole('dialog', { name: '支付方式详情' })).toHaveCount(0)
-
-  await page.getByRole('button', { name: '导出设置' }).click()
-  await expect(feedbackBar(page)).toContainText('导出任务已创建')
-  await expect(contract).toContainText('/paymentSettings/export')
+  const enabledTiles = enabledList(page).getByTestId('payment-method-tile')
+  const disabledTiles = disabledList(page).getByTestId('payment-method-tile')
+  await expect(enabledTiles).toHaveCount(11)
+  await expect(disabledTiles).toHaveCount(0)
+  await expect(enabledList(page)).toContainText('平台代收')
+  await expect(enabledList(page)).toContainText('支付宝')
+  await expect(enabledList(page)).toContainText('现场收款')
 })
 
-test('/setting/paymentSetting creates, disables, and re-enables custom payment methods', async ({ page }) => {
+test('/setting/paymentSetting supports hover disable and inline add', async ({ page }) => {
   await openPaymentSetting(page)
 
-  await page.getByRole('button', { name: '新增支付方式' }).click()
-  await expect(page.getByRole('dialog', { name: '新增支付方式' })).toBeVisible()
-  await page.getByLabel('支付方式名称').fill('企业月卡')
-  await page.getByRole('button', { name: '保存支付方式' }).click()
+  const alipayTile = enabledList(page).locator('[data-method-id="payment-alipay"]')
+  await alipayTile.hover()
+  await expect(alipayTile.locator('.payment-method-tile__disable')).toBeVisible()
+  await alipayTile.locator('.payment-method-tile__disable').click()
 
-  await expect(feedbackBar(page)).toContainText('已新增支付方式：企业月卡')
-  await expect(page.getByLabel('已启用支付方式列表')).toContainText('企业月卡')
+  await expect(feedbackBar(page)).toContainText('已停用支付方式：支付宝')
+  await expect(disabledList(page).locator('[data-method-id="payment-alipay"]')).toBeVisible()
+  await expect(page.getByTestId('payment-setting-service-contract')).toContainText('/paymentSettings/status/update')
 
-  await page.getByRole('button', { name: '查看 企业月卡 详情' }).click()
-  await page.getByRole('button', { name: '停用支付方式' }).click()
-  await expect(feedbackBar(page)).toContainText('已停用支付方式：企业月卡')
-  await expect(page.getByLabel('已停用支付方式列表')).toContainText('企业月卡')
+  await page.locator('.payment-setting-primary--compact').click()
+  const inlineAddCard = page.getByTestId('payment-method-inline-add')
+  await expect(inlineAddCard).toBeVisible()
+  await expect(page.locator('.payment-setting-primary--compact')).toBeDisabled()
+  await inlineAddCard.locator('input').fill('企业月结')
+  await inlineAddCard.locator('.is-confirm').click()
 
-  await page.getByRole('button', { name: '启用 企业月卡' }).click()
-  await expect(feedbackBar(page)).toContainText('已启用支付方式：企业月卡')
-  await expect(page.getByLabel('已启用支付方式列表')).toContainText('企业月卡')
-})
-
-test('/setting/paymentSetting renders a business empty state from the provider', async ({ page }) => {
-  await openPaymentSetting(page, 'empty')
-
-  await expect(page.getByText('当前没有已启用支付方式')).toBeVisible()
-  await expect(page.getByText('当前没有已停用支付方式')).toBeVisible()
-  await expect(page.getByRole('button', { name: '新增支付方式' })).toBeVisible()
+  await expect(feedbackBar(page)).toContainText('已新增支付方式：企业月结')
+  await expect(enabledList(page)).toContainText('企业月结')
 
   const contract = page.getByTestId('payment-setting-service-contract')
-  await expect(contract).toContainText('mockState=empty')
-  await expect(contract).toContainText('traceId=mock-shezhi--tongyong-shezhi--zhifu-fangshi-shezhi-list-empty-001')
+  await expect(contract).toContainText('/paymentSettings/create')
+})
+
+test('/setting/paymentSetting supports drag sorting for enabled tiles', async ({ page }) => {
+  await openPaymentSetting(page)
+
+  const beforeIds = await enabledList(page)
+    .locator('[data-testid="payment-method-tile"]')
+    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-method-id') ?? ''))
+  expect(beforeIds.slice(0, 3)).toEqual(['payment-platform-collect', 'payment-wechat', 'payment-alipay'])
+
+  const source = enabledList(page).locator('[data-method-id="payment-onsite"]')
+  const target = enabledList(page).locator('[data-method-id="payment-bank-transfer"]')
+  await source.dragTo(target)
+
+  await expect(feedbackBar(page)).toContainText('支付方式排序已更新')
+
+  const afterIds = await enabledList(page)
+    .locator('[data-testid="payment-method-tile"]')
+    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-method-id') ?? ''))
+  expect(afterIds.indexOf('payment-onsite')).toBeLessThan(afterIds.indexOf('payment-bank-transfer'))
+  expect(afterIds.indexOf('payment-onsite')).toBeGreaterThan(afterIds.indexOf('payment-cash'))
+
+  await expect(page.getByTestId('payment-setting-service-contract')).toContainText('/paymentSettings/sort/update')
 })
 
 test('/setting/paymentSetting exposes a clear error state and can retry the same contract', async ({ page }) => {
@@ -121,8 +128,5 @@ test('/setting/paymentSetting exposes a clear error state and can retry the same
   await page.getByRole('button', { name: '重新加载支付方式设置' }).click()
 
   await expect(page.getByRole('heading', { name: '已启用支付方式', level: 2 })).toBeVisible()
-  await expect(feedbackBar(page)).toContainText('支付方式设置已更新')
-  await expect(page.getByTestId('payment-setting-service-contract')).toContainText(
-    'traceId=mock-shezhi--tongyong-shezhi--zhifu-fangshi-shezhi-list-success-001',
-  )
+  await expect(enabledList(page).getByTestId('payment-method-tile')).toHaveCount(11)
 })

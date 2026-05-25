@@ -1,0 +1,214 @@
+[2m15:48:59[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled error] [1mReferenceError[22m: Cannot access 'CHANNEL_BADGE_LIBRARY' before initialization
+[39m > src/services/calendarRoom.ts:413:28
+    411 |  
+    412 |  function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+    413 |    return keys.map((key) => ({
+        |                              ^
+    414 |      ...CHANNEL_BADGE_LIBRARY[key],
+    415 |      target: '_blank',
+ > buildChannelBadges src/services/calendarRoom.ts:413:14
+ > src/services/calendarRoom.ts:253:19
+
+[2m15:49:00[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled error] [1mReferenceError[22m: Cannot access 'CHANNEL_BADGE_LIBRARY' before initialization
+[39m > src/services/calendarRoom.ts:413:28
+    411 |  
+    412 |  function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+    413 |    return keys.map((key) => ({
+        |                              ^
+    414 |      ...CHANNEL_BADGE_LIBRARY[key],
+    415 |      target: '_blank',
+ > buildChannelBadges src/services/calendarRoom.ts:413:14
+ > src/services/calendarRoom.ts:253:19
+
+[2m15:49:14[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled error] [1mReferenceError[22m: Cannot access 'CHANNEL_BADGE_LIBRARY' before initialization
+[39m > src/services/calendarRoom.ts:413:28
+    411 |  
+    412 |  function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+    413 |    return keys.map((key) => ({
+        |                              ^
+    414 |      ...CHANNEL_BADGE_LIBRARY[key],
+    415 |      target: '_blank',
+ > buildChannelBadges src/services/calendarRoom.ts:413:14
+ > src/services/calendarRoom.ts:253:19
+
+[2m15:52:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled error] [1mReferenceError[22m: Cannot access 'CHANNEL_BADGE_LIBRARY' before initialization
+[39m > src/services/calendarRoom.ts:414:28
+    412 |  
+    413 |  function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+    414 |    return keys.map((key) => ({
+        |                              ^
+    415 |      ...CHANNEL_BADGE_LIBRARY[key],
+    416 |      target: '_blank',
+ > buildChannelBadges src/services/calendarRoom.ts:414:14
+ > src/services/calendarRoom.ts:254:19
+
+[2m15:52:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled error] [1mReferenceError[22m: Cannot access 'CHANNEL_BADGE_LIBRARY' before initialization
+[39m > src/services/calendarRoom.ts:414:28
+    412 |  
+    413 |  function buildChannelBadges(keys: Array<keyof typeof CHANNEL_BADGE_LIBRARY>): CalendarRoomChannelBadge[] {
+    414 |    return keys.map((key) => ({
+        |                              ^
+    415 |      ...CHANNEL_BADGE_LIBRARY[key],
+    416 |      target: '_blank',
+ > buildChannelBadges src/services/calendarRoom.ts:414:14
+ > src/services/calendarRoom.ts:254:19
+
+[2m18:52:45[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/SmsSettingPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:84:31
+[33m  82 |  import { SmartIdCardReaderPage } from "./pages/SmartIdCardReaderPage";
+  83 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  84 |  import { SmsSettingPage } from "./pages/SmsSettingPage";
+     |                                  ^
+  85 |  import { SocialPage, SocialSettingPage } from "./pages/SocialPage";
+  86 |  import { SortSettingPage } from "./pages/SortSettingPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 83)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m18:52:45[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SmsSettingPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:84:31
+[33m  82 |  import { SmartIdCardReaderPage } from "./pages/SmartIdCardReaderPage";
+  83 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  84 |  import { SmsSettingPage } from "./pages/SmsSettingPage";
+     |                                  ^
+  85 |  import { SocialPage, SocialSettingPage } from "./pages/SocialPage";
+  86 |  import { SortSettingPage } from "./pages/SortSettingPage";[39m
+[2m18:52:45[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SmsSettingPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:84:31
+[33m  82 |  import { SmartIdCardReaderPage } from "./pages/SmartIdCardReaderPage";
+  83 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  84 |  import { SmsSettingPage } from "./pages/SmsSettingPage";
+     |                                  ^
+  85 |  import { SocialPage, SocialSettingPage } from "./pages/SocialPage";
+  86 |  import { SortSettingPage } from "./pages/SortSettingPage";[39m
+[2m18:52:46[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/SmsSettingPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:84:31
+[33m  82 |  import { SmartIdCardReaderPage } from "./pages/SmartIdCardReaderPage";
+  83 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  84 |  import { SmsSettingPage } from "./pages/SmsSettingPage";
+     |                                  ^
+  85 |  import { SocialPage, SocialSettingPage } from "./pages/SocialPage";
+  86 |  import { SortSettingPage } from "./pages/SortSettingPage";[39m
+[2m18:52:46[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/SmsSettingPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:84:31
+[33m  82 |  import { SmartIdCardReaderPage } from "./pages/SmartIdCardReaderPage";
+  83 |  import { SmartSelfCheckinPage } from "./pages/SmartSelfCheckinPage";
+  84 |  import { SmsSettingPage } from "./pages/SmsSettingPage";
+     |                                  ^
+  85 |  import { SocialPage, SocialSettingPage } from "./pages/SocialPage";
+  86 |  import { SortSettingPage } from "./pages/SortSettingPage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 83)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m18:53:05[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m18:53:05[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m18:53:05[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m18:53:05[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m18:53:05[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m18:53:06[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+[2m18:53:06[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./SmsSettingPage.css" from "src/pages/SmsSettingPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx[39m:15:7
+[33m  2  |  import { useLocation, useNavigate } from "react-router-dom";
+  3  |  import { createDefaultSmsSettingFilters, fetchSmsSettingDashboard, readSmsSettingDiagnostics } from "../services/smsS...
+  4  |  import "./SmsSettingPage.css";
+     |          ^
+  5  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/SmsSettingPage.tsx";
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: UNKNOWN: unknown error, lstat 'C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\.tmp\capture-shezhi--xinxi-weihu--fangxing-xinxi-clone-default-20260519120505\Default\chrome_cart_db'
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:9667:146)
+    at NodeFsHandler._boundHandleError (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:8627:44)
+    at ReaddirpStream.emit (node:events:509:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -4094,
+  code: 'UNKNOWN',
+  syscall: 'lstat',
+  path: 'C:\\Users\\Administrator\\Desktop\\work\\xxxxx\\pms_clone\\.tmp\\capture-shezhi--xinxi-weihu--fangxing-xinxi-clone-default-20260519120505\\Default\\chrome_cart_db'
+}
+
+Node.js v24.15.0

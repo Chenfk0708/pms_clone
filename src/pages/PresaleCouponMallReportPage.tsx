@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   createPreSaleCouponMallExportTask,
   defaultPreSaleCouponMallQuery,
@@ -13,16 +14,29 @@ import {
 import './PresaleCouponMallReportPage.css'
 
 type SelectKind = 'channel' | 'category' | null
+type StoreView = 'all' | 'current'
+type DatePickTarget = 'start' | 'end'
+type DatePreset = 'yesterday' | 'thisWeek' | 'thisMonth' | 'lastMonth'
+
+const datePresetOptions: Array<{ key: DatePreset; label: string }> = [
+  { key: 'yesterday', label: '昨天' },
+  { key: 'thisWeek', label: '本周' },
+  { key: 'thisMonth', label: '本月' },
+  { key: 'lastMonth', label: '上月' },
+]
 
 export function PresaleCouponMallReportPage() {
+  const navigate = useNavigate()
   const [draft, setDraft] = useState<PreSaleCouponMallQuery>(() => makeInitialQuery())
   const [query, setQuery] = useState<PreSaleCouponMallQuery>(() => makeInitialQuery())
   const [dashboard, setDashboard] = useState<PreSaleCouponMallDashboard | null>(null)
   const [serviceError, setServiceError] = useState<PreSaleCouponMallServiceError | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [notice, setNotice] = useState('')
   const [openSelect, setOpenSelect] = useState<SelectKind>(null)
   const [datePanelOpen, setDatePanelOpen] = useState(false)
+  const [storeView, setStoreView] = useState<StoreView>('all')
+  const [calendarMonth, setCalendarMonth] = useState(() => makeInitialQuery().startDate.slice(0, 7))
+  const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [selectedRow, setSelectedRow] = useState<PreSaleCouponMallRow | null>(null)
 
@@ -72,7 +86,12 @@ export function PresaleCouponMallReportPage() {
   const channels = dashboard?.channels ?? [{ value: '', label: '全部渠道' }]
   const categories = dashboard?.categories ?? [{ value: '', label: '全部类型' }]
   const descriptions = dashboard?.descriptions ?? []
-  const selectedStore = dashboard?.stores[0]?.name ?? draft.poiName
+  const defaultStore = defaultPreSaleCouponMallQuery()
+  const currentStore = dashboard?.stores[0] ?? {
+    id: defaultStore.poiId,
+    name: defaultStore.poiName,
+  }
+  const activePreset = findMatchingPreset(draft.startDate, draft.endDate)
 
   function updateDraft(next: Partial<PreSaleCouponMallQuery>) {
     setDraft((current) => ({ ...current, ...next }))
@@ -82,30 +101,29 @@ export function PresaleCouponMallReportPage() {
     setQuery({ ...draft, page: 1 })
     setOpenSelect(null)
     setDatePanelOpen(false)
-    setNotice('已按当前条件刷新核销明细')
   }
 
   function resetFilters() {
-    const nextQuery = defaultPreSaleCouponMallQuery()
+    const nextQuery = createAllStoreQuery()
     setDraft(nextQuery)
     setQuery(nextQuery)
+    setStoreView('all')
+    setCalendarMonth(nextQuery.startDate.slice(0, 7))
+    setDatePickTarget('start')
     setOpenSelect(null)
     setDatePanelOpen(false)
-    setNotice('筛选条件已重置')
   }
 
   function refresh() {
     setQuery((current) => ({ ...current }))
     setOpenSelect(null)
     setDatePanelOpen(false)
-    setNotice('已刷新预售券核销明细')
   }
 
   async function exportRows() {
     setIsLoading(true)
     try {
       await createPreSaleCouponMallExportTask(query)
-      setNotice('导出任务已创建')
     } finally {
       setIsLoading(false)
     }
@@ -114,6 +132,52 @@ export function PresaleCouponMallReportPage() {
   function chooseOption(kind: Exclude<SelectKind, null>, value: string) {
     updateDraft(kind === 'channel' ? { channelId: value } : { categoryId: value })
     setOpenSelect(null)
+  }
+
+  function switchStore(nextView: StoreView) {
+    setStoreView(nextView)
+    setOpenSelect(null)
+    setDatePanelOpen(false)
+
+    if (nextView === 'all') {
+      updateDraft({ poiId: 'all', poiName: '全部门店' })
+      return
+    }
+
+    updateDraft({ poiId: currentStore.id, poiName: currentStore.name })
+  }
+
+  function openDatePanel(target: DatePickTarget = 'start') {
+    setOpenSelect(null)
+    setDatePickTarget(target)
+    setCalendarMonth(draft.startDate.slice(0, 7))
+    setDatePanelOpen(true)
+  }
+
+  function pickDate(date: string) {
+    if (datePickTarget === 'start') {
+      updateDraft({
+        startDate: date,
+        endDate: date <= draft.endDate ? draft.endDate : date,
+      })
+      setDatePickTarget('end')
+      return
+    }
+
+    updateDraft({
+      startDate: date < draft.startDate ? date : draft.startDate,
+      endDate: date < draft.startDate ? draft.startDate : date,
+    })
+    setDatePickTarget('start')
+    setDatePanelOpen(false)
+  }
+
+  function applyPreset(preset: DatePreset) {
+    const nextRange = buildPresetRange(preset)
+    updateDraft(nextRange)
+    setCalendarMonth(nextRange.startDate.slice(0, 7))
+    setDatePickTarget('start')
+    setDatePanelOpen(false)
   }
 
   return (
@@ -128,70 +192,93 @@ export function PresaleCouponMallReportPage() {
       />
 
       <section className="presale-coupon-query" aria-label="预售券数据筛选">
-        <section className="presale-coupon-store-field" aria-label="门店">
-          <span>门店</span>
-          <strong>{selectedStore}</strong>
-        </section>
+        <div className="presale-coupon-store-switch" aria-label="门店切换">
+          <button
+            type="button"
+            className={storeView === 'all' ? 'is-active' : ''}
+            aria-pressed={storeView === 'all'}
+            onClick={() => switchStore('all')}
+          >
+            全部门店
+          </button>
+          <button
+            type="button"
+            className={`is-store${storeView === 'current' ? ' is-active' : ''}`}
+            aria-pressed={storeView === 'current'}
+            title={currentStore.name}
+            onClick={() => switchStore('current')}
+          >
+            {currentStore.name}
+          </button>
+          <button
+            type="button"
+            className="is-setting"
+            aria-label="打开门店信息设置"
+            onClick={() => navigate('/InformationMaintenance/campInfo')}
+          >
+            <span aria-hidden="true">⚙</span>
+          </button>
+        </div>
 
         <div className="presale-coupon-filter-row">
-          <label className="presale-coupon-date-range">
-            <span>统计日期</span>
-            <div className="presale-coupon-date-inputs">
-              <input
-                aria-label="开始日期"
-                value={draft.startDate}
-                onChange={(event) => updateDraft({ startDate: event.target.value })}
-                onFocus={() => {
-                  setOpenSelect(null)
-                  setDatePanelOpen(true)
-                }}
-                onClick={() => {
-                  setOpenSelect(null)
-                  setDatePanelOpen(true)
-                }}
-                readOnly
-              />
+          <div className="presale-coupon-date-range">
+            <span>统计日期:</span>
+            <button
+              type="button"
+              className="presale-coupon-date-trigger"
+              aria-label="统计日期"
+              onClick={() => openDatePanel('start')}
+            >
+              <strong>{draft.startDate}</strong>
               <em>至</em>
-              <input
-                aria-label="结束日期"
-                value={draft.endDate}
-                onChange={(event) => updateDraft({ endDate: event.target.value })}
-                onFocus={() => {
-                  setOpenSelect(null)
-                  setDatePanelOpen(true)
-                }}
-                onClick={() => {
-                  setOpenSelect(null)
-                  setDatePanelOpen(true)
-                }}
-                readOnly
+              <strong>{draft.endDate}</strong>
+              <i aria-hidden="true">📅</i>
+            </button>
+            {datePanelOpen ? (
+              <DatePanel
+                month={calendarMonth}
+                startDate={draft.startDate}
+                endDate={draft.endDate}
+                pickTarget={datePickTarget}
+                activePreset={activePreset}
+                onPrevious={() => setCalendarMonth((current) => shiftMonth(current, -1))}
+                onNext={() => setCalendarMonth((current) => shiftMonth(current, 1))}
+                onPick={pickDate}
+                onPreset={applyPreset}
               />
-            </div>
-            {datePanelOpen ? <DatePanel /> : null}
-          </label>
+            ) : null}
+          </div>
 
           <SelectField
-            label="渠道"
-            displayValue={labelForOption(channels, draft.channelId, '全部渠道')}
+            label="渠道:"
+            displayValue={labelForOption(channels, draft.channelId, '请选择')}
             isOpen={openSelect === 'channel'}
+            options={channels}
+            currentValue={draft.channelId}
+            ariaLabel="娓犻亾閫夐」"
             onToggle={() => {
               setDatePanelOpen(false)
               setOpenSelect(openSelect === 'channel' ? null : 'channel')
             }}
+            onSelect={(value) => chooseOption('channel', value)}
           />
 
           <SelectField
-            label="预售券类型"
-            displayValue={labelForOption(categories, draft.categoryId, '全部类型')}
+            label="预售券类型:"
+            displayValue={labelForOption(categories, draft.categoryId, '请选择')}
             isOpen={openSelect === 'category'}
+            options={categories}
+            currentValue={draft.categoryId}
+            ariaLabel="棰勫敭鍒哥被鍨嬮€夐」"
             onToggle={() => {
               setDatePanelOpen(false)
               setOpenSelect(openSelect === 'category' ? null : 'category')
             }}
+            onSelect={(value) => chooseOption('category', value)}
           />
 
           <label className="presale-coupon-keyword">
-            <span>商品搜索</span>
+            <span>商品搜索:</span>
             <input
               value={draft.keyword}
               placeholder="请输入商品编号/商品名称"
@@ -200,6 +287,7 @@ export function PresaleCouponMallReportPage() {
           </label>
         </div>
 
+        {/*
         {openSelect === 'channel' ? (
           <SelectOptions
             ariaLabel="渠道选项"
@@ -217,19 +305,17 @@ export function PresaleCouponMallReportPage() {
             onSelect={(value) => chooseOption('category', value)}
           />
         ) : null}
+        */}
 
         <div className="presale-coupon-actions">
           <button type="button" className="is-outline" onClick={resetFilters} disabled={isLoading}>
-            重 置
+            重置
           </button>
           <button type="button" className="is-primary" onClick={applyFilters} disabled={isLoading}>
-            查 询
-          </button>
-          <button type="button" className="is-outline" onClick={refresh} disabled={isLoading}>
-            刷 新
+            查询
           </button>
           <button type="button" className="is-outline" onClick={exportRows} disabled={isLoading}>
-            导 出
+            导出
           </button>
           <button
             type="button"
@@ -240,16 +326,10 @@ export function PresaleCouponMallReportPage() {
               setDescriptionOpen(true)
             }}
           >
-            说 明
+            说明
           </button>
         </div>
       </section>
-
-      {notice || isLoading ? (
-        <div className="presale-coupon-notice" role="status">
-          {isLoading ? '预售券核销明细加载中' : notice}
-        </div>
-      ) : null}
 
       {serviceError ? (
         <section className="presale-coupon-alert" role="alert">
@@ -334,11 +414,20 @@ export function PresaleCouponMallReportPage() {
 }
 
 function makeInitialQuery(): PreSaleCouponMallQuery {
-  const query = defaultPreSaleCouponMallQuery()
+  const query = createAllStoreQuery()
   const params = new URLSearchParams(window.location.search)
   const mockState = params.get('mockState')
   if (mockState === 'empty' || mockState === 'error') query.state = mockState
   return query
+}
+
+function createAllStoreQuery(): PreSaleCouponMallQuery {
+  const query = defaultPreSaleCouponMallQuery()
+  return {
+    ...query,
+    poiId: 'all',
+    poiName: '全部门店',
+  }
 }
 
 function labelForOption(
@@ -357,26 +446,44 @@ function SelectField({
   label,
   displayValue,
   isOpen,
+  options,
+  currentValue,
+  ariaLabel,
   onToggle,
+  onSelect,
 }: {
   label: string
   displayValue: string
   isOpen: boolean
+  options: Array<{ value: string; label: string }>
+  currentValue: string
+  ariaLabel: string
   onToggle: () => void
+  onSelect: (value: string) => void
 }) {
   return (
-    <label className="presale-coupon-select-field">
+    <div className="presale-coupon-select-field">
       <span>{label}</span>
-      <button
-        type="button"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-label={`${label} ${displayValue}`}
-        onClick={onToggle}
-      >
-        {displayValue}
-      </button>
-    </label>
+      <div className="presale-coupon-select-field__control">
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-label={`${label} ${displayValue}`}
+          onClick={onToggle}
+        >
+          {displayValue}
+        </button>
+        {isOpen ? (
+          <SelectOptions
+            ariaLabel={ariaLabel}
+            options={options}
+            currentValue={currentValue}
+            onSelect={onSelect}
+          />
+        ) : null}
+      </div>
+    </div>
   )
 }
 
@@ -391,19 +498,28 @@ function SelectOptions({
   currentValue: string
   onSelect: (value: string) => void
 }) {
+  const availableOptions = options.filter((option) => option.value !== '')
+
   return (
     <div className="presale-coupon-options" role="listbox" aria-label={ariaLabel}>
-      {options.map((option) => (
-        <button
-          key={option.value || option.label}
-          type="button"
-          role="option"
-          aria-selected={currentValue === option.value}
-          onClick={() => onSelect(option.value)}
-        >
-          {option.label}
-        </button>
-      ))}
+      {availableOptions.length > 0 ? (
+        availableOptions.map((option) => (
+          <button
+            key={option.value || option.label}
+            type="button"
+            role="option"
+            aria-selected={currentValue === option.value}
+            onClick={() => onSelect(option.value)}
+          >
+            {option.label}
+          </button>
+        ))
+      ) : (
+        <div className="presale-coupon-options-empty">
+          <span className="presale-coupon-options-empty__icon" aria-hidden="true" />
+          <strong>鏆傛棤鏁版嵁</strong>
+        </div>
+      )}
     </div>
   )
 }
@@ -421,19 +537,56 @@ function MetricCard({ metric }: { metric: PreSaleCouponMallMetric }) {
   )
 }
 
-function DatePanel() {
-  const mayDays = ['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6', '7']
-  const juneDays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+function DatePanel({
+  month,
+  startDate,
+  endDate,
+  pickTarget,
+  activePreset,
+  onPrevious,
+  onNext,
+  onPick,
+  onPreset,
+}: {
+  month: string
+  startDate: string
+  endDate: string
+  pickTarget: DatePickTarget
+  activePreset: DatePreset | null
+  onPrevious: () => void
+  onNext: () => void
+  onPick: (date: string) => void
+  onPreset: (preset: DatePreset) => void
+}) {
+  const months = [month, shiftMonth(month, 1)]
 
   return (
     <div className="presale-coupon-date-panel" role="dialog" aria-label="统计日期面板">
-      <CalendarMonth title="2026年5月" days={mayDays} highlighted={['1', '31']} />
-      <CalendarMonth title="2026年6月" days={juneDays} highlighted={[]} />
       <div className="presale-coupon-date-presets">
-        {['昨天', '本周', '本月', '上月'].map((preset) => (
-          <button key={preset} type="button">
-            {preset}
+        <span>{pickTarget === 'start' ? '请选择开始日期' : '请选择结束日期'}</span>
+        {datePresetOptions.map((preset) => (
+          <button
+            key={preset.key}
+            type="button"
+            className={activePreset === preset.key ? 'is-active' : ''}
+            onClick={() => onPreset(preset.key)}
+          >
+            {preset.label}
           </button>
+        ))}
+      </div>
+
+      <div className="presale-coupon-date-months">
+        {months.map((item, index) => (
+          <CalendarMonth
+            key={item}
+            month={item}
+            startDate={startDate}
+            endDate={endDate}
+            onPrevious={index === 0 ? onPrevious : undefined}
+            onNext={index === months.length - 1 ? onNext : undefined}
+            onPick={onPick}
+          />
         ))}
       </div>
     </div>
@@ -441,26 +594,47 @@ function DatePanel() {
 }
 
 function CalendarMonth({
-  title,
-  days,
-  highlighted,
+  month,
+  startDate,
+  endDate,
+  onPrevious,
+  onNext,
+  onPick,
 }: {
-  title: string
-  days: string[]
-  highlighted: string[]
+  month: string
+  startDate: string
+  endDate: string
+  onPrevious?: () => void
+  onNext?: () => void
+  onPick: (date: string) => void
 }) {
+  const days = buildCalendarDays(month)
+
   return (
     <section className="presale-coupon-calendar-month">
-      <h2>{title}</h2>
+      <header>
+        <button type="button" aria-label="上个月" onClick={onPrevious} disabled={!onPrevious}>
+          ‹
+        </button>
+        <h2>{formatMonthLabel(month)}</h2>
+        <button type="button" aria-label="下个月" onClick={onNext} disabled={!onNext}>
+          ›
+        </button>
+      </header>
       <div className="presale-coupon-calendar-weekdays">
         {['一', '二', '三', '四', '五', '六', '日'].map((weekday) => (
           <span key={weekday}>{weekday}</span>
         ))}
       </div>
       <div className="presale-coupon-calendar-days">
-        {days.map((day, index) => (
-          <button key={`${title}-${day}-${index}`} type="button" className={highlighted.includes(day) ? 'is-picked' : ''}>
-            {day}
+        {days.map((day) => (
+          <button
+            key={day.date}
+            type="button"
+            className={`${day.isMuted ? 'is-muted' : ''}${day.date >= startDate && day.date <= endDate ? ' is-in-range' : ''}${day.date === startDate || day.date === endDate ? ' is-picked' : ''}`}
+            onClick={() => onPick(day.date)}
+          >
+            {day.label}
           </button>
         ))}
       </div>
@@ -548,4 +722,72 @@ function DetailDialog({ row, onClose }: { row: PreSaleCouponMallRow; onClose: ()
       </section>
     </div>
   )
+}
+
+function findMatchingPreset(startDate: string, endDate: string) {
+  for (const preset of datePresetOptions) {
+    const range = buildPresetRange(preset.key)
+    if (range.startDate === startDate && range.endDate === endDate) {
+      return preset.key
+    }
+  }
+  return null
+}
+
+function buildPresetRange(preset: DatePreset) {
+  const today = new Date()
+  const current = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
+  if (preset === 'yesterday') {
+    const yesterday = new Date(current.getFullYear(), current.getMonth(), current.getDate() - 1)
+    const value = formatDate(yesterday)
+    return { startDate: value, endDate: value }
+  }
+
+  if (preset === 'thisWeek') {
+    const day = current.getDay() === 0 ? 7 : current.getDay()
+    const start = new Date(current.getFullYear(), current.getMonth(), current.getDate() - day + 1)
+    return { startDate: formatDate(start), endDate: formatDate(current) }
+  }
+
+  if (preset === 'lastMonth') {
+    const start = new Date(current.getFullYear(), current.getMonth() - 1, 1)
+    const end = new Date(current.getFullYear(), current.getMonth(), 0)
+    return { startDate: formatDate(start), endDate: formatDate(end) }
+  }
+
+  const start = new Date(current.getFullYear(), current.getMonth(), 1)
+  const end = new Date(current.getFullYear(), current.getMonth() + 1, 0)
+  return { startDate: formatDate(start), endDate: formatDate(end) }
+}
+
+function shiftMonth(month: string, offset: number) {
+  const [year, monthIndex] = month.split('-').map(Number)
+  const nextDate = new Date(year, monthIndex - 1 + offset, 1)
+  return `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}`
+}
+
+function formatMonthLabel(month: string) {
+  const [year, monthValue] = month.split('-')
+  return `${year}年 ${Number(monthValue)}月`
+}
+
+function buildCalendarDays(month: string) {
+  const [year, monthValue] = month.split('-').map(Number)
+  const firstDay = new Date(year, monthValue - 1, 1)
+  const startOffset = (firstDay.getDay() + 6) % 7
+  const gridStart = new Date(year, monthValue - 1, 1 - startOffset)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index)
+    return {
+      date: formatDate(date),
+      label: String(date.getDate()),
+      isMuted: date.getMonth() !== monthValue - 1,
+    }
+  })
+}
+
+function formatDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }

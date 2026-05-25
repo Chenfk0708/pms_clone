@@ -1,34 +1,7 @@
-2026/05/22-10:09:52.599 8de4 Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/MANIFEST-000001
-2026/05/22-10:09:52.601 8de4 Recovering log #10
-2026/05/22-10:09:52.602 8de4 Reusing old log C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/000010.log 
-2026/05/22-10:09:52.603 8de4 Delete type=2 #8
-2026/05/22-10:09:52.627 a8f0 Level-0 table #15: started
-2026/05/22-10:09:52.633 a8f0 Level-0 table #15: 1509 bytes OK
-2026/05/22-10:09:52.643 a8f0 Delete type=0 #10
-2026/05/22-10:09:52.650 8de4 Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at '\x00\x06\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 424 : 1
-2026/05/22-10:09:52.650 8de4 Compacting 1@0 + 1@1 files
-2026/05/22-10:09:52.656 8de4 Generated table #16@0: 65 keys, 1114 bytes
-2026/05/22-10:09:52.656 8de4 Compacted 1@0 + 1@1 files => 1114 bytes
-2026/05/22-10:09:52.663 8de4 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/05/22-10:09:52.665 8de4 Delete type=2 #15
-2026/05/22-10:09:52.670 8de4 Manual compaction at level-0 from '\x00\x06\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 424 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
-2026/05/22-10:09:54.662 a630 Level-0 table #18: started
-2026/05/22-10:09:54.670 a630 Level-0 table #18: 247 bytes OK
-2026/05/22-10:09:54.678 a630 Delete type=2 #12
-2026/05/22-10:09:54.678 a630 Delete type=0 #14
-2026/05/22-10:09:54.694 a630 Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 470 : 0
-2026/05/22-10:09:54.694 a630 Compacting 1@0 + 1@1 files
-2026/05/22-10:09:54.704 a630 Generated table #19@0: 67 keys, 1129 bytes
-2026/05/22-10:09:54.704 a630 Compacted 1@0 + 1@1 files => 1129 bytes
-2026/05/22-10:09:54.711 a630 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/05/22-10:09:54.713 a630 Delete type=2 #16
-2026/05/22-10:09:54.713 a630 Delete type=2 #18
-2026/05/22-10:09:54.726 a630 Manual compaction at level-0 from '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 470 : 0 .. (end); will stop at (end)
-2026/05/22-10:09:54.726 a630 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x02\x01\x02\x01\x07\x00_\x00_\x00b\x00i\x00d\x00_\x00n' @ 401 : 1
-2026/05/22-10:09:54.726 a630 Compacting 1@1 + 1@2 files
-2026/05/22-10:09:54.736 a630 Generated table #20@1: 21 keys, 627 bytes
-2026/05/22-10:09:54.736 a630 Compacted 1@1 + 1@2 files => 627 bytes
-2026/05/22-10:09:54.740 a630 compacted to: files[ 0 0 1 0 0 0 0 ]
-2026/05/22-10:09:54.742 a630 Delete type=2 #5
-2026/05/22-10:09:54.742 a630 Delete type=2 #19
-2026/05/22-10:09:54.752 a630 Manual compaction at level-1 from '\x00\x02\x01\x02\x01\x07\x00_\x00_\x00b\x00i\x00d\x00_\x00n' @ 401 : 1 .. (end); will stop at (end)
+2026/05/23-17:20:37.846 be9c Reusing MANIFEST C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/23-17:20:37.849 be9c Recovering log #33
+2026/05/23-17:20:37.851 be9c Reusing old log C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\tmp\chrome-cdp-profile\Default\IndexedDB\https_minsubao.localhome.cn_0.indexeddb.leveldb/000033.log 
+2026/05/23-17:20:37.899 be9c Level-0 table #39: started
+2026/05/23-17:20:37.905 be9c Level-0 table #39: 1070 bytes OK
+2026/05/23-17:20:37.910 be9c Delete type=0 #33
+2026/05/23-17:20:37.913 be9c Manual compaction at level-0 from '\x00\x0e\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0f\x00\x00\x00' @ 0 : 0; will stop at (end)

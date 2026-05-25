@@ -1,0 +1,219 @@
+[2m10:54:03[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:54:03[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:54:03[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:54:03[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:54:10[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:54:10[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:54:42[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:54:42[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:55:14[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:55:14[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:55:21[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:55:21[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:55:28[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+[2m10:55:28[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./pages/TotalLedgerPage" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/App.tsx[39m:90:32
+[33m  88 |  import { StatisticsDistributionOrderPage } from "./pages/StatisticsDistributionOrderPage";
+  89 |  import { SubscriptionDisplacementBenefitPage } from "./pages/SubscriptionDisplacementBenefitPage";
+  90 |  import { TotalLedgerPage } from "./pages/TotalLedgerPage";
+     |                                   ^
+  91 |  import { VersionSubscriptionPage } from "./pages/VersionSubscriptionPage";
+  92 |  import { WechatServicePage } from "./pages/WechatServicePage";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 89)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[2m10:56:08[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./TotalLedgerPage.css" from "src/pages/TotalLedgerPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx[39m:13:7
+[33m  1  |  import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+  2  |  import { exportTotalLedger, getDefaultTotalLedgerQuery, getDefaultTotalLedgerRangeKey, getTotalLedgerProviderName, ge...
+  3  |  import "./TotalLedgerPage.css";
+     |          ^
+  4  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx";
+  5  |  import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";[39m
+[2m10:56:08[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./TotalLedgerPage.css" from "src/pages/TotalLedgerPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx[39m:13:7
+[33m  1  |  import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+  2  |  import { exportTotalLedger, getDefaultTotalLedgerQuery, getDefaultTotalLedgerRangeKey, getTotalLedgerProviderName, ge...
+  3  |  import "./TotalLedgerPage.css";
+     |          ^
+  4  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx";
+  5  |  import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";[39m
+[2m10:56:08[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "./TotalLedgerPage.css" from "src/pages/TotalLedgerPage.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx[39m:13:7
+[33m  1  |  import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+  2  |  import { exportTotalLedger, getDefaultTotalLedgerQuery, getDefaultTotalLedgerRangeKey, getTotalLedgerProviderName, ge...
+  3  |  import "./TotalLedgerPage.css";
+     |          ^
+  4  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx";
+  5  |  import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";[39m
+[2m10:56:08[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "./TotalLedgerPage.css" from "src/pages/TotalLedgerPage.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx[39m:13:7
+[33m  1  |  import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+  2  |  import { exportTotalLedger, getDefaultTotalLedgerQuery, getDefaultTotalLedgerRangeKey, getTotalLedgerProviderName, ge...
+  3  |  import "./TotalLedgerPage.css";
+     |          ^
+  4  |  var _jsxFileName = "C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/src/pages/TotalLedgerPage.tsx";
+  5  |  import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";[39m
+      at TransformPluginContext._formatLog (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30408:39)
+      at TransformPluginContext.error (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30405:14)
+      at normalizeUrl (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27662:18)
+      at async file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27725:30
+      at async Promise.all (index 2)
+      at async TransformPluginContext.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:27693:4)
+      at async EnvironmentPluginContainer.transform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:30193:14)
+      at async loadAndTransform (file:///C:/Users/Administrator/Desktop/work/xxxxx/pms_clone/node_modules/vite/dist/node/chunks/node.js:24511:26)
+[31mError: EPERM: operation not permitted, rename 'C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\node_modules\.vite\deps_temp_c7f3018f' -> 'C:\Users\Administrator\Desktop\work\xxxxx\pms_clone\node_modules\.vite\deps'[39m

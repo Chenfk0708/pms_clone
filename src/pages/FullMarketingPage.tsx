@@ -465,19 +465,22 @@ function DistributionData({
         </select>
         <div className="full-marketing-date-range">
           <input
-            placeholder="开始日期"
+            type="date"
+            aria-label="????????"
             value={filters.startDate}
             disabled={isLoading}
             onChange={(event) => onFilterChange('startDate', event.target.value)}
           />
-          <span>→</span>
+          <span>?</span>
           <input
-            placeholder="结束日期"
+            type="date"
+            aria-label="????????"
             value={filters.endDate}
             disabled={isLoading}
             onChange={(event) => onFilterChange('endDate', event.target.value)}
           />
         </div>
+
         <button type="button" className="full-marketing-button full-marketing-button--primary" onClick={onSubmit} disabled={isLoading}>
           筛选当月
         </button>

@@ -67,24 +67,6 @@ type HudsonResponse<T> = {
   errorDetail?: string | null
 }
 
-type StatisticsDistributionOrderEnvelope<T> = {
-  code: number
-  message: string
-  data: T
-  traceId: string
-  timestamp: string
-}
-
-type StatisticsDistributionOrderPayload = {
-  total?: unknown
-  size?: unknown
-  current?: unknown
-  pageNum?: unknown
-  hasNextPage?: unknown
-  pages?: unknown
-  list?: unknown
-}
-
 type StatisticsDistributionOrderPayloadItem = {
   orderNo?: unknown
   orderId?: unknown
@@ -106,11 +88,22 @@ type StatisticsDistributionOrderPayloadItem = {
   orderFilter?: unknown
 }
 
+type StatisticsDistributionOrderPayload = {
+  total?: unknown
+  size?: unknown
+  current?: unknown
+  pageNum?: unknown
+  hasNextPage?: unknown
+  pages?: unknown
+  list?: unknown
+}
+
 const realBaseUrl = 'https://hudson-prod.localhome.cn'
 export const statisticsDistributionOrderEndpoint = '/report/flows/get'
 export const defaultStatisticsDistributionOrderCampId = '1796067693589061634'
+
 const defaultCampName = '天落会宿公寓(前海壹方城宝安中心店)'
-const mockTimestamp = '2026-05-19T08:47:40+08:00'
+const mockTimestamp = '2026-05-22T10:00:00+08:00'
 const mockLatencyMs = 120
 
 const mockRows: StatisticsDistributionOrderRow[] = [
@@ -119,13 +112,13 @@ const mockRows: StatisticsDistributionOrderRow[] = [
     customerName: '陈崇科',
     customerPhone: '+8618319045566',
     customerInfo: '陈崇科/+8618319045566',
-    roomCategoryName: '天落大床电竞套间',
+    roomCategoryName: '天落大床电竞间',
     bookedTime: '2026-05-13 11:50:49',
     paidAmount: 435,
     serviceFee: 65.25,
     settlementAmount: 369.75,
-    settledAmount: 0,
-    settlementStatus: '待结算',
+    settledAmount: 369.75,
+    settlementStatus: '已结算',
     orderFilter: '非置换订单',
   },
   {
@@ -134,7 +127,7 @@ const mockRows: StatisticsDistributionOrderRow[] = [
     customerPhone: '051286660337178370',
     customerInfo: '朱小波/051286660337178370',
     roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
-    bookedTime: '2026-05-16 15:24:10',
+    bookedTime: '2026-05-19 15:42:15',
     paidAmount: 241.05,
     serviceFee: 39.75,
     settlementAmount: 225.31,
@@ -153,9 +146,37 @@ export async function loadStatisticsDistributionOrderData(
   }
 
   await waitForMockLatency(signal)
+
+  const mockState = resolveMockState()
+  if (mockState === 'error') {
+    throw new Error('聚合分销订单服务暂不可用，请稍后重试')
+  }
+
   const requestBody = createRequestBody(query)
-  const envelope = buildMockEnvelope(query)
-  return adaptPayloadEnvelope(envelope, query, requestBody, 'mock', resolveMockState())
+  const rows = mockState === 'empty' ? [] : filterRows(mockRows, query)
+  const summary = summarizeRows(rows)
+
+  return {
+    provider: 'mock',
+    mockState,
+    endpoint: statisticsDistributionOrderEndpoint,
+    traceId: `mock-distribution-order-${mockState}-001`,
+    timestamp: mockTimestamp,
+    requestBody,
+    requestSummary: buildRequestSummary(query, requestBody, 'mock', mockState, `mock-distribution-order-${mockState}-001`),
+    campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+    campName: defaultCampName,
+    summary,
+    rows,
+    pagination: {
+      total: rows.length + (rows.length ? 1 : 0),
+      size: readNumber(requestBody.pageSize, 20),
+      current: readNumber(requestBody.current, 1),
+      pageNum: readNumber(requestBody.pageNum, 1),
+      pages: rows.length ? 1 : 0,
+      hasNextPage: false,
+    },
+  }
 }
 
 export function getStatisticsDistributionOrderProviderName(): StatisticsDistributionOrderProviderName {
@@ -172,10 +193,11 @@ function resolveProvider(): StatisticsDistributionOrderProviderName {
 function resolveMockState(): StatisticsDistributionOrderMockState {
   const fromUrl = readUrlMockState()
   if (fromUrl) return fromUrl
+
   const configured =
     readRuntimeConfig('pms.statisticsDistributionOrderMockState') ||
     import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_MOCK_STATE
-  if (configured === 'empty' || configured === 'error') return configured
+  if (configured === 'success' || configured === 'empty' || configured === 'error') return configured
   return 'success'
 }
 
@@ -206,90 +228,16 @@ async function waitForMockLatency(signal?: AbortSignal) {
   })
 }
 
-function buildMockEnvelope(
-  query: StatisticsDistributionOrderQuery,
-): StatisticsDistributionOrderEnvelope<StatisticsDistributionOrderPayload | null> {
-  const mockState = resolveMockState()
-  if (mockState === 'error') {
-    return {
-      code: 50318,
-      message: '聚合分销订单服务暂不可用，请稍后重试',
-      data: null,
-      traceId: 'mock-baobiao--jiesuanbiao--juhe-fenxiao-dingdan-error-001',
-      timestamp: mockTimestamp,
-    }
-  }
-
-  if (mockState === 'empty') {
-    return {
-      code: 0,
-      message: 'success',
-      data: {
-        total: 0,
-        size: query.pageSize ?? 20,
-        current: query.current ?? 1,
-        pageNum: query.pageNum ?? 1,
-        hasNextPage: false,
-        pages: 0,
-        list: [],
-      },
-      traceId: 'mock-baobiao--jiesuanbiao--juhe-fenxiao-dingdan-empty-001',
-      timestamp: mockTimestamp,
-    }
-  }
-
-  const rows = filterRows(mockRows, query)
-  const summary = summarizeRows(rows)
-  const summaryRow = {
-    orderNo: '合计',
-    paidAmount: summary.paidAmount,
-    serviceFee: summary.serviceFee,
-    settlementAmount: summary.settlementAmount,
-    settledAmount: summary.settledAmount,
-    settlementStatus: '-',
-  }
-
-  return {
-    code: 0,
-    message: 'success',
-    data: {
-      total: rows.length + 1,
-      size: query.pageSize ?? 20,
-      current: query.current ?? 1,
-      pageNum: query.pageNum ?? 1,
-      hasNextPage: false,
-      pages: rows.length ? 1 : 0,
-      list: [summaryRow, ...rows.map(toPayloadItem)],
-    },
-    traceId: 'mock-baobiao--jiesuanbiao--juhe-fenxiao-dingdan-success-001',
-    timestamp: mockTimestamp,
-  }
-}
-
-function toPayloadItem(row: StatisticsDistributionOrderRow) {
-  return {
-    orderNo: row.orderId,
-    customerName: row.customerName,
-    customerPhone: row.customerPhone,
-    roomCategoryName: row.roomCategoryName,
-    bookedTime: row.bookedTime,
-    paidAmount: row.paidAmount,
-    serviceFee: row.serviceFee,
-    settlementAmount: row.settlementAmount,
-    settledAmount: row.settledAmount,
-    settlementStatus: row.settlementStatus,
-    orderFilter: row.orderFilter,
-  }
-}
-
 function filterRows(rows: StatisticsDistributionOrderRow[], query: StatisticsDistributionOrderQuery) {
   const keyword = query.keyword?.trim()
   const settlementState = query.settlementState || ''
+
   return rows.filter((row) => {
     if (settlementState && settlementState !== '全部' && row.orderFilter !== settlementState) {
       return false
     }
     if (!keyword) return true
+
     return (
       row.orderId.includes(keyword) ||
       row.customerName.includes(keyword) ||
@@ -331,22 +279,8 @@ function createRequestBody(query: StatisticsDistributionOrderQuery) {
 
 function mapBreakTemp(settlementState: StatisticsDistributionOrderFilter | undefined) {
   if (settlementState === '置换订单') return true
-  if (settlementState === '全部') return undefined
+  if (settlementState === '全部' || !settlementState) return undefined
   return false
-}
-
-function adaptPayloadEnvelope(
-  envelope: StatisticsDistributionOrderEnvelope<StatisticsDistributionOrderPayload | null>,
-  query: StatisticsDistributionOrderQuery,
-  requestBody: Record<string, unknown>,
-  provider: StatisticsDistributionOrderProviderName,
-  mockState: StatisticsDistributionOrderMockState,
-): StatisticsDistributionOrderData {
-  if (envelope.code !== 0 || !envelope.data) {
-    throw new Error(envelope.message || '聚合分销订单服务暂不可用，请稍后重试')
-  }
-
-  return adaptPayload(envelope.data, query, requestBody, provider, mockState, envelope.traceId, envelope.timestamp)
 }
 
 async function loadRealStatisticsDistributionOrderData(
@@ -359,15 +293,35 @@ async function loadRealStatisticsDistributionOrderData(
     requestBody,
     signal,
   )
-  return adaptPayload(
-    payload,
-    query,
+
+  const record = asRecord(payload)
+  const rawList = asArray(record.list).map(adaptPayloadItem)
+  const rows = rawList
+    .filter((item) => String(item.orderNo ?? item.orderId ?? '') !== '合计')
+    .map(adaptRow)
+  const summary = rows.length ? summarizeRows(rows) : emptySummary()
+
+  return {
+    provider: 'api',
+    mockState: 'success',
+    endpoint: statisticsDistributionOrderEndpoint,
+    traceId: 'api-distribution-order-001',
+    timestamp: new Date().toISOString(),
     requestBody,
-    'api',
-    'success',
-    'api-baobiao--jiesuanbiao--juhe-fenxiao-dingdan',
-    new Date().toISOString(),
-  )
+    requestSummary: buildRequestSummary(query, requestBody, 'api', 'success', 'api-distribution-order-001'),
+    campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+    campName: defaultCampName,
+    summary,
+    rows,
+    pagination: {
+      total: readNumber(record.total, rows.length + (rows.length ? 1 : 0)),
+      size: readNumber(record.size, query.pageSize ?? 20),
+      current: readNumber(record.current, query.current ?? 1),
+      pageNum: readNumber(record.pageNum, query.pageNum ?? 1),
+      pages: readNumber(record.pages, rows.length ? 1 : 0),
+      hasNextPage: Boolean(record.hasNextPage),
+    },
+  }
 }
 
 async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
@@ -397,43 +351,6 @@ async function postHudson<T>(endpoint: string, body: Record<string, unknown>, si
   return payload.data
 }
 
-function adaptPayload(
-  payload: StatisticsDistributionOrderPayload,
-  query: StatisticsDistributionOrderQuery,
-  requestBody: Record<string, unknown>,
-  provider: StatisticsDistributionOrderProviderName,
-  mockState: StatisticsDistributionOrderMockState,
-  traceId: string,
-  timestamp: string,
-): StatisticsDistributionOrderData {
-  const record = asRecord(payload)
-  const list = asArray(record.list).map(adaptPayloadItem)
-  const summary = list.length ? readSummaryRow(list[0]) : emptySummary()
-  const rows = list.slice(1).map(adaptRow)
-
-  return {
-    provider,
-    mockState,
-    endpoint: statisticsDistributionOrderEndpoint,
-    traceId,
-    timestamp,
-    requestBody,
-    requestSummary: buildRequestSummary(query, requestBody, provider, mockState, traceId),
-    campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
-    campName: defaultCampName,
-    summary,
-    rows,
-    pagination: {
-      total: readNumber(record.total, list.length),
-      size: readNumber(record.size, query.pageSize ?? 20),
-      current: readNumber(record.current, query.current ?? 1),
-      pageNum: readNumber(record.pageNum, query.pageNum ?? 1),
-      pages: readNumber(record.pages, list.length ? 1 : 0),
-      hasNextPage: Boolean(record.hasNextPage),
-    },
-  }
-}
-
 function buildRequestSummary(
   query: StatisticsDistributionOrderQuery,
   requestBody: Record<string, unknown>,
@@ -458,18 +375,10 @@ function buildRequestSummary(
   ]
 }
 
-function readSummaryRow(item: StatisticsDistributionOrderPayloadItem): StatisticsDistributionOrderSummary {
-  return {
-    paidAmount: readNumber(item.paidAmount ?? item.invoicePrice, 0),
-    serviceFee: readNumber(item.serviceFee ?? item.commission, 0),
-    settlementAmount: readNumber(item.settlementAmount ?? item.incomePrice, 0),
-    settledAmount: readNumber(item.settledAmount ?? item.settledPrice, 0),
-  }
-}
-
 function adaptRow(item: StatisticsDistributionOrderPayloadItem): StatisticsDistributionOrderRow {
   const customerName = String(item.customerName ?? '')
   const customerPhone = String(item.customerPhone ?? '')
+
   return {
     orderId: String(item.orderNo ?? item.orderId ?? ''),
     customerName,

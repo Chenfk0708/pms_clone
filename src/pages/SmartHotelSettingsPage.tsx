@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   createDefaultSmartHotelSettingsButtons,
@@ -33,13 +33,19 @@ export function SmartHotelSettingsPage() {
   const [isSavingDecorate, setIsSavingDecorate] = useState(false)
   const [isPublishingShare, setIsPublishingShare] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [feedback, setFeedback] = useState('智住小程序数据加载中')
+  const [toastMessage, setToastMessage] = useState('')
   const [decorateSavedHint, setDecorateSavedHint] = useState('')
   const [hasDecorateChanges, setHasDecorateChanges] = useState(false)
   const [hasShareChanges, setHasShareChanges] = useState(false)
-  const [sharePreviewTitle, setSharePreviewTitle] = useState('分享卡片发布后将显示在这里')
+  const [sharePreviewTitle, setSharePreviewTitle] = useState('您好，欢迎于[入住日期]入住')
   const [emptyResolved, setEmptyResolved] = useState(false)
   const [previewDialog, setPreviewDialog] = useState<PreviewDialogState>(null)
+
+  useEffect(() => {
+    if (!toastMessage) return
+    const timer = window.setTimeout(() => setToastMessage(''), 1600)
+    return () => window.clearTimeout(timer)
+  }, [toastMessage])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -48,10 +54,11 @@ export function SmartHotelSettingsPage() {
     const loadDashboard = async () => {
       setIsLoading(true)
       setErrorMessage('')
+      setToastMessage('')
       setDecorateSavedHint('')
       setHasDecorateChanges(false)
       setHasShareChanges(false)
-      setSharePreviewTitle('分享卡片发布后将显示在这里')
+      setSharePreviewTitle('您好，欢迎于[入住日期]入住')
       setEmptyResolved(false)
 
       try {
@@ -59,14 +66,13 @@ export function SmartHotelSettingsPage() {
         setDashboard(result)
         setButtons(result.buttons)
         setShareDraft(result.shareDraft)
-        setFeedback(result.emptyState ? result.emptyState.title : '智住小程序数据已加载')
+        setSharePreviewTitle(result.shareDraft.titleTemplate)
       } catch (error: unknown) {
         if (error instanceof DOMException && error.name === 'AbortError') return
         setDashboard(null)
         setButtons([])
         setShareDraft(null)
         setErrorMessage(error instanceof Error ? error.message : '智住小程序数据加载失败，请稍后重试')
-        setFeedback(error instanceof Error ? error.message : '智住小程序数据加载失败，请稍后重试')
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false)
@@ -79,7 +85,8 @@ export function SmartHotelSettingsPage() {
     return () => controller.abort()
   }, [location.search])
 
-  const diagnosticsState = dashboard?.state ?? createDefaultSmartHotelSettingsQuery(new URLSearchParams(location.search)).mockState
+  const diagnosticsState =
+    dashboard?.state ?? createDefaultSmartHotelSettingsQuery(new URLSearchParams(location.search)).mockState
   const diagnosticsProvider = dashboard?.provider ?? 'mock'
   const diagnosticsRequest = dashboard?.request
     ? JSON.stringify(dashboard.request)
@@ -89,21 +96,34 @@ export function SmartHotelSettingsPage() {
       })
   const isEmptyState = Boolean(dashboard?.emptyState) && !emptyResolved && !errorMessage
   const previewButtons = buttons.length > 0 ? buttons : createDefaultSmartHotelSettingsButtons()
-  const currentShareDraft = shareDraft ?? dashboard?.shareDraft
+  const currentShareDraft = shareDraft ?? dashboard?.shareDraft ?? null
+  const sharePreviewImageLabel = useMemo(() => {
+    if (!currentShareDraft) return '默认固定海报'
+    switch (currentShareDraft.imageMode) {
+      case 'room-cover':
+        return '房源首图'
+      case 'custom':
+        return currentShareDraft.customPosterName || '自定义图片'
+      default:
+        return '默认固定海报'
+    }
+  }, [currentShareDraft])
 
-  function markDecorateChanged(nextButtons: SmartHotelSettingsActionButton[], nextFeedback?: string) {
+  function showToast(message: string) {
+    setToastMessage(message)
+  }
+
+  function markDecorateChanged(nextButtons: SmartHotelSettingsActionButton[], toast?: string) {
     setButtons(nextButtons)
     setHasDecorateChanges(true)
     setDecorateSavedHint('')
-    if (nextFeedback) {
-      setFeedback(nextFeedback)
-    }
+    if (toast) showToast(toast)
   }
 
   function updateButton(id: string, field: 'name' | 'content', value: string) {
     markDecorateChanged(
       buttons.map((item) => (item.id === id ? { ...item, [field]: value } : item)),
-      `已更新「${field === 'name' ? '按钮名称' : '弹框文案'}」`,
+      field === 'name' ? '已更新按钮名称' : '已更新弹框文案',
     )
   }
 
@@ -129,9 +149,10 @@ export function SmartHotelSettingsPage() {
 
   function removeButton(id: string) {
     if (buttons.length <= 1) {
-      setFeedback('至少保留一个底部按钮')
+      showToast('至少保留一个底部按钮')
       return
     }
+
     markDecorateChanged(
       buttons.filter((item) => item.id !== id),
       '已删除一个底部按钮',
@@ -140,7 +161,7 @@ export function SmartHotelSettingsPage() {
 
   async function handleUpload(button: SmartHotelSettingsActionButton) {
     const result = await uploadSmartHotelSettingsButtonIcon(button)
-    setFeedback(result.notice)
+    showToast(result.notice)
     setHasDecorateChanges(true)
     setDecorateSavedHint('')
   }
@@ -150,7 +171,7 @@ export function SmartHotelSettingsPage() {
     setIsSavingDecorate(true)
     try {
       const result = await saveSmartHotelSettingsDecorate(buttons)
-      setFeedback(result.message)
+      showToast(result.message)
       setDecorateSavedHint('左侧预览已同步最新按钮配置')
       setHasDecorateChanges(false)
     } finally {
@@ -162,13 +183,12 @@ export function SmartHotelSettingsPage() {
     setButtons(createDefaultSmartHotelSettingsButtons())
     setEmptyResolved(true)
     setHasDecorateChanges(true)
-    setFeedback('已恢复默认按钮')
+    showToast('已恢复默认按钮')
   }
 
   function openPreviewAction(button: SmartHotelSettingsActionButton) {
     const action = button.previewAction
     if (action.kind === 'route') {
-      setFeedback(`正在打开「${button.name}」承接页`)
       navigate(action.path)
       return
     }
@@ -179,20 +199,29 @@ export function SmartHotelSettingsPage() {
       primaryLabel: action.primaryLabel,
       primaryPath: action.primaryPath,
     })
-    setFeedback(`已打开「${button.name}」预览说明`)
   }
 
   function insertShareToken(token: { label: string; placeholder: string }) {
     if (!currentShareDraft) return
     const nextTitle = currentShareDraft.titleTemplate.includes(token.placeholder)
       ? currentShareDraft.titleTemplate
-      : `${currentShareDraft.titleTemplate} ${token.placeholder}`.trim()
+      : `${currentShareDraft.titleTemplate}${token.placeholder}`
+
     setShareDraft({
       ...currentShareDraft,
       titleTemplate: nextTitle,
     })
     setHasShareChanges(true)
-    setFeedback(`已插入变量「${token.label}」`)
+    showToast(`已插入变量“${token.label}”`)
+  }
+
+  function updateShareTitle(value: string) {
+    if (!currentShareDraft) return
+    setShareDraft({
+      ...currentShareDraft,
+      titleTemplate: value,
+    })
+    setHasShareChanges(true)
   }
 
   function updateShareImageMode(mode: SmartHotelSettingsShareDraft['imageMode']) {
@@ -202,17 +231,18 @@ export function SmartHotelSettingsPage() {
       imageMode: mode,
     })
     setHasShareChanges(true)
-    setFeedback('已更新分享卡片图片方案')
+    showToast('已更新小程序卡片图片方案')
   }
 
   function uploadSharePoster() {
     if (!currentShareDraft) return
     setShareDraft({
       ...currentShareDraft,
+      imageMode: 'custom',
       customPosterName: '酒店大堂自定义分享海报.png',
     })
     setHasShareChanges(true)
-    setFeedback('已上传自定义分享图片')
+    showToast('已上传自定义分享图片')
   }
 
   async function handlePublishShare() {
@@ -220,29 +250,11 @@ export function SmartHotelSettingsPage() {
     setIsPublishingShare(true)
     try {
       const result = await publishSmartHotelSettingsShare(currentShareDraft)
-      setFeedback(result.message)
+      showToast(result.message)
       setHasShareChanges(false)
-      setSharePreviewTitle(
-        currentShareDraft.titleTemplate.includes('[入住日期]')
-          ? currentShareDraft.titleTemplate
-          : '您好，欢迎 [入住日期] 入住',
-      )
+      setSharePreviewTitle(currentShareDraft.titleTemplate || '您好，欢迎于[入住日期]入住')
     } finally {
       setIsPublishingShare(false)
-    }
-  }
-
-  async function downloadQrCode() {
-    setFeedback('小程序二维码下载任务已创建')
-  }
-
-  async function copyShareLink() {
-    if (!currentShareDraft) return
-    try {
-      await navigator.clipboard.writeText(currentShareDraft.shareLink)
-      setFeedback('智住小程序分享链接已复制')
-    } catch {
-      setFeedback('请手动复制智住小程序分享链接')
     }
   }
 
@@ -260,18 +272,13 @@ export function SmartHotelSettingsPage() {
         data-request={diagnosticsRequest}
       />
 
-      <section className="smart-settings-surface" aria-label="智住小程序设置">
-        <header className="smart-settings-header">
-          <div>
-            <h1>智住小程序</h1>
-            <p>{dashboard?.previewSummary ?? '住客可通过智住小程序完成入住登记、查看指引、续住和发票申请。'}</p>
-          </div>
-          <div className="smart-settings-header__meta">
-            <span>{dashboard?.updatedAtLabel ?? '等待同步数据'}</span>
-            <strong>版本号：{dashboard?.version ?? 'v4.10.7'}</strong>
-          </div>
-        </header>
+      {toastMessage ? (
+        <div className="smart-settings-toast" role="status" aria-label="智住小程序操作反馈">
+          {toastMessage}
+        </div>
+      ) : null}
 
+      <section className="smart-settings-surface" aria-label="智住小程序设置">
         <div className="smart-settings-tabs" role="tablist" aria-label="智住小程序页签">
           <button
             type="button"
@@ -293,10 +300,6 @@ export function SmartHotelSettingsPage() {
           </button>
         </div>
 
-        <div className="smart-settings-feedback" role="status" aria-label="智住小程序操作反馈">
-          {isLoading ? '智住小程序数据加载中' : feedback}
-        </div>
-
         {isLoading ? <div className="smart-settings-loading">正在同步智住小程序数据...</div> : null}
 
         {errorMessage ? (
@@ -314,7 +317,7 @@ export function SmartHotelSettingsPage() {
             <header className="smart-settings-card__head">
               <div>
                 <h2>操作按钮设置</h2>
-                <p>可根据业务场景可以根据业务场景调整内容，支持新增底部操作按钮，可自定义标题名称、自定义设置触发后显示的内容。</p>
+                <p>支持新增底部操作按钮，可自定义按钮名称和触发后的说明内容。</p>
               </div>
               <button type="button" onClick={addButton}>
                 添加按钮
@@ -350,10 +353,16 @@ export function SmartHotelSettingsPage() {
                       </div>
                     </div>
                     <div className="smart-settings-phone__footer">
-                      <button type="button" onClick={() => navigate(dashboard?.routes.selfCheckin ?? '/smartHotel/smartHome')}>
+                      <button
+                        type="button"
+                        onClick={() => navigate(dashboard?.routes.selfCheckin ?? '/smartHotel/smartHome')}
+                      >
                         自助入住
                       </button>
-                      <button type="button" onClick={() => navigate(dashboard?.routes.hardwareMall ?? '/smartHotel/smartHardware/mall')}>
+                      <button
+                        type="button"
+                        onClick={() => navigate(dashboard?.routes.hardwareMall ?? '/smartHotel/smartHardware/mall')}
+                      >
                         智能硬件商城
                       </button>
                     </div>
@@ -364,7 +373,7 @@ export function SmartHotelSettingsPage() {
                   {buttons.map((button) => (
                     <article key={button.id} className="smart-settings-row">
                       <button type="button" className="smart-settings-row__drag" aria-label="拖动排序">
-                        ⋮⋮
+                        ≡
                       </button>
                       <div className="smart-settings-row__upload">
                         <span>按钮图标</span>
@@ -393,7 +402,12 @@ export function SmartHotelSettingsPage() {
                           onChange={(event) => updateButton(button.id, 'content', event.target.value)}
                         />
                       </label>
-                      <button type="button" className="smart-settings-row__delete" aria-label="删除按钮" onClick={() => removeButton(button.id)}>
+                      <button
+                        type="button"
+                        className="smart-settings-row__delete"
+                        aria-label="删除按钮"
+                        onClick={() => removeButton(button.id)}
+                      >
                         ×
                       </button>
                     </article>
@@ -406,110 +420,114 @@ export function SmartHotelSettingsPage() {
               <div>
                 {decorateSavedHint ? <p>{decorateSavedHint}</p> : <span>保存后将同步到左侧住客预览和分享卡片。</span>}
               </div>
-              <button type="button" className="is-primary" onClick={() => void handleSaveDecorate()} disabled={!hasDecorateChanges || isSavingDecorate}>
-                保 存
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => void handleSaveDecorate()}
+                disabled={!hasDecorateChanges || isSavingDecorate}
+              >
+                保存
               </button>
             </footer>
           </section>
         ) : null}
 
         {!isLoading && !errorMessage && activeTab === 'share' ? (
-          <section className="smart-settings-card smart-settings-share">
-            <header className="smart-settings-card__head">
-              <div>
-                <h2>分享设置</h2>
-                <p>配置智住小程序卡片标题、分享海报和住客访问入口。</p>
-              </div>
-            </header>
-
-            <div className="smart-settings-share__layout">
-              <section className="smart-settings-share__form">
-                <div className="smart-settings-share__group">
-                  <span>小程序卡片标题：</span>
-                  <div className="smart-settings-share__tokens">
-                    {currentShareDraft?.tokens.map((token) => (
-                      <button key={token.id} type="button" onClick={() => insertShareToken(token)}>
-                        {token.label}
-                      </button>
-                    ))}
+          <section className="smart-settings-share-board">
+            <div className="smart-settings-share-shell">
+              <section className="smart-settings-share-config">
+                <div className="smart-settings-share-row">
+                  <label htmlFor="share-title-input">小程序卡片标题</label>
+                  <div className="smart-settings-share-input-wrap">
+                    <input
+                      id="share-title-input"
+                      aria-label="小程序卡片标题"
+                      value={currentShareDraft?.titleTemplate ?? ''}
+                      onChange={(event) => updateShareTitle(event.target.value)}
+                    />
+                    <div className="smart-settings-share-tokens" aria-label="分享变量按钮">
+                      {currentShareDraft?.tokens.map((token) => (
+                        <button key={token.id} type="button" onClick={() => insertShareToken(token)}>
+                          {token.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <textarea
-                    aria-label="小程序卡片标题"
-                    value={currentShareDraft?.titleTemplate ?? ''}
-                    onChange={(event) => {
-                      if (!currentShareDraft) return
-                      setShareDraft({
-                        ...currentShareDraft,
-                        titleTemplate: event.target.value,
-                      })
-                      setHasShareChanges(true)
-                    }}
-                  />
                 </div>
 
-                <div className="smart-settings-share__group">
-                  <span>小程序卡片图片：</span>
-                  <label className="smart-settings-radio">
-                    <input
-                      type="radio"
-                      name="share-image-mode"
-                      checked={currentShareDraft?.imageMode === 'default'}
-                      onChange={() => updateShareImageMode('default')}
-                    />
-                    <span>默认固定海报</span>
-                  </label>
-                  <label className="smart-settings-radio">
-                    <input
-                      type="radio"
-                      name="share-image-mode"
-                      checked={currentShareDraft?.imageMode === 'room-cover'}
-                      onChange={() => updateShareImageMode('room-cover')}
-                    />
-                    <span>房源首图</span>
-                  </label>
-                  <label className="smart-settings-radio">
-                    <input
-                      type="radio"
-                      name="share-image-mode"
-                      checked={currentShareDraft?.imageMode === 'custom'}
-                      onChange={() => updateShareImageMode('custom')}
-                    />
-                    <span>自定义</span>
-                  </label>
-                  <button type="button" onClick={uploadSharePoster}>
-                    上传图片
-                  </button>
-                  <small>{currentShareDraft?.customPosterName}</small>
-                </div>
+                <div className="smart-settings-share-row smart-settings-share-row--media">
+                  <label>小程序卡片图片</label>
+                  <div className="smart-settings-share-radio-stack">
+                    <label className="smart-settings-radio">
+                      <input
+                        type="radio"
+                        name="share-image-mode"
+                        checked={currentShareDraft?.imageMode === 'default'}
+                        onChange={() => updateShareImageMode('default')}
+                      />
+                      <span>默认固定海报</span>
+                    </label>
+                    <label className="smart-settings-radio">
+                      <input
+                        type="radio"
+                        name="share-image-mode"
+                        checked={currentShareDraft?.imageMode === 'room-cover'}
+                        onChange={() => updateShareImageMode('room-cover')}
+                      />
+                      <span>房源首图</span>
+                    </label>
+                    <label className="smart-settings-radio">
+                      <input
+                        type="radio"
+                        name="share-image-mode"
+                        checked={currentShareDraft?.imageMode === 'custom'}
+                        onChange={() => updateShareImageMode('custom')}
+                      />
+                      <span>自定义</span>
+                    </label>
 
-                <div className="smart-settings-share__actions">
-                  <button type="button" onClick={() => void downloadQrCode()}>
-                    下载二维码
-                  </button>
-                  <button type="button" onClick={() => void copyShareLink()}>
-                    复制链接
-                  </button>
-                  <button type="button" className="is-primary" onClick={() => void handlePublishShare()} disabled={isPublishingShare || !hasShareChanges}>
-                    保存并发布
-                  </button>
+                    {currentShareDraft?.imageMode === 'custom' ? (
+                      <button type="button" className="smart-settings-share-upload" onClick={uploadSharePoster}>
+                        上传图片
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               </section>
 
-              <aside className="smart-settings-share__preview">
-                <div className="smart-settings-share-card">
-                  <strong>{sharePreviewTitle}</strong>
-                  <p>{dashboard?.previewSummary ?? '住客可在小程序中查看入住信息、续住和发票申请。'}</p>
-                  <div className="smart-settings-share-card__meta">
-                    <span>分享链接</span>
-                    <code>{currentShareDraft?.shareLink}</code>
+              <aside className="smart-settings-share-preview">
+                <div className="smart-settings-share-phone">
+                  <div className="smart-settings-share-phone__frame">
+                    <div className="smart-settings-share-phone__header">
+                      <span />
+                    </div>
+                    <div className="smart-settings-share-phone__card">
+                      <p>{sharePreviewTitle}</p>
+                      <div className="smart-settings-share-phone__poster">
+                        <div className="smart-settings-share-phone__tag">{sharePreviewImageLabel}</div>
+                        <div className="smart-settings-share-phone__poster-art">
+                          <span className="is-panel" />
+                          <span className="is-desk" />
+                          <span className="is-guest" />
+                          <span className="is-key" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="smart-settings-share-qr">
-                  <div className="smart-settings-share-qr__code" />
-                  <p>{currentShareDraft?.qrCodeHint}</p>
                 </div>
               </aside>
             </div>
+
+            <footer className="smart-settings-share-footer">
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => void handlePublishShare()}
+                disabled={isPublishingShare || !hasShareChanges}
+              >
+                保存并发布
+              </button>
+            </footer>
           </section>
         ) : null}
       </section>

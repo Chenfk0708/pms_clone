@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import {
   createDefaultMemberEquityFilters,
   createMemberEquityItem,
@@ -14,7 +14,6 @@ import {
 import './MemberEquityPage.css'
 
 const tableColumns = ['展示名称', '权益图标', '权益简介', '操作']
-const defaultIcon = '/favicon.svg'
 
 type DialogMode = 'create' | 'edit'
 
@@ -40,22 +39,30 @@ export function MemberEquityPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSorting, setIsSorting] = useState(false)
   const [error, setError] = useState('')
-  const [feedback, setFeedback] = useState('会员权益数据加载中')
+  const [feedback, setFeedback] = useState('会员权益数据加载中...')
   const [dialog, setDialog] = useState<DialogState | null>(null)
   const [draft, setDraft] = useState<MemberEquityDraft>(emptyDraft)
   const [formError, setFormError] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<MemberEquityItem | null>(null)
+  const uploadInputRef = useRef<HTMLInputElement | null>(null)
+  const uploadedPreviewUrlRef = useRef<string | null>(null)
 
   const loadDashboard = useCallback(async (reason: 'initial' | 'refresh' | 'retry') => {
     setIsLoading(true)
     setError('')
-    setFeedback('会员权益数据加载中')
+    setFeedback('会员权益数据加载中...')
 
     try {
       const nextDashboard = await fetchMemberEquityDashboard(filters)
       setDashboard(nextDashboard)
       setItems(nextDashboard.items)
-      setFeedback(nextDashboard.items.length === 0 ? '暂无会员权益' : reason === 'refresh' ? '会员权益已刷新' : '会员权益已更新')
+      if (nextDashboard.items.length === 0) {
+        setFeedback('暂无会员权益')
+      } else if (reason === 'refresh') {
+        setFeedback('会员权益已刷新')
+      } else {
+        setFeedback('会员权益已更新')
+      }
     } catch (loadError) {
       const message = loadError instanceof Error ? loadError.message : '会员权益加载失败，请稍后重试'
       setDashboard(null)
@@ -79,7 +86,11 @@ export function MemberEquityPage() {
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        closeDialog()
+        resetUploadedPreview()
+        setDialog(null)
+        setDraft(emptyDraft)
+        setFormError('')
+        setIsSubmitting(false)
         setDeleteTarget(null)
       }
     }
@@ -88,16 +99,33 @@ export function MemberEquityPage() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [dialog, deleteTarget])
 
+  useEffect(() => {
+    return () => {
+      if (uploadedPreviewUrlRef.current) {
+        URL.revokeObjectURL(uploadedPreviewUrlRef.current)
+      }
+    }
+  }, [])
+
   const canOperate = !isLoading && !isSubmitting
   const hasItems = items.length > 0
 
+  function resetUploadedPreview() {
+    if (uploadedPreviewUrlRef.current) {
+      URL.revokeObjectURL(uploadedPreviewUrlRef.current)
+      uploadedPreviewUrlRef.current = null
+    }
+  }
+
   function openCreateDialog() {
+    resetUploadedPreview()
     setDialog({ mode: 'create', item: null })
     setDraft(emptyDraft)
     setFormError('')
   }
 
   function openEditDialog(item: MemberEquityItem) {
+    resetUploadedPreview()
     setDialog({ mode: 'edit', item })
     setDraft({
       name: item.name,
@@ -109,6 +137,7 @@ export function MemberEquityPage() {
   }
 
   function closeDialog() {
+    resetUploadedPreview()
     setDialog(null)
     setDraft(emptyDraft)
     setFormError('')
@@ -121,25 +150,45 @@ export function MemberEquityPage() {
   }
 
   function chooseIcon() {
+    uploadInputRef.current?.click()
+  }
+
+  function handleIconUpload(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      const message = '请上传图片文件'
+      setFormError(message)
+      setFeedback(message)
+      event.target.value = ''
+      return
+    }
+
+    resetUploadedPreview()
+
+    const previewUrl = URL.createObjectURL(file)
+    uploadedPreviewUrlRef.current = previewUrl
     setDraft((current) => ({
       ...current,
-      logoMediaId: current.logoMediaId || 'mock-media-selected-benefit',
-      logoMediaUrl: current.logoMediaUrl || defaultIcon,
+      logoMediaId: `mock-media-${Date.now()}`,
+      logoMediaUrl: previewUrl,
     }))
-    setFeedback('权益图标已选择')
+    setFeedback(`已选择图标：${file.name}`)
     setFormError('')
+    event.target.value = ''
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!dialog) return
 
-    const validationErrors = []
+    const validationErrors: string[] = []
     if (!draft.name.trim()) validationErrors.push('请输入权益名称')
     if (draft.name.trim().length > 8) validationErrors.push('最多可输入8个字符')
     if (!draft.logoMediaId || !draft.logoMediaUrl) validationErrors.push('请上传权益图标')
     if (validationErrors.length > 0) {
-      const message = validationErrors.join('；')
+      const message = validationErrors.join('，')
       setFormError(message)
       setFeedback(message)
       return
@@ -228,7 +277,7 @@ export function MemberEquityPage() {
           </div>
           <div className="member-equity-actions">
             <button type="button" className="member-equity-button is-primary" disabled={!canOperate} onClick={openCreateDialog}>
-              添 加
+              添加
             </button>
             <button
               type="button"
@@ -249,7 +298,7 @@ export function MemberEquityPage() {
           <span role="status" aria-label="会员权益操作反馈">{feedback}</span>
         </div>
 
-        {isLoading ? <div className="member-equity-loading" aria-label="会员权益加载状态">会员权益数据加载中</div> : null}
+        {isLoading ? <div className="member-equity-loading" aria-label="会员权益加载状态">会员权益数据加载中...</div> : null}
 
         {error ? (
           <div className="member-equity-error" role="alert" aria-label="会员权益数据错误">
@@ -293,19 +342,19 @@ export function MemberEquityPage() {
                       {isSorting ? (
                         <>
                           <button type="button" disabled={index === 0 || isSubmitting} onClick={() => moveItem(item.memberBenefitId, -1)}>
-                            上移 {item.name}
+                            上移
                           </button>
                           <button type="button" disabled={index === items.length - 1 || isSubmitting} onClick={() => moveItem(item.memberBenefitId, 1)}>
-                            下移 {item.name}
+                            下移
                           </button>
                         </>
                       ) : (
                         <>
                           <button type="button" disabled={!canOperate} onClick={() => openEditDialog(item)}>
-                            编辑 {item.name}
+                            编辑
                           </button>
                           <button type="button" disabled={!canOperate} onClick={() => setDeleteTarget(item)}>
-                            删除 {item.name}
+                            删除
                           </button>
                         </>
                       )}
@@ -341,6 +390,13 @@ export function MemberEquityPage() {
               </label>
               <label>
                 <span>权益图标</span>
+                <input
+                  ref={uploadInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="member-equity-upload-input"
+                  onChange={handleIconUpload}
+                />
                 <button type="button" className="member-equity-upload" disabled={isSubmitting} onClick={chooseIcon}>
                   {draft.logoMediaUrl ? <img src={draft.logoMediaUrl} alt="" /> : '+ 添加图标'}
                 </button>
@@ -357,10 +413,10 @@ export function MemberEquityPage() {
               {formError ? <div className="member-equity-form-error" role="alert">{formError}</div> : null}
               <footer>
                 <button type="button" disabled={isSubmitting} onClick={closeDialog}>
-                  取 消
+                  取消
                 </button>
                 <button type="submit" className="is-primary" disabled={isSubmitting}>
-                  {isSubmitting ? '提交中' : '提 交'}
+                  {isSubmitting ? '提交中...' : '提交'}
                 </button>
               </footer>
             </form>
@@ -375,8 +431,8 @@ export function MemberEquityPage() {
             <p>您确定要删除当前权益吗？</p>
             <strong>{deleteTarget.name}</strong>
             <footer>
-              <button type="button" disabled={isSubmitting} onClick={() => setDeleteTarget(null)}>取 消</button>
-              <button type="button" className="is-danger" disabled={isSubmitting} onClick={() => void confirmDelete()}>确 定</button>
+              <button type="button" disabled={isSubmitting} onClick={() => setDeleteTarget(null)}>取消</button>
+              <button type="button" className="is-danger" disabled={isSubmitting} onClick={() => void confirmDelete()}>确认</button>
             </footer>
           </section>
         </div>

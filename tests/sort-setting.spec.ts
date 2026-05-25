@@ -32,7 +32,7 @@ test('/setting/sortSetting shows the captured default sort-setting shell', async
   await expect(storeList).toContainText('天落会宿公寓(前海壹方城宝安中心店)')
   await expect(storeList.locator('.sort-setting-drag-handle')).toHaveText(['⋮⋮'])
 
-  await expect(page.getByRole('button', { name: '收起会话' })).toBeVisible()
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 })
 
 test('/setting/sortSetting supports tabs, reorder feedback, and runtime states', async ({ page }) => {

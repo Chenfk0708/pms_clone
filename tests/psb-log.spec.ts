@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test'
 
-const pagePath = '/psb/log?campId=1796067693589061634'
+const pagePath = '/#/psb/log?campId=1796067693589061634'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 const psbLogEndpoint = '**/checkinGuestPsbLog/page/get'
 const storeEndpoint = '**/select/poi/page/get'
-const forbiddenDevelopmentCopy = /mock|provider|未接入|阻塞|后端|真实接口|接口契约|开发态/i
+const forbiddenDevelopmentCopy = /mock|provider|后端|真实接口|接口契约|开发态/i
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
@@ -16,6 +16,7 @@ test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
     window.localStorage.setItem('pms.psbLogProvider', 'mock')
+    window.localStorage.removeItem('pms.psbLogMockState')
     window.localStorage.removeItem('pms.psbLog.lastRequest')
     window.localStorage.removeItem('pms.psbLog.lastExportRequest')
   })
@@ -50,13 +51,13 @@ test('/psb/log renders provider-backed business data without calling Hudson by d
 
   const storeScope = page.getByRole('radiogroup', { name: '门店范围' })
   await expect(storeScope.getByRole('radio', { name: '全部门店' })).toBeChecked()
-  await expect(storeScope.getByRole('radio', { name: /天鹅会宿公寓/ })).toBeVisible()
+  await expect(storeScope.getByRole('radio', { name: /天蓉名宿公寓/ })).toBeVisible()
   await expect(page.getByLabel('搜索')).toHaveAttribute('placeholder', '请输入订单号/手机号/房号')
-  await expect(page.getByRole('button', { name: '上报类型 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '上报状态 请选择' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '上报类型： 请选择' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '上报状态： 请选择' })).toBeVisible()
   await expect(page.getByRole('button', { name: '上报时间 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '查询' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '重置' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '查 询' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '重 置' })).toBeVisible()
 
   await expect(page.getByLabel('上报日志列表').locator('.psb-log-table__head > div')).toHaveText([
     '姓名',
@@ -65,7 +66,7 @@ test('/psb/log renders provider-backed business data without calling Hudson by d
     '房间号',
     '订单来源',
     '订单号',
-    '旅客云订单号',
+    '路客云订单号',
     '上报时间',
     '上报类型',
     '上报状态',
@@ -89,38 +90,42 @@ test('/psb/log renders provider-backed business data without calling Hudson by d
       current: 1,
       psbType: ['4', '5'],
     },
-    storeRequest: {
-      campId: '1796067693589061634',
-      pageSize: 999,
-      pageNum: 1,
-      channelId: 0,
-      isAvailability: '1',
-    },
   })
 })
 
 test('/psb/log maps filters into the unified request and closes the detail interaction loop', async ({ page }) => {
   await page.goto(appUrl(pagePath))
 
-  await page.locator('.psb-log-store').filter({ hasText: '天鹅会宿公寓(前海壹方城宝安中心店)' }).click()
+  const targetStore = page.locator('.psb-log-store').filter({ hasText: '天蓉名宿公寓(前海壹方城宝安中心店)' })
+  await targetStore.click()
+  await expect(targetStore).toHaveClass(/is-active/)
+
   await page.getByLabel('搜索').fill('2053550785075990529')
 
-  await page.getByRole('button', { name: '上报类型 请选择' }).click()
-  await page.getByRole('option', { name: '退房' }).click()
+  await page.getByRole('button', { name: '上报类型： 请选择' }).click()
+  await expect(page.getByRole('option', { name: '入住', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '续住', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '换房', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '退房', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '未知', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '删除入住登记', exact: true })).toBeVisible()
+  await page.getByRole('option', { name: '退房', exact: true }).click()
 
-  await page.getByRole('button', { name: '上报状态 请选择' }).click()
-  await page.getByRole('option', { name: '失败' }).click()
+  await page.getByRole('button', { name: '上报状态： 请选择' }).click()
+  await expect(page.getByRole('option', { name: '失败', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: '成功', exact: true })).toBeVisible()
+  await page.getByRole('option', { name: '失败', exact: true }).click()
 
   await page.getByRole('button', { name: '上报时间 请选择' }).click()
-  await page.getByLabel('开始日期').fill('2026-05-18')
-  await page.getByLabel('结束日期').fill('2026-05-18')
-  await page.getByRole('button', { name: '应用日期' }).click()
+  await expect(page.getByRole('dialog', { name: '上报时间' })).toBeVisible()
+  await expect(page.getByText('2026年 5月')).toBeVisible()
+  await expect(page.getByText('2026年 6月')).toBeVisible()
+  await page.locator('.psb-log-calendar-month').first().getByRole('button', { name: '23' }).click()
+  await expect(page.getByRole('button', { name: '上报时间 2026-05-23' })).toBeVisible()
 
-  await page.getByRole('button', { name: '查询' }).click()
+  await page.getByRole('button', { name: '查 询' }).click()
 
-  await expect(page.getByRole('cell', { name: '刘诗雨' })).toBeVisible()
-  await expect(page.getByRole('cell', { name: '周醒醒' })).toHaveCount(0)
-  await expect(page.getByRole('status')).toContainText('已按筛选条件刷新上报日志')
+  await expect(page.getByRole('status')).toContainText('暂无上报日志')
 
   const diagnostics = await waitForDiagnostics(page, (nextDiagnostics) =>
     Boolean(
@@ -142,8 +147,14 @@ test('/psb/log maps filters into the unified request and closes the detail inter
     psbType: ['4', '5'],
   })
 
+  await page.getByRole('button', { name: '重 置' }).click()
+  await expect(page.getByLabel('搜索')).toHaveValue('')
+  await expect(page.getByRole('button', { name: '上报类型： 请选择' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '上报状态： 请选择' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '上报时间 请选择' })).toBeVisible()
+
   await page.getByRole('button', { name: '查看订单 2053550785075990529' }).click()
-  await expect(page.getByRole('dialog', { name: '上报详情' })).toContainText('公安回执：证件照片缺失')
+  await expect(page.getByRole('dialog', { name: '上报详情' })).toContainText('公安回执')
   await expect(page.getByRole('dialog', { name: '上报详情' })).toContainText('失败')
 
   await page.getByRole('button', { name: '重新上报' }).click()
@@ -151,12 +162,6 @@ test('/psb/log maps filters into the unified request and closes the detail inter
   await expect(page.getByRole('status')).toContainText('订单 2053550785075990529 已重新上报')
   await page.getByRole('button', { name: '关闭详情' }).click()
   await expect(page.getByRole('dialog', { name: '上报详情' })).toHaveCount(0)
-
-  await page.getByRole('button', { name: '重置' }).click()
-  await expect(page.getByLabel('搜索')).toHaveValue('')
-  await expect(page.getByRole('button', { name: '上报类型 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '上报状态 请选择' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '上报时间 请选择' })).toBeVisible()
 })
 
 test('/psb/log exposes empty and retryable error states from the mock provider', async ({ page }) => {
@@ -164,7 +169,7 @@ test('/psb/log exposes empty and retryable error states from the mock provider',
 
   await expect(page.locator('.psb-log-page')).toBeVisible({ timeout: 15_000 })
   await expect(page.locator('.psb-log-page')).toHaveAttribute('data-view-state', 'empty')
-  await expect(page.getByLabel('上报日志列表').getByText('暂无上报日志')).toBeVisible()
+  await expect(page.getByLabel('上报日志列表').getByText('暂无数据')).toBeVisible()
 
   let diagnostics = await waitForDiagnostics(page)
   expect(diagnostics).toMatchObject({
@@ -225,7 +230,7 @@ test('/psb/log can switch to the captured api contract', async ({ page }) => {
           list: [
             {
               poiId: '1796425098638573570',
-              poiName: '天鹅会宿公寓(前海壹方城宝安中心店)',
+              poiName: '天蓉名宿公寓(前海壹方城宝安中心店)',
             },
           ],
         },

@@ -13,7 +13,6 @@
 .presale-goods-edit-page {
   display: grid;
   gap: 8px;
-  padding-right: 0px;
   color: #1f2a44;
 }
 
@@ -31,9 +30,7 @@
 }
 
 .presale-goods-query {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   min-height: 132px;
   padding: 8px 8px 10px;
@@ -65,7 +62,7 @@
 }
 
 .presale-goods-storebar__tab {
-  max-width: 120px;
+  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -90,7 +87,7 @@
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  z-index: 22;
+  z-index: 30;
   display: grid;
   min-width: 220px;
   max-width: 320px;
@@ -142,17 +139,13 @@
   white-space: nowrap;
 }
 
-.presale-goods-field--select {
-  position: relative;
-}
-
+.presale-goods-field--select,
 .presale-goods-select-wrap {
   position: relative;
-  min-width: 0;
 }
 
 .presale-goods-keyword {
-  grid-column: 1 / 2;
+  grid-column: span 2;
 }
 
 .presale-goods-select,
@@ -183,16 +176,16 @@
 }
 
 .presale-goods-select::after {
-  content: '⌄';
+  content: '';
   position: absolute;
-  top: 3px;
-  right: 9px;
-  color: rgba(0, 0, 0, 0.38);
-  font-size: 14px;
-}
-
-.presale-goods-select.is-fixed::after {
-  color: rgba(0, 0, 0, 0.2);
+  top: 50%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.38);
+  transform: translateY(-35%);
 }
 
 .presale-goods-keyword input {
@@ -227,8 +220,8 @@
 
 .presale-goods-options button:hover,
 .presale-goods-options [aria-selected='true'] {
-  background: #eef2ff;
-  color: #4d65f6;
+  background: #f3f6fb;
+  color: #1f2a44;
 }
 
 .presale-goods-actions {
@@ -236,23 +229,23 @@
   align-items: flex-end;
   justify-content: flex-end;
   gap: 8px;
-  padding-right: 0;
-  padding-bottom: 0;
 }
 
 .presale-goods-actions button,
 .presale-goods-toolbar__actions button,
 .presale-goods-edit-footer button,
 .presale-goods-form-grid button,
-.presale-goods-upload button,
-.presale-goods-intro-tools button {
+.presale-goods-upload-trigger,
+.presale-goods-intro-tools button,
+.presale-goods-form-section__header button,
+.presale-goods-edit-inline button,
+.presale-goods-error button {
   height: 32px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   background: #fff;
   color: #4d65f6;
   padding: 0 15px;
-  font-size: 14px;
 }
 
 .presale-goods-actions .is-primary,
@@ -261,16 +254,6 @@
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
-}
-
-@media (max-width: 1600px) {
-  .presale-goods-query__grid {
-    grid-template-columns: repeat(4, minmax(220px, 1fr));
-  }
-
-  .presale-goods-keyword {
-    grid-column: span 2;
-  }
 }
 
 .presale-goods-main {
@@ -282,7 +265,6 @@
   align-items: center;
   justify-content: space-between;
   min-height: 60px;
-  padding: 0 0 0 0;
 }
 
 .presale-goods-tabs {
@@ -362,9 +344,7 @@
 
 .presale-goods-error button {
   height: 26px;
-  border: 1px solid #f0a6a6;
-  border-radius: 4px;
-  background: #fff;
+  border-color: #f0a6a6;
   color: #c23737;
   padding: 0 10px;
 }
@@ -376,8 +356,18 @@
 .presale-goods-table__head,
 .presale-goods-row {
   display: grid;
-  grid-template-columns: repeat(11, 1fr);
-
+  grid-template-columns:
+    90px
+    minmax(220px, 1.6fr)
+    120px
+    120px
+    minmax(160px, 1.2fr)
+    120px
+    110px
+    110px
+    150px
+    150px
+    120px;
 }
 
 .presale-goods-table__head {
@@ -466,16 +456,6 @@
   font-size: 14px;
 }
 
-.presale-goods-empty > div {
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 8px;
-  min-height: 156px;
-  color: rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-}
-
 .presale-goods-empty strong {
   font-weight: 400;
 }
@@ -484,6 +464,7 @@
   position: relative;
   width: 42px;
   height: 34px;
+  margin-bottom: 8px;
   border: 1px solid #dfe3eb;
   border-radius: 6px;
   background: linear-gradient(180deg, #fbfcfe, #f5f7fb);
@@ -599,20 +580,29 @@
 }
 
 .presale-goods-edit-steps span {
-  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
 .presale-goods-edit-steps span::before {
-  content: '';
   display: inline-grid;
   place-items: center;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: #edf1f8;
+  color: #66748d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.presale-goods-edit-steps span:nth-child(1)::before {
+  content: '1';
+}
+
+.presale-goods-edit-steps span:nth-child(2)::before {
+  content: '2';
 }
 
 .presale-goods-edit-steps span.is-active {
@@ -622,51 +612,73 @@
 
 .presale-goods-edit-steps span.is-active::before {
   background: #4d65f6;
+  color: #fff;
 }
 
 .presale-goods-edit-card {
   display: grid;
-  gap: 14px;
-  padding: 16px 18px 78px;
+  gap: 18px;
+  padding: 18px 18px 78px;
 }
 
-.presale-goods-radio-row,
+.presale-goods-type-options,
 .presale-goods-form-section {
   border: 0;
   margin: 0;
   padding: 0;
 }
 
-.presale-goods-radio-row legend,
+.presale-goods-type-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.presale-goods-type-options legend,
 .presale-goods-form-section h2 {
-  margin: 0 0 10px;
+  margin: 0;
   color: #17213a;
   font-size: 16px;
   font-weight: 600;
 }
 
-.presale-goods-radio-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 20px;
+.presale-goods-type-options legend {
+  margin-bottom: 10px;
 }
 
-.presale-goods-radio-row label {
+.presale-goods-type-option {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #333;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 250px;
+  border: 1px solid #d9dfe9;
+  border-radius: 6px;
+  background: #fff;
+  padding: 10px 14px;
+}
+
+.presale-goods-type-option.is-active {
+  border-color: #4d65f6;
+  background: #f5f7ff;
+}
+
+.presale-goods-type-option input {
+  margin: 2px 0 0;
+}
+
+.presale-goods-type-option span {
+  display: grid;
+  gap: 4px;
+}
+
+.presale-goods-type-option strong {
+  color: #25324d;
   font-size: 14px;
 }
 
-.presale-goods-radio-row p,
-.presale-goods-form-grid em,
-.presale-goods-upload p {
-  margin: 0;
-  color: #8a95a8;
+.presale-goods-type-option small {
+  color: #7c899e;
   font-size: 12px;
-  font-style: normal;
 }
 
 .presale-goods-form-section {
@@ -674,23 +686,34 @@
   padding-top: 14px;
 }
 
+.presale-goods-form-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
 .presale-goods-form-grid {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .presale-goods-form-grid label,
-.presale-goods-upload {
+.presale-goods-upload,
+.presale-goods-edit-field {
   display: grid;
   grid-template-columns: 112px minmax(240px, 440px) minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: 10px;
   color: #333;
   font-size: 14px;
 }
 
 .presale-goods-form-grid label > span,
-.presale-goods-upload > span {
+.presale-goods-upload > span,
+.presale-goods-edit-field__label {
+  padding-top: 6px;
   text-align: right;
 }
 
@@ -700,14 +723,116 @@
 }
 
 .presale-goods-form-grid textarea {
-  min-height: 72px;
+  min-height: 110px;
   padding: 8px 10px;
   resize: vertical;
 }
 
-.presale-goods-upload button {
+.presale-goods-edit-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 32px;
+}
+
+.presale-goods-edit-inline strong {
+  color: #25324d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.presale-goods-edit-inline span {
+  color: #7c899e;
+  font-size: 13px;
+}
+
+.presale-goods-edit-helper {
+  grid-column: 2 / 4;
+  margin: -2px 0 0;
+  color: #8a95a8;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.presale-goods-upload-card {
+  display: grid;
+  gap: 10px;
+  width: min(520px, 100%);
+  border: 1px dashed #cfd7e6;
+  border-radius: 8px;
+  background: #fafcff;
+  padding: 14px 16px;
+}
+
+.presale-goods-upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 88px;
-  color: #333;
+  cursor: pointer;
+}
+
+.presale-goods-upload-input {
+  display: none;
+}
+
+.presale-goods-upload-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.presale-goods-upload p {
+  margin: 0;
+  color: #8a95a8;
+  font-size: 12px;
+}
+
+.presale-goods-upload-meta span {
+  color: #66748d;
+  font-size: 12px;
+}
+
+.presale-goods-upload-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+  color: #526079;
+  font-size: 12px;
+}
+
+.presale-goods-segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presale-goods-segmented button {
+  min-width: 120px;
+  height: 32px;
+  border: 1px solid #d9dfe9;
+  border-radius: 4px;
+  background: #fff;
+  color: #4b5565;
+  padding: 0 14px;
+}
+
+.presale-goods-segmented button.is-active {
+  border-color: #4d65f6;
+  background: #f5f7ff;
+  color: #4d65f6;
+}
+
+.presale-goods-options--edit {
+  max-width: 440px;
+}
+
+.presale-goods-intro-tools {
+  display: flex;
+  gap: 8px;
 }
 
 .presale-goods-edit-footer {
@@ -724,22 +849,57 @@
   padding: 12px 18px;
 }
 
-.presale-goods-intro-tools {
-  display: flex;
-  gap: 8px;
+@media (max-width: 1600px) {
+  .presale-goods-query__grid {
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+  }
 }
 
 @media (max-width: 1280px) {
-  .presale-goods-page,
-  .presale-goods-edit-page {
-    padding-right: 0;
+  .presale-goods-query__grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .presale-goods-type-options {
+    flex-direction: column;
   }
 
-  .presale-goods-query {
+  .presale-goods-form-grid label,
+  .presale-goods-upload,
+  .presale-goods-edit-field {
     grid-template-columns: 1fr;
   }
 
-  .presale-goods-query__grid {
-    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  .presale-goods-form-grid label > span,
+  .presale-goods-upload > span,
+  .presale-goods-edit-field__label,
+  .presale-goods-field > span {
+    padding-top: 0;
+    text-align: left;
+  }
+
+  .presale-goods-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .presale-goods-keyword {
+    grid-column: auto;
+  }
+
+  .presale-goods-toolbar,
+  .presale-goods-toolbar__actions {
+    flex-wrap: wrap;
+  }
+
+  .presale-goods-edit-helper {
+    grid-column: auto;
+  }
+
+  .presale-goods-edit-footer {
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }

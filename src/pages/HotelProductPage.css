@@ -633,3 +633,364 @@
     padding-left: 86px;
   }
 }
+
+.hotel-product-page {
+  gap: 8px;
+}
+
+.hotel-product-query {
+  min-height: 108px;
+  padding: 8px 8px 10px;
+}
+
+.hotel-product-storebar {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid #d8deea;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.hotel-product-storebar__tab,
+.hotel-product-storebar__setting {
+  height: 24px;
+  border: 0;
+  border-right: 1px solid #d8deea;
+  background: #fff;
+  color: #4b5565;
+  padding: 0 14px;
+  font-size: 12px;
+}
+
+.hotel-product-storebar__tab {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hotel-product-storebar__tab.is-active {
+  color: #4d65f6;
+}
+
+.hotel-product-storebar__setting {
+  width: 30px;
+  padding: 0;
+  color: #7a8598;
+  font-size: 14px;
+}
+
+.hotel-product-storebar > *:last-child {
+  border-right: 0;
+}
+
+.hotel-product-query__grid {
+  grid-template-columns: minmax(330px, 1.2fr) minmax(280px, 1fr) minmax(280px, 1fr) auto;
+  gap: 10px 16px;
+  border-top: 1px solid #eef2f7;
+  padding: 10px 0 0;
+}
+
+.hotel-product-field--select,
+.hotel-product-select-wrap {
+  position: relative;
+}
+
+.hotel-product-field > span {
+  color: #333;
+}
+
+.hotel-product-select::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.38);
+  transform: translateY(-35%);
+}
+
+.hotel-product-actions {
+  justify-content: flex-end;
+}
+
+.hotel-product-options {
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  min-width: 218px;
+}
+
+.hotel-product-options button:hover,
+.hotel-product-options [aria-selected='true'] {
+  background: #f3f6fb;
+  color: #1f2a44;
+}
+
+.hotel-product-toolbar {
+  min-height: 60px;
+}
+
+@media (max-width: 1280px) {
+  .hotel-product-query__grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 960px) {
+  .hotel-product-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .hotel-product-field > span {
+    text-align: left;
+    padding-right: 0;
+  }
+
+  .hotel-product-actions {
+    justify-content: flex-start;
+    padding-left: 0;
+  }
+}
+
+.hotel-product-toolbar {
+  justify-content: flex-end;
+}
+
+.hotel-product-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  color: #66748d;
+  box-shadow: none;
+}
+
+.hotel-product-breadcrumb__link {
+  border: 0;
+  background: transparent;
+  color: #66748d;
+  padding: 0;
+}
+
+.hotel-product-breadcrumb__link:hover {
+  color: #4d65f6;
+}
+
+.hotel-product-edit-tabs {
+  min-height: 0;
+  padding: 12px 14px 0;
+  box-shadow: none;
+}
+
+.hotel-product-edit-tabs button {
+  min-width: 86px;
+  height: 28px;
+  border: 1px solid #d9d9d9;
+  border-right-width: 1px;
+  border-radius: 4px 4px 0 0;
+  background: #fff;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+.hotel-product-edit-tabs button + button {
+  margin-left: -1px;
+}
+
+.hotel-product-edit-tabs button.is-active {
+  z-index: 1;
+  border-color: #4d65f6;
+  color: #4d65f6;
+}
+
+.hotel-product-edit-tabs button.is-active::after {
+  display: none;
+}
+
+.hotel-product-edit-card {
+  gap: 18px;
+  padding-top: 14px;
+}
+
+.hotel-product-form-section h2 {
+  position: relative;
+  margin-bottom: 16px;
+  padding-left: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.hotel-product-form-section h2::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 3px;
+  height: 20px;
+  border-radius: 999px;
+  background: #4d65f6;
+}
+
+.hotel-product-form-row {
+  align-items: start;
+}
+
+.hotel-product-form-row > span {
+  padding-top: 8px;
+}
+
+.hotel-product-form-row--stack > span {
+  padding-top: 6px;
+}
+
+.hotel-product-field-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+}
+
+.hotel-product-field-box input,
+.hotel-product-field-box textarea {
+  width: 460px;
+}
+
+.hotel-product-field-box--inline {
+  align-items: center;
+}
+
+.hotel-product-field-box--textarea {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 460px;
+}
+
+.hotel-product-field-box--textarea textarea {
+  width: 100%;
+  min-height: 100px;
+}
+
+.hotel-product-counter {
+  color: #8a95a8;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.hotel-product-inline-hint {
+  color: #8a95a8;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.hotel-product-upload-card {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.hotel-product-upload-tile {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0;
+}
+
+.hotel-product-upload-tile strong {
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.hotel-product-upload-tile span {
+  margin-top: -8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.hotel-product-upload-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 18px;
+  color: #66748d;
+  font-size: 12px;
+}
+
+.hotel-product-room-group {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.hotel-product-room-platform {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.hotel-product-room-platform strong {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.hotel-product-room-pick {
+  height: 30px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #fff;
+  color: #4d65f6;
+  padding: 0 14px;
+}
+
+.hotel-product-room-platform p {
+  margin: 0;
+  color: #66748d;
+  font-size: 12px;
+}
+
+.hotel-product-room-hint {
+  margin: 0;
+  color: #8a95a8;
+  font-size: 12px;
+}
+
+.hotel-product-edit-footer {
+  justify-content: center;
+}
+
+.hotel-product-edit-footer .is-primary,
+.hotel-product-edit-footer button {
+  min-width: 100px;
+}
+
+@media (max-width: 960px) {
+  .hotel-product-field-box {
+    flex-wrap: wrap;
+  }
+
+  .hotel-product-field-box input,
+  .hotel-product-field-box--textarea,
+  .hotel-product-field-box--textarea textarea {
+    width: 100%;
+  }
+
+  .hotel-product-edit-footer {
+    justify-content: flex-start;
+  }
+}

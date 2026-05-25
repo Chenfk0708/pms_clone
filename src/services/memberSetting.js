@@ -1,0 +1,323 @@
+export const MEMBER_SETTING_PROVIDER_KEY = 'pms.memberSetting.provider';
+export const MEMBER_SETTING_MOCK_STATE_KEY = 'pms.memberSetting.mockState';
+export const MEMBER_SETTING_ENDPOINT = '/setting/member/bootstrap';
+export const MEMBER_SETTING_TARGET_URL = 'https://minsubao.localhome.cn/setting/member';
+const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_TIMESTAMP = '2026-05-20T00:35:00+08:00';
+const DEFAULT_PAGE_SIZE = 20;
+const ROLE_ALL_NAME = '全部';
+const TRACE_PREFIX = 'mock-shezhi--qiye-shezhi--chengyuan-shezhi';
+export class MemberSettingServiceError extends Error {
+    provider;
+    request;
+    response;
+    constructor(provider, request, response) {
+        super(response.message);
+        this.name = 'MemberSettingServiceError';
+        this.provider = provider;
+        this.request = request;
+        this.response = response;
+    }
+}
+const roleOptions = [
+    { roleId: 'all', roleName: ROLE_ALL_NAME },
+    { roleId: 'admin', roleName: '管理员' },
+    { roleId: 'housekeeper', roleName: '管家' },
+    { roleId: 'investor', roleName: '投资人' },
+    { roleId: 'cleaner', roleName: '保洁员' },
+    { roleId: 'smart-housekeeper', roleName: '智住管家' },
+    { roleId: 'owner', roleName: '业主' },
+    { roleId: 'locals-ai', roleName: 'localsAI' },
+];
+const roomCategories = [
+    {
+        roomCategoryId: '1796425099729092609',
+        roomCategoryName: '观影大床房',
+        roomIds: ['room-001'],
+    },
+    {
+        roomCategoryId: '1796425099485822977',
+        roomCategoryName: '天落大床电竞套间',
+        roomIds: ['room-002'],
+    },
+    {
+        roomCategoryId: '1796425099242553345',
+        roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
+        roomIds: ['room-003'],
+    },
+    {
+        roomCategoryId: '1796425098965729282',
+        roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
+        roomIds: ['room-004'],
+    },
+];
+const initialMembers = [
+    {
+        userId: '1796067694000000001',
+        name: '路客云6TS5',
+        phone: '18123941382',
+        roleId: '',
+        roleName: '-',
+        wecomStatus: 'unbound',
+        wecomLabel: '点击绑定',
+        email: '-',
+        roomCategoryIds: roomCategories.map((item) => item.roomCategoryId),
+    },
+];
+let mockMembers = initialMembers.map(cloneMember);
+export function resolveMemberSettingRuntimeConfig(location) {
+    const searchParams = new URLSearchParams(location.search);
+    const routeMode = location.pathname.endsWith('/actions')
+        ? searchParams.get('mode') === 'edit'
+            ? 'edit'
+            : 'create'
+        : 'list';
+    return {
+        provider: normalizeProvider(searchParams.get('memberSettingProvider')) ?? readProvider(),
+        mockState: normalizeMockState(searchParams.get('memberSettingMockState')) ?? readMockState(),
+        routeMode,
+        editUserId: searchParams.get('userId'),
+    };
+}
+export function createDefaultMemberSettingQuery(config) {
+    return {
+        campId: DEFAULT_CAMP_ID,
+        keyword: '',
+        roleName: ROLE_ALL_NAME,
+        page: 1,
+        pageSize: DEFAULT_PAGE_SIZE,
+        provider: config.provider,
+        mockState: config.mockState,
+        routeMode: config.routeMode,
+        editUserId: config.editUserId,
+    };
+}
+export async function loadMemberSettingViewModel(query, signal) {
+    const provider = query.provider ?? 'mock';
+    const request = buildMemberSettingRequest(query);
+    const requestedState = query.mockState ?? 'success';
+    await delay(180, signal);
+    if (provider === 'api') {
+        throw new MemberSettingServiceError(provider, request, createEnvelope('error', 503, '成员设置数据暂时不可用，请稍后重试'));
+    }
+    if (requestedState === 'error') {
+        throw new MemberSettingServiceError(provider, request, createEnvelope('error', 50001, '成员设置数据加载失败，请稍后重试'));
+    }
+    const members = requestedState === 'empty' ? [] : filterMembers(query);
+    const responseState = members.length === 0 ? 'empty' : 'success';
+    const response = createEnvelope(responseState, 0, 'success', buildPayload(query, members));
+    return adaptMemberSettingEnvelope(provider, request, response, responseState, query.routeMode);
+}
+export async function bindMemberWecom(query, userId, signal) {
+    const request = { campId: query.campId, userId };
+    await delay(120, signal);
+    let found = false;
+    mockMembers = mockMembers.map((member) => {
+        if (member.userId !== userId) {
+            return member;
+        }
+        found = true;
+        return {
+            ...member,
+            wecomStatus: 'bound',
+            wecomLabel: '已绑定',
+        };
+    });
+    if (!found) {
+        throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要绑定的成员'));
+    }
+    return mockMembers.map(cloneMember);
+}
+export async function saveMemberSettingMember(query, draft, signal) {
+    const request = {
+        campId: query.campId,
+        routeMode: query.routeMode,
+        draft,
+    };
+    validateDraft(draft);
+    await delay(180, signal);
+    if (draft.userId) {
+        let found = false;
+        mockMembers = mockMembers.map((member) => {
+            if (member.userId !== draft.userId) {
+                return member;
+            }
+            found = true;
+            return {
+                ...member,
+                name: draft.name.trim(),
+                phone: draft.phone.trim(),
+                roleId: draft.roleId,
+                roleName: draft.roleName,
+                roomCategoryIds: [...draft.roomCategoryIds],
+            };
+        });
+        if (!found) {
+            throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要编辑的成员'));
+        }
+    }
+    else {
+        mockMembers = [
+            ...mockMembers,
+            {
+                userId: `1796067694${String(mockMembers.length + 2).padStart(9, '0')}`,
+                name: draft.name.trim(),
+                phone: draft.phone.trim(),
+                roleId: draft.roleId,
+                roleName: draft.roleName,
+                wecomStatus: 'unbound',
+                wecomLabel: '点击绑定',
+                email: '-',
+                roomCategoryIds: [...draft.roomCategoryIds],
+            },
+        ];
+    }
+    return mockMembers.map(cloneMember);
+}
+export function createEditorDraft(query) {
+    const member = query.editUserId ? mockMembers.find((item) => item.userId === query.editUserId) : null;
+    if (!member) {
+        return {
+            name: '',
+            phone: '',
+            roleId: '',
+            roleName: '',
+            roomCategoryIds: [],
+        };
+    }
+    const fallbackRole = roleOptions.find((role) => role.roleName !== ROLE_ALL_NAME) ?? roleOptions[0];
+    return {
+        userId: member.userId,
+        name: member.name,
+        phone: member.phone,
+        roleId: member.roleId || fallbackRole.roleId,
+        roleName: member.roleName === '-' ? fallbackRole.roleName : member.roleName,
+        roomCategoryIds: [...member.roomCategoryIds],
+    };
+}
+function buildMemberSettingRequest(query) {
+    return {
+        campId: query.campId,
+        keyword: query.keyword,
+        roleName: query.roleName,
+        page: query.page,
+        pageSize: query.pageSize,
+        routeMode: query.routeMode,
+        editUserId: query.editUserId ?? null,
+    };
+}
+function buildPayload(query, members) {
+    const editorTitle = query.routeMode === 'edit' ? '编辑成员' : '添加成员';
+    const editorDraft = createEditorDraft(query);
+    return {
+        summary: {
+            usedEmployeeNum: mockMembers.length,
+            employeeNum: 3,
+        },
+        roles: roleOptions,
+        members: members.map(cloneMember),
+        pendingFlows: [],
+        roomCategories,
+        pagination: {
+            page: query.page,
+            pageSize: query.pageSize,
+            total: members.length,
+        },
+        editor: {
+            title: editorTitle,
+            submitText: query.routeMode === 'edit' ? '保存' : '提交',
+            breadcrumbText: `成员设置 / ${editorTitle}`,
+            rolePlaceholder: '请选择角色',
+            roomSearchPlaceholder: '搜索房型名称',
+            draft: editorDraft,
+        },
+    };
+}
+function filterMembers(query) {
+    const normalizedKeyword = query.keyword.trim();
+    const normalizedRole = query.roleName || ROLE_ALL_NAME;
+    return mockMembers.filter((member) => {
+        const matchesKeyword = normalizedKeyword.length === 0 ||
+            member.name.includes(normalizedKeyword) ||
+            member.phone.includes(normalizedKeyword) ||
+            member.roleName.includes(normalizedKeyword);
+        const matchesRole = normalizedRole === ROLE_ALL_NAME || member.roleName === normalizedRole;
+        return matchesKeyword && matchesRole;
+    });
+}
+function adaptMemberSettingEnvelope(provider, request, response, state, routeMode) {
+    if (response.code !== 0) {
+        throw new MemberSettingServiceError(provider, request, response);
+    }
+    return {
+        ...response.data,
+        provider,
+        state,
+        endpoint: MEMBER_SETTING_ENDPOINT,
+        traceId: response.traceId,
+        timestamp: response.timestamp,
+        request,
+        routeMode,
+    };
+}
+function createEnvelope(state, code, message, data) {
+    return {
+        code,
+        message,
+        data: data ??
+            buildPayload({
+                campId: DEFAULT_CAMP_ID,
+                keyword: '',
+                roleName: ROLE_ALL_NAME,
+                page: 1,
+                pageSize: DEFAULT_PAGE_SIZE,
+                routeMode: 'list',
+            }, []),
+        traceId: `${TRACE_PREFIX}-${state}-001`,
+        timestamp: DEFAULT_TIMESTAMP,
+    };
+}
+function cloneMember(member) {
+    return {
+        ...member,
+        roomCategoryIds: [...member.roomCategoryIds],
+    };
+}
+function validateDraft(draft) {
+    if (!draft.name.trim() || !draft.phone.trim() || !draft.roleId || !draft.roleName) {
+        throw new Error('请完整填写成员姓名、手机号和角色');
+    }
+    if (!/^1\d{10}$/.test(draft.phone.trim())) {
+        throw new Error('请输入正确的手机号');
+    }
+    if (draft.roomCategoryIds.length === 0) {
+        throw new Error('请至少选择一个房型');
+    }
+}
+function delay(ms, signal) {
+    return new Promise((resolve, reject) => {
+        const timer = window.setTimeout(resolve, ms);
+        signal?.addEventListener('abort', () => {
+            window.clearTimeout(timer);
+            reject(new DOMException('Aborted', 'AbortError'));
+        }, { once: true });
+    });
+}
+function normalizeProvider(value) {
+    return value === 'api' || value === 'mock' ? value : undefined;
+}
+function normalizeMockState(value) {
+    return value === 'empty' || value === 'error' || value === 'success' ? value : undefined;
+}
+function readProvider() {
+    if (typeof window === 'undefined') {
+        return 'mock';
+    }
+    return normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY)) ?? 'mock';
+}
+function readMockState() {
+    if (typeof window === 'undefined') {
+        return 'success';
+    }
+    return normalizeMockState(window.localStorage.getItem(MEMBER_SETTING_MOCK_STATE_KEY)) ?? 'success';
+}

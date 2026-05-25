@@ -349,6 +349,8 @@ function delay(ms: number, signal?: AbortSignal) {
 const mockRooms: HouseDaysRoomCard[] = [
   {
     id: 'room-top-1',
+    storeId: 'poi-1796067693589061634',
+    storeName: '天落会宿公寓(前海壹方城宝安中心店)',
     roomType: '顶层套房（浴缸巨幕电竞麻将）',
     roomName: '房间1',
     status: 'cleanVacant',
@@ -357,6 +359,8 @@ const mockRooms: HouseDaysRoomCard[] = [
   },
   {
     id: 'room-president-1',
+    storeId: 'poi-1796067693589061634',
+    storeName: '天落会宿公寓(前海壹方城宝安中心店)',
     roomType: '总裁套间（桑拿浴缸露台电竞麻将）',
     roomName: '房间1',
     status: 'cleanVacant',
@@ -365,6 +369,8 @@ const mockRooms: HouseDaysRoomCard[] = [
   },
   {
     id: 'room-sky-1',
+    storeId: 'poi-1796067693589061634',
+    storeName: '天落会宿公寓(前海壹方城宝安中心店)',
     roomType: '天落大床电竞套间',
     roomName: '1',
     status: 'occupiedClean',
@@ -378,6 +384,8 @@ const mockRooms: HouseDaysRoomCard[] = [
   },
   {
     id: 'room-movie-1',
+    storeId: 'poi-1796067693589061634',
+    storeName: '天落会宿公寓(前海壹方城宝安中心店)',
     roomType: '观影大床房',
     roomName: '房间1',
     status: 'occupiedDirty',

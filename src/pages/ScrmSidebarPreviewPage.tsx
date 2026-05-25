@@ -1,16 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   fetchScrmSidebarDashboard,
   type ScrmConversation,
-  type ScrmMetric,
+  type ScrmReplyTemplate,
   type ScrmSidebarDashboard,
   type ScrmSidebarFilters,
   type ScrmSidebarScenario,
 } from '../services/scrmSidebarPreview'
 import './ScrmSidebarPreviewPage.css'
 
-const defaultFilters: ScrmSidebarFilters = {
+type ConversationTabKey = 'all' | 'waiting' | 'consulting' | 'converted' | 'followup'
+
+type ChatMessage = {
+  id: string
+  conversationId: string
+  author: 'guest' | 'staff' | 'system'
+  authorName: string
+  tone: AvatarTone
+  content: string
+  time: string
+}
+
+type AvatarTone = 'is-blue' | 'is-sky' | 'is-gold' | 'is-coral'
+
+const DEFAULT_FILTERS: Omit<ScrmSidebarFilters, 'scenario'> = {
   campId: '1796067693589061634',
   poiId: 'ALL',
   date: '2026-05-18',
@@ -20,443 +34,404 @@ const defaultFilters: ScrmSidebarFilters = {
   pageSize: 20,
 }
 
-const scenarioValues = new Set<ScrmSidebarScenario>(['success', 'empty', 'error'])
-
-function scenarioFromQuery(value: string | null): ScrmSidebarScenario {
-  return scenarioValues.has(value as ScrmSidebarScenario) ? (value as ScrmSidebarScenario) : 'success'
-}
+const TAB_CONFIG: Array<{ key: ConversationTabKey; label: string }> = [
+  { key: 'all', label: '全部' },
+  { key: 'waiting', label: '未回复' },
+  { key: 'consulting', label: '咨询中' },
+  { key: 'converted', label: '已转订单' },
+  { key: 'followup', label: '待跟进' },
+]
 
 export function ScrmSidebarPreviewPage() {
+  const location = useLocation()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const scenario = scenarioFromQuery(searchParams.get('mockState'))
-  const [filters, setFilters] = useState<ScrmSidebarFilters>(defaultFilters)
-  const [dashboard, setDashboard] = useState<ScrmSidebarDashboard | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [feedback, setFeedback] = useState('正在加载聊天工具栏数据')
-  const [selectedConversation, setSelectedConversation] = useState<ScrmConversation | null>(null)
-  const [selectedMetricId, setSelectedMetricId] = useState('sessions')
-  const [hiddenSeries, setHiddenSeries] = useState<'none' | 'orders'>('none')
-  const [showMoreReplies, setShowMoreReplies] = useState(false)
-  const successFeedbackRef = useRef<string | null>(null)
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
+  const scenario = normalizeScenario(searchParams.get('mockState'))
+  const queryConversationId = searchParams.get('conversationId') ?? ''
 
-  const requestFilters = useMemo(() => ({ ...filters, scenario }), [filters, scenario])
+  const [dashboard, setDashboard] = useState<ScrmSidebarDashboard | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState<ConversationTabKey>('all')
+  const [selectedConversationId, setSelectedConversationId] = useState('')
+  const [draft, setDraft] = useState('')
+  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>({})
+  const [refreshTick, setRefreshTick] = useState(0)
 
   useEffect(() => {
-    let alive = true
+    let cancelled = false
 
-    async function loadDashboard() {
-      setLoading(true)
+    async function load() {
+      setIsLoading(true)
       setError('')
-      return fetchScrmSidebarDashboard(requestFilters)
+
+      try {
+        const nextDashboard = await fetchScrmSidebarDashboard({
+          ...DEFAULT_FILTERS,
+          scenario,
+        })
+
+        if (cancelled) return
+
+        setDashboard(nextDashboard)
+        setMessages((current) => ensureMessages(current, nextDashboard.conversations))
+
+        if (queryConversationId && nextDashboard.conversations.some((item) => item.id === queryConversationId)) {
+          setSelectedConversationId(queryConversationId)
+        } else if (scenario === 'empty') {
+          setSelectedConversationId('')
+        }
+      } catch (nextError) {
+        if (cancelled) return
+        setError(nextError instanceof Error ? nextError.message : '聊天工具栏数据加载失败，请稍后重试')
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false)
+        }
+      }
     }
 
-    loadDashboard()
-      .then((nextDashboard) => {
-        if (!alive) return
-        setDashboard(nextDashboard)
-        setFeedback(successFeedbackRef.current ?? `已通过聊天工具栏数据服务刷新，trace ${nextDashboard.traceId}`)
-        successFeedbackRef.current = null
-      })
-      .catch((nextError: Error) => {
-        if (!alive) return
-        setDashboard(null)
-        setError(nextError.message)
-        setFeedback(nextError.message)
-      })
-      .finally(() => {
-        if (alive) setLoading(false)
-      })
+    void load()
 
     return () => {
-      alive = false
+      cancelled = true
     }
-  }, [requestFilters])
+  }, [queryConversationId, refreshTick, scenario])
 
-  const selectedMetric = useMemo(
-    () => dashboard?.metrics.find((metric) => metric.id === selectedMetricId) ?? dashboard?.metrics[0],
-    [dashboard, selectedMetricId],
+  const counts = useMemo(() => createTabCounts(dashboard?.conversations ?? []), [dashboard?.conversations])
+  const filteredConversations = useMemo(
+    () => filterConversationsByTab(dashboard?.conversations ?? [], activeTab),
+    [activeTab, dashboard?.conversations],
   )
+  const selectedConversation =
+    filteredConversations.find((item) => item.id === selectedConversationId) ??
+    dashboard?.conversations.find((item) => item.id === selectedConversationId) ??
+    null
+  const selectedMessages = selectedConversation ? messages[selectedConversation.id] ?? [] : []
 
-  function updateFilter<K extends keyof ScrmSidebarFilters>(key: K, value: ScrmSidebarFilters[K]) {
-    setFilters((current) => ({ ...current, [key]: value, page: 1 }))
+  function handleSelectConversation(conversationId: string) {
+    setSelectedConversationId(conversationId)
   }
 
-  function runQuery() {
-    successFeedbackRef.current = '已按筛选条件更新聊天工具栏'
-    setFilters((current) => ({ ...current, page: 1 }))
+  function handleSendMessage() {
+    if (!selectedConversation || !draft.trim()) return
+
+    const nextMessage: ChatMessage = {
+      id: `${selectedConversation.id}-staff-${Date.now()}`,
+      conversationId: selectedConversation.id,
+      author: 'staff',
+      authorName: '房东账号',
+      tone: conversationToneForIndex(3),
+      content: draft.trim(),
+      time: '刚刚',
+    }
+
+    setMessages((current) => ({
+      ...current,
+      [selectedConversation.id]: [...(current[selectedConversation.id] ?? []), nextMessage],
+    }))
+    setDraft('')
   }
 
-  function resetFilters() {
-    setFilters({ ...defaultFilters, scenario: 'success' })
-    setFeedback('筛选条件已重置')
+  function handleUseTemplate(template: ScrmReplyTemplate) {
+    setDraft(template.content)
   }
-
-  function refreshData() {
-    successFeedbackRef.current = '数据已刷新'
-    setFilters((current) => ({ ...current }))
-  }
-
-  function exportReport() {
-    setFeedback(`导出任务已创建，日期 ${filters.date}，渠道 ${filters.channel === 'ALL' ? '全部' : filters.channel}`)
-  }
-
-  function sendReply(templateTitle: string) {
-    setFeedback(`话术已发送：${templateTitle}`)
-  }
-
-  function markFollowUp(itemTitle: string) {
-    setFeedback(`待办已标记跟进：${itemTitle}`)
-  }
-
-  const hasRows = Boolean(dashboard?.conversations.length)
 
   return (
-    <div className="scrm-sidebar-page">
-      <header className="scrm-sidebar-hero">
-        <div>
-          <p>SCRM / 客户沟通</p>
-          <h1>聊天工具栏</h1>
-          <span>集中处理咨询、客户画像、房态推荐、订单承接和复购触达。</span>
-        </div>
-        <div className="scrm-sidebar-hero__actions">
-          <button type="button" onClick={() => navigate('/setting/imSetting')}>
-            会话设置
-          </button>
-          <button type="button" onClick={refreshData} disabled={loading}>
-            刷新
-          </button>
-        </div>
-      </header>
+    <div className="conversation-full-page">
+      <div
+        hidden
+        data-testid="scrm-sidebar-service-contract"
+        data-provider={dashboard?.providerMode ?? 'mock'}
+        data-endpoint={dashboard?.endpoint ?? ''}
+        data-request-body={JSON.stringify(dashboard?.requestBody ?? {})}
+      />
 
-      <section className="scrm-sidebar-filter" aria-label="聊天工具栏筛选">
-        <label>
-          <span>会话日期</span>
-          <input
-            aria-label="会话日期"
-            type="date"
-            value={filters.date}
-            onChange={(event) => updateFilter('date', event.target.value)}
-          />
-        </label>
-        <label>
-          <span>门店</span>
-          <select
-            aria-label="门店"
-            value={filters.poiId}
-            onChange={(event) => updateFilter('poiId', event.target.value)}
-          >
-            {(dashboard?.stores ?? [{ id: 'ALL', label: '全部门店' }]).map((store) => (
-              <option key={store.id} value={store.id}>
-                {store.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>渠道</span>
-          <select
-            aria-label="渠道"
-            value={filters.channel}
-            onChange={(event) => updateFilter('channel', event.target.value)}
-          >
-            {(dashboard?.channels ?? [{ id: 'ALL', label: '全部渠道' }]).map((channel) => (
-              <option key={channel.id} value={channel.id}>
-                {channel.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="scrm-sidebar-filter__keyword">
-          <span>关键词</span>
-          <input
-            aria-label="关键词"
-            value={filters.keyword}
-            placeholder="客户昵称、房型、订单号"
-            onChange={(event) => updateFilter('keyword', event.target.value)}
-          />
-        </label>
-        <div className="scrm-sidebar-filter__actions">
-          <button type="button" onClick={runQuery} disabled={loading}>
-            查询
-          </button>
-          <button type="button" onClick={resetFilters} disabled={loading}>
-            重置
-          </button>
-          <button type="button" onClick={exportReport} disabled={loading || Boolean(error)}>
-            导出
-          </button>
-        </div>
-      </section>
+      <aside className="conversation-full-page__sidebar">
+        <header className="conversation-full-page__header">
+          <strong>全部会话</strong>
+          <div className="conversation-full-page__tools">
+            <button type="button" aria-label="同步会话列表" onClick={() => setRefreshTick((value) => value + 1)}>
+              <MenuIcon />
+            </button>
+            <button type="button" aria-label="会话设置" onClick={() => navigate('/setting/imSetting')}>
+              <GearIcon />
+            </button>
+          </div>
+        </header>
 
-      <p className="scrm-sidebar-feedback" role="status" aria-label="聊天工具栏操作反馈">
-        {loading ? '加载中...' : feedback}
-      </p>
-
-      {error ? (
-        <section className="scrm-sidebar-state" role="alert" aria-label="聊天工具栏数据错误">
-          <h2>聊天工具栏数据加载失败</h2>
-          <p>{error}</p>
-          <button type="button" onClick={refreshData}>
-            重试
-          </button>
-        </section>
-      ) : null}
-
-      {!error && dashboard ? (
-        <>
-          <section className="scrm-sidebar-metrics" aria-label="聊天工具栏核心指标">
-            {dashboard.metrics.map((metric) => (
-              <MetricCard
-                key={metric.id}
-                metric={metric}
-                selected={selectedMetricId === metric.id}
-                onClick={() => setSelectedMetricId(metric.id)}
-              />
-            ))}
-          </section>
-
-          <main className="scrm-sidebar-grid">
-            <section className="scrm-sidebar-panel scrm-sidebar-panel--wide" aria-label="聊天工具栏会话列表">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>会话处理台</h2>
-                  <span>共 {dashboard.pagination.total} 条，按响应优先级排序</span>
-                </div>
-                <button type="button" onClick={() => setFeedback('已同步最新会话顺序')}>
-                  同步排序
-                </button>
-              </div>
-
-              {hasRows ? (
-                <div className="scrm-sidebar-table" role="table" aria-label="聊天工具栏会话表格">
-                  <div className="scrm-sidebar-table__head" role="row">
-                    <span>客户</span>
-                    <span>房型与订单</span>
-                    <span>最近消息</span>
-                    <span>响应</span>
-                    <span>操作</span>
-                  </div>
-                  {dashboard.conversations.map((conversation) => (
-                    <article key={conversation.id} className="scrm-sidebar-row" role="row">
-                      <div>
-                        <strong>{conversation.guestName}</strong>
-                        <em>{conversation.status}</em>
-                        <p>{conversation.tags.join(' / ')}</p>
-                      </div>
-                      <div>
-                        <strong>{conversation.roomName}</strong>
-                        <p>
-                          {conversation.orderNo} · {conversation.stayRange}
-                        </p>
-                      </div>
-                      <div>
-                        <span>{conversation.lastMessage}</span>
-                        <p>{conversation.lastMessageAt}</p>
-                      </div>
-                      <div>
-                        <strong className={conversation.responseSla.includes('超时') ? 'is-danger' : ''}>
-                          {conversation.responseSla}
-                        </strong>
-                      </div>
-                      <div className="scrm-sidebar-row__actions">
-                        <button type="button" onClick={() => setSelectedConversation(conversation)}>
-                          查看详情 {conversation.guestName}
-                        </button>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <section className="scrm-sidebar-state" aria-label="聊天工具栏空状态">
-                  <h2>当前筛选条件下暂无会话</h2>
-                  <p>可重置筛选后查看全部客户沟通记录。</p>
-                  <button type="button" onClick={resetFilters}>
-                    重置筛选
-                  </button>
-                </section>
-              )}
-            </section>
-
-            <section className="scrm-sidebar-panel" aria-label="聊天工具栏趋势图">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>会话转化趋势</h2>
-                  <span>{selectedMetric?.detail}</span>
-                </div>
-                <button
-                  type="button"
-                  aria-pressed={hiddenSeries === 'orders'}
-                  onClick={() => setHiddenSeries((current) => (current === 'orders' ? 'none' : 'orders'))}
-                >
-                  订单趋势
-                </button>
-              </div>
-              <div className="scrm-sidebar-bars">
-                {dashboard.trend.map((point) => (
-                  <div key={point.label} className="scrm-sidebar-bars__item">
-                    <span>{point.label}</span>
-                    <i style={{ height: `${point.sessions * 3}px` }} title={`会话 ${point.sessions}`} />
-                    {hiddenSeries === 'none' ? <b style={{ height: `${point.orders * 10}px` }} title={`订单 ${point.orders}`} /> : null}
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="scrm-sidebar-panel" aria-label="聊天工具栏话术库">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>快捷话术</h2>
-                  <span>可直接发送到当前会话</span>
-                </div>
-                <button type="button" onClick={() => setShowMoreReplies((current) => !current)}>
-                  {showMoreReplies ? '收起' : '更多'}
-                </button>
-              </div>
-              <div className="scrm-sidebar-replies">
-                {dashboard.replyTemplates.slice(0, showMoreReplies ? undefined : 2).map((template) => (
-                  <article key={template.id}>
-                    <strong>{template.title}</strong>
-                    <p>{template.content}</p>
-                    <button type="button" onClick={() => sendReply(template.title)}>
-                      发送{template.title}
-                    </button>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <section className="scrm-sidebar-panel" aria-label="聊天工具栏房态建议">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>房态推荐</h2>
-                  <span>用于续住、升级和替代房源推荐</span>
-                </div>
-                <button type="button" onClick={() => navigate('/statistics/roomSituation')}>
-                  去房态
-                </button>
-              </div>
-              <div className="scrm-sidebar-room-list">
-                {dashboard.roomSuggestions.map((room) => (
-                  <button key={room.id} type="button" onClick={() => setFeedback(`${room.roomName} 已加入推荐话术`)}>
-                    <strong>{room.roomName}</strong>
-                    <span>{room.status}</span>
-                    <em>{room.availableTonight} 间</em>
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            <section className="scrm-sidebar-panel" aria-label="聊天工具栏待办">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>待办提醒</h2>
-                  <span>会话跟进与订单动作</span>
-                </div>
-              </div>
-              <div className="scrm-sidebar-todos">
-                {dashboard.pendingItems.map((item) => (
-                  <button key={item.id} type="button" onClick={() => markFollowUp(item.title)}>
-                    <strong>{item.title}</strong>
-                    <span>
-                      {item.owner} · {item.dueTime}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            <section className="scrm-sidebar-panel" aria-label="聊天工具栏快捷入口">
-              <div className="scrm-sidebar-panel__head">
-                <div>
-                  <h2>快捷入口</h2>
-                  <span>使用项目已有路由承接</span>
-                </div>
-              </div>
-              <div className="scrm-sidebar-shortcuts">
-                <button type="button" onClick={() => navigate('/order/house-order/list')}>
-                  去订单
-                </button>
-                <button type="button" onClick={() => navigate('/statistics/roomSituation')}>
-                  查房态
-                </button>
-                <button type="button" onClick={() => navigate('/mallManagement/couponMgt')}>
-                  发优惠券
-                </button>
-                <button type="button" onClick={() => navigate('/setting/imSetting')}>
-                  话术设置
-                </button>
-              </div>
-            </section>
-          </main>
-
-          <output
-            data-testid="scrm-sidebar-service-contract"
-            hidden
-            data-provider={dashboard.providerMode}
-            data-endpoint={dashboard.endpoint}
-            data-request-keyword={String(dashboard.requestBody.keyword ?? '')}
-            data-trace-id={dashboard.traceId}
-          />
-        </>
-      ) : null}
-
-      {selectedConversation ? (
-        <section className="scrm-sidebar-drawer-layer" role="presentation">
-          <aside className="scrm-sidebar-drawer" role="dialog" aria-modal="true" aria-label="会话详情">
-            <header>
-              <div>
-                <h2>{selectedConversation.guestName}</h2>
-                <span>{selectedConversation.status}</span>
-              </div>
-              <button type="button" aria-label="关闭会话详情" onClick={() => setSelectedConversation(null)}>
-                ×
+        <div className="conversation-full-page__tabs" role="tablist" aria-label="全部会话分类">
+          {TAB_CONFIG.map((tab) => {
+            const count = counts[tab.key]
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab.key}
+                className={activeTab === tab.key ? 'is-active' : ''}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                <span>{tab.label}</span>
+                {count > 0 ? <em>{count}</em> : null}
               </button>
+            )
+          })}
+        </div>
+
+        <div className="conversation-full-page__list">
+          {isLoading ? (
+            <div className="conversation-full-page__state">正在同步会话列表...</div>
+          ) : error ? (
+            <section className="conversation-full-page__state conversation-full-page__state--error" role="alert">
+              <div>{error}</div>
+              <button type="button" onClick={() => setRefreshTick((value) => value + 1)}>
+                重试
+              </button>
+            </section>
+          ) : filteredConversations.length > 0 ? (
+            filteredConversations.map((conversation, index) => (
+              <button
+                key={conversation.id}
+                type="button"
+                className={`conversation-card${selectedConversationId === conversation.id ? ' is-active' : ''}`}
+                onClick={() => handleSelectConversation(conversation.id)}
+              >
+                <span className={`conversation-card__avatar ${conversationToneForIndex(index)}`} aria-hidden="true">
+                  {avatarEmojiForIndex(index)}
+                </span>
+                <div className="conversation-card__body">
+                  <div className="conversation-card__topline">
+                    <strong>{conversation.guestName}</strong>
+                    <b>{conversation.status}</b>
+                  </div>
+                  <div className="conversation-card__meta">
+                    <em>{channelBadgeLabel(conversation.channel)}</em>
+                    <span>{conversation.roomName}</span>
+                  </div>
+                  <p>{conversation.lastMessage}</p>
+                  <small>{conversation.lastMessageAt}</small>
+                </div>
+              </button>
+            ))
+          ) : (
+            <div className="conversation-full-page__state">当前分类下暂无会话</div>
+          )}
+        </div>
+      </aside>
+
+      <section className="conversation-full-page__content">
+        {selectedConversation ? (
+          <div className="conversation-workbench">
+            <header className="conversation-workbench__head">
+              <div className="conversation-workbench__title">
+                <strong>
+                  {selectedConversation.guestName} <span>{selectedConversation.status}</span>
+                </strong>
+                <p>{selectedConversation.roomName}</p>
+                <small>
+                  订单号 {selectedConversation.orderNo} · {selectedConversation.stayRange}
+                </small>
+              </div>
+              <div className="conversation-workbench__meta">
+                <button type="button">房东账号</button>
+                <span>响应时效 {selectedConversation.responseSla}</span>
+                <span>订单金额 ¥{selectedConversation.orderAmount}</span>
+              </div>
             </header>
-            <dl>
-              <dt>客户偏好</dt>
-              <dd>{selectedConversation.preference}</dd>
-              <dt>历史订单</dt>
-              <dd>
-                {selectedConversation.orderNo} · {selectedConversation.roomName} · ￥{selectedConversation.orderAmount}
-              </dd>
-              <dt>最近消息</dt>
-              <dd>{selectedConversation.lastMessage}</dd>
-            </dl>
-            <div className="scrm-sidebar-drawer__actions">
-              <button type="button" onClick={() => sendReply('续住话术')}>
-                发送续住话术
+
+            <div className="conversation-workbench__toolbar">
+              <button type="button" className="conversation-workbench__quick-entry">
+                <FlashIcon />
+                <span>快捷回复</span>
               </button>
-              <button type="button" onClick={() => navigate('/order/house-order/list')}>
-                查看订单
-              </button>
+              <div className="conversation-workbench__pager">
+                <button type="button">上一位</button>
+                <button type="button">下一位</button>
+              </div>
+              <span className="conversation-workbench__history">历史订单 / 房态联动</span>
             </div>
-          </aside>
-        </section>
-      ) : null}
+
+            <div className="conversation-workbench__timeline">
+              {selectedMessages.map((message) => (
+                <article
+                  key={message.id}
+                  className={`chat-message${message.author === 'staff' ? ' chat-message--staff' : ''}`}
+                >
+                  <span
+                    className={`chat-message__avatar ${message.author === 'staff' ? 'chat-message__avatar--staff' : message.tone}`}
+                    aria-hidden="true"
+                  >
+                    {message.author === 'staff' ? '店' : avatarEmojiForTone(message.tone)}
+                  </span>
+                  <div className="chat-message__content">
+                    <small>
+                      {message.authorName} · {message.time}
+                    </small>
+                    <p>{message.content}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="conversation-workbench__composer">
+              <div className="conversation-workbench__reply-chips">
+                {(dashboard?.replyTemplates ?? []).map((template) => (
+                  <button key={template.id} type="button" onClick={() => handleUseTemplate(template)}>
+                    {template.title}
+                  </button>
+                ))}
+              </div>
+              <textarea
+                aria-label="发送消息输入框"
+                placeholder="请输入回复内容"
+                value={draft}
+                onChange={(event) => setDraft(event.target.value)}
+              />
+              <div className="conversation-workbench__composer-footer">
+                <span>{selectedConversation.preference}</span>
+                <button type="button" disabled={!draft.trim()} onClick={handleSendMessage}>
+                  发送
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="conversation-empty-state">您还未选中或发起聊天</div>
+        )}
+      </section>
     </div>
   )
 }
 
-function MetricCard({
-  metric,
-  selected,
-  onClick,
-}: {
-  metric: ScrmMetric
-  selected: boolean
-  onClick: () => void
-}) {
+function normalizeScenario(value: string | null): ScrmSidebarScenario {
+  if (value === 'empty' || value === 'error') return value
+  return 'success'
+}
+
+function createTabCounts(conversations: ScrmConversation[]) {
+  const waiting = conversations.filter((item) => item.status === '待回复').length
+  const converted = conversations.filter((item) => item.status === '已转订单').length
+  const consulting = conversations.filter((item) => item.status === '咨询中').length
+  const followup = conversations.filter((item) => item.tags.some((tag) => tag.includes('续住') || tag.includes('复购'))).length
+
+  return {
+    all: conversations.length,
+    waiting,
+    consulting,
+    converted,
+    followup,
+  } satisfies Record<ConversationTabKey, number>
+}
+
+function filterConversationsByTab(conversations: ScrmConversation[], activeTab: ConversationTabKey) {
+  if (activeTab === 'all') return conversations
+  if (activeTab === 'waiting') return conversations.filter((item) => item.status === '待回复')
+  if (activeTab === 'consulting') return conversations.filter((item) => item.status === '咨询中')
+  if (activeTab === 'converted') return conversations.filter((item) => item.status === '已转订单')
+  return conversations.filter((item) => item.tags.some((tag) => tag.includes('续住') || tag.includes('复购')))
+}
+
+function ensureMessages(current: Record<string, ChatMessage[]>, conversations: ScrmConversation[]) {
+  const nextMessages = { ...current }
+
+  for (let index = 0; index < conversations.length; index += 1) {
+    const conversation = conversations[index]
+    if (nextMessages[conversation.id]) continue
+
+    const tone = conversationToneForIndex(index)
+    nextMessages[conversation.id] = [
+      {
+        id: `${conversation.id}-guest-001`,
+        conversationId: conversation.id,
+        author: 'guest',
+        authorName: conversation.guestName,
+        tone,
+        content: guestOpeningMessage(conversation),
+        time: conversation.lastMessageAt,
+      },
+      {
+        id: `${conversation.id}-staff-001`,
+        conversationId: conversation.id,
+        author: 'staff',
+        authorName: '房东账号',
+        tone,
+        content: staffFollowupMessage(conversation),
+        time: conversation.lastMessageAt,
+      },
+    ]
+  }
+
+  return nextMessages
+}
+
+function guestOpeningMessage(conversation: ScrmConversation) {
+  if (conversation.status === '待回复') return '今天还有同房型可以续住吗？'
+  if (conversation.status === '已转订单') return '已经下单成功，想确认下入住指引。'
+  return '房了加了'
+}
+
+function staffFollowupMessage(conversation: ScrmConversation) {
+  if (conversation.status === '待回复') return '有的，我先帮您确认同房续住价格，稍后把方案发您。'
+  if (conversation.status === '已转订单') return '好的，稍后把门锁密码、停车位置和入住指引一并发您。'
+  return '加了绿色号，稍后发送入住指引。'
+}
+
+function conversationToneForIndex(index: number): AvatarTone {
+  return ['is-blue', 'is-sky', 'is-gold', 'is-coral'][index % 4] as AvatarTone
+}
+
+function avatarEmojiForIndex(index: number) {
+  return ['🐻', '🐼', '🐱', '🐰'][index % 4]
+}
+
+function avatarEmojiForTone(tone: AvatarTone) {
+  switch (tone) {
+    case 'is-sky':
+      return '🐼'
+    case 'is-gold':
+      return '🐱'
+    case 'is-coral':
+      return '🐰'
+    default:
+      return '🐻'
+  }
+}
+
+function channelBadgeLabel(channel: string) {
+  switch (channel) {
+    case 'ctrip':
+      return '携程'
+    case 'meituan':
+      return '美团'
+    case 'xiaozhu':
+      return '小猪'
+    default:
+      return '途家'
+  }
+}
+
+function MenuIcon() {
   return (
-    <button
-      type="button"
-      className={`scrm-sidebar-metric is-${metric.tone}${selected ? ' is-selected' : ''}`}
-      onClick={onClick}
-    >
-      <span>{metric.label}</span>
-      <strong>{metric.value}</strong>
-      <em>{metric.change}</em>
-    </button>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 7.5h14M9 12h10M13 16.5h6" />
+    </svg>
+  )
+}
+
+function GearIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3.5a1 1 0 0 1 .96.71l.38 1.2c.5.13.98.33 1.42.59l1.16-.62a1 1 0 0 1 1.17.18l1.36 1.36a1 1 0 0 1 .18 1.17l-.62 1.16c.26.44.46.92.59 1.42l1.2.38a1 1 0 0 1 .71.96v1.98a1 1 0 0 1-.71.96l-1.2.38c-.13.5-.33.98-.59 1.42l.62 1.16a1 1 0 0 1-.18 1.17l-1.36 1.36a1 1 0 0 1-1.17.18l-1.16-.62c-.44.26-.92.46-1.42.59l-.38 1.2a1 1 0 0 1-.96.71h-1.98a1 1 0 0 1-.96-.71l-.38-1.2a6.7 6.7 0 0 1-1.42-.59l-1.16.62a1 1 0 0 1-1.17-.18L4.9 18.83a1 1 0 0 1-.18-1.17l.62-1.16A6.7 6.7 0 0 1 4.75 15l-1.2-.38a1 1 0 0 1-.71-.96v-1.98a1 1 0 0 1 .71-.96l1.2-.38c.13-.5.33-.98.59-1.42l-.62-1.16a1 1 0 0 1 .18-1.17L6.26 4.5a1 1 0 0 1 1.17-.18l1.16.62c.44-.26.92-.46 1.42-.59l.38-1.2a1 1 0 0 1 .96-.71H12Z" />
+      <circle cx="12" cy="12" r="2.8" />
+    </svg>
+  )
+}
+
+function FlashIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m13 2-7 11h5l-1 9 8-12h-5z" />
+    </svg>
   )
 }

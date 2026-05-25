@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   createLedgerEntryExportTask,
   defaultLedgerEntryQuery,
@@ -8,12 +8,14 @@ import {
   type LedgerEntryDashboard,
   type LedgerEntryQuery,
   type LedgerEntryRow,
-  type LedgerEntrySummaryCard,
   type LedgerEntryType,
 } from '../services/ledgerEntry'
+import './OrderLedgerPage.css'
 import './LedgerEntryPage.css'
 
 type SelectKind = 'type' | 'roomType' | null
+type DatePickTarget = 'start' | 'end'
+type DatePanelPosition = { top: number; left: number }
 
 const presetRanges = [
   { key: 'yesterday', label: '昨天', start: '2026-05-18', end: '2026-05-18' },
@@ -27,16 +29,20 @@ const presetRanges = [
 type PresetRangeKey = (typeof presetRanges)[number]['key'] | 'custom'
 
 export function LedgerEntryPage() {
+  const navigate = useNavigate()
   const [query, setQuery] = useState<LedgerEntryQuery>(() => makeInitialQuery())
   const [dashboard, setDashboard] = useState<LedgerEntryDashboard | null>(null)
   const [serviceError, setServiceError] = useState<LedgerEntryServiceError | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [notice, setNotice] = useState('')
   const [openSelect, setOpenSelect] = useState<SelectKind>(null)
-  const [isDateOpen, setIsDateOpen] = useState(false)
-  const [isStoreDialogOpen, setIsStoreDialogOpen] = useState(false)
-  const [selectedCard, setSelectedCard] = useState<LedgerEntrySummaryCard | null>(null)
   const [selectedRow, setSelectedRow] = useState<LedgerEntryRow | null>(null)
+  const [isDatePanelOpen, setIsDatePanelOpen] = useState(false)
+  const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
+  const [calendarMonth, setCalendarMonth] = useState(() => query.startDate.slice(0, 7))
+  const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
+  const [dateDraft, setDateDraft] = useState(() => ({ startDate: query.startDate, endDate: query.endDate }))
+  const dateRangeRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -67,23 +73,61 @@ export function LedgerEntryPage() {
   const diagnosticsProvider = dashboard?.provider ?? serviceError?.provider ?? 'mock'
   const diagnosticsState = dashboard?.state ?? serviceError?.state ?? query.state ?? 'success'
   const diagnosticsRequest = dashboard?.request ?? serviceError?.request ?? query
-  const activePreset = findPresetRangeKey(query.startDate, query.endDate)
+  const activePreset = useMemo(() => findPresetRangeKey(query.startDate, query.endDate), [query.endDate, query.startDate])
+  const stores = dashboard?.stores ?? [{ id: query.storeId, name: query.storeName }]
+  const allStore = stores[0]
   const roomCategoryName =
     dashboard?.roomCategories.find((item) => item.id === query.roomCategoryId)?.name ?? '请选择房型'
+  const rows = dashboard?.rows ?? []
 
-  function patchQuery(next: Partial<LedgerEntryQuery>, nextNotice?: string) {
+  function patchQuery(next: Partial<LedgerEntryQuery>, nextNotice = '') {
+    setOpenSelect(null)
+    setNotice(nextNotice)
     setQuery((current) => ({
       ...current,
       ...next,
       page: next.page ?? 1,
     }))
-    if (nextNotice) setNotice(nextNotice)
+  }
+
+  function openDatePanel(target: DatePickTarget = 'start') {
+    setOpenSelect(null)
+    setDatePickTarget(target)
+    setDateDraft({ startDate: query.startDate, endDate: query.endDate })
+    setCalendarMonth(query.startDate.slice(0, 7))
+    const rect = dateRangeRef.current?.getBoundingClientRect()
+    if (rect) {
+      setDatePanelPosition({
+        top: rect.bottom + 8,
+        left: Math.max(16, Math.min(rect.left, window.innerWidth - 624)),
+      })
+    }
+    setIsDatePanelOpen(true)
+  }
+
+  function applyDateSelection(date: string) {
+    if (datePickTarget === 'start') {
+      const nextEndDate = date <= dateDraft.endDate ? dateDraft.endDate : date
+      setDateDraft({ startDate: date, endDate: nextEndDate })
+      setDatePickTarget('end')
+      return
+    }
+
+    const nextStartDate = date < dateDraft.startDate ? date : dateDraft.startDate
+    const nextEndDate = date < dateDraft.startDate ? dateDraft.startDate : date
+    setDateDraft({ startDate: nextStartDate, endDate: nextEndDate })
+    setIsDatePanelOpen(false)
+    setDatePickTarget('start')
+    patchQuery({ startDate: nextStartDate, endDate: nextEndDate }, '已更新账本日期')
   }
 
   function resetFilters() {
-    setQuery(defaultLedgerEntryQuery())
     setOpenSelect(null)
     setNotice('筛选条件已重置')
+    setSelectedRow(null)
+    setIsDatePanelOpen(false)
+    setDatePickTarget('start')
+    setQuery(defaultLedgerEntryQuery())
   }
 
   async function exportReport() {
@@ -111,57 +155,95 @@ export function LedgerEntryPage() {
         data-request={JSON.stringify(diagnosticsRequest)}
       />
 
-      <section className="ledger-entry-filter" aria-label="记一笔明细筛选">
-        <div className="ledger-entry-store-row" role="radiogroup" aria-label="门店">
-          {(dashboard?.stores ?? [{ id: query.storeId, name: query.storeName }]).map((item) => (
+      <section className="order-ledger-filter" aria-label="记一笔明细筛选">
+        <div className="order-ledger-filter__top">
+          <div className="order-ledger-store-row" aria-label="门店">
             <button
-              key={item.id}
               type="button"
-              role="radio"
-              aria-checked={query.storeId === item.id}
-              className={query.storeId === item.id ? 'is-active' : ''}
-              onClick={() => patchQuery({ storeId: item.id, storeName: item.name }, `已切换到${item.name}`)}
+              className={query.storeId === allStore.id ? 'is-active' : ''}
+              aria-pressed={query.storeId === allStore.id}
+              onClick={() => patchQuery({ storeId: allStore.id, storeName: allStore.name }, `已切换到${allStore.name}`)}
             >
-              {item.name}
+              全部门店
             </button>
-          ))}
-          <button
-            type="button"
-            className="ledger-entry-gear"
-            aria-label="门店设置"
-            onClick={() => setIsStoreDialogOpen(true)}
-          >
-            ⚙
-          </button>
-        </div>
+            {stores.slice(1).map((store) => {
+              const selected = query.storeId === store.id
+              return (
+                <button
+                  key={store.id}
+                  type="button"
+                  className={selected ? 'is-active' : ''}
+                  aria-pressed={selected}
+                  onClick={() => patchQuery({ storeId: store.id, storeName: store.name }, `已切换到${store.name}`)}
+                >
+                  {store.name}
+                </button>
+              )
+            })}
+            <button
+              type="button"
+              className="order-ledger-gear"
+              aria-label="门店设置"
+              onClick={() => navigate('/InformationMaintenance/campInfo')}
+            >
+              ⚙
+            </button>
+          </div>
 
-        <div className="ledger-entry-date-line">
-          <div className="ledger-entry-presets" role="group" aria-label="日期快捷筛选">
-            {presetRanges.map((item) => (
+          <div className="order-ledger-presets" role="group" aria-label="日期快捷筛选">
+            {presetRanges.map((preset) => (
               <button
-                key={item.key}
+                key={preset.key}
                 type="button"
-                className={activePreset === item.key ? 'is-active' : ''}
-                onClick={() => patchQuery({ startDate: item.start, endDate: item.end }, `已切换到${item.label}`)}
+                className={activePreset === preset.key ? 'is-active' : ''}
+                onClick={() => patchQuery({ startDate: preset.start, endDate: preset.end }, `已切换到${preset.label}`)}
               >
-                {item.label}
+                {preset.label}
               </button>
             ))}
           </div>
 
-          <div className="ledger-entry-date-range" aria-label="账本日期">
-            <button type="button" aria-label="开始日期" onClick={() => setIsDateOpen(true)}>
+          <div
+            ref={dateRangeRef}
+            className="order-ledger-date-range"
+            aria-label="账本日期"
+            role="button"
+            tabIndex={0}
+            onClick={() => openDatePanel('start')}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                openDatePanel('start')
+              }
+            }}
+          >
+            <button
+              type="button"
+              className="order-ledger-date-field"
+              aria-label="开始日期"
+              onClick={(event) => {
+                event.stopPropagation()
+                openDatePanel('start')
+              }}
+            >
               {query.startDate}
             </button>
-            <span>→</span>
-            <button type="button" aria-label="结束日期" onClick={() => setIsDateOpen(true)}>
+            <span>至</span>
+            <button
+              type="button"
+              className="order-ledger-date-field"
+              aria-label="结束日期"
+              onClick={(event) => {
+                event.stopPropagation()
+                openDatePanel('end')
+              }}
+            >
               {query.endDate}
             </button>
+            <i aria-hidden="true" />
           </div>
-        </div>
 
-        <div className="ledger-entry-field-line">
-          <SelectField
+          <FilterSelect
             label="类型"
             value={
               (dashboard?.typeOptions ?? [{ value: query.type, label: '全部类型' }]).find((item) => item.value === query.type)?.label ??
@@ -172,12 +254,12 @@ export function LedgerEntryPage() {
             optionLabel="类型选项"
             options={(dashboard?.typeOptions ?? []).map((item) => ({ value: item.value, label: item.label }))}
             onToggle={() => setOpenSelect(openSelect === 'type' ? null : 'type')}
-            onSelect={(value) => {
-              patchQuery({ type: value as LedgerEntryType }, '已更新类型筛选')
-              setOpenSelect(null)
-            }}
+            onSelect={(value) => patchQuery({ type: value as LedgerEntryType }, '已更新类型筛选')}
           />
-          <SelectField
+        </div>
+
+        <div className="order-ledger-filter__bottom ledger-entry-filter__bottom">
+          <FilterSelect
             label="房型"
             value={roomCategoryName}
             kind="roomType"
@@ -185,28 +267,23 @@ export function LedgerEntryPage() {
             optionLabel="房型选项"
             options={(dashboard?.roomCategories ?? []).map((item) => ({ value: item.id, label: item.name }))}
             onToggle={() => setOpenSelect(openSelect === 'roomType' ? null : 'roomType')}
-            onSelect={(value) => {
-              patchQuery({ roomCategoryId: value }, '已更新房型筛选')
-              setOpenSelect(null)
-            }}
+            onSelect={(value) => patchQuery({ roomCategoryId: value }, '已更新房型筛选')}
           />
-        </div>
 
-        <div className="ledger-entry-actions">
-          <button type="button" className="is-outline" onClick={resetFilters} disabled={isLoading}>
-            重置筛选
-          </button>
-          <button type="button" className="is-primary" onClick={exportReport} disabled={isLoading}>
-            报表导出
-          </button>
+          <div className="order-ledger-actions">
+            <button type="button" onClick={resetFilters} disabled={isLoading}>
+              重置
+            </button>
+            <button type="button" className="is-primary" onClick={exportReport} disabled={isLoading}>
+              导出
+            </button>
+          </div>
         </div>
       </section>
 
-      {notice || isLoading ? (
-        <div className="ledger-entry-notice" role="status" aria-live="polite">
-          {isLoading ? '账本数据加载中' : notice}
-        </div>
-      ) : null}
+      <div className="sr-only-heading" role="status" aria-live="polite">
+        {isLoading ? '账本数据加载中' : notice}
+      </div>
 
       {serviceError ? (
         <section className="ledger-entry-alert" role="alert">
@@ -217,31 +294,6 @@ export function LedgerEntryPage() {
           </button>
         </section>
       ) : null}
-
-      <section className="ledger-entry-summary" aria-label="账本概括">
-        <div className="ledger-entry-section-header">
-          <h2>账本概括</h2>
-          <span>净收入：¥ {formatMoney(dashboard?.netIncome ?? 0)}</span>
-        </div>
-        <div className="ledger-entry-summary-grid">
-          {(dashboard?.summaryCards ?? []).map((card) => (
-            <button
-              key={card.key}
-              type="button"
-              className="ledger-entry-summary-card"
-              aria-label={`查看${card.title}详情`}
-              onClick={() => setSelectedCard(card)}
-            >
-              <div className="ledger-entry-card-label">
-                <span aria-hidden="true">¥</span>
-                <strong>{card.title}</strong>
-              </div>
-              <b>¥ {formatMoney(card.amount)}</b>
-              <small>{card.trend}</small>
-            </button>
-          ))}
-        </div>
-      </section>
 
       <section className="ledger-entry-table-section" aria-label="账本明细表格">
         <div className="ledger-entry-section-header">
@@ -258,8 +310,8 @@ export function LedgerEntryPage() {
               </tr>
             </thead>
             <tbody>
-              {dashboard?.rows.length ? (
-                dashboard.rows.map((row) => (
+              {rows.length ? (
+                rows.map((row) => (
                   <tr key={row.id}>
                     <td>{row.typeLabel}</td>
                     <td>
@@ -319,20 +371,24 @@ export function LedgerEntryPage() {
         </footer>
       </section>
 
-      {isDateOpen ? (
-        <DateRangeDialog
-          startDate={query.startDate}
-          endDate={query.endDate}
-          onClose={() => setIsDateOpen(false)}
-          onConfirm={(nextStartDate, nextEndDate) => {
-            patchQuery({ startDate: nextStartDate, endDate: nextEndDate }, '已更新账本日期')
-            setIsDateOpen(false)
+      {isDatePanelOpen ? (
+        <DatePanel
+          month={calendarMonth}
+          startDate={dateDraft.startDate}
+          endDate={dateDraft.endDate}
+          pickTarget={datePickTarget}
+          position={datePanelPosition}
+          onClose={() => {
+            setIsDatePanelOpen(false)
+            setDatePickTarget('start')
+            setDateDraft({ startDate: query.startDate, endDate: query.endDate })
           }}
+          onPrevious={() => setCalendarMonth((current) => shiftMonth(current, -1))}
+          onNext={() => setCalendarMonth((current) => shiftMonth(current, 1))}
+          onPick={applyDateSelection}
         />
       ) : null}
 
-      {isStoreDialogOpen ? <StoreDialog onClose={() => setIsStoreDialogOpen(false)} /> : null}
-      {selectedCard ? <SummaryDialog card={selectedCard} onClose={() => setSelectedCard(null)} /> : null}
       {selectedRow ? <RowDialog row={selectedRow} onClose={() => setSelectedRow(null)} /> : null}
     </div>
   )
@@ -351,11 +407,7 @@ function findPresetRangeKey(startDate: string, endDate: string): PresetRangeKey 
   return matched?.key ?? 'custom'
 }
 
-function formatMoney(value: number) {
-  return value.toFixed(2)
-}
-
-function SelectField({
+function FilterSelect({
   label,
   value,
   kind,
@@ -375,13 +427,13 @@ function SelectField({
   onSelect: (value: string) => void
 }) {
   return (
-    <div className="ledger-entry-select-field">
-      <button type="button" aria-haspopup="listbox" aria-expanded={openSelect === kind} onClick={onToggle}>
-        <span>{label}</span>
+    <div className="order-ledger-select-field">
+      <span className="order-ledger-select-label">{label}:</span>
+      <button type="button" aria-haspopup="listbox" aria-expanded={openSelect === kind} aria-label={`${label} ${value}`} onClick={onToggle}>
         <strong>{value}</strong>
       </button>
       {openSelect === kind ? (
-        <div className="ledger-entry-options" role="listbox" aria-label={optionLabel}>
+        <div className="order-ledger-options" role="listbox" aria-label={optionLabel}>
           {options.map((option) => (
             <button key={option.value} type="button" role="option" aria-selected={value === option.label} onClick={() => onSelect(option.value)}>
               {option.label}
@@ -393,65 +445,61 @@ function SelectField({
   )
 }
 
-function DateRangeDialog({
+function DatePanel({
+  month,
   startDate,
   endDate,
+  pickTarget,
+  position,
   onClose,
-  onConfirm,
+  onPrevious,
+  onNext,
+  onPick,
 }: {
+  month: string
   startDate: string
   endDate: string
+  pickTarget: DatePickTarget
+  position: DatePanelPosition
   onClose: () => void
-  onConfirm: (startDate: string, endDate: string) => void
+  onPrevious: () => void
+  onNext: () => void
+  onPick: (date: string) => void
 }) {
-  const [cursorMonth, setCursorMonth] = useState(() => startDate.slice(0, 7))
-  const [draftStartDate, setDraftStartDate] = useState(startDate)
-  const [draftEndDate, setDraftEndDate] = useState(endDate)
-  const [isPickingRangeEnd, setIsPickingRangeEnd] = useState(false)
-
-  const months = [cursorMonth, shiftMonth(cursorMonth, 1)]
-
-  function onPick(date: string) {
-    if (!isPickingRangeEnd) {
-      setDraftStartDate(date)
-      setDraftEndDate(date)
-      setIsPickingRangeEnd(true)
-      return
-    }
-
-    if (date < draftStartDate) {
-      setDraftEndDate(draftStartDate)
-      setDraftStartDate(date)
-    } else {
-      setDraftEndDate(date)
-    }
-    setIsPickingRangeEnd(false)
-  }
+  const months = [month, shiftMonth(month, 1)]
 
   return (
-    <div className="ledger-entry-dialog-layer">
-      <section className="ledger-entry-date-popover" role="dialog" aria-modal="true" aria-label="日期选择">
-        {months.map((month) => (
-          <CalendarMonth
-            key={month}
-            month={month}
-            startDate={draftStartDate}
-            endDate={draftEndDate}
-            onPrevious={() => setCursorMonth((current) => shiftMonth(current, -1))}
-            onNext={() => setCursorMonth((current) => shiftMonth(current, 1))}
-            onPick={onPick}
-          />
-        ))}
-        <div className="ledger-entry-date-popover__footer">
-          <span>
-            已选：{draftStartDate} 至 {draftEndDate}
-          </span>
-          <button type="button" onClick={onClose}>
-            取消
+    <div className="order-ledger-date-panel-wrap" role="presentation" onMouseDown={onClose}>
+      <section
+        className="order-ledger-date-panel"
+        role="dialog"
+        aria-label="记一笔明细日期面板"
+        style={{ top: `${position.top}px`, left: `${position.left}px` }}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="order-ledger-date-panel__header">
+          <strong>{pickTarget === 'start' ? '请选择开始日期' : '请选择结束日期'}</strong>
+          <button type="button" aria-label="关闭记一笔明细日期面板" onClick={onClose}>
+            ×
           </button>
-          <button type="button" className="is-primary" onClick={() => onConfirm(draftStartDate, draftEndDate)}>
-            确定
-          </button>
+        </div>
+        <div className="order-ledger-date-panel__range">
+          <span>{startDate}</span>
+          <em>至</em>
+          <span>{endDate}</span>
+        </div>
+        <div className="order-ledger-date-panel__months">
+          {months.map((item, index) => (
+            <CalendarMonth
+              key={item}
+              month={item}
+              startDate={startDate}
+              endDate={endDate}
+              onPrevious={index === 0 ? onPrevious : undefined}
+              onNext={index === months.length - 1 ? onNext : undefined}
+              onPick={onPick}
+            />
+          ))}
         </div>
       </section>
     </div>
@@ -469,40 +517,38 @@ function CalendarMonth({
   month: string
   startDate: string
   endDate: string
-  onPrevious: () => void
-  onNext: () => void
+  onPrevious?: () => void
+  onNext?: () => void
   onPick: (date: string) => void
 }) {
   const days = buildCalendarDays(month)
-  const monthLabel = formatMonthLabel(month)
 
   return (
-    <section className="ledger-entry-calendar" aria-label={monthLabel}>
+    <section className="order-ledger-calendar-month" aria-label={formatMonthLabel(month)}>
       <header>
-        <button type="button" aria-label="上一月" onClick={onPrevious}>
+        <button type="button" aria-label="上个月" onClick={onPrevious} disabled={!onPrevious}>
           ‹
         </button>
-        <strong>{monthLabel.slice(0, 5)}</strong>
-        <strong>{monthLabel.slice(5)}</strong>
-        <button type="button" aria-label="下一月" onClick={onNext}>
+        <strong>{formatMonthLabel(month)}</strong>
+        <button type="button" aria-label="下个月" onClick={onNext} disabled={!onNext}>
           ›
         </button>
       </header>
-      <div className="ledger-entry-calendar__weekdays">
+      <div className="order-ledger-calendar-month__weekdays">
         {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
           <span key={day}>{day}</span>
         ))}
       </div>
-      <div className="ledger-entry-calendar__grid">
+      <div className="order-ledger-calendar-month__days">
         {days.map((day) => {
           const inRange = day.date >= startDate && day.date <= endDate
-          const isSelectedEdge = day.date === startDate || day.date === endDate
+          const isSelected = day.date === startDate || day.date === endDate
           return (
             <button
               key={day.date}
               type="button"
-              aria-label={`选择 ${day.date}`}
-              className={`${day.isMuted ? 'is-muted' : ''}${inRange ? ' is-in-range' : ''}${isSelectedEdge ? ' is-selected' : ''}`}
+              aria-label={day.date}
+              className={`${day.isMuted ? 'is-muted' : ''}${inRange ? ' is-in-range' : ''}${isSelected ? ' is-selected' : ''}`}
               onClick={() => onPick(day.date)}
             >
               {day.label}
@@ -514,43 +560,13 @@ function CalendarMonth({
   )
 }
 
-function SummaryDialog({ card, onClose }: { card: LedgerEntrySummaryCard; onClose: () => void }) {
-  return (
-    <div className="ledger-entry-dialog-layer">
-      <section className="ledger-entry-dialog" role="dialog" aria-modal="true" aria-label={`${card.title}详情`}>
-        <header>
-          <strong>{card.title}详情</strong>
-          <button type="button" aria-label="关闭详情" onClick={onClose}>
-            ×
-          </button>
-        </header>
-        <p>{card.detail}</p>
-        <dl>
-          <div>
-            <dt>当前金额</dt>
-            <dd>¥ {formatMoney(card.amount)}</dd>
-          </div>
-          <div>
-            <dt>趋势说明</dt>
-            <dd>{card.trend}</dd>
-          </div>
-        </dl>
-        <footer>
-          <Link to="/statistics/orderLedger">查看收支明细</Link>
-          <Link to="/statistics/totalLedger">查看收支汇总</Link>
-        </footer>
-      </section>
-    </div>
-  )
-}
-
 function RowDialog({ row, onClose }: { row: LedgerEntryRow; onClose: () => void }) {
   return (
     <div className="ledger-entry-dialog-layer">
       <section className="ledger-entry-dialog" role="dialog" aria-modal="true" aria-label="账本明细详情">
         <header>
           <strong>账本明细详情</strong>
-          <button type="button" aria-label="关闭明细详情" onClick={onClose}>
+          <button type="button" aria-label="关闭账本明细详情" onClick={onClose}>
             ×
           </button>
         </header>
@@ -590,65 +606,33 @@ function RowDialog({ row, onClose }: { row: LedgerEntryRow; onClose: () => void 
   )
 }
 
-function StoreDialog({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="ledger-entry-dialog-layer">
-      <section className="ledger-entry-dialog ledger-entry-store-dialog" role="dialog" aria-modal="true" aria-label="门店设置">
-        <header>
-          <strong>门店设置</strong>
-          <button type="button" aria-label="关闭门店设置" onClick={onClose}>
-            ×
-          </button>
-        </header>
-        <p>当前账本页沿用收支类报表的现有路由承接，门店切换与账本明细、收支汇总保持同一门店语境。</p>
-        <nav>
-          <Link to="/statistics/orderLedger">前往收支明细</Link>
-          <Link to="/statistics/totalLedger">前往收支汇总</Link>
-        </nav>
-      </section>
-    </div>
-  )
-}
-
 function shiftMonth(month: string, offset: number) {
-  const [year, monthNumber] = month.split('-').map(Number)
-  const shifted = new Date(year, monthNumber - 1 + offset, 1)
-  const nextYear = shifted.getFullYear()
-  const nextMonth = `${shifted.getMonth() + 1}`.padStart(2, '0')
-  return `${nextYear}-${nextMonth}`
+  const [year, monthIndex] = month.split('-').map(Number)
+  const nextDate = new Date(year, monthIndex - 1 + offset, 1)
+  return `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}`
 }
 
 function formatMonthLabel(month: string) {
-  const [year, monthNumber] = month.split('-')
-  return `${year}年${Number(monthNumber)}月`
+  const [year, monthValue] = month.split('-')
+  return `${year}年${Number(monthValue)}月`
 }
 
 function buildCalendarDays(month: string) {
-  const [yearText, monthText] = month.split('-')
-  const year = Number(yearText)
-  const monthNumber = Number(monthText)
-  const firstDay = new Date(year, monthNumber - 1, 1)
-  const firstWeekday = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1
-  const daysInMonth = new Date(year, monthNumber, 0).getDate()
-  const daysInPreviousMonth = new Date(year, monthNumber - 1, 0).getDate()
-  const cells = []
+  const [year, monthValue] = month.split('-').map(Number)
+  const firstDay = new Date(year, monthValue - 1, 1)
+  const startOffset = (firstDay.getDay() + 6) % 7
+  const gridStart = new Date(year, monthValue - 1, 1 - startOffset)
 
-  for (let index = 0; index < 42; index += 1) {
-    const dayOffset = index - firstWeekday + 1
-    const cellDate = new Date(year, monthNumber - 1, dayOffset)
-    const cellMonth = cellDate.getMonth() + 1
-    const isCurrentMonth = cellMonth === monthNumber
-    const label = isCurrentMonth
-      ? `${dayOffset}`
-      : index < firstWeekday
-        ? `${daysInPreviousMonth - firstWeekday + index + 1}`
-        : `${index - firstWeekday - daysInMonth + 1}`
-    cells.push({
-      date: `${cellDate.getFullYear()}-${`${cellMonth}`.padStart(2, '0')}-${`${cellDate.getDate()}`.padStart(2, '0')}`,
-      label,
-      isMuted: !isCurrentMonth,
-    })
-  }
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index)
+    return {
+      date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+      label: String(date.getDate()),
+      isMuted: date.getMonth() !== monthValue - 1,
+    }
+  })
+}
 
-  return cells
+function formatMoney(value: number) {
+  return value.toFixed(2)
 }

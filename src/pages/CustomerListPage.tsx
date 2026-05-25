@@ -424,12 +424,6 @@ export function CustomerListPage() {
       </section>
 
       <div className="customer-list-toolbar">
-        <button type="button" onClick={() => navigate('/customer/tag')}>
-          客户标签
-        </button>
-        <button type="button" onClick={() => navigate('/customer/addBatch')}>
-          批量加好友
-        </button>
         <button type="button" className="customer-list-export" onClick={handleExport} disabled={loading}>
           导出数据
         </button>

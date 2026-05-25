@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   fetchCalendarRoomProducts,
+  type CalendarRoomChannelBadge,
   type CalendarRoomProduct,
   type CalendarRoomQuery,
   type CalendarRoomRow,
@@ -137,7 +138,13 @@ function CalendarRoomListPage() {
     }
 
     if (action === '编辑') {
-      navigate(viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting')
+      const target = viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting'
+      const params = new URLSearchParams({
+        mode: 'edit',
+        channel: product.channel,
+        productName: product.name,
+      })
+      navigate(`${target}?${params.toString()}`)
       return
     }
 
@@ -342,6 +349,8 @@ function RoomRow({
   onNavigateRoomType: () => void
   onNavigatePrice: () => void
 }) {
+  const navigate = useNavigate()
+
   return (
     <article className="calendar-room-table__group">
       <div className="calendar-room-table__room-row">
@@ -353,9 +362,29 @@ function RoomRow({
         <div className="calendar-room-name">{room.name}</div>
         <div className="calendar-room-channels" aria-label={`${room.name}关联渠道`}>
           {room.channelBadges.map((channel, index) => (
-            <span key={`${room.id}-${channel}-${index}`} style={{ zIndex: room.channelBadges.length - index }}>
-              {channel}
-            </span>
+            <button
+              key={`${room.id}-${channel.id}-${index}`}
+              type="button"
+              className="calendar-room-channels__badge"
+              style={{ zIndex: room.channelBadges.length - index }}
+              onClick={() => navigate(channel.route)}
+              title={channel.name}
+              aria-label={`打开${channel.name}管理渠道页`}
+            >
+              <img
+                src={channel.iconUrl}
+                alt=""
+                loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.style.display = 'none'
+                  const fallback = event.currentTarget.nextElementSibling
+                  if (fallback instanceof HTMLElement) fallback.style.display = 'inline-grid'
+                }}
+              />
+              <span className="calendar-room-channels__fallback" aria-hidden="true">
+                {channel.shortLabel}
+              </span>
+            </button>
           ))}
         </div>
         <div>{room.products.length}</div>
@@ -528,8 +557,13 @@ function CalendarRoomDialog({
 }
 
 function CalendarRoomEditPage() {
+  const location = useLocation()
   const navigate = useNavigate()
-  const [activeChannel, setActiveChannel] = useState('微信小程序')
+  const editChannel = new URLSearchParams(location.search).get('channel') || ''
+  const editProductName = new URLSearchParams(location.search).get('productName') || ''
+  const isEditMode = new URLSearchParams(location.search).get('mode') === 'edit'
+  const initialChannel = EDIT_CHANNEL_TABS.includes(editChannel) ? editChannel : '微信小程序'
+  const [activeChannel, setActiveChannel] = useState(initialChannel)
   const [notice, setNotice] = useState('')
   const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false)
   const [roomKeyword, setRoomKeyword] = useState('')
@@ -590,7 +624,7 @@ function CalendarRoomEditPage() {
           日历房
         </button>
         <span>/</span>
-        <strong>新增产品</strong>
+        <strong>{isEditMode ? '编辑产品' : '新增产品'}</strong>
       </div>
       <div className="calendar-room-channel-tabs" role="tablist" aria-label="售卖渠道">
         {EDIT_CHANNEL_TABS.map((channel) => (
@@ -662,12 +696,17 @@ function CalendarRoomEditPage() {
                 className="calendar-room-product-name-inline__input"
                 aria-label="自定义部分"
                 placeholder="自定义部分（必填）"
+                defaultValue={editProductName}
               />
             </div>
           ) : (
-            <p className="calendar-room-readonly-text">
-              {showHourlyFields ? '系统自动生成，物理房型名称-入住时长-退改规则' : '系统自动生成，物理房型名称-早餐-退改规则'}
-            </p>
+            isEditMode ? (
+              <input className="calendar-room-edit-name-input" aria-label="售卖产品名称" defaultValue={editProductName} />
+            ) : (
+              <p className="calendar-room-readonly-text">
+                {showHourlyFields ? '系统自动生成，物理房型名称-入住时长-退改规则' : '系统自动生成，物理房型名称-早餐-退改规则'}
+              </p>
+            )
           )}
           <em>
             {showDouyinPresaleFields

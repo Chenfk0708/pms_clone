@@ -31,6 +31,8 @@ export type ExpendSettingOption = {
   name: string
 }
 
+export type ExpendSettingItemStatus = 'enabled' | 'disabled'
+
 export type ExpendSettingDashboard = {
   provider: ExpendSettingProviderName
   state: ExpendSettingMockState
@@ -52,6 +54,7 @@ export type CreateExpendSettingItemInput = {
   tab: ExpendSettingTab
   groupName: string
   name: string
+  status: ExpendSettingItemStatus
 }
 
 export type CreateExpendSettingItemResult = {
@@ -232,7 +235,7 @@ export async function createExpendSettingItem(
       isDefault: false,
       isCustom: true,
       isIncome: input.tab === 'income',
-      isEnabled: true,
+      isEnabled: input.status === 'enabled',
       bizType: 2,
       groupType: resolveGroupType(input.groupName),
       groupName: input.groupName,
@@ -260,6 +263,14 @@ function buildVisibleGroups(tab: ExpendSettingTab) {
   }))
 }
 
+function createEmptyGroups() {
+  return businessTypeOptions.map((group) => ({
+    id: `disabled-${group.id}`,
+    name: group.name,
+    items: [],
+  }))
+}
+
 function buildDashboardFromGroups(
   request: ExpendSettingQuery,
   groups: ExpendSettingGroup[],
@@ -281,7 +292,7 @@ function buildDashboardFromGroups(
     activeTab: request.tab,
     tabs: tabs.map((item) => ({ ...item })),
     groups,
-    disabledGroups: [],
+    disabledGroups: createEmptyGroups(),
     businessTypeOptions: businessTypeOptions.map((item) => ({ ...item })),
     paymentWayOptions: paymentWayOptions.map((item) => ({ ...item })),
     catalogPreview: [...catalogPreview],
@@ -338,7 +349,7 @@ async function loadApiDashboard(request: ExpendSettingQuery, signal?: AbortSigna
     activeTab: request.tab,
     tabs: tabs.map((item) => ({ ...item })),
     groups,
-    disabledGroups: [],
+    disabledGroups: createEmptyGroups(),
     businessTypeOptions: businessTypeOptions.map((item) => ({ ...item })),
     paymentWayOptions: paymentWaysEnvelope.data.paymentWays
       .filter((item) => item.isEnable === 1)

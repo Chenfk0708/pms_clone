@@ -10,7 +10,7 @@ import {
 import { OrderRefreshPopover } from './HouseStatusSharingPage'
 import './HouseMonthsPage.css'
 
-type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
+export type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
 type BatchMenu = 'dirty-clean' | 'open-close' | null
 
 export interface HoveredBooking {
@@ -25,6 +25,11 @@ export interface SelectedBooking {
   cell: MonthCell
   roomType: string
   roomLabel: string
+}
+
+interface FloatingAnchor {
+  left: number
+  top: number
 }
 
 type OrderDrawerTab = 'order' | 'channel' | 'log'
@@ -289,6 +294,173 @@ const batchConfig: Record<BatchMode, { title: string; enter: string; apply: stri
   open: { title: '批量开房', enter: '已进入批量开房模式', apply: '设为开放房', result: '开放房' },
 }
 
+function createBatchDialogInitialState(mode: BatchMode) {
+  return {
+    roomText: '',
+    dateStart: '',
+    dateEnd: '',
+    channel: 'all',
+    closeType: 'disabled',
+    remark: '',
+    mode,
+  }
+}
+
+type BatchDialogState = ReturnType<typeof createBatchDialogInitialState>
+
+export function BatchOperationDialog({
+  mode,
+  state,
+  onChange,
+  onClose,
+  onConfirm,
+}: {
+  mode: BatchMode
+  state: BatchDialogState
+  onChange: (patch: Partial<BatchDialogState>) => void
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  const isDirtyLike = mode === 'dirty' || mode === 'clean'
+  const isClose = mode === 'close'
+  const isOpen = mode === 'open'
+  const title = batchConfig[mode].title
+
+  return (
+    <div className="month-order-dialog-scrim month-batch-dialog-scrim" role="presentation" onClick={onClose}>
+      <section
+        className={`month-order-dialog month-order-dialog--medium month-batch-dialog${isClose || isOpen ? ' month-batch-dialog--wide' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="month-order-dialog__header month-batch-dialog__header">
+          <strong>{title}</strong>
+          <button type="button" aria-label={`关闭${title}`} onClick={onClose}>
+            {'\u00d7'}
+          </button>
+        </header>
+        <div className="month-order-dialog__body month-batch-dialog__body">
+          <div className="month-batch-dialog__field">
+            <span>{'\u623f\u95f4:'}</span>
+            <div className="month-batch-dialog__room-picker">
+              <input
+                className="month-order-dialog__input"
+                aria-label={'\u6279\u91cf\u623f\u95f4'}
+                placeholder={'\u8bf7\u6dfb\u52a0\u623f\u95f4'}
+                value={state.roomText}
+                onChange={(event) => onChange({ roomText: event.target.value })}
+              />
+              <button type="button" className="month-batch-dialog__link" onClick={() => onChange({ roomText: '\u623f\u95f41' })}>
+                {'+\u6dfb\u52a0'}
+              </button>
+            </div>
+          </div>
+
+          {isDirtyLike ? null : (
+            <>
+              <div className="month-batch-dialog__field">
+                <span>{'\u65e5\u671f:'}</span>
+                <div className="month-batch-dialog__date-range">
+                  <input
+                    className="month-order-dialog__input"
+                    aria-label={'\u5f00\u59cb\u65e5\u671f'}
+                    type="date"
+                    value={state.dateStart}
+                    onChange={(event) => onChange({ dateStart: event.target.value })}
+                  />
+                  <em>{'→'}</em>
+                  <input
+                    className="month-order-dialog__input"
+                    aria-label={'\u7ed3\u675f\u65e5\u671f'}
+                    type="date"
+                    value={state.dateEnd}
+                    onChange={(event) => onChange({ dateEnd: event.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="month-batch-dialog__field">
+                <span>{'\u6e20\u9053:'}</span>
+                <select
+                  className="month-order-dialog__select month-batch-dialog__select"
+                  aria-label={'\u5168\u90e8\u6e20\u9053'}
+                  value={state.channel}
+                  onChange={(event) => onChange({ channel: event.target.value })}
+                >
+                  <option value="all">{'\u5168\u90e8\u6e20\u9053'}</option>
+                  <option value="ctrip">{'\u643a\u7a0b'}</option>
+                  <option value="meituan-hotel">{'\u7f8e\u56e2\u9152\u5e97'}</option>
+                  <option value="feizhu-hotel">{'\u98de\u732a\u6dd8\u9152\u5e97'}</option>
+                  <option value="meituan-homestay">{'\u7f8e\u56e2\u6c11\u5bbf'}</option>
+                  <option value="tujia">{'\u9014\u5bb6'}</option>
+                  <option value="muniao">{'\u6728\u9e1f'}</option>
+                  <option value="xiaozhu">{'\u5c0f\u732a'}</option>
+                  <option value="locals">{'\u8def\u5ba2\u4e91\u805a\u5408'}</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          {isClose ? (
+            <>
+              <div className="month-batch-dialog__field month-batch-dialog__field--radios">
+                <span>{'\u5173\u623f\u7c7b\u578b:'}</span>
+                <div className="month-order-dialog__radio-group month-batch-dialog__radio-group">
+                  <label>
+                    <input type="radio" name="batch-close-type" checked={state.closeType === 'disabled'} onChange={() => onChange({ closeType: 'disabled' })} />
+                    <span>{'\u505c\u7528\u623f'}</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="batch-close-type" checked={state.closeType === 'repair'} onChange={() => onChange({ closeType: 'repair' })} />
+                    <span>{'\u7ef4\u4fee\u623f'}</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="batch-close-type" checked={state.closeType === 'reserved'} onChange={() => onChange({ closeType: 'reserved' })} />
+                    <span>{'\u4fdd\u7559\u623f'}</span>
+                  </label>
+                </div>
+              </div>
+              <div className="month-batch-dialog__field month-batch-dialog__field--textarea">
+                <span>{'\u5907\u6ce8:'}</span>
+                <label className="month-batch-dialog__textarea-wrap">
+                  <textarea
+                    className="month-order-dialog__textarea"
+                    aria-label={'\u8bf7\u8f93\u5165\u5907\u6ce8'}
+                    maxLength={200}
+                    placeholder={'\u8bf7\u8f93\u5165\u5907\u6ce8'}
+                    value={state.remark}
+                    onChange={(event) => onChange({ remark: event.target.value })}
+                  />
+                  <b>{state.remark.length} / 200</b>
+                </label>
+              </div>
+              <p className="month-batch-dialog__hint">
+                {'\u6b64\u7c7b\u578b\u5173\u623f\u4ecd\u8bb0\u4e3a\u53ef\u552e\u8ba1\u5165\u5165\u4f4f\u7387\uff0c'}
+                <button type="button">{'\u53ef\u524d\u5f80\u8bbe\u7f6e'}</button>
+              </p>
+            </>
+          ) : null}
+
+          {isOpen ? (
+            <p className="month-batch-dialog__hint month-batch-dialog__hint--inline">
+              {'\u6b64\u7c7b\u578b\u5173\u623f\u4ecd\u8bb0\u4e3a\u53ef\u552e\u8ba1\u5165\u5165\u4f4f\u7387\uff0c\u53ef\u524d\u5f80\u8bbe\u7f6e'}
+            </p>
+          ) : null}
+        </div>
+        <footer className="month-order-dialog__footer month-batch-dialog__footer">
+          <button type="button" onClick={onClose}>
+            {'\u53d6\u6d88'}
+          </button>
+          <button type="button" className="is-primary" onClick={onConfirm}>
+            {'\u786e\u5b9a'}
+          </button>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
 export function HouseMonthsPage() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -306,10 +478,12 @@ export function HouseMonthsPage() {
   const [query, setQuery] = useState('')
   const [roomType, setRoomType] = useState('')
   const [batchMenu, setBatchMenu] = useState<BatchMenu>(null)
+  const [batchDialogMode, setBatchDialogMode] = useState<BatchMode | null>(null)
+  const [batchDialogState, setBatchDialogState] = useState<BatchDialogState>(() => createBatchDialogInitialState('dirty'))
   const [filterMenu, setFilterMenu] = useState<'room' | 'tag' | null>(null)
-  const [batchMode, setBatchMode] = useState<BatchMode | null>(null)
   const [batchResult, setBatchResult] = useState<BatchMode | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [selectionAnchor, setSelectionAnchor] = useState<FloatingAnchor | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
   const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -409,6 +583,8 @@ export function HouseMonthsPage() {
       setBatchMenu(null)
       setDatePickerOpen(false)
       setSelectedBooking(null)
+      setBatchDialogMode(null)
+      setSelectionAnchor(null)
     }
 
     const closeByPointer = (event: MouseEvent) => {
@@ -437,6 +613,8 @@ export function HouseMonthsPage() {
     const keyword = query.trim()
 
     return roomGroups.filter((group) => {
+      if (activeChip !== 'all' && group.storeId !== activeChip) return false
+
       const searchable = [
         group.label,
         group.roomLabel,
@@ -448,7 +626,7 @@ export function HouseMonthsPage() {
       if (roomType && group.label !== roomType) return false
       return true
     })
-  }, [query, roomGroups, roomType])
+  }, [activeChip, query, roomGroups, roomType])
 
   const setDateFromPicker = (date: Date) => {
     const nextDate = toLocalDate(date)
@@ -468,18 +646,17 @@ export function HouseMonthsPage() {
   }
 
   const startBatch = (mode: BatchMode) => {
-    setBatchMode(mode)
     setBatchMenu(null)
     setBatchResult(null)
-    setSelectedKeys([])
-    setToastMessage(batchConfig[mode].enter)
+    setBatchDialogState(createBatchDialogInitialState(mode))
+    setBatchDialogMode(mode)
   }
 
-  const applyBatch = () => {
-    const mode = batchMode ?? 'dirty'
-    setBatchMode(null)
+  const applyBatch = (mode: BatchMode) => {
+    setBatchDialogMode(null)
     setBatchResult(mode)
     setSelectedKeys([])
+    setSelectionAnchor(null)
     setToastMessage(`${batchConfig[mode].title}已完成：已设为${batchConfig[mode].result}`)
   }
 
@@ -491,6 +668,11 @@ export function HouseMonthsPage() {
     setSelectedKeys((current) => (current.includes(key) ? current.filter((item) => item !== key) : [...current, key]))
   }
 
+  const clearSelectedCells = () => {
+    setSelectedKeys([])
+    setSelectionAnchor(null)
+  }
+
   const clearFilters = () => {
     setQuery('')
     setRoomType('')
@@ -498,8 +680,8 @@ export function HouseMonthsPage() {
   }
 
   const storeOptions = [
-    { id: 'all', name: '????' },
-    { id: 'poi-1796067693589061634', name: '??????(??????????)' },
+    { id: 'all', name: '\u5168\u90e8\u95e8\u5e97' },
+    { id: 'poi-1796067693589061634', name: '\u5929\u843d\u4f1a\u5bbf\u516c\u5bd3(\u524d\u6d77\u58f9\u65b9\u57ce\u5b9d\u5b89\u4e2d\u5fc3\u5e97)' },
   ]
 
   const handleStoreSwitch = (storeId: string) => {
@@ -511,7 +693,11 @@ export function HouseMonthsPage() {
       window.localStorage.setItem('pms.currentCampId', nextCampId)
       resolvedCampIdRef.current = nextCampId
     }
-    setToastMessage(storeId === 'all' ? '????????' : `????${nextStore?.name ?? '????'}`)
+    setToastMessage(
+      storeId === 'all'
+        ? '\u5df2\u5207\u6362\u5230\u5168\u90e8\u95e8\u5e97'
+        : `\u5df2\u5207\u6362\u5230${nextStore?.name ?? '\u5f53\u524d\u95e8\u5e97'}`,
+    )
   }
 
   const clearRoomTypeFilter = () => {
@@ -533,6 +719,17 @@ export function HouseMonthsPage() {
       roomType: row.label,
       roomLabel: row.roomLabel,
     })
+  }
+
+  const isSelectableCell = (cell: MonthCell) => cell.tone === 'blank'
+  const updateSelectionAnchor = (rect: DOMRect) => {
+    const panelWidth = 112
+    const left = Math.min(
+      window.innerWidth - panelWidth - 12,
+      Math.max(12, Math.round(rect.left + rect.width / 2 - panelWidth / 2)),
+    )
+    const top = Math.min(window.innerHeight - 120, Math.round(rect.bottom + 8))
+    setSelectionAnchor({ left, top })
   }
 
   return (
@@ -779,18 +976,6 @@ export function HouseMonthsPage() {
           </div>
         ) : null}
 
-        {batchMode ? (
-          <div className="month-batch-toolbar" role="toolbar" aria-label="批量操作">
-            <strong>{batchConfig[batchMode].title}</strong>
-            <span>已选 {selectedKeys.length} 间夜</span>
-            <button type="button" disabled={selectedKeys.length === 0} onClick={applyBatch}>
-              {batchConfig[batchMode].apply}
-            </button>
-            <button type="button" onClick={() => setBatchMode(null)}>
-              取消
-            </button>
-          </div>
-        ) : null}
       </section>
 
       <section ref={monthBoardRef} className="timeline-board month-board" aria-label="月房态日历矩阵" data-testid="month-grid">
@@ -912,21 +1097,24 @@ export function HouseMonthsPage() {
                 {row.roomCells.map((cell, cellIndex) => {
                   const key = `${rowIndex}-${cellIndex}`
                   const selected = selectedKeys.includes(key)
+                  const selectable = isSelectableCell(cell)
 
                   return (
                     <button
                       key={key}
                       type="button"
-                      data-testid={batchMode ? 'month-selectable-cell' : undefined}
-                      aria-selected={batchMode ? selected : undefined}
-                      className={`month-cell tone-${cell.tone}${selected ? ' is-selected' : ''}`}
+                      data-testid={selectable ? 'month-selectable-cell' : undefined}
+                      aria-selected={selectable ? selected : undefined}
+                      data-selectable={selectable ? 'true' : undefined}
+                      className={`month-cell tone-${cell.tone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`}
                       onMouseEnter={(event) => {
                         if (cell.tone.startsWith('booking')) showBookingPopover(event, cell, row)
                       }}
                       onMouseLeave={() => setHoveredBooking(null)}
-                      onClick={() => {
-                        if (batchMode) {
+                      onClick={(event) => {
+                        if (selectable) {
                           toggleKey(key)
+                          updateSelectionAnchor(event.currentTarget.getBoundingClientRect())
                           return
                         }
                         if (cell.tone.startsWith('booking')) openOrderDrawer(cell, row)
@@ -936,6 +1124,7 @@ export function HouseMonthsPage() {
                       {cell.subtitle ? <span>{cell.subtitle}</span> : null}
                       {cell.amount ? <em>{cell.amount}</em> : null}
                       {cell.badge ? <b>{cell.badge}</b> : null}
+                      {selected ? <i className="month-cell__check" aria-hidden="true">✓</i> : null}
                     </button>
                   )
                 })}
@@ -944,6 +1133,41 @@ export function HouseMonthsPage() {
           </div>
         ))}
       </section>
+
+      {selectedKeys.length > 0 && selectionAnchor ? (
+        <div className="month-selection-actions" role="menu" aria-label="房态操作菜单" style={{ left: selectionAnchor.left, top: selectionAnchor.top }}>
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              clearSelectedCells()
+              showActionResult('\u5f55\u5355')
+            }}
+          >
+            {'\u5f55\u5355'}
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              setBatchDialogState(createBatchDialogInitialState('close'))
+              setBatchDialogMode('close')
+            }}
+          >
+            {'\u5173\u623f'}
+          </button>
+        </div>
+      ) : null}
+
+      {batchDialogMode ? (
+        <BatchOperationDialog
+          mode={batchDialogMode}
+          state={batchDialogState}
+          onChange={(patch) => setBatchDialogState((current) => ({ ...current, ...patch }))}
+          onClose={() => setBatchDialogMode(null)}
+          onConfirm={() => applyBatch(batchDialogMode)}
+        />
+      ) : null}
 
       {selectedBooking ? (
         <MonthOrderDrawer selectedBooking={selectedBooking} onClose={() => setSelectedBooking(null)} onAction={showActionResult} />

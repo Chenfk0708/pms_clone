@@ -49,6 +49,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const isRoomSituation = path === '/statistics/roomSituation'
   const isCleanStatistics = path === '/cleanManage/cleanStatistics'
   const isInformationSettingPath = path === '/setting/customChannel'
+  const isNotificationStandalonePath = path === '/setting/notification'
   const usesFlushContent = isRoomSituation || isCleanStatistics || isInformationSettingPath
   const usesSrOnlyHeading = isRoomSituation || isCleanStatistics
   const showDefaultPageHeader = false
@@ -63,7 +64,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const isSystemSettingPath =
     isInformationMaintenancePath ||
     isInformationSettingPath ||
-    (path.startsWith('/setting/') && !isProductSettingPath) ||
+    (path.startsWith('/setting/') && !isProductSettingPath && !isNotificationStandalonePath) ||
     isCompanySettingPath
   const isSalesTopNav =
     isProductSettingPath ||
@@ -79,7 +80,11 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const isPsbSmartHotelPath = path.startsWith('/psb/')
   const isSmartHotelTopNav = path.startsWith('/smartHotel/') || isPsbSmartHotelPath
   const isOrderTopNav = path.startsWith('/order/') || isOrderMallPath
-  const sideGroups = path.startsWith('/channels/globalRadar/')
+  const isScrmSidebarFullscreenPath = path === '/scrm/sidebarPreview' || path === '/scrm/sidebar/preview'
+  const showChatDock = !isNotificationStandalonePath && !isScrmSidebarFullscreenPath
+  const sideGroups = isNotificationStandalonePath || isScrmSidebarFullscreenPath
+    ? []
+    : path.startsWith('/channels/globalRadar/')
     ? globalRadarSideNav
     : path.startsWith('/channels/distribution/')
     ? distributionSideNav
@@ -100,6 +105,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
     setOpenTopbarPanel(null)
 
     if (tool === 'message') {
+      navigate('/scrm/sidebarPreview')
       return
     }
 
@@ -165,6 +171,10 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
     }))
   }
 
+  if (isScrmSidebarFullscreenPath) {
+    return <div className="app-shell app-shell--conversation-fullscreen">{children}</div>
+  }
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -187,7 +197,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
                   (isHouseTopNav && item.path === '/houseManage/months') ||
                   (isOrderTopNav && item.path === '/order/house-order/list') ||
                   (isSalesTopNav && item.path === '/setting/localRoomTypeProductionSetting') ||
-                  (isSystemSettingPath && item.path === '/InformationMaintenance/informationOverview') ||
+                  (!isNotificationStandalonePath && isSystemSettingPath && item.path === '/InformationMaintenance/informationOverview') ||
                   (isScrmTopNav && item.path === '/scrm/general') ||
                   (isGlobalRadarTopNav && item.path === '/channels/globalRadar/globalData') ||
                   (isDistributionTopNav && item.path === '/channels/distribution/distributionSecond') ||
@@ -316,7 +326,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           {children}
         </main>
       </div>
-      <ChatDock />
+      {showChatDock ? <ChatDock /> : null}
       {openTopbarPanel === 'payment' ? <TopbarPaymentDialog onClose={() => setOpenTopbarPanel(null)} /> : null}
       {openTopbarPanel === 'service' ? <TopbarServicePanel onClose={() => setOpenTopbarPanel(null)} /> : null}
     </div>

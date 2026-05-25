@@ -89,7 +89,7 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
     })
 
     loadNotificationSettingViewModel(requestQuery, abort.signal)
-      .then((data: NotificationSettingViewModel) => {
+      .then((data) => {
         setState({
           kind: 'ready',
           data,
@@ -108,7 +108,7 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
           message,
           contract: toErrorContract(error, requestQuery),
         })
-        setFeedback(message === '通知设置加载失败，请稍后重试' ? '通知设置进入错误态，请点击重新加载通知设置。' : message)
+        setFeedback(message)
       })
 
     return () => abort.abort()
@@ -156,7 +156,7 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
   }
 
   return (
-    <div className="notification-setting-page">
+    <div className="notification-page">
       <pre
         hidden
         data-testid="notification-setting-service-contract"
@@ -167,85 +167,67 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
         {contractJson}
       </pre>
 
-      <section className="notification-setting-card" aria-label="通知设置">
-        <div className="notification-feedback" role="status" aria-label="通知设置操作反馈">
+      <section className="notification-page__surface" aria-label="通知设置">
+        <div className="notification-page__status" role="status" aria-label="通知设置操作反馈">
           {feedback}
         </div>
 
-        <header className="notification-follow">
-          <div className="notification-qr">
-            <div role="img" aria-label={readyData?.qrCode.alt ?? '路客云微信公众号二维码'}>
-              <img src={readyData?.qrCode.imageDataUrl} alt={readyData?.qrCode.alt ?? '路客云微信公众号二维码'} />
+        <header className="notification-page__hero">
+          <div className="notification-page__intro">
+            <div className="notification-page__qr-panel">
+              <div className="notification-page__qr" role="img" aria-label={readyData?.qrCode.alt ?? '路客云微信公众号二维码'}>
+                <img src={readyData?.qrCode.imageDataUrl} alt={readyData?.qrCode.alt ?? '路客云微信公众号二维码'} />
+              </div>
+
+              <div className="notification-page__qr-actions">
+                <button
+                  type="button"
+                  className="notification-page__text-button"
+                  aria-label="我已关注？"
+                  disabled={busyKey === 'follow'}
+                  onClick={() =>
+                    void runMutation('follow', () =>
+                      markNotificationAccountFollowed({ ...requestQuery, mockState: 'success' }),
+                    )
+                  }
+                >
+                  我已关注？
+                </button>
+                <button
+                  type="button"
+                  className="notification-page__text-button"
+                  aria-label="刷新一下"
+                  disabled={busyKey === 'refresh'}
+                  onClick={() =>
+                    void runMutation('refresh', () =>
+                      refreshNotificationFollowStatus({ ...requestQuery, mockState: 'success' }),
+                    )
+                  }
+                >
+                  刷新一下
+                </button>
+              </div>
+            </div>
+
+            <div className="notification-page__hero-copy">
+              <strong>
+                {readyData?.intro.title ?? '扫码关注公众号【路客云】，快速通过微信推送订单、房态'}
+              </strong>
+              <button
+                type="button"
+                className="notification-page__link-button"
+                aria-label="查看接受微信通知公众号"
+                onClick={() => setDialogOpen(true)}
+              >
+                {readyData?.intro.detailButtonText ?? '查看接受微信通知公众号'}
+              </button>
             </div>
           </div>
 
-          <div className="notification-follow__content">
-            <strong>{readyData?.intro.title ?? '扫码关注公众号【路客云】，快速通过微信推送订单、房态与门店经营动态。'}</strong>
-            <button type="button" className="notification-link" aria-label="查看接受微信通知公众号" onClick={() => setDialogOpen(true)}>
-              {readyData?.intro.detailButtonText ?? '查看接受微信通知公众号'}
-            </button>
-          </div>
-        </header>
-
-        <div className="notification-toolbar">
-          <button
-            type="button"
-            className="notification-inline-button"
-            aria-label="我已关注？"
-            disabled={busyKey === 'follow'}
-            onClick={() =>
-              void runMutation('follow', () => markNotificationAccountFollowed({ ...requestQuery, mockState: 'success' }))
-            }
-          >
-            我已关注？
-          </button>
-          <button
-            type="button"
-            className="notification-inline-button"
-            aria-label="刷新一下"
-            disabled={busyKey === 'refresh'}
-            onClick={() =>
-              void runMutation('refresh', () => refreshNotificationFollowStatus({ ...requestQuery, mockState: 'success' }))
-            }
-          >
-            刷新一下
-          </button>
-        </div>
-
-        {state.kind === 'error' ? (
-          <section className="notification-state-card notification-state-card--error" role="alert" aria-label="通知设置加载失败">
-            <h2>通知设置加载失败，请稍后重试</h2>
-            <p>当前无法同步渠道权限与公众号状态，请点击“重新加载通知设置”重试。</p>
-            <button type="button" className="notification-primary-button" onClick={handleRetry}>
-              重新加载通知设置
-            </button>
-          </section>
-        ) : null}
-
-        {state.kind === 'loading' ? (
-          <section className="notification-state-card" aria-live="polite" aria-label="通知设置加载中">
-            <h2>通知设置加载中</h2>
-            <p>正在同步渠道权限、公众号关注状态和通知开关，请稍候。</p>
-          </section>
-        ) : null}
-
-        {readyData && readyData.state === 'empty' ? (
-          <section className="notification-state-card notification-state-card--empty" aria-label="通知设置空状态">
-            <h2>当前暂无可配置的通知项</h2>
-            <p>通知模板尚未初始化，页面保留关注与刷新能力，待服务开通后可继续配置。</p>
-          </section>
-        ) : null}
-
-        {readyData && readyData.state === 'success' ? (
-          <div className="notification-grid" role="table" aria-label="通知设置表">
-            <div className="notification-grid__head" role="row">
-              <div role="columnheader" />
-              {readyData.channels.map((channel: NotificationSettingViewModel['channels'][number]) => (
-                <div className="notification-grid__column" role="columnheader" key={channel.key}>
-                  <div className="notification-grid__column-text">
-                    <span>{channel.title}</span>
-                    {channel.subtitle ? <small>{channel.subtitle}</small> : null}
-                  </div>
+          {readyData && readyData.state === 'success' ? (
+            <div className="notification-page__channel-heads" role="presentation">
+              {readyData.channels.map((channel) => (
+                <div className="notification-page__channel-head" key={channel.key}>
                   <NotificationSwitch
                     checked={channel.enabled}
                     disabled={busyKey === `channel-${channel.key}`}
@@ -260,18 +242,50 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
                       )
                     }
                   />
+                  <div className="notification-page__channel-head-copy">
+                    {channel.key === 'wechat' ? null : <span>{channel.title}</span>}
+                    {channel.subtitle ? <small>{channel.subtitle}</small> : null}
+                  </div>
                 </div>
               ))}
             </div>
+          ) : null}
+        </header>
 
-            {readyData.items.map((item: NotificationSettingViewModel['items'][number]) => (
-              <div className="notification-row" role="row" key={item.key}>
-                <div className="notification-row__copy" role="cell">
+        {state.kind === 'error' ? (
+          <section className="notification-page__state notification-page__state--error" role="alert" aria-label="通知设置加载失败">
+            <h2>通知设置加载失败，请稍后重试</h2>
+            <p>当前无法同步渠道权限与公众号状态，请重新加载通知设置。</p>
+            <button type="button" className="notification-page__primary-button" onClick={handleRetry}>
+              重新加载通知设置
+            </button>
+          </section>
+        ) : null}
+
+        {state.kind === 'loading' ? (
+          <section className="notification-page__state" aria-live="polite" aria-label="通知设置加载中">
+            <h2>通知设置加载中</h2>
+            <p>正在同步公众号状态、通知渠道和开关配置，请稍候。</p>
+          </section>
+        ) : null}
+
+        {readyData && readyData.state === 'empty' ? (
+          <section className="notification-page__state notification-page__state--empty" aria-label="通知设置空状态">
+            <h2>当前暂无可配置的通知项</h2>
+            <p>通知模板尚未初始化，稍后开通后即可继续配置推送渠道。</p>
+          </section>
+        ) : null}
+
+        {readyData && readyData.state === 'success' ? (
+          <section className="notification-page__table" role="table" aria-label="通知设置表">
+            {readyData.items.map((item) => (
+              <div className="notification-page__row" role="row" key={item.key}>
+                <div className="notification-page__row-copy" role="cell">
                   <strong>{item.title}</strong>
                   <p>{item.description}</p>
                 </div>
 
-                <div className="notification-row__switch" role="cell">
+                <div className="notification-page__row-switch" role="cell">
                   {item.toggles.pcApp !== undefined ? (
                     <NotificationSwitch
                       checked={item.toggles.pcApp}
@@ -282,11 +296,11 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
                       }
                     />
                   ) : (
-                    <span className="notification-placeholder">-</span>
+                    <span className="notification-page__placeholder">-</span>
                   )}
                 </div>
 
-                <div className="notification-row__switch" role="cell">
+                <div className="notification-page__row-switch" role="cell">
                   {item.toggles.wechat !== undefined ? (
                     <NotificationSwitch
                       checked={item.toggles.wechat}
@@ -297,38 +311,38 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
                       }
                     />
                   ) : (
-                    <span className="notification-placeholder">-</span>
+                    <span className="notification-page__placeholder">-</span>
                   )}
                 </div>
               </div>
             ))}
-          </div>
+          </section>
         ) : null}
       </section>
 
       {dialogOpen ? (
-        <div className="notification-dialog-backdrop" role="presentation" onClick={() => setDialogOpen(false)}>
+        <div className="notification-page__dialog-backdrop" role="presentation" onClick={() => setDialogOpen(false)}>
           <section
-            className="notification-dialog"
+            className="notification-page__dialog"
             role="dialog"
             aria-modal="true"
             aria-label="接受微信通知公众号"
             onClick={(event) => event.stopPropagation()}
           >
-            <header className="notification-dialog__header">
+            <header className="notification-page__dialog-header">
               <h2>接受微信通知公众号</h2>
               <button type="button" aria-label="关闭公众号详情" onClick={() => setDialogOpen(false)}>
                 ×
               </button>
             </header>
 
-            <p className="notification-dialog__hint">
+            <p className="notification-page__dialog-hint">
               {readyData?.followSummary.hint ?? '当前暂无已关注公众号，请扫码关注后刷新状态。'}
             </p>
 
             {readyData?.followSummary.accounts.length ? (
-              <ul className="notification-account-list">
-                {readyData.followSummary.accounts.map((account: NotificationSettingViewModel['followSummary']['accounts'][number]) => (
+              <ul className="notification-page__account-list">
+                {readyData.followSummary.accounts.map((account) => (
                   <li key={account.accountId}>
                     <strong>{account.accountName}</strong>
                     <span>{account.receivedAt}</span>
@@ -336,7 +350,7 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
                 ))}
               </ul>
             ) : (
-              <div className="notification-account-empty">暂无已绑定公众号记录，请扫码关注后刷新。</div>
+              <div className="notification-page__account-empty">暂无已绑定公众号记录，请扫码关注后刷新。</div>
             )}
           </section>
         </div>
@@ -359,7 +373,7 @@ function NotificationSwitch({
   return (
     <button
       type="button"
-      className={`notification-toggle${checked ? ' is-on' : ''}`}
+      className={`notification-switch${checked ? ' is-on' : ''}`}
       role="switch"
       aria-checked={checked}
       aria-label={label}

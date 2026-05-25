@@ -105,6 +105,10 @@ export function ShiftRecordPage() {
         {serviceContract}
       </div>
 
+      <div className="sr-only-heading" role="status">
+        {feedback}
+      </div>
+      {/*
       <header className="shift-record-header">
         <div>
           <h2>交接班记录</h2>
@@ -114,6 +118,7 @@ export function ShiftRecordPage() {
           {feedback}
         </div>
       </header>
+      */}
 
       <form className="shift-record-query" aria-label="交接班筛选" onSubmit={handleSubmit}>
         <label>

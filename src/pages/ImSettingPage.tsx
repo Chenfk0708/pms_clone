@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import {
   fetchImSettingView,
   resolveImSettingProvider,
@@ -29,9 +29,89 @@ type Feedback = {
   text: string
 }
 
+type PhraseEditorDraft = {
+  title: string
+  groupId: string
+  content: string
+}
+
+type AutoReplyPanelKey = 'welcome' | 'timeout' | 'task'
+
+type AutoReplyTaskRow = {
+  id: string
+  name: string
+  scene: string
+  timing: string
+  content: string
+  enabled: boolean
+}
+
+type AutoReplyTaskDraft = {
+  scene: string
+  name: string
+  minutes: string
+  content: string
+}
+
+type PageSettingState = {
+  timeoutReplyEnabled: boolean
+  timeoutReplyMinutes: string
+  severeTimeoutReplyEnabled: boolean
+  severeTimeoutReplyMinutes: string
+  firstReplyReminderEnabled: boolean
+  highConversionEnabled: boolean
+  highConversionCount: string
+  soundNotifyEnabled: boolean
+  volume: number
+}
+
+type CustomerTagRow = {
+  id: string
+  type: string
+  contents: string[]
+  enabled: boolean
+}
+
+type VersionOption = 'basic' | 'upgrade'
+
+const autoReplyPanels: Array<{ key: AutoReplyPanelKey; label: string }> = [
+  { key: 'welcome', label: '欢迎语' },
+  { key: 'timeout', label: '超时提醒' },
+  { key: 'task', label: '任务提醒' },
+]
+
+const autoReplySceneOptions = ['全部任务场景', '【催单】咨询未下单', '【催付】预订待支付', '【回访】入住后关怀']
+
+const defaultAutoReplyTaskDraft: AutoReplyTaskDraft = {
+  scene: '【催单】咨询未下单',
+  name: '',
+  minutes: '5',
+  content: '您好，还有什么可以帮助的？我们非常愿意详尽解答，期待您入住',
+}
+
+const defaultPageSettings: PageSettingState = {
+  timeoutReplyEnabled: false,
+  timeoutReplyMinutes: '3',
+  severeTimeoutReplyEnabled: false,
+  severeTimeoutReplyMinutes: '6',
+  firstReplyReminderEnabled: true,
+  highConversionEnabled: false,
+  highConversionCount: '6',
+  soundNotifyEnabled: false,
+  volume: 100,
+}
+
+const defaultCustomerTags: CustomerTagRow[] = [
+  {
+    id: 'customer-tag-1',
+    type: '客户标签',
+    contents: [],
+    enabled: true,
+  },
+]
+
 export function ImSettingPage() {
   const location = useLocation()
-  const navigate = useNavigate()
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
   const campId = searchParams.get('campId') || defaultCampId
   const userId = searchParams.get('userId') || defaultUserId
@@ -44,9 +124,27 @@ export function ImSettingPage() {
   const [keyword, setKeyword] = useState('')
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null)
   const [selectedPhrase, setSelectedPhrase] = useState<ImPhraseItem | null>(null)
+  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false)
+  const [newCategoryName, setNewCategoryName] = useState('')
   const [isPhraseEditorOpen, setIsPhraseEditorOpen] = useState(false)
-  const [newPhraseTitle, setNewPhraseTitle] = useState('')
-  const [newPhraseContent, setNewPhraseContent] = useState('')
+  const [activeAutoReplyPanel, setActiveAutoReplyPanel] = useState<AutoReplyPanelKey>('welcome')
+  const [autoReplyTaskKeyword, setAutoReplyTaskKeyword] = useState('')
+  const [autoReplyTaskSceneFilter, setAutoReplyTaskSceneFilter] = useState('全部任务场景')
+  const [autoReplyTasks, setAutoReplyTasks] = useState<AutoReplyTaskRow[]>([])
+  const [isAutoReplyTaskDialogOpen, setIsAutoReplyTaskDialogOpen] = useState(false)
+  const [autoReplyTaskDraft, setAutoReplyTaskDraft] = useState<AutoReplyTaskDraft>(defaultAutoReplyTaskDraft)
+  const [pageSettings, setPageSettings] = useState<PageSettingState>(defaultPageSettings)
+  const [tagKeyword, setTagKeyword] = useState('')
+  const [customerTags, setCustomerTags] = useState<CustomerTagRow[]>(defaultCustomerTags)
+  const [isTagEditorOpen, setIsTagEditorOpen] = useState(false)
+  const [editingTagId, setEditingTagId] = useState<string | null>(null)
+  const [tagEditorContents, setTagEditorContents] = useState<string[]>([''])
+  const [selectedVersion, setSelectedVersion] = useState<VersionOption>('basic')
+  const [phraseDraft, setPhraseDraft] = useState<PhraseEditorDraft>({
+    title: '',
+    groupId: '',
+    content: '',
+  })
   const [shortcutDraft, setShortcutDraft] = useState<ImShortcutItem[]>([])
   const [phraseActionsVisible, setPhraseActionsVisible] = useState(false)
 
@@ -139,19 +237,45 @@ export function ImSettingPage() {
     await loadView()
   }
 
+  function handleOpenCategoryDialog() {
+    setNewCategoryName('')
+    setIsCategoryDialogOpen(true)
+  }
+
+  function handleSaveCategory() {
+    const nextName = newCategoryName.trim()
+    if (!nextName) return
+
+    const nextGroupId = `group-${Date.now()}`
+    setView((current) =>
+      current
+        ? {
+            ...current,
+            phraseGroups: [{ id: nextGroupId, name: nextName, count: 0 }, ...current.phraseGroups],
+          }
+        : current,
+    )
+    setSelectedGroupId(nextGroupId)
+    setIsCategoryDialogOpen(false)
+    setFeedback({ tone: 'success', text: '分类已创建' })
+  }
+
   function handleOpenPhraseEditor() {
-    setNewPhraseTitle('')
-    setNewPhraseContent('')
+    setPhraseDraft({
+      title: '',
+      groupId: selectedGroupId ?? view?.phraseGroups[0]?.id ?? '',
+      content: '',
+    })
     setIsPhraseEditorOpen(true)
   }
 
   function handleSavePhrase() {
-    if (!newPhraseTitle.trim() || !newPhraseContent.trim()) return
-    const group = view?.phraseGroups.find((item) => item.id === selectedGroupId) ?? view?.phraseGroups[0]
+    if (!phraseDraft.title.trim() || !phraseDraft.groupId || !phraseDraft.content.trim()) return
+    const group = view?.phraseGroups.find((item) => item.id === phraseDraft.groupId) ?? view?.phraseGroups[0]
     const nextPhrase: ImPhraseItem = {
       id: `phrase-${Date.now()}`,
-      title: newPhraseTitle.trim(),
-      content: newPhraseContent.trim(),
+      title: phraseDraft.title.trim(),
+      content: phraseDraft.content.trim(),
       groupId: group?.id ?? 'group-checkin',
       groupName: group?.name ?? '入住前沟通',
       updatedAt: '2026-05-19 19:30:00',
@@ -193,31 +317,82 @@ export function ImSettingPage() {
     setFeedback({ tone: 'success', text: '快捷键设置已保存' })
   }
 
+  function handleOpenAutoReplyTaskDialog() {
+    setAutoReplyTaskDraft(defaultAutoReplyTaskDraft)
+    setIsAutoReplyTaskDialogOpen(true)
+  }
+
+  function handleSaveAutoReplyTask() {
+    if (!autoReplyTaskDraft.scene || !autoReplyTaskDraft.name.trim() || !autoReplyTaskDraft.minutes.trim() || !autoReplyTaskDraft.content.trim()) return
+
+    const nextTask: AutoReplyTaskRow = {
+      id: `auto-task-${Date.now()}`,
+      name: autoReplyTaskDraft.name.trim(),
+      scene: autoReplyTaskDraft.scene,
+      timing: `客户咨询后，${autoReplyTaskDraft.minutes.trim()} 分钟未下单且未回复`,
+      content: autoReplyTaskDraft.content.trim(),
+      enabled: true,
+    }
+
+    setAutoReplyTasks((current) => [nextTask, ...current])
+    setIsAutoReplyTaskDialogOpen(false)
+    setFeedback({ tone: 'success', text: '任务提醒已创建' })
+  }
+
+  const filteredAutoReplyTasks = autoReplyTasks.filter((item) => {
+    const keyword = autoReplyTaskKeyword.trim()
+    const matchesKeyword = !keyword || `${item.name}${item.scene}${item.content}`.includes(keyword)
+    const matchesScene = autoReplyTaskSceneFilter === '全部任务场景' || item.scene === autoReplyTaskSceneFilter
+    return matchesKeyword && matchesScene
+  })
+
+  const filteredCustomerTags = customerTags.filter((item) => {
+    const nextKeyword = tagKeyword.trim()
+    return !nextKeyword || `${item.type}${item.contents.join('')}`.includes(nextKeyword)
+  })
+
+  const editingTag = customerTags.find((item) => item.id === editingTagId) ?? null
+
+  function handleOpenTagEditor(tag: CustomerTagRow) {
+    setEditingTagId(tag.id)
+    setTagEditorContents(tag.contents.length > 0 ? [...tag.contents] : [''])
+    setIsTagEditorOpen(true)
+  }
+
+  function handleChangeTagEditorContent(index: number, value: string) {
+    setTagEditorContents((current) => current.map((item, itemIndex) => (itemIndex === index ? value : item)))
+  }
+
+  function handleAddTagEditorContent() {
+    setTagEditorContents((current) => [...current, ''])
+  }
+
+  function handleRemoveTagEditorContent(index: number) {
+    setTagEditorContents((current) => {
+      if (current.length === 1) {
+        return ['']
+      }
+      return current.filter((_, itemIndex) => itemIndex !== index)
+    })
+  }
+
+  function handleSaveTagEditor() {
+    if (!editingTagId) return
+    const normalizedContents = tagEditorContents.map((item) => item.trim()).filter(Boolean)
+    setCustomerTags((current) =>
+      current.map((item) => (item.id === editingTagId ? { ...item, contents: normalizedContents } : item)),
+    )
+    setIsTagEditorOpen(false)
+    setEditingTagId(null)
+    setFeedback({ tone: 'success', text: '标签已保存' })
+  }
+
   return (
     <div className="im-setting-page" data-provider={provider} data-tab={activeTab}>
       <section className="im-setting-upgrade-banner">
         <span>当前为会话基础版本，可升级获取更完整的 IM 会话能力与快捷键协同。</span>
         <a href="/version/applicationPayment/detail?app=im">会话升级版</a>
       </section>
-
-      <header className="im-setting-header">
-        <div>
-          <p className="im-setting-eyebrow">设置 / 通用设置 / 会话设置</p>
-          <h1>会话设置中心</h1>
-          <p className="im-setting-description">统一管理常用语、自动回复、标签、快捷键和版本能力，补齐客服会话的配置闭环。</p>
-        </div>
-        <div className="im-setting-quick-links">
-          <button type="button" onClick={() => navigate('/scrm/wechatService/manage')}>
-            微信客服运营台
-          </button>
-          <button type="button" onClick={() => navigate('/scrm/sidebarPreview')}>
-            聊天工具栏
-          </button>
-          <button type="button" onClick={() => navigate('/scrm/wechatService/receptionConfig')}>
-            接待配置
-          </button>
-        </div>
-      </header>
 
       <nav className="im-setting-tabs" aria-label="会话设置标签">
         {tabs.map((tab) => (
@@ -253,7 +428,9 @@ export function ImSettingPage() {
           <aside className="im-phrase-sidebar">
             <div className="im-panel-head">
               <h2>分类</h2>
-              <button type="button">新建分类</button>
+              <button type="button" onClick={handleOpenCategoryDialog}>
+                新建分类
+              </button>
             </div>
 
             <div className="im-group-list">
@@ -300,7 +477,7 @@ export function ImSettingPage() {
                 </button>
                 {phraseActionsVisible ? (
                   <button type="button" className="is-primary" onClick={handleOpenPhraseEditor}>
-                    新增常用语
+                    添加常用语
                   </button>
                 ) : null}
                 {phraseActionsVisible ? <button type="button">导出常用语</button> : null}
@@ -339,116 +516,426 @@ export function ImSettingPage() {
       ) : null}
 
       {activeTab === 'autoReply' ? (
-        <section className="im-setting-panel" role="region" aria-label="自动回复设置">
-          <div className="im-panel-head">
-            <h2>自动回复设置</h2>
-            <span>按场景编排欢迎语和兜底回复。</span>
-          </div>
-          <div className="im-info-grid">
-            <article>
-              <strong>新客欢迎</strong>
-              <p>支付成功后 3 分钟自动发送入住引导和停车提示。</p>
-            </article>
-            <article>
-              <strong>深夜到店</strong>
-              <p>22:00 后自动补发门锁密码、前台电话和停车楼层。</p>
-            </article>
-          </div>
+        <section className="im-setting-panel im-auto-reply-panel" role="region" aria-label="自动回复设置">
+          <nav className="im-auto-reply-subtabs" aria-label="自动回复子标签">
+            {autoReplyPanels.map((panel) => (
+              <button
+                key={panel.key}
+                type="button"
+                className={activeAutoReplyPanel === panel.key ? 'is-active' : ''}
+                aria-pressed={activeAutoReplyPanel === panel.key}
+                onClick={() => setActiveAutoReplyPanel(panel.key)}
+              >
+                {panel.label}
+              </button>
+            ))}
+          </nav>
+
+          {activeAutoReplyPanel === 'welcome' ? (
+            <div className="im-auto-reply-simple">
+              <div className="im-auto-reply-toggle-row">
+                <strong>发送欢迎语</strong>
+                <span className="im-auto-reply-toggle is-disabled">停用</span>
+              </div>
+              <p>当顾客发送的第一条消息分配到人工接待时，会自动发送回复，一天内只会对同一顾客发送一次</p>
+            </div>
+          ) : null}
+
+          {activeAutoReplyPanel === 'timeout' ? (
+            <div className="im-auto-reply-simple">
+              <div className="im-auto-reply-toggle-row">
+                <strong>超时提醒</strong>
+                <span className="im-auto-reply-toggle is-disabled">停用</span>
+              </div>
+              <p>客户等待客服回复的时间超时后，发起这个回复</p>
+            </div>
+          ) : null}
+
+          {activeAutoReplyPanel === 'task' ? (
+            <div className="im-auto-reply-task">
+              <div className="im-auto-reply-task-toolbar">
+                <div className="im-auto-reply-task-filters">
+                  <label className="im-auto-reply-search">
+                    <input
+                      aria-label="任务名称或话术"
+                      placeholder="输入任务名称或话术"
+                      value={autoReplyTaskKeyword}
+                      onChange={(event) => setAutoReplyTaskKeyword(event.target.value)}
+                    />
+                    <button type="button" aria-label="搜索任务">
+                      搜索
+                    </button>
+                  </label>
+                  <label className="im-auto-reply-scene-filter">
+                    <select
+                      aria-label="任务场景筛选"
+                      value={autoReplyTaskSceneFilter}
+                      onChange={(event) => setAutoReplyTaskSceneFilter(event.target.value)}
+                    >
+                      {autoReplySceneOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <button type="button" className="is-primary" onClick={handleOpenAutoReplyTaskDialog}>
+                  新建任务
+                </button>
+              </div>
+
+              <div className="im-auto-reply-task-table-wrap">
+                <table className="im-auto-reply-task-table">
+                  <thead>
+                    <tr>
+                      <th>任务名称</th>
+                      <th>任务场景</th>
+                      <th>发送时机</th>
+                      <th>话语</th>
+                      <th>是否启用</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredAutoReplyTasks.length === 0 ? (
+                      <tr>
+                        <td colSpan={6}>
+                          <div className="im-auto-reply-task-empty">
+                            <span className="im-auto-reply-task-empty__icon" aria-hidden="true" />
+                            <span>暂无数据</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredAutoReplyTasks.map((task) => (
+                        <tr key={task.id}>
+                          <td>{task.name}</td>
+                          <td>{task.scene}</td>
+                          <td>{task.timing}</td>
+                          <td>{task.content}</td>
+                          <td>{task.enabled ? '启用' : '停用'}</td>
+                          <td>详情</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
       {activeTab === 'page' ? (
-        <section className="im-setting-panel" role="region" aria-label="页面设置">
-          <div className="im-panel-head">
-            <h2>页面设置</h2>
-            <span>对接聊天工作台的图片通道和云信账号。</span>
-          </div>
-          <div className="im-info-grid">
-            <article>
-              <strong>支持发图渠道</strong>
-              <p>{view?.supportedChannels.join(' / ') || '暂无渠道信息'}</p>
-            </article>
-            <article>
-              <strong>云信账号</strong>
-              <p>AppKey：{view?.imAccount.appKey ?? '-'}</p>
-              <p>Accid：{view?.imAccount.accid ?? '-'}</p>
-            </article>
+        <section className="im-setting-panel im-page-setting-panel" role="region" aria-label="页面设置">
+          <section className="im-config-section">
+            <h2>会话标签</h2>
+            <div className="im-config-group">
+              <h3>超时提醒</h3>
+              <label className="im-config-check-line">
+                <input
+                  type="checkbox"
+                  aria-label="会话回复超时提醒"
+                  checked={pageSettings.timeoutReplyEnabled}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      timeoutReplyEnabled: event.target.checked,
+                    }))
+                  }
+                />
+                <span>客户等待回复时间达到（大于等于）</span>
+                <input
+                  aria-label="会话回复超时分钟数"
+                  value={pageSettings.timeoutReplyMinutes}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      timeoutReplyMinutes: event.target.value.replace(/[^\d]/g, '').slice(0, 2),
+                    }))
+                  }
+                />
+                <span>分钟，会话回复超时。</span>
+              </label>
+              <label className="im-config-check-line">
+                <input
+                  type="checkbox"
+                  aria-label="会话回复严重超时提醒"
+                  checked={pageSettings.severeTimeoutReplyEnabled}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      severeTimeoutReplyEnabled: event.target.checked,
+                    }))
+                  }
+                />
+                <span>客户等待回复时间达到（大于等于）</span>
+                <input
+                  aria-label="会话回复严重超时分钟数"
+                  value={pageSettings.severeTimeoutReplyMinutes}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      severeTimeoutReplyMinutes: event.target.value.replace(/[^\d]/g, '').slice(0, 2),
+                    }))
+                  }
+                />
+                <span>分钟，会话回复严重超时。</span>
+              </label>
+            </div>
+
+            <div className="im-config-group">
+              <div className="im-config-toggle-line">
+                <strong>首回复提醒</strong>
+                <span className="im-config-info" aria-hidden="true">
+                  i
+                </span>
+                <button
+                  type="button"
+                  className={`im-switch ${pageSettings.firstReplyReminderEnabled ? 'is-on' : ''}`}
+                  aria-pressed={pageSettings.firstReplyReminderEnabled}
+                  aria-label="首回复提醒开关"
+                  onClick={() =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      firstReplyReminderEnabled: !current.firstReplyReminderEnabled,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="im-config-group">
+              <h3>高成交提醒</h3>
+              <label className="im-config-check-line">
+                <input
+                  type="checkbox"
+                  aria-label="高成交提醒"
+                  checked={pageSettings.highConversionEnabled}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      highConversionEnabled: event.target.checked,
+                    }))
+                  }
+                />
+                <span>客户连续发送消息达到（大于等于）</span>
+                <input
+                  aria-label="高成交提醒条数"
+                  value={pageSettings.highConversionCount}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      highConversionCount: event.target.value.replace(/[^\d]/g, '').slice(0, 2),
+                    }))
+                  }
+                />
+                <span>条，为高成交率。</span>
+              </label>
+            </div>
+          </section>
+
+          <section className="im-config-section">
+            <h2>消息通知</h2>
+            <div className="im-config-sound-line">
+              <span>新消息提醒:</span>
+              <label className="im-config-inline-check">
+                <input
+                  type="checkbox"
+                  aria-label="声音通知"
+                  checked={pageSettings.soundNotifyEnabled}
+                  onChange={(event) =>
+                    setPageSettings((current) => ({
+                      ...current,
+                      soundNotifyEnabled: event.target.checked,
+                    }))
+                  }
+                />
+                <span>声音通知</span>
+              </label>
+              <span>音量</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                aria-label="消息通知音量"
+                value={pageSettings.volume}
+                onChange={(event) =>
+                  setPageSettings((current) => ({
+                    ...current,
+                    volume: Number(event.target.value),
+                  }))
+                }
+              />
+            </div>
+          </section>
+
+          <div className="im-setting-save-bar">
+            <button type="button" className="is-primary" onClick={() => setFeedback({ tone: 'success', text: '页面设置已保存' })}>
+              保存
+            </button>
           </div>
         </section>
       ) : null}
 
       {activeTab === 'tags' ? (
-        <section className="im-setting-panel" role="region" aria-label="标签设置">
-          <div className="im-panel-head">
-            <h2>标签设置</h2>
-            <span>将会话标签与接待策略和常用语分类联动。</span>
-          </div>
-          <div className="im-info-grid">
-            <article>
-              <strong>夜间到店</strong>
-              <p>自动关联深夜入住模板和门锁指引。</p>
-            </article>
-            <article>
-              <strong>复购会员</strong>
-              <p>自动关联升级房型、延迟退房和追评激励话术。</p>
-            </article>
-          </div>
+        <section className="im-setting-panel im-tag-setting-panel" role="region" aria-label="标签设置">
+          <section className="im-config-section">
+            <h2>客户标签</h2>
+            <div className="im-tag-toolbar">
+              <label className="im-auto-reply-search">
+                <input
+                  aria-label="标签内容搜索"
+                  placeholder="输入标签内容"
+                  value={tagKeyword}
+                  onChange={(event) => setTagKeyword(event.target.value)}
+                />
+                <button type="button" aria-label="搜索标签">
+                  搜索
+                </button>
+              </label>
+            </div>
+
+            <div className="im-tag-table-wrap">
+              <table className="im-auto-reply-task-table im-tag-table">
+                <thead>
+                  <tr>
+                    <th>标签类型</th>
+                    <th>标签内容</th>
+                    <th>是否启用</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredCustomerTags.length === 0 ? (
+                    <tr>
+                      <td colSpan={4}>
+                        <div className="im-auto-reply-task-empty">
+                          <span className="im-auto-reply-task-empty__icon" aria-hidden="true" />
+                          <span>暂无数据</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredCustomerTags.map((item) => (
+                      <tr key={item.id}>
+                        <td>{item.type}</td>
+                        <td>{item.contents.join('，')}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className={`im-switch im-switch--labeled ${item.enabled ? 'is-on' : ''}`}
+                            aria-pressed={item.enabled}
+                            aria-label={`${item.type}启用开关`}
+                            onClick={() =>
+                              setCustomerTags((current) =>
+                                current.map((row) => (row.id === item.id ? { ...row, enabled: !row.enabled } : row)),
+                              )
+                            }
+                          >
+                            <span>{item.enabled ? '启用' : '停用'}</span>
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" className="im-table-action-button" onClick={() => handleOpenTagEditor(item)}>
+                            编辑
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="im-tag-pagination">
+              <span>第 1-1 条/总共 1 条</span>
+              <button type="button" aria-label="上一页" disabled>
+                ‹
+              </button>
+              <button type="button" className="is-current" aria-label="第1页">
+                1
+              </button>
+              <button type="button" aria-label="下一页" disabled>
+                ›
+              </button>
+              <select aria-label="每页条数">
+                <option>10 条/页</option>
+              </select>
+            </div>
+          </section>
         </section>
       ) : null}
 
       {activeTab === 'shortcuts' ? (
-        <section className="im-setting-panel" role="region" aria-label="快捷键设置">
-          <div className="im-panel-head">
-            <h2>快捷键设置</h2>
-            <button type="button" className="is-primary" onClick={() => void handleSaveShortcuts()}>
-              保存快捷键
-            </button>
+        <section className="im-setting-panel im-shortcut-setting-panel" role="region" aria-label="快捷键设置">
+          <div className="im-shortcut-setting-grid">
+            {shortcutDraft.map((item) => (
+              <div key={item.code} className="im-shortcut-setting-row">
+                <strong>{item.name}</strong>
+                <span className="im-shortcut-pill">{item.win}</span>
+                <span className="im-shortcut-pill">{item.mac}</span>
+                <label className="im-shortcut-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={item.isOpen}
+                    aria-label={`${item.name}开关`}
+                    onChange={() => handleToggleShortcut(item.code)}
+                  />
+                  <span aria-hidden="true" />
+                </label>
+              </div>
+            ))}
           </div>
 
-          <div className="im-shortcut-list">
-            {shortcutDraft.map((item) => (
-              <article key={item.code} className="im-shortcut-card">
-                <div>
-                  <strong>{item.name}</strong>
-                  <p>
-                    Windows：{item.win} / Mac：{item.mac}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  aria-label={item.isOpen ? `停用 ${item.name}` : `启用 ${item.name}`}
-                  onClick={() => handleToggleShortcut(item.code)}
-                >
-                  {item.isOpen ? '停用' : '启用'}
-                </button>
-              </article>
-            ))}
+          <div className="im-setting-save-bar">
+            <button type="button" className="is-primary" onClick={() => void handleSaveShortcuts()}>
+              保存
+            </button>
           </div>
         </section>
       ) : null}
 
       {activeTab === 'version' ? (
-        <section className="im-setting-panel" role="region" aria-label="版本设置">
-          <div className="im-panel-head">
-            <h2>版本设置</h2>
-            <span>{view?.version.editionName ?? '-'}</span>
-          </div>
+        <section className="im-setting-panel im-version-setting-panel" role="region" aria-label="版本设置">
+          <p className="im-version-setting-tip">会话默认基础版本，可根据需要切换版本</p>
 
-          <article className="im-version-card">
-            <strong>{view?.version.modalTitle ?? '版本升级提示'}</strong>
-            <p>{view?.version.modalInfo ?? '当前版本暂无更多说明。'}</p>
-            <div className="im-version-meta">
-              <span>版本 ID：{view?.version.editionId ?? '-'}</span>
-              <span>当前版本：{view?.version.editionName ?? '-'}</span>
-            </div>
-            <div className="im-version-actions">
-              {(view?.version.buttons ?? []).map((button) => (
-                <button key={`${button.text}-${button.action}`} type="button" className={button.type === 'primary' ? 'is-primary' : ''}>
-                  {button.text}
-                </button>
-              ))}
-            </div>
-          </article>
+          <section className="im-version-setting-group">
+            <h2>选择会话版本</h2>
+            <label className="im-version-option">
+              <input
+                type="radio"
+                name="conversation-version"
+                value="basic"
+                checked={selectedVersion === 'basic'}
+                onChange={() => setSelectedVersion('basic')}
+              />
+              <div>
+                <strong>会话基础版</strong>
+                <p>会话基础版本，满足房东多渠道接入，进行即时会话</p>
+              </div>
+            </label>
+            <label className="im-version-option">
+              <input
+                type="radio"
+                name="conversation-version"
+                value="upgrade"
+                checked={selectedVersion === 'upgrade'}
+                onChange={() => setSelectedVersion('upgrade')}
+              />
+              <div>
+                <strong>会话升级版</strong>
+                <p>会话升级版本，在基础版本的基础上，提供客服坐席，增加会话派单机制，提高响应服务效率</p>
+              </div>
+            </label>
+          </section>
+
+          <div className="im-setting-save-bar">
+            <button type="button" className="is-primary" onClick={() => setFeedback({ tone: 'success', text: '版本设置已保存' })}>
+              保存
+            </button>
+          </div>
         </section>
       ) : null}
 
@@ -470,23 +957,99 @@ export function ImSettingPage() {
         </div>
       ) : null}
 
+      {isCategoryDialogOpen ? (
+        <div className="im-setting-dialog-backdrop">
+          <section className="im-setting-dialog im-setting-dialog--compact" role="dialog" aria-label="新建分类">
+            <header>
+              <h2>新建分类</h2>
+            </header>
+            <div className="im-setting-dialog-form im-setting-dialog-form--compact">
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">分类名称：</span>
+                <input
+                  aria-label="分类名称"
+                  placeholder="请输入一级分类名称"
+                  value={newCategoryName}
+                  onChange={(event) => setNewCategoryName(event.target.value)}
+                />
+              </label>
+            </div>
+            <footer className="im-setting-dialog-actions">
+              <button type="button" onClick={() => setIsCategoryDialogOpen(false)}>
+                取消
+              </button>
+              <button type="button" className="is-primary" onClick={handleSaveCategory}>
+                确定
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
+
       {isPhraseEditorOpen ? (
         <div className="im-setting-dialog-backdrop">
-          <section className="im-setting-dialog" role="dialog" aria-label="新增常用语">
+          <section className="im-setting-dialog im-setting-dialog--wide" role="dialog" aria-label="添加常用语">
             <header>
-              <h2>新增常用语</h2>
-              <button type="button" aria-label="关闭新增常用语" onClick={() => setIsPhraseEditorOpen(false)}>
+              <h2>添加常用语</h2>
+              <button type="button" aria-label="关闭添加常用语" onClick={() => setIsPhraseEditorOpen(false)}>
                 ×
               </button>
             </header>
             <div className="im-setting-dialog-form">
-              <label>
-                <span>常用语标题</span>
-                <input value={newPhraseTitle} onChange={(event) => setNewPhraseTitle(event.target.value)} />
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">标题：</span>
+                <input
+                  aria-label="标题"
+                  placeholder="请输入标题"
+                  value={phraseDraft.title}
+                  onChange={(event) =>
+                    setPhraseDraft((current) => ({
+                      ...current,
+                      title: event.target.value,
+                    }))
+                  }
+                />
               </label>
-              <label>
-                <span>常用语内容</span>
-                <textarea value={newPhraseContent} onChange={(event) => setNewPhraseContent(event.target.value)} rows={5} />
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">分类：</span>
+                <select
+                  aria-label="分类"
+                  value={phraseDraft.groupId}
+                  onChange={(event) =>
+                    setPhraseDraft((current) => ({
+                      ...current,
+                      groupId: event.target.value,
+                    }))
+                  }
+                >
+                  <option value="" disabled>
+                    请选择分类
+                  </option>
+                  {(view?.phraseGroups ?? []).map((group) => (
+                    <option key={group.id} value={group.id}>
+                      {group.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="im-setting-form-row im-setting-form-row--textarea">
+                <span className="im-setting-form-label is-required">回复内容：</span>
+                <div className="im-setting-form-control">
+                  <textarea
+                    aria-label="回复内容"
+                    placeholder="请输入回复内容"
+                    value={phraseDraft.content}
+                    onChange={(event) =>
+                      setPhraseDraft((current) => ({
+                        ...current,
+                        content: event.target.value,
+                      }))
+                    }
+                    rows={5}
+                    maxLength={500}
+                  />
+                  <span className="im-setting-form-counter">{phraseDraft.content.length} / 500</span>
+                </div>
               </label>
             </div>
             <footer className="im-setting-dialog-actions">
@@ -494,7 +1057,155 @@ export function ImSettingPage() {
                 取消
               </button>
               <button type="button" className="is-primary" onClick={handleSavePhrase}>
-                保存常用语
+                确定
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
+
+      {isTagEditorOpen ? (
+        <div className="im-setting-dialog-backdrop">
+          <section className="im-setting-dialog im-setting-dialog--tag-editor" role="dialog" aria-label="编辑标签">
+            <header>
+              <h2>编辑标签</h2>
+              <button type="button" aria-label="关闭编辑标签" onClick={() => setIsTagEditorOpen(false)}>
+                ×
+              </button>
+            </header>
+            <div className="im-setting-dialog-form">
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">标签组：</span>
+                <input aria-label="标签组" value={editingTag?.type ?? ''} readOnly />
+              </label>
+              <div className="im-setting-form-row im-setting-form-row--tag-editor">
+                <span className="im-setting-form-label is-required">标签内容：</span>
+                <div className="im-tag-editor-list">
+                  {tagEditorContents.map((content, index) => (
+                    <div key={`${editingTagId ?? 'tag'}-${index}`} className="im-tag-editor-row">
+                      <input
+                        aria-label={`标签内容${index + 1}`}
+                        placeholder="请输入标签内容"
+                        value={content}
+                        onChange={(event) => handleChangeTagEditorContent(index, event.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="im-tag-editor-remove"
+                        aria-label={`删除标签内容${index + 1}`}
+                        onClick={() => handleRemoveTagEditorContent(index)}
+                      >
+                        －
+                      </button>
+                      {index === tagEditorContents.length - 1 ? (
+                        <button type="button" className="im-tag-editor-add" onClick={handleAddTagEditorContent}>
+                          <span aria-hidden="true">＋</span>
+                          添加标签内容
+                        </button>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <footer className="im-setting-dialog-actions">
+              <button type="button" onClick={() => setIsTagEditorOpen(false)}>
+                取消
+              </button>
+              <button type="button" className="is-primary" onClick={handleSaveTagEditor}>
+                确定
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
+
+      {isAutoReplyTaskDialogOpen ? (
+        <div className="im-setting-dialog-backdrop">
+          <section className="im-setting-dialog im-setting-dialog--task" role="dialog" aria-label="新建任务">
+            <header>
+              <h2>新建任务</h2>
+              <button type="button" aria-label="关闭新建任务" onClick={() => setIsAutoReplyTaskDialogOpen(false)}>
+                ×
+              </button>
+            </header>
+            <div className="im-setting-dialog-form">
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">任务场景：</span>
+                <select
+                  aria-label="任务场景"
+                  value={autoReplyTaskDraft.scene}
+                  onChange={(event) =>
+                    setAutoReplyTaskDraft((current) => ({
+                      ...current,
+                      scene: event.target.value,
+                    }))
+                  }
+                >
+                  {autoReplySceneOptions.filter((option) => option !== '全部任务场景').map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="im-setting-form-row">
+                <span className="im-setting-form-label is-required">任务名称：</span>
+                <input
+                  aria-label="任务名称"
+                  placeholder="输入事件名称"
+                  value={autoReplyTaskDraft.name}
+                  onChange={(event) =>
+                    setAutoReplyTaskDraft((current) => ({
+                      ...current,
+                      name: event.target.value,
+                    }))
+                  }
+                />
+              </label>
+              <div className="im-setting-form-row im-setting-form-row--timing">
+                <span className="im-setting-form-label">发送时机：</span>
+                <div className="im-auto-reply-task-timing">
+                  <span>客户咨询后，</span>
+                  <input
+                    aria-label="发送分钟数"
+                    inputMode="numeric"
+                    value={autoReplyTaskDraft.minutes}
+                    onChange={(event) =>
+                      setAutoReplyTaskDraft((current) => ({
+                        ...current,
+                        minutes: event.target.value.replace(/[^\d]/g, '').slice(0, 3),
+                      }))
+                    }
+                  />
+                  <span>分钟未下单且未回复</span>
+                </div>
+              </div>
+              <label className="im-setting-form-row im-setting-form-row--textarea">
+                <span className="im-setting-form-label is-required">催单话术：</span>
+                <div className="im-setting-form-control">
+                  <textarea
+                    aria-label="催单话术"
+                    value={autoReplyTaskDraft.content}
+                    onChange={(event) =>
+                      setAutoReplyTaskDraft((current) => ({
+                        ...current,
+                        content: event.target.value,
+                      }))
+                    }
+                    rows={5}
+                    maxLength={500}
+                  />
+                  <span className="im-setting-form-counter">{autoReplyTaskDraft.content.length} / 500</span>
+                </div>
+              </label>
+            </div>
+            <footer className="im-setting-dialog-actions">
+              <button type="button" onClick={() => setIsAutoReplyTaskDialogOpen(false)}>
+                取消
+              </button>
+              <button type="button" className="is-primary" onClick={handleSaveAutoReplyTask}>
+                确定
               </button>
             </footer>
           </section>

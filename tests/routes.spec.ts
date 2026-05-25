@@ -507,7 +507,7 @@ for (const pageDef of pages) {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.getByRole('link', { name: '全域数据' })).toHaveClass(/is-active/)
       await expect(page.getByRole('heading', { name: '服务质量分', level: 2 })).toBeVisible()
-      await expect(page.locator('.chat-dock')).toBeVisible()
+      await expect(page.locator('.chat-dock-launcher')).toBeVisible()
     } else if (pageDef.path === '/statistics/report') {
       await expect(page.locator('.page-content > .page-header')).toBeHidden()
       await expect(page.getByRole('link', { name: '统计概览' })).toHaveClass(/is-active/)
@@ -668,6 +668,7 @@ test('/channels/ota supports captured channel actions and log route', async ({ p
   await page.getByTestId('ota-pending-card').first().getByRole('button', { name: '立即关联' }).click()
   await expect(page.getByRole('status')).toContainText('准备关联携程玩乐')
 
+  await page.locator('.chat-dock-launcher').click()
   await page.locator('.chat-dock__collapse').click()
   await page.getByRole('button', { name: '操作日志' }).click()
   await expect(page).toHaveURL(/\/channels\/ota\/log$/)
@@ -879,7 +880,7 @@ test('/houseManage/months matches captured month-grid structure', async ({ page 
   await expect(page.getByTestId('month-grid')).toContainText('1206')
   await expect(page.getByTestId('month-grid')).toContainText('706')
   await expect(page.getByTestId('month-grid')).not.toContainText('未返回')
-  await expect(page.locator('.chat-dock')).toBeVisible()
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 })
 
 test('/houseManage/months supports captured month-grid interactions', async ({ page }) => {
@@ -996,6 +997,7 @@ test('/houseManage/priceBoard supports captured purchase interactions', async ({
     }
   })
   expect(firstPromoImageMetrics.renderedHeight).toBeGreaterThan(500)
+  await page.locator('.chat-dock-launcher').click()
   await expect(
     page.locator('.app-shell > .chat-dock').evaluate((element) => window.getComputedStyle(element).position),
   ).resolves.toBe('fixed')
@@ -1230,8 +1232,7 @@ test('/houseManage/priceComparison renders usable business data from provider', 
   await expect(page.getByLabel('竞争圈比价列表')).toContainText('顶层套房（浴缸巨幕电竞麻将）')
   await expect(page.getByLabel('竞争圈比价待办')).toContainText('调价建议')
   await expect(page.locator('.price-comparison-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成/i)
-  await expect(page.locator('.chat-dock')).toBeVisible()
-  await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
 })
 
 test('/houseManage/priceComparison supports filters actions details and error state', async ({ page }) => {
@@ -1295,7 +1296,8 @@ test('/houseManage/priceComparison uses the shared conversation dock', async ({ 
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/houseManage/priceComparison')
 
-  await expect(page.locator('.chat-dock')).toBeVisible()
+  await expect(page.locator('.chat-dock-launcher')).toBeVisible()
+  await page.locator('.chat-dock-launcher').click()
   await expect(page.locator('.chat-dock .chat-item')).toHaveCount(4)
   await page.locator('.chat-dock__collapse').click()
   await expect(page.locator('.chat-dock')).toHaveCount(0)

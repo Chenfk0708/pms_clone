@@ -3,7 +3,11 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  if (appBaseURL) {
+    return `${appBaseURL.replace(/\/$/, '')}/#${routePath}`
+  }
+
+  return `/#${routePath}`
 }
 
 test.beforeEach(async ({ page }) => {
@@ -22,9 +26,13 @@ test('/setting/wechatPushSetting renders notification setting through the servic
   await expect(contract).toHaveAttribute('data-response-state', 'success')
   await expect(contract).toHaveAttribute('data-endpoint', '/setting/wechatPushSetting/bootstrap')
 
+  await expect(page.locator('.notification-page')).toBeVisible()
+  await expect(page.locator('.notification-page__hero')).toBeVisible()
+  await expect(page.locator('.notification-page__table')).toBeVisible()
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
+  await expect(page.locator('.sidebar')).toBeVisible()
   await expect(page.getByRole('link', { name: '设置', exact: true })).toHaveClass(/is-active/)
-  await expect(page.getByRole('link', { name: '通知设置', exact: true })).toHaveClass(/is-active/)
+  await expect(page.getByRole('link', { name: '通知设置' })).toHaveClass(/is-active/)
   await expect(page.getByRole('button', { name: '我已关注？' })).toBeVisible()
   await expect(page.getByRole('button', { name: '刷新一下' })).toBeVisible()
   await expect(page.getByRole('button', { name: '查看接受微信通知公众号' })).toBeVisible()
@@ -46,7 +54,7 @@ test('/setting/wechatPushSetting supports refresh, channel dialog, and switch fe
 
   await page.getByRole('button', { name: '查看接受微信通知公众号' }).click()
   await expect(page.getByRole('dialog', { name: '接受微信通知公众号' })).toBeVisible()
-  await expect(page.getByText('当前暂无已关注公众号，请扫码关注后刷新状态')).toBeVisible()
+  await expect(page.getByText('当前暂无已关注公众号，请扫码关注后刷新状态。')).toBeVisible()
   await page.getByRole('button', { name: '关闭公众号详情' }).click()
   await expect(page.getByRole('dialog', { name: '接受微信通知公众号' })).toHaveCount(0)
 
@@ -70,6 +78,8 @@ test('/setting/wechatPushSetting renders the empty state without collapsing the 
 
   const contract = page.getByTestId('notification-setting-service-contract')
   await expect(contract).toHaveAttribute('data-response-state', 'empty')
+  await expect(page.locator('.notification-page')).toBeVisible()
+  await expect(page.locator('.sidebar')).toBeVisible()
   await expect(page.getByText('当前暂无可配置的通知项')).toBeVisible()
   await expect(page.getByRole('button', { name: '刷新一下' })).toBeVisible()
   await expect(page.getByText('订单通知')).toHaveCount(0)
@@ -80,7 +90,7 @@ test('/setting/wechatPushSetting exposes the error state and supports retry', as
 
   const contract = page.getByTestId('notification-setting-service-contract')
   await expect(contract).toHaveAttribute('data-response-state', 'error')
-  await expect(page.getByText('通知设置加载失败，请稍后重试')).toBeVisible()
+  await expect(page.getByRole('heading', { name: '通知设置加载失败，请稍后重试' })).toBeVisible()
 
   await page.getByRole('button', { name: '重新加载通知设置' }).click()
   await expect(contract).toHaveAttribute('data-response-state', 'success')

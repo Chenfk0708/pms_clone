@@ -1,6 +1,7 @@
 const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
 const mockCampId = 'mock-camp-fangqingbiao'
 const mockTimestamp = '2026-05-18T10:00:00+08:00'
+const dayMs = 24 * 60 * 60 * 1000
 
 export const roomSituationStoresEndpoint = '/select/poi/page/get'
 export const dailyRoomSituationEndpoint = '/report/dailyRoomStatus/get'
@@ -273,11 +274,12 @@ function mockDailyRoomSituation(requestBody: Record<string, unknown>): RoomSitua
 
 function mockForwardRoomSituation(requestBody: Record<string, unknown>): RoomSituationApiResponse<PagePayload> {
   const scenario = resolveRoomSituationMockScenario()
+  const forwardRows = buildForwardMockRows(requestBody)
   const basePayload = {
-    total: futureMockRows.length,
+    total: forwardRows.length,
     pageNum: toNumber(requestBody.pageNum, 1),
     pageSize: toNumber(requestBody.pageSize, 20),
-    list: futureMockRows,
+    list: forwardRows,
   }
 
   if (scenario === 'empty') {
@@ -479,25 +481,71 @@ const dailyMockRows = [
   },
 ]
 
-const futureMockRows = [
+const futureMockTemplates = [
   {
     roomCategoryId: '1',
     roomCategoryName: '合计',
     availabilityCount: 4,
-    forwardRoomStatusList: [
+    pattern: [
       { roomSaleCount: 1, occupationCount: 3 },
       { roomSaleCount: 2, occupationCount: 2 },
       { roomSaleCount: 2, occupationCount: 2 },
       { roomSaleCount: 3, occupationCount: 1 },
       { roomSaleCount: 4, occupationCount: 0 },
+      { roomSaleCount: 3, occupationCount: 1 },
+      { roomSaleCount: 2, occupationCount: 2 },
     ],
   },
   {
     roomCategoryId: 'room-1',
     roomCategoryName: '顶层套房（浴缸巨幕电竞麻将）',
     availabilityCount: 1,
-    forwardRoomStatusList: [
+    pattern: [
       { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+    ],
+  },
+  {
+    roomCategoryId: 'room-2',
+    roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
+    availabilityCount: 1,
+    pattern: [
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+    ],
+  },
+  {
+    roomCategoryId: 'room-3',
+    roomCategoryName: '天落大床电竞套间',
+    availabilityCount: 1,
+    pattern: [
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+      { roomSaleCount: 0, occupationCount: 1 },
+    ],
+  },
+  {
+    roomCategoryId: 'room-4',
+    roomCategoryName: '观影大床房',
+    availabilityCount: 1,
+    pattern: [
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
+      { roomSaleCount: 1, occupationCount: 0 },
       { roomSaleCount: 1, occupationCount: 0 },
       { roomSaleCount: 1, occupationCount: 0 },
       { roomSaleCount: 1, occupationCount: 0 },
@@ -505,3 +553,28 @@ const futureMockRows = [
     ],
   },
 ]
+
+function buildForwardMockRows(requestBody: Record<string, unknown>) {
+  const startDate = normalizeMockDate(String(requestBody.startDate ?? ''))
+  const endDate = normalizeMockDate(String(requestBody.endDate ?? ''))
+  const dayCount = startDate && endDate ? Math.max(1, Math.round((endDate.getTime() - startDate.getTime()) / dayMs)) : 30
+
+  return futureMockTemplates.map((template, templateIndex) => ({
+    roomCategoryId: template.roomCategoryId,
+    roomCategoryName: template.roomCategoryName,
+    availabilityCount: template.availabilityCount,
+    forwardRoomStatusList: Array.from({ length: dayCount }, (_, index) => {
+      const day = template.pattern[(index + templateIndex) % template.pattern.length]
+      return {
+        roomSaleCount: day.roomSaleCount,
+        occupationCount: day.occupationCount,
+      }
+    }),
+  }))
+}
+
+function normalizeMockDate(value: string) {
+  const [year, month, day] = value.split('-').map(Number)
+  if (!year || !month || !day) return null
+  return new Date(year, month - 1, day)
+}

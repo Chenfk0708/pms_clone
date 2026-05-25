@@ -342,6 +342,23 @@ const meituanStoreRows: OtaDetailStoreRow[] = [
   },
 ]
 
+function createDetailView(
+  base: OtaChannelDetailView,
+  overrides: Partial<OtaChannelDetailView>,
+): OtaChannelDetailView {
+  return {
+    ...base,
+    ...overrides,
+    channelStoreOptions: overrides.channelStoreOptions ?? structuredClone(base.channelStoreOptions),
+    accountOptions: overrides.accountOptions ?? structuredClone(base.accountOptions),
+    statusOptions: overrides.statusOptions ?? structuredClone(base.statusOptions),
+    roomRows: overrides.roomRows ?? structuredClone(base.roomRows),
+    storeRows: overrides.storeRows ?? structuredClone(base.storeRows),
+    syncStoreNotice: overrides.syncStoreNotice ?? structuredClone(base.syncStoreNotice),
+    syncStoreDefaults: overrides.syncStoreDefaults ?? structuredClone(base.syncStoreDefaults),
+  }
+}
+
 const channelDetailMap: Record<string, OtaChannelDetailView> = {
   ctrip: {
     id: 'ctrip',
@@ -396,6 +413,126 @@ const channelDetailMap: Record<string, OtaChannelDetailView> = {
       hotelName: '',
     },
   },
+  fliggy: createDetailView(channelDetailMapSeed('meituan-hotel'), {
+    id: 'fliggy',
+    channelName: '飞猪酒店',
+    title: '飞猪酒店',
+    description: '您已开通飞猪酒店，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '飞猪',
+    logoTone: 3,
+    noticeText: '飞猪渠道调价后请及时核对售卖库存与活动价，避免渠道侧活动冲突影响同步结果；',
+    syncStoreNotice: {
+      title: '开通飞猪酒店',
+      paragraphs: ['1. 同步门店前请确认飞猪账号授权已完成', '2. 建议先核对房型映射，再进行库存和价格同步'],
+    },
+  }),
+  'meituan-homestay': createDetailView(channelDetailMapSeed('meituan-hotel'), {
+    id: 'meituan-homestay',
+    channelName: '美团民宿',
+    title: '美团民宿',
+    description: '您已开通美团民宿，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '美宿',
+    logoTone: 4,
+    noticeText: '美团民宿关联房型后，请留意民宿侧退款规则和早餐规则是否同步一致；',
+  }),
+  tujia: createDetailView(channelDetailMapSeed('ctrip'), {
+    id: 'tujia',
+    channelName: '途家',
+    title: '途家',
+    description: '您已开通途家，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '途家',
+    logoTone: 2,
+    noticeText: '途家渠道同步前请优先确认佣金率、早餐和退改规则，避免价格计算差异；',
+    noticeLinkLabel: undefined,
+    syncStoreNotice: {
+      title: '开通途家',
+      paragraphs: ['1. 房型同步前请先核对渠道门店与路客云门店关系', '2. 如涉及活动房价，请先在途家侧确认活动状态'],
+    },
+  }),
+  muniao: createDetailView(channelDetailMapSeed('ctrip'), {
+    id: 'muniao',
+    channelName: '木鸟',
+    title: '木鸟',
+    description: '您已开通木鸟，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '木鸟',
+    logoTone: 5,
+    noticeText: '木鸟渠道同步后，请检查房态和最短入住限制，避免前台售卖规则不一致；',
+    noticeLinkLabel: undefined,
+  }),
+  xiaozhu: createDetailView(channelDetailMapSeed('ctrip'), {
+    id: 'xiaozhu',
+    channelName: '小猪',
+    title: '小猪',
+    description: '您已开通小猪，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '小猪',
+    logoTone: 3,
+    noticeText: '小猪渠道同步时请确认民宿规则、入住须知和价格计划保持一致；',
+    noticeLinkLabel: undefined,
+  }),
+  locals: createDetailView(channelDetailMapSeed('ctrip'), {
+    id: 'locals',
+    channelName: '路客云聚合',
+    title: '路客云聚合',
+    description: '您已开通路客云聚合，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+    logoText: '路客',
+    logoTone: 1,
+    noticeText: '路客云聚合渠道同步后，请优先核对聚合分发房型与本地房型映射是否完整；',
+    noticeLinkLabel: undefined,
+  }),
+}
+
+function channelDetailMapSeed(channelId: 'ctrip' | 'meituan-hotel'): OtaChannelDetailView {
+  return channelId === 'ctrip'
+    ? {
+        id: 'ctrip',
+        channelName: '携程直连',
+        title: '携程直连',
+        description: '您已开通携程直连，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+        logoText: '携程',
+        logoTone: 1,
+        noticeText: '房型关联后佣金率将会重置为10%，如需修改，请先联系携程业务经理修改携程佣金率后再至路客云同步修改佣金率，否则将导致价格同步出错；',
+        noticeLinkLabel: '去修改佣金率',
+        channelStoreOptions: [
+          { value: 'all', label: '全部' },
+          { value: 'qianhai', label: '天落会宿公寓（前海壹方城宝安中心店）' },
+        ],
+        accountOptions: detailAccountOptions,
+        statusOptions: detailStatusOptions,
+        roomRows: ctripRoomRows,
+        storeRows: ctripStoreRows,
+        syncStoreNotice: ctripSyncStoreNotice,
+        syncStoreDefaults: {
+          hotelSubtype: 'prepay' as const,
+          subHotelId: '',
+          hotelName: '',
+        },
+      }
+    : {
+        id: 'meituan-hotel',
+        channelName: '美团酒店直连',
+        title: '美团酒店直连',
+        description: '您已开通美团酒店直连，可在下方门店管理添加渠道门店（同步门店），或进行同步房型操作。',
+        logoText: '美团',
+        logoTone: 4 as const,
+        noticeText: '如在美团酒店直连过程中出现房态无法同步的提示，请及时联系客服处理，以避免订单库存异常；',
+        channelStoreOptions: [
+          { value: 'all', label: '全部' },
+          { value: 'qianhai', label: '天落会宿公寓（前海壹方城宝安中心店）' },
+        ],
+        accountOptions: detailAccountOptions,
+        statusOptions: detailStatusOptions,
+        roomRows: meituanRoomRows,
+        storeRows: meituanStoreRows,
+        syncStoreNotice: {
+          title: '开通美团酒店直连',
+          paragraphs: ['1. 直连进行房型关联时，请确保路客云房态和价格准确', '2. 同步门店后请及时读取房源并核对房型映射关系'],
+        },
+        syncStoreDefaults: {
+          hotelSubtype: 'prepay' as const,
+          subHotelId: '',
+          hotelName: '',
+        },
+      }
 }
 
 const logRows: OtaLogRow[] = [

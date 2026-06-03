@@ -831,12 +831,8 @@ export function HouseDaysPage() {
       {statusDrawer === 'display' ? (
         <RoomStatusDisplaySettingsDrawer
           settings={displaySettings}
-          onCancel={() => setStatusDrawer(null)}
-          onSave={(nextSettings) => {
-            setDisplaySettings(nextSettings)
-            setStatusDrawer(null)
-            setFeedback('房态显示设置已保存。')
-          }}
+          onClose={() => setStatusDrawer(null)}
+          onChange={setDisplaySettings}
         />
       ) : null}
     </div>

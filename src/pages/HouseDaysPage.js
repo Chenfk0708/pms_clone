@@ -330,9 +330,5 @@ export function HouseDaysPage() {
                 ].map(([label, message]) => (_jsx("button", { type: "button", role: "menuitem", onClick: () => {
                         setRoomActionAnchor(null);
                         blockAction(message);
-                    }, children: label }, label))) })) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onCancel: () => setStatusDrawer(null), onSave: (nextSettings) => {
-                    setDisplaySettings(nextSettings);
-                    setStatusDrawer(null);
-                    setFeedback('房态显示设置已保存。');
-                } })) : null] }));
+                    }, children: label }, label))) })) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onClose: () => setStatusDrawer(null), onChange: setDisplaySettings })) : null] }));
 }

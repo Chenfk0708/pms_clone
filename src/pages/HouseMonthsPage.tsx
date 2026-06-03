@@ -16,16 +16,20 @@ export type RoomStatusSettingsDrawer = 'legend' | 'display' | null
 
 export interface RoomStatusDisplaySettings {
   colorMode: 'channel' | 'order'
+  showListPrice: boolean
   showOrders: boolean
   showOrderPrice: boolean
+  showRoomCode: boolean
   showOrderTags: boolean
   showRoomStatus: boolean
 }
 
 export const DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS: RoomStatusDisplaySettings = {
-  colorMode: 'channel',
+  colorMode: 'order',
+  showListPrice: false,
   showOrders: true,
   showOrderPrice: true,
+  showRoomCode: false,
   showOrderTags: true,
   showRoomStatus: true,
 }
@@ -582,46 +586,47 @@ function DrawerSwitch({
 
 export function RoomStatusDisplaySettingsDrawer({
   settings,
-  onCancel,
-  onSave,
+  onClose,
+  onChange,
 }: {
   settings: RoomStatusDisplaySettings
-  onCancel: () => void
-  onSave: (settings: RoomStatusDisplaySettings) => void
+  onClose: () => void
+  onChange: (settings: RoomStatusDisplaySettings) => void
 }) {
-  const [draft, setDraft] = useState(settings)
-
-  const patchDraft = (patch: Partial<RoomStatusDisplaySettings>) => {
-    setDraft((current) => ({ ...current, ...patch }))
+  const patchSettings = (patch: Partial<RoomStatusDisplaySettings>) => {
+    onChange({ ...settings, ...patch })
   }
 
   return (
     <aside className="room-status-side-drawer room-status-side-drawer--settings" role="dialog" aria-modal="true" aria-label="房态显示设置">
       <header className="room-status-side-drawer__header">
         <strong>房态显示设置</strong>
-        <button type="button" aria-label="关闭房态显示设置" onClick={onCancel}>
+        <button type="button" aria-label="关闭房态显示设置" onClick={onClose}>
           ×
         </button>
       </header>
       <div className="room-status-side-drawer__body room-status-settings-panel">
         <section className="room-status-settings-panel__section">
           <h3>房态页（可左右拖动排序）</h3>
-          <div className="room-status-settings-panel__sort-list" aria-label="房态页排序">
-            {['月房态', '日房态', '房态日志', '价格日历'].map((label) => (
-              <button key={label} type="button" className={label === '月房态' || label === '日房态' ? 'is-active' : ''}>
-                <span aria-hidden="true">⋮⋮</span>
-                {label}
+          <div className="room-status-settings-panel__drag-list" aria-label="房态页排序">
+            {['月房态', '日房态'].map((label) => (
+              <button key={label} type="button" className="room-status-settings-panel__drag-item">
+                <span className="room-status-settings-panel__eye" aria-hidden="true" />
+                <span>{label}</span>
+                <span className="room-status-settings-panel__handle" aria-hidden="true" />
               </button>
             ))}
           </div>
         </section>
 
         <section className="room-status-settings-panel__section">
-          <h3>日房态视图</h3>
-          <div className="room-status-settings-panel__view-list" aria-label="日房态视图">
-            {['按房型', '按房间号', '按楼层'].map((label, index) => (
-              <button key={label} type="button" className={index === 1 ? 'is-active' : ''}>
-                {label}
+          <h3>日房态视图（可左右拖动排序）</h3>
+          <div className="room-status-settings-panel__drag-list" aria-label="日房态视图排序">
+            {['按房型', '按房间号', '按楼层'].map((label) => (
+              <button key={label} type="button" className="room-status-settings-panel__drag-item">
+                <span className="room-status-settings-panel__eye" aria-hidden="true" />
+                <span>{label}</span>
+                <span className="room-status-settings-panel__handle" aria-hidden="true" />
               </button>
             ))}
           </div>
@@ -634,8 +639,8 @@ export function RoomStatusDisplaySettingsDrawer({
               <input
                 type="radio"
                 name="room-status-color-mode"
-                checked={draft.colorMode === 'channel'}
-                onChange={() => patchDraft({ colorMode: 'channel' })}
+                checked={settings.colorMode === 'channel'}
+                onChange={() => patchSettings({ colorMode: 'channel' })}
               />
               <span>渠道为主色</span>
             </label>
@@ -643,8 +648,8 @@ export function RoomStatusDisplaySettingsDrawer({
               <input
                 type="radio"
                 name="room-status-color-mode"
-                checked={draft.colorMode === 'order'}
-                onChange={() => patchDraft({ colorMode: 'order' })}
+                checked={settings.colorMode === 'order'}
+                onChange={() => patchSettings({ colorMode: 'order' })}
               />
               <span>订单状态为主色</span>
             </label>
@@ -654,21 +659,13 @@ export function RoomStatusDisplaySettingsDrawer({
         <section className="room-status-settings-panel__section">
           <h3>显示内容</h3>
           <div className="room-status-settings-panel__switches">
-            <DrawerSwitch label="显示订单" checked={draft.showOrders} onChange={(checked) => patchDraft({ showOrders: checked })} />
-            <DrawerSwitch label="显示订单价格" checked={draft.showOrderPrice} onChange={(checked) => patchDraft({ showOrderPrice: checked })} />
-            <DrawerSwitch label="显示订单标签" checked={draft.showOrderTags} onChange={(checked) => patchDraft({ showOrderTags: checked })} />
-            <DrawerSwitch label="显示房态" checked={draft.showRoomStatus} onChange={(checked) => patchDraft({ showRoomStatus: checked })} />
+            <DrawerSwitch label="显示门市价" checked={settings.showListPrice} onChange={(checked) => patchSettings({ showListPrice: checked })} />
+            <DrawerSwitch label="显示订单价格" checked={settings.showOrderPrice} onChange={(checked) => patchSettings({ showOrderPrice: checked })} />
+            <DrawerSwitch label="显示房源编码" checked={settings.showRoomCode} onChange={(checked) => patchSettings({ showRoomCode: checked })} />
+            <DrawerSwitch label="显示订单" checked={settings.showOrders} onChange={(checked) => patchSettings({ showOrders: checked })} />
           </div>
         </section>
       </div>
-      <footer className="room-status-side-drawer__footer">
-        <button type="button" onClick={onCancel}>
-          取消
-        </button>
-        <button type="button" className="is-primary" onClick={() => onSave(draft)}>
-          保存
-        </button>
-      </footer>
     </aside>
   )
 }
@@ -1419,12 +1416,8 @@ export function HouseMonthsPage() {
       {statusDrawer === 'display' ? (
         <RoomStatusDisplaySettingsDrawer
           settings={displaySettings}
-          onCancel={() => setStatusDrawer(null)}
-          onSave={(nextSettings) => {
-            setDisplaySettings(nextSettings)
-            setStatusDrawer(null)
-            setToastMessage('房态显示设置已保存')
-          }}
+          onClose={() => setStatusDrawer(null)}
+          onChange={setDisplaySettings}
         />
       ) : null}
     </div>

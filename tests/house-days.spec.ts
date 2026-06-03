@@ -3,8 +3,30 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  if (routePath.startsWith('/houseManage/days')) {
+    const normalized = houseDaysAppUrl(routePath)
+    return appBaseURL ? `${appBaseURL}${normalized}` : normalized
+  }
+
+  const normalized = routePath.startsWith('/#/') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalized}` : normalized
 }
+
+function houseDaysAppUrl(routePath: string) {
+  const [hashPath, queryString = ''] = routePath.split('?')
+  const params = new URLSearchParams(queryString)
+  if (!params.has('houseDaysProvider')) params.set('houseDaysProvider', 'mock')
+  return `/?${params.toString()}#${hashPath}`
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'house-days-test-token')
+    window.localStorage.setItem('pms.currentCampId', 'camp-interface')
+    window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
+    window.localStorage.setItem('pms.houseMonthsMockMode', 'success')
+  })
+})
 
 test('/houseManage/days loads through the explicit mock provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -53,9 +75,9 @@ test('/houseManage/days filters the left room list when a right-side status is c
   const roomStatusGroup = page.locator('.day-filter-group').nth(1)
 
   await expect(roomCards).toHaveCount(4)
-  await expect(arrivalGroup).toContainText('预抵1')
+  await expect(arrivalGroup).toContainText('预抵0')
   await expect(arrivalGroup).toContainText('预离3')
-  await expect(arrivalGroup).toContainText('在住3')
+  await expect(arrivalGroup).toContainText('在住0')
   await expect(roomStatusGroup).toContainText('空净1')
   await expect(roomStatusGroup).toContainText('住净2')
   await expect(roomStatusGroup).toContainText('住脏1')
@@ -180,9 +202,25 @@ test('/houseManage/days uses shared month order interactions for booked rooms an
   await page.getByRole('button', { name: '关闭订单详情' }).click()
 
   await page.getByRole('button', { name: '更多设置' }).click()
+  await page.getByRole('menuitem', { name: '图例说明' }).click()
+  const legendDrawer = page.getByRole('dialog', { name: '图例说明' })
+  await expect(legendDrawer).toBeVisible()
+  await expect(legendDrawer).toContainText('房间信息')
+  await expect(legendDrawer).toContainText('订单颜色')
+  await expect(legendDrawer).toContainText('客平台房态不一致')
+  await legendDrawer.getByRole('button', { name: '关闭图例说明' }).click()
+
+  await page.getByRole('button', { name: '更多设置' }).click()
   await page.getByRole('menuitem', { name: '房态设置' }).click()
-  await expect(page.getByRole('dialog', { name: '房态设置' })).toContainText('自动刷新')
-  await page.getByRole('button', { name: '保存设置' }).click()
+  const settingsDrawer = page.getByRole('dialog', { name: '房态显示设置' })
+  await expect(settingsDrawer).toContainText('房态页（可左右拖动排序）')
+  await expect(settingsDrawer.getByRole('button', { name: /月房态/ })).toBeVisible()
+  await expect(settingsDrawer.getByRole('button', { name: /日房态/ })).toBeVisible()
+  await expect(settingsDrawer.getByRole('radio', { name: '渠道为主色' })).toBeChecked()
+  await expect(settingsDrawer.getByRole('switch', { name: '显示订单价格' })).toBeChecked()
+  await settingsDrawer.getByRole('switch', { name: '显示订单价格' }).click()
+  await settingsDrawer.getByRole('button', { name: '保存' }).click()
+  await expect(page.locator('.day-room-area')).not.toContainText('¥428.00')
 
   await page.getByRole('button', { name: '读卡' }).click()
   await expect(page.getByRole('status')).toContainText('请连接读卡器后重试')

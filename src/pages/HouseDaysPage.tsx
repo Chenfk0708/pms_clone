@@ -11,9 +11,14 @@ import {
   BatchOperationDialog,
   type BatchMode,
   createHoveredBooking,
+  DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS,
   MonthOrderDrawer,
   MonthOrderPopover,
+  RoomStatusDisplaySettingsDrawer,
+  RoomStatusLegendDrawer,
   type HoveredBooking,
+  type RoomStatusDisplaySettings,
+  type RoomStatusSettingsDrawer,
   type SelectedBooking,
 } from './HouseMonthsPage'
 import { OrderRefreshPopover } from './HouseStatusSharingPage'
@@ -39,12 +44,14 @@ function getRoomBookings(room: HouseDaysRoomCard) {
   return room.booking ? [room.booking] : []
 }
 
-function renderRoomBookings(room: HouseDaysRoomCard) {
+function renderRoomBookings(room: HouseDaysRoomCard, displaySettings: RoomStatusDisplaySettings) {
+  if (!displaySettings.showOrders) return null
+
   return getRoomBookings(room).map((booking, index) => (
     <div key={`${room.id}-booking-${index}`} className="day-room-booking">
       <strong>{booking.guest}</strong>
       <span>{booking.channel}</span>
-      <span>{booking.price}</span>
+      {displaySettings.showOrderPrice ? <span>{booking.price}</span> : null}
     </div>
   ))
 }
@@ -88,6 +95,7 @@ function RoomNumberView({
   setSelectedBooking,
   setRoomActionAnchor,
   setFeedback,
+  displaySettings,
 }: {
   rooms: HouseDaysRoomCard[]
   loading: boolean
@@ -96,6 +104,7 @@ function RoomNumberView({
   setSelectedBooking: (value: SelectedBooking | null) => void
   setRoomActionAnchor: (value: DayRoomActionAnchor | null) => void
   setFeedback: (value: string) => void
+  displaySettings: RoomStatusDisplaySettings
 }) {
   return (
     <>
@@ -163,8 +172,8 @@ function RoomNumberView({
           >
             <strong>{room.roomName}</strong>
             <span>{room.roomType}</span>
-            {renderRoomBookings(room)}
-            {room.hasTag ? <b aria-label="备注标签">●</b> : null}
+            {renderRoomBookings(room, displaySettings)}
+            {displaySettings.showOrderTags && room.hasTag ? <b aria-label="备注标签">●</b> : null}
           </article>
         </section>
       ))}
@@ -186,6 +195,7 @@ function RoomTypeView({
   setSelectedBooking,
   setRoomActionAnchor,
   setFeedback,
+  displaySettings,
 }: {
   summaries: RoomTypeSummaryCard[]
   loading: boolean
@@ -194,6 +204,7 @@ function RoomTypeView({
   setSelectedBooking: (value: SelectedBooking | null) => void
   setRoomActionAnchor: (value: DayRoomActionAnchor | null) => void
   setFeedback: (value: string) => void
+  displaySettings: RoomStatusDisplaySettings
 }) {
   return (
     <div className="day-room-type-list" data-testid="day-room-type-grid">
@@ -264,8 +275,8 @@ function RoomTypeView({
               >
                 <strong>{room.roomName}</strong>
                 <span>{room.roomType}</span>
-                {renderRoomBookings(room)}
-                {room.hasTag ? <b aria-label="备注标签">●</b> : null}
+                  {renderRoomBookings(room, displaySettings)}
+                  {displaySettings.showOrderTags && room.hasTag ? <b aria-label="备注标签">●</b> : null}
               </article>
             ))}
           </div>
@@ -300,8 +311,8 @@ export function HouseDaysPage() {
     remark: '',
     mode: 'dirty' as BatchMode,
   })
-  const [showLegend, setShowLegend] = useState(false)
-  const [showStatusSettings, setShowStatusSettings] = useState(false)
+  const [statusDrawer, setStatusDrawer] = useState<RoomStatusSettingsDrawer>(null)
+  const [displaySettings, setDisplaySettings] = useState<RoomStatusDisplaySettings>(DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS)
   const [roomActionAnchor, setRoomActionAnchor] = useState<DayRoomActionAnchor | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
@@ -358,7 +369,7 @@ export function HouseDaysPage() {
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpenMenu(null)
-        setShowLegend(false)
+        setStatusDrawer(null)
         setSelectedBooking(null)
         setBatchDialogMode(null)
         setRoomActionAnchor(null)
@@ -510,7 +521,7 @@ export function HouseDaysPage() {
                     type="button"
                     role="menuitem"
                     onClick={() => {
-                      setShowLegend(true)
+                      setStatusDrawer('legend')
                       setOpenMenu(null)
                       setFeedback('已打开图例说明。')
                     }}
@@ -521,7 +532,7 @@ export function HouseDaysPage() {
                     type="button"
                     role="menuitem"
                     onClick={() => {
-                      setShowStatusSettings(true)
+                      setStatusDrawer('display')
                       setOpenMenu(null)
                       setFeedback('已打开房态设置。')
                     }}
@@ -639,6 +650,7 @@ export function HouseDaysPage() {
               setSelectedBooking={setSelectedBooking}
               setRoomActionAnchor={setRoomActionAnchor}
               setFeedback={setFeedback}
+              displaySettings={displaySettings}
             />
           ) : null}
           {isRoomTypeView ? (
@@ -650,6 +662,7 @@ export function HouseDaysPage() {
               setSelectedBooking={setSelectedBooking}
               setRoomActionAnchor={setRoomActionAnchor}
               setFeedback={setFeedback}
+              displaySettings={displaySettings}
             />
           ) : null}
           {isFloorView ? <FloorEmptyState onOpenSettings={() => navigate('/setting/roomTypeInfo')} /> : null}
@@ -761,18 +774,7 @@ export function HouseDaysPage() {
         </aside>
       </section>
 
-      {showLegend ? (
-        <aside className="day-legend-dialog" role="dialog" aria-label="图例说明">
-          <header>
-            <strong>图例说明</strong>
-            <button type="button" aria-label="关闭图例说明" onClick={() => setShowLegend(false)}>
-              ×
-            </button>
-          </header>
-          <p>空净：可售且已清洁，空脏：可售但待清洁，关房：不可售房间。</p>
-          <p>批量操作需要先选择房间，执行前会再次确认。</p>
-        </aside>
-      ) : null}
+      {statusDrawer === 'legend' ? <RoomStatusLegendDrawer onClose={() => setStatusDrawer(null)} /> : null}
       {hoveredBooking ? <MonthOrderPopover hoveredBooking={hoveredBooking} /> : null}
       {batchDialogMode ? (
         <BatchOperationDialog
@@ -826,50 +828,16 @@ export function HouseDaysPage() {
           ))}
         </aside>
       ) : null}
-      {showStatusSettings ? (
-        <aside className="day-detail-dialog" role="dialog" aria-label="房态设置">
-          <header>
-            <strong>房态设置</strong>
-            <button type="button" aria-label="关闭房态设置" onClick={() => setShowStatusSettings(false)}>
-              ×
-            </button>
-          </header>
-          <div className="day-detail-dialog__body">
-            <label>
-              <span>自动刷新</span>
-              <select defaultValue="5">
-                <option value="5">每 5 分钟</option>
-                <option value="15">每 15 分钟</option>
-                <option value="manual">手动刷新</option>
-              </select>
-            </label>
-            <label>
-              <span>默认视图</span>
-              <select defaultValue={viewMode}>
-                {viewModes.map((mode) => (
-                  <option key={mode} value={mode}>
-                    {mode}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <footer>
-            <button type="button" onClick={() => setShowStatusSettings(false)}>
-              取消
-            </button>
-            <button
-              type="button"
-              className="primary-action"
-              onClick={() => {
-                setShowStatusSettings(false)
-                setFeedback('房态设置已保存。')
-              }}
-            >
-              保存设置
-            </button>
-          </footer>
-        </aside>
+      {statusDrawer === 'display' ? (
+        <RoomStatusDisplaySettingsDrawer
+          settings={displaySettings}
+          onCancel={() => setStatusDrawer(null)}
+          onSave={(nextSettings) => {
+            setDisplaySettings(nextSettings)
+            setStatusDrawer(null)
+            setFeedback('房态显示设置已保存。')
+          }}
+        />
       ) : null}
     </div>
   )

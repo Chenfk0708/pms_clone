@@ -4,6 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchHouseMonthsDefaultCampId, fetchHouseMonthsSnapshot, } from '../services/houseMonths';
 import { OrderRefreshPopover } from './HouseStatusSharingPage';
 import './HouseMonthsPage.css';
+export const DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS = {
+    colorMode: 'channel',
+    showOrders: true,
+    showOrderPrice: true,
+    showOrderTags: true,
+    showRoomStatus: true,
+};
 const ORDER_TAG_GROUP_LABEL = '默认标签';
 const ORDER_TAG_OPTIONS = ['促销', '重单', '保留房', '钟点房'];
 const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
@@ -177,6 +184,61 @@ export function BatchOperationDialog({ mode, state, onChange, onClose, onConfirm
     const title = batchConfig[mode].title;
     return (_jsx("div", { className: "month-order-dialog-scrim month-batch-dialog-scrim", role: "presentation", onClick: onClose, children: _jsxs("section", { className: `month-order-dialog month-order-dialog--medium month-batch-dialog${isClose || isOpen ? ' month-batch-dialog--wide' : ''}`, role: "dialog", "aria-modal": "true", "aria-label": title, onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header month-batch-dialog__header", children: [_jsx("strong", { children: title }), _jsx("button", { type: "button", "aria-label": `关闭${title}`, onClick: onClose, children: '\u00d7' })] }), _jsxs("div", { className: "month-order-dialog__body month-batch-dialog__body", children: [_jsxs("div", { className: "month-batch-dialog__field", children: [_jsx("span", { children: '\u623f\u95f4:' }), _jsxs("div", { className: "month-batch-dialog__room-picker", children: [_jsx("input", { className: "month-order-dialog__input", "aria-label": '\u6279\u91cf\u623f\u95f4', placeholder: '\u8bf7\u6dfb\u52a0\u623f\u95f4', value: state.roomText, onChange: (event) => onChange({ roomText: event.target.value }) }), _jsx("button", { type: "button", className: "month-batch-dialog__link", onClick: () => onChange({ roomText: '\u623f\u95f41' }), children: '+\u6dfb\u52a0' })] })] }), isDirtyLike ? null : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "month-batch-dialog__field", children: [_jsx("span", { children: '\u65e5\u671f:' }), _jsxs("div", { className: "month-batch-dialog__date-range", children: [_jsx("input", { className: "month-order-dialog__input", "aria-label": '\u5f00\u59cb\u65e5\u671f', type: "date", value: state.dateStart, onChange: (event) => onChange({ dateStart: event.target.value }) }), _jsx("em", { children: '→' }), _jsx("input", { className: "month-order-dialog__input", "aria-label": '\u7ed3\u675f\u65e5\u671f', type: "date", value: state.dateEnd, onChange: (event) => onChange({ dateEnd: event.target.value }) })] })] }), _jsxs("div", { className: "month-batch-dialog__field", children: [_jsx("span", { children: '\u6e20\u9053:' }), _jsxs("select", { className: "month-order-dialog__select month-batch-dialog__select", "aria-label": '\u5168\u90e8\u6e20\u9053', value: state.channel, onChange: (event) => onChange({ channel: event.target.value }), children: [_jsx("option", { value: "all", children: '\u5168\u90e8\u6e20\u9053' }), _jsx("option", { value: "ctrip", children: '\u643a\u7a0b' }), _jsx("option", { value: "meituan-hotel", children: '\u7f8e\u56e2\u9152\u5e97' }), _jsx("option", { value: "feizhu-hotel", children: '\u98de\u732a\u6dd8\u9152\u5e97' }), _jsx("option", { value: "meituan-homestay", children: '\u7f8e\u56e2\u6c11\u5bbf' }), _jsx("option", { value: "tujia", children: '\u9014\u5bb6' }), _jsx("option", { value: "muniao", children: '\u6728\u9e1f' }), _jsx("option", { value: "xiaozhu", children: '\u5c0f\u732a' }), _jsx("option", { value: "locals", children: '\u8def\u5ba2\u4e91\u805a\u5408' })] })] })] })), isClose ? (_jsxs(_Fragment, { children: [_jsxs("div", { className: "month-batch-dialog__field month-batch-dialog__field--radios", children: [_jsx("span", { children: '\u5173\u623f\u7c7b\u578b:' }), _jsxs("div", { className: "month-order-dialog__radio-group month-batch-dialog__radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "batch-close-type", checked: state.closeType === 'disabled', onChange: () => onChange({ closeType: 'disabled' }) }), _jsx("span", { children: '\u505c\u7528\u623f' })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "batch-close-type", checked: state.closeType === 'repair', onChange: () => onChange({ closeType: 'repair' }) }), _jsx("span", { children: '\u7ef4\u4fee\u623f' })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "batch-close-type", checked: state.closeType === 'reserved', onChange: () => onChange({ closeType: 'reserved' }) }), _jsx("span", { children: '\u4fdd\u7559\u623f' })] })] })] }), _jsxs("div", { className: "month-batch-dialog__field month-batch-dialog__field--textarea", children: [_jsx("span", { children: '\u5907\u6ce8:' }), _jsxs("label", { className: "month-batch-dialog__textarea-wrap", children: [_jsx("textarea", { className: "month-order-dialog__textarea", "aria-label": '\u8bf7\u8f93\u5165\u5907\u6ce8', maxLength: 200, placeholder: '\u8bf7\u8f93\u5165\u5907\u6ce8', value: state.remark, onChange: (event) => onChange({ remark: event.target.value }) }), _jsxs("b", { children: [state.remark.length, " / 200"] })] })] }), _jsxs("p", { className: "month-batch-dialog__hint", children: ['\u6b64\u7c7b\u578b\u5173\u623f\u4ecd\u8bb0\u4e3a\u53ef\u552e\u8ba1\u5165\u5165\u4f4f\u7387\uff0c', _jsx("button", { type: "button", children: '\u53ef\u524d\u5f80\u8bbe\u7f6e' })] })] })) : null, isOpen ? (_jsx("p", { className: "month-batch-dialog__hint month-batch-dialog__hint--inline", children: '\u6b64\u7c7b\u578b\u5173\u623f\u4ecd\u8bb0\u4e3a\u53ef\u552e\u8ba1\u5165\u5165\u4f4f\u7387\uff0c\u53ef\u524d\u5f80\u8bbe\u7f6e' })) : null] }), _jsxs("footer", { className: "month-order-dialog__footer month-batch-dialog__footer", children: [_jsx("button", { type: "button", onClick: onClose, children: '\u53d6\u6d88' }), _jsx("button", { type: "button", className: "is-primary", onClick: onConfirm, children: '\u786e\u5b9a' })] })] }) }));
 }
+const legendSections = [
+    {
+        title: '房间信息',
+        items: [
+            { label: '空净房', tone: 'clean', desc: '白底房卡表示可售且已清洁' },
+            { label: '空脏房', tone: 'dirty', desc: '浅灰房卡表示可售但待清洁' },
+            { label: '关房', tone: 'closed', desc: '斜纹底表示当前不可售' },
+        ],
+    },
+    {
+        title: '订单颜色',
+        items: [
+            { label: '美团/直连', tone: 'blue', desc: '蓝色订单块' },
+            { label: '携程/飞猪', tone: 'gold', desc: '橙色订单块' },
+            { label: '自有渠道', tone: 'teal', desc: '绿色订单块' },
+        ],
+    },
+    {
+        title: '房间状态',
+        items: [
+            { label: '客平台房态不一致', tone: 'warning', desc: '需要核对 OTA 与 PMS 库存' },
+            { label: '入住中', tone: 'live', desc: '住客已办理入住' },
+            { label: '预抵/预离', tone: 'arrival', desc: '当日待入住或待离店' },
+        ],
+    },
+    {
+        title: '订单标签',
+        items: [
+            { label: '欠费', tone: 'debt', desc: '订单存在待收款项' },
+            { label: '备注', tone: 'note', desc: '订单含内部备注' },
+            { label: '钟点房', tone: 'hour', desc: '钟点或短租订单' },
+        ],
+    },
+    {
+        title: '入住类型',
+        items: [
+            { label: '全天房', tone: 'all-day', desc: '标准日租订单' },
+            { label: '钟点房', tone: 'hour', desc: '按小时入住' },
+            { label: '长租房', tone: 'long', desc: '长住或月租订单' },
+        ],
+    },
+];
+export function RoomStatusLegendDrawer({ onClose }) {
+    return (_jsxs("aside", { className: "room-status-side-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u56FE\u4F8B\u8BF4\u660E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u56FE\u4F8B\u8BF4\u660E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u56FE\u4F8B\u8BF4\u660E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-legend", children: [legendSections.map((section) => (_jsxs("section", { className: "room-status-legend__section", children: [_jsx("h3", { children: section.title }), _jsx("div", { className: "room-status-legend__items", children: section.items.map((item) => (_jsxs("div", { className: "room-status-legend__item", children: [_jsx("span", { className: `room-status-legend__swatch is-${item.tone}`, "aria-hidden": "true" }), _jsxs("div", { children: [_jsx("strong", { children: item.label }), _jsx("p", { children: item.desc })] })] }, item.label))) })] }, section.title))), _jsxs("section", { className: "room-status-legend__notice", children: [_jsx("h3", { children: "\u6CE8\u610F\u4E8B\u9879" }), _jsx("p", { children: "\u56FE\u4F8B\u989C\u8272\u4EE5\u8BA2\u5355\u6E20\u9053\u4E3A\u4E3B\u8272\u65F6\uFF0C\u623F\u5361\u80CC\u666F\u8DDF\u968F\u6E20\u9053\u8272\uFF1B\u5207\u6362\u4E3A\u8BA2\u5355\u72B6\u6001\u4E3A\u4E3B\u8272\u540E\uFF0C\u8BA2\u5355\u72B6\u6001\u4F18\u5148\u5C55\u793A\u3002" })] })] })] }));
+}
+function DrawerSwitch({ label, checked, onChange, }) {
+    return (_jsxs("button", { type: "button", role: "switch", "aria-checked": checked, "aria-label": label, className: "room-status-setting-switch", onClick: () => onChange(!checked), children: [_jsx("span", { children: label }), _jsx("i", { "aria-hidden": "true" })] }));
+}
+export function RoomStatusDisplaySettingsDrawer({ settings, onCancel, onSave, }) {
+    const [draft, setDraft] = useState(settings);
+    const patchDraft = (patch) => {
+        setDraft((current) => ({ ...current, ...patch }));
+    };
+    return (_jsxs("aside", { className: "room-status-side-drawer room-status-side-drawer--settings", role: "dialog", "aria-modal": "true", "aria-label": "\u623F\u6001\u663E\u793A\u8BBE\u7F6E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u623F\u6001\u663E\u793A\u8BBE\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u623F\u6001\u663E\u793A\u8BBE\u7F6E", onClick: onCancel, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-settings-panel", children: [_jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u623F\u6001\u9875\uFF08\u53EF\u5DE6\u53F3\u62D6\u52A8\u6392\u5E8F\uFF09" }), _jsx("div", { className: "room-status-settings-panel__sort-list", "aria-label": "\u623F\u6001\u9875\u6392\u5E8F", children: ['月房态', '日房态', '房态日志', '价格日历'].map((label) => (_jsxs("button", { type: "button", className: label === '月房态' || label === '日房态' ? 'is-active' : '', children: [_jsx("span", { "aria-hidden": "true", children: "\u22EE\u22EE" }), label] }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u65E5\u623F\u6001\u89C6\u56FE" }), _jsx("div", { className: "room-status-settings-panel__view-list", "aria-label": "\u65E5\u623F\u6001\u89C6\u56FE", children: ['按房型', '按房间号', '按楼层'].map((label, index) => (_jsx("button", { type: "button", className: index === 1 ? 'is-active' : '', children: label }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u8BA2\u5355\u989C\u8272" }), _jsxs("div", { className: "room-status-setting-radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: draft.colorMode === 'channel', onChange: () => patchDraft({ colorMode: 'channel' }) }), _jsx("span", { children: "\u6E20\u9053\u4E3A\u4E3B\u8272" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: draft.colorMode === 'order', onChange: () => patchDraft({ colorMode: 'order' }) }), _jsx("span", { children: "\u8BA2\u5355\u72B6\u6001\u4E3A\u4E3B\u8272" })] })] })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u663E\u793A\u5185\u5BB9" }), _jsxs("div", { className: "room-status-settings-panel__switches", children: [_jsx(DrawerSwitch, { label: "\u663E\u793A\u8BA2\u5355", checked: draft.showOrders, onChange: (checked) => patchDraft({ showOrders: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u8BA2\u5355\u4EF7\u683C", checked: draft.showOrderPrice, onChange: (checked) => patchDraft({ showOrderPrice: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u8BA2\u5355\u6807\u7B7E", checked: draft.showOrderTags, onChange: (checked) => patchDraft({ showOrderTags: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u623F\u6001", checked: draft.showRoomStatus, onChange: (checked) => patchDraft({ showRoomStatus: checked }) })] })] })] }), _jsxs("footer", { className: "room-status-side-drawer__footer", children: [_jsx("button", { type: "button", onClick: onCancel, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => onSave(draft), children: "\u4FDD\u5B58" })] })] }));
+}
 export function HouseMonthsPage() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -202,6 +264,8 @@ export function HouseMonthsPage() {
     const [selectionAnchor, setSelectionAnchor] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [hoveredBooking, setHoveredBooking] = useState(null);
+    const [statusDrawer, setStatusDrawer] = useState(null);
+    const [displaySettings, setDisplaySettings] = useState(DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS);
     const [loadState, setLoadState] = useState('idle');
     const [loadError, setLoadError] = useState('');
     const [refreshPopoverOpen, setRefreshPopoverOpen] = useState(false);
@@ -291,6 +355,7 @@ export function HouseMonthsPage() {
             setSelectedBooking(null);
             setBatchDialogMode(null);
             setSelectionAnchor(null);
+            setStatusDrawer(null);
         };
         const closeByPointer = (event) => {
             const target = event.target;
@@ -420,10 +485,10 @@ export function HouseMonthsPage() {
     };
     return (_jsxs("div", { className: "page-stack month-status-page", children: [_jsx("h1", { className: "month-route-heading", children: "\u6708\u623F\u6001" }), _jsxs("section", { className: "month-toolbar", "aria-label": "\u6708\u623F\u6001\u7B5B\u9009", children: [_jsxs("div", { className: "month-toolbar__primary", children: [_jsxs("div", { className: "segmented", children: [_jsx("button", { type: "button", className: "is-active", children: "\u6708\u623F\u6001" }), _jsx("button", { type: "button", onClick: () => navigate('/houseManage/days'), children: "\u65E5\u623F\u6001" })] }), _jsxs("div", { className: "month-toolbar__actions", children: [_jsx("input", { type: "text", value: query, placeholder: "\u8F93\u5165\u5BA2\u6237\u59D3\u540D/\u624B\u673A/\u623F\u95F4/\u6E20\u9053\u5355/\u5907\u6CE8", onChange: (event) => setQuery(event.target.value) }), _jsx("button", { type: "button", onClick: () => showActionResult('读卡'), children: "\u8BFB \u5361" }), _jsx("button", { type: "button", onClick: () => navigate('/houseManage/houseCale'), children: "\u623F\u4EF7\u7BA1\u7406" }), _jsxs("div", { className: "month-settings", children: [_jsx("button", { type: "button", "aria-label": "\u66F4\u591A\u8BBE\u7F6E", onClick: () => setSettingsOpen((open) => !open), children: "\u66F4\u591A\u8BBE\u7F6E" }), settingsOpen ? (_jsxs("div", { className: "month-settings__menu", role: "menu", "aria-label": "\u66F4\u591A\u8BBE\u7F6E", children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => {
                                                             setSettingsOpen(false);
-                                                            showActionResult('图例说明');
+                                                            setStatusDrawer('legend');
                                                         }, children: "\u56FE\u4F8B\u8BF4\u660E" }), _jsx("button", { type: "button", role: "menuitem", onClick: () => {
                                                             setSettingsOpen(false);
-                                                            showActionResult('房态设置');
+                                                            setStatusDrawer('display');
                                                         }, children: "\u623F\u6001\u8BBE\u7F6E" })] })) : null] })] })] }), _jsxs("div", { className: "month-toolbar__filters", children: [_jsxs("div", { className: "month-store-control", children: [_jsx("div", { className: "month-store-switch", "aria-label": "\u95E8\u5E97\u8303\u56F4", children: storeOptions.map((store, index) => (_jsx("button", { type: "button", className: `chip${index === 0 ? ' month-store-chip' : ''}${activeChip === store.id ? ' is-active' : ''}`, "aria-pressed": activeChip === store.id, onClick: () => handleStoreSwitch(store.id), children: store.name }, store.id))) }), _jsx("button", { type: "button", className: "month-store-settings", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: _jsx("span", { "aria-hidden": "true", children: "\u2699" }) })] }), _jsxs("div", { className: `month-filter-menu month-filter-menu--room${roomType ? ' has-value' : ''}`, children: [_jsx("button", { type: "button", className: "chip month-room-filter-trigger", "aria-expanded": filterMenu === 'room', "data-testid": "month-room-filter-trigger", onClick: () => setFilterMenu(filterMenu === 'room' ? null : 'room'), children: roomType ? (_jsx("span", { className: "month-room-filter-trigger__value", "data-testid": "month-room-filter-value", title: roomType, children: roomType })) : (_jsx("span", { className: "month-room-filter-trigger__placeholder", children: "\u623F\u578B" })) }), roomType ? (_jsx("button", { type: "button", className: "month-room-filter-clear", "aria-label": "\u6E05\u9664\u623F\u578B\u7B5B\u9009", "data-testid": "month-room-filter-clear", onClick: clearRoomTypeFilter, children: "\u00D7" })) : null, filterMenu === 'room' ? (_jsx("div", { className: "month-filter-menu__panel", role: "listbox", "aria-label": "\u623F\u578B\u7B5B\u9009", children: Array.from(new Map(roomGroups.map((row) => [row.roomCategoryId || row.label, row])).values()).map((row) => (_jsx("button", { type: "button", role: "option", "aria-selected": roomType === row.label, onClick: () => {
                                                 setRoomType(row.label);
                                                 setFilterMenu(null);
@@ -441,6 +506,9 @@ export function HouseMonthsPage() {
                                         const key = `${rowIndex}-${cellIndex}`;
                                         const selected = selectedKeys.includes(key);
                                         const selectable = isSelectableCell(cell);
+                                        const isBookingCell = cell.tone.startsWith('booking');
+                                        const showBookingDetails = isBookingCell && displaySettings.showOrders;
+                                        const showRoomStatusLabel = !isBookingCell && displaySettings.showRoomStatus;
                                         return (_jsxs("button", { type: "button", "data-testid": selectable ? 'month-selectable-cell' : undefined, "aria-selected": selectable ? selected : undefined, "data-selectable": selectable ? 'true' : undefined, className: `month-cell tone-${cell.tone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`, onMouseEnter: (event) => {
                                                 if (cell.tone.startsWith('booking'))
                                                     showBookingPopover(event, cell, row);
@@ -452,14 +520,18 @@ export function HouseMonthsPage() {
                                                 }
                                                 if (cell.tone.startsWith('booking'))
                                                     openOrderDrawer(cell, row);
-                                            }, children: [_jsx("strong", { children: cell.title }), cell.subtitle ? _jsx("span", { children: cell.subtitle }) : null, cell.amount ? _jsx("em", { children: cell.amount }) : null, cell.badge ? _jsx("b", { children: cell.badge }) : null, selected ? _jsx("i", { className: "month-cell__check", "aria-hidden": "true", children: "\u2713" }) : null] }, key));
+                                            }, children: [showBookingDetails || showRoomStatusLabel ? _jsx("strong", { children: cell.title }) : null, showBookingDetails && cell.subtitle ? _jsx("span", { children: cell.subtitle }) : null, showBookingDetails && displaySettings.showOrderPrice && cell.amount ? _jsx("em", { children: cell.amount }) : null, showBookingDetails && displaySettings.showOrderTags && cell.badge ? _jsx("b", { children: cell.badge }) : null, selected ? _jsx("i", { className: "month-cell__check", "aria-hidden": "true", children: "\u2713" }) : null] }, key));
                                     })] })) : null] }, row.id)))] }), selectedKeys.length > 0 && selectionAnchor ? (_jsxs("div", { className: "month-selection-actions", role: "menu", "aria-label": "\u623F\u6001\u64CD\u4F5C\u83DC\u5355", style: { left: selectionAnchor.left, top: selectionAnchor.top }, children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => {
                             clearSelectedCells();
                             showActionResult('\u5f55\u5355');
                         }, children: '\u5f55\u5355' }), _jsx("button", { type: "button", role: "menuitem", onClick: () => {
                             setBatchDialogState(createBatchDialogInitialState('close'));
                             setBatchDialogMode('close');
-                        }, children: '\u5173\u623f' })] })) : null, batchDialogMode ? (_jsx(BatchOperationDialog, { mode: batchDialogMode, state: batchDialogState, onChange: (patch) => setBatchDialogState((current) => ({ ...current, ...patch })), onClose: () => setBatchDialogMode(null), onConfirm: () => applyBatch(batchDialogMode) })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, onClose: () => setSelectedBooking(null), onAction: showActionResult })) : null, hoveredBooking ? (_jsxs("section", { className: "month-order-popover", style: { left: hoveredBooking.left, top: hoveredBooking.top }, "aria-label": "\u8BA2\u5355\u60AC\u6D6E\u4FE1\u606F", children: [_jsxs("header", { children: [hoveredBooking.roomType, "-", hoveredBooking.roomLabel] }), _jsxs("div", { className: "month-order-popover__content", children: [_jsxs("div", { children: ["\u9884\u8BA2\u4EBA: ", hoveredBooking.cell.title] }), _jsxs("div", { children: ["\u624B\u673A\u53F7: ", hoveredBooking.cell.phone ?? '-'] }), _jsxs("div", { children: ["\u5165\u79BB\u65F6\u95F4: ", hoveredBooking.cell.stayRange ?? '2026.05.18-05.20'] }), _jsxs("div", { children: ["\u6E20\u9053\u6765\u6E90: ", _jsx("span", { children: hoveredBooking.cell.subtitle ?? '-' })] }), _jsxs("div", { className: "month-order-popover__price", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63): ", _jsx("em", { children: hoveredBooking.cell.amount ?? '-' })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165: ", _jsx("em", { children: hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-' })] })] }), _jsxs("div", { children: ["\u5907\u6CE8: ", hoveredBooking.cell.remark ?? '-'] })] })] })) : null] }));
+                        }, children: '\u5173\u623f' })] })) : null, batchDialogMode ? (_jsx(BatchOperationDialog, { mode: batchDialogMode, state: batchDialogState, onChange: (patch) => setBatchDialogState((current) => ({ ...current, ...patch })), onClose: () => setBatchDialogMode(null), onConfirm: () => applyBatch(batchDialogMode) })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, onClose: () => setSelectedBooking(null), onAction: showActionResult })) : null, hoveredBooking ? (_jsxs("section", { className: "month-order-popover", style: { left: hoveredBooking.left, top: hoveredBooking.top }, "aria-label": "\u8BA2\u5355\u60AC\u6D6E\u4FE1\u606F", children: [_jsxs("header", { children: [hoveredBooking.roomType, "-", hoveredBooking.roomLabel] }), _jsxs("div", { className: "month-order-popover__content", children: [_jsxs("div", { children: ["\u9884\u8BA2\u4EBA: ", hoveredBooking.cell.title] }), _jsxs("div", { children: ["\u624B\u673A\u53F7: ", hoveredBooking.cell.phone ?? '-'] }), _jsxs("div", { children: ["\u5165\u79BB\u65F6\u95F4: ", hoveredBooking.cell.stayRange ?? '2026.05.18-05.20'] }), _jsxs("div", { children: ["\u6E20\u9053\u6765\u6E90: ", _jsx("span", { children: hoveredBooking.cell.subtitle ?? '-' })] }), _jsxs("div", { className: "month-order-popover__price", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63): ", _jsx("em", { children: hoveredBooking.cell.amount ?? '-' })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165: ", _jsx("em", { children: hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-' })] })] }), _jsxs("div", { children: ["\u5907\u6CE8: ", hoveredBooking.cell.remark ?? '-'] })] })] })) : null, statusDrawer === 'legend' ? _jsx(RoomStatusLegendDrawer, { onClose: () => setStatusDrawer(null) }) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onCancel: () => setStatusDrawer(null), onSave: (nextSettings) => {
+                    setDisplaySettings(nextSettings);
+                    setStatusDrawer(null);
+                    setToastMessage('房态显示设置已保存');
+                } })) : null] }));
 }
 export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
     const [activeTab, setActiveTab] = useState('order');

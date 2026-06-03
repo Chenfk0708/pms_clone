@@ -19,6 +19,13 @@ function formatFullDate(date: Date) {
 
 const COLLAPSE_TEXT = '\u5168\u90e8\u6536\u8d77'
 const HUDSON_API = 'https://hudson-prod.localhome.cn'
+const MONTH_API_ROUTES = [`${HUDSON_API}/**`, '**/api/**'] as const
+const appBaseURL = process.env.PMS_TEST_BASE_URL
+
+function appUrl(routePath: string) {
+  const normalized = routePath.startsWith('/#/') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalized}` : normalized
+}
 
 function jsonResponse(body: unknown) {
   return {
@@ -125,9 +132,9 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant:
           },
         ]
 
-  await page.route(`${HUDSON_API}/**`, async (route) => {
+  const handleMonthRoute = async (route) => {
     const request = route.request()
-    const pathname = new URL(request.url()).pathname
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
     requestedPaths.push(pathname)
 
     if (pathname === '/camps/get') {
@@ -200,11 +207,22 @@ async function mockMonthStatusApis(page, requestedPaths: string[] = [], variant:
     }
 
     await route.fulfill(jsonResponse({ success: true, data: {} }))
-  })
+  }
+
+  for (const routePattern of MONTH_API_ROUTES) {
+    await page.route(routePattern, handleMonthRoute)
+  }
+}
+
+async function unrouteMonthStatusApis(page) {
+  for (const routePattern of MONTH_API_ROUTES) {
+    await page.unroute(routePattern)
+  }
 }
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'house-months-test-token')
     window.localStorage.setItem('pms.currentCampId', 'camp-interface')
   })
   await mockMonthStatusApis(page)
@@ -220,7 +238,7 @@ function shanghaiMidnightTimestamp(date: Date) {
 
 test('month room status page shows filters and calendar matrix', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/houseManage/months')
+  await page.goto(appUrl('/houseManage/months'))
 
   const firstWindowDay = formatMonthDay(monthWindowDate(0))
   const today = formatMonthDay(monthWindowDate(3))
@@ -242,14 +260,14 @@ test('month room status page shows filters and calendar matrix', async ({ page }
 
 test('month room status page opens sharing room status page and order refresh popover', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/houseManage/months')
+  await page.goto(appUrl('/houseManage/months'))
 
   await page.getByRole('button', { name: '分享房态' }).click()
   await expect(page).toHaveURL(/\/houseManage\/months\/sharingRoomStatus$/)
   await expect(page.getByRole('button', { name: '新增房态分享' })).toBeVisible()
   await expect(page.getByLabel('房态分享空状态')).toContainText('暂无数据')
 
-  await page.goto('/houseManage/months')
+  await page.goto(appUrl('/houseManage/months'))
   await page.getByRole('button', { name: '订单刷新' }).click()
   const refreshDialog = page.getByRole('dialog', { name: '订单刷新' })
   await expect(refreshDialog).toContainText('美团酒店订单')
@@ -257,12 +275,46 @@ test('month room status page opens sharing room status page and order refresh po
   await expect(page.locator('.month-status-toast')).toContainText('美团酒店订单已刷新')
 })
 
+test('month room status more settings opens target drawers and applies display switches', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months'))
+
+  await page.getByRole('button', { name: '更多设置' }).click()
+  await page.getByRole('menuitem', { name: '图例说明' }).click()
+  const legendDrawer = page.getByRole('dialog', { name: '图例说明' })
+  await expect(legendDrawer).toBeVisible()
+  await expect(legendDrawer).toContainText('房间信息')
+  await expect(legendDrawer).toContainText('订单颜色')
+  await expect(legendDrawer).toContainText('客平台房态不一致')
+  await expect(legendDrawer).toContainText('注意事项')
+  await legendDrawer.getByRole('button', { name: '关闭图例说明' }).click()
+
+  await page.getByRole('button', { name: '更多设置' }).click()
+  await page.getByRole('menuitem', { name: '房态设置' }).click()
+  const settingsDrawer = page.getByRole('dialog', { name: '房态显示设置' })
+  await expect(settingsDrawer).toBeVisible()
+  await expect(settingsDrawer.getByText('房态页（可左右拖动排序）')).toBeVisible()
+  await expect(settingsDrawer.getByRole('button', { name: /月房态/ })).toBeVisible()
+  await expect(settingsDrawer.getByRole('button', { name: /日房态/ })).toBeVisible()
+  await expect(settingsDrawer.getByRole('radio', { name: '渠道为主色' })).toBeChecked()
+  await expect(settingsDrawer.getByRole('switch', { name: '显示订单价格' })).toBeChecked()
+
+  await settingsDrawer.getByRole('switch', { name: '显示订单价格' }).click()
+  await settingsDrawer.getByRole('button', { name: '保存' }).click()
+  await expect(settingsDrawer).toHaveCount(0)
+  await expect(page.getByTestId('month-grid')).not.toContainText('¥597.6')
+
+  await page.getByRole('button', { name: '更多设置' }).click()
+  await page.getByRole('menuitem', { name: '房态设置' }).click()
+  await expect(page.getByRole('dialog', { name: '房态显示设置' }).getByRole('switch', { name: '显示订单价格' })).not.toBeChecked()
+})
+
 test('month room status page loads core grid from real request layer', async ({ page }) => {
   const requestedPaths: string[] = []
-  await page.unroute(`${HUDSON_API}/**`)
+  await unrouteMonthStatusApis(page)
   await mockMonthStatusApis(page, requestedPaths, 'api')
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/houseManage/months?campId=camp-interface')
+  await page.goto(appUrl('/houseManage/months?campId=camp-interface'))
 
   await expect(page.getByText('API Room Type', { exact: true })).toBeVisible()
   await expect(page.getByText('API Room', { exact: true })).toBeVisible()
@@ -286,13 +338,24 @@ test('month room status page loads core grid from real request layer', async ({ 
 
 test('month room status page can render from centralized mock provider without backend requests', async ({ page }) => {
   const requestedPaths: string[] = []
-  await page.unroute(`${HUDSON_API}/**`)
-  await page.route(`${HUDSON_API}/**`, async (route) => {
-    requestedPaths.push(new URL(route.request().url()).pathname)
-    await route.fulfill(jsonResponse({ success: false, errorMsg: 'mock provider test should not call real backend' }))
-  })
+  await unrouteMonthStatusApis(page)
+  for (const routePattern of MONTH_API_ROUTES) {
+    await page.route(routePattern, async (route) => {
+      requestedPaths.push(new URL(route.request().url()).pathname)
+      await route.fulfill(jsonResponse({ success: false, errorMsg: 'mock provider test should not call real backend' }))
+    })
+  }
   await page.addInitScript(() => {
     window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
     window.localStorage.setItem('pms.houseMonthsMockMode', 'success')
   })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months?campId=camp-interface'))
+
+  await expect(page.getByTestId('month-grid')).toBeVisible()
+  await expect(page.getByText('总裁套间（桑拿浴缸露台电竞麻将）', { exact: true })).toBeVisible()
+  await expect(page.getByText('王欣怡', { exact: true })).toBeVisible()
+  expect(requestedPaths).toEqual([])
+})
 

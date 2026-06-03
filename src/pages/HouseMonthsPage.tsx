@@ -12,6 +12,23 @@ import './HouseMonthsPage.css'
 
 export type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
 type BatchMenu = 'dirty-clean' | 'open-close' | null
+export type RoomStatusSettingsDrawer = 'legend' | 'display' | null
+
+export interface RoomStatusDisplaySettings {
+  colorMode: 'channel' | 'order'
+  showOrders: boolean
+  showOrderPrice: boolean
+  showOrderTags: boolean
+  showRoomStatus: boolean
+}
+
+export const DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS: RoomStatusDisplaySettings = {
+  colorMode: 'channel',
+  showOrders: true,
+  showOrderPrice: true,
+  showOrderTags: true,
+  showRoomStatus: true,
+}
 
 export interface HoveredBooking {
   cell: MonthCell
@@ -461,6 +478,201 @@ export function BatchOperationDialog({
   )
 }
 
+const legendSections = [
+  {
+    title: '房间信息',
+    items: [
+      { label: '空净房', tone: 'clean', desc: '白底房卡表示可售且已清洁' },
+      { label: '空脏房', tone: 'dirty', desc: '浅灰房卡表示可售但待清洁' },
+      { label: '关房', tone: 'closed', desc: '斜纹底表示当前不可售' },
+    ],
+  },
+  {
+    title: '订单颜色',
+    items: [
+      { label: '美团/直连', tone: 'blue', desc: '蓝色订单块' },
+      { label: '携程/飞猪', tone: 'gold', desc: '橙色订单块' },
+      { label: '自有渠道', tone: 'teal', desc: '绿色订单块' },
+    ],
+  },
+  {
+    title: '房间状态',
+    items: [
+      { label: '客平台房态不一致', tone: 'warning', desc: '需要核对 OTA 与 PMS 库存' },
+      { label: '入住中', tone: 'live', desc: '住客已办理入住' },
+      { label: '预抵/预离', tone: 'arrival', desc: '当日待入住或待离店' },
+    ],
+  },
+  {
+    title: '订单标签',
+    items: [
+      { label: '欠费', tone: 'debt', desc: '订单存在待收款项' },
+      { label: '备注', tone: 'note', desc: '订单含内部备注' },
+      { label: '钟点房', tone: 'hour', desc: '钟点或短租订单' },
+    ],
+  },
+  {
+    title: '入住类型',
+    items: [
+      { label: '全天房', tone: 'all-day', desc: '标准日租订单' },
+      { label: '钟点房', tone: 'hour', desc: '按小时入住' },
+      { label: '长租房', tone: 'long', desc: '长住或月租订单' },
+    ],
+  },
+] as const
+
+export function RoomStatusLegendDrawer({ onClose }: { onClose: () => void }) {
+  return (
+    <aside className="room-status-side-drawer" role="dialog" aria-modal="true" aria-label="图例说明">
+      <header className="room-status-side-drawer__header">
+        <strong>图例说明</strong>
+        <button type="button" aria-label="关闭图例说明" onClick={onClose}>
+          ×
+        </button>
+      </header>
+      <div className="room-status-side-drawer__body room-status-legend">
+        {legendSections.map((section) => (
+          <section key={section.title} className="room-status-legend__section">
+            <h3>{section.title}</h3>
+            <div className="room-status-legend__items">
+              {section.items.map((item) => (
+                <div key={item.label} className="room-status-legend__item">
+                  <span className={`room-status-legend__swatch is-${item.tone}`} aria-hidden="true" />
+                  <div>
+                    <strong>{item.label}</strong>
+                    <p>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+        <section className="room-status-legend__notice">
+          <h3>注意事项</h3>
+          <p>图例颜色以订单渠道为主色时，房卡背景跟随渠道色；切换为订单状态为主色后，订单状态优先展示。</p>
+        </section>
+      </div>
+    </aside>
+  )
+}
+
+function DrawerSwitch({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string
+  checked: boolean
+  onChange: (checked: boolean) => void
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      className="room-status-setting-switch"
+      onClick={() => onChange(!checked)}
+    >
+      <span>{label}</span>
+      <i aria-hidden="true" />
+    </button>
+  )
+}
+
+export function RoomStatusDisplaySettingsDrawer({
+  settings,
+  onCancel,
+  onSave,
+}: {
+  settings: RoomStatusDisplaySettings
+  onCancel: () => void
+  onSave: (settings: RoomStatusDisplaySettings) => void
+}) {
+  const [draft, setDraft] = useState(settings)
+
+  const patchDraft = (patch: Partial<RoomStatusDisplaySettings>) => {
+    setDraft((current) => ({ ...current, ...patch }))
+  }
+
+  return (
+    <aside className="room-status-side-drawer room-status-side-drawer--settings" role="dialog" aria-modal="true" aria-label="房态显示设置">
+      <header className="room-status-side-drawer__header">
+        <strong>房态显示设置</strong>
+        <button type="button" aria-label="关闭房态显示设置" onClick={onCancel}>
+          ×
+        </button>
+      </header>
+      <div className="room-status-side-drawer__body room-status-settings-panel">
+        <section className="room-status-settings-panel__section">
+          <h3>房态页（可左右拖动排序）</h3>
+          <div className="room-status-settings-panel__sort-list" aria-label="房态页排序">
+            {['月房态', '日房态', '房态日志', '价格日历'].map((label) => (
+              <button key={label} type="button" className={label === '月房态' || label === '日房态' ? 'is-active' : ''}>
+                <span aria-hidden="true">⋮⋮</span>
+                {label}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="room-status-settings-panel__section">
+          <h3>日房态视图</h3>
+          <div className="room-status-settings-panel__view-list" aria-label="日房态视图">
+            {['按房型', '按房间号', '按楼层'].map((label, index) => (
+              <button key={label} type="button" className={index === 1 ? 'is-active' : ''}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="room-status-settings-panel__section">
+          <h3>订单颜色</h3>
+          <div className="room-status-setting-radio-group">
+            <label>
+              <input
+                type="radio"
+                name="room-status-color-mode"
+                checked={draft.colorMode === 'channel'}
+                onChange={() => patchDraft({ colorMode: 'channel' })}
+              />
+              <span>渠道为主色</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="room-status-color-mode"
+                checked={draft.colorMode === 'order'}
+                onChange={() => patchDraft({ colorMode: 'order' })}
+              />
+              <span>订单状态为主色</span>
+            </label>
+          </div>
+        </section>
+
+        <section className="room-status-settings-panel__section">
+          <h3>显示内容</h3>
+          <div className="room-status-settings-panel__switches">
+            <DrawerSwitch label="显示订单" checked={draft.showOrders} onChange={(checked) => patchDraft({ showOrders: checked })} />
+            <DrawerSwitch label="显示订单价格" checked={draft.showOrderPrice} onChange={(checked) => patchDraft({ showOrderPrice: checked })} />
+            <DrawerSwitch label="显示订单标签" checked={draft.showOrderTags} onChange={(checked) => patchDraft({ showOrderTags: checked })} />
+            <DrawerSwitch label="显示房态" checked={draft.showRoomStatus} onChange={(checked) => patchDraft({ showRoomStatus: checked })} />
+          </div>
+        </section>
+      </div>
+      <footer className="room-status-side-drawer__footer">
+        <button type="button" onClick={onCancel}>
+          取消
+        </button>
+        <button type="button" className="is-primary" onClick={() => onSave(draft)}>
+          保存
+        </button>
+      </footer>
+    </aside>
+  )
+}
+
 export function HouseMonthsPage() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -486,6 +698,8 @@ export function HouseMonthsPage() {
   const [selectionAnchor, setSelectionAnchor] = useState<FloatingAnchor | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
+  const [statusDrawer, setStatusDrawer] = useState<RoomStatusSettingsDrawer>(null)
+  const [displaySettings, setDisplaySettings] = useState<RoomStatusDisplaySettings>(DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS)
   const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [loadError, setLoadError] = useState('')
   const [refreshPopoverOpen, setRefreshPopoverOpen] = useState(false)
@@ -585,6 +799,7 @@ export function HouseMonthsPage() {
       setSelectedBooking(null)
       setBatchDialogMode(null)
       setSelectionAnchor(null)
+      setStatusDrawer(null)
     }
 
     const closeByPointer = (event: MouseEvent) => {
@@ -771,7 +986,7 @@ export function HouseMonthsPage() {
                     role="menuitem"
                     onClick={() => {
                       setSettingsOpen(false)
-                      showActionResult('图例说明')
+                      setStatusDrawer('legend')
                     }}
                   >
                     图例说明
@@ -781,7 +996,7 @@ export function HouseMonthsPage() {
                     role="menuitem"
                     onClick={() => {
                       setSettingsOpen(false)
-                      showActionResult('房态设置')
+                      setStatusDrawer('display')
                     }}
                   >
                     房态设置
@@ -1100,6 +1315,9 @@ export function HouseMonthsPage() {
                   const key = `${rowIndex}-${cellIndex}`
                   const selected = selectedKeys.includes(key)
                   const selectable = isSelectableCell(cell)
+                  const isBookingCell = cell.tone.startsWith('booking')
+                  const showBookingDetails = isBookingCell && displaySettings.showOrders
+                  const showRoomStatusLabel = !isBookingCell && displaySettings.showRoomStatus
 
                   return (
                     <button
@@ -1122,10 +1340,10 @@ export function HouseMonthsPage() {
                         if (cell.tone.startsWith('booking')) openOrderDrawer(cell, row)
                       }}
                     >
-                      <strong>{cell.title}</strong>
-                      {cell.subtitle ? <span>{cell.subtitle}</span> : null}
-                      {cell.amount ? <em>{cell.amount}</em> : null}
-                      {cell.badge ? <b>{cell.badge}</b> : null}
+                      {showBookingDetails || showRoomStatusLabel ? <strong>{cell.title}</strong> : null}
+                      {showBookingDetails && cell.subtitle ? <span>{cell.subtitle}</span> : null}
+                      {showBookingDetails && displaySettings.showOrderPrice && cell.amount ? <em>{cell.amount}</em> : null}
+                      {showBookingDetails && displaySettings.showOrderTags && cell.badge ? <b>{cell.badge}</b> : null}
                       {selected ? <i className="month-cell__check" aria-hidden="true">✓</i> : null}
                     </button>
                   )
@@ -1196,6 +1414,18 @@ export function HouseMonthsPage() {
             <div>备注: {hoveredBooking.cell.remark ?? '-'}</div>
           </div>
         </section>
+      ) : null}
+      {statusDrawer === 'legend' ? <RoomStatusLegendDrawer onClose={() => setStatusDrawer(null)} /> : null}
+      {statusDrawer === 'display' ? (
+        <RoomStatusDisplaySettingsDrawer
+          settings={displaySettings}
+          onCancel={() => setStatusDrawer(null)}
+          onSave={(nextSettings) => {
+            setDisplaySettings(nextSettings)
+            setStatusDrawer(null)
+            setToastMessage('房态显示设置已保存')
+          }}
+        />
       ) : null}
     </div>
   )

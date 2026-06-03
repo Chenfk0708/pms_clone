@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   defaultStatisticsDistributionOrderCampId,
   getStatisticsDistributionOrderProviderName,
@@ -33,6 +33,7 @@ const initialQuery: StatisticsDistributionOrderQuery = {
 }
 
 export function StatisticsDistributionOrderPage({ defaultExpanded = true }: { defaultExpanded?: boolean }) {
+  const location = useLocation()
   const navigate = useNavigate()
   const [expanded, setExpanded] = useState(defaultExpanded)
   const [keyword, setKeyword] = useState('')
@@ -89,7 +90,7 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }: { de
 
     void run()
     return () => controller.abort()
-  }, [query, reloadToken])
+  }, [query, reloadToken, location.search])
 
   function resetFilters() {
     setKeyword('')
@@ -187,7 +188,14 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }: { de
   return (
     <div className="distribution-order-page statistics-distribution-order-page">
       <h1 className="sr-only-heading">聚合分销订单</h1>
-      <span id="statistics-distribution-service" hidden data-value={serviceSummary.join(';')} />
+      <pre
+        id="statistics-distribution-service"
+        hidden
+        data-testid="statistics-distribution-order-service-contract"
+        aria-label="聚合分销订单数据服务"
+      >
+        {serviceSummary.join(';')}
+      </pre>
 
       <section className="order-ledger-filter statistics-distribution-filter" aria-label="聚合分销订单筛选">
         <div className="order-ledger-filter__top statistics-distribution-filter__top">

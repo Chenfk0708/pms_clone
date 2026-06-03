@@ -1,11 +1,12 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useSyncExternalStore, useState } from 'react';
 import { createProfitReportExportTask, createProfitReportRequestBody, fetchProfitReportDashboard, getDefaultProfitReportFilters, getProfitReportStaticLookups, resolveProfitReportProvider, } from '../services/profitReport';
 import './ProfitReportPage.css';
 const staticLookups = getProfitReportStaticLookups();
 export function ProfitReportPage() {
+    const routeKey = useRouteSearchKey();
     const provider = useMemo(() => resolveProfitReportProvider(), []);
-    const mockState = useMemo(() => resolveMockState(), []);
+    const mockState = useMemo(() => resolveMockState(), [routeKey]);
     const [filters, setFilters] = useState(() => ({
         ...getDefaultProfitReportFilters(),
         mockState,
@@ -204,8 +205,25 @@ function paginationText(pageNum, pageSize, total, length) {
     return `第 ${start}-${end} 条/总共 ${total} 条`;
 }
 function resolveMockState() {
-    const state = new URLSearchParams(window.location.search).get('profitMockState');
+    const state = readRouteParam('profitMockState');
     return state === 'empty' || state === 'error' ? state : 'success';
+}
+function useRouteSearchKey() {
+    return useSyncExternalStore((notify) => {
+        window.addEventListener('hashchange', notify);
+        window.addEventListener('popstate', notify);
+        return () => {
+            window.removeEventListener('hashchange', notify);
+            window.removeEventListener('popstate', notify);
+        };
+    }, () => `${window.location.search}|${window.location.hash}`);
+}
+function readRouteParam(key) {
+    const searchValue = new URLSearchParams(window.location.search).get(key);
+    if (searchValue)
+        return searchValue;
+    const hashQuery = window.location.hash.split('?')[1] ?? '';
+    return new URLSearchParams(hashQuery).get(key);
 }
 function shiftMonth(month, offset) {
     const [year, monthIndex] = month.split('-').map(Number);

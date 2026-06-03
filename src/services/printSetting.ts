@@ -1,10 +1,15 @@
+import { apiPost } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const PRINT_SETTING_PROVIDER_KEY = 'pms.printSettingProvider'
 export const PRINT_SETTING_MOCK_STATE_KEY = 'pms.printSettingMockState'
 export const PRINT_SETTING_MUTATION_STATE_KEY = 'pms.printSettingMutationState'
 export const PRINT_SETTING_BOOTSTRAP_ENDPOINT = '/setting/print/bootstrap'
 export const PRINT_SETTING_SAVE_ENDPOINT = '/setting/print/save'
+export const PRINT_SETTING_API_GET_ENDPOINT = '/printSettings/get'
+export const PRINT_SETTING_API_SAVE_ENDPOINT = '/printSettings/save'
 
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_TIMESTAMP = '2026-05-19T19:25:52+08:00'
 
 export type PrintSettingProvider = 'mock' | 'api'
@@ -140,7 +145,7 @@ export function createDefaultPrintSettingQuery(
   runtimeConfig: ReturnType<typeof resolvePrintSettingRuntimeConfig>,
 ): PrintSettingQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     provider: runtimeConfig.provider,
     mockState: runtimeConfig.mockState,
     mutationState: runtimeConfig.mutationState,
@@ -154,11 +159,18 @@ export async function loadPrintSettingViewModel(
   const provider = query.provider ?? 'mock'
   const request = buildBootstrapRequest(query)
 
-  await delay(180, signal)
-
   if (provider === 'api') {
-    throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'bootstrap', 503, '打印设置暂时不可用，请稍后重试'))
+    const data = await apiPost<PrintSettingPayload>(PRINT_SETTING_API_GET_ENDPOINT, request, signal)
+    return adaptPrintSettingEnvelope(
+      provider,
+      request,
+      createApiEnvelope(data, 'print-settings-get'),
+      normalizeResponseState(data),
+      PRINT_SETTING_API_GET_ENDPOINT,
+    )
   }
+
+  await delay(180, signal)
 
   if (query.mockState === 'error') {
     throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'bootstrap', 50001, '打印设置加载失败，请稍后重试'))
@@ -178,7 +190,6 @@ export async function savePrintSettingSection(
   signal?: AbortSignal,
 ): Promise<PrintSettingViewModel> {
   validateDraft(draft)
-  await delay(160, signal)
 
   const provider = query.provider ?? 'mock'
   const request = {
@@ -189,7 +200,20 @@ export async function savePrintSettingSection(
     customText: draft.customText,
   }
 
-  if (provider === 'api' || query.mutationState === 'error') {
+  if (provider === 'api') {
+    const data = await apiPost<PrintSettingPayload>(PRINT_SETTING_API_SAVE_ENDPOINT, request, signal)
+    return adaptPrintSettingEnvelope(
+      provider,
+      request,
+      createApiEnvelope(data, 'print-settings-save'),
+      'success',
+      PRINT_SETTING_API_SAVE_ENDPOINT,
+    )
+  }
+
+  await delay(160, signal)
+
+  if (query.mutationState === 'error') {
     throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'save', 50011, '打印模板保存失败，请稍后重试'))
   }
 
@@ -216,6 +240,37 @@ export async function applyDefaultPrintSettingTemplates(
   query: PrintSettingQuery,
   signal?: AbortSignal,
 ): Promise<PrintSettingViewModel> {
+  const provider = query.provider ?? 'mock'
+
+  if (provider === 'api') {
+    let response: PrintSettingViewModel | null = null
+    for (const section of initialSections) {
+      response = await savePrintSettingSection(
+        query,
+        {
+          key: section.key,
+          paperType: section.paperType,
+          selectedDocument: section.selectedDocument,
+          customText: section.customText,
+        },
+        signal,
+      )
+    }
+
+    if (!response) {
+      const request = { campId: query.campId, action: 'apply-default' }
+      return adaptPrintSettingEnvelope(
+        provider,
+        request,
+        createApiEnvelope(buildPayload(initialSections), 'print-settings-apply-default'),
+        'success',
+        PRINT_SETTING_API_SAVE_ENDPOINT,
+      )
+    }
+
+    return response
+  }
+
   await delay(140, signal)
 
   mockSections = cloneSections(initialSections)
@@ -225,7 +280,7 @@ export async function applyDefaultPrintSettingTemplates(
   }
 
   return adaptPrintSettingEnvelope(
-    query.provider ?? 'mock',
+    provider,
     request,
     createEnvelope('success', 'save', 0, 'success', buildPayload(mockSections)),
     'success',
@@ -237,6 +292,7 @@ function adaptPrintSettingEnvelope(
   request: Record<string, unknown>,
   response: PrintSettingEnvelope<PrintSettingPayload>,
   state: Extract<PrintSettingMockState, 'success' | 'empty'>,
+  endpoint = String(request.section ? PRINT_SETTING_SAVE_ENDPOINT : PRINT_SETTING_BOOTSTRAP_ENDPOINT),
 ): PrintSettingViewModel {
   if (response.code !== 0) {
     throw new PrintSettingServiceError(provider, request, response)
@@ -245,13 +301,31 @@ function adaptPrintSettingEnvelope(
   return {
     provider,
     state,
-    endpoint: String(request.section ? PRINT_SETTING_SAVE_ENDPOINT : PRINT_SETTING_BOOTSTRAP_ENDPOINT),
+    endpoint,
     traceId: response.traceId,
     timestamp: response.timestamp,
     request,
     sections: cloneSections(response.data.sections),
     emptyState: response.data.emptyState,
   }
+}
+
+
+function createApiEnvelope(data: PrintSettingPayload, traceId: string): PrintSettingEnvelope<PrintSettingPayload> {
+  return {
+    code: 0,
+    message: 'success',
+    data: {
+      sections: Array.isArray(data.sections) ? data.sections : [],
+      emptyState: data.emptyState ?? buildPayload([]).emptyState,
+    },
+    traceId,
+    timestamp: new Date().toISOString(),
+  }
+}
+
+function normalizeResponseState(data: PrintSettingPayload): Extract<PrintSettingMockState, 'success' | 'empty'> {
+  return Array.isArray(data.sections) && data.sections.length > 0 ? 'success' : 'empty'
 }
 
 function buildPayload(sections: PrintSettingSection[]): PrintSettingPayload {
@@ -321,7 +395,9 @@ function delay(ms: number, signal?: AbortSignal) {
 }
 
 function normalizeProvider(value: string | null | undefined): PrintSettingProvider | undefined {
-  return value === 'api' || value === 'mock' ? value : undefined
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
+  return undefined
 }
 
 function normalizeMockState(value: string | null | undefined): PrintSettingMockState | undefined {
@@ -334,7 +410,8 @@ function normalizeMutationState(value: string | null | undefined): PrintSettingM
 
 function readProvider(): PrintSettingProvider {
   if (typeof window === 'undefined') return 'mock'
-  return normalizeProvider(window.localStorage.getItem(PRINT_SETTING_PROVIDER_KEY)) ?? 'mock'
+  const provider = normalizeProvider(window.localStorage.getItem(PRINT_SETTING_PROVIDER_KEY))
+  return provider ?? 'mock'
 }
 
 function readMockState(): PrintSettingMockState {

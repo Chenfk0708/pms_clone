@@ -95,17 +95,11 @@ button {
 }
 
 .brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 66px;
-  height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #2446d4, #1f3bb1);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  display: block;
+  width: 92px;
+  height: 34px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brand-store {
@@ -118,6 +112,7 @@ button {
 .brand-store strong {
   font-size: 14px;
   font-weight: 600;
+  color: #24324a;
 }
 
 .brand-store span {

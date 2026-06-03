@@ -1,9 +1,15 @@
+import { getToken } from '../utils/auth'
+import { resolveCurrentCampId } from '../utils/camp'
+
 const VERSION_SUBSCRIPTION_PROVIDER_KEY = 'pms.versionSubscriptionProvider'
 const VERSION_SUBSCRIPTION_STATE_KEY = 'pms.versionSubscriptionMockState'
 const VERSION_SUBSCRIPTION_DIAGNOSTIC_KEY = 'pms.versionSubscription.lastRequest'
 
 const VERSION_SUBSCRIPTION_TIMESTAMP = '2026-05-19T19:30:00+08:00'
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_MOCK_CAMP_ID = '1796067693589061634'
+const DEFAULT_REAL_CAMP_ID = '10001'
+const CATALOG_CAMP_ID = '64'
+const REAL_API_BASE = '/api'
 
 export const VERSION_SUBSCRIPTION_DASHBOARD_PATH = '/edition/resource/get'
 export const VERSION_SUBSCRIPTION_CATALOG_PATH = '/weiRoomCategories/page/get'
@@ -77,9 +83,12 @@ export type VersionSubscriptionDashboard = {
 type UnifiedEnvelope<T> = {
   code: number
   message: string
-  data: T
+  data: T | null
   traceId: string
   timestamp: string
+  success?: boolean
+  errorMsg?: string | null
+  errorDetail?: string | null
 }
 
 type VersionSubscriptionDiagnostics = {
@@ -96,15 +105,24 @@ type VersionSubscriptionDiagnostics = {
 type VersionSubscriptionRawDashboard = {
   editionId: string
   editionName: string
-  campName: string
-  buildVersion: string
-  expirationDate: string
-  quotas: VersionSubscriptionQuota[]
+  campName?: string
+  buildVersion?: string
+  expirationDate?: string
+  expireDateRange?: string
+  quotas?: VersionSubscriptionQuota[]
+  resourceGetViews?: Array<Record<string, unknown>>
 }
 
 type VersionSubscriptionRawCatalog = {
-  plans: VersionSubscriptionPlan[]
-  featureGroups: VersionSubscriptionFeatureGroup[]
+  plans?: VersionSubscriptionPlan[]
+  featureGroups?: VersionSubscriptionFeatureGroup[]
+  list?: Array<Record<string, unknown>>
+}
+
+type VersionSubscriptionOrderResponse = {
+  message: string
+  redirectTo: string
+  orderNo?: string
 }
 
 const durations: VersionSubscriptionDuration[] = [
@@ -247,7 +265,7 @@ const featureGroups: VersionSubscriptionFeatureGroup[] = [
 
 export function createDefaultVersionSubscriptionFilters(searchParams = new URLSearchParams()): VersionSubscriptionFilters {
   return {
-    campId: searchParams.get('campId') || DEFAULT_CAMP_ID,
+    campId: resolveVersionSubscriptionCampId(searchParams),
     mockState: toMockState(searchParams.get('mockState') || searchParams.get('versionSubscriptionMockState')),
   }
 }
@@ -261,7 +279,7 @@ export function buildVersionSubscriptionDashboardRequest(filters: VersionSubscri
 export function buildVersionSubscriptionCatalogRequest(filters: VersionSubscriptionFilters) {
   return {
     goodsTypes: [2],
-    campId: '64',
+    campId: CATALOG_CAMP_ID,
     buyCampId: filters.campId,
     roomCategoryTypes: [1],
   }
@@ -285,7 +303,12 @@ export async function fetchVersionSubscriptionDashboard(
   writeDiagnostics(diagnostics)
 
   if (provider === 'api') {
-    throw new Error('版本订阅加载失败，请稍后重试')
+    const [dashboardEnvelope, catalogEnvelope] = await Promise.all([
+      postHudsonEnvelope<VersionSubscriptionRawDashboard>(VERSION_SUBSCRIPTION_DASHBOARD_PATH, diagnostics.dashboardRequest),
+      postHudsonEnvelope<VersionSubscriptionRawCatalog>(VERSION_SUBSCRIPTION_CATALOG_PATH, diagnostics.catalogRequest),
+    ])
+
+    return adaptVersionSubscriptionDashboard(filters, provider, dashboardEnvelope, catalogEnvelope)
   }
 
   await delay(120)
@@ -336,6 +359,10 @@ export async function submitVersionSubscriptionOrder(
     orderRequest: request,
   })
 
+  if (dashboard.provider === 'api') {
+    return postHudson<VersionSubscriptionOrderResponse>(VERSION_SUBSCRIPTION_ORDER_PATH, request)
+  }
+
   await delay(120)
 
   return {
@@ -357,33 +384,34 @@ function adaptVersionSubscriptionDashboard(
   dashboardEnvelope: UnifiedEnvelope<VersionSubscriptionRawDashboard>,
   catalogEnvelope: UnifiedEnvelope<VersionSubscriptionRawCatalog>,
 ): VersionSubscriptionDashboard {
-  if (dashboardEnvelope.code !== 0 || catalogEnvelope.code !== 0) {
-    throw new Error(dashboardEnvelope.message || catalogEnvelope.message || '版本订阅加载失败，请稍后重试')
-  }
+  assertSuccessEnvelope(dashboardEnvelope, VERSION_SUBSCRIPTION_DASHBOARD_PATH)
+  assertSuccessEnvelope(catalogEnvelope, VERSION_SUBSCRIPTION_CATALOG_PATH)
 
   const dashboardData = dashboardEnvelope.data
   const catalogData = catalogEnvelope.data
 
-  if (!dashboardData || !catalogData || !Array.isArray(dashboardData.quotas) || !Array.isArray(catalogData.plans)) {
+  if (!dashboardData || !catalogData) {
     throw new Error('版本订阅加载失败，请稍后重试')
   }
 
-  const currentPlan = catalogData.plans.find((item) => item.current) ?? catalogData.plans[0] ?? null
+  const plans = normalizeVersionSubscriptionPlans(catalogData, dashboardData)
+  const quotas = normalizeVersionSubscriptionQuotas(dashboardData)
+  const currentPlan = plans.find((item) => item.current) ?? plans[0] ?? null
 
   return {
     provider,
-    state: filters.mockState === 'empty' ? 'empty' : 'success',
-    traceId: dashboardEnvelope.traceId,
-    requestedAt: dashboardEnvelope.timestamp,
+    state: plans.length === 0 ? 'empty' : 'success',
+    traceId: dashboardEnvelope.traceId || catalogEnvelope.traceId || `version-subscription-${provider}`,
+    requestedAt: dashboardEnvelope.timestamp || catalogEnvelope.timestamp || new Date().toISOString(),
     campId: filters.campId,
-    campName: dashboardData.campName,
-    buildVersion: dashboardData.buildVersion,
+    campName: dashboardData.campName || '当前门店',
+    buildVersion: dashboardData.buildVersion || 'v4.10.7',
     currentPlanId: currentPlan?.id ?? 'delight',
     currentPlanName: dashboardData.editionName,
-    expirationDate: dashboardData.expirationDate,
-    quotas: dashboardData.quotas,
-    plans: catalogData.plans,
-    featureGroups: catalogData.featureGroups,
+    expirationDate: dashboardData.expirationDate || parseExpirationDate(dashboardData.expireDateRange),
+    quotas,
+    plans,
+    featureGroups: catalogData.featureGroups ?? featureGroups,
     durations,
     agreementName: '畅享版购买协议',
     compareSummary: '不同版本按套餐开放不同能力范围，当前页面以版本、资源和功能矩阵统一展示。',
@@ -480,6 +508,178 @@ function createPlan(
   }
 }
 
+function normalizeVersionSubscriptionPlans(
+  catalogData: VersionSubscriptionRawCatalog,
+  dashboardData: VersionSubscriptionRawDashboard,
+): VersionSubscriptionPlan[] {
+  if (Array.isArray(catalogData.plans)) {
+    return catalogData.plans
+  }
+
+  return (catalogData.list ?? [])
+    .filter((item) => toNumber(item.goodsType) === 2)
+    .map((item) => {
+      const name = toText(item.channelRoomCategoryName, '版本套餐')
+      const editionId = resolveEditionId(item, name)
+      const id = resolvePlanId(editionId, name, item.channelRoomCategoryId)
+      const price = centsToYuan(toNumber(item.lowestSellingPrice))
+      const originalPrice = centsToYuan(toNumber(item.lowestOriginalPrice))
+
+      return createPlan(
+        id,
+        editionId,
+        name,
+        resolvePlanTone(id),
+        price,
+        price > 0 ? `${formatMoney(price)}元/一年` : '免费使用',
+        originalPrice > 0 ? `原价:${formatMoney(originalPrice)}元/一年` : '',
+        toText(item.description, `${name}订阅资源`),
+        String(dashboardData.editionId) === editionId || dashboardData.editionName === name,
+      )
+    })
+}
+
+function normalizeVersionSubscriptionQuotas(dashboardData: VersionSubscriptionRawDashboard): VersionSubscriptionQuota[] {
+  if (Array.isArray(dashboardData.quotas)) {
+    return dashboardData.quotas
+  }
+
+  return (dashboardData.resourceGetViews ?? []).map((item, index) => {
+    const usedQuotaView = asRecord(item.usedQuotaView)
+    const name = toText(item.resourceName, `资源${index + 1}`)
+    return createQuota(
+      slugify(name) || `resource-${index + 1}`,
+      name,
+      toNumber(item.quotaNum),
+      toNumber(usedQuotaView.usedQuotaNum),
+    )
+  })
+}
+
+function assertSuccessEnvelope<T>(envelope: UnifiedEnvelope<T>, path: string) {
+  if (!envelope || envelope.code !== 0 || envelope.data === undefined || envelope.data === null) {
+    throw new Error(envelope?.message || envelope?.errorMsg || envelope?.errorDetail || `${path} 响应无效`)
+  }
+}
+
+async function postHudson<T>(path: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
+  const envelope = await postHudsonEnvelope<T>(path, body, signal)
+  assertSuccessEnvelope(envelope, path)
+  return envelope.data as T
+}
+
+async function postHudsonEnvelope<T>(path: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<UnifiedEnvelope<T>> {
+  const token = getToken()
+  const headers: Record<string, string> = { 'content-type': 'application/json' }
+  if (token) headers.Authorization = `Bearer ${token}`
+
+  const response = await fetch(`${REAL_API_BASE}${path}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  const payload = (await response.json().catch(() => null)) as UnifiedEnvelope<T> | null
+  if (!response.ok || !payload) {
+    throw new Error(payload?.message || payload?.errorMsg || `${path} 请求失败，HTTP ${response.status}`)
+  }
+  return payload
+}
+
+function resolveVersionSubscriptionCampId(searchParams: URLSearchParams) {
+  const queryCampId = searchParams.get('campId')?.trim()
+  if (queryCampId) return queryCampId
+
+  if (getVersionSubscriptionProvider() === 'api') {
+    return resolveCurrentCampId(readEnvCampId() || DEFAULT_REAL_CAMP_ID)
+  }
+
+  return DEFAULT_MOCK_CAMP_ID
+}
+
+function readEnvCampId() {
+  return import.meta.env.VITE_PMS_CAMP_ID?.trim() || ''
+}
+
+function resolveEditionId(item: Record<string, unknown>, name: string) {
+  const explicitEditionId = toText(item.editionId, '')
+  if (explicitEditionId) return explicitEditionId
+
+  const byName = planMappings.find((mapping) => name.includes(mapping.nameKeyword))
+  if (byName) return byName.editionId
+
+  return toText(item.channelRoomCategoryId, name)
+}
+
+function resolvePlanId(editionId: string, name: string, rawId: unknown) {
+  const byEditionId = planMappings.find((mapping) => mapping.editionId === editionId)
+  if (byEditionId) return byEditionId.id
+
+  const byName = planMappings.find((mapping) => name.includes(mapping.nameKeyword))
+  if (byName) return byName.id
+
+  return slugify(toText(rawId, name)) || 'custom'
+}
+
+function resolvePlanTone(id: string): VersionSubscriptionPlan['tone'] {
+  if (id === 'standard' || id === 'delight' || id === 'advanced' || id === 'professional' || id === 'flagship') {
+    return id
+  }
+  return 'custom'
+}
+
+function parseExpirationDate(dateRange: string | undefined) {
+  if (!dateRange) return '--'
+  const matches = dateRange.match(/\d{4}-\d{2}-\d{2}/g)
+  return matches?.at(-1) ?? dateRange
+}
+
+function centsToYuan(value: number) {
+  return value > 0 ? value / 100 : 0
+}
+
+function formatMoney(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(2)
+}
+
+function toNumber(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : 0
+  }
+  return 0
+}
+
+function toText(value: unknown, fallback: string) {
+  if (typeof value === 'string' && value.trim()) return value.trim()
+  if (typeof value === 'number') return String(value)
+  return fallback
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
+}
+
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '')
+}
+
+const planMappings = [
+  { id: 'standard', editionId: '1', nameKeyword: '标准版' },
+  { id: 'delight', editionId: '9', nameKeyword: '畅享版' },
+  { id: 'advanced', editionId: '2', nameKeyword: '高级版' },
+  { id: 'professional', editionId: '3', nameKeyword: '专业版' },
+  { id: 'flagship', editionId: '4', nameKeyword: '旗舰版' },
+  { id: 'custom', editionId: '5', nameKeyword: '定制版' },
+] as const
+
 function validateFilters(filters: VersionSubscriptionFilters) {
   if (!filters.campId) {
     throw new Error('缺少 campId，无法加载版本订阅')
@@ -488,7 +688,7 @@ function validateFilters(filters: VersionSubscriptionFilters) {
 
 function getVersionSubscriptionProvider(): VersionSubscriptionProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(VERSION_SUBSCRIPTION_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(VERSION_SUBSCRIPTION_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 function toMockState(rawValue: string | null): VersionSubscriptionMockState {
@@ -506,4 +706,8 @@ function writeDiagnostics(value: VersionSubscriptionDiagnostics) {
 
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

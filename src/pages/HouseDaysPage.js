@@ -8,6 +8,14 @@ import './HouseDaysPage.css';
 const ROOM_TYPE_VIEW = '按房型';
 const ROOM_NUMBER_VIEW = '按房间号';
 const FLOOR_VIEW = '按楼层';
+function getRoomBookings(room) {
+    if (room.bookings?.length)
+        return room.bookings;
+    return room.booking ? [room.booking] : [];
+}
+function renderRoomBookings(room) {
+    return getRoomBookings(room).map((booking, index) => (_jsxs("div", { className: "day-room-booking", children: [_jsx("strong", { children: booking.guest }), _jsx("span", { children: booking.channel }), _jsx("span", { children: booking.price })] }, `${room.id}-booking-${index}`)));
+}
 function buildRoomTypeSummaryCards(rooms) {
     const grouped = new Map();
     for (const room of rooms) {
@@ -68,7 +76,7 @@ function RoomNumberView({ rooms, loading, error, setHoveredBooking, setSelectedB
                                 top: Math.max(12, rect.top + rect.height / 2 - 128),
                             });
                             setFeedback(`已打开 ${room.roomName} 房间操作菜单。`);
-                        }, children: [_jsx("strong", { children: room.roomName }), _jsx("span", { children: room.roomType }), room.booking ? (_jsxs("div", { className: "day-room-booking", children: [_jsx("strong", { children: room.booking.guest }), _jsx("span", { children: room.booking.channel }), _jsx("span", { children: room.booking.price })] })) : null, room.hasTag ? _jsx("b", { "aria-label": "\u5907\u6CE8\u6807\u7B7E", children: "\u25CF" }) : null] })] }, room.id))), !loading && !error && rooms.length === 0 ? (_jsxs("div", { className: "day-empty-state", children: [_jsx("strong", { children: "\u6682\u65E0\u65E5\u623F\u6001\u6570\u636E" }), _jsx("span", { children: "\u5F53\u524D\u6761\u4EF6\u4E0B\u6CA1\u6709\u53EF\u5C55\u793A\u623F\u95F4\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u540E\u91CD\u8BD5\u3002" })] })) : null] }));
+                        }, children: [_jsx("strong", { children: room.roomName }), _jsx("span", { children: room.roomType }), renderRoomBookings(room), room.hasTag ? _jsx("b", { "aria-label": "\u5907\u6CE8\u6807\u7B7E", children: "\u25CF" }) : null] })] }, room.id))), !loading && !error && rooms.length === 0 ? (_jsxs("div", { className: "day-empty-state", children: [_jsx("strong", { children: "\u6682\u65E0\u65E5\u623F\u6001\u6570\u636E" }), _jsx("span", { children: "\u5F53\u524D\u6761\u4EF6\u4E0B\u6CA1\u6709\u53EF\u5C55\u793A\u623F\u95F4\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u540E\u91CD\u8BD5\u3002" })] })) : null] }));
 }
 function RoomTypeView({ summaries, loading, error, setHoveredBooking, setSelectedBooking, setRoomActionAnchor, setFeedback, }) {
     return (_jsxs("div", { className: "day-room-type-list", "data-testid": "day-room-type-grid", children: [summaries.map((summary) => (_jsxs("section", { className: "day-room-type-section", children: [_jsx("h3", { children: summary.roomType }), _jsx("div", { className: "day-room-type-section__rooms", children: summary.rooms.map((room) => (_jsxs("article", { className: "day-room-card", "data-tone": room.booking?.tone ?? 'empty', "aria-label": `${room.roomType} ${room.roomName}`, tabIndex: 0, onMouseEnter: (event) => {
@@ -115,7 +123,7 @@ function RoomTypeView({ summaries, loading, error, setHoveredBooking, setSelecte
                                     top: Math.max(12, rect.top + rect.height / 2 - 128),
                                 });
                                 setFeedback(`已打开 ${room.roomName} 房间操作菜单。`);
-                            }, children: [_jsx("strong", { children: room.roomName }), _jsx("span", { children: room.roomType }), room.booking ? (_jsxs("div", { className: "day-room-booking", children: [_jsx("strong", { children: room.booking.guest }), _jsx("span", { children: room.booking.channel }), _jsx("span", { children: room.booking.price })] })) : null, room.hasTag ? _jsx("b", { "aria-label": "\u5907\u6CE8\u6807\u7B7E", children: "\u25CF" }) : null] }, room.id))) })] }, summary.roomType))), !loading && !error && summaries.length === 0 ? (_jsxs("div", { className: "day-empty-state", children: [_jsx("strong", { children: "\u6682\u65E0\u65E5\u623F\u6001\u6570\u636E" }), _jsx("span", { children: "\u5F53\u524D\u6761\u4EF6\u4E0B\u6CA1\u6709\u53EF\u5C55\u793A\u623F\u578B\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u540E\u91CD\u8BD5\u3002" })] })) : null] }));
+                            }, children: [_jsx("strong", { children: room.roomName }), _jsx("span", { children: room.roomType }), renderRoomBookings(room), room.hasTag ? _jsx("b", { "aria-label": "\u5907\u6CE8\u6807\u7B7E", children: "\u25CF" }) : null] }, room.id))) })] }, summary.roomType))), !loading && !error && summaries.length === 0 ? (_jsxs("div", { className: "day-empty-state", children: [_jsx("strong", { children: "\u6682\u65E0\u65E5\u623F\u6001\u6570\u636E" }), _jsx("span", { children: "\u5F53\u524D\u6761\u4EF6\u4E0B\u6CA1\u6709\u53EF\u5C55\u793A\u623F\u578B\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u540E\u91CD\u8BD5\u3002" })] })) : null] }));
 }
 export function HouseDaysPage() {
     const navigate = useNavigate();

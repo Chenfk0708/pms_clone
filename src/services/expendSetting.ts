@@ -95,7 +95,7 @@ type RawPaymentWay = {
   isEnable: number
 }
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const defaultCampId = '1796067693589061634'
 const responseTimestamp = '2026-05-19T19:40:00+08:00'
 const requestLatencyMs = 180
@@ -175,7 +175,7 @@ export function getDefaultExpendSettingQuery(): ExpendSettingQuery {
 
 export function resolveExpendSettingProvider(): ExpendSettingProviderName {
   const configured = readRuntimeConfig('pms.expendSettingProvider') || import.meta.env.VITE_EXPEND_SETTING_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 export function resolveExpendSettingMockState(): ExpendSettingMockState {

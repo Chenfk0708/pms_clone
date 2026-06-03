@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
+  createWorkspaceMemo,
   fetchWorkspaceDashboard,
   fetchWorkspaceLists,
+  fetchWorkspaceMemos,
   fetchWorkspaceAnalysis,
+  handleWorkspaceMemo,
   resolveWorkspaceCampId,
   type WorkspaceChartRange,
   type WorkspaceDashboard,
@@ -39,12 +42,15 @@ const emptyDashboard: WorkspaceDashboard = {
   lists: {
     orders: [],
     memoCount: 0,
+    memoItems: [],
+    todoItems: [],
     productItems: [],
   },
   traffic: {
     level: '--',
     suggestions: [],
     connectedChannels: [],
+    pendingChannels: [],
   },
 }
 
@@ -148,7 +154,7 @@ export function WorkspacePage() {
     setIsLoading(true)
     setErrorMessage('')
     try {
-      const lists = await fetchWorkspaceLists(campId, nextTab, keyword)
+      const lists = await fetchWorkspaceLists(campId, nextTab, keyword, memoTab === 'done' ? 1 : 0)
       setDashboard((current) => ({ ...current, lists }))
       setStatusMessage('订单列表已刷新')
     } catch (error) {
@@ -162,21 +168,66 @@ export function WorkspacePage() {
     setStatusMessage(message)
   }
 
-  function submitMemo() {
+  async function refreshMemos(nextTab = memoTab) {
+    setMemoTab(nextTab)
+    if (!hasCampContext) return
+
+    setIsLoading(true)
+    setErrorMessage('')
+    try {
+      const memoState = await fetchWorkspaceMemos(campId, nextTab === 'done' ? 1 : 0)
+      setDashboard((current) => ({ ...current, lists: { ...current.lists, ...memoState } }))
+      setStatusMessage('备忘录已刷新')
+    } catch (error) {
+      setErrorMessage(formatBusinessError('备忘录加载失败', error))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function submitMemo() {
     if (!memoText.trim()) {
       showStatus('请输入新的备忘录')
       return
     }
 
-    setMemoText('')
-    showStatus('备忘录已提交')
+    if (!hasCampContext) return
+
+    setIsLoading(true)
+    setErrorMessage('')
+    try {
+      await createWorkspaceMemo(campId, memoText.trim())
+      setMemoText('')
+      await refreshMemos('todo')
+      setStatusMessage('备忘录已提交')
+    } catch (error) {
+      setErrorMessage(formatBusinessError('备忘录提交失败', error))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function markMemoHandled(memoId: string) {
+    if (!hasCampContext) return
+
+    setIsLoading(true)
+    setErrorMessage('')
+    try {
+      await handleWorkspaceMemo(campId, memoId, 1)
+      await refreshMemos(memoTab)
+      setStatusMessage('备忘录已处理')
+    } catch (error) {
+      setErrorMessage(formatBusinessError('备忘录处理失败', error))
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const metrics = dashboard.summary.metrics
   const revenueMetrics = dashboard.analysis.revenueMetrics
   const chartDates = dashboard.analysis.chartDates.length > 0 ? dashboard.analysis.chartDates : ['--', '--', '--', '--', '--', '--', '--']
   const donutSlices = dashboard.analysis.donutSlices
-  const visibleTodoItems = todoTab === 'product' ? dashboard.lists.productItems : []
+  const visibleTodoItems = todoTab === 'todo' ? dashboard.lists.todoItems : dashboard.lists.productItems
 
   return (
     <div className="workspace-grid workspace-home" aria-busy={isLoading}>
@@ -400,18 +451,35 @@ export function WorkspacePage() {
       <section className="workspace-panel memo-panel">
         <div className="panel-toolbar">
           <div className="segmented">
-            <button type="button" className={memoTab === 'todo' ? 'is-active' : ''} onClick={() => setMemoTab('todo')}>
+            <button type="button" className={memoTab === 'todo' ? 'is-active' : ''} onClick={() => void refreshMemos('todo')} disabled={isLoading}>
               待处理
             </button>
-            <button type="button" className={memoTab === 'done' ? 'is-active' : ''} onClick={() => setMemoTab('done')}>
+            <button type="button" className={memoTab === 'done' ? 'is-active' : ''} onClick={() => void refreshMemos('done')} disabled={isLoading}>
               已处理
             </button>
           </div>
         </div>
-        <div className="empty-state">{dashboard.lists.memoCount > 0 ? `共有 ${dashboard.lists.memoCount} 条备忘录` : '暂无数据'}</div>
+        {dashboard.lists.memoItems.length > 0 ? (
+          <ul className="workspace-memo-list">
+            {dashboard.lists.memoItems.map((memo) => (
+              <li key={memo.memoId}>
+                <span>{memo.content}</span>
+                {memo.isHandle === 0 ? (
+                  <button type="button" onClick={() => void markMemoHandled(memo.memoId)} disabled={isLoading}>
+                    处理
+                  </button>
+                ) : (
+                  <strong>已处理</strong>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="empty-state">{dashboard.lists.memoCount > 0 ? `共有 ${dashboard.lists.memoCount} 条备忘录` : '暂无数据'}</div>
+        )}
         <div className="memo-input">
           <input type="text" placeholder="请输入新的备忘录" value={memoText} onChange={(event) => setMemoText(event.target.value)} />
-          <button type="button" onClick={submitMemo}>提交</button>
+          <button type="button" onClick={() => void submitMemo()} disabled={isLoading}>提交</button>
         </div>
       </section>
 
@@ -427,9 +495,8 @@ export function WorkspacePage() {
             </p>
             <button type="button" onClick={() => navigate('/channels/ota')}>一键上渠道</button>
           </header>
-          <TrafficGroup title="OTA流量" items={['tujia', '美团', '抖音', '携程', '美团', '飞猪', '木鸟', 'Air', 'B.', 'T.']} mutedFrom={7} />
-          <TrafficGroup title="社媒流量" items={['小红书', '抖音', '视频号']} mutedFrom={0} />
-          <TrafficGroup title="私域流量" items={['官网', '小程序', '会员']} mutedFrom={0} />
+          <TrafficGroup title="OTA流量" items={dashboard.traffic.connectedChannels} emptyText="暂无已开通渠道" />
+          <TrafficGroup title="待开通渠道" items={dashboard.traffic.pendingChannels} mutedFrom={0} emptyText="暂无待开通渠道" />
           <p>建议：{dashboard.traffic.suggestions[0] ?? '暂无建议'}</p>
         </section>
       </aside>
@@ -494,16 +561,20 @@ function MetricGroup({
   )
 }
 
-function TrafficGroup({ title, items, mutedFrom }: { title: string; items: string[]; mutedFrom: number }) {
+function TrafficGroup({ title, items, mutedFrom, emptyText }: { title: string; items: string[]; mutedFrom?: number; emptyText: string }) {
   return (
     <div className="workspace-traffic-group">
       <h3>{title}</h3>
       <div>
-        {items.map((item, index) => (
-          <span key={`${item}-${index}`} className={index >= mutedFrom ? 'is-muted' : ''}>
-            {item}
-          </span>
-        ))}
+        {items.length > 0 ? (
+          items.map((item, index) => (
+            <span key={`${item}-${index}`} className={mutedFrom !== undefined && index >= mutedFrom ? 'is-muted' : ''}>
+              {item}
+            </span>
+          ))
+        ) : (
+          <em>{emptyText}</em>
+        )}
       </div>
     </div>
   )

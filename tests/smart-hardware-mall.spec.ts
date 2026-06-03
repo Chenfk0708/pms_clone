@@ -3,11 +3,29 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
+}
+
+async function installMockSession(page: Parameters<typeof test>[0]['page']) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hardware-mall-mock-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHardwareMallProvider', 'mock')
+  })
 }
 
 test('/smartHotel/smartHardware/mall uses mock provider and renders business-ready mall view', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/smartHotel/smartHardware/mall'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
@@ -24,7 +42,7 @@ test('/smartHotel/smartHardware/mall uses mock provider and renders business-rea
 
   const productSection = page.getByLabel('智能硬件商城商品列表')
   await expect(productSection.getByText('门卡管理系统')).toBeVisible()
-  await expect(productSection.getByText('蜂助手CPE路由器P5(5G门店版)')).toBeVisible()
+  await expect(productSection.getByText('蜂助手 CPE 路由器 P5(5G 门店版)')).toBeVisible()
   await expect(productSection.getByText('指定款【智能密码锁/门锁】')).toBeVisible()
   await expect(productSection.getByRole('button', { name: '立即购买' })).toBeVisible()
   await expect(productSection.getByRole('button', { name: '联系客服' })).toHaveCount(6)
@@ -38,12 +56,13 @@ test('/smartHotel/smartHardware/mall uses mock provider and renders business-rea
 
 test('/smartHotel/smartHardware/mall supports service consultation, detail drawers, and purchase submit', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/smartHotel/smartHardware/mall'))
 
   await page.getByRole('button', { name: '联系客服' }).first().click()
   const serviceDialog = page.getByRole('dialog', { name: '联系客服' })
   await expect(serviceDialog).toBeVisible()
-  await expect(serviceDialog).toContainText('蜂助手CPE路由器P5(5G门店版)')
+  await expect(serviceDialog).toContainText('蜂助手 CPE 路由器 P5(5G 门店版)')
   await page.getByRole('button', { name: '创建咨询任务' }).click()
   await expect(serviceDialog).toHaveCount(0)
   await expect(page.getByRole('status', { name: '智能硬件商城操作反馈' })).toContainText('咨询任务已创建')
@@ -90,6 +109,7 @@ test('/smartHotel/smartHardware/mall supports service consultation, detail drawe
 
 test('/smartHotel/smartHardware/mall keeps business shell in empty state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/smartHotel/smartHardware/mall?mockState=empty'))
 
   const shell = page.locator('.smart-hardware-mall-page')
@@ -102,6 +122,7 @@ test('/smartHotel/smartHardware/mall keeps business shell in empty state', async
 
 test('/smartHotel/smartHardware/mall exposes retryable error state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/smartHotel/smartHardware/mall?mockState=error'))
 
   await expect(page.getByRole('alert', { name: '智能硬件商城加载失败' })).toContainText('智能硬件商城数据加载失败，请稍后重试')

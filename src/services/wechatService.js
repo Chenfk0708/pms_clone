@@ -1,5 +1,5 @@
-export const WECHAT_SERVICE_REPORT_ENDPOINT = 'https://hudson-prod.localhome.cn/wxcp/kfAccount/report/get';
-export const WECHAT_SERVICE_ACCOUNT_ENDPOINT = 'https://hudson-prod.localhome.cn/wxcp/kfAccount/page/get';
+export const WECHAT_SERVICE_REPORT_ENDPOINT = '/api/wxcp/kfAccount/report/get';
+export const WECHAT_SERVICE_ACCOUNT_ENDPOINT = '/api/wxcp/kfAccount/page/get';
 export const WECHAT_SERVICE_MOCK_ENDPOINT = '/scrm/wechatService/dashboard';
 export const WECHAT_SERVICE_EXPORT_ENDPOINT = '/scrm/wechatService/export';
 const TASK_ID = 'scrm--kehu-goutong--weixin-kefu';
@@ -59,7 +59,7 @@ export function resolveWechatServiceRuntimeConfig(location) {
 }
 export function resolveWechatServiceProvider() {
     const configured = readRuntimeConfig('pms.wechatServiceProvider') || import.meta.env.VITE_WECHAT_SERVICE_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 export function getDefaultWechatServiceOptions() {
     return filterOptions;

@@ -4,7 +4,7 @@ export class CampInfoRequestError extends Error {
         this.name = 'CampInfoRequestError';
     }
 }
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn';
+const HUDSON_BASE_URL = '/api';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const DEFAULT_QUERY = { keyword: '', page: 1, pageSize: 20 };
 const CAMP_INFO_PROVIDER_KEY = 'pms.campInfoProvider';
@@ -346,7 +346,7 @@ function readCampId(value) {
 }
 function resolveProvider() {
     const configured = readRuntimeConfig(CAMP_INFO_PROVIDER_KEY) || import.meta.env.VITE_CAMP_INFO_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockMode() {
     const configured = readRuntimeConfig(CAMP_INFO_MOCK_MODE_KEY) || import.meta.env.VITE_CAMP_INFO_MOCK_MODE;

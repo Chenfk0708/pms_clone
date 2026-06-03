@@ -7,6 +7,10 @@
   display: none;
 }
 
+.app-shell:has(.version-subscription-page) .chat-dock-launcher {
+  bottom: 96px;
+}
+
 .version-subscription-page {
   display: grid;
   grid-template-columns: 156px minmax(0, 1fr);

@@ -92,6 +92,121 @@ test('/mallManagement/couponMgt supports task tab, pagination, empty, and error 
   await expect(page.getByRole('alert')).toContainText('优惠券数据加载失败')
 })
 
+
+
+test('/mallManagement/couponMgt real provider sends gateway auth header and adapts coupon pages', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'coupon-token')
+    window.localStorage.setItem('pms.couponProvider', 'real')
+  })
+
+  const couponRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const taskRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/coupons/page/get', async (route) => {
+    couponRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-coupon-list-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              id: 'real-coupon-1',
+              couponId: 'real-coupon-1',
+              name: 'Real Coupon Spring Stay',
+              couponName: 'Real Coupon Spring Stay',
+              typeName: 'Full discount coupon',
+              discountText: 'Full 500 off 80',
+              scopeText: 'All room types',
+              sendLimit: 300,
+              perUserLimit: 2,
+              sendTimeText: '2026-05-30 10:00',
+              validityTypeText: 'Relative days',
+              effectiveTimeText: 'Valid 7 days after received',
+              receiveRuleText: 'All users',
+              shelfStatus: 1,
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/couponSendConfigs/page/get', async (route) => {
+    taskRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-coupon-task-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              id: 'real-task-1',
+              couponId: 'real-coupon-1',
+              couponName: 'Real Coupon Spring Stay',
+              sendMethod: 'Real targeted send',
+              sentCount: 128,
+              createdAt: '2026-05-30 11:30',
+              recordText: 'View records',
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/#/mallManagement/couponMgt'))
+
+  await expect(page.getByRole('button', { name: /Real Coupon Spring Stay/ })).toBeVisible()
+
+  await page.getByRole('tab').nth(1).click()
+  await expect(page.getByRole('cell', { name: 'Real targeted send' })).toBeVisible()
+
+  expect(couponRequests).toHaveLength(1)
+  expect(taskRequests).toHaveLength(1)
+  expect(couponRequests[0].headers.authorization).toBe('Bearer coupon-token')
+  expect(taskRequests[0].headers.authorization).toBe('Bearer coupon-token')
+  expect(couponRequests[0].body).toMatchObject({
+    campId: '1796067693589061634',
+    shelfStatus: null,
+    pageNum: 1,
+    pageSize: 20,
+    current: 1,
+  })
+  expect(taskRequests[0].body).toMatchObject({
+    campId: '1796067693589061634',
+    pageNum: 1,
+    pageSize: 20,
+    current: 1,
+  })
+})
+
 test('/mallManagement/couponMgt/edit keeps form interactions and submit feedback local', async ({ page }) => {
   await openCouponPage(page)
 

@@ -110,7 +110,7 @@ type HudsonPayload = {
   extraInfo?: unknown
 }
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const totalLedgerEndpoint = '/accountBookPaymentWay/page/get'
 const exportExcelMenuId = '1898993554540892176'
 const defaultCampId = '1796067693589061634'
@@ -119,7 +119,7 @@ const mockTimestamp = '2026-05-19T17:40:00+08:00'
 const mockLatencyMs = 900
 
 const defaultQuery: TotalLedgerQuery = {
-  campId: defaultCampId,
+  campId: resolveCampId(),
   beginTime: '2026-05-18',
   endTime: '2026-05-18',
   poiIds: [],
@@ -205,7 +205,7 @@ const mockScenariosByRange: Record<TotalLedgerRangeKey, MockScenario> = {
 }
 
 export function getDefaultTotalLedgerQuery(): TotalLedgerQuery {
-  return { ...defaultQuery, poiIds: [...defaultQuery.poiIds] }
+  return { ...defaultQuery, campId: resolveCampId(), poiIds: [...defaultQuery.poiIds] }
 }
 
 export function getTotalLedgerRangePresets() {
@@ -265,7 +265,7 @@ export async function exportTotalLedger(query: TotalLedgerQuery, signal?: AbortS
 
 function resolveProvider(): TotalLedgerProviderName {
   const configured = readRuntimeConfig('pms.totalLedgerProvider') || import.meta.env.VITE_TOTAL_LEDGER_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockMode(): TotalLedgerMockMode {
@@ -278,14 +278,27 @@ function resolveMockMode(): TotalLedgerMockMode {
 
 function readUrlMockMode(): TotalLedgerMockMode | '' {
   if (typeof window === 'undefined') return ''
-  const params = new URLSearchParams(window.location.search)
-  const configured = params.get('mockState') || params.get('totalLedgerMockMode')
+  const configured =
+    readMockModeFromSearch(window.location.search) ||
+    readMockModeFromSearch(window.location.hash.split('?')[1] ? `?${window.location.hash.split('?')[1]}` : '')
   return configured === 'success' || configured === 'empty' || configured === 'error' ? configured : ''
+}
+
+function readMockModeFromSearch(search: string) {
+  const params = new URLSearchParams(search)
+  return params.get('mockState') || params.get('totalLedgerMockMode') || ''
 }
 
 function readRuntimeConfig(key: string) {
   if (typeof window === 'undefined') return ''
   return window.localStorage.getItem(key)?.trim() || ''
+}
+
+function resolveCampId(fallback = defaultCampId) {
+  const storageCampId =
+    readRuntimeConfig('pmsCampId') || readRuntimeConfig('pms.currentCampId') || readRuntimeConfig('pms.campId')
+  const envCampId = (import.meta.env.VITE_PMS_CAMP_ID as string | undefined)?.trim() || ''
+  return storageCampId || envCampId || fallback
 }
 
 async function waitForMockLatency(signal?: AbortSignal) {
@@ -409,8 +422,9 @@ function adaptEnvelope(
 }
 
 async function loadRealTotalLedgerData(query: TotalLedgerQuery, signal?: AbortSignal): Promise<TotalLedgerData> {
-  const payload = await postHudson<HudsonPayload>(totalLedgerEndpoint, query, signal)
-  return adaptPayload(payload, query, 'api', 'success', 'api-accountBookPaymentWay-page-get', new Date().toISOString())
+  const apiQuery = { ...query, campId: resolveCampId(query.campId), poiIds: [...query.poiIds] }
+  const payload = await postHudson<HudsonPayload>(totalLedgerEndpoint, apiQuery, signal)
+  return adaptPayload(payload, apiQuery, 'api', 'success', 'api-accountBookPaymentWay-page-get', new Date().toISOString())
 }
 
 async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {

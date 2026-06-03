@@ -5,11 +5,25 @@ const appBaseURL = process.env.PMS_TEST_BASE_URL
 const uploadFixturePath = fileURLToPath(new URL('./fixtures/guide-upload.svg', import.meta.url))
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
 }
 
 test('/smartHotel/checkInGuide 加载规则页并支持弹层与跳转', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
   await page.goto(appUrl('/smartHotel/checkInGuide'))
 
   const diagnostics = page.locator('#smart-hotel-global-setting-diagnostics')
@@ -55,6 +69,19 @@ test('/smartHotel/checkInGuide 加载规则页并支持弹层与跳转', async (
 
 test('/smartHotel/checkInGuide 的入住指引规则默认未选中，勾选后短暂提示保存成功', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
   await page.goto(appUrl('/smartHotel/checkInGuide'))
 
   await page.getByRole('tab', { name: '入住指引' }).click()
@@ -74,6 +101,19 @@ test('/smartHotel/checkInGuide 的入住指引规则默认未选中，勾选后�
 
 test('/smartHotel/checkInGuide 的新增入住指引弹窗支持滚动、输入和上传图片', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
   await page.goto(appUrl('/smartHotel/checkInGuide'))
 
   await page.getByRole('tab', { name: '入住指引' }).click()
@@ -113,6 +153,19 @@ test('/smartHotel/checkInGuide 的新增入住指引弹窗支持滚动、输入�
 
 test('/smartHotel/checkInGuide 的 WIFI 页支持开关、新增弹窗和表单交互', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
   await page.goto(appUrl('/smartHotel/checkInGuide'))
 
   await page.getByRole('tab', { name: 'WIFI上网' }).click()
@@ -138,6 +191,19 @@ test('/smartHotel/checkInGuide 的 WIFI 页支持开关、新增弹窗和表单�
 
 test('/smartHotel/checkInGuide 的入住指引和 WIFI 上网页签对齐目标结构', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
   await page.goto(appUrl('/smartHotel/checkInGuide'))
 
   await page.getByRole('tab', { name: '入住指引' }).click()
@@ -177,6 +243,19 @@ test('/smartHotel/checkInGuide 的入住指引和 WIFI 上网页签对齐目标�
 
 test('/smartHotel/checkInGuide 暴露空态和错误态', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'smart-hotel-global-setting-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.smartHotelGlobalSettingProvider', 'mock')
+  })
 
   await page.goto(appUrl('/smartHotel/checkInGuide?mockState=empty'))
   await expect(page.locator('#smart-hotel-global-setting-diagnostics')).toHaveAttribute('data-state', 'empty')

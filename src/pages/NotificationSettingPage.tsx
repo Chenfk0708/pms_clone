@@ -125,7 +125,9 @@ function NotificationSettingSurface({ query }: { query: NotificationSettingQuery
 
     try {
       const result = await task()
-      setMockStateOverride(result.viewModel.state)
+      if ((requestQuery.provider ?? 'mock') !== 'api') {
+        setMockStateOverride(result.viewModel.state)
+      }
       setState({
         kind: 'ready',
         data: result.viewModel,

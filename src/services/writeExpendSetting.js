@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn';
+const HUDSON_BASE_URL = '/api';
 const TASK_ID = 'shezhi--tongyong-shezhi--jiyibi-shezhi';
 const DEFAULT_CAMP_ID = '1796067693589061634';
 const WRITE_EXPEND_SETTING_PROVIDER_KEY = 'pms.writeExpendSetting.provider';
@@ -66,7 +66,7 @@ const paymentWaysSeed = [
 export function resolveWriteExpendSettingProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
-    return window.localStorage.getItem(WRITE_EXPEND_SETTING_PROVIDER_KEY) === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem(WRITE_EXPEND_SETTING_PROVIDER_KEY)) === 'api' ? 'api' : 'mock';
 }
 export function resolveWriteExpendSettingQuery(search) {
     const params = new URLSearchParams(search);
@@ -115,18 +115,7 @@ export async function createWriteExpendSettingItem(input) {
         throw new Error('请输入项目名称后再完成新增');
     }
     if (provider === 'api') {
-        persistDiagnostics({
-            provider,
-            action: 'create',
-            state: 'error',
-            endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
-            requestBody,
-            traceId: `api-${TASK_ID}-create-unavailable`,
-            timestamp: new Date().toISOString(),
-            totalItems: 0,
-            disabledCount: 0,
-        });
-        throw new Error('当前环境暂不支持在线新增，请稍后重试');
+        return createWriteExpendSettingItemFromApi(requestBody);
     }
     const storedItems = readStoredCustomItems();
     const normalizedName = normalizeName(requestBody.paymentTypeName);
@@ -193,6 +182,42 @@ function buildPayloadFromPageData(pageData) {
             isEnable: 1,
         })),
     };
+}
+async function createWriteExpendSettingItemFromApi(requestBody) {
+    const response = await fetch(`${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(requestBody),
+    });
+    const payload = (await response.json());
+    if (!response.ok || payload.success === false) {
+        persistDiagnostics({
+            provider: 'api',
+            action: 'create',
+            state: 'error',
+            endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
+            requestBody,
+            traceId: `api-${TASK_ID}-create-http-${response.status}`,
+            timestamp: new Date().toISOString(),
+            totalItems: 0,
+            disabledCount: 0,
+        });
+        throw new Error(payload.errorMsg || 'write expend setting request failed');
+    }
+    return buildPageData({
+        provider: 'api',
+        action: 'create',
+        state: 'success',
+        endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
+        requestBody,
+        payload: {
+            paymentGroups: payload.data?.paymentGroups ?? [],
+            paymentWays: payload.data?.paymentWays ?? paymentWaysSeed,
+        },
+        traceId: `api-${TASK_ID}-create-001`,
+        timestamp: new Date().toISOString(),
+    });
 }
 async function fetchWriteExpendSettingPageDataFromApi(requestBody) {
     const response = await fetch(`${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_LIST_PATH}`, {
@@ -348,8 +373,9 @@ function adaptEnvelope(action, provider, state, requestBody, envelope) {
     });
 }
 function buildPageData(input) {
-    const incomeGroups = createEmptyGroups();
-    const expenseGroups = createEmptyGroups();
+    const availableGroups = createGroupsFromPayload(input.payload.paymentGroups);
+    const incomeGroups = createEmptyGroups(availableGroups);
+    const expenseGroups = createEmptyGroups(availableGroups);
     const disabledItems = [];
     for (const paymentGroup of input.payload.paymentGroups) {
         for (const paymentType of paymentGroup.paymentTypes) {
@@ -405,15 +431,24 @@ function buildPageData(input) {
             },
         },
         disabledItems,
-        availableGroups: groupCatalog.map((group) => ({ groupType: group.groupType, name: group.name })),
+        availableGroups,
         paymentWays: input.payload.paymentWays.filter((item) => item.isEnable === 1).map((item) => item.paymentWayName),
         traceId: input.traceId,
         timestamp: input.timestamp,
         diagnostics,
     };
 }
-function createEmptyGroups() {
-    return groupCatalog.map((group) => ({
+function createGroupsFromPayload(paymentGroups) {
+    if (!paymentGroups.length) {
+        return groupCatalog.map((group) => ({ groupType: group.groupType, name: group.name }));
+    }
+    return paymentGroups.map((group) => ({
+        groupType: group.groupType,
+        name: group.groupTypeName,
+    }));
+}
+function createEmptyGroups(groups) {
+    return groups.map((group) => ({
         id: `group-${group.groupType}`,
         groupType: group.groupType,
         name: group.name,
@@ -465,4 +500,7 @@ function normalizeName(value) {
 }
 function delay(ms) {
     return new Promise((resolve) => globalThis.setTimeout(resolve, ms));
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

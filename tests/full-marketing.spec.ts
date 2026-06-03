@@ -140,3 +140,144 @@ test('/mallManagement/distribution supports empty and error response states', as
   await expect(page.getByRole('alert')).toContainText('全员营销数据加载失败')
   await page.evaluate(() => window.localStorage.removeItem('pms.fullMarketingMockMode'))
 })
+
+
+test('/mallManagement/distribution real provider sends gateway auth header and adapts promotion reports', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'full-marketing-token')
+    window.localStorage.setItem('pms.fullMarketingProvider', 'real')
+  })
+
+  const commissionRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const metricRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const productSaleRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/promotionPlanProducts/page/get', async (route) => {
+    commissionRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-full-marketing-commission-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              productId: 'real-commission-1',
+              promotionPlanProductId: 'real-plan-1',
+              campId: '1796067693589061634',
+              name: 'Real Calendar Commission A',
+              directRatio: 7,
+              parentRatio: 3,
+              type: 0,
+              state: 1,
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/report/promotion/get', async (route) => {
+    metricRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-full-marketing-metric-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          turnover: 1234,
+          commission: 88,
+          orderCount: 5,
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/report/promotion/productSale/page/get', async (route) => {
+    productSaleRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-full-marketing-product-sale-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 10,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              id: 'real-sale-1',
+              productId: 'real-sale-1',
+              name: 'Real Presale Package Sale',
+              sales: 3,
+              turnover: 900,
+              commission: 45,
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/#/mallManagement/distribution'))
+
+  await expect(page.getByTestId('full-marketing-page')).toHaveAttribute('data-provider', 'api')
+  await expect(page.getByText('Real Calendar Commission A')).toBeVisible()
+
+  await page.getByRole('tab').nth(1).click()
+  await expect(page.getByText('Real Presale Package Sale')).toBeVisible()
+
+  expect(commissionRequests).toHaveLength(1)
+  expect(metricRequests).toHaveLength(1)
+  expect(productSaleRequests).toHaveLength(1)
+  expect(commissionRequests[0].headers.authorization).toBe('Bearer full-marketing-token')
+  expect(metricRequests[0].headers.authorization).toBe('Bearer full-marketing-token')
+  expect(productSaleRequests[0].headers.authorization).toBe('Bearer full-marketing-token')
+  expect(commissionRequests[0].body).toMatchObject({
+    campId: '1796067693589061634',
+    pageNum: 1,
+    pageSize: 20,
+    current: 1,
+    type: '0',
+    keyword: null,
+  })
+  expect(metricRequests[0].body).toMatchObject({
+    campId: '1796067693589061634',
+    startDate: '2026-05-01',
+    endDate: '2026-06-01',
+    type: null,
+  })
+  expect(productSaleRequests[0].body).toMatchObject({
+    campId: '1796067693589061634',
+    pageNum: 1,
+    pageSize: 10,
+    startDate: '2026-05-01',
+    endDate: '2026-06-01',
+    type: null,
+  })
+})

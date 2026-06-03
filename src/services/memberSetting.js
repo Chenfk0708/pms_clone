@@ -1,8 +1,13 @@
+import { apiPost } from '../api/client';
+import { resolveCurrentCampId } from '../utils/camp';
 export const MEMBER_SETTING_PROVIDER_KEY = 'pms.memberSetting.provider';
 export const MEMBER_SETTING_MOCK_STATE_KEY = 'pms.memberSetting.mockState';
 export const MEMBER_SETTING_ENDPOINT = '/setting/member/bootstrap';
+export const MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT = '/memberSettings/bootstrap';
+export const MEMBER_SETTING_API_SAVE_ENDPOINT = '/memberSettings/save';
+export const MEMBER_SETTING_API_WECOM_BIND_ENDPOINT = '/memberSettings/wecom/bind';
 export const MEMBER_SETTING_TARGET_URL = 'https://minsubao.localhome.cn/setting/member';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_TIMESTAMP = '2026-05-20T00:35:00+08:00';
 const DEFAULT_PAGE_SIZE = 20;
 const ROLE_ALL_NAME = '全部';
@@ -81,7 +86,7 @@ export function resolveMemberSettingRuntimeConfig(location) {
 }
 export function createDefaultMemberSettingQuery(config) {
     return {
-        campId: DEFAULT_CAMP_ID,
+        campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
         keyword: '',
         roleName: ROLE_ALL_NAME,
         page: 1,
@@ -96,10 +101,11 @@ export async function loadMemberSettingViewModel(query, signal) {
     const provider = query.provider ?? 'mock';
     const request = buildMemberSettingRequest(query);
     const requestedState = query.mockState ?? 'success';
-    await delay(180, signal);
     if (provider === 'api') {
-        throw new MemberSettingServiceError(provider, request, createEnvelope('error', 503, '成员设置数据暂时不可用，请稍后重试'));
+        const data = await apiPost(MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT, request, signal);
+        return adaptMemberSettingEnvelope(provider, request, createApiEnvelope(data, 'member-settings-bootstrap'), normalizeResponseState(data), query.routeMode, MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT);
     }
+    await delay(180, signal);
     if (requestedState === 'error') {
         throw new MemberSettingServiceError(provider, request, createEnvelope('error', 50001, '成员设置数据加载失败，请稍后重试'));
     }
@@ -109,7 +115,12 @@ export async function loadMemberSettingViewModel(query, signal) {
     return adaptMemberSettingEnvelope(provider, request, response, responseState, query.routeMode);
 }
 export async function bindMemberWecom(query, userId, signal) {
+    const provider = query.provider ?? 'mock';
     const request = { campId: query.campId, userId };
+    if (provider === 'api') {
+        const data = await apiPost(MEMBER_SETTING_API_WECOM_BIND_ENDPOINT, request, signal);
+        return cloneMembers(data.members ?? []);
+    }
     await delay(120, signal);
     let found = false;
     mockMembers = mockMembers.map((member) => {
@@ -124,9 +135,9 @@ export async function bindMemberWecom(query, userId, signal) {
         };
     });
     if (!found) {
-        throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要绑定的成员'));
+        throw new MemberSettingServiceError(provider, request, createEnvelope('error', 40404, '未找到要绑定的成员'));
     }
-    return mockMembers.map(cloneMember);
+    return cloneMembers(mockMembers);
 }
 export async function saveMemberSettingMember(query, draft, signal) {
     const request = {
@@ -135,6 +146,11 @@ export async function saveMemberSettingMember(query, draft, signal) {
         draft,
     };
     validateDraft(draft);
+    const provider = query.provider ?? 'mock';
+    if (provider === 'api') {
+        const data = await apiPost(MEMBER_SETTING_API_SAVE_ENDPOINT, request, signal);
+        return cloneMembers(data.members ?? []);
+    }
     await delay(180, signal);
     if (draft.userId) {
         let found = false;
@@ -153,7 +169,7 @@ export async function saveMemberSettingMember(query, draft, signal) {
             };
         });
         if (!found) {
-            throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要编辑的成员'));
+            throw new MemberSettingServiceError(provider, request, createEnvelope('error', 40404, '未找到要编辑的成员'));
         }
     }
     else {
@@ -172,7 +188,7 @@ export async function saveMemberSettingMember(query, draft, signal) {
             },
         ];
     }
-    return mockMembers.map(cloneMember);
+    return cloneMembers(mockMembers);
 }
 export function createEditorDraft(query) {
     const member = query.editUserId ? mockMembers.find((item) => item.userId === query.editUserId) : null;
@@ -245,7 +261,7 @@ function filterMembers(query) {
         return matchesKeyword && matchesRole;
     });
 }
-function adaptMemberSettingEnvelope(provider, request, response, state, routeMode) {
+function adaptMemberSettingEnvelope(provider, request, response, state, routeMode, endpoint = MEMBER_SETTING_ENDPOINT) {
     if (response.code !== 0) {
         throw new MemberSettingServiceError(provider, request, response);
     }
@@ -253,12 +269,27 @@ function adaptMemberSettingEnvelope(provider, request, response, state, routeMod
         ...response.data,
         provider,
         state,
-        endpoint: MEMBER_SETTING_ENDPOINT,
+        endpoint,
         traceId: response.traceId,
         timestamp: response.timestamp,
         request,
         routeMode,
     };
+}
+function createApiEnvelope(data, traceId) {
+    return {
+        code: 0,
+        message: 'success',
+        data,
+        traceId,
+        timestamp: new Date().toISOString(),
+    };
+}
+function normalizeResponseState(data) {
+    return Array.isArray(data.members) && data.members.length > 0 ? 'success' : 'empty';
+}
+function cloneMembers(members) {
+    return members.map(cloneMember);
 }
 function createEnvelope(state, code, message, data) {
     return {
@@ -304,7 +335,11 @@ function delay(ms, signal) {
     });
 }
 function normalizeProvider(value) {
-    return value === 'api' || value === 'mock' ? value : undefined;
+    if (value === 'api' || value === 'real')
+        return 'api';
+    if (value === 'mock')
+        return 'mock';
+    return undefined;
 }
 function normalizeMockState(value) {
     return value === 'empty' || value === 'error' || value === 'success' ? value : undefined;
@@ -313,7 +348,8 @@ function readProvider() {
     if (typeof window === 'undefined') {
         return 'mock';
     }
-    return normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY)) ?? 'mock';
+    const provider = normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY));
+    return provider ?? 'mock';
 }
 function readMockState() {
     if (typeof window === 'undefined') {

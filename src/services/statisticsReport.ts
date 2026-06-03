@@ -459,7 +459,7 @@ export function buildStatisticsReportQueryForPreset(
 export function resolveStatisticsReportProvider(): StatisticsReportProvider {
   const value =
     typeof window !== 'undefined' ? window.localStorage.getItem('pms.statisticsReport.provider') : null
-  return value === 'api' ? 'api' : 'mock'
+  return value === 'api' || value === 'real' ? 'api' : 'mock'
 }
 
 export function resolveStatisticsReportState(): StatisticsReportState {

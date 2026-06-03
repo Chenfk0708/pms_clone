@@ -1,7 +1,7 @@
-export const cleanTaskListEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/page/get';
-export const cleanTaskCreateEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/create';
-export const cleanTaskNotifyEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/notify';
-export const cleanTaskExportEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/export';
+export const cleanTaskListEndpoint = '/api/cleanTask/page/get';
+export const cleanTaskCreateEndpoint = '/api/cleanTask/create';
+export const cleanTaskNotifyEndpoint = '/api/cleanTask/notify';
+export const cleanTaskExportEndpoint = '/api/cleanTask/export';
 export const cleanTaskProviderMode = 'mock';
 const stores = [
     { id: 'ALL', label: '全部门店' },

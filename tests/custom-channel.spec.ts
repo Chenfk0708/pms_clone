@@ -3,12 +3,20 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
 }
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'custom-channel-contract-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+})
 
 test('/setting/customChannel renders a service-backed business-ready success state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/setting/customChannel'))
+  await page.goto(appUrl('/setting/customChannel?provider=mock'))
 
   const pageRoot = page.locator('.custom-channel-page')
   const serviceContract = page.locator('[aria-label="自定义渠道数据服务"]')
@@ -49,7 +57,7 @@ test('/setting/customChannel renders a service-backed business-ready success sta
 
 test('/setting/customChannel supports system edit, create, update, disable and delete flows', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/setting/customChannel'))
+  await page.goto(appUrl('/setting/customChannel?provider=mock'))
 
   const feedback = page.getByRole('status', { name: '自定义渠道操作反馈' })
 
@@ -92,14 +100,66 @@ test('/setting/customChannel supports system edit, create, update, disable and d
 test('/setting/customChannel exposes empty and error states as business feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
-  await page.goto(appUrl('/setting/customChannel?mockState=empty'))
+  await page.goto(appUrl('/setting/customChannel?provider=mock&mockState=empty'))
   await expect(page.getByRole('status', { name: '自定义渠道操作反馈' })).toContainText('当前暂无自定义渠道')
   await expect(page.getByLabel('自定义渠道空态')).toContainText('暂无自定义渠道')
   await expect(page.getByRole('button', { name: '添加渠道' })).toBeVisible()
 
-  await page.goto(appUrl('/setting/customChannel?mockState=error'))
+  await page.goto(appUrl('/setting/customChannel?provider=mock&mockState=error'))
   await expect(page.getByRole('alert', { name: '自定义渠道数据错误' })).toContainText('自定义渠道加载失败，请稍后重试')
   await page.getByRole('button', { name: '重试' }).click()
   await expect(page.getByRole('alert', { name: '自定义渠道数据错误' })).toContainText('自定义渠道加载失败，请稍后重试')
   await expect(page.locator('.custom-channel-page')).not.toContainText(/mock 数据|mock provider|provider=mock|未接入|阻塞|后端未就绪|后端接口未完成/i)
+})
+
+test('/setting/customChannel defaults to api provider and calls local gateway endpoints', async ({ page }) => {
+  const listRequests: unknown[] = []
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.customChannel.provider')
+    window.localStorage.setItem('pms_token', 'custom-channel-api-provider-token')
+  })
+  await page.route('**/api/channels/custom/list', async (route) => {
+    listRequests.push(route.request().postDataJSON())
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        traceId: 'mock-api-custom-channel-list',
+        timestamp: '2026-06-02T00:00:00+08:00',
+        data: {
+          systemChannels: [
+            { id: 'system-001', name: '自来客', color: '#20527f', enabled: true },
+            { id: 'system-002', name: '路客云聚合', color: '#6f89d1', enabled: true },
+          ],
+          customChannels: [
+            {
+              id: '25501',
+              name: '企业协议客户',
+              code: 'CUSTOM-25501',
+              color: '#2563eb',
+              colorName: '晴空蓝',
+              enabled: true,
+              updatedAt: '2026-06-02 10:00:00',
+              operator: '系统',
+              note: '真实接口响应',
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/setting/customChannel'))
+
+  const pageRoot = page.locator('.custom-channel-page')
+  const serviceContract = page.locator('[aria-label="自定义渠道数据服务"]')
+
+  await expect(pageRoot).toHaveAttribute('data-provider', 'api')
+  await expect(serviceContract).toContainText('provider=api')
+  await expect(serviceContract).toContainText('listPath=/channels/custom/list')
+  await expect(page.getByRole('region', { name: '自定义渠道列表' })).toContainText('企业协议客户')
+  await expect.poll(() => listRequests.length).toBe(1)
 })

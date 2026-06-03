@@ -1,4 +1,5 @@
 const CLEAN_SETTING_PROVIDER_KEY = 'pms.cleanSettingProvider'
+const REAL_BASE_URL = '/api'
 
 export const CLEAN_SETTING_OVERVIEW_PATH = '/cleanManage/cleanSetting/overview'
 export const CLEAN_SETTING_SAVE_PATH = '/cleanManage/cleanSetting/rule/save'
@@ -32,6 +33,8 @@ export type CleanSettingMetric = {
 export type CleanSettingPolicyRule = {
   id: string
   name: string
+  storeId?: string
+  projectId?: string
   storeName: string
   roomScope: string
   trigger: string
@@ -83,6 +86,20 @@ export type CleanSettingDashboard = {
   traceId: string
 }
 
+export type CleanSettingExportResponse = {
+  fileName: string
+  contentType: string
+  total: number
+  policyRules: CleanSettingPolicyRule[]
+  priceRules: CleanSettingPriceRule[]
+}
+
+export type CleanSettingSaveResponse = {
+  rule: CleanSettingPolicyRule
+  total: number
+  message: string
+}
+
 type UnifiedEnvelope<T> = {
   code: number
   message: string
@@ -92,6 +109,17 @@ type UnifiedEnvelope<T> = {
 }
 
 type CleanSettingPayload = Omit<CleanSettingDashboard, 'filters' | 'provider' | 'traceId'>
+
+type HudsonResponse<T> = {
+  success?: boolean
+  code?: number
+  message?: string
+  data?: T
+  traceId?: string
+  timestamp?: string
+  errorMsg?: string | null
+  errorCode?: string | null
+}
 
 export function createDefaultCleanSettingFilters(searchParams = new URLSearchParams()): CleanSettingFilters {
   return {
@@ -112,11 +140,64 @@ export async function fetchCleanSettingDashboard(
   validateFilters(filters)
 
   if (providerName === 'api') {
-    throw new Error('保洁设置加载失败，请稍后重试')
+    return fetchRealCleanSettingDashboard(filters)
   }
 
   const envelope = await fetchMockCleanSettingDashboard(filters)
   return adaptCleanSettingEnvelope(envelope, filters, providerName)
+}
+
+export async function saveCleanSettingRule(
+  rule: CleanSettingPolicyRule,
+  providerName = getCleanSettingProviderName(),
+): Promise<CleanSettingSaveResponse> {
+  if (providerName !== 'api') {
+    return {
+      rule,
+      total: 1,
+      message: '保洁策略保存成功',
+    }
+  }
+
+  const { data } = await postHudson<CleanSettingSaveResponse>(CLEAN_SETTING_SAVE_PATH, {
+    campId: resolveCampId(),
+    rule,
+  })
+  return {
+    rule: normalizePolicyRule(data.rule ?? rule),
+    total: readNumber(data.total, 1),
+    message: data.message || '保洁策略保存成功',
+  }
+}
+
+export async function exportCleanSetting(
+  filters: CleanSettingFilters,
+  providerName = getCleanSettingProviderName(),
+): Promise<CleanSettingExportResponse> {
+  validateFilters(filters)
+
+  if (providerName !== 'api') {
+    return {
+      fileName: `保洁设置-${filters.businessDate}.xlsx`,
+      contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      total: 0,
+      policyRules: [],
+      priceRules: [],
+    }
+  }
+
+  const { data } = await postHudson<CleanSettingExportResponse>(CLEAN_SETTING_EXPORT_PATH, {
+    campId: resolveCampId(),
+    ...buildCleanSettingRequest(filters),
+  })
+
+  return {
+    fileName: data.fileName || `clean_setting_${filters.businessDate}.csv`,
+    contentType: data.contentType || 'text/csv',
+    total: readNumber(data.total, 0),
+    policyRules: Array.isArray(data.policyRules) ? data.policyRules.map(normalizePolicyRule) : [],
+    priceRules: Array.isArray(data.priceRules) ? data.priceRules : [],
+  }
 }
 
 export function buildCleanSettingRequest(filters: CleanSettingFilters) {
@@ -130,10 +211,24 @@ export function buildCleanSettingRequest(filters: CleanSettingFilters) {
   }
 }
 
+async function fetchRealCleanSettingDashboard(filters: CleanSettingFilters): Promise<CleanSettingDashboard> {
+  const { data, traceId } = await postHudson<CleanSettingPayload>(CLEAN_SETTING_OVERVIEW_PATH, {
+    campId: resolveCampId(),
+    ...buildCleanSettingRequest(filters),
+  })
+
+  return {
+    ...adaptRealCleanSettingPayload(data, filters),
+    filters,
+    provider: 'api',
+    traceId,
+  }
+}
+
 function getCleanSettingProviderName(): CleanSettingProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem(CLEAN_SETTING_PROVIDER_KEY)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 async function fetchMockCleanSettingDashboard(
@@ -333,6 +428,81 @@ function validateFilters(filters: CleanSettingFilters) {
 function toMockState(value: string | null): CleanSettingMockState {
   if (value === 'empty' || value === 'error') return value
   return 'success'
+}
+
+function resolveCampId(fallback = '10001') {
+  if (typeof window === 'undefined') return fallback
+  const configured =
+    window.localStorage.getItem('pmsCampId')?.trim() ||
+    window.localStorage.getItem('pms.currentCampId')?.trim() ||
+    window.localStorage.getItem('pms.campId')?.trim()
+  return configured || fallback
+}
+
+function adaptRealCleanSettingPayload(data: CleanSettingPayload, filters: CleanSettingFilters): CleanSettingPayload {
+  if (!data || !Array.isArray(data.policyRules) || !Array.isArray(data.priceRules)) {
+    throw new Error('保洁设置加载失败，请稍后重试')
+  }
+
+  return {
+    stores: Array.isArray(data.stores) ? data.stores : createStoreOptions(),
+    projects: Array.isArray(data.projects) ? data.projects : createProjectOptions(),
+    statusOptions: Array.isArray(data.statusOptions) ? data.statusOptions : createStatusOptions(),
+    metrics: Array.isArray(data.metrics) ? data.metrics : [],
+    policyRules: data.policyRules.map(normalizePolicyRule),
+    priceRules: data.priceRules,
+    reminders: Array.isArray(data.reminders) ? data.reminders : [],
+    schedule: Array.isArray(data.schedule) ? data.schedule : [],
+    pagination: data.pagination ?? {
+      page: filters.page,
+      pageSize: filters.pageSize,
+      total: data.policyRules.length,
+    },
+    requestedAt: data.requestedAt || new Date().toISOString().replace('T', ' ').slice(0, 19),
+  }
+}
+
+function normalizePolicyRule(rule: CleanSettingPolicyRule): CleanSettingPolicyRule {
+  return {
+    ...rule,
+    storeId: rule.storeId ?? 'all',
+    projectId: rule.projectId ?? 'all',
+  }
+}
+
+async function postHudson<T>(path: string, body: Record<string, unknown>): Promise<{ data: T; traceId: string; timestamp: string }> {
+  const response = await fetch(`${REAL_BASE_URL}${path}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  let payload: HudsonResponse<T> | null
+  try {
+    payload = (await response.json()) as HudsonResponse<T>
+  } catch {
+    payload = null
+  }
+
+  if (!response.ok || payload?.success === false || (payload?.code !== undefined && payload.code !== 0)) {
+    throw new Error(payload?.errorMsg ?? payload?.message ?? payload?.errorCode ?? `${path} 返回 HTTP ${response.status}`)
+  }
+
+  if (!payload || payload.data === undefined || payload.data === null) {
+    throw new Error(`${path} 响应缺少 data 字段`)
+  }
+
+  return {
+    data: payload.data,
+    traceId: payload.traceId ?? `api-${path.replaceAll('/', '-')}`,
+    timestamp: payload.timestamp ?? new Date().toISOString(),
+  }
+}
+
+function readNumber(value: unknown, fallback: number) {
+  const number = Number(value)
+  return Number.isFinite(number) ? number : fallback
 }
 
 function delay(ms: number) {

@@ -179,9 +179,9 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-block">
-          <div className="brand-mark">LOCALS</div>
+          <img className="brand-mark" src="/brand-yinsu.png" alt="银宿" />
           <div className="brand-store">
-            <strong>路客云 6TS5 的店铺</strong>
+            <strong>银宿</strong>
             <span>畅享版</span>
           </div>
         </div>
@@ -241,7 +241,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           </button>
           {openTopbarPanel === 'user' ? (
             <div className="topbar-user-popover" role="dialog" aria-label="用户菜单面板">
-              <strong>{sessionUser?.name ?? '路客云 6TS5 的店铺'}</strong>
+              <strong>{sessionUser?.name ?? '银宿'}</strong>
               {sessionUser ? <span>{sessionUser.roleLabel}</span> : null}
               <Link to="/InformationMaintenance/campInfo" onClick={() => setOpenTopbarPanel(null)}>门店信息</Link>
               <Link to="/setting/member" onClick={() => setOpenTopbarPanel(null)}>成员设置</Link>

@@ -195,5 +195,5 @@ function readScenario(): PrivateChannelScenario {
 function readProvider(): PrivateChannelProviderName {
   if (typeof window === 'undefined') return 'mock'
   const value = window.localStorage.getItem('pmsPrivateChannelProvider')
-  return value === 'api' ? 'api' : 'mock'
+  return value === 'api' || value === 'real' ? 'api' : 'mock'
 }

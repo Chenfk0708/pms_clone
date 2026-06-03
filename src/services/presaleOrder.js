@@ -1,8 +1,8 @@
-export const PRESALE_ORDER_ENDPOINT = 'https://hudson-prod.localhome.cn/orders/page/get';
-export const PRESALE_CAMPS_ENDPOINT = 'https://hudson-prod.localhome.cn/camps/get';
-export const PRESALE_CHANNELS_ENDPOINT = 'https://hudson-prod.localhome.cn/channels/get';
-export const PRESALE_PAYMENT_TYPES_ENDPOINT = 'https://hudson-prod.localhome.cn/paymentTypes/get/v2';
-export const PRESALE_CATEGORIES_ENDPOINT = 'https://hudson-prod.localhome.cn/categories/get';
+export const PRESALE_ORDER_ENDPOINT = '/api/orders/page/get';
+export const PRESALE_CAMPS_ENDPOINT = '/api/camps/get';
+export const PRESALE_CHANNELS_ENDPOINT = '/api/channels/get';
+export const PRESALE_PAYMENT_TYPES_ENDPOINT = '/api/paymentTypes/get/v2';
+export const PRESALE_CATEGORIES_ENDPOINT = '/api/categories/get';
 const PRESALE_PROVIDER_STORAGE_KEY = 'pmsPresaleOrderProvider';
 const PRESALE_MOCK_STATE_STORAGE_KEY = 'pmsPresaleOrderMockState';
 const MOCK_CAMP_ID = 'mock-camp-dingdan-yushouquan';

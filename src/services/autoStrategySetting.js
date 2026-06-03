@@ -1,10 +1,12 @@
+import { apiPost } from '../api/client';
+import { resolveCurrentCampId } from '../utils/camp';
 export const AUTO_STRATEGY_SETTING_PROVIDER_KEY = 'pms.autoStrategySetting.provider';
 export const AUTO_STRATEGY_SETTING_MOCK_STATE_KEY = 'pms.autoStrategySetting.mockState';
 export const AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT = '/systemConfigs/get';
 export const AUTO_STRATEGY_SETTING_ORDER_AUTO_PENDING_ENDPOINT = '/systemConfig/orderAutoPendingStrategy';
 export const AUTO_STRATEGY_SETTING_ORDER_AUTO_SETTLE_ENDPOINT = '/systemConfig/orderAutoSettleStrategy';
 export const AUTO_STRATEGY_SETTING_NEGOTIATE_REFUND_ENDPOINT = '/systemConfig/negotiateRefundAutomaticAcceptStrategy';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_TIMESTAMP = '2026-05-20T10:35:00+08:00';
 const TRACE_PREFIX = 'mock-shezhi--tongyong-shezhi--zidong-celue-shezhi';
 const ORDER_AUTO_PENDING_CONFIG_KEY = 'hudson.basic.orderAutoPendingStrategy';
@@ -109,7 +111,7 @@ export function resolveAutoStrategySettingRuntimeConfig(location) {
 }
 export function createDefaultAutoStrategySettingQuery(runtimeConfig) {
     return {
-        campId: DEFAULT_CAMP_ID,
+        campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
         provider: runtimeConfig.provider,
         mockState: runtimeConfig.mockState,
     };
@@ -117,10 +119,11 @@ export function createDefaultAutoStrategySettingQuery(runtimeConfig) {
 export async function loadAutoStrategySettingViewModel(query, signal) {
     const provider = query.provider ?? 'mock';
     const requestBody = buildBootstrapRequestBody(query);
-    await delay(180, signal);
     if (provider === 'api') {
-        throw new AutoStrategySettingServiceError(provider, AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT, requestBody, createEnvelope('error', 50301, '自动策略设置实时接口暂未开放，请切换到 mock 数据源'));
+        const data = await apiPost(AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT, requestBody, signal);
+        return adaptEnvelope(provider, AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT, requestBody, createApiEnvelope(data, 'success'), 'success');
     }
+    await delay(180, signal);
     if (query.mockState === 'error') {
         throw new AutoStrategySettingServiceError(provider, AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT, requestBody, createEnvelope('error', 50001, '自动策略设置加载失败，请稍后重试'));
     }
@@ -260,11 +263,19 @@ function adaptEnvelope(provider, endpoint, requestBody, response, state) {
     };
 }
 async function performMutation(query, endpoint, requestBody, lastAction, statusMessage, patchItems, signal) {
-    await delay(150, signal);
     const provider = query.provider ?? 'mock';
     if (provider === 'api') {
-        throw new AutoStrategySettingServiceError(provider, endpoint, requestBody, createEnvelope('error', 50302, '自动策略设置保存接口暂未开放，请切换到 mock 数据源'));
+        const data = await apiPost(endpoint, requestBody, signal);
+        const viewModel = adaptEnvelope(provider, endpoint, buildBootstrapRequestBody(query), createApiEnvelope(data, 'success'), 'success');
+        return {
+            viewModel,
+            statusMessage,
+            lastAction,
+            endpoint,
+            requestBody,
+        };
     }
+    await delay(150, signal);
     mockConfigs = mergeConfigItems(mockConfigs, patchItems);
     const viewModel = adaptEnvelope(provider, endpoint, buildBootstrapRequestBody(query), createEnvelope('success', 0, 'success', buildPayload(mockConfigs)), 'success');
     return {
@@ -299,11 +310,36 @@ function createEnvelope(state, code, message, data = buildPayload([])) {
         timestamp: DEFAULT_TIMESTAMP,
     };
 }
+function createApiEnvelope(data, state) {
+    return {
+        code: 0,
+        message: 'success',
+        data: buildPayload(adaptApiConfigs(data.configs ?? [])),
+        traceId: `api-auto-strategy-setting-${state}`,
+        timestamp: new Date().toISOString(),
+    };
+}
+function adaptApiConfigs(configs) {
+    return configs.map((item) => ({
+        configKey: item.configKey,
+        configValue: stringifyConfigValue(item.configValue),
+        source: item.source === 'user' || item.source === 'platform' || item.source === 'seed' || item.configScope === 'camp'
+            ? 'verified'
+            : 'assumed',
+    }));
+}
 function createConfigMap(configs) {
     return configs.reduce((current, item) => {
-        current[item.configKey] = item.configValue;
+        current[item.configKey] = stringifyConfigValue(item.configValue);
         return current;
     }, {});
+}
+function stringifyConfigValue(value) {
+    if (typeof value === 'string')
+        return value;
+    if (value === null || value === undefined)
+        return '';
+    return Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : String(value);
 }
 function mergeConfigItems(currentConfigs, patchItems) {
     const currentMap = new Map(currentConfigs.map((item) => [item.configKey, item]));
@@ -322,8 +358,10 @@ function cloneOptions(source) {
     return source.map((item) => ({ ...item }));
 }
 function normalizeProvider(value) {
-    if (value === 'mock' || value === 'api')
-        return value;
+    if (value === 'api' || value === 'real')
+        return 'api';
+    if (value === 'mock')
+        return 'mock';
     return null;
 }
 function normalizeMockState(value) {
@@ -357,7 +395,8 @@ function normalizeDirtyRoomStrategyValue(value) {
 function readProvider() {
     if (typeof window === 'undefined')
         return 'mock';
-    return normalizeProvider(window.localStorage.getItem(AUTO_STRATEGY_SETTING_PROVIDER_KEY)) ?? 'mock';
+    const provider = normalizeProvider(window.localStorage.getItem(AUTO_STRATEGY_SETTING_PROVIDER_KEY));
+    return provider ?? 'mock';
 }
 function readMockState() {
     if (typeof window === 'undefined')

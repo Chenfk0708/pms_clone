@@ -226,7 +226,7 @@ export function resolvePresaleSalesProvider(): PresaleSalesProvider {
   const paramProvider = params.get('provider')
   if (paramProvider === 'api') return 'api'
 
-  return window.localStorage.getItem('pms.presaleSales.provider') === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem('pms.presaleSales.provider')) === 'api' ? 'api' : 'mock'
 }
 
 export async function fetchPresaleSalesDashboard(
@@ -527,4 +527,8 @@ function delay(ms: number, signal?: AbortSignal) {
       { once: true },
     )
   })
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

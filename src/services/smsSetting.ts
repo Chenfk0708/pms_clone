@@ -424,7 +424,7 @@ function normalizeMockState(value: string | null | undefined): SmsSettingMockSta
 
 function readProvider(): SmsSettingProvider {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(SMS_SETTING_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(SMS_SETTING_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 function readMockState(): SmsSettingMockState {
@@ -468,4 +468,8 @@ async function waitForLatency(signal?: AbortSignal, delayMs = 120) {
       { once: true },
     )
   })
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

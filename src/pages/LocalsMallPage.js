@@ -113,7 +113,11 @@ function LocalsMallViewShell({ pageMode, query, }) {
     const provider = overview?.provider ?? detail?.provider ?? 'mock';
     const state = errorMessage ? 'error' : overview?.emptyState ? 'empty' : isLoading ? 'loading' : 'ready';
     const traceId = overview?.traceId ?? detail?.traceId ?? '';
-    const contract = getLocalsMallContract(query, provider, errorMessage ? 'error' : overview?.emptyState ? 'empty' : isLoading ? 'loading' : 'success', traceId);
+    const contractQuery = {
+        ...query,
+        productId: resolveContractProductId(query, overview, detail),
+    };
+    const contract = getLocalsMallContract(contractQuery, provider, errorMessage ? 'error' : overview?.emptyState ? 'empty' : isLoading ? 'loading' : 'success', traceId);
     return (_jsxs("div", { className: "locals-mall-page", "data-provider": provider, "data-page": pageMode, "data-state": state, children: [_jsx("pre", { hidden: true, "data-testid": "locals-mall-service-contract", "data-provider": contract.provider, "data-state": contract.state, children: JSON.stringify(contract, null, 2) }), _jsxs("aside", { className: "locals-mall-sidebar", "aria-label": "\u8BA2\u9605\u4E2D\u5FC3\u4FA7\u680F", children: [_jsx("div", { className: "locals-mall-sidebar__root", children: "\u8BA2\u9605\u4E2D\u5FC3" }), _jsx("nav", { "aria-label": "\u6743\u76CA\u4E0E\u8BA2\u9605\u4FA7\u680F", children: sideLinks.map((item) => (_jsx(NavLink, { to: item.path, className: ({ isActive }) => `locals-mall-link${isActive ? ' is-active' : ''}`, children: item.label }, item.path))) }), _jsx("span", { className: "locals-mall-build", children: "\u7248\u672C\u53F7\uFF1Av4.10.7" })] }), pageMode === 'mall' ? (_jsx(MallView, { overview: overview, isLoading: isLoading, errorMessage: errorMessage, feedback: feedback, onRetry: handleRetry, onBuy: handleOpenDetail, onNavigate: navigate })) : (_jsx(DetailView, { detail: detail, isLoading: isLoading, errorMessage: errorMessage, isAgreementChecked: isAgreementChecked, onAgreementChange: setIsAgreementChecked, onOpenRooms: openRoomsDialog, onOpenPayments: openPaymentDialog, onRetry: handleRetry, onBack: () => navigate('/version/localsMall'), onSubmit: handleSubmitPurchase })), _jsx(StatusToast, { message: feedback }), isRoomsDialogOpen ? (_jsx(Dialog, { title: "\u9002\u7528\u623F\u578B", closeLabel: "\u5173\u95ED\u9002\u7528\u623F\u578B", onClose: () => setIsRoomsDialogOpen(false), children: _jsx("div", { className: "locals-mall-dialog-list", children: roomGroups.map((group) => (_jsxs("section", { className: "locals-mall-dialog-group", children: [_jsx("h3", { children: group.roomCategoryName }), _jsx("p", { children: group.rooms.join('、') })] }, group.roomCategoryId))) }) })) : null, isPaymentDialogOpen ? (_jsx(Dialog, { title: "\u652F\u4ED8\u65B9\u5F0F", closeLabel: "\u5173\u95ED\u652F\u4ED8\u65B9\u5F0F", onClose: () => setIsPaymentDialogOpen(false), children: _jsx("div", { className: "locals-mall-dialog-list", children: paymentGroups.map((group) => (_jsxs("section", { className: "locals-mall-dialog-group", children: [_jsx("h3", { children: group.groupTypeName }), _jsx("p", { children: group.paymentTypes.join('、') })] }, group.groupType))) }) })) : null, isSubmitDialogOpen && detail ? (_jsx(Dialog, { title: "\u8D2D\u4E70\u7533\u8BF7\u5DF2\u63D0\u4EA4", closeLabel: "\u5173\u95ED\u8D2D\u4E70\u7ED3\u679C", onClose: () => setIsSubmitDialogOpen(false), children: _jsxs("div", { className: "locals-mall-submit-body", children: [_jsx("h3", { children: detail.productName }), _jsx("p", { children: "\u91C7\u8D2D\u7533\u8BF7\u5DF2\u8FDB\u5165\u5904\u7406\u961F\u5217\uFF0C\u53EF\u7EE7\u7EED\u524D\u5F80\u667A\u80FD\u95E8\u9501\u9875\u9762\u5B8C\u6210\u540E\u7EED\u914D\u7F6E\u3002" }), _jsxs("div", { className: "locals-mall-submit-actions", children: [_jsx("button", { type: "button", onClick: () => setIsSubmitDialogOpen(false), children: "\u7559\u5728\u5F53\u524D\u9875" }), _jsx("button", { type: "button", className: "locals-mall-primary-button", onClick: () => navigate(detail.routeAfterSubmit), children: "\u524D\u5F80\u667A\u80FD\u95E8\u9501" })] })] }) })) : null] }));
 }
 function MallView({ overview, isLoading, errorMessage, feedback, onRetry, onBuy, onNavigate, }) {
@@ -132,4 +136,14 @@ function Dialog({ title, closeLabel, onClose, children, }) {
 }
 function StatusToast({ message }) {
     return (_jsx("div", { className: "locals-mall-status", role: "status", "aria-live": "polite", "aria-label": "\u8DEF\u5BA2\u5546\u57CE\u64CD\u4F5C\u53CD\u9988", children: message }));
+}
+function resolveContractProductId(query, overview, detail) {
+    if (detail?.productId)
+        return detail.productId;
+    for (const section of overview?.sections ?? []) {
+        const currentProduct = section.products.find((product) => product.id);
+        if (currentProduct)
+            return currentProduct.id;
+    }
+    return query.productId;
 }

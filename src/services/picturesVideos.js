@@ -45,7 +45,7 @@ export function defaultPicturesVideosRequest(state = resolvePicturesVideosMockSt
 }
 export function resolvePicturesVideosProvider() {
     const configured = readRuntimeConfig('pms.picturesVideosProvider') || import.meta.env.VITE_PICTURES_VIDEOS_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 export function resolvePicturesVideosMockState(search = currentSearch()) {
     const params = new URLSearchParams(search);

@@ -1,5 +1,5 @@
 export const DISTRIBUTION_DISPLACEMENT_PROVIDER = 'mock'
-export const DISTRIBUTION_DISPLACEMENT_ENDPOINT = 'https://hudson-prod.localhome.cn/edition/replace/order/get'
+export const DISTRIBUTION_DISPLACEMENT_ENDPOINT = '/api/edition/replace/order/get'
 export const DISTRIBUTION_DISPLACEMENT_LOCAL_PATH = '/channels/distribution/distributiondisplacement'
 
 export type DistributionDisplacementProvider = 'mock' | 'api'

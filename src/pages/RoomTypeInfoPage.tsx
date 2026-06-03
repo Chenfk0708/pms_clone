@@ -13,19 +13,24 @@ import {
   loadRoomTypeTagPage,
   saveRoomTypeDraft,
   saveRoomTypeLinkage,
+  uploadRoomTypePhoto,
   type RoomTypeInfoDashboard,
   type RoomTypeInfoDraft,
   type RoomTypeInfoEditMode,
   type RoomTypeFloorPageData,
   type RoomTypeInfoLinkageDialog,
+  type RoomTypePhoto,
+  type RoomTypePhotoSectionKey,
   type RoomTypeInfoQuery,
   type RoomTypeInfoRow,
   type RoomTypeInfoRoomsDialog,
   type RoomTypeTagPageData,
 } from '../services/roomTypeInfo'
+import { RoomTypeLocationSection } from '../components/RoomTypeLocationSection'
 import './RoomTypeInfoPage.css'
 
 type OpenSelect = 'store' | 'group' | null
+type RoomTypePhotoSection = (typeof roomTypePhotoSections)[number]
 
 type ActiveDialog =
   | { kind: 'rooms'; data: RoomTypeInfoRoomsDialog }
@@ -60,11 +65,121 @@ const roomTypePropertyTypeOptions = [
 ]
 const roomTypeTimeOptions = [
   { value: '', label: '请选择' },
-  { value: '12', label: '12 点' },
-  { value: '14', label: '14 点' },
-  { value: '24', label: '24 点' },
+  ...Array.from({ length: 24 }, (_, index) => {
+    const hour = String(index + 1)
+    return { value: hour, label: `${hour} 点` }
+  }),
 ]
 const roomTypeCountOptions = Array.from({ length: 11 }, (_, index) => ({ value: String(index), label: String(index) }))
+const roomTypeBedSheetChangeOptions = [
+  { value: '', label: '请选择' },
+  { value: 'one-guest-one-change', label: '一客一换' },
+  { value: 'daily', label: '每天更换' },
+  { value: 'two-days', label: '每两天更换' },
+  { value: 'weekly', label: '每周更换' },
+]
+const roomTypeDecorationStyleOptions = [
+  { value: '', label: '请选择' },
+  { value: 'modern', label: '现代简约' },
+  { value: 'nordic', label: '北欧' },
+  { value: 'chinese', label: '新中式' },
+  { value: 'japanese', label: '日式' },
+  { value: 'luxury', label: '轻奢' },
+]
+const roomTypeFacilityGroups = [
+  {
+    title: '核心设施（必填）',
+    options: [
+      { id: 'air-conditioner', label: '空调' },
+      { id: 'tv', label: '电视' },
+      { id: 'fridge', label: '冰箱' },
+      { id: 'washer', label: '洗衣机' },
+      { id: 'water-heater', label: '热水器' },
+      { id: 'wifi', label: '无线网络' },
+      { id: 'kitchen', label: '厨房' },
+      { id: 'dining-table', label: '餐桌' },
+      { id: 'disposable-cup', label: '一次性杯子' },
+      { id: 'range-hood', label: '抽油烟机' },
+    ],
+  },
+  {
+    title: '入住服务',
+    options: [
+      { id: 'self-checkin', label: '自助入住' },
+      { id: 'free-parking', label: '免费停车' },
+      { id: 'paid-parking', label: '付费停车' },
+      { id: 'luggage-storage', label: '行李寄存' },
+      { id: 'airport-transfer', label: '接送机' },
+      { id: 'breakfast', label: '早餐' },
+      { id: 'car-rental', label: '租车服务' },
+      { id: 'ev-charger', label: '充电车位' },
+      { id: 'free-water', label: '免费瓶装水' },
+      { id: 'team-building', label: '支持团建会议' },
+      { id: 'long-rent', label: '可长租' },
+      { id: 'butler', label: '管家式服务' },
+    ],
+  },
+  {
+    title: '儿童',
+    options: [
+      { id: 'kids-books', label: '儿童书籍' },
+      { id: 'kids-toys', label: '儿童玩具' },
+      { id: 'kids-tableware', label: '儿童餐具' },
+      { id: 'kids-chair', label: '儿童专用椅' },
+      { id: 'kids-bath', label: '儿童洗浴设施' },
+      { id: 'corner-protection', label: '桌角防护' },
+      { id: 'stroller', label: '儿童推车' },
+      { id: 'kids-guardrail', label: '儿童护栏' },
+      { id: 'learning-machine', label: '智能学习机' },
+      { id: 'storybook-machine', label: '绘本故事机' },
+      { id: 'kids-tent', label: '儿童帐篷' },
+      { id: 'kids-slide', label: '儿童秋千滑梯' },
+      { id: 'kids-robot', label: '儿童智能机器人' },
+      { id: 'diaper-table', label: '婴儿尿布台' },
+    ],
+  },
+  {
+    title: '卫生',
+    control: 'bedSheetChange',
+    options: [
+      { id: 'cleaning-tools', label: '打扫工具' },
+      { id: 'hand-sanitizer', label: '消毒洗手液' },
+      { id: 'home-disinfectant', label: '家用消毒液' },
+      { id: 'disposable-gloves', label: '一次性手套' },
+      { id: 'disinfectant', label: '除菌液' },
+      { id: 'air-purifier', label: '空气净化器' },
+      { id: 'fresh-air', label: '新风系统' },
+      { id: 'disposable-toilet-cover', label: '一次性马桶套' },
+      { id: 'disposable-bathtub-cover', label: '一次性浴缸套' },
+      { id: 'disposable-towel', label: '一次性毛巾' },
+      { id: 'odor-proof-drain', label: '防臭地漏' },
+      { id: 'air-freshener', label: '空气清新剂' },
+      { id: 'mosquito-coil', label: '蚊香' },
+      { id: 'insecticide', label: '杀虫剂' },
+      { id: 'white-bedding', label: '白色床品' },
+    ],
+  },
+  {
+    title: '周边500米',
+    options: [
+      { id: 'market', label: '菜市场' },
+      { id: 'park', label: '公园' },
+      { id: 'supermarket', label: '超市' },
+      { id: 'restaurant', label: '餐厅' },
+      { id: 'pharmacy', label: '药店' },
+      { id: 'atm', label: '提款机' },
+      { id: 'garden', label: '公共花园' },
+      { id: 'playground', label: '儿童乐园' },
+      { id: 'gym', label: '健身房' },
+      { id: 'pool', label: '泳池' },
+    ],
+  },
+  {
+    title: '质量',
+    control: 'decorationStyle',
+    options: [],
+  },
+] as const
 const roomTypePhotoSections = [
   { key: 'cover', label: '封面', limit: 1 },
   { key: 'livingRoom', label: '客厅', limit: 10 },
@@ -824,6 +939,7 @@ function RoomTypeEditPage() {
   const [statusMessage, setStatusMessage] = useState('')
   const [activeStep, setActiveStep] = useState(0)
   const [saving, setSaving] = useState(false)
+  const [uploadingPhotoSections, setUploadingPhotoSections] = useState<Partial<Record<RoomTypePhotoSectionKey, boolean>>>({})
 
   useEffect(() => {
     const controller = new AbortController()
@@ -870,6 +986,19 @@ function RoomTypeEditPage() {
   function updateForm<Key extends keyof RoomTypeInfoDraft['form']>(key: Key, value: RoomTypeInfoDraft['form'][Key]) {
     if (!draft) return
     setDraft({ ...draft, form: { ...draft.form, [key]: value } })
+  }
+
+  function updateFormPatch(patch: Partial<RoomTypeInfoDraft['form']>) {
+    if (!draft) return
+    setDraft({ ...draft, form: { ...draft.form, ...patch } })
+  }
+
+  function toggleFacilityOption(optionId: string) {
+    if (!draft) return
+    const selectedFacilityIds = draft.form.selectedFacilityIds.includes(optionId)
+      ? draft.form.selectedFacilityIds.filter((item) => item !== optionId)
+      : [...draft.form.selectedFacilityIds, optionId]
+    updateForm('selectedFacilityIds', selectedFacilityIds)
   }
 
   function syncRoomCount(nextCountText: string) {
@@ -923,6 +1052,73 @@ function RoomTypeEditPage() {
         roomNos: nextRoomNos,
         roomCount: String(nextRoomNos.length),
       },
+    })
+  }
+
+  async function handlePhotoFiles(section: RoomTypePhotoSection, fileList: FileList | null) {
+    if (!draft || !fileList?.length) return
+
+    const existingCount = draft.form.photos.filter((photo) => photo.sectionKey === section.key).length
+    const remaining = section.limit - existingCount
+    const files = Array.from(fileList).slice(0, Math.max(0, remaining))
+    if (!files.length) {
+      setStatusMessage(`${section.label}最多上传 ${section.limit} 张`)
+      return
+    }
+
+    setUploadingPhotoSections((value) => ({ ...value, [section.key]: true }))
+    try {
+      for (const file of files) {
+        const uploadedPhoto = await uploadRoomTypePhoto({
+          file,
+          sectionKey: section.key,
+          roomTypeId: draft.form.roomTypeId,
+        })
+        appendRoomTypePhoto(section.key, uploadedPhoto)
+      }
+      setStatusMessage('照片上传成功')
+    } catch (uploadError) {
+      setStatusMessage(uploadError instanceof Error ? uploadError.message : '照片上传失败')
+    } finally {
+      setUploadingPhotoSections((value) => ({ ...value, [section.key]: false }))
+    }
+  }
+
+  function appendRoomTypePhoto(sectionKey: RoomTypePhotoSectionKey, photo: RoomTypePhoto) {
+    setDraft((currentDraft) => {
+      if (!currentDraft) return currentDraft
+      const sectionPhotoCount = currentDraft.form.photos.filter((item) => item.sectionKey === sectionKey).length
+      const nextPhotos = [
+        ...currentDraft.form.photos,
+        {
+          ...photo,
+          sectionKey,
+          sortOrder: photo.sortOrder || sectionPhotoCount + 1,
+        },
+      ]
+      return {
+        ...currentDraft,
+        form: {
+          ...currentDraft.form,
+          photos: nextPhotos,
+          photoCounts: buildPhotoCounts(nextPhotos),
+        },
+      }
+    })
+  }
+
+  function removeRoomTypePhoto(photoId: string) {
+    setDraft((currentDraft) => {
+      if (!currentDraft) return currentDraft
+      const nextPhotos = currentDraft.form.photos.filter((photo) => photo.id !== photoId)
+      return {
+        ...currentDraft,
+        form: {
+          ...currentDraft.form,
+          photos: nextPhotos,
+          photoCounts: buildPhotoCounts(nextPhotos),
+        },
+      }
     })
   }
 
@@ -1090,37 +1286,13 @@ function RoomTypeEditPage() {
           {activeStep === 1 ? (
             <section className="room-type-edit-page__section">
               <h2>位置信息</h2>
-              <div className="room-type-edit-page__field-list">
-                <div className="room-type-edit-page__field">
-                  <span>所在位置:</span>
-                  <div className="room-type-edit-page__radio-row">
-                    <label>
-                      <input
-                        type="radio"
-                        name="location-mode"
-                        checked={draft.form.locationMode === 'same-store'}
-                        onChange={() => updateForm('locationMode', 'same-store')}
-                      />
-                      同门店位置
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="location-mode"
-                        checked={draft.form.locationMode === 'independent'}
-                        onChange={() => updateForm('locationMode', 'independent')}
-                      />
-                      独立位置
-                    </label>
-                  </div>
-                </div>
-              </div>
+              <RoomTypeLocationSection form={draft.form} onChange={updateFormPatch} />
             </section>
           ) : null}
 
           {activeStep === 2 ? (
             <section className="room-type-edit-page__section">
-              <h2>房型信息</h2>
+              <h2>房型设施</h2>
               <div className="room-type-edit-page__field-list">
                 <label className="room-type-edit-page__field">
                   <span>出租类型:</span>
@@ -1232,6 +1404,67 @@ function RoomTypeEditPage() {
                   </div>
                 </div>
               </div>
+
+              <div className="room-type-facility-section">
+                {roomTypeFacilityGroups.map((group) => (
+                  <section className="room-type-facility-section__group" key={group.title}>
+                    <h3>{group.title}</h3>
+
+                    {'control' in group && group.control === 'bedSheetChange' ? (
+                      <label className="room-type-facility-section__inline-field">
+                        <span>床品更换:</span>
+                        <select
+                          aria-label="床品更换"
+                          value={draft.form.bedSheetChangePolicy}
+                          onChange={(event) => updateForm('bedSheetChangePolicy', event.target.value)}
+                        >
+                          {roomTypeBedSheetChangeOptions.map((option) => (
+                            <option key={option.value || 'empty-bed-sheet-policy'} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    ) : null}
+
+                    {'control' in group && group.control === 'decorationStyle' ? (
+                      <label className="room-type-facility-section__inline-field">
+                        <span>装修风格:</span>
+                        <select
+                          aria-label="装修风格"
+                          value={draft.form.decorationStyle}
+                          onChange={(event) => updateForm('decorationStyle', event.target.value)}
+                        >
+                          {roomTypeDecorationStyleOptions.map((option) => (
+                            <option key={option.value || 'empty-decoration-style'} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    ) : null}
+
+                    {group.options.length ? (
+                      <div className="room-type-facility-section__options">
+                        {group.options.map((option) => {
+                          const isSelected = draft.form.selectedFacilityIds.includes(option.id)
+                          return (
+                            <button
+                              type="button"
+                              className={isSelected ? 'is-selected' : ''}
+                              aria-pressed={isSelected}
+                              onClick={() => toggleFacilityOption(option.id)}
+                              key={option.id}
+                            >
+                              {option.label}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+                  </section>
+                ))}
+              </div>
             </section>
           ) : null}
 
@@ -1340,17 +1573,47 @@ function RoomTypeEditPage() {
             <section className="room-type-edit-page__section">
               <h2>照片信息</h2>
               <div className="room-type-edit-page__photo-list">
-                {roomTypePhotoSections.map((section) => (
-                  <div key={section.key} className="room-type-edit-page__photo-row">
-                    <span>
-                      {section.label}({draft.form.photoCounts[section.key] ?? 0}/{section.limit}):
-                    </span>
-                    <button type="button" className="room-type-edit-page__upload-card">
-                      <b>＋</b>
-                      <em>上传</em>
-                    </button>
-                  </div>
-                ))}
+                {roomTypePhotoSections.map((section) => {
+                  const sectionPhotos = draft.form.photos.filter((photo) => photo.sectionKey === section.key)
+                  const isUploading = Boolean(uploadingPhotoSections[section.key])
+                  const canUploadMore = sectionPhotos.length < section.limit
+                  return (
+                    <div key={section.key} className="room-type-edit-page__photo-row">
+                      <span>
+                        {section.label}({sectionPhotos.length}/{section.limit}):
+                      </span>
+                      <div className="room-type-edit-page__photo-items">
+                        {sectionPhotos.map((photo) => (
+                          <figure className="room-type-edit-page__photo-thumb" key={photo.id}>
+                            <img src={photo.url} alt={photo.name} />
+                            <figcaption title={photo.name}>{photo.name}</figcaption>
+                            <button type="button" aria-label={`删除${photo.name}`} onClick={() => removeRoomTypePhoto(photo.id)}>
+                              删除
+                            </button>
+                          </figure>
+                        ))}
+                        {canUploadMore ? (
+                          <label className={isUploading ? 'room-type-edit-page__upload-card is-disabled' : 'room-type-edit-page__upload-card'}>
+                            <input
+                              className="room-type-edit-page__photo-input"
+                              type="file"
+                              accept="image/*"
+                              multiple={section.limit > 1}
+                              aria-label={`上传${section.label}`}
+                              disabled={isUploading}
+                              onChange={(event) => {
+                                void handlePhotoFiles(section, event.target.files)
+                                event.currentTarget.value = ''
+                              }}
+                            />
+                            <b>＋</b>
+                            <em>{isUploading ? '上传中' : '上传'}</em>
+                          </label>
+                        ) : null}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </section>
           ) : null}
@@ -1394,6 +1657,12 @@ function RoomTypeEditPage() {
         </div>
       ) : null}
     </div>
+  )
+}
+
+function buildPhotoCounts(photos: RoomTypePhoto[]) {
+  return Object.fromEntries(
+    roomTypePhotoSections.map((section) => [section.key, photos.filter((photo) => photo.sectionKey === section.key).length]),
   )
 }
 

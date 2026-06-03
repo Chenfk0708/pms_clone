@@ -841,9 +841,11 @@ export function HouseMonthsPage() {
             ) : null}
             {filterMenu === 'room' ? (
               <div className="month-filter-menu__panel" role="listbox" aria-label="房型筛选">
-                {roomGroups.map((row) => (
+                {Array.from(
+                  new Map(roomGroups.map((row) => [row.roomCategoryId || row.label, row])).values(),
+                ).map((row) => (
                   <button
-                    key={row.label}
+                    key={row.roomCategoryId || row.label}
                     type="button"
                     role="option"
                     aria-selected={roomType === row.label}
@@ -1074,7 +1076,7 @@ export function HouseMonthsPage() {
         ) : null}
 
         {filteredRows.map((row, rowIndex) => (
-          <div key={row.label} className="month-room-group">
+          <div key={row.id} className="month-room-group">
             <div className="month-grid-row month-board__row is-type" data-row-kind="type" data-testid="month-type-row">
               <div className="timeline-room month-board__room">
                 <strong>{row.label}</strong>

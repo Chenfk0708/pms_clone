@@ -1,4 +1,4 @@
-const realBaseUrl = 'https://hudson-prod.localhome.cn';
+const realBaseUrl = '/api';
 const overviewEndpoint = '/scrm/marketing/customer/overview';
 const filterOptions = {
     stores: [

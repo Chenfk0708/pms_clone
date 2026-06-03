@@ -21,13 +21,25 @@ async function openPaymentSetting(
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(
     ({ mockMode, mockLatencyMs }) => {
+      window.localStorage.setItem('pms_token', 'payment-setting-test-token')
       window.localStorage.setItem('pms.paymentSettingProvider', 'mock')
       window.localStorage.setItem('pms.paymentSettingMockState', mockMode)
       window.localStorage.setItem('pms.paymentSettingMockLatencyMs', String(mockLatencyMs))
     },
     { mockMode: mode, mockLatencyMs: latencyMs },
   )
-  await page.goto(appUrl('/setting/paymentSetting'))
+  await page.goto(appUrl('/#/setting/paymentSetting'))
+  await collapseChatDock(page)
+}
+
+async function openRealPaymentSetting(page: import('@playwright/test').Page) {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'payment-setting-api-token')
+    window.localStorage.setItem('pms.paymentSettingProvider', 'real')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+  await page.goto(appUrl('/#/setting/paymentSetting'))
   await collapseChatDock(page)
 }
 
@@ -64,6 +76,59 @@ test('/setting/paymentSetting renders compact tiles with empty disabled section'
   await expect(enabledList(page)).toContainText('平台代收')
   await expect(enabledList(page)).toContainText('支付宝')
   await expect(enabledList(page)).toContainText('现场收款')
+})
+
+test('/setting/paymentSetting real provider requests payment ways and renders enabled/disabled tiles', async ({ page }) => {
+  const requests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/paymentWays/get', async (route) => {
+    requests.push({
+      headers: route.request().headers(),
+      body: route.request().postDataJSON() as Record<string, unknown>,
+    })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          paymentWays: [
+            {
+              paymentWayId: '53001',
+              paymentWayName: 'API 微信',
+              paymentWayCode: 'api_wechat',
+              wayType: 'online',
+              sortNo: 1,
+              isCustom: 0,
+              isEnable: 1,
+            },
+            {
+              paymentWayId: '53002',
+              paymentWayName: 'API 停用转账',
+              paymentWayCode: 'api_bank_disabled',
+              wayType: 'offline',
+              sortNo: 2,
+              isCustom: 1,
+              isEnable: 0,
+            },
+          ],
+        },
+        traceId: 'api-payment-ways-get-test',
+        timestamp: '2026-05-31T10:30:00+08:00',
+      }),
+    })
+  })
+
+  await openRealPaymentSetting(page)
+
+  const contract = page.getByTestId('payment-setting-service-contract')
+  await expect(contract).toContainText('provider=api')
+  await expect(contract).toContainText('/paymentWays/get')
+  await expect(enabledList(page)).toContainText('API 微信')
+  await expect(disabledList(page)).toContainText('API 停用转账')
+  await expect.poll(() => requests.length).toBe(1)
+  expect(requests[0].headers.authorization).toBe('Bearer payment-setting-api-token')
+  expect(requests[0].body).toMatchObject({ campId: '10001' })
 })
 
 test('/setting/paymentSetting supports hover disable and inline add', async ({ page }) => {

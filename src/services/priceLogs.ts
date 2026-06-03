@@ -1,7 +1,7 @@
 export const PRICE_LOG_LIST_ENDPOINT = '/houseManage/logs/price/list'
 export const PRICE_LOG_EXPORT_ENDPOINT = '/houseManage/logs/price/export'
-export const PRICE_LOG_CHANNELS_ENDPOINT = 'https://hudson-prod.localhome.cn/channels/get'
-export const PRICE_LOG_ROOM_CATEGORIES_ENDPOINT = 'https://hudson-prod.localhome.cn/roomCategories/page/get'
+export const PRICE_LOG_CHANNELS_ENDPOINT = '/api/channels/get'
+export const PRICE_LOG_ROOM_CATEGORIES_ENDPOINT = '/api/roomCategories/page/get'
 
 const TASK_ID = 'fangtai--fangjia-guanli--tiaojia-rizhi'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
@@ -164,7 +164,7 @@ export function createPriceLogExportRequest(query: PriceLogQuery) {
 
 function resolvePriceLogProvider(): PriceLogProviderMode {
   const configured = readRuntimeConfig('pms.priceLogProvider') || import.meta.env.VITE_PRICE_LOG_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function readRuntimeConfig(key: string) {

@@ -263,8 +263,8 @@ export function InformationOverviewPage() {
             <span>⌕</span>
           </div>
           <div className="phone-preview__status">
-            <span>LOCALS</span>
-            <small>路 客 云</small>
+            <span>银宿</span>
+            <small>银宿</small>
           </div>
           <div className="phone-preview__search">
             <span>输入关键词搜索</span>

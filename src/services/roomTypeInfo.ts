@@ -1,8 +1,14 @@
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const roomTypeListEndpoint = '/roomCategories/page/get'
 const roomTypeStoreEndpoint = '/select/poi/page/get'
 const roomTypeGroupEndpoint = '/roomCategoryGroups/get'
 const roomTypeRoomEndpoint = '/rooms/get'
+const roomTypeDetailEndpoint = '/roomCategory/detail/get'
+const roomTypeLinkageGetEndpoint = '/roomCategory/linkage/get'
+const roomTypeLinkageSaveEndpoint = '/roomCategory/linkage/save'
+const roomTypeDeleteEndpoint = '/roomCategory/delete'
+const roomTypeSaveEndpoint = '/roomCategory/save'
+const roomTypePhotoUploadEndpoint = '/roomCategory/photo/upload'
 const mockTimestamp = '2026-05-19T19:45:00+08:00'
 const mockLatencyMs = 120
 const defaultCampId = '1796067693589061634'
@@ -100,6 +106,25 @@ export type RoomTypeFloorPageData = {
 }
 
 export type RoomTypeInfoEditMode = 'create' | 'detail'
+export type RoomTypePhotoSectionKey =
+  | 'cover'
+  | 'livingRoom'
+  | 'kitchen'
+  | 'other'
+  | 'bathroom'
+  | 'building'
+  | 'entertainment'
+  | 'uncategorized'
+
+export type RoomTypePhoto = {
+  id: string
+  sectionKey: RoomTypePhotoSectionKey
+  name: string
+  url: string
+  size: number
+  mimeType: string
+  sortOrder: number
+}
 
 export type RoomTypeInfoDraft = {
   provider: RoomTypeInfoProviderName
@@ -119,6 +144,18 @@ export type RoomTypeInfoDraft = {
     weekendPrice: string
     holidayPrice: string
     locationMode: 'same-store' | 'independent'
+    locationProvinceCode: string
+    locationProvinceName: string
+    locationCityCode: string
+    locationCityName: string
+    locationDistrictCode: string
+    locationDistrictName: string
+    streetAddress: string
+    communityName: string
+    buildingUnit: string
+    doorNumber: string
+    locationLatitude: string
+    locationLongitude: string
     rentalType: string
     propertyType: string
     suiteArea: string
@@ -128,6 +165,9 @@ export type RoomTypeInfoDraft = {
     kitchenCount: string
     bathroomCount: string
     bathroomType: 'private' | 'shared'
+    selectedFacilityIds: string[]
+    bedSheetChangePolicy: string
+    decorationStyle: string
     displayName: string
     earliestCheckIn: string
     latestCheckOut: string
@@ -135,6 +175,7 @@ export type RoomTypeInfoDraft = {
     highlightDescription: string
     nearbyDescription: string
     articleDescription: string
+    photos: RoomTypePhoto[]
     photoCounts: Record<string, number>
   }
 }
@@ -186,6 +227,10 @@ type UnifiedEnvelope<T> = {
 }
 
 type HudsonEnvelope<T> = {
+  code?: number
+  message?: string | null
+  traceId?: string | null
+  timestamp?: string | null
   success?: boolean
   data?: T
   errorCode?: string | number | null
@@ -407,6 +452,10 @@ export async function loadRoomTypeInfoDraft(
   roomTypeId?: string,
   signal?: AbortSignal,
 ): Promise<RoomTypeInfoDraft> {
+  if (resolveProvider() === 'api') {
+    return loadRealRoomTypeInfoDraft(mode, roomTypeId, signal)
+  }
+
   await waitForMockLatency(signal)
 
   const row = roomTypeId ? findRowOrThrow(roomTypeId) : null
@@ -428,6 +477,18 @@ export async function loadRoomTypeInfoDraft(
       weekendPrice: row ? '468' : '',
       holidayPrice: row ? '588' : '',
       locationMode: 'same-store',
+      locationProvinceCode: '',
+      locationProvinceName: '',
+      locationCityCode: '',
+      locationCityName: '',
+      locationDistrictCode: '',
+      locationDistrictName: '',
+      streetAddress: '',
+      communityName: '',
+      buildingUnit: '',
+      doorNumber: '',
+      locationLatitude: '',
+      locationLongitude: '',
       rentalType: 'entire',
       propertyType: 'apartment',
       suiteArea: row ? '68' : '',
@@ -437,6 +498,11 @@ export async function loadRoomTypeInfoDraft(
       kitchenCount: row ? '1' : '',
       bathroomCount: row ? '1' : '',
       bathroomType: 'private',
+      selectedFacilityIds: row
+        ? ['dining-table', 'disposable-cup', 'range-hood', 'self-checkin', 'free-parking', 'luggage-storage', 'cleaning-tools', 'white-bedding']
+        : [],
+      bedSheetChangePolicy: '',
+      decorationStyle: '',
       displayName: row?.name ?? '',
       earliestCheckIn: '12',
       latestCheckOut: '14',
@@ -444,6 +510,7 @@ export async function loadRoomTypeInfoDraft(
       highlightDescription: row ? `${row.name}，适合观影、电竞与聚会场景。` : '',
       nearbyDescription: row ? '近商圈、地铁站与夜间餐饮区域，步行可达。' : '',
       articleDescription: row ? `${row.name} 图文介绍示例。` : '',
+      photos: [],
       photoCounts: {
         cover: 0,
         livingRoom: 0,
@@ -484,6 +551,10 @@ export async function loadRoomTypeLinkage(
   roomTypeId: string,
   signal?: AbortSignal,
 ): Promise<RoomTypeInfoLinkageDialog> {
+  if (resolveProvider() === 'api') {
+    return loadRealRoomTypeLinkage(roomTypeId, signal)
+  }
+
   await waitForMockLatency(signal)
   const row = findRowOrThrow(roomTypeId)
   const candidates = mockRows
@@ -526,10 +597,11 @@ export async function saveRoomTypeLinkage(
   selectedIds: string[],
   signal?: AbortSignal,
 ): Promise<{ message: string; traceId: string }> {
-  await waitForMockLatency(signal)
   if (resolveProvider() === 'api') {
-    throw new Error('当前数据源暂不支持联动关房保存')
+    return saveRealRoomTypeLinkage(roomTypeId, selectedIds, signal)
   }
+
+  await waitForMockLatency(signal)
   const row = findRowOrThrow(roomTypeId)
   row.linkedRoomTypeIds = [...selectedIds]
   row.linkedRoomTypeNames = mockRows.filter((item) => selectedIds.includes(item.id)).map((item) => item.name)
@@ -537,10 +609,11 @@ export async function saveRoomTypeLinkage(
 }
 
 export async function deleteRoomType(roomTypeId: string, signal?: AbortSignal): Promise<{ message: string; traceId: string }> {
-  await waitForMockLatency(signal)
   if (resolveProvider() === 'api') {
-    throw new Error('当前数据源暂不支持房型删除')
+    return deleteRealRoomType(roomTypeId, signal)
   }
+
+  await waitForMockLatency(signal)
   const rowIndex = mockRows.findIndex((item) => item.id === roomTypeId)
   if (rowIndex < 0) throw new Error('未找到需要删除的房型')
   mockRows.splice(rowIndex, 1)
@@ -557,13 +630,38 @@ export async function saveRoomTypeDraft(
   }
 
   if (resolveProvider() === 'api') {
-    throw new Error('当前数据源暂不支持房型保存')
+    return saveRealRoomTypeDraft(draft, signal)
   }
 
   return {
     message: draft.roomTypeId ? '房型信息已保存' : '房型已创建',
     traceId: buildTraceId('save-draft'),
   }
+}
+
+export async function uploadRoomTypePhoto(
+  input: { file: File; sectionKey: RoomTypePhotoSectionKey; roomTypeId?: string },
+  signal?: AbortSignal,
+): Promise<RoomTypePhoto> {
+  if (!input.file.type.startsWith('image/')) {
+    throw new Error('只能上传图片文件')
+  }
+
+  const formData = new FormData()
+  formData.set('campId', resolveCampId())
+  formData.set('sectionKey', input.sectionKey)
+  if (input.roomTypeId) {
+    formData.set('roomCategoryId', input.roomTypeId)
+  }
+  formData.set('file', input.file)
+
+  const response = await fetchMultipart<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypePhotoUploadEndpoint}`, {
+    method: 'POST',
+    body: formData,
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return adaptUploadedRoomTypePhoto(payload, input.file, input.sectionKey)
 }
 
 export function createQuickRoomNoSuggestion(roomCount: string) {
@@ -577,7 +675,7 @@ export function getRoomTypeInfoProviderName() {
 
 function resolveProvider(): RoomTypeInfoProviderName {
   const configured = readRuntimeConfig('pms.roomTypeInfoProvider') || import.meta.env.VITE_ROOM_TYPE_INFO_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockState(): RoomTypeInfoMockState {
@@ -617,7 +715,7 @@ async function waitForMockLatency(signal?: AbortSignal) {
 
 function createRequestBody(query: RoomTypeInfoQuery) {
   return {
-    campId: defaultCampId,
+    campId: resolveCampId(),
     poiId: query.storeId || '',
     roomCategoryGroupId: query.groupId || '',
     roomCategoryName: query.keyword?.trim() || '',
@@ -674,12 +772,12 @@ async function loadRealRoomTypeInfoDashboard(query: RoomTypeInfoQuery, signal?: 
   const [storesResponse, groupsResponse, pageResponse] = await Promise.all([
     fetchJson<HudsonEnvelope<unknown[]>>(`${realBaseUrl}${roomTypeStoreEndpoint}`, {
       method: 'POST',
-      body: JSON.stringify({ campId: defaultCampId, pageNum: 1, pageSize: 100 }),
+      body: JSON.stringify({ campId: resolveCampId(), pageNum: 1, pageSize: 100 }),
       signal,
     }),
     fetchJson<HudsonEnvelope<unknown[]>>(`${realBaseUrl}${roomTypeGroupEndpoint}`, {
       method: 'POST',
-      body: JSON.stringify({ campId: defaultCampId }),
+      body: JSON.stringify({ campId: resolveCampId() }),
       signal,
     }),
     fetchJson<HudsonEnvelope<RoomTypePagePayload>>(`${realBaseUrl}${roomTypeListEndpoint}`, {
@@ -730,11 +828,10 @@ async function loadRealRoomTypeInfoDashboard(query: RoomTypeInfoQuery, signal?: 
 }
 
 async function loadRealRoomTypeRooms(roomTypeId: string, signal?: AbortSignal): Promise<RoomTypeInfoRoomsDialog> {
-  const row = findRowOrThrow(roomTypeId)
   const response = await fetchJson<HudsonEnvelope<unknown[]>>(`${realBaseUrl}${roomTypeRoomEndpoint}`, {
     method: 'POST',
     body: JSON.stringify({
-      campId: defaultCampId,
+      campId: resolveCampId(),
       roomCategoryIds: [roomTypeId],
       pageNum: 1,
       pageSize: 50,
@@ -746,10 +843,11 @@ async function loadRealRoomTypeRooms(roomTypeId: string, signal?: AbortSignal): 
   const rooms = Array.isArray(payload)
     ? payload.map((item, index) => {
         const room = asRecord(item)
+        const roomTypeName = readString(room.roomTypeName ?? room.roomCategoryName, '')
         return {
-          id: readString(room.id, `${roomTypeId}-room-${index + 1}`),
-          roomName: readString(room.name, row.roomNames[index] || `房间${index + 1}`),
-          roomTypeName: row.name,
+          id: readString(room.id ?? room.roomId, `${roomTypeId}-room-${index + 1}`),
+          roomName: readString(room.name ?? room.roomName, `房间${index + 1}`),
+          roomTypeName,
           lockStatus: readString(room.lockStatus, '未绑定'),
           floorName: readString(room.floorName, '去设置'),
         }
@@ -760,33 +858,158 @@ async function loadRealRoomTypeRooms(roomTypeId: string, signal?: AbortSignal): 
     traceId: buildTraceId('api-rooms'),
     timestamp: new Date().toISOString(),
     roomTypeId,
-    roomTypeName: row.name,
+    roomTypeName: rooms[0]?.roomTypeName ?? '',
     rooms,
   }
 }
 
+async function loadRealRoomTypeInfoDraft(
+  mode: RoomTypeInfoEditMode,
+  roomTypeId?: string,
+  signal?: AbortSignal,
+): Promise<RoomTypeInfoDraft> {
+  const response = await fetchJson<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypeDetailEndpoint}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      roomCategoryId: roomTypeId || '',
+      mode,
+    }),
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return adaptRoomTypeDraft(payload, mode, response.traceId, response.timestamp)
+}
+
+async function loadRealRoomTypeLinkage(roomTypeId: string, signal?: AbortSignal): Promise<RoomTypeInfoLinkageDialog> {
+  const response = await fetchJson<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypeLinkageGetEndpoint}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      roomCategoryId: roomTypeId,
+    }),
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return adaptRoomTypeLinkage(payload, roomTypeId, response.traceId, response.timestamp)
+}
+
+async function saveRealRoomTypeLinkage(roomTypeId: string, selectedIds: string[], signal?: AbortSignal) {
+  const response = await fetchJson<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypeLinkageSaveEndpoint}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      roomCategoryId: roomTypeId,
+      linkedRoomCategoryIds: selectedIds,
+    }),
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return {
+    message: readResponseMessage(payload, response.message, '联动关房已更新'),
+    traceId: readString(response.traceId, buildTraceId('api-save-linkage')),
+  }
+}
+
+async function deleteRealRoomType(roomTypeId: string, signal?: AbortSignal) {
+  const response = await fetchJson<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypeDeleteEndpoint}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      roomCategoryId: roomTypeId,
+    }),
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return {
+    message: readResponseMessage(payload, response.message, '房型已删除'),
+    traceId: readString(response.traceId, buildTraceId('api-delete')),
+  }
+}
+
+async function saveRealRoomTypeDraft(draft: RoomTypeInfoDraft['form'], signal?: AbortSignal) {
+  const response = await fetchJson<HudsonEnvelope<unknown>>(`${realBaseUrl}${roomTypeSaveEndpoint}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      form: draft,
+    }),
+    signal,
+  })
+  const payload = unwrapHudsonEnvelope(response)
+  return {
+    message: readResponseMessage(payload, response.message, draft.roomTypeId ? '房型信息已保存' : '房型已创建'),
+    traceId: readString(response.traceId, buildTraceId('api-save-draft')),
+  }
+}
+
 async function fetchJson<T>(url: string, init: RequestInit) {
+  const headers = new Headers({ 'content-type': 'application/json' })
+  const token = readRuntimeConfig('pms_token')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  if (init.headers) {
+    new Headers(init.headers).forEach((value, key) => headers.set(key, value))
+  }
+
   const response = await fetch(url, {
     ...init,
+    credentials: 'include',
     headers: {
-      'content-type': 'application/json',
-      ...(init.headers || {}),
+      ...Object.fromEntries(headers.entries()),
     },
   })
-  if (!response.ok) {
+  let payload: T
+  try {
+    payload = (await response.json()) as T
+  } catch {
     throw new Error(`请求失败：${response.status}`)
   }
-  return (await response.json()) as T
+  if (!response.ok) {
+    throw new Error(readHudsonErrorMessage(payload) || `请求失败：${response.status}`)
+  }
+  return payload
+}
+
+async function fetchMultipart<T>(url: string, init: RequestInit) {
+  const headers = new Headers()
+  const token = readRuntimeConfig('pms_token')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  if (init.headers) {
+    new Headers(init.headers).forEach((value, key) => headers.set(key, value))
+  }
+
+  const response = await fetch(url, {
+    ...init,
+    credentials: 'include',
+    headers: {
+      ...Object.fromEntries(headers.entries()),
+    },
+  })
+  let payload: T
+  try {
+    payload = (await response.json()) as T
+  } catch {
+    throw new Error('照片上传接口未返回 JSON')
+  }
+  if (!response.ok) {
+    throw new Error(`照片上传失败：${response.status}`)
+  }
+  return payload
 }
 
 function unwrapHudsonEnvelope<T>(response: HudsonEnvelope<T>) {
-  if (response.success === false) {
-    throw new Error(response.errorMsg || response.errorDetail || '接口返回失败')
+  if (response.success === false || (response.code !== undefined && response.code !== 0)) {
+    throw new Error(readHudsonErrorMessage(response) || '接口返回失败')
   }
   if (response.data === undefined) {
     throw new Error('接口未返回 data 字段')
   }
   return response.data
+}
+
+function readHudsonErrorMessage(payload: unknown) {
+  const record = asRecord(payload)
+  return readString(record.errorMsg ?? record.errorDetail ?? record.message ?? record.errorCode, '')
 }
 
 function adaptStoreOptions(response: HudsonEnvelope<unknown[]>) {
@@ -819,6 +1042,15 @@ function adaptRoomTypeRows(input: unknown) {
   if (!Array.isArray(input)) return []
   return input.map((item, index) => {
     const record = asRecord(item)
+    const linkRcs = Array.isArray(record.linkRcs) ? record.linkRcs : []
+    const linkedRoomTypeIds = linkRcs
+      .map((link) => readString(asRecord(link).roomCategoryId ?? asRecord(link).linkedRoomCategoryId ?? asRecord(link).id, ''))
+      .filter(Boolean)
+    const linkedRoomTypeNames = linkRcs.length
+      ? linkRcs
+          .map((link) => readString(asRecord(link).roomCategoryName ?? asRecord(link).linkedRoomCategoryName ?? asRecord(link).name, ''))
+          .filter(Boolean)
+      : splitRoomNames(record.linkRoomCategoryNames ?? record.linkedRoomTypeNames)
     return {
       id: readString(record.id, `room-type-api-${index + 1}`),
       name: readString(record.name ?? record.roomCategoryName, `房型${index + 1}`),
@@ -826,12 +1058,123 @@ function adaptRoomTypeRows(input: unknown) {
       storeName: readString(record.poiName, storeOptions[0].label),
       roomCount: readNumber(record.roomNum ?? record.roomCount, 0),
       roomNames: splitRoomNames(record.roomNames ?? record.roomNo),
-      linkedRoomTypeIds: [],
-      linkedRoomTypeNames: splitRoomNames(record.linkRoomCategoryNames ?? record.linkedRoomTypeNames),
+      linkedRoomTypeIds,
+      linkedRoomTypeNames,
       groupId: readString(record.roomCategoryGroupId, ''),
       groupName: readString(record.roomCategoryGroupName, ''),
     } satisfies RoomTypeInfoRow
   })
+}
+
+function adaptRoomTypeDraft(
+  input: unknown,
+  fallbackMode: RoomTypeInfoEditMode,
+  traceId?: string | null,
+  timestamp?: string | null,
+): RoomTypeInfoDraft {
+  const record = asRecord(input)
+  const form = asRecord(record.form || record)
+  const mode = readString(record.mode, fallbackMode) === 'create' ? 'create' : fallbackMode
+  const roomNosInput = form.roomNos ?? form.roomNames ?? form.roomNo
+  const roomNos = Array.isArray(roomNosInput)
+    ? roomNosInput.map((item) => readString(item, '')).filter(Boolean)
+    : splitRoomNames(roomNosInput)
+  const stepsInput = record.steps
+  const steps = Array.isArray(stepsInput) ? stepsInput.map((item) => readString(item, '')).filter(Boolean) : roomTypeSteps
+  const photos = readRoomTypePhotos(form.photos ?? form.photoList ?? form.roomCategoryPhotos ?? form.images)
+  const photoCountsRecord = asRecord(form.photoCounts)
+  const photoCounts = Object.keys(photoCountsRecord).length ? readPhotoCounts(photoCountsRecord) : countRoomTypePhotos(photos)
+
+  return {
+    provider: 'api',
+    traceId: readString(traceId, buildTraceId('api-detail')),
+    timestamp: readString(timestamp, new Date().toISOString()),
+    mode,
+    title: readString(record.title, mode === 'create' ? '新增房型' : '房型详情'),
+    steps: steps.length ? steps : roomTypeSteps,
+    form: {
+      roomTypeId: readString(form.roomTypeId ?? form.roomCategoryId, ''),
+      roomTypeName: readString(form.roomTypeName ?? form.roomCategoryName ?? form.name, ''),
+      storeId: readString(form.storeId ?? form.poiId, defaultStoreId),
+      groupId: readString(form.groupId ?? form.roomCategoryGroupId, groupOptions[0].id),
+      roomCount: readString(form.roomCount ?? form.roomNum, String(roomNos.length || 1)),
+      roomNos: roomNos.length ? roomNos : ['房间1'],
+      weekdayPrice: readString(form.weekdayPrice ?? form.basePrice ?? form.weekdayPriceCent, ''),
+      weekendPrice: readString(form.weekendPrice ?? form.weekendPriceCent, ''),
+      holidayPrice: readString(form.holidayPrice ?? form.holidayPriceCent, ''),
+      locationMode: readLocationMode(form.locationMode),
+      locationProvinceCode: readString(form.locationProvinceCode ?? form.provinceCode, ''),
+      locationProvinceName: readString(form.locationProvinceName ?? form.provinceName, ''),
+      locationCityCode: readString(form.locationCityCode ?? form.cityCode, ''),
+      locationCityName: readString(form.locationCityName ?? form.cityName, ''),
+      locationDistrictCode: readString(form.locationDistrictCode ?? form.districtCode, ''),
+      locationDistrictName: readString(form.locationDistrictName ?? form.districtName, ''),
+      streetAddress: readString(form.streetAddress ?? form.address, ''),
+      communityName: readString(form.communityName ?? form.community, ''),
+      buildingUnit: readString(form.buildingUnit ?? form.unitDoorNo, ''),
+      doorNumber: readString(form.doorNumber ?? form.houseNumber, ''),
+      locationLatitude: readString(form.locationLatitude ?? form.latitude, ''),
+      locationLongitude: readString(form.locationLongitude ?? form.longitude, ''),
+      rentalType: readString(form.rentalType, 'entire'),
+      propertyType: readString(form.propertyType, 'apartment'),
+      suiteArea: readString(form.suiteArea, ''),
+      guestCount: readString(form.guestCount, ''),
+      bedroomCount: readString(form.bedroomCount, ''),
+      livingRoomCount: readString(form.livingRoomCount, ''),
+      kitchenCount: readString(form.kitchenCount, ''),
+      bathroomCount: readString(form.bathroomCount, ''),
+      bathroomType: readBathroomType(form.bathroomType),
+      selectedFacilityIds: readStringList(form.selectedFacilityIds ?? form.facilityIds ?? form.facilities),
+      bedSheetChangePolicy: readString(form.bedSheetChangePolicy ?? form.beddingChangePolicy, ''),
+      decorationStyle: readString(form.decorationStyle, ''),
+      displayName: readString(form.displayName, ''),
+      earliestCheckIn: readString(form.earliestCheckIn ?? form.earliestCheckInTime, '12'),
+      latestCheckOut: readString(form.latestCheckOut ?? form.latestCheckOutTime, '14'),
+      latestCheckIn: readString(form.latestCheckIn ?? form.latestCheckInTime, '24'),
+      highlightDescription: readString(form.highlightDescription, ''),
+      nearbyDescription: readString(form.nearbyDescription, ''),
+      articleDescription: readString(form.articleDescription, ''),
+      photos,
+      photoCounts,
+    },
+  }
+}
+
+function adaptRoomTypeLinkage(
+  input: unknown,
+  fallbackRoomTypeId: string,
+  traceId?: string | null,
+  timestamp?: string | null,
+): RoomTypeInfoLinkageDialog {
+  const record = asRecord(input)
+  const candidatesInput = record.candidates ?? record.list ?? record.roomCategories
+  const candidates = Array.isArray(candidatesInput)
+    ? candidatesInput.map((item, index) => {
+        const candidate = asRecord(item)
+        return {
+          id: readString(candidate.id ?? candidate.roomCategoryId, `linkage-${index + 1}`),
+          name: readString(candidate.name ?? candidate.roomCategoryName, `房型${index + 1}`),
+          selected: Boolean(candidate.selected ?? candidate.checked ?? candidate.linked),
+        }
+      })
+    : []
+
+  return {
+    traceId: readString(traceId, buildTraceId('api-linkage')),
+    timestamp: readString(timestamp, new Date().toISOString()),
+    roomTypeId: readString(record.roomTypeId ?? record.roomCategoryId, fallbackRoomTypeId),
+    roomTypeName: readString(record.roomTypeName ?? record.roomCategoryName, ''),
+    description: readString(
+      record.description,
+      '设置联动关房后，当前房型关房将联动关联的房型全部关房，关联的房型任一关房，将联动当前房型关房。适用于整租/包栋场景；',
+    ),
+    candidates,
+  }
+}
+
+function readResponseMessage(payload: unknown, envelopeMessage: unknown, fallback: string) {
+  const record = asRecord(payload)
+  return readString(record.message ?? envelopeMessage, fallback)
 }
 
 function buildRequestSummary(query: RoomTypeInfoQuery, rowCount: number) {
@@ -872,6 +1215,21 @@ function readString(value: unknown, fallback: string) {
   return typeof value === 'string' && value.trim() ? value.trim() : fallback
 }
 
+function readStringList(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.map((item) => readString(item, '')).filter(Boolean)
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split(/[,，\s]+/)
+      .map((item) => item.trim())
+      .filter(Boolean)
+  }
+
+  return []
+}
+
 function readNumber(value: unknown, fallback: number) {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback
 }
@@ -879,6 +1237,98 @@ function readNumber(value: unknown, fallback: number) {
 function asRecord(value: unknown) {
   return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 }
+
+function resolveCampId() {
+  return (
+    readRuntimeConfig('pmsCampId') ||
+    readRuntimeConfig('pms.currentCampId') ||
+    readCampIdFromStoredObject('pms.currentCamp') ||
+    readCampIdFromStoredObject('pms.camp') ||
+    (import.meta.env.VITE_PMS_CAMP_ID as string | undefined)?.trim() ||
+    defaultCampId
+  )
+}
+
+function readCampIdFromStoredObject(key: string) {
+  const text = readRuntimeConfig(key)
+  if (!text) return ''
+  try {
+    const value = JSON.parse(text) as Record<string, unknown>
+    return readString(value.campId ?? value.id, '')
+  } catch {
+    return ''
+  }
+}
+
+function readLocationMode(value: unknown): RoomTypeInfoDraft['form']['locationMode'] {
+  return value === 'independent' ? 'independent' : 'same-store'
+}
+
+function readBathroomType(value: unknown): RoomTypeInfoDraft['form']['bathroomType'] {
+  return value === 'shared' ? 'shared' : 'private'
+}
+
+function readPhotoCounts(value: unknown): Record<string, number> {
+  const record = asRecord(value)
+  return Object.fromEntries(
+    roomTypePhotoKeys.map((key) => [key, readNumber(record[key], 0)]),
+  )
+}
+
+function readRoomTypePhotos(value: unknown): RoomTypePhoto[] {
+  const input = Array.isArray(value) ? value : []
+  return input
+    .map((item, index) => {
+      const record = asRecord(item)
+      const url = readString(record.url ?? record.fileUrl ?? record.imageUrl ?? record.path ?? record.src, '')
+      if (!url) return null
+      return {
+        id: readString(record.id ?? record.photoId ?? record.fileId, url),
+        sectionKey: readPhotoSectionKey(record.sectionKey ?? record.type ?? record.category),
+        name: readString(record.name ?? record.fileName ?? record.originalName, `照片${index + 1}`),
+        url,
+        size: readNumber(record.size ?? record.fileSize, 0),
+        mimeType: readString(record.mimeType ?? record.contentType, 'image/*'),
+        sortOrder: readNumber(record.sortOrder ?? record.sort, index + 1),
+      }
+    })
+    .filter((item): item is RoomTypePhoto => Boolean(item))
+}
+
+function adaptUploadedRoomTypePhoto(input: unknown, file: File, fallbackSectionKey: RoomTypePhotoSectionKey): RoomTypePhoto {
+  const directUrl = typeof input === 'string' ? input : ''
+  const record = directUrl ? { url: directUrl } : asRecord(input)
+  const nested = asRecord(record.file ?? record.photo ?? record.asset)
+  const source = Object.keys(nested).length ? { ...record, ...nested } : record
+  const url = readString(source.url ?? source.fileUrl ?? source.imageUrl ?? source.path ?? source.src, '')
+  if (!url) {
+    throw new Error('照片上传接口未返回图片 URL')
+  }
+
+  return {
+    id: readString(source.id ?? source.photoId ?? source.fileId, url),
+    sectionKey: readPhotoSectionKey(source.sectionKey ?? source.type ?? source.category ?? fallbackSectionKey),
+    name: readString(source.name ?? source.fileName ?? source.originalName, file.name),
+    url,
+    size: readNumber(source.size ?? source.fileSize, file.size),
+    mimeType: readString(source.mimeType ?? source.contentType, file.type || 'image/*'),
+    sortOrder: readNumber(source.sortOrder ?? source.sort, 0),
+  }
+}
+
+function countRoomTypePhotos(photos: RoomTypePhoto[]) {
+  const counts = Object.fromEntries(roomTypePhotoKeys.map((key) => [key, 0])) as Record<RoomTypePhotoSectionKey, number>
+  for (const photo of photos) {
+    counts[photo.sectionKey] += 1
+  }
+  return counts
+}
+
+function readPhotoSectionKey(value: unknown): RoomTypePhotoSectionKey {
+  return roomTypePhotoKeys.includes(value as RoomTypePhotoSectionKey) ? (value as RoomTypePhotoSectionKey) : 'uncategorized'
+}
+
+const roomTypePhotoKeys = ['cover', 'livingRoom', 'kitchen', 'other', 'bathroom', 'building', 'entertainment', 'uncategorized'] as const
 
 function buildTraceId(suffix: string) {
   return `room-type-info-${suffix}-001`

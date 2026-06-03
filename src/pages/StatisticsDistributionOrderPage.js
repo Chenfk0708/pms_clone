@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { defaultStatisticsDistributionOrderCampId, getStatisticsDistributionOrderProviderName, loadStatisticsDistributionOrderData, statisticsDistributionOrderEndpoint, } from '../services/statisticsDistributionOrder';
 import './OrderLedgerPage.css';
 import './DistributionOrderPage.css';
@@ -19,6 +19,7 @@ const initialQuery = {
     current: 1,
 };
 export function StatisticsDistributionOrderPage({ defaultExpanded = true }) {
+    const location = useLocation();
     const navigate = useNavigate();
     const [expanded, setExpanded] = useState(defaultExpanded);
     const [keyword, setKeyword] = useState('');
@@ -71,7 +72,7 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }) {
         }
         void run();
         return () => controller.abort();
-    }, [query, reloadToken]);
+    }, [query, reloadToken, location.search]);
     function resetFilters() {
         setKeyword('');
         setSubmittedKeyword('');
@@ -157,7 +158,7 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }) {
         `keyword=${query.keyword?.trim() || ''}`,
         `settlementState=${query.settlementState || ''}`,
     ];
-    return (_jsxs("div", { className: "distribution-order-page statistics-distribution-order-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u805A\u5408\u5206\u9500\u8BA2\u5355" }), _jsx("output", { id: "statistics-distribution-service", hidden: true, value: serviceSummary.join(';') }), _jsxs("section", { className: "order-ledger-filter statistics-distribution-filter", "aria-label": "\u805A\u5408\u5206\u9500\u8BA2\u5355\u7B5B\u9009", children: [_jsx("div", { className: "order-ledger-filter__top statistics-distribution-filter__top", children: _jsxs("div", { className: "order-ledger-store-row statistics-distribution-store", "aria-label": "\u95E8\u5E97", children: [_jsx("button", { type: "button", className: storeScope === 'all' ? 'is-active' : '', "aria-pressed": storeScope === 'all', onClick: () => applyStoreScope('all', '已刷新全部门店口径的聚合分销订单'), children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: storeScope === 'current' ? 'is-active' : '', "aria-pressed": storeScope === 'current', onClick: () => applyStoreScope('current', '已刷新当前门店口径的聚合分销订单'), children: data?.campName ?? '天落会宿公寓(前海壹方城宝安中心店)' }), _jsx("button", { type: "button", className: "order-ledger-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u2699" })] }) }), expanded ? (_jsxs("div", { className: "order-ledger-filter__bottom statistics-distribution-filter__bottom", children: [_jsxs("label", { className: "statistics-distribution-field statistics-distribution-field--date", children: [_jsx("span", { children: "\u9884\u8BA2\u65F6\u95F4:" }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u9884\u8BA2\u65F6\u95F4", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "distribution-order-page statistics-distribution-order-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u805A\u5408\u5206\u9500\u8BA2\u5355" }), _jsx("pre", { id: "statistics-distribution-service", hidden: true, "data-testid": "statistics-distribution-order-service-contract", "aria-label": "\u805A\u5408\u5206\u9500\u8BA2\u5355\u6570\u636E\u670D\u52A1", children: serviceSummary.join(';') }), _jsxs("section", { className: "order-ledger-filter statistics-distribution-filter", "aria-label": "\u805A\u5408\u5206\u9500\u8BA2\u5355\u7B5B\u9009", children: [_jsx("div", { className: "order-ledger-filter__top statistics-distribution-filter__top", children: _jsxs("div", { className: "order-ledger-store-row statistics-distribution-store", "aria-label": "\u95E8\u5E97", children: [_jsx("button", { type: "button", className: storeScope === 'all' ? 'is-active' : '', "aria-pressed": storeScope === 'all', onClick: () => applyStoreScope('all', '已刷新全部门店口径的聚合分销订单'), children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: storeScope === 'current' ? 'is-active' : '', "aria-pressed": storeScope === 'current', onClick: () => applyStoreScope('current', '已刷新当前门店口径的聚合分销订单'), children: data?.campName ?? '天落会宿公寓(前海壹方城宝安中心店)' }), _jsx("button", { type: "button", className: "order-ledger-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u2699" })] }) }), expanded ? (_jsxs("div", { className: "order-ledger-filter__bottom statistics-distribution-filter__bottom", children: [_jsxs("label", { className: "statistics-distribution-field statistics-distribution-field--date", children: [_jsx("span", { children: "\u9884\u8BA2\u65F6\u95F4:" }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u9884\u8BA2\u65F6\u95F4", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                             if (event.key === 'Enter' || event.key === ' ') {
                                                 event.preventDefault();
                                                 openDatePanel('start');

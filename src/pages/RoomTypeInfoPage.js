@@ -1,7 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createRoomTypeFloor, createRoomTypeTag, createQuickRoomNoSuggestion, deleteRoomType, loadRoomTypeFloorPage, loadRoomTypeInfoDashboard, loadRoomTypeInfoDraft, loadRoomTypeLinkage, loadRoomTypeRooms, loadRoomTypeTagPage, saveRoomTypeDraft, saveRoomTypeLinkage, } from '../services/roomTypeInfo';
+import { createRoomTypeFloor, createRoomTypeTag, createQuickRoomNoSuggestion, deleteRoomType, loadRoomTypeFloorPage, loadRoomTypeInfoDashboard, loadRoomTypeInfoDraft, loadRoomTypeLinkage, loadRoomTypeRooms, loadRoomTypeTagPage, saveRoomTypeDraft, saveRoomTypeLinkage, uploadRoomTypePhoto, } from '../services/roomTypeInfo';
+import { RoomTypeLocationSection } from '../components/RoomTypeLocationSection';
 import './RoomTypeInfoPage.css';
 const emptyQuery = {
     storeId: '',
@@ -24,11 +25,121 @@ const roomTypePropertyTypeOptions = [
 ];
 const roomTypeTimeOptions = [
     { value: '', label: '请选择' },
-    { value: '12', label: '12 点' },
-    { value: '14', label: '14 点' },
-    { value: '24', label: '24 点' },
+    ...Array.from({ length: 24 }, (_, index) => {
+        const hour = String(index + 1);
+        return { value: hour, label: `${hour} 点` };
+    }),
 ];
 const roomTypeCountOptions = Array.from({ length: 11 }, (_, index) => ({ value: String(index), label: String(index) }));
+const roomTypeBedSheetChangeOptions = [
+    { value: '', label: '请选择' },
+    { value: 'one-guest-one-change', label: '一客一换' },
+    { value: 'daily', label: '每天更换' },
+    { value: 'two-days', label: '每两天更换' },
+    { value: 'weekly', label: '每周更换' },
+];
+const roomTypeDecorationStyleOptions = [
+    { value: '', label: '请选择' },
+    { value: 'modern', label: '现代简约' },
+    { value: 'nordic', label: '北欧' },
+    { value: 'chinese', label: '新中式' },
+    { value: 'japanese', label: '日式' },
+    { value: 'luxury', label: '轻奢' },
+];
+const roomTypeFacilityGroups = [
+    {
+        title: '核心设施（必填）',
+        options: [
+            { id: 'air-conditioner', label: '空调' },
+            { id: 'tv', label: '电视' },
+            { id: 'fridge', label: '冰箱' },
+            { id: 'washer', label: '洗衣机' },
+            { id: 'water-heater', label: '热水器' },
+            { id: 'wifi', label: '无线网络' },
+            { id: 'kitchen', label: '厨房' },
+            { id: 'dining-table', label: '餐桌' },
+            { id: 'disposable-cup', label: '一次性杯子' },
+            { id: 'range-hood', label: '抽油烟机' },
+        ],
+    },
+    {
+        title: '入住服务',
+        options: [
+            { id: 'self-checkin', label: '自助入住' },
+            { id: 'free-parking', label: '免费停车' },
+            { id: 'paid-parking', label: '付费停车' },
+            { id: 'luggage-storage', label: '行李寄存' },
+            { id: 'airport-transfer', label: '接送机' },
+            { id: 'breakfast', label: '早餐' },
+            { id: 'car-rental', label: '租车服务' },
+            { id: 'ev-charger', label: '充电车位' },
+            { id: 'free-water', label: '免费瓶装水' },
+            { id: 'team-building', label: '支持团建会议' },
+            { id: 'long-rent', label: '可长租' },
+            { id: 'butler', label: '管家式服务' },
+        ],
+    },
+    {
+        title: '儿童',
+        options: [
+            { id: 'kids-books', label: '儿童书籍' },
+            { id: 'kids-toys', label: '儿童玩具' },
+            { id: 'kids-tableware', label: '儿童餐具' },
+            { id: 'kids-chair', label: '儿童专用椅' },
+            { id: 'kids-bath', label: '儿童洗浴设施' },
+            { id: 'corner-protection', label: '桌角防护' },
+            { id: 'stroller', label: '儿童推车' },
+            { id: 'kids-guardrail', label: '儿童护栏' },
+            { id: 'learning-machine', label: '智能学习机' },
+            { id: 'storybook-machine', label: '绘本故事机' },
+            { id: 'kids-tent', label: '儿童帐篷' },
+            { id: 'kids-slide', label: '儿童秋千滑梯' },
+            { id: 'kids-robot', label: '儿童智能机器人' },
+            { id: 'diaper-table', label: '婴儿尿布台' },
+        ],
+    },
+    {
+        title: '卫生',
+        control: 'bedSheetChange',
+        options: [
+            { id: 'cleaning-tools', label: '打扫工具' },
+            { id: 'hand-sanitizer', label: '消毒洗手液' },
+            { id: 'home-disinfectant', label: '家用消毒液' },
+            { id: 'disposable-gloves', label: '一次性手套' },
+            { id: 'disinfectant', label: '除菌液' },
+            { id: 'air-purifier', label: '空气净化器' },
+            { id: 'fresh-air', label: '新风系统' },
+            { id: 'disposable-toilet-cover', label: '一次性马桶套' },
+            { id: 'disposable-bathtub-cover', label: '一次性浴缸套' },
+            { id: 'disposable-towel', label: '一次性毛巾' },
+            { id: 'odor-proof-drain', label: '防臭地漏' },
+            { id: 'air-freshener', label: '空气清新剂' },
+            { id: 'mosquito-coil', label: '蚊香' },
+            { id: 'insecticide', label: '杀虫剂' },
+            { id: 'white-bedding', label: '白色床品' },
+        ],
+    },
+    {
+        title: '周边500米',
+        options: [
+            { id: 'market', label: '菜市场' },
+            { id: 'park', label: '公园' },
+            { id: 'supermarket', label: '超市' },
+            { id: 'restaurant', label: '餐厅' },
+            { id: 'pharmacy', label: '药店' },
+            { id: 'atm', label: '提款机' },
+            { id: 'garden', label: '公共花园' },
+            { id: 'playground', label: '儿童乐园' },
+            { id: 'gym', label: '健身房' },
+            { id: 'pool', label: '泳池' },
+        ],
+    },
+    {
+        title: '质量',
+        control: 'decorationStyle',
+        options: [],
+    },
+];
 const roomTypePhotoSections = [
     { key: 'cover', label: '封面', limit: 1 },
     { key: 'livingRoom', label: '客厅', limit: 10 },
@@ -317,6 +428,7 @@ function RoomTypeEditPage() {
     const [statusMessage, setStatusMessage] = useState('');
     const [activeStep, setActiveStep] = useState(0);
     const [saving, setSaving] = useState(false);
+    const [uploadingPhotoSections, setUploadingPhotoSections] = useState({});
     useEffect(() => {
         const controller = new AbortController();
         async function loadDraft() {
@@ -366,6 +478,19 @@ function RoomTypeEditPage() {
         if (!draft)
             return;
         setDraft({ ...draft, form: { ...draft.form, [key]: value } });
+    }
+    function updateFormPatch(patch) {
+        if (!draft)
+            return;
+        setDraft({ ...draft, form: { ...draft.form, ...patch } });
+    }
+    function toggleFacilityOption(optionId) {
+        if (!draft)
+            return;
+        const selectedFacilityIds = draft.form.selectedFacilityIds.includes(optionId)
+            ? draft.form.selectedFacilityIds.filter((item) => item !== optionId)
+            : [...draft.form.selectedFacilityIds, optionId];
+        updateForm('selectedFacilityIds', selectedFacilityIds);
     }
     function syncRoomCount(nextCountText) {
         if (!draft)
@@ -419,6 +544,73 @@ function RoomTypeEditPage() {
             },
         });
     }
+    async function handlePhotoFiles(section, fileList) {
+        if (!draft || !fileList?.length)
+            return;
+        const existingCount = draft.form.photos.filter((photo) => photo.sectionKey === section.key).length;
+        const remaining = section.limit - existingCount;
+        const files = Array.from(fileList).slice(0, Math.max(0, remaining));
+        if (!files.length) {
+            setStatusMessage(`${section.label}最多上传 ${section.limit} 张`);
+            return;
+        }
+        setUploadingPhotoSections((value) => ({ ...value, [section.key]: true }));
+        try {
+            for (const file of files) {
+                const uploadedPhoto = await uploadRoomTypePhoto({
+                    file,
+                    sectionKey: section.key,
+                    roomTypeId: draft.form.roomTypeId,
+                });
+                appendRoomTypePhoto(section.key, uploadedPhoto);
+            }
+            setStatusMessage('照片上传成功');
+        }
+        catch (uploadError) {
+            setStatusMessage(uploadError instanceof Error ? uploadError.message : '照片上传失败');
+        }
+        finally {
+            setUploadingPhotoSections((value) => ({ ...value, [section.key]: false }));
+        }
+    }
+    function appendRoomTypePhoto(sectionKey, photo) {
+        setDraft((currentDraft) => {
+            if (!currentDraft)
+                return currentDraft;
+            const sectionPhotoCount = currentDraft.form.photos.filter((item) => item.sectionKey === sectionKey).length;
+            const nextPhotos = [
+                ...currentDraft.form.photos,
+                {
+                    ...photo,
+                    sectionKey,
+                    sortOrder: photo.sortOrder || sectionPhotoCount + 1,
+                },
+            ];
+            return {
+                ...currentDraft,
+                form: {
+                    ...currentDraft.form,
+                    photos: nextPhotos,
+                    photoCounts: buildPhotoCounts(nextPhotos),
+                },
+            };
+        });
+    }
+    function removeRoomTypePhoto(photoId) {
+        setDraft((currentDraft) => {
+            if (!currentDraft)
+                return currentDraft;
+            const nextPhotos = currentDraft.form.photos.filter((photo) => photo.id !== photoId);
+            return {
+                ...currentDraft,
+                form: {
+                    ...currentDraft.form,
+                    photos: nextPhotos,
+                    photoCounts: buildPhotoCounts(nextPhotos),
+                },
+            };
+        });
+    }
     if (loading) {
         return (_jsx("div", { className: "room-type-edit-page", children: _jsx(StatePanel, { title: "\u623F\u578B\u8BE6\u60C5\u52A0\u8F7D\u4E2D", detail: "\u6B63\u5728\u51C6\u5907\u623F\u578B\u8349\u6848\uFF0C\u8BF7\u7A0D\u5019\u3002" }) }));
     }
@@ -426,10 +618,24 @@ function RoomTypeEditPage() {
         return (_jsx("div", { className: "room-type-edit-page", children: _jsx(StatePanel, { title: "\u623F\u578B\u8BE6\u60C5\u52A0\u8F7D\u5931\u8D25", detail: error || '当前房型不可用' }) }));
     }
     const isCreateMode = draft.mode === 'create';
-    return (_jsxs("div", { className: "room-type-edit-page", children: [_jsxs("div", { className: "room-type-edit-page__breadcrumb", children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/roomTypeInfo'), children: "\u623F\u578B\u8BBE\u7F6E" }), _jsx("span", { children: "/" }), _jsx("strong", { children: draft.title })] }), _jsxs("section", { className: "room-type-edit-page__shell", children: [_jsx("div", { className: "room-type-edit-page__tabs", "aria-label": "\u623F\u578B\u8BBE\u7F6E\u6B65\u9AA4", children: draft.steps.map((step, index) => (_jsx("button", { type: "button", className: index === activeStep ? 'is-active' : '', "aria-current": index === activeStep ? 'step' : undefined, onClick: () => setActiveStep(index), children: step }, step))) }), _jsxs("div", { className: "room-type-edit-page__panel", children: [activeStep === 0 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u57FA\u7840\u4FE1\u606F" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6240\u5C5E\u95E8\u5E97:" }), _jsx("select", { "aria-label": "\u6240\u5C5E\u95E8\u5E97", value: draft.form.storeId, onChange: (event) => updateForm('storeId', event.target.value), children: roomTypeEditStoreOptions.map((option) => (_jsx("option", { value: option.id, children: option.label }, option.id))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u578B\u540D\u79F0:" }), _jsxs("div", { className: "room-type-edit-page__field-stack", children: [_jsx("input", { "aria-label": "\u623F\u578B\u540D\u79F0", value: draft.form.roomTypeName, placeholder: "\u8BF7\u8F93\u5165\u623F\u578B\u540D\u79F0", onChange: (event) => updateForm('roomTypeName', event.target.value) }), _jsx("small", { children: "\u5185\u90E8\u81EA\u7528\uFF0C\u4E0D\u5BF9\u5916\u5C55\u793A" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u95F4\u6570\u91CF:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u623F\u95F4\u6570\u91CF", inputMode: "numeric", value: draft.form.roomCount, onChange: (event) => syncRoomCount(event.target.value) }), _jsx("em", { children: "\u95F4" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u95F4\u53F7:" }), _jsx("div", { className: "room-type-edit-page__room-list", children: draft.form.roomNos.map((roomNo, index) => (_jsxs("div", { className: "room-type-edit-page__room-row", children: [_jsx("input", { "aria-label": `房间号${index + 1}`, value: roomNo, onChange: (event) => updateRoomNo(index, event.target.value) }), _jsx("button", { type: "button", className: "room-type-edit-page__room-remove", "aria-label": `删除房间号${index + 1}`, onClick: () => removeRoomNo(index), children: "\u2296" }), index === 0 ? (_jsx("button", { type: "button", className: "is-primary room-type-edit-page__room-add", onClick: () => addRoomNo(), children: "\uFF0B \u6DFB\u52A0\u623F\u95F4" })) : null] }, `${index}-${roomNo}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5E73\u65E5\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u5E73\u65E5\u4EF7", inputMode: "decimal", value: draft.form.weekdayPrice, placeholder: "\u8BF7\u8F93\u5165\u5E73\u65E5\u4EF7", onChange: (event) => updateForm('weekdayPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5468\u672B\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u5468\u672B\u4EF7", inputMode: "decimal", value: draft.form.weekendPrice, placeholder: "\u8BF7\u8F93\u5165\u5468\u672B\u4EF7", onChange: (event) => updateForm('weekendPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u8282\u5047\u65E5\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u8282\u5047\u65E5\u4EF7", inputMode: "decimal", value: draft.form.holidayPrice, placeholder: "\u8BF7\u8F93\u5165\u8282\u5047\u65E5\u4EF7", onChange: (event) => updateForm('holidayPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("p", { className: "room-type-edit-page__tip", children: ["\u521B\u5EFA\u5B8C\u6210\u623F\u6E90\u540E\uFF0C\u4EF7\u683C\u8BF7\u524D\u5F80", _jsx("span", { children: "\u623F\u6001\u623F\u4EF7-\u623F\u4EF7\u7BA1\u7406" }), "\u5904\u67E5\u770B\u4E0E\u7BA1\u7406"] })] })] })) : null, activeStep === 1 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u4F4D\u7F6E\u4FE1\u606F" }), _jsx("div", { className: "room-type-edit-page__field-list", children: _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6240\u5728\u4F4D\u7F6E:" }), _jsxs("div", { className: "room-type-edit-page__radio-row", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "location-mode", checked: draft.form.locationMode === 'same-store', onChange: () => updateForm('locationMode', 'same-store') }), "\u540C\u95E8\u5E97\u4F4D\u7F6E"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "location-mode", checked: draft.form.locationMode === 'independent', onChange: () => updateForm('locationMode', 'independent') }), "\u72EC\u7ACB\u4F4D\u7F6E"] })] })] }) })] })) : null, activeStep === 2 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u623F\u578B\u4FE1\u606F" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u51FA\u79DF\u7C7B\u578B:" }), _jsx("select", { "aria-label": "\u51FA\u79DF\u7C7B\u578B", value: draft.form.rentalType, onChange: (event) => updateForm('rentalType', event.target.value), children: roomTypeRentalTypeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u6E90\u7C7B\u578B:" }), _jsx("select", { "aria-label": "\u623F\u6E90\u7C7B\u578B", value: draft.form.propertyType, onChange: (event) => updateForm('propertyType', event.target.value), children: roomTypePropertyTypeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6574\u5957\u9762\u79EF:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u6574\u5957\u9762\u79EF", inputMode: "decimal", value: draft.form.suiteArea, onChange: (event) => updateForm('suiteArea', event.target.value) }), _jsx("em", { children: "\u33A1" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u53EF\u4F4F\u4EBA\u6570:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u53EF\u4F4F\u4EBA\u6570", inputMode: "numeric", value: draft.form.guestCount, onChange: (event) => updateForm('guestCount', event.target.value) }), _jsx("em", { children: "\u4EBA" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6574\u5957\u6237\u578B:" }), _jsxs("div", { className: "room-type-edit-page__suite-grid", children: [_jsx("select", { "aria-label": "\u5BA4", value: draft.form.bedroomCount, onChange: (event) => updateForm('bedroomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `bedroom-${option.value}`))) }), _jsx("b", { children: "\u5BA4" }), _jsx("select", { "aria-label": "\u5385", value: draft.form.livingRoomCount, onChange: (event) => updateForm('livingRoomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `living-${option.value}`))) }), _jsx("b", { children: "\u5385" }), _jsx("select", { "aria-label": "\u53A8", value: draft.form.kitchenCount, onChange: (event) => updateForm('kitchenCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `kitchen-${option.value}`))) }), _jsx("b", { children: "\u53A8" }), _jsx("select", { "aria-label": "\u536B", value: draft.form.bathroomCount, onChange: (event) => updateForm('bathroomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `bathroom-${option.value}`))) }), _jsx("b", { children: "\u536B" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u536B\u751F\u95F4\u7C7B\u578B:" }), _jsxs("div", { className: "room-type-edit-page__radio-row", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "bathroom-type", checked: draft.form.bathroomType === 'private', onChange: () => updateForm('bathroomType', 'private') }), "\u72EC\u536B"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "bathroom-type", checked: draft.form.bathroomType === 'shared', onChange: () => updateForm('bathroomType', 'shared') }), "\u516C\u536B"] })] })] })] })] })) : null, activeStep === 3 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u8BE6\u7EC6\u4ECB\u7ECD" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5BF9\u5916\u5C55\u793A\u540D\u79F0:" }), _jsx("input", { "aria-label": "\u5BF9\u5916\u5C55\u793A\u540D\u79F0", value: draft.form.displayName, placeholder: "\u8BF7\u8F93\u5165", onChange: (event) => updateForm('displayName', event.target.value) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u65E9\u5165\u4F4F\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u65E9\u5165\u4F4F\u65F6\u95F4", value: draft.form.earliestCheckIn, onChange: (event) => updateForm('earliestCheckIn', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `earliest-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u665A\u79BB\u5E97\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u665A\u79BB\u5E97\u65F6\u95F4", value: draft.form.latestCheckOut, onChange: (event) => updateForm('latestCheckOut', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `checkout-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u665A\u5165\u4F4F\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u665A\u5165\u4F4F\u65F6\u95F4", value: draft.form.latestCheckIn, onChange: (event) => updateForm('latestCheckIn', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `checkin-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field is-textarea", children: [_jsx("span", { children: "\u4EAE\u70B9\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u4EAE\u70B9\u4ECB\u7ECD", value: draft.form.highlightDescription, onChange: (event) => updateForm('highlightDescription', event.target.value) })] }), _jsxs("label", { className: "room-type-edit-page__field is-textarea", children: [_jsx("span", { children: "\u5468\u8FB9\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u5468\u8FB9\u4ECB\u7ECD", value: draft.form.nearbyDescription, onChange: (event) => updateForm('nearbyDescription', event.target.value) })] }), _jsxs("div", { className: "room-type-edit-page__field is-editor", children: [_jsx("span", { children: "\u56FE\u6587\u4ECB\u7ECD:" }), _jsxs("div", { className: "room-type-edit-page__editor", children: [_jsxs("div", { className: "room-type-edit-page__editor-toolbar", "aria-hidden": "true", children: [_jsx("button", { type: "button", children: "H" }), _jsx("button", { type: "button", children: "B" }), _jsx("button", { type: "button", children: "I" }), _jsx("button", { type: "button", children: "U" }), _jsx("button", { type: "button", children: "S" }), _jsx("span", { children: "\u5B57\u53F7" }), _jsx("span", { children: "\u884C\u9AD8" }), _jsx("button", { type: "button", children: "Pen" }), _jsx("button", { type: "button", children: "Bg" }), _jsx("button", { type: "button", children: "Link" }), _jsx("button", { type: "button", children: "UL" }), _jsx("button", { type: "button", children: "OL" }), _jsx("button", { type: "button", children: "Q" }), _jsx("button", { type: "button", children: "Face" }), _jsx("button", { type: "button", children: "Table" }), _jsx("button", { type: "button", children: "Undo" }), _jsx("button", { type: "button", children: "Redo" }), _jsx("button", { type: "button", children: "Img" }), _jsx("span", { children: "\u9884\u89C8" })] }), _jsx("textarea", { "aria-label": "\u56FE\u6587\u4ECB\u7ECD\u6B63\u6587", value: draft.form.articleDescription, placeholder: "\u8BF7\u8F93\u5165\u6B63\u6587", onChange: (event) => updateForm('articleDescription', event.target.value) })] })] })] })] })) : null, activeStep === 4 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u7167\u7247\u4FE1\u606F" }), _jsx("div", { className: "room-type-edit-page__photo-list", children: roomTypePhotoSections.map((section) => (_jsxs("div", { className: "room-type-edit-page__photo-row", children: [_jsxs("span", { children: [section.label, "(", draft.form.photoCounts[section.key] ?? 0, "/", section.limit, "):"] }), _jsxs("button", { type: "button", className: "room-type-edit-page__upload-card", children: [_jsx("b", { children: "\uFF0B" }), _jsx("em", { children: "\u4E0A\u4F20" })] })] }, section.key))) })] })) : null] })] }), _jsxs("div", { className: "room-type-edit-page__actions", children: [activeStep < draft.steps.length - 1 ? (_jsx("button", { type: "button", className: "is-primary-ghost", onClick: () => setActiveStep(Math.min(activeStep + 1, draft.steps.length - 1)), children: "\u4E0B\u4E00\u6B65" })) : null, activeStep === 0 && isCreateMode ? (_jsx("button", { type: "button", className: "is-primary", onClick: () => {
+    return (_jsxs("div", { className: "room-type-edit-page", children: [_jsxs("div", { className: "room-type-edit-page__breadcrumb", children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/roomTypeInfo'), children: "\u623F\u578B\u8BBE\u7F6E" }), _jsx("span", { children: "/" }), _jsx("strong", { children: draft.title })] }), _jsxs("section", { className: "room-type-edit-page__shell", children: [_jsx("div", { className: "room-type-edit-page__tabs", "aria-label": "\u623F\u578B\u8BBE\u7F6E\u6B65\u9AA4", children: draft.steps.map((step, index) => (_jsx("button", { type: "button", className: index === activeStep ? 'is-active' : '', "aria-current": index === activeStep ? 'step' : undefined, onClick: () => setActiveStep(index), children: step }, step))) }), _jsxs("div", { className: "room-type-edit-page__panel", children: [activeStep === 0 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u57FA\u7840\u4FE1\u606F" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6240\u5C5E\u95E8\u5E97:" }), _jsx("select", { "aria-label": "\u6240\u5C5E\u95E8\u5E97", value: draft.form.storeId, onChange: (event) => updateForm('storeId', event.target.value), children: roomTypeEditStoreOptions.map((option) => (_jsx("option", { value: option.id, children: option.label }, option.id))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u578B\u540D\u79F0:" }), _jsxs("div", { className: "room-type-edit-page__field-stack", children: [_jsx("input", { "aria-label": "\u623F\u578B\u540D\u79F0", value: draft.form.roomTypeName, placeholder: "\u8BF7\u8F93\u5165\u623F\u578B\u540D\u79F0", onChange: (event) => updateForm('roomTypeName', event.target.value) }), _jsx("small", { children: "\u5185\u90E8\u81EA\u7528\uFF0C\u4E0D\u5BF9\u5916\u5C55\u793A" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u95F4\u6570\u91CF:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u623F\u95F4\u6570\u91CF", inputMode: "numeric", value: draft.form.roomCount, onChange: (event) => syncRoomCount(event.target.value) }), _jsx("em", { children: "\u95F4" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u95F4\u53F7:" }), _jsx("div", { className: "room-type-edit-page__room-list", children: draft.form.roomNos.map((roomNo, index) => (_jsxs("div", { className: "room-type-edit-page__room-row", children: [_jsx("input", { "aria-label": `房间号${index + 1}`, value: roomNo, onChange: (event) => updateRoomNo(index, event.target.value) }), _jsx("button", { type: "button", className: "room-type-edit-page__room-remove", "aria-label": `删除房间号${index + 1}`, onClick: () => removeRoomNo(index), children: "\u2296" }), index === 0 ? (_jsx("button", { type: "button", className: "is-primary room-type-edit-page__room-add", onClick: () => addRoomNo(), children: "\uFF0B \u6DFB\u52A0\u623F\u95F4" })) : null] }, `${index}-${roomNo}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5E73\u65E5\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u5E73\u65E5\u4EF7", inputMode: "decimal", value: draft.form.weekdayPrice, placeholder: "\u8BF7\u8F93\u5165\u5E73\u65E5\u4EF7", onChange: (event) => updateForm('weekdayPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5468\u672B\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u5468\u672B\u4EF7", inputMode: "decimal", value: draft.form.weekendPrice, placeholder: "\u8BF7\u8F93\u5165\u5468\u672B\u4EF7", onChange: (event) => updateForm('weekendPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u8282\u5047\u65E5\u4EF7:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u8282\u5047\u65E5\u4EF7", inputMode: "decimal", value: draft.form.holidayPrice, placeholder: "\u8BF7\u8F93\u5165\u8282\u5047\u65E5\u4EF7", onChange: (event) => updateForm('holidayPrice', event.target.value) }), _jsx("em", { children: "\u5143" })] })] }), _jsxs("p", { className: "room-type-edit-page__tip", children: ["\u521B\u5EFA\u5B8C\u6210\u623F\u6E90\u540E\uFF0C\u4EF7\u683C\u8BF7\u524D\u5F80", _jsx("span", { children: "\u623F\u6001\u623F\u4EF7-\u623F\u4EF7\u7BA1\u7406" }), "\u5904\u67E5\u770B\u4E0E\u7BA1\u7406"] })] })] })) : null, activeStep === 1 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u4F4D\u7F6E\u4FE1\u606F" }), _jsx(RoomTypeLocationSection, { form: draft.form, onChange: updateFormPatch })] })) : null, activeStep === 2 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u623F\u578B\u8BBE\u65BD" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u51FA\u79DF\u7C7B\u578B:" }), _jsx("select", { "aria-label": "\u51FA\u79DF\u7C7B\u578B", value: draft.form.rentalType, onChange: (event) => updateForm('rentalType', event.target.value), children: roomTypeRentalTypeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u623F\u6E90\u7C7B\u578B:" }), _jsx("select", { "aria-label": "\u623F\u6E90\u7C7B\u578B", value: draft.form.propertyType, onChange: (event) => updateForm('propertyType', event.target.value), children: roomTypePropertyTypeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6574\u5957\u9762\u79EF:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u6574\u5957\u9762\u79EF", inputMode: "decimal", value: draft.form.suiteArea, onChange: (event) => updateForm('suiteArea', event.target.value) }), _jsx("em", { children: "\u33A1" })] })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u53EF\u4F4F\u4EBA\u6570:" }), _jsxs("div", { className: "room-type-edit-page__suffix-input", children: [_jsx("input", { "aria-label": "\u53EF\u4F4F\u4EBA\u6570", inputMode: "numeric", value: draft.form.guestCount, onChange: (event) => updateForm('guestCount', event.target.value) }), _jsx("em", { children: "\u4EBA" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6574\u5957\u6237\u578B:" }), _jsxs("div", { className: "room-type-edit-page__suite-grid", children: [_jsx("select", { "aria-label": "\u5BA4", value: draft.form.bedroomCount, onChange: (event) => updateForm('bedroomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `bedroom-${option.value}`))) }), _jsx("b", { children: "\u5BA4" }), _jsx("select", { "aria-label": "\u5385", value: draft.form.livingRoomCount, onChange: (event) => updateForm('livingRoomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `living-${option.value}`))) }), _jsx("b", { children: "\u5385" }), _jsx("select", { "aria-label": "\u53A8", value: draft.form.kitchenCount, onChange: (event) => updateForm('kitchenCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `kitchen-${option.value}`))) }), _jsx("b", { children: "\u53A8" }), _jsx("select", { "aria-label": "\u536B", value: draft.form.bathroomCount, onChange: (event) => updateForm('bathroomCount', event.target.value), children: roomTypeCountOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `bathroom-${option.value}`))) }), _jsx("b", { children: "\u536B" })] })] }), _jsxs("div", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u536B\u751F\u95F4\u7C7B\u578B:" }), _jsxs("div", { className: "room-type-edit-page__radio-row", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "bathroom-type", checked: draft.form.bathroomType === 'private', onChange: () => updateForm('bathroomType', 'private') }), "\u72EC\u536B"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "bathroom-type", checked: draft.form.bathroomType === 'shared', onChange: () => updateForm('bathroomType', 'shared') }), "\u516C\u536B"] })] })] })] }), _jsx("div", { className: "room-type-facility-section", children: roomTypeFacilityGroups.map((group) => (_jsxs("section", { className: "room-type-facility-section__group", children: [_jsx("h3", { children: group.title }), 'control' in group && group.control === 'bedSheetChange' ? (_jsxs("label", { className: "room-type-facility-section__inline-field", children: [_jsx("span", { children: "\u5E8A\u54C1\u66F4\u6362:" }), _jsx("select", { "aria-label": "\u5E8A\u54C1\u66F4\u6362", value: draft.form.bedSheetChangePolicy, onChange: (event) => updateForm('bedSheetChangePolicy', event.target.value), children: roomTypeBedSheetChangeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value || 'empty-bed-sheet-policy'))) })] })) : null, 'control' in group && group.control === 'decorationStyle' ? (_jsxs("label", { className: "room-type-facility-section__inline-field", children: [_jsx("span", { children: "\u88C5\u4FEE\u98CE\u683C:" }), _jsx("select", { "aria-label": "\u88C5\u4FEE\u98CE\u683C", value: draft.form.decorationStyle, onChange: (event) => updateForm('decorationStyle', event.target.value), children: roomTypeDecorationStyleOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, option.value || 'empty-decoration-style'))) })] })) : null, group.options.length ? (_jsx("div", { className: "room-type-facility-section__options", children: group.options.map((option) => {
+                                                        const isSelected = draft.form.selectedFacilityIds.includes(option.id);
+                                                        return (_jsx("button", { type: "button", className: isSelected ? 'is-selected' : '', "aria-pressed": isSelected, onClick: () => toggleFacilityOption(option.id), children: option.label }, option.id));
+                                                    }) })) : null] }, group.title))) })] })) : null, activeStep === 3 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u8BE6\u7EC6\u4ECB\u7ECD" }), _jsxs("div", { className: "room-type-edit-page__field-list", children: [_jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u5BF9\u5916\u5C55\u793A\u540D\u79F0:" }), _jsx("input", { "aria-label": "\u5BF9\u5916\u5C55\u793A\u540D\u79F0", value: draft.form.displayName, placeholder: "\u8BF7\u8F93\u5165", onChange: (event) => updateForm('displayName', event.target.value) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u65E9\u5165\u4F4F\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u65E9\u5165\u4F4F\u65F6\u95F4", value: draft.form.earliestCheckIn, onChange: (event) => updateForm('earliestCheckIn', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `earliest-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u665A\u79BB\u5E97\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u665A\u79BB\u5E97\u65F6\u95F4", value: draft.form.latestCheckOut, onChange: (event) => updateForm('latestCheckOut', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `checkout-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field", children: [_jsx("span", { children: "\u6700\u665A\u5165\u4F4F\u65F6\u95F4:" }), _jsx("select", { "aria-label": "\u6700\u665A\u5165\u4F4F\u65F6\u95F4", value: draft.form.latestCheckIn, onChange: (event) => updateForm('latestCheckIn', event.target.value), children: roomTypeTimeOptions.map((option) => (_jsx("option", { value: option.value, children: option.label }, `checkin-${option.value}`))) })] }), _jsxs("label", { className: "room-type-edit-page__field is-textarea", children: [_jsx("span", { children: "\u4EAE\u70B9\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u4EAE\u70B9\u4ECB\u7ECD", value: draft.form.highlightDescription, onChange: (event) => updateForm('highlightDescription', event.target.value) })] }), _jsxs("label", { className: "room-type-edit-page__field is-textarea", children: [_jsx("span", { children: "\u5468\u8FB9\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u5468\u8FB9\u4ECB\u7ECD", value: draft.form.nearbyDescription, onChange: (event) => updateForm('nearbyDescription', event.target.value) })] }), _jsxs("div", { className: "room-type-edit-page__field is-editor", children: [_jsx("span", { children: "\u56FE\u6587\u4ECB\u7ECD:" }), _jsxs("div", { className: "room-type-edit-page__editor", children: [_jsxs("div", { className: "room-type-edit-page__editor-toolbar", "aria-hidden": "true", children: [_jsx("button", { type: "button", children: "H" }), _jsx("button", { type: "button", children: "B" }), _jsx("button", { type: "button", children: "I" }), _jsx("button", { type: "button", children: "U" }), _jsx("button", { type: "button", children: "S" }), _jsx("span", { children: "\u5B57\u53F7" }), _jsx("span", { children: "\u884C\u9AD8" }), _jsx("button", { type: "button", children: "Pen" }), _jsx("button", { type: "button", children: "Bg" }), _jsx("button", { type: "button", children: "Link" }), _jsx("button", { type: "button", children: "UL" }), _jsx("button", { type: "button", children: "OL" }), _jsx("button", { type: "button", children: "Q" }), _jsx("button", { type: "button", children: "Face" }), _jsx("button", { type: "button", children: "Table" }), _jsx("button", { type: "button", children: "Undo" }), _jsx("button", { type: "button", children: "Redo" }), _jsx("button", { type: "button", children: "Img" }), _jsx("span", { children: "\u9884\u89C8" })] }), _jsx("textarea", { "aria-label": "\u56FE\u6587\u4ECB\u7ECD\u6B63\u6587", value: draft.form.articleDescription, placeholder: "\u8BF7\u8F93\u5165\u6B63\u6587", onChange: (event) => updateForm('articleDescription', event.target.value) })] })] })] })] })) : null, activeStep === 4 ? (_jsxs("section", { className: "room-type-edit-page__section", children: [_jsx("h2", { children: "\u7167\u7247\u4FE1\u606F" }), _jsx("div", { className: "room-type-edit-page__photo-list", children: roomTypePhotoSections.map((section) => {
+                                            const sectionPhotos = draft.form.photos.filter((photo) => photo.sectionKey === section.key);
+                                            const isUploading = Boolean(uploadingPhotoSections[section.key]);
+                                            const canUploadMore = sectionPhotos.length < section.limit;
+                                            return (_jsxs("div", { className: "room-type-edit-page__photo-row", children: [_jsxs("span", { children: [section.label, "(", sectionPhotos.length, "/", section.limit, "):"] }), _jsxs("div", { className: "room-type-edit-page__photo-items", children: [sectionPhotos.map((photo) => (_jsxs("figure", { className: "room-type-edit-page__photo-thumb", children: [_jsx("img", { src: photo.url, alt: photo.name }), _jsx("figcaption", { title: photo.name, children: photo.name }), _jsx("button", { type: "button", "aria-label": `删除${photo.name}`, onClick: () => removeRoomTypePhoto(photo.id), children: "\u5220\u9664" })] }, photo.id))), canUploadMore ? (_jsxs("label", { className: isUploading ? 'room-type-edit-page__upload-card is-disabled' : 'room-type-edit-page__upload-card', children: [_jsx("input", { className: "room-type-edit-page__photo-input", type: "file", accept: "image/*", multiple: section.limit > 1, "aria-label": `上传${section.label}`, disabled: isUploading, onChange: (event) => {
+                                                                            void handlePhotoFiles(section, event.target.files);
+                                                                            event.currentTarget.value = '';
+                                                                        } }), _jsx("b", { children: "\uFF0B" }), _jsx("em", { children: isUploading ? '上传中' : '上传' })] })) : null] })] }, section.key));
+                                        }) })] })) : null] })] }), _jsxs("div", { className: "room-type-edit-page__actions", children: [activeStep < draft.steps.length - 1 ? (_jsx("button", { type: "button", className: "is-primary-ghost", onClick: () => setActiveStep(Math.min(activeStep + 1, draft.steps.length - 1)), children: "\u4E0B\u4E00\u6B65" })) : null, activeStep === 0 && isCreateMode ? (_jsx("button", { type: "button", className: "is-primary", onClick: () => {
                             updateForm('roomNos', createQuickRoomNoSuggestion(draft.form.roomCount));
                             setStatusMessage('已生成房间号草案');
                         }, children: "\u5FEB\u6377\u521B\u5EFA" })) : null, (activeStep > 0 || !isCreateMode) ? (_jsx("button", { type: "button", className: "is-primary", disabled: saving, onClick: () => void handleSave(), children: "\u4FDD\u5B58\u5E76\u9000\u51FA" })) : null] }), statusMessage ? (_jsx("div", { className: "room-type-info-status", role: "status", "aria-live": "polite", children: statusMessage })) : null] }));
+}
+function buildPhotoCounts(photos) {
+    return Object.fromEntries(roomTypePhotoSections.map((section) => [section.key, photos.filter((photo) => photo.sectionKey === section.key).length]));
 }
 function FilterSelector(props) {
     const buttonLabel = props.value ? `${props.label} ${props.value}` : props.placeholder;

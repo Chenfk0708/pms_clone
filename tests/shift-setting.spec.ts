@@ -10,12 +10,22 @@ function appUrl(routePath: string) {
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
-    window.localStorage.setItem('pms.shiftSettingProvider', 'mock')
+    window.localStorage.setItem('pms_token', 'shift-setting-test-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: 'System Admin',
+        mobile: '13800000000',
+        roleName: 'Admin',
+        campName: 'Test Camp',
+      }),
+    )
   })
 })
 
 test('/setting/shiftSetting 保持在设置体系内并渲染目标页空态结构', async ({ page }) => {
-  await page.goto(appUrl('/setting/shiftSetting'), { waitUntil: 'domcontentloaded' })
+  await page.goto(appUrl('/setting/shiftSetting?provider=mock'), { waitUntil: 'domcontentloaded' })
 
   const pageRoot = page.locator('.shift-setting-page')
   const serviceContract = page.locator('#shift-setting-service-contract')
@@ -55,7 +65,7 @@ test('/setting/shiftSetting 保持在设置体系内并渲染目标页空态结�
 })
 
 test('/setting/shiftSetting 支持新增班次和交班物品弹窗', async ({ page }) => {
-  await page.goto(appUrl('/setting/shiftSetting'), { waitUntil: 'domcontentloaded' })
+  await page.goto(appUrl('/setting/shiftSetting?provider=mock'), { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: '班次设置' }).click()
   const shiftDialog = page.getByRole('dialog', { name: '班次设置' })
@@ -88,10 +98,130 @@ test('/setting/shiftSetting 支持新增班次和交班物品弹窗', async ({ p
 })
 
 test('/setting/shiftSetting 暴露错误态且不破坏目标页空结构', async ({ page }) => {
-  await page.goto(appUrl('/setting/shiftSetting?mockState=error'), { waitUntil: 'domcontentloaded' })
+  await page.goto(appUrl('/setting/shiftSetting?provider=mock&mockState=error'), { waitUntil: 'domcontentloaded' })
 
   await expect(page.locator('#shift-setting-service-contract')).toHaveAttribute('data-state', 'error')
   await expect(page.getByRole('alert', { name: '交接班设置数据错误' })).toContainText('交接班设置加载失败，请稍后重试')
   await expect(page.getByRole('button', { name: '重新加载交接班设置' })).toBeVisible()
   await expect(page.getByRole('status', { name: '交接班设置操作反馈' })).toContainText('交接班设置加载失败')
+})
+
+
+test('/setting/shiftSetting defaults to api provider and posts save contracts', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({ id: '12001', name: 'System Admin', mobile: '13800000000', roleName: 'Admin', campName: 'Test Camp' }),
+    )
+  })
+
+  const shiftSaveBodies: unknown[] = []
+  const goodsSaveBodies: unknown[] = []
+
+  await page.route('**/api/shiftWorkConfig/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: { list: [], total: 0, pageNum: 1, pageSize: 999 },
+      }),
+    })
+  })
+  await page.route('**/api/shiftWorkGoods/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: { list: [], total: 0, pageNum: 1, pageSize: 999 },
+      }),
+    })
+  })
+  await page.route('**/api/campRoles/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: {
+          employees: [{ userId: '12001', memberId: '14001', displayName: 'System Admin' }],
+        },
+      }),
+    })
+  })
+  await page.route('**/api/shiftWorkConfig/save', async (route) => {
+    shiftSaveBodies.push(route.request().postDataJSON())
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: {
+          message: 'shift work configs saved',
+          shiftConfigs: [
+            { id: '57301', name: 'API_SHIFT_A', startTime: '07:30', endTime: '15:30', memberIds: ['12001'] },
+          ],
+        },
+      }),
+    })
+  })
+  await page.route('**/api/shiftWorkGoods/save', async (route) => {
+    goodsSaveBodies.push(route.request().postDataJSON())
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: {
+          message: 'shift work goods saved',
+          goodsConfigs: [{ id: '57401', name: 'API_GOODS_CARD' }],
+        },
+      }),
+    })
+  })
+
+  await page.goto(appUrl('/login'), { waitUntil: 'domcontentloaded' })
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({ id: '12001', name: 'System Admin', mobile: '13800000000', roleName: 'Admin', campName: 'Test Camp' }),
+    )
+    window.location.hash = '#/setting/shiftSetting'
+  })
+  await expect(page.locator('#shift-setting-service-contract')).toHaveAttribute('data-provider', 'api')
+
+  await page.locator('button.shift-setting-primary').first().click()
+  const shiftDialog = page.locator('.shift-setting-modal').first()
+  await shiftDialog.locator('input').nth(0).fill('API_SHIFT_A')
+  await shiftDialog.locator('input').nth(1).fill('07:30')
+  await shiftDialog.locator('input').nth(2).fill('15:30')
+  await shiftDialog.locator('select').selectOption(['12001'])
+  await shiftDialog.locator('button.shift-setting-confirm').click()
+
+  await expect.poll(() => shiftSaveBodies.length).toBe(1)
+  expect(shiftSaveBodies[0]).toEqual({
+    campId: '10001',
+    drafts: [{ name: 'API_SHIFT_A', startTime: '07:30', endTime: '15:30', memberIds: ['12001'] }],
+  })
+  await expect(page.locator('.shift-setting-status')).toContainText('shift work configs saved')
+
+  await page.locator('button.shift-setting-primary').nth(1).click()
+  const goodsDialog = page.locator('.shift-setting-modal').first()
+  await goodsDialog.locator('input').first().fill('API_GOODS_CARD')
+  await goodsDialog.locator('button.shift-setting-confirm').click()
+
+  await expect.poll(() => goodsSaveBodies.length).toBe(1)
+  expect(goodsSaveBodies[0]).toEqual({
+    campId: '10001',
+    drafts: [{ name: 'API_GOODS_CARD' }],
+  })
+  await expect(page.locator('.shift-setting-status')).toContainText('shift work goods saved')
 })

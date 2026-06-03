@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const baseURL = process.env.PMS_TEST_BASE_URL
 
@@ -6,11 +6,32 @@ function appUrl(path: string) {
   return baseURL ? `${baseURL}${path}` : path
 }
 
+async function openStatementOrder(page: Page, mode: 'success' | 'empty' | 'error' = 'success') {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript((mockMode) => {
+    window.localStorage.setItem('pms_token', 'statement-order-test-token')
+    window.localStorage.setItem('pms.statementOrderProvider', 'mock')
+    if (!window.localStorage.getItem('pms.statementOrderMockMode')) {
+      window.localStorage.setItem('pms.statementOrderMockMode', mockMode)
+    }
+  }, mode)
+  await page.goto(appUrl('/#/statistics/statementOrder'))
+}
+
+async function openRealStatementOrder(page: Page) {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'statement-order-api-token')
+    window.localStorage.setItem('pms.statementOrderProvider', 'real')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+  await page.goto(appUrl('/#/statistics/statementOrder'))
+}
+
 test('/statistics/statementOrder uses the statement order service contract in the default success state', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/statementOrder'))
+  await openStatementOrder(page)
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.locator('nav[aria-label="顶部导航"] a.topnav-link.is-active')).toContainText('报表')
@@ -53,8 +74,7 @@ test('/statistics/statementOrder uses the statement order service contract in th
 test('/statistics/statementOrder refreshes by store filter and keeps export feedback on the same contract', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/statementOrder'))
+  await openStatementOrder(page)
 
   const currentStoreButton = page.locator('.statement-order-store button').filter({ hasText: /天落会宿公寓/ }).first()
   const queryButton = page.getByRole('button', { name: '查询' })
@@ -87,14 +107,85 @@ test('/statistics/statementOrder refreshes by store filter and keeps export feed
 })
 
 test('/statistics/statementOrder handles empty and error envelopes with visible feedback', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-
-  await page.goto(appUrl('/statistics/statementOrder?mockState=empty'))
+  await openStatementOrder(page, 'empty')
   await expect(page.getByLabel('品牌小程序订单表格')).toContainText('暂无数据')
   await expect(page.getByText('当前条件暂无品牌小程序订单')).toBeVisible()
   await expect(page.locator('[aria-label="品牌小程序订单数据服务"]')).toContainText('total=0')
 
-  await page.goto(appUrl('/statistics/statementOrder?mockState=error'))
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms.statementOrderMockMode', 'error')
+  })
+  await page.reload()
   await expect(page.getByRole('alert')).toContainText('品牌小程序订单服务暂不可用，请稍后重试')
   await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
+})
+
+
+test('/statistics/statementOrder real provider posts statement request and renders API orders', async ({ page }) => {
+  const requests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/report/storer/statement/get', async (route) => {
+    requests.push({
+      headers: route.request().headers(),
+      body: route.request().postDataJSON() as Record<string, unknown>,
+    })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          hasNextPage: false,
+          pages: 1,
+          list: [
+            {
+              orderNo: 'STATEMENT-API-001',
+              customerName: 'API Guest',
+              mobile: '18800001111',
+              productTypeName: 'API Product Type',
+              productName: 'API Lake Room',
+              bookingTimeStr: '2026-05-18 12:00:00',
+              channelName: 'API Channel',
+              payableAmount: 456.78,
+              paidAmount: 456.78,
+              discountAmount: 0,
+              refundAmount: 0,
+              paymentFee: 3.21,
+              platformServiceFee: 4.56,
+              distributorCommission: 7.89,
+              paymentWayName: 'API Pay',
+              settlementAmount: 441.12,
+            },
+          ],
+        },
+        traceId: 'api-report-storer-statement-get-test',
+        timestamp: '2026-05-31T11:20:00+08:00',
+      }),
+    })
+  })
+
+  await openRealStatementOrder(page)
+
+  const serviceContract = page.locator('.sr-only-heading').filter({ hasText: 'provider=api' })
+  await expect(serviceContract).toContainText('provider=api', { timeout: 15_000 })
+  await expect(serviceContract).toContainText('path=/report/storer/statement/get')
+  await expect(serviceContract).toContainText('campId=10001')
+  await expect(page.locator('.statement-order-table-shell')).toContainText('STATEMENT-API-001')
+  await expect(page.locator('.statement-order-table-shell')).toContainText('API Guest / 18800001111')
+  await expect(page.locator('.statement-order-table-shell')).toContainText('API Pay')
+  await expect.poll(() => requests.length).toBeGreaterThanOrEqual(1)
+  for (const apiRequest of requests) {
+    expect(apiRequest.headers.authorization).toBe('Bearer statement-order-api-token')
+    expect(apiRequest.body).toMatchObject({
+      campId: '10001',
+      pageNum: 1,
+      pageSize: 20,
+      bookingStartDate: '2026-05-01',
+      bookingEndDate: '2026-05-31',
+    })
+  }
 })

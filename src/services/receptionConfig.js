@@ -15,7 +15,7 @@ export function resolveReceptionConfigRuntimeConfig(location) {
 }
 export function resolveReceptionConfigProvider() {
     const configured = readRuntimeConfig('pms.receptionConfigProvider') || import.meta.env.VITE_RECEPTION_CONFIG_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 export function getDefaultReceptionConfigOptions() {
     return filterOptions;

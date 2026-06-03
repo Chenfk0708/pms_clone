@@ -1,0 +1,56 @@
+-- 新增房型链路数据库迁移参考，适用于 MySQL 8。
+-- 当前 workspace 未包含后端源码与真实 schema，执行前请先按线上表结构核对字段是否已存在。
+
+CREATE TABLE IF NOT EXISTS room_category_photo (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
+  camp_id BIGINT UNSIGNED NOT NULL COMMENT '营地/租户 ID',
+  room_category_id BIGINT UNSIGNED NULL COMMENT '房型 ID，新增房型保存前可为空',
+  section_key VARCHAR(32) NOT NULL COMMENT '照片分区：cover/livingRoom/kitchen/other/bathroom/building/entertainment/uncategorized',
+  file_name VARCHAR(255) NOT NULL COMMENT '原始文件名',
+  url VARCHAR(1024) NOT NULL COMMENT '图片访问地址',
+  mime_type VARCHAR(128) NULL COMMENT '文件 MIME 类型',
+  size BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '文件大小，单位字节',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '同分区排序',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除：0 未删除，1 已删除',
+  PRIMARY KEY (id),
+  KEY idx_room_category_photo_room (room_category_id, deleted, sort_order),
+  KEY idx_room_category_photo_camp (camp_id, deleted),
+  KEY idx_room_category_photo_section (section_key, deleted)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='房型照片明细';
+
+-- 如果 room_category 已有同名列，请跳过对应 ALTER。
+ALTER TABLE room_category
+  ADD COLUMN location_mode VARCHAR(32) NULL COMMENT '位置模式：same-store/independent',
+  ADD COLUMN province_code VARCHAR(32) NULL COMMENT '省编码',
+  ADD COLUMN province_name VARCHAR(64) NULL COMMENT '省名称',
+  ADD COLUMN city_code VARCHAR(32) NULL COMMENT '市编码',
+  ADD COLUMN city_name VARCHAR(64) NULL COMMENT '市名称',
+  ADD COLUMN district_code VARCHAR(32) NULL COMMENT '区县编码',
+  ADD COLUMN district_name VARCHAR(64) NULL COMMENT '区县名称',
+  ADD COLUMN street_address VARCHAR(512) NULL COMMENT '街道地址',
+  ADD COLUMN community_name VARCHAR(255) NULL COMMENT '小区名称',
+  ADD COLUMN building_unit VARCHAR(255) NULL COMMENT '单元楼栋',
+  ADD COLUMN door_number VARCHAR(255) NULL COMMENT '门牌号',
+  ADD COLUMN latitude DECIMAL(10, 7) NULL COMMENT '纬度',
+  ADD COLUMN longitude DECIMAL(10, 7) NULL COMMENT '经度',
+  ADD COLUMN rental_type VARCHAR(32) NULL COMMENT '出租类型',
+  ADD COLUMN property_type VARCHAR(32) NULL COMMENT '房源类型',
+  ADD COLUMN suite_area DECIMAL(10, 2) NULL COMMENT '整套面积',
+  ADD COLUMN guest_count INT NULL COMMENT '可住人数',
+  ADD COLUMN bedroom_count INT NULL COMMENT '卧室数',
+  ADD COLUMN living_room_count INT NULL COMMENT '厅数',
+  ADD COLUMN kitchen_count INT NULL COMMENT '厨房数',
+  ADD COLUMN bathroom_count INT NULL COMMENT '卫生间数',
+  ADD COLUMN bathroom_type VARCHAR(32) NULL COMMENT '卫生间类型：private/shared',
+  ADD COLUMN facility_ids JSON NULL COMMENT '房型设施 ID 列表',
+  ADD COLUMN bed_sheet_change_policy VARCHAR(64) NULL COMMENT '床品更换策略',
+  ADD COLUMN decoration_style VARCHAR(64) NULL COMMENT '装修风格',
+  ADD COLUMN display_name VARCHAR(255) NULL COMMENT '对外展示名称',
+  ADD COLUMN earliest_check_in VARCHAR(16) NULL COMMENT '最早入住时间',
+  ADD COLUMN latest_check_out VARCHAR(16) NULL COMMENT '最晚离店时间',
+  ADD COLUMN latest_check_in VARCHAR(16) NULL COMMENT '最晚入住时间',
+  ADD COLUMN highlight_description TEXT NULL COMMENT '亮点介绍',
+  ADD COLUMN nearby_description TEXT NULL COMMENT '周边介绍',
+  ADD COLUMN article_description LONGTEXT NULL COMMENT '图文介绍';

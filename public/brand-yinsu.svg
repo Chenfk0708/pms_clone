@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" role="img" aria-label="银宿">
+  <g fill="none" fill-rule="evenodd">
+    <text
+      x="8"
+      y="86"
+      fill="#174d99"
+      font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif"
+      font-size="80"
+      font-weight="900"
+      stroke="#0f2f67"
+      stroke-width="3"
+      paint-order="stroke fill"
+    >
+      银
+    </text>
+    <g transform="translate(128 20)">
+      <path
+        d="M22 0h22c0 8-6 12-10 18-4 6-6 8-6 12s2 6 6 12c4 6 10 10 10 18H22c0-8 6-12 10-18 4-6 6-8 6-12s-2-6-6-12C28 12 22 8 22 0Z"
+        fill="#d8b15a"
+        stroke="#c08d34"
+        stroke-width="2"
+      />
+      <path d="M28 8c-4 4-6 8-6 12" stroke="#f1dc98" stroke-linecap="round" stroke-width="4" />
+      <path d="M28 56c-4-4-6-8-6-12" stroke="#f1dc98" stroke-linecap="round" stroke-width="4" />
+    </g>
+    <text
+      x="188"
+      y="86"
+      fill="#174d99"
+      font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif"
+      font-size="80"
+      font-weight="900"
+      stroke="#0f2f67"
+      stroke-width="3"
+      paint-order="stroke fill"
+    >
+      宿
+    </text>
+  </g>
+</svg>

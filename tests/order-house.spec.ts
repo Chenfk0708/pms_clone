@@ -8,6 +8,17 @@ const screenshotDir = path.resolve(
   '../artifacts/screenshots/dingdan--zhusu-dingdan--zhusu-dingdan',
 )
 
+function appUrl(routePath: string) {
+  return routePath.startsWith('/#') ? routePath : `/#${routePath}`
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'house-order-contract-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+})
+
 const houseOrderPayload = {
   success: true,
   data: {
@@ -87,7 +98,7 @@ const houseOrderPayload = {
 async function mockHouseOrderApiProvider(page: Page, payload = houseOrderPayload) {
   const requests: Array<Record<string, unknown>> = []
 
-  await page.route('https://hudson-prod.localhome.cn/order/report/get', async (route) => {
+  await page.route('**/api/order/report/get', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
@@ -107,7 +118,7 @@ async function mockHouseOrderApiProvider(page: Page, payload = houseOrderPayload
     })
   })
 
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     requests.push(route.request().postDataJSON() as Record<string, unknown>)
     await route.fulfill({
       contentType: 'application/json',
@@ -118,8 +129,55 @@ async function mockHouseOrderApiProvider(page: Page, payload = houseOrderPayload
   return requests
 }
 
+async function mockOrderRoomSelectorApi(page: Page) {
+  await page.route('**/api/rooms/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          roomCategoryRooms: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '特价单间',
+              rooms: [
+                { roomId: '2061750967445708801', roomName: '101' },
+                { roomId: '2061750967449903105', roomName: '102' },
+              ],
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/roomCategories/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 1,
+          pageNum: 1,
+          pageSize: 20,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '特价单间',
+              poiId: '11001',
+              poiName: '路客云演示门店',
+            },
+          ],
+        },
+      }),
+    })
+  })
+}
+
 test('/order/house-order/list loads through the lodging order data provider envelope', async ({ page }) => {
-  await page.goto('/order/house-order/list')
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
 
   await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过住宿订单数据服务刷新')
   await expect(page.locator('.order-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成|CORS/i)
@@ -140,13 +198,13 @@ test('/order/house-order/list loads through the lodging order data provider enve
 })
 
 test('/order/house-order/list exposes provider failures and empty data without static fallback', async ({ page }) => {
-  await page.goto('/order/house-order/list?houseOrderMockState=error')
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock&houseOrderMockState=error'))
   await expect(page.getByRole('alert')).toContainText('数据服务请求失败')
   await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
   await expect(page.getByRole('row').filter({ hasText: '2054409001821356034' })).toHaveCount(0)
 
   await page.evaluate(() => {
-    window.history.replaceState({}, '', '/order/house-order/list?houseOrderMockState=empty')
+    window.history.replaceState({}, '', '/#/order/house-order/list?houseOrderProvider=mock&houseOrderMockState=empty')
   })
   await page.getByRole('button', { name: '重试' }).click()
   await expect(page.getByText('暂无数据')).toBeVisible()
@@ -155,7 +213,7 @@ test('/order/house-order/list exposes provider failures and empty data without s
 
 test('/order/house-order/list matches captured lodging order table', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/order/house-order/list')
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.locator('.order-page')).toBeVisible()
@@ -186,7 +244,7 @@ test('/order/house-order/list matches captured lodging order table', async ({ pa
 
 test('/order/house-order/list supports captured search and detail interactions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/order/house-order/list')
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
 
   await page.getByRole('button', { name: '展开' }).click()
   await expect(page.locator('.order-advanced-filters').getByText('订单状态')).toBeVisible()
@@ -226,10 +284,210 @@ test('/order/house-order/list supports captured search and detail interactions',
   })
 })
 
-test('/order/house-order/list can switch to api provider with the captured target request body', async ({ page }) => {
+test('/order/house-order/list opens the order entry drawer from the primary action', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
+
+  await page.getByRole('button', { name: '录入订单' }).click()
+
+  const entryDrawer = page.getByRole('dialog', { name: '录入订单' })
+  await expect(entryDrawer).toBeVisible()
+  await expect(entryDrawer).toContainText('全日房')
+  await expect(entryDrawer).toContainText('钟点房')
+  await expect(entryDrawer).toContainText('长租房')
+})
+
+test('/order/house-order/list submits registered guests without frontend-only guest ids', async ({ page }) => {
+  const createRequests: Array<Record<string, unknown>> = []
+
+  await mockOrderRoomSelectorApi(page)
+
+  await page.route('/api/orders/create', async (route) => {
+    createRequests.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          orderId: '9000000000001',
+          status: 'booked',
+          guestCount: 1,
+          message: '订单创建成功',
+        },
+      }),
+    })
+  })
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'order-entry-submit-test-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.houseOrderProvider', 'mock')
+    window.localStorage.setItem('pms.houseOrderMockState', 'success')
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list'))
+
+  await page.getByRole('button', { name: '录入订单' }).click()
+  const entryDrawer = page.getByRole('dialog', { name: '录入订单' })
+  await entryDrawer.getByPlaceholder('姓名').fill('提交测试客人')
+  await entryDrawer.getByPlaceholder('手机号').fill('13940001009')
+  await entryDrawer.getByRole('button', { name: '+ 添加房间' }).click()
+
+  const roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+
+  await entryDrawer.getByRole('button', { name: '登记' }).click()
+  await entryDrawer.getByPlaceholder('客户姓名').fill('入住人甲')
+  await entryDrawer.getByPlaceholder('请输入证件号码').fill('P40001009')
+  await entryDrawer.getByRole('button', { name: '提交' }).click()
+
+  await expect.poll(() => createRequests.length).toBe(1)
+  const guests = createRequests[0].guests as Array<Record<string, unknown>>
+  expect(guests).toHaveLength(1)
+  expect(guests[0]).toMatchObject({
+    guestName: '入住人甲',
+    guestIdCardType: '居民身份证',
+    guestIdCard: 'P40001009',
+    guestType: 'adult',
+  })
+  expect(guests[0]).not.toHaveProperty('guestId')
+})
+
+test('/order/house-order/list submits selected real room category and room ids', async ({ page }) => {
+  const createRequests: Array<Record<string, unknown>> = []
+
+  await page.route('**/api/order/report/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          todayNewOrder: 0,
+          todayPredictCheckIn: 0,
+          staying: 0,
+          todayPredictCheckOut: 0,
+          tomorrowCheckIn: 0,
+          tomorrowCheckOut: 0,
+          pending: 0,
+          refunding: 0,
+          exception: 0,
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/orders/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 0,
+          pageNum: 1,
+          pageSize: 20,
+          pages: 0,
+          hasNextPage: false,
+          list: [],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/rooms/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          roomCategoryRooms: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '特价单间',
+              rooms: [
+                { roomId: '2061750967445708801', roomName: '101' },
+                { roomId: '2061750967449903105', roomName: '102' },
+              ],
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/roomCategories/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          total: 1,
+          pageNum: 1,
+          pageSize: 20,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '特价单间',
+              poiId: '11001',
+              poiName: '路客云演示门店',
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/orders/create', async (route) => {
+    createRequests.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          orderId: '9000000000002',
+          status: 'booked',
+          guestCount: 0,
+          message: '订单创建成功',
+        },
+      }),
+    })
+  })
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'order-entry-real-room-test-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list'))
+
+  await page.getByRole('button', { name: '录入订单' }).click()
+  const entryDrawer = page.getByRole('dialog', { name: '录入订单' })
+  await entryDrawer.getByPlaceholder('姓名').fill('真实房型联通测试')
+  await entryDrawer.getByPlaceholder('手机号').fill('13940001010')
+  await entryDrawer.getByRole('button', { name: '+ 添加房间' }).click()
+
+  const roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.getByRole('checkbox', { name: '101' }).check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+  await entryDrawer.getByRole('button', { name: '提交' }).click()
+
+  await expect.poll(() => createRequests.length).toBe(1)
+  expect(createRequests[0]).toMatchObject({
+    poiId: '11001',
+    poiName: '路客云演示门店',
+    roomCategoryId: '2061750967433125889',
+    roomCategoryName: '特价单间',
+    roomId: '2061750967445708801',
+    roomName: '101',
+  })
+})
+
+test('/order/house-order/list defaults to api provider with the local gateway request body', async ({ page }) => {
   const requests = await mockHouseOrderApiProvider(page)
 
-  await page.goto('/order/house-order/list?houseOrderProvider=api&campId=test-camp')
+  await page.goto(appUrl('/order/house-order/list?campId=test-camp'))
 
   await expect(page.getByRole('status', { name: '住宿订单请求状态' })).toContainText('已通过住宿订单数据服务刷新')
   await expect.poll(() => requests.length).toBeGreaterThanOrEqual(1)

@@ -85,6 +85,16 @@ type PaymentMethodRecord = {
   remark: string
 }
 
+type RawPaymentWay = {
+  paymentWayId?: string | number
+  paymentWayName?: string
+  paymentWayCode?: string
+  wayType?: string
+  sortNo?: number
+  isCustom?: number
+  isEnable?: number
+}
+
 const defaultCampId = '1796067693589061634'
 const mockTimestamp = '2026-05-20T01:20:00+08:00'
 const mockCampName = '路客云 6TS5 店铺'
@@ -96,6 +106,7 @@ export const paymentSettingStatusEndpoint = '/paymentSettings/status/update'
 export const paymentSettingDefaultEndpoint = '/paymentSettings/default/update'
 export const paymentSettingSortEndpoint = '/paymentSettings/sort/update'
 export const paymentSettingExportEndpoint = '/paymentSettings/export'
+export const paymentWaysEndpoint = '/paymentWays/get'
 
 const initialPaymentMethods: PaymentMethodRecord[] = [
   {
@@ -278,11 +289,12 @@ export async function loadPaymentSettingPage(
   const requestBody = createListRequestBody(query)
 
   if (provider === 'api') {
-    const payload = (await postJson(paymentSettingListEndpoint, requestBody, signal)) as PaymentSettingEnvelope<{
-      methods: PaymentMethodRecord[]
-      notice: string
+    const payload = (await postJson(paymentWaysEndpoint, requestBody, signal)) as PaymentSettingEnvelope<{
+      paymentWays?: RawPaymentWay[]
+      methods?: PaymentMethodRecord[]
+      notice?: string
     }>
-    return adaptListEnvelope(payload, requestBody, 'api', resolveMockState())
+    return adaptListEnvelope(adaptPaymentWaysEnvelope(payload), requestBody, 'api', resolveMockState(), paymentWaysEndpoint)
   }
 
   await waitForMockLatency(signal)
@@ -466,7 +478,7 @@ export async function createPaymentSettingExportTask(signal?: AbortSignal): Prom
 
 function createListRequestBody(query: PaymentSettingPageQuery) {
   return {
-    campId: query.campId || defaultCampId,
+    campId: query.campId || resolveCampId(),
     includeDisabled: true,
   }
 }
@@ -504,11 +516,61 @@ function buildMockDetailEnvelope(methodId: string): PaymentSettingEnvelope<Payme
   }
 }
 
+function adaptPaymentWaysEnvelope(
+  envelope: PaymentSettingEnvelope<{ paymentWays?: RawPaymentWay[]; methods?: PaymentMethodRecord[]; notice?: string }>,
+): PaymentSettingEnvelope<{ methods: PaymentMethodRecord[]; notice: string }> {
+  if (envelope.code !== 0) {
+    return {
+      ...envelope,
+      data: {
+        methods: [],
+        notice: '',
+      },
+    }
+  }
+
+  const methods = Array.isArray(envelope.data.methods)
+    ? envelope.data.methods
+    : (envelope.data.paymentWays ?? []).map(adaptPaymentWay)
+
+  return {
+    ...envelope,
+    data: {
+      methods,
+      notice: envelope.data.notice || '系统默认支付方式不支持编辑和删除，可直接拖动调整排序。',
+    },
+  }
+}
+
+function adaptPaymentWay(way: RawPaymentWay): PaymentMethodRecord {
+  const id = String(way.paymentWayId ?? '')
+  const name = way.paymentWayName?.trim() || id || '-'
+  const isEnabled = way.isEnable !== 0
+  const isCustom = way.isCustom === 1
+  const updatedAt = new Date().toISOString().slice(0, 16).replace('T', ' ')
+
+  return {
+    id,
+    code: way.paymentWayCode || id,
+    name,
+    status: isEnabled ? 'enabled' : 'disabled',
+    isSystemDefault: !isCustom,
+    isPreferred: false,
+    description: way.wayType ? `接口支付方式：${way.wayType}` : '接口支付方式',
+    availableScopes: isEnabled ? ['门店收款'] : ['已停用'],
+    settlementAccount: way.paymentWayCode || '-',
+    lastUsedAt: '-',
+    updatedAt,
+    remark: isCustom ? '自定义支付方式' : '系统支付方式',
+  }
+}
+
 function adaptListEnvelope(
   envelope: PaymentSettingEnvelope<{ methods: PaymentMethodRecord[]; notice: string }>,
   requestBody: Record<string, unknown>,
   provider: PaymentSettingProviderName,
   mockState: PaymentSettingMockState,
+  endpoint = paymentSettingListEndpoint,
 ): PaymentSettingPageData {
   if (envelope.code !== 0) {
     throw new PaymentSettingRequestError(envelope.message || '支付方式设置加载失败，请稍后重试')
@@ -524,7 +586,7 @@ function adaptListEnvelope(
   return {
     provider,
     mockState,
-    endpoint: paymentSettingListEndpoint,
+    endpoint,
     traceId: envelope.traceId,
     timestamp: envelope.timestamp,
     requestBody,
@@ -532,7 +594,7 @@ function adaptListEnvelope(
       `provider=${provider}`,
       `mockState=${mockState}`,
       `traceId=${envelope.traceId}`,
-      `path=${paymentSettingListEndpoint}`,
+      `path=${endpoint}`,
       `campId=${String(requestBody.campId ?? defaultCampId)}`,
       'includeDisabled=true',
     ],
@@ -622,7 +684,7 @@ function adaptDetail(method: PaymentMethodRecord): PaymentMethodDetail {
 function resolveProvider(): PaymentSettingProviderName {
   const configured =
     readRuntimeConfig('pms.paymentSettingProvider') || (import.meta.env.VITE_PAYMENT_SETTING_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockState(): PaymentSettingMockState {
@@ -657,7 +719,7 @@ function readRuntimeConfig(key: string) {
 }
 
 async function postJson(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal) {
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${resolveApiBase()}${endpoint}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     credentials: 'include',
@@ -676,6 +738,17 @@ async function postJson(endpoint: string, body: Record<string, unknown>, signal?
     throw new PaymentSettingRequestError(payload?.message || `${endpoint} 返回 HTTP ${response.status}`)
   }
   return payload
+}
+
+function resolveApiBase() {
+  return resolveProvider() === 'api' ? '/api' : ''
+}
+
+function resolveCampId() {
+  const storageCampId =
+    readRuntimeConfig('pmsCampId') || readRuntimeConfig('pms.currentCampId') || readRuntimeConfig('pms.campId')
+  const envCampId = (import.meta.env.VITE_PMS_CAMP_ID as string | undefined)?.trim() || ''
+  return storageCampId || envCampId || defaultCampId
 }
 
 async function waitForMockLatency(signal?: AbortSignal) {

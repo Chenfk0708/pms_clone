@@ -1,13 +1,31 @@
 import { expect, test } from '@playwright/test'
 
-const baseURL = process.env.PMS_TEST_BASE_URL
+const appBaseURL = process.env.PMS_TEST_BASE_URL
 
-function appUrl(path: string) {
-  return baseURL ? `${baseURL}${path}` : path
+function appUrl(routePath: string) {
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
+}
+
+async function installMockSession(page: Parameters<typeof test>[0]['page']) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'locals-mall-mock-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: '演示管理员',
+        campName: '演示门店',
+      }),
+    )
+    window.localStorage.setItem('pms.localsMall.provider', 'mock')
+  })
 }
 
 test('/version/localsMall uses provider-backed overview contract and coordinated shortcuts', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/version/localsMall'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
@@ -31,7 +49,7 @@ test('/version/localsMall uses provider-backed overview contract and coordinated
   await expect(page.getByRole('heading', { name: '智能硬件' })).toBeVisible()
   await expect(page.getByRole('button', { name: '立即购买' })).toHaveCount(7)
   await expect(page.getByText('门卡管理系统')).toBeVisible()
-  await expect(page.getByText('蜂助手CPE路由器P5(5G门店版)')).toBeVisible()
+  await expect(page.getByText('蜂助手 CPE 路由器 P5(5G 门店版)')).toBeVisible()
   await expect(page.getByText('指定款【智能密码锁/门锁】')).toBeVisible()
 
   const shortcutRegion = page.getByRole('region', { name: '快捷入口' })
@@ -46,6 +64,7 @@ test('/version/localsMall uses provider-backed overview contract and coordinated
 
 test('/version/localsMall detail view exposes room, payment, and purchase feedback flow', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/version/localsMall'))
 
   await page.getByRole('button', { name: '立即购买' }).first().click()
@@ -59,9 +78,9 @@ test('/version/localsMall detail view exposes room, payment, and purchase feedba
   await expect(page.getByText('路客商城/')).toBeVisible()
   await expect(page.getByText('详情', { exact: true })).toBeVisible()
   await expect(page.getByText('购买时长')).toBeVisible()
-  await expect(page.getByText('一年')).toBeVisible()
+  await expect(page.getByText('1年')).toBeVisible()
   await expect(page.getByText('购买方')).toBeVisible()
-  await expect(page.getByText('路客云6TS5')).toBeVisible()
+  await expect(page.getByText('路客云 TS5')).toBeVisible()
   await expect(page.getByText('总费用')).toBeVisible()
   await expect(page.getByText('¥ 800')).toBeVisible()
 
@@ -91,6 +110,7 @@ test('/version/localsMall detail view exposes room, payment, and purchase feedba
 
 test('/version/localsMall keeps mall shell in empty state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/version/localsMall?mockState=empty'))
 
   const shell = page.locator('.locals-mall-page')
@@ -104,6 +124,7 @@ test('/version/localsMall keeps mall shell in empty state', async ({ page }) => 
 
 test('/version/localsMall exposes retryable error state', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await installMockSession(page)
   await page.goto(appUrl('/version/localsMall?mockState=error'))
 
   await expect(page.getByRole('alert', { name: '路客商城加载失败' })).toContainText('路客商城数据加载失败，请稍后重试')

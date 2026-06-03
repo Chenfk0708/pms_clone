@@ -138,6 +138,135 @@ test('/setting/writeExpendSetting exposes loading and error feedback, then retri
   })
 })
 
+
+test('/setting/writeExpendSetting api provider posts custom payment type create contract', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({ id: '12001', name: 'System Admin', mobile: '13800000000', roleName: 'Admin', campName: 'Test Camp' }),
+    )
+    window.localStorage.setItem('pms.writeExpendSetting.provider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const listBodies: unknown[] = []
+  const createBodies: unknown[] = []
+
+  await page.route('**/api/paymentTypes/get/v2', async (route) => {
+    listBodies.push(route.request().postDataJSON())
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: {
+          paymentGroups: [
+            {
+              groupType: 1,
+              groupTypeName: 'Lodging',
+              paymentTypes: [],
+            },
+            {
+              groupType: 2,
+              groupTypeName: 'Dining',
+              paymentTypes: [],
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/paymentTypes/custom/create', async (route) => {
+    createBodies.push(route.request().postDataJSON())
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        code: 0,
+        message: 'success',
+        data: {
+          paymentGroups: [
+            {
+              groupType: 1,
+              groupTypeName: 'Lodging',
+              paymentTypes: [
+                {
+                  paymentTypeId: '52050',
+                  paymentTypeName: 'API Custom Income',
+                  ignoreOrderGetItem: 1,
+                  isCustom: 1,
+                  isIncome: 1,
+                  isEnable: 1,
+                  bizType: 3,
+                  groupType: 1,
+                },
+              ],
+            },
+            {
+              groupType: 2,
+              groupTypeName: 'Dining',
+              paymentTypes: [],
+            },
+          ],
+          paymentWays: [],
+        },
+      }),
+    })
+  })
+
+  await page.goto(appUrl('/login'), { waitUntil: 'domcontentloaded' })
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({ id: '12001', name: 'System Admin', mobile: '13800000000', roleName: 'Admin', campName: 'Test Camp' }),
+    )
+    window.localStorage.setItem('pms.writeExpendSetting.provider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.location.hash = '#/setting/writeExpendSetting'
+  })
+
+  await expect(page.locator('.write-expend-page')).toHaveAttribute('data-provider', 'api')
+  await expect.poll(() => listBodies.length).toBe(1)
+  expect(listBodies[0]).toEqual({ campId: '10001', bizTypes: [3] })
+
+  await page.locator('button.write-expend-primary').first().click()
+  const dialog = page.locator('.write-expend-modal')
+  await expect(dialog).toBeVisible()
+  await dialog.locator('input').fill('API Custom Income')
+  await dialog.locator('button.write-expend-primary').click()
+
+  await expect.poll(() => createBodies.length).toBe(1)
+  expect(createBodies[0]).toEqual({
+    campId: '10001',
+    groupType: 1,
+    groupName: 'Lodging',
+    paymentTypeName: 'API Custom Income',
+    isIncome: 1,
+    bizType: 3,
+  })
+  await expect(page.getByText('API Custom Income', { exact: true })).toBeVisible()
+
+  const contract = await readContract(page)
+  expect(contract).toMatchObject({
+    provider: 'api',
+    action: 'create',
+    state: 'success',
+    endpoint: '/api/paymentTypes/custom/create',
+    requestBody: {
+      campId: '10001',
+      groupType: 1,
+      groupName: 'Lodging',
+      paymentTypeName: 'API Custom Income',
+      isIncome: 1,
+      bizType: 3,
+    },
+  })
+})
+
 async function readContract(page: import('@playwright/test').Page) {
   const rawText = await page.getByTestId('write-expend-setting-service-contract').textContent()
   return rawText ? JSON.parse(rawText) : null

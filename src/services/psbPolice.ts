@@ -183,7 +183,7 @@ export async function submitPsbPoliceRegistration(
 function getPsbPoliceProviderName(): PsbPoliceProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem(PSB_POLICE_PROVIDER_KEY)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function buildListEnvelope(

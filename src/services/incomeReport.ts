@@ -1,9 +1,12 @@
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const INCOME_REPORT_ENDPOINT = '/report/accommodation/get'
 export const INCOME_REPORT_STORE_ENDPOINT = '/select/poi/page/get'
 export const INCOME_REPORT_ROOM_TYPE_ENDPOINT = '/select/roomCategory/page/get'
 export const INCOME_REPORT_CHANNEL_ENDPOINT = '/select/calChannel4Order/get'
 export const INCOME_REPORT_ROOM_GROUP_ENDPOINT = '/roomCategoryGroups/get'
 export const INCOME_REPORT_ROOM_ENDPOINT = '/rooms/get'
+const HUDSON_API_BASE = '/api'
 
 export type IncomeReportProvider = 'mock' | 'api'
 export type IncomeReportState = 'success' | 'empty' | 'error'
@@ -95,6 +98,16 @@ type ApiEnvelope<T> = {
   data: T
   traceId: string
   timestamp: string
+}
+
+type ApiPagePayload = {
+  total?: unknown
+  pageNum?: unknown
+  current?: unknown
+  pageSize?: unknown
+  size?: unknown
+  list?: unknown
+  select?: unknown
 }
 
 type IncomeReportPayload = {
@@ -267,7 +280,7 @@ export class IncomeReportServiceError extends Error {
 
 export function createDefaultIncomeReportQuery(): IncomeReportQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     dimension: 'day',
     storeId: 'all',
     storeName: '全部门店',
@@ -288,9 +301,13 @@ export function createDefaultIncomeReportQuery(): IncomeReportQuery {
 }
 
 export function resolveIncomeReportProvider(): IncomeReportProvider {
+  const params = new URLSearchParams(window.location.search)
   const value =
-    typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null
-  return value === 'api' ? 'api' : 'mock'
+    params.get('incomeReportProvider') ??
+    (typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null) ??
+    (import.meta.env.VITE_INCOME_REPORT_PROVIDER as string | undefined) ??
+    (import.meta.env.VITE_PMS_INCOME_REPORT_PROVIDER as string | undefined)
+  return value === 'api' || value === 'real' ? 'api' : 'mock'
 }
 
 export function resolveIncomeReportState(): IncomeReportState {
@@ -328,12 +345,7 @@ export async function fetchIncomeReportDashboard(
   const request = normalizeQuery(input)
   const provider = resolveIncomeReportProvider()
   if (provider === 'api') {
-    throw new IncomeReportServiceError(
-      '收入报表服务暂时不可用，请稍后重试',
-      provider,
-      request,
-      createNullEnvelope(503, 'income report api unavailable', 'api'),
-    )
+    return fetchApiIncomeReportDashboard(request, signal)
   }
 
   await delay(160, signal)
@@ -351,6 +363,113 @@ export async function fetchIncomeReportDashboard(
   const payload = createMockPayload(request, state)
   const envelope = createEnvelope(payload, state === 'empty' ? 'empty' : request.dimension)
   return adaptDashboard(provider, state, request, envelope)
+}
+
+async function fetchApiIncomeReportDashboard(
+  request: IncomeReportQuery,
+  signal?: AbortSignal,
+): Promise<IncomeReportDashboard> {
+  validateQuery(request)
+  const reportRequestBody = createIncomeReportRequestBody(request)
+  const [
+    reportEnvelope,
+    storesEnvelope,
+    roomTypesEnvelope,
+    channelsEnvelope,
+    roomGroupsEnvelope,
+    roomsEnvelope,
+  ] = await Promise.all([
+    postHudsonEnvelope<ApiPagePayload>(INCOME_REPORT_ENDPOINT, reportRequestBody, signal),
+    postHudsonEnvelope<ApiPagePayload>(INCOME_REPORT_STORE_ENDPOINT, { campId: request.campId, pageSize: 999, pageNum: 1, channelId: 0, isAvailability: '1' }, signal),
+    postHudsonEnvelope<ApiPagePayload>(INCOME_REPORT_ROOM_TYPE_ENDPOINT, { campId: request.campId, pageSize: 999, pageNum: 1, isAvailability: '1' }, signal),
+    postHudsonEnvelope<Record<string, unknown>>(INCOME_REPORT_CHANNEL_ENDPOINT, { campId: request.campId }, signal),
+    postHudsonEnvelope<Record<string, unknown>>(INCOME_REPORT_ROOM_GROUP_ENDPOINT, { campId: request.campId }, signal),
+    postHudsonEnvelope<Record<string, unknown>>(INCOME_REPORT_ROOM_ENDPOINT, { campId: request.campId, roomCategoryIds: [] }, signal),
+  ])
+
+  const rows = adaptApiRows(listFromPayload(reportEnvelope.data))
+  const payload: IncomeReportPayload = {
+    dimensions: dimensionConfig,
+    stores: adaptStoreOptions(storesEnvelope.data),
+    roomTypes: withPlaceholder(adaptOptions(listFromPayload(roomTypesEnvelope.data), ['roomCategoryId', 'id'], ['name', 'roomCategoryName', 'displayName']), '请选择'),
+    channels: withPlaceholder(adaptOptions(listFromPayload(channelsEnvelope.data), ['channelId', 'id'], ['channelName', 'shortChannelName', 'name']), '请选择'),
+    roomGroups: withPlaceholder(adaptOptions(listFromPayload(roomGroupsEnvelope.data), ['roomCategoryGroupId', 'groupId', 'id'], ['roomCategoryGroupName', 'groupName', 'name']), '请选择'),
+    rooms: withPlaceholder(adaptRoomOptions(roomsEnvelope.data), '请选择'),
+    descriptions: descriptionRows,
+    list: rows,
+    pagination: {
+      page: toNumber(reportEnvelope.data.pageNum ?? reportEnvelope.data.current, request.pageNum),
+      pageSize: toNumber(reportEnvelope.data.pageSize ?? reportEnvelope.data.size, request.pageSize),
+      total: toNumber(reportEnvelope.data.total, rows.length),
+    },
+  }
+  return adaptDashboard(
+    'api',
+    rows.length > 0 ? 'success' : 'empty',
+    request,
+    {
+      code: 0,
+      message: 'success',
+      data: payload,
+      traceId: reportEnvelope.traceId,
+      timestamp: reportEnvelope.timestamp,
+    },
+  )
+}
+
+async function postHudsonEnvelope<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<ApiEnvelope<T>> {
+  const response = await fetch(`${HUDSON_API_BASE}${endpoint}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
+    signal,
+  })
+  const payload = (await readJson(response)) as (Partial<ApiEnvelope<T>> & { success?: boolean; errorMsg?: string | null; errorDetail?: string | null }) | null
+  const traceId = payload?.traceId ?? `api-${endpoint.replace(/^\//, '').replace(/[^\w]+/g, '-')}`
+  const timestamp = payload?.timestamp ?? new Date().toISOString()
+
+  if (!response.ok) {
+    throw new IncomeReportServiceError(
+      `收入报表接口请求失败：${endpoint} HTTP ${response.status}`,
+      'api',
+      body as IncomeReportQuery,
+      createNullEnvelope(response.status, `HTTP ${response.status}`, traceId),
+    )
+  }
+  if (!payload || typeof payload !== 'object') {
+    throw new IncomeReportServiceError(
+      `收入报表接口响应不可解析：${endpoint}`,
+      'api',
+      body as IncomeReportQuery,
+      createNullEnvelope(502, 'invalid json', traceId),
+    )
+  }
+  const code = typeof payload.code === 'number' ? payload.code : payload.success === false ? 500 : 0
+  if (code !== 0 || payload.success === false) {
+    throw new IncomeReportServiceError(
+      String(payload.errorMsg ?? payload.errorDetail ?? payload.message ?? '收入报表接口返回业务失败'),
+      'api',
+      body as IncomeReportQuery,
+      createNullEnvelope(code, String(payload.message ?? payload.errorMsg ?? 'business error'), traceId),
+    )
+  }
+  if (payload.data === undefined || payload.data === null) {
+    throw new IncomeReportServiceError(
+      `收入报表接口响应缺少 data：${endpoint}`,
+      'api',
+      body as IncomeReportQuery,
+      createNullEnvelope(502, 'missing data', traceId),
+    )
+  }
+
+  return {
+    code: 0,
+    message: payload.message ?? 'success',
+    data: payload.data,
+    traceId,
+    timestamp,
+  }
 }
 
 export async function createIncomeReportExportTask(
@@ -395,6 +514,96 @@ function adaptDashboard(
     rows: envelope.data.list,
     pagination: envelope.data.pagination,
   }
+}
+
+function listFromPayload(payload: unknown): Record<string, unknown>[] {
+  const record = asRecord(payload)
+  const candidate =
+    Array.isArray(payload)
+      ? payload
+      : Array.isArray(record.list)
+        ? record.list
+        : Array.isArray(record.select)
+          ? record.select
+          : Array.isArray(record.roomCategoryGroups)
+            ? record.roomCategoryGroups
+            : Array.isArray(record.roomCategoryRooms)
+              ? record.roomCategoryRooms
+              : []
+
+  return candidate.map(asRecord)
+}
+
+function adaptStoreOptions(payload: unknown): IncomeReportOption[] {
+  return [
+    { id: 'all', label: '全部门店' },
+    ...adaptOptions(listFromPayload(payload), ['poiId', 'id', 'value'], ['poiName', 'name', 'label']),
+  ]
+}
+
+function adaptOptions(
+  rows: Record<string, unknown>[],
+  idKeys: string[],
+  labelKeys: string[],
+): IncomeReportOption[] {
+  const deduplicated = new Map<string, IncomeReportOption>()
+  for (const row of rows) {
+    const id = firstString(row, idKeys)
+    const label = firstString(row, labelKeys)
+    if (!id || !label || deduplicated.has(id)) continue
+    deduplicated.set(id, { id, label })
+  }
+  return Array.from(deduplicated.values())
+}
+
+function adaptRoomOptions(payload: unknown): IncomeReportOption[] {
+  const groups = listFromPayload(payload)
+  const rooms: Record<string, unknown>[] = []
+  for (const group of groups) {
+    if (Array.isArray(group.rooms)) {
+      rooms.push(...group.rooms.map(asRecord))
+      continue
+    }
+    rooms.push(group)
+  }
+  return adaptOptions(rooms, ['roomId', 'id', 'value'], ['roomName', 'name', 'label'])
+}
+
+function withPlaceholder(options: IncomeReportOption[], label: string): IncomeReportOption[] {
+  return [{ id: '', label }, ...options.filter((option) => option.id)]
+}
+
+function adaptApiRows(rows: Record<string, unknown>[]): IncomeReportRow[] {
+  return rows.map((row, index) => {
+    const label = firstString(row, ['label', 'date', 'name', 'statDate', 'groupName']) || `收入项 ${index + 1}`
+    return {
+      key: firstString(row, ['key', 'id']) || label,
+      label,
+      roomFeeMinusCommission: formatApiAmount(row.roomFeeMinusCommission),
+      channelCommission: formatApiAmount(row.channelCommission),
+      roomFeeIncludingCommission: formatApiAmount(row.roomFeeIncludingCommission),
+      allDayRoomFeeIncludingCommission: formatApiAmount(row.allDayRoomFeeIncludingCommission ?? row.roomFeeIncludingCommission),
+      hourRoomFeeIncludingCommission: formatApiAmount(row.hourRoomFeeIncludingCommission),
+      otherExpense: formatApiAmount(row.otherExpense),
+      accommodationExpense: formatApiAmount(row.accommodationExpense),
+      cateringExpense: formatApiAmount(row.cateringExpense),
+      supermarketExpense: formatApiAmount(row.supermarketExpense),
+      entertainmentExpense: formatApiAmount(row.entertainmentExpense),
+      venueExpense: formatApiAmount(row.venueExpense),
+      orderTotalIncome: formatApiAmount(row.orderTotalIncome),
+      manualIncome: formatApiAmount(row.manualIncome),
+      manualAccommodationIncome: formatApiAmount(row.manualAccommodationIncome),
+      manualCateringIncome: formatApiAmount(row.manualCateringIncome),
+      manualSupermarketIncome: formatApiAmount(row.manualSupermarketIncome),
+      manualEntertainmentIncome: formatApiAmount(row.manualEntertainmentIncome),
+      manualVenueIncome: formatApiAmount(row.manualVenueIncome),
+      businessIncomeIncludingCommission: formatApiAmount(row.businessIncomeIncludingCommission ?? row.orderTotalIncome),
+      businessIncomeMinusCommission: formatApiAmount(row.businessIncomeMinusCommission ?? row.roomFeeMinusCommission),
+      roomFeeMinusCommissionRatio: optionalString(row.roomFeeMinusCommissionRatio),
+      channelCommissionRatio: optionalString(row.channelCommissionRatio),
+      detailContext: firstString(row, ['detailContext', 'summary', 'description']) || label,
+    }
+  })
 }
 
 function createMockPayload(query: IncomeReportQuery, state: IncomeReportState): IncomeReportPayload {
@@ -469,6 +678,45 @@ function queryTypeForDimension(dimension: IncomeReportDimension) {
 function optionLabel(options: IncomeReportOption[], id: string | undefined, fallback: string) {
   if (!id) return fallback
   return options.find((item) => item.id === id)?.label ?? fallback
+}
+
+async function readJson(response: Response) {
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function firstString(row: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const value = row[key]
+    if (value !== undefined && value !== null && String(value).trim()) {
+      return String(value).trim()
+    }
+  }
+  return ''
+}
+
+function optionalString(value: unknown) {
+  if (value === undefined || value === null || String(value).trim() === '') return undefined
+  return String(value)
+}
+
+function formatApiAmount(value: unknown) {
+  if (value === undefined || value === null || value === '') return '0'
+  const number = Number(value)
+  if (!Number.isFinite(number)) return String(value)
+  return Number.isInteger(number) ? String(number) : number.toFixed(2).replace(/\.?0+$/, '')
+}
+
+function toNumber(value: unknown, fallback: number) {
+  const number = Number(value)
+  return Number.isFinite(number) ? number : fallback
 }
 
 function createEnvelope<T>(data: T, suffix: string): ApiEnvelope<T> {

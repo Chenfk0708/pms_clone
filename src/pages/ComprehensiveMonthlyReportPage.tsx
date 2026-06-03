@@ -467,7 +467,7 @@ function ComprehensiveMonthlyDiagnostics({
       className="comprehensive-monthly-service-state"
       data-testid="comprehensive-monthly-service-state"
       data-provider={view?.provider ?? 'mock'}
-      data-endpoint={view?.endpoint ?? 'https://hudson-prod.localhome.cn/report/monthly/page/get'}
+      data-endpoint={view?.endpoint ?? '/api/report/monthly/page/get'}
       data-request-body={JSON.stringify(view?.requestBody ?? requestBody)}
       data-trace-id={view?.traceId ?? ''}
       data-response-state={responseState}

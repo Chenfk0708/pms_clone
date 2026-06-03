@@ -76,8 +76,8 @@ export class CouponRequestError extends Error {
   }
 }
 
-export const couponListEndpoint = 'https://hudson-prod.localhome.cn/coupons/page/get'
-export const couponTaskEndpoint = 'https://hudson-prod.localhome.cn/couponSendConfigs/page/get'
+export const couponListEndpoint = '/api/coupons/page/get'
+export const couponTaskEndpoint = '/api/couponSendConfigs/page/get'
 
 export const defaultCouponFilters: CouponListFilters = {
   campId: '1796067693589061634',
@@ -257,7 +257,7 @@ function resolveCouponProviderName(explicitProvider?: CouponProviderName): Coupo
     explicitProvider ||
     readRuntimeConfig('pms.couponProvider') ||
     (import.meta.env.VITE_PMS_COUPON_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveCouponMockMode(): CouponMockMode {

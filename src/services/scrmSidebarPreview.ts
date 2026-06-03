@@ -110,8 +110,8 @@ type ScrmSidebarProvider = {
 }
 
 export const scrmSidebarDashboardEndpoint =
-  'https://hudson-prod.localhome.cn/scrm/sidebarPreview/dashboard'
-export const scrmSidebarExportEndpoint = 'https://hudson-prod.localhome.cn/scrm/sidebarPreview/export'
+  '/api/scrm/sidebarPreview/dashboard'
+export const scrmSidebarExportEndpoint = '/api/scrm/sidebarPreview/export'
 export const scrmSidebarProviderMode: ScrmSidebarProviderMode = 'mock'
 
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
@@ -232,7 +232,30 @@ export function createScrmSidebarRequestBody(filters: ScrmSidebarFilters): Recor
 export async function fetchScrmSidebarDashboard(
   filters: ScrmSidebarFilters,
 ): Promise<ScrmSidebarDashboard> {
-  return getScrmSidebarProvider(scrmSidebarProviderMode).fetchDashboard(filters)
+  return getScrmSidebarProvider(resolveScrmSidebarProvider()).fetchDashboard(filters)
+}
+
+export function resolveScrmSidebarProvider(): ScrmSidebarProviderMode {
+  const params = typeof window === 'undefined' ? new URLSearchParams() : new URLSearchParams(window.location.search)
+  const configured =
+    normalizeProvider(params.get('scrmSidebarProvider')) ??
+    normalizeProvider(params.get('provider')) ??
+    normalizeProvider(readRuntimeConfig('pms.scrmSidebarProvider')) ??
+    normalizeProvider(import.meta.env.VITE_SCRM_SIDEBAR_PROVIDER as string | undefined) ??
+    normalizeProvider(import.meta.env.VITE_WECHAT_SERVICE_PROVIDER as string | undefined)
+
+  return configured ?? scrmSidebarProviderMode
+}
+
+function normalizeProvider(value: string | null | undefined): ScrmSidebarProviderMode | undefined {
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
+  return undefined
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
 }
 
 function getScrmSidebarProvider(mode: ScrmSidebarProviderMode): ScrmSidebarProvider {
@@ -322,7 +345,7 @@ function createEnvelope(traceId: string, data: RawDashboardData): ApiEnvelope<Ra
 function adaptScrmSidebarDashboard(
   envelope: ApiEnvelope<RawDashboardData>,
   requestBody: Record<string, unknown>,
-  providerMode: ScrmSidebarProviderMode = scrmSidebarProviderMode,
+  providerMode: ScrmSidebarProviderMode = resolveScrmSidebarProvider(),
 ): ScrmSidebarDashboard {
   const payload = assertEnvelope(envelope)
   const data = payload.data

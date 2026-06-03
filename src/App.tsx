@@ -42,6 +42,7 @@ import { IncomeReportPage } from './pages/IncomeReportPage'
 import { InformationOverviewPage } from './pages/InformationOverviewPage'
 import { LedgerEntryPage } from './pages/LedgerEntryPage'
 import { LocalsMallPage } from './pages/LocalsMallPage'
+import { LoginPage } from './pages/LoginPage'
 import { MemberEquityPage } from './pages/MemberEquityPage'
 import { MemberPointsPage } from './pages/MemberPointsPage'
 import { MemberSettingPage } from './pages/MemberSettingPage'
@@ -235,6 +236,10 @@ function RoutedApp() {
   }
 
   const pageTitle = resolvePageTitle(normalizedPath, location.search)
+
+  if (normalizedPath === '/login') {
+    return <LoginPage />
+  }
 
   return (
     <AppShell path={normalizedPath} pageTitle={pageTitle}>

@@ -262,7 +262,7 @@ function normalizeMockState(value) {
 function readProvider() {
     if (typeof window === 'undefined')
         return 'mock';
-    return window.localStorage.getItem(SMS_SETTING_PROVIDER_KEY) === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem(SMS_SETTING_PROVIDER_KEY)) === 'api' ? 'api' : 'mock';
 }
 function readMockState() {
     if (typeof window === 'undefined')
@@ -294,4 +294,7 @@ async function waitForLatency(signal, delayMs = 120) {
             reject(new DOMException('短信设置请求已取消', 'AbortError'));
         }, { once: true });
     });
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

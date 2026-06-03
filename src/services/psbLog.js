@@ -1,8 +1,10 @@
-export const PSB_LOG_ENDPOINT = 'https://hudson-prod.localhome.cn/checkinGuestPsbLog/page/get';
-export const PSB_LOG_STORE_ENDPOINT = 'https://hudson-prod.localhome.cn/select/poi/page/get';
+import { resolveCurrentCampId } from '../utils/camp';
+export const PSB_LOG_ENDPOINT = '/api/checkinGuestPsbLog/page/get';
+export const PSB_LOG_RETRY_ENDPOINT = '/api/checkinGuestPsbLog/retry';
+export const PSB_LOG_STORE_ENDPOINT = '/api/select/poi/page/get';
 export const PSB_LOG_MOCK_ENDPOINT = '/psb/log/mock/page/get';
 const TASK_ID = 'zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_TIMESTAMP = '2026-05-19T18:30:00+08:00';
 const DEFAULT_PAGE_SIZE = 20;
 const DEFAULT_PSB_TYPES = ['4', '5'];
@@ -57,7 +59,7 @@ export async function fetchPsbStoreOptions(input, signal) {
 export async function retryPsbLogReport(row, query, signal) {
     const provider = query.provider ?? resolvePsbLogProvider();
     if (provider === 'api') {
-        throw new Error('重新上报接口待后端确认，请先使用当前页面查询链路复核。');
+        return retryApiPsbLogReport(row, query.campId, signal);
     }
     await delay(180, signal);
     if ((query.mockState ?? readPsbLogMockState()) === 'error') {
@@ -85,12 +87,12 @@ export function resolvePsbLogRuntimeConfig(location) {
 }
 export function resolvePsbLogProvider() {
     const configured = readRuntimeConfig('pms.psbLogProvider') || import.meta.env.VITE_PSB_LOG_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 export function createDefaultPsbLogQuery(location) {
     const params = readLocationParams(location);
     return {
-        campId: params.get('campId') || DEFAULT_CAMP_ID,
+        campId: params.get('campId') || resolveCurrentCampId(DEFAULT_CAMP_ID),
         page: 1,
         pageSize: DEFAULT_PAGE_SIZE,
     };
@@ -155,16 +157,17 @@ async function fetchApiPsbStores(_input, request, signal) {
         });
     }
     catch (error) {
+        rethrowAbortError(error, signal);
         throw new Error(`门店列表加载失败，请稍后重试：${readErrorMessage(error)}`, { cause: error });
     }
     if (!response.ok) {
         throw new Error(`门店列表加载失败，请稍后重试：HTTP ${response.status}`);
     }
     const payload = (await response.json());
-    if (payload.success !== true) {
+    if (!isSuccessfulHudsonPayload(payload)) {
         return {
             code: 50001,
-            message: payload.errorMsg || payload.errorDetail || '门店列表加载失败，请稍后重试',
+            message: payload.errorMsg || payload.errorDetail || payload.message || '门店列表加载失败，请稍后重试',
             data: [],
             traceId: `api-${TASK_ID}-store-error`,
             timestamp: new Date().toISOString(),
@@ -219,16 +222,17 @@ async function fetchApiPsbLogs(query, request, signal) {
         });
     }
     catch (error) {
+        rethrowAbortError(error, signal);
         throw new Error(`上报日志加载失败，请稍后重试：${readErrorMessage(error)}`, { cause: error });
     }
     if (!response.ok) {
         throw new Error(`上报日志加载失败，请稍后重试：HTTP ${response.status}`);
     }
     const payload = (await response.json());
-    if (payload.success !== true) {
+    if (!isSuccessfulHudsonPayload(payload)) {
         return {
             code: 50001,
-            message: payload.errorMsg || payload.errorDetail || '上报日志加载失败，请稍后重试',
+            message: payload.errorMsg || payload.errorDetail || payload.message || '上报日志加载失败，请稍后重试',
             data: createBackendData([], query),
             traceId: `api-${TASK_ID}-business-error`,
             timestamp: new Date().toISOString(),
@@ -249,6 +253,36 @@ async function fetchApiPsbLogs(query, request, signal) {
         traceId: `api-${TASK_ID}-list`,
         timestamp: new Date().toISOString(),
     };
+}
+async function retryApiPsbLogReport(row, campId, signal) {
+    let response;
+    try {
+        response = await fetch(PSB_LOG_RETRY_ENDPOINT, {
+            method: 'POST',
+            credentials: 'include',
+            signal,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                campId,
+                id: row.id,
+                orderNo: row.orderNo,
+            }),
+        });
+    }
+    catch (error) {
+        rethrowAbortError(error, signal);
+        throw new Error(`重新上报失败，请稍后重试：${readErrorMessage(error)}`, { cause: error });
+    }
+    if (!response.ok) {
+        throw new Error(`重新上报失败，请稍后重试：HTTP ${response.status}`);
+    }
+    const payload = (await response.json());
+    if (!isSuccessfulHudsonPayload(payload) || !payload.data) {
+        throw new Error(payload.errorMsg || payload.errorDetail || payload.message || '重新上报失败，请稍后重试');
+    }
+    return adaptPsbLogRow(payload.data);
 }
 function createBackendData(rows, query) {
     return {
@@ -292,6 +326,11 @@ function unwrapEnvelope(envelope) {
         throw new Error(envelope.message || '上报日志加载失败，请稍后重试');
     }
     return envelope.data;
+}
+function isSuccessfulHudsonPayload(payload) {
+    if (payload.success === true)
+        return true;
+    return payload.success !== false && payload.code === 0;
 }
 function adaptPsbLogRow(row) {
     const bizTypeCode = readString(row.bizType, '5');
@@ -366,6 +405,11 @@ function readString(value, fallback) {
 }
 function readErrorMessage(error) {
     return error instanceof Error ? error.message : String(error);
+}
+function rethrowAbortError(error, signal) {
+    if (signal?.aborted || (error instanceof DOMException && error.name === 'AbortError')) {
+        throw new DOMException('请求已取消', 'AbortError');
+    }
 }
 function delay(ms, signal) {
     if (signal?.aborted) {

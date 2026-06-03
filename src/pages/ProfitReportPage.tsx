@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useSyncExternalStore, useState } from 'react'
 import {
   createProfitReportExportTask,
   createProfitReportRequestBody,
@@ -22,8 +22,9 @@ type DatePanelPosition = { top: number; left: number }
 const staticLookups = getProfitReportStaticLookups()
 
 export function ProfitReportPage() {
+  const routeKey = useRouteSearchKey()
   const provider = useMemo(() => resolveProfitReportProvider(), [])
-  const mockState = useMemo(() => resolveMockState(), [])
+  const mockState = useMemo(() => resolveMockState(), [routeKey])
   const [filters, setFilters] = useState<ProfitReportFilters>(() => ({
     ...getDefaultProfitReportFilters(),
     mockState,
@@ -657,8 +658,30 @@ function paginationText(pageNum: number, pageSize: number, total: number, length
 }
 
 function resolveMockState(): ProfitMockState {
-  const state = new URLSearchParams(window.location.search).get('profitMockState')
+  const state = readRouteParam('profitMockState')
   return state === 'empty' || state === 'error' ? state : 'success'
+}
+
+function useRouteSearchKey() {
+  return useSyncExternalStore(
+    (notify) => {
+      window.addEventListener('hashchange', notify)
+      window.addEventListener('popstate', notify)
+      return () => {
+        window.removeEventListener('hashchange', notify)
+        window.removeEventListener('popstate', notify)
+      }
+    },
+    () => `${window.location.search}|${window.location.hash}`,
+  )
+}
+
+function readRouteParam(key: string) {
+  const searchValue = new URLSearchParams(window.location.search).get(key)
+  if (searchValue) return searchValue
+
+  const hashQuery = window.location.hash.split('?')[1] ?? ''
+  return new URLSearchParams(hashQuery).get(key)
 }
 
 function shiftMonth(month: string, offset: number) {

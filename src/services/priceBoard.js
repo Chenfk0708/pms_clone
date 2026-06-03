@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn';
+const HUDSON_BASE_URL = '/api';
 const PRICE_BOARD_PRODUCT_CAMP_ID = '64';
 const PRICE_BOARD_MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const PRICE_BOARD_MOCK_SOURCE_LABEL = 'POST /houseManage/priceBoard/overview';

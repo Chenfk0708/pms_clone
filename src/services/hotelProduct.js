@@ -1,4 +1,4 @@
-const realBaseUrl = 'https://hudson-prod.localhome.cn';
+const realBaseUrl = '/api';
 const productListEndpoint = '/roomCategoryProducts/page/get';
 const mockRoomTypes = [
     { id: 'room-mock-1', name: '顶层套房（浴缸巨幕电竞麻将）' },

@@ -3,7 +3,9 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
   buildCleanSettingRequest,
   createDefaultCleanSettingFilters,
+  exportCleanSetting,
   fetchCleanSettingDashboard,
+  saveCleanSettingRule,
   type CleanSettingDashboard,
   type CleanSettingFilters,
   type CleanSettingPolicyRule,
@@ -105,12 +107,31 @@ function CleanSettingBusinessPage({ search }: { search: string }) {
   }
 
   function handleExport() {
-    setFeedback(`导出任务已创建：保洁设置-${filters.businessDate}.xlsx`)
+    void (async () => {
+      try {
+        const result = await exportCleanSetting(filters)
+        setFeedback(`导出任务已创建：${result.fileName}`)
+      } catch (exportError) {
+        const message = exportError instanceof Error ? exportError.message : '保洁设置导出失败，请稍后重试'
+        setError(message)
+        setFeedback(message)
+      }
+    })()
   }
 
   function handleSaveRule() {
-    setEditRule(null)
-    setFeedback('策略已保存')
+    if (!editRule) return
+    void (async () => {
+      try {
+        const result = await saveCleanSettingRule(editRule)
+        setEditRule(null)
+        setFeedback(result.message)
+      } catch (saveError) {
+        const message = saveError instanceof Error ? saveError.message : '保洁设置保存失败，请稍后重试'
+        setError(message)
+        setFeedback(message)
+      }
+    })()
   }
 
   return (

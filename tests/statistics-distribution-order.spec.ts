@@ -1,28 +1,44 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const baseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(path: string) {
-  return baseURL ? `${baseURL}${path}` : path
+  const normalizedPath = path.startsWith('/#') ? path : `/#${path}`
+  return baseURL ? `${baseURL}${normalizedPath}` : normalizedPath
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'statistics-distribution-order-playwright-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+  })
+})
+
+function serviceContract(page: Page) {
+  return page.locator('#statistics-distribution-service')
+}
+
+async function getServiceContractText(page: Page) {
+  return (await serviceContract(page).textContent()) ?? (await serviceContract(page).getAttribute('data-value')) ?? ''
 }
 
 test('/statistics/distributionOrder renders the captured settlement report through a service layer', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/distributionOrder'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
-  await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(
-    /is-active/,
-  )
-  await expect(page.getByRole('link', { name: '聚合分销订单' })).toHaveClass(/is-active/)
+  await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(/is-active/)
+  await expect(
+    page.getByRole('complementary', { name: '聚合分销订单侧边导航' }).getByRole('link', { name: '聚合分销订单' }),
+  ).toHaveClass(/is-active/)
 
-  const servicePanel = page.getByLabel('聚合分销订单数据服务')
-  await expect(servicePanel).toContainText('provider=mock')
-  await expect(servicePanel).toContainText('/report/flows/get')
-  await expect(servicePanel).toContainText('bookingStartDate=2026-05-01')
-  await expect(servicePanel).toContainText('bookingEndDate=2026-05-31')
+  const servicePanel = serviceContract(page)
+  await expect.poll(() => getServiceContractText(page)).toContain('provider=mock')
+  await expect.poll(() => getServiceContractText(page)).toContain('/distribution/orders/page/get')
+  await expect.poll(() => getServiceContractText(page)).toContain('bookingStartDate=2026-05-01')
+  await expect.poll(() => getServiceContractText(page)).toContain('bookingEndDate=2026-05-31')
 
   const filters = page.getByLabel('聚合分销订单筛选')
   await expect(filters.getByRole('button', { name: '全部门店' })).toBeVisible()
@@ -30,7 +46,7 @@ test('/statistics/distributionOrder renders the captured settlement report throu
   await expect(filters.getByRole('button', { name: '重置' })).toBeVisible()
   await expect(filters.getByRole('button', { name: '查询' })).toBeVisible()
   await expect(filters.getByRole('button', { name: '导出明细' })).toBeVisible()
-  await expect(filters.getByRole('button', { name: '展开' })).toBeVisible()
+  await expect(filters.getByRole('button', { name: '收起' })).toBeVisible()
 
   const table = page.getByLabel('聚合分销订单表格')
   await expect(table).toContainText('订单号')
@@ -55,13 +71,14 @@ test('/statistics/distributionOrder renders the captured settlement report throu
 
 test('/statistics/distributionOrder supports captured expanded filters and query echo', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/distributionOrder'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock'))
 
   const filters = page.getByLabel('聚合分销订单筛选')
+  await filters.getByRole('button', { name: '收起' }).click()
   await filters.getByRole('button', { name: '展开' }).click()
   await expect(filters.getByRole('button', { name: '收起' })).toBeVisible()
-  await expect(page.getByLabel('预订开始日期')).toHaveValue('2026-05-01')
-  await expect(page.getByLabel('预订结束日期')).toHaveValue('2026-05-31')
+  await expect(page.getByLabel('预订开始日期')).toContainText('2026-05-01')
+  await expect(page.getByLabel('预订结束日期')).toContainText('2026-05-31')
   await expect(page.getByPlaceholder('请输入订单编号/预订人/手机号')).toBeVisible()
   await expect(filters.getByRole('button', { name: '订单筛选 请选择' })).toBeVisible()
 
@@ -78,49 +95,52 @@ test('/statistics/distributionOrder supports captured expanded filters and query
   await filters.getByRole('button', { name: '查询' }).click()
   await expect(page.getByRole('status')).toContainText('已查询聚合分销订单')
 
-  const servicePanel = page.getByLabel('聚合分销订单数据服务')
-  await expect(servicePanel).toContainText('keyword=205')
-  await expect(servicePanel).toContainText('settlementState=置换订单')
+  const servicePanel = serviceContract(page)
+  await expect.poll(() => getServiceContractText(page)).toContain('keyword=205')
+  await expect.poll(() => getServiceContractText(page)).toContain('settlementState=置换订单')
 })
 
 test('/statistics/distributionOrder exposes deterministic export, empty and error feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
-  await page.goto(appUrl('/statistics/distributionOrder'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock'))
   await page.getByRole('button', { name: '导出明细' }).click()
   await expect(page.getByRole('status')).toContainText('已生成聚合分销订单导出任务')
 
-  await page.goto(appUrl('/statistics/distributionOrder?mockState=empty'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock&mockState=empty'))
+  await expect.poll(() => getServiceContractText(page)).toContain('mockState=empty')
   await expect(page.getByText('当前条件暂无聚合分销订单')).toBeVisible()
   await expect(page.getByText('第 0-0 条/总共 0 条')).toBeVisible()
 
-  await page.goto(appUrl('/statistics/distributionOrder?mockState=error'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock&mockState=error'))
+  await expect.poll(() => getServiceContractText(page)).toContain('provider=mock')
   await expect(page.getByRole('alert')).toContainText('聚合分销订单服务暂不可用，请稍后重试')
   await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
 })
 
 test('/statistics/distributionOrder gives feedback for store scope and page-size controls', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/distributionOrder'))
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock'))
 
   const filters = page.getByLabel('聚合分销订单筛选')
   await filters.getByRole('button', { name: /天落会宿公寓/ }).click()
   await expect(page.getByRole('status')).toContainText('已刷新当前门店口径的聚合分销订单')
-  await expect(page.getByLabel('聚合分销订单数据服务')).toContainText('storeScope=current')
+  await expect.poll(() => getServiceContractText(page)).toContain('storeScope=current')
 
   await filters.getByRole('button', { name: '全部门店' }).click()
   await expect(page.getByRole('status')).toContainText('已刷新全部门店口径的聚合分销订单')
-  await expect(page.getByLabel('聚合分销订单数据服务')).toContainText('storeScope=all')
+  await expect.poll(() => getServiceContractText(page)).toContain('storeScope=all')
 
   await filters.getByRole('button', { name: '门店设置' }).click()
-  await expect(page.getByRole('status')).toContainText('门店范围设置已同步到当前聚合分销订单')
+  await expect(page).toHaveURL(/#\/InformationMaintenance\/campInfo/)
+  await page.goto(appUrl('/statistics/distributionOrder?provider=mock'))
 
   await page.getByRole('button', { name: '20 条/页' }).click()
   await expect(page.getByRole('status')).toContainText('当前每页展示 20 条聚合分销订单')
 
+  await filters.getByRole('button', { name: '收起' }).click()
   await filters.getByRole('button', { name: '展开' }).click()
   await page.getByLabel('预订开始日期').click()
-  await expect(page.getByRole('dialog', { name: '预订时间范围' })).toBeVisible()
-  await page.getByRole('button', { name: '本月' }).click()
-  await expect(page.getByRole('status')).toContainText('已定位到 2026-05 的预订时间范围')
+  await expect(page.getByRole('dialog', { name: '预订时间日期面板' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '2026-05-01' })).toBeVisible()
 })

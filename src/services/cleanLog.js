@@ -1,4 +1,4 @@
-export const CLEAN_LOG_ENDPOINT = 'https://hudson-prod.localhome.cn/cleanLog/page/get';
+export const CLEAN_LOG_ENDPOINT = '/api/cleanLog/page/get';
 export const CLEAN_LOG_MOCK_ENDPOINT = '/cleanManage/cleanLog/list';
 const TASK_ID = 'fangtai--baojie-guanli--baojie-rizhi';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
@@ -56,7 +56,7 @@ export function createCleanLogExportTask(query) {
 }
 export function resolveCleanLogProvider() {
     const configured = readRuntimeConfig('pms.cleanLogProvider') || import.meta.env.VITE_CLEAN_LOG_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function readCleanLogMockState() {
     const configured = readRuntimeConfig('pms.cleanLogMockState') || import.meta.env.VITE_CLEAN_LOG_MOCK_STATE;

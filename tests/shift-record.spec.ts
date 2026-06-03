@@ -3,13 +3,31 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const hashPath = `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${hashPath}` : hashPath
 }
+
+test.beforeEach(async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'shift-record-test-token')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '12001',
+        name: 'System Admin',
+        mobile: '13800000000',
+        roleName: 'Admin',
+        campName: 'Test Camp',
+      }),
+    )
+    window.localStorage.setItem('pms.shiftRecordProvider', 'mock')
+  })
+})
 
 test('/statistics/shift/record renders a usable success state with the shift record service contract', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/statistics/shift/record'))
 
   const pageRoot = page.locator('.shift-record-page')
@@ -55,7 +73,6 @@ test('/statistics/shift/record renders a usable success state with the shift rec
 })
 
 test('/statistics/shift/record supports query reset export detail and settings handoff', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/statistics/shift/record'))
 
   const currentStore = '1796425098638573570'
@@ -98,14 +115,12 @@ test('/statistics/shift/record supports query reset export detail and settings h
   await expect(page.getByLabel('接班人')).toHaveValue('all')
 
   await page.getByRole('button', { name: '设 置' }).click()
-  await expect(page).toHaveURL(/\/setting\/shiftSetting$/)
+  await expect(page).toHaveURL(/#\/setting\/shiftSetting$/)
   await expect(page.getByRole('link', { name: '交接班设置', exact: true })).toHaveClass(/is-active/)
   await expect(page.getByRole('region', { name: '班次设置' })).toBeVisible()
 })
 
 test('/statistics/shift/record exposes empty and error states as business feedback', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-
   await page.goto(appUrl('/statistics/shift/record?mockState=empty'))
   await expect(page.getByRole('status', { name: '交接班操作反馈' })).toContainText('当前筛选条件暂无交接班记录')
   await expect(page.getByLabel('交接班表格')).toContainText('暂无数据')

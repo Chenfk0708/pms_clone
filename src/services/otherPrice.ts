@@ -1,5 +1,5 @@
 export const otherPriceMockSourceLabel = '统一响应包 mock provider'
-export const otherPriceRealBaseUrl = 'https://hudson-prod.localhome.cn'
+export const otherPriceRealBaseUrl = '/api'
 
 export type OtherPriceProviderName = 'mock' | 'real'
 type OtherPriceMockMode = 'success' | 'empty' | 'error'

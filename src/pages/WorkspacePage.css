@@ -514,6 +514,42 @@
   font-size: 12px;
 }
 
+.workspace-memo-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workspace-memo-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #e7ecf4;
+  border-radius: 6px;
+  background: #fbfcff;
+  color: #24304a;
+  font-size: 13px;
+}
+
+.workspace-memo-list button {
+  border: 1px solid #d8e0ff;
+  border-radius: 999px;
+  background: #fff;
+  color: #2269df;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.workspace-memo-list strong {
+  color: #8b97ad;
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .workspace-home__empty.is-compact {
   min-height: 110px;
 }
@@ -1007,14 +1043,16 @@
 
 .workspace-traffic-group span {
   display: grid;
-  width: 31px;
+  min-width: 31px;
   height: 31px;
+  padding: 0 10px;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 999px;
   background: #ff7a38;
   color: #fff;
   font-size: 10px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .workspace-traffic-group span:nth-child(2n) {
@@ -1025,6 +1063,12 @@
 .workspace-traffic-group .is-muted {
   background: #d8dde6;
   color: #fff;
+}
+
+.workspace-traffic-group em {
+  color: #98a2b3;
+  font-size: 12px;
+  font-style: normal;
 }
 
 .workspace-traffic-card > p {

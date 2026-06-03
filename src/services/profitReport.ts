@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const HUDSON_BASE_URL = '/api'
 const DEFAULT_CAMP_ID = 'mock-camp-main'
 const EXPORT_EXCEL_MENU_ID = '1744634863299338249'
 const PROVIDER_STORAGE_KEY = 'pms.profitReport.provider'
@@ -9,6 +9,7 @@ export const profitReportStoreEndpoint = '/select/poi/page/get'
 export const profitReportRoomCategoryEndpoint = '/select/roomCategory/page/get'
 export const profitReportChannelEndpoint = '/select/calChannel4Order/get'
 export const profitReportRoomGroupEndpoint = '/roomCategoryGroups/get'
+export const profitReportExportEndpoint = '/statistics/profit-report/export'
 export const profitReportExportPath = '/api/statistics/profit-report/export'
 
 type ProviderMode = 'mock' | 'api'
@@ -247,7 +248,7 @@ export function resolveProfitReportProvider(): ProviderMode {
     (import.meta.env.VITE_PMS_PROFIT_REPORT_PROVIDER as string | undefined) ??
     'mock'
 
-  return rawProvider === 'api' ? 'api' : 'mock'
+  return rawProvider === 'api' || rawProvider === 'real' ? 'api' : 'mock'
 }
 
 export async function fetchProfitReportDashboard(
@@ -267,12 +268,17 @@ export async function createProfitReportExportTask(filters: ProfitReportFilters)
   const requestBody = createProfitReportExportRequestBody(filters)
 
   if (resolveProfitReportProvider() === 'api') {
-    const payload = await postHudson<string | null>(profitReportEndpoint, requestBody)
+    const payload = asRecord(await postHudson<unknown>(profitReportExportEndpoint, requestBody))
+    const taskId = String(payload.taskId ?? '').trim()
+    if (!taskId) {
+      throw new Error('?????????? taskId')
+    }
+
     return {
-      taskId: `PROFIT-EXPORT-${String(Date.now()).slice(-6)}`,
+      taskId,
       path: profitReportExportPath,
       requestBody,
-      downloadUrl: typeof payload === 'string' ? payload : undefined,
+      downloadUrl: typeof payload.downloadUrl === 'string' ? payload.downloadUrl : undefined,
     }
   }
 

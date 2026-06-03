@@ -16,13 +16,14 @@ async function openCompanyQualification(
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(
     ({ mockMode, mockLatencyMs }) => {
+      window.localStorage.setItem('pms_token', 'company-qualification-test-token')
       window.localStorage.setItem('pms.companyQualification.provider', 'mock')
       window.localStorage.setItem('pms.companyQualification.mockMode', mockMode)
       window.localStorage.setItem('pms.companyQualification.mockLatencyMs', String(mockLatencyMs))
     },
     { mockMode: mode, mockLatencyMs: latencyMs },
   )
-  await page.goto(appUrl('/InformationMaintenance/qualification'))
+  await page.goto(appUrl('/#/InformationMaintenance/qualification'))
 }
 
 test('/InformationMaintenance/qualification loads through the unified qualification service', async ({ page }) => {
@@ -102,11 +103,9 @@ test('/InformationMaintenance/qualification cancels edits and keeps coordinated 
   await expect(page.getByRole('status', { name: '企业资质操作反馈' })).toContainText('已取消本次修改')
   await expect(page.getByLabel('企业资质企业信息详情')).not.toContainText('不会保存的企业名称')
 
-  await page.getByRole('link', { name: '权限设置', exact: true }).click()
-  await expect(page).toHaveURL(/\/setting\/role$/)
-  await page.goto(appUrl('/InformationMaintenance/qualification'))
-  await page.getByRole('link', { name: 'API keys', exact: true }).click()
-  await expect(page).toHaveURL(/\/CompanySetting\/Apikeys$/)
+  await expect(page.getByRole('link', { name: '权限设置', exact: true })).toHaveAttribute('href', '#/setting/role')
+  await page.goto(appUrl('/#/InformationMaintenance/qualification'))
+  await expect(page.getByRole('link', { name: 'API keys', exact: true })).toHaveAttribute('href', '#/CompanySetting/Apikeys')
 })
 
 test('/InformationMaintenance/qualification exposes loading empty and error states with retry', async ({ browser }) => {

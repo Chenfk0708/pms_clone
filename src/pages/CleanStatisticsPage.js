@@ -1,5 +1,5 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useSyncExternalStore, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createCleanStatisticsExportTask, fetchCleanStatisticsDashboard, getCurrentMonthRange, getDefaultCleanStatisticsFilters, } from '../services/cleanStatistics';
 import './CleanStatisticsPage.css';
@@ -11,6 +11,7 @@ function FieldMultiSelect({ label, placeholder, options, selected, open, onToggl
 }
 export function CleanStatisticsPage() {
     const navigate = useNavigate();
+    const routeKey = useRouteSearchKey();
     const [tab, setTab] = useState('summary');
     const [storeId, setStoreId] = useState(defaultFilters.storeId ?? 'all');
     const [range, setRange] = useState(initialRange);
@@ -23,9 +24,9 @@ export function CleanStatisticsPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [dialog, setDialog] = useState(null);
     const [lastRequestBody, setLastRequestBody] = useState({});
-    const initialLoadRef = useRef(false);
-    const campId = useMemo(() => resolveCampId(), []);
-    const mockState = useMemo(() => resolveMockState(), []);
+    const [exportTask, setExportTask] = useState(null);
+    const campId = useMemo(() => resolveCampId(), [routeKey]);
+    const mockState = useMemo(() => resolveMockState(), [routeKey]);
     const summaryRows = dashboard?.statistics.rows ?? [];
     const detailRows = dashboard?.statistics.detailRows ?? [];
     const metrics = dashboard?.statistics.metrics ?? [];
@@ -63,9 +64,6 @@ export function CleanStatisticsPage() {
         }
     }, [buildFilters, range]);
     useEffect(() => {
-        if (initialLoadRef.current)
-            return undefined;
-        initialLoadRef.current = true;
         let cancelled = false;
         queueMicrotask(() => {
             if (!cancelled)
@@ -74,7 +72,9 @@ export function CleanStatisticsPage() {
         return () => {
             cancelled = true;
         };
-    }, [loadStatistics, range]);
+        // 只用于首次进入和路由查询参数变化时加载；普通筛选变更由“查询/重置”显式触发，避免覆盖操作反馈。
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [campId, mockState]);
     function toggleOption(kind, optionId) {
         const updater = kind === 'room' ? setRooms : setCleaners;
         updater((current) => (current.includes(optionId) ? current.filter((item) => item !== optionId) : [...current, optionId]));
@@ -90,9 +90,10 @@ export function CleanStatisticsPage() {
     }
     async function exportStatistics() {
         const task = await createCleanStatisticsExportTask(buildFilters());
+        setExportTask(task);
         setStatus(`导出任务已创建：${task.taskId}`);
     }
-    return (_jsxs("div", { className: "clean-stat-page", "data-clean-request": JSON.stringify(lastRequestBody), children: [_jsx("div", { className: "clean-stat-title", children: "\u4FDD\u6D01\u7EDF\u8BA1" }), _jsxs("section", { className: "clean-stat-shell", children: [_jsxs("div", { className: "clean-stat-tabs", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u89C6\u56FE", children: [_jsx("button", { type: "button", className: tab === 'summary' ? 'is-active' : '', onClick: () => setTab('summary'), children: "\u7EDF\u8BA1\u6C47\u603B" }), _jsx("button", { type: "button", className: tab === 'detail' ? 'is-active' : '', onClick: () => setTab('detail'), children: "\u7EDF\u8BA1\u660E\u7EC6" }), _jsx("button", { type: "button", className: "clean-stat-help", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u8BF4\u660E", onClick: () => setDialog({ type: 'help' }), children: "?" })] }), _jsxs("section", { className: "clean-stat-toolbar", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u7B5B\u9009", children: [_jsxs("div", { className: "clean-stat-row", children: [_jsxs("div", { className: "clean-stat-store", role: "group", "aria-label": "\u95E8\u5E97\u7B5B\u9009", children: [stores.map((item) => (_jsx("button", { type: "button", className: storeId === item.id ? 'is-active' : '', onClick: () => {
+    return (_jsxs("div", { className: "clean-stat-page", "data-clean-request": JSON.stringify(lastRequestBody), "data-clean-export": exportTask ? JSON.stringify(exportTask) : '', children: [_jsx("div", { className: "clean-stat-title", children: "\u4FDD\u6D01\u7EDF\u8BA1" }), _jsxs("section", { className: "clean-stat-shell", children: [_jsxs("div", { className: "clean-stat-tabs", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u89C6\u56FE", children: [_jsx("button", { type: "button", className: tab === 'summary' ? 'is-active' : '', onClick: () => setTab('summary'), children: "\u7EDF\u8BA1\u6C47\u603B" }), _jsx("button", { type: "button", className: tab === 'detail' ? 'is-active' : '', onClick: () => setTab('detail'), children: "\u7EDF\u8BA1\u660E\u7EC6" }), _jsx("button", { type: "button", className: "clean-stat-help", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u8BF4\u660E", onClick: () => setDialog({ type: 'help' }), children: "?" })] }), _jsxs("section", { className: "clean-stat-toolbar", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u7B5B\u9009", children: [_jsxs("div", { className: "clean-stat-row", children: [_jsxs("div", { className: "clean-stat-store", role: "group", "aria-label": "\u95E8\u5E97\u7B5B\u9009", children: [stores.map((item) => (_jsx("button", { type: "button", className: storeId === item.id ? 'is-active' : '', onClick: () => {
                                                     setStoreId(item.id);
                                                     setStatus(`已切换门店：${item.label}`);
                                                 }, children: item.id === 'qianhai' ? '天落会宿…' : item.label }, item.id))), _jsx("button", { type: "button", className: "clean-stat-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/cleanManage/cleanSetting'), children: "\u2699" })] }), _jsxs("label", { className: "clean-stat-date", children: [_jsx("span", { children: "\u65E5\u671F\uFF1A" }), _jsx("button", { type: "button", className: "clean-stat-month is-active", onClick: () => {
@@ -124,12 +125,28 @@ function CleanStatisticsDialog({ dialog, onClose }) {
     return (_jsx("div", { className: "clean-stat-modal-backdrop", children: _jsxs("section", { className: "clean-stat-modal", role: "dialog", "aria-label": "\u4FDD\u6D01\u660E\u7EC6", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u4FDD\u6D01\u660E\u7EC6" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u660E\u7EC6", onClick: onClose, children: "\u00D7" })] }), _jsxs("p", { children: [dialog.detail.id, "\uFF1A", dialog.detail.roomName, "\uFF0C", dialog.detail.cleanerName, "\uFF0C", dialog.detail.cleanType, "\uFF0C", dialog.detail.status] })] }) }));
 }
 function resolveCampId() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('campId') || window.localStorage.getItem('pmsCampId') || import.meta.env.VITE_PMS_CAMP_ID || defaultFilters.campId;
+    return readRouteParam('campId') || window.localStorage.getItem('pmsCampId') || import.meta.env.VITE_PMS_CAMP_ID || defaultFilters.campId;
 }
 function resolveMockState() {
-    const state = new URLSearchParams(window.location.search).get('cleanMockState');
+    const state = readRouteParam('cleanMockState');
     return state === 'empty' || state === 'error' ? state : 'success';
+}
+function readRouteParam(key) {
+    const searchValue = new URLSearchParams(window.location.search).get(key);
+    if (searchValue)
+        return searchValue;
+    const hashQuery = window.location.hash.split('?')[1] ?? '';
+    return new URLSearchParams(hashQuery).get(key);
+}
+function useRouteSearchKey() {
+    return useSyncExternalStore((notify) => {
+        window.addEventListener('hashchange', notify);
+        window.addEventListener('popstate', notify);
+        return () => {
+            window.removeEventListener('hashchange', notify);
+            window.removeEventListener('popstate', notify);
+        };
+    }, () => `${window.location.search}|${window.location.hash}`);
 }
 function getPreviousMonthRange(currentStart) {
     const date = new Date(`${currentStart}T00:00:00+08:00`);

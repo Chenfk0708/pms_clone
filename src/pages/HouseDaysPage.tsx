@@ -34,6 +34,21 @@ type DayRoomActionAnchor = {
   room: HouseDaysRoomCard
 }
 
+function getRoomBookings(room: HouseDaysRoomCard) {
+  if (room.bookings?.length) return room.bookings
+  return room.booking ? [room.booking] : []
+}
+
+function renderRoomBookings(room: HouseDaysRoomCard) {
+  return getRoomBookings(room).map((booking, index) => (
+    <div key={`${room.id}-booking-${index}`} className="day-room-booking">
+      <strong>{booking.guest}</strong>
+      <span>{booking.channel}</span>
+      <span>{booking.price}</span>
+    </div>
+  ))
+}
+
 function buildRoomTypeSummaryCards(rooms: HouseDaysRoomCard[]): RoomTypeSummaryCard[] {
   const grouped = new Map<string, RoomTypeSummaryCard>()
 
@@ -148,13 +163,7 @@ function RoomNumberView({
           >
             <strong>{room.roomName}</strong>
             <span>{room.roomType}</span>
-            {room.booking ? (
-              <div className="day-room-booking">
-                <strong>{room.booking.guest}</strong>
-                <span>{room.booking.channel}</span>
-                <span>{room.booking.price}</span>
-              </div>
-            ) : null}
+            {renderRoomBookings(room)}
             {room.hasTag ? <b aria-label="备注标签">●</b> : null}
           </article>
         </section>
@@ -255,13 +264,7 @@ function RoomTypeView({
               >
                 <strong>{room.roomName}</strong>
                 <span>{room.roomType}</span>
-                {room.booking ? (
-                  <div className="day-room-booking">
-                    <strong>{room.booking.guest}</strong>
-                    <span>{room.booking.channel}</span>
-                    <span>{room.booking.price}</span>
-                  </div>
-                ) : null}
+                {renderRoomBookings(room)}
                 {room.hasTag ? <b aria-label="备注标签">●</b> : null}
               </article>
             ))}

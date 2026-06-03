@@ -79,7 +79,7 @@ type HudsonResponse<T> = {
   errorCode?: string | null
 }
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const productListEndpoint = '/roomCategoryProducts/page/get'
 
 const mockRoomTypes: HotelProductOption[] = [

@@ -9,7 +9,7 @@ export const APPLICATION_PAYMENT_TYPES_V2_PATH = '/paymentTypes/get/v2'
 export const APPLICATION_PAYMENT_WEI_ROOM_CATEGORY_PATH = '/weiRoomCategories/page/get'
 export const APPLICATION_PAYMENT_ROOMS_PATH = '/rooms/get'
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const defaultCampId = '1796067693589061634'
 const detailBuyCampId = '64'
 const defaultExpiryDate = '2027-09-28'
@@ -749,10 +749,11 @@ const detailDefinitions: Record<ApplicationPaymentProductId, ApplicationPaymentD
 export function createDefaultApplicationPaymentFilters(
   searchParams = new URLSearchParams(),
 ): ApplicationPaymentFilters {
+  const params = readApplicationPaymentSearchParams(searchParams)
   return {
-    category: toCategory(searchParams.get('applicationPaymentCategory')),
-    mockState: toMockState(searchParams.get('applicationPaymentMockState')),
-    campId: searchParams.get('campId')?.trim() || defaultCampId,
+    category: toCategory(params.get('applicationPaymentCategory')),
+    mockState: toMockState(params.get('applicationPaymentMockState')),
+    campId: resolveApplicationPaymentCampId(params),
   }
 }
 
@@ -760,10 +761,11 @@ export function createDefaultApplicationPaymentDetailRequest(
   searchParams = new URLSearchParams(),
   routeState?: { product?: string } | null,
 ): ApplicationPaymentDetailRequest {
+  const params = readApplicationPaymentSearchParams(searchParams)
   return {
-    productId: resolveDetailProductId(searchParams, routeState),
-    mockState: toMockState(searchParams.get('applicationPaymentDetailMockState')),
-    campId: searchParams.get('campId')?.trim() || defaultCampId,
+    productId: resolveDetailProductId(params, routeState),
+    mockState: toMockState(params.get('applicationPaymentDetailMockState')),
+    campId: resolveApplicationPaymentCampId(params),
   }
 }
 
@@ -776,9 +778,50 @@ export function buildApplicationPaymentRequest(filters: ApplicationPaymentFilter
 }
 
 export function getApplicationPaymentProviderName(): ApplicationPaymentProviderName {
-  if (typeof window === 'undefined') return 'mock'
-  const configured = window.localStorage.getItem(APPLICATION_PAYMENT_PROVIDER_KEY)?.trim()
-  return configured === 'api' ? 'api' : 'mock'
+  if (typeof window === 'undefined') return 'api'
+  const params = readApplicationPaymentSearchParams()
+  const configured =
+    params.get('provider') ||
+    params.get('applicationPaymentProvider') ||
+    window.localStorage.getItem(APPLICATION_PAYMENT_PROVIDER_KEY)?.trim() ||
+    (import.meta.env.VITE_APPLICATION_PAYMENT_PROVIDER as string | undefined) ||
+    'api'
+  if (configured === 'api' || configured === 'real') return 'api'
+  if (configured === 'mock') return 'mock'
+  throw new Error(`应用订阅数据源配置无效：${configured}`)
+}
+
+function readApplicationPaymentSearchParams(baseParams = new URLSearchParams()) {
+  const params = new URLSearchParams(baseParams)
+  if (typeof window === 'undefined') return params
+
+  new URLSearchParams(window.location.search).forEach((value, key) => {
+    if (!params.has(key)) params.set(key, value)
+  })
+
+  const hashQuery = window.location.hash.split('?')[1]
+  if (hashQuery) {
+    new URLSearchParams(hashQuery).forEach((value, key) => {
+      if (!params.has(key)) params.set(key, value)
+    })
+  }
+
+  return params
+}
+
+function resolveApplicationPaymentCampId(params: URLSearchParams) {
+  return (
+    params.get('campId')?.trim() ||
+    readRuntimeValue('pmsCampId') ||
+    readRuntimeValue('pms.currentCampId') ||
+    (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) ||
+    defaultCampId
+  )
+}
+
+function readRuntimeValue(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
 }
 
 export async function fetchApplicationPaymentDashboard(

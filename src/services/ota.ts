@@ -63,6 +63,7 @@ export type OtaChannelAuthorizationNotice = {
 
 export type OtaChannel = {
   id: string
+  accountId?: string
   name: string
   relation: string
   status: 'connected' | 'pending'
@@ -178,6 +179,73 @@ type UnifiedEnvelope<T> = {
 
 type OtaDashboardPayload = Omit<OtaDashboard, 'filters' | 'provider' | 'traceId' | 'request'>
 type OtaLogPayload = Omit<OtaLogResult, 'filters' | 'provider' | 'traceId' | 'request'>
+type HudsonResponse<T> = {
+  success?: boolean
+  code?: number
+  message?: string
+  data?: T
+  traceId?: string
+  timestamp?: string
+  errorMsg?: string | null
+  errorCode?: string | null
+}
+
+type RealOtaSummary = {
+  totalAccounts?: number
+  authorizedAccounts?: number
+  linkedPois?: number
+  linkedRoomCategories?: number
+}
+
+type RealOtaAccount = {
+  accountId?: string
+  channelId?: string
+  channelName?: string
+  accountName?: string
+  outAccountId?: string
+  status?: string
+  authorizedAt?: string
+  expiredAt?: string | null
+}
+
+type RealOtaChannel = OtaChannel & {
+  accountId?: string
+}
+
+type RealOtaDashboardPayload = Partial<OtaDashboardPayload> & {
+  summary?: RealOtaSummary
+  accounts?: RealOtaAccount[]
+}
+
+type RealOtaPoiRel = {
+  id?: string
+  poiId?: string
+  poiName?: string
+  outPoiId?: string
+  syncStatus?: string
+}
+
+type RealOtaRoomCategoryRel = {
+  id?: string
+  roomCategoryId?: string
+  roomCategoryName?: string
+  outRoomCategoryId?: string
+  projectType?: string
+  shelfStatus?: string
+  auditStatus?: string
+}
+
+type RealOtaChannelDetailPayload = Partial<OtaChannelDetailView> & {
+  account?: RealOtaAccount | null
+  pois?: RealOtaPoiRel[]
+  roomCategories?: RealOtaRoomCategoryRel[]
+}
+
+const realBaseUrl = '/api'
+const otaDashboardEndpoint = '/ota/dashboard/get'
+const otaChannelDetailEndpoint = '/ota/channel/detail/get'
+const otaLogPageEndpoint = '/ota/log/page/get'
+const defaultCampId = '10001'
 
 const stores: OtaOption[] = [
   { value: 'all', label: '全部门店' },
@@ -578,7 +646,7 @@ export async function fetchOtaDashboard(
   providerName = getOtaProviderName(),
 ): Promise<OtaDashboard> {
   validateDate(filters.businessDate, '业务日期格式不正确')
-  if (providerName === 'api') throw new Error('OTA 数据加载失败，请稍后重试')
+  if (providerName === 'api') return fetchRealOtaDashboard(filters)
   const envelope = await fetchMockOtaDashboard(filters)
   return adaptDashboardEnvelope(envelope, filters, providerName)
 }
@@ -588,7 +656,7 @@ export async function fetchOtaOperationLogs(
   providerName = getOtaProviderName(),
 ): Promise<OtaLogResult> {
   validatePagination(filters.page, filters.pageSize)
-  if (providerName === 'api') throw new Error('OTA 操作日志加载失败，请稍后重试')
+  if (providerName === 'api') return fetchRealOtaOperationLogs(filters)
   const envelope = await fetchMockOtaOperationLogs(filters)
   return adaptLogEnvelope(envelope, filters, providerName)
 }
@@ -597,14 +665,14 @@ export async function fetchOtaChannelDetail(
   channelId: string,
   providerName = getOtaProviderName(),
 ): Promise<OtaChannelDetailView> {
-  if (providerName === 'api') throw new Error('OTA 渠道详情加载失败，请稍后重试')
+  if (providerName === 'api') return fetchRealOtaChannelDetail(channelId)
   await delay(100)
   return structuredClone(channelDetailMap[channelId] ?? channelDetailMap.ctrip)
 }
 
 function getOtaProviderName(): OtaProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(OTA_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(OTA_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 async function fetchMockOtaDashboard(filters: OtaFilters): Promise<UnifiedEnvelope<OtaDashboardPayload>> {
@@ -649,6 +717,127 @@ async function fetchMockOtaOperationLogs(filters: OtaLogFilters): Promise<Unifie
   }
 }
 
+async function fetchRealOtaDashboard(filters: OtaFilters): Promise<OtaDashboard> {
+  const { data, traceId, timestamp } = await postHudson<RealOtaDashboardPayload>(otaDashboardEndpoint, {
+    campId: resolveCampId(),
+    businessDate: filters.businessDate,
+    storeId: filters.storeId,
+    dimension: filters.dimension,
+  })
+  const payload = adaptRealDashboardPayload(data, filters)
+  return {
+    ...payload,
+    filters,
+    provider: 'api',
+    traceId,
+    request: {
+      businessDate: filters.businessDate,
+      storeId: filters.storeId,
+      dimension: filters.dimension,
+    },
+    updatedAt: timestamp,
+  }
+}
+
+async function fetchRealOtaOperationLogs(filters: OtaLogFilters): Promise<OtaLogResult> {
+  const { data, traceId } = await postHudson<OtaLogPayload>(otaLogPageEndpoint, {
+    campId: resolveCampId(),
+    channelId: filters.channelId,
+    keyword: filters.keyword,
+    operator: filters.operator,
+    operationType: filters.operationType,
+    operationStatus: filters.operationStatus,
+    page: filters.page,
+    pageSize: filters.pageSize,
+  })
+
+  return {
+    channelOptions: asOptions(data.channelOptions, channelOptions),
+    operationTypeOptions: asOptions(data.operationTypeOptions, operationTypeOptions),
+    operationStatusOptions: asOptions(data.operationStatusOptions, operationStatusOptions),
+    rows: Array.isArray(data.rows) ? data.rows : [],
+    pagination: {
+      page: readNumber(data.pagination?.page, filters.page),
+      pageSize: readNumber(data.pagination?.pageSize, filters.pageSize),
+      total: readNumber(data.pagination?.total, 0),
+    },
+    filters,
+    provider: 'api',
+    traceId,
+    request: {
+      channelId: filters.channelId,
+      keyword: filters.keyword,
+      operator: filters.operator,
+      operationType: filters.operationType,
+      operationStatus: filters.operationStatus,
+      page: filters.page,
+      pageSize: filters.pageSize,
+    },
+  }
+}
+
+async function fetchRealOtaChannelDetail(channelId: string): Promise<OtaChannelDetailView> {
+  const normalizedChannelId = normalizeChannelKey(parseChannelKeyFromParam(channelId))
+  const requestBody: Record<string, unknown> = {
+    campId: resolveCampId(),
+    channelId: normalizedChannelId,
+  }
+  const channelAccountId = parseAccountIdFromChannelParam(channelId)
+  if (channelAccountId) {
+    requestBody.accountId = channelAccountId
+  } else {
+    const accountId = await tryResolveAccountIdByChannel(normalizedChannelId)
+    if (accountId) requestBody.accountId = accountId
+  }
+
+  const { data } = await postHudson<RealOtaChannelDetailPayload>(otaChannelDetailEndpoint, requestBody)
+  return adaptRealChannelDetailPayload(data, normalizedChannelId)
+}
+
+async function tryResolveAccountIdByChannel(channelId: string): Promise<string | null> {
+  const { data } = await postHudson<RealOtaDashboardPayload>(otaDashboardEndpoint, {
+    campId: resolveCampId(),
+    businessDate: createDefaultOtaFilters().businessDate,
+    storeId: 'all',
+    dimension: 'all',
+  })
+  const account = (data.accounts ?? []).find((item) => resolveRealAccountChannelKey(item) === channelId)
+  return account?.accountId ?? null
+}
+
+async function postHudson<T>(
+  endpoint: string,
+  body: Record<string, unknown>,
+): Promise<{ data: T; traceId: string; timestamp: string }> {
+  const response = await fetch(`${realBaseUrl}${endpoint}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  let payload: HudsonResponse<T> | null
+  try {
+    payload = (await response.json()) as HudsonResponse<T>
+  } catch {
+    payload = null
+  }
+
+  if (!response.ok || payload?.success === false || (payload?.code !== undefined && payload.code !== 0)) {
+    throw new Error(payload?.errorMsg ?? payload?.message ?? payload?.errorCode ?? `${endpoint} 返回 HTTP ${response.status}`)
+  }
+
+  if (!payload || payload.data === undefined || payload.data === null) {
+    throw new Error(`${endpoint} 响应缺少 data 字段`)
+  }
+
+  return {
+    data: payload.data,
+    traceId: payload.traceId ?? `api-${endpoint.replaceAll('/', '-')}`,
+    timestamp: payload.timestamp ?? new Date().toISOString(),
+  }
+}
+
 function adaptDashboardEnvelope(
   envelope: UnifiedEnvelope<OtaDashboardPayload>,
   filters: OtaFilters,
@@ -688,6 +877,199 @@ function adaptLogEnvelope(
       page: filters.page,
       pageSize: filters.pageSize,
     },
+  }
+}
+
+function adaptRealDashboardPayload(data: RealOtaDashboardPayload, filters: OtaFilters): OtaDashboardPayload {
+  if (Array.isArray(data.connectedChannels) || Array.isArray(data.pendingChannels)) {
+    const connectedChannels = asChannels(data.connectedChannels).map(normalizeChannelFromApi)
+    const pendingChannels = asChannels(data.pendingChannels).map(normalizeChannelFromApi)
+    return {
+      stores: asOptions(data.stores, stores),
+      dimensions: asOptions(data.dimensions, dimensions),
+      metrics: asMetrics(data.metrics),
+      connectedChannels: filters.dimension === 'pending' ? [] : connectedChannels,
+      pendingChannels: filters.dimension === 'connected' ? [] : pendingChannels,
+      reminders: data.reminders ?? [],
+      quickLinks: data.quickLinks ?? [{ id: 'operation-log', label: '操作日志', route: '/channels/ota/log' }],
+      updatedAt: data.updatedAt ?? new Date().toISOString(),
+    }
+  }
+
+  const accounts = data.accounts ?? []
+  const allChannels = accounts.map(adaptRealAccountToChannel)
+  const connected = filters.dimension === 'pending' ? [] : allChannels.filter((channel) => channel.status === 'connected')
+  const pending = filters.dimension === 'connected' ? [] : allChannels.filter((channel) => channel.status === 'pending')
+  const linkedRoomCategories = readNumber(data.summary?.linkedRoomCategories, connected.reduce((sum, item) => sum + item.mappedRoomTypeCount, 0))
+  const totalAccounts = readNumber(data.summary?.totalAccounts, accounts.length)
+  const authorizedAccounts = readNumber(data.summary?.authorizedAccounts, connected.length)
+
+  return {
+    stores,
+    dimensions,
+    metrics: [
+      { key: 'connected', label: '已直连', value: String(authorizedAccounts), detail: '可同步房型、价格、库存' },
+      { key: 'pending', label: '未直连', value: String(Math.max(totalAccounts - authorizedAccounts, 0)), detail: '可发起授权或渠道申请' },
+      { key: 'roomTypes', label: '关联房型', value: String(linkedRoomCategories), detail: '后端渠道房型映射数' },
+      { key: 'sync', label: '最近同步', value: latestAuthorizedAt(accounts), detail: '渠道授权或同步时间' },
+    ],
+    connectedChannels: connected,
+    pendingChannels: pending,
+    reminders: [],
+    quickLinks: [{ id: 'operation-log', label: '操作日志', route: '/channels/ota/log' }],
+    updatedAt: new Date().toISOString(),
+  }
+}
+
+function adaptRealAccountToChannel(account: RealOtaAccount): OtaChannel {
+  const status: OtaChannel['status'] = account.status === 'authorized' ? 'connected' : 'pending'
+  const name = displayChannelName(account.channelName || account.accountName || account.channelId || account.accountId || 'OTA渠道')
+  const id = resolveRealAccountChannelKey(account)
+  const roomTypeCount = status === 'connected' ? 1 : 0
+  const mappedRoomTypeCount = status === 'connected' ? 1 : 0
+
+  return {
+    id,
+    accountId: account.accountId,
+    name,
+    relation: status === 'connected' ? `关联房型 ${mappedRoomTypeCount}/${roomTypeCount}` : '等待授权',
+    status,
+    roomTypeCount,
+    mappedRoomTypeCount,
+    lastSyncAt: status === 'connected' ? account.authorizedAt || '-' : '-',
+    logoText: logoText(name),
+    detail: `${name} / ${account.accountName || account.outAccountId || account.accountId || '已接入账号'}`,
+    authorizationNotice: createAuthorizationNotice(id, name, status),
+  }
+}
+
+function adaptRealChannelDetailPayload(data: RealOtaChannelDetailPayload, fallbackChannelId: string): OtaChannelDetailView {
+  if (Array.isArray(data.roomRows) || Array.isArray(data.storeRows)) {
+    return {
+      id: data.id || fallbackChannelId,
+      channelName: data.channelName || displayChannelName(fallbackChannelId),
+      title: data.title || data.channelName || displayChannelName(fallbackChannelId),
+      description: data.description || `${data.channelName || displayChannelName(fallbackChannelId)}已接入，可在下方门店管理添加渠道门店，或进行同步房型操作。`,
+      logoText: data.logoText || logoText(data.channelName || fallbackChannelId),
+      logoTone: data.logoTone || logoTone(data.channelName || fallbackChannelId),
+      noticeText: data.noticeText || '房型关联后请核对渠道佣金、库存和价格，避免渠道侧售卖规则与本地房态不一致；',
+      noticeLinkLabel: data.noticeLinkLabel,
+      channelStoreOptions: asOptions(data.channelStoreOptions, [{ value: 'all', label: '全部' }]),
+      accountOptions: asOptions(data.accountOptions, [{ value: 'all', label: '全部' }]),
+      statusOptions: asOptions(data.statusOptions, detailStatusOptions),
+      roomRows: data.roomRows ?? [],
+      storeRows: data.storeRows ?? [],
+      syncStoreNotice: data.syncStoreNotice ?? {
+        title: `开通${data.channelName || displayChannelName(fallbackChannelId)}`,
+        paragraphs: ['1. 同步门店前请确认渠道账号授权已完成', '2. 建议先核对房型映射，再进行库存和价格同步'],
+      },
+      syncStoreDefaults: data.syncStoreDefaults ?? {
+        hotelSubtype: 'prepay',
+        subHotelId: '',
+        hotelName: '',
+      },
+    }
+  }
+
+  const account = data.account ?? {}
+  const channelName = displayChannelName(account.channelName || account.accountName || fallbackChannelId)
+  const roomRows = (data.roomCategories ?? []).map((row) => adaptRealRoomRow(row, data.pois?.[0]))
+  const storeRows = (data.pois ?? []).map((row) => adaptRealStoreRow(row, account, roomRows.length))
+  const channelStoreOptions = [
+    { value: 'all', label: '全部' },
+    ...storeRows.map((row) => ({ value: row.channelStoreId, label: row.channelStoreName })),
+  ]
+  const accountOptions = [
+    { value: 'all', label: '全部' },
+    { value: account.accountId || 'main', label: account.accountName || channelName },
+  ]
+
+  return {
+    id: normalizeChannelKey(account.channelName || account.channelId || fallbackChannelId),
+    channelName,
+    title: channelName,
+    description: `${channelName}已接入，可在下方门店管理添加渠道门店，或进行同步房型操作。`,
+    logoText: logoText(channelName),
+    logoTone: logoTone(channelName),
+    noticeText: '房型关联后请核对渠道佣金、库存和价格，避免渠道侧售卖规则与本地房态不一致；',
+    noticeLinkLabel: '去修改佣金率',
+    channelStoreOptions: dedupeOptions(channelStoreOptions),
+    accountOptions: dedupeOptions(accountOptions),
+    statusOptions: detailStatusOptions,
+    roomRows,
+    storeRows,
+    syncStoreNotice: {
+      title: `开通${channelName}`,
+      paragraphs: ['1. 同步门店前请确认渠道账号授权已完成', '2. 建议先核对房型映射，再进行库存和价格同步'],
+    },
+    syncStoreDefaults: {
+      hotelSubtype: 'prepay',
+      subHotelId: '',
+      hotelName: '',
+    },
+  }
+}
+
+function asChannels(value: unknown): OtaChannel[] {
+  return Array.isArray(value) ? (value as RealOtaChannel[]) : []
+}
+
+function asOptions(value: unknown, fallback: OtaOption[]): OtaOption[] {
+  return Array.isArray(value) ? (value as OtaOption[]) : fallback
+}
+
+function asMetrics(value: unknown): OtaMetric[] {
+  return Array.isArray(value) ? (value as OtaMetric[]) : []
+}
+
+function normalizeChannelFromApi(channel: OtaChannel): OtaChannel {
+  const id = normalizeChannelKey(channel.id || channel.name)
+  const name = displayChannelName(channel.name || id)
+  return {
+    ...channel,
+    id,
+    accountId: channel.accountId,
+    name,
+    logoText: channel.logoText || logoText(name),
+    authorizationNotice: channel.authorizationNotice ?? createAuthorizationNotice(id, name, channel.status),
+  }
+}
+
+function parseAccountIdFromChannelParam(channelId: string): string | null {
+  if (channelId.startsWith('account:')) return channelId.slice('account:'.length) || null
+  if (channelId.includes('|account:')) return channelId.split('|account:')[1] || null
+  return null
+}
+
+function parseChannelKeyFromParam(channelId: string): string {
+  return channelId.includes('|account:') ? channelId.split('|account:')[0] : channelId
+}
+
+function adaptRealRoomRow(row: RealOtaRoomCategoryRel, poi?: RealOtaPoiRel): OtaDetailRoomRow {
+  const linked = row.shelfStatus === 'on_shelf' && row.auditStatus === 'approved'
+  return {
+    id: row.id || row.roomCategoryId || row.outRoomCategoryId || 'real-room',
+    channelStoreId: poi?.poiId || 'all',
+    channelStoreName: poi?.poiName || '全部门店',
+    channelRoomType: row.outRoomCategoryId || row.roomCategoryName || '-',
+    status: linked ? 'linked' : 'unlinked',
+    statusLabel: linked ? '已关联' : '未关联',
+    linkedRoomType: linked ? row.roomCategoryName || '-' : '-',
+  }
+}
+
+function adaptRealStoreRow(row: RealOtaPoiRel, account: RealOtaAccount, roomTypeCount: number): OtaDetailStoreRow {
+  const linked = row.syncStatus === 'success'
+  return {
+    id: row.id || row.poiId || 'real-store',
+    accountId: account.accountId || 'main',
+    channelStoreId: row.poiId || 'all',
+    channelStoreName: row.poiName || row.outPoiId || '渠道门店',
+    hotelType: '预付',
+    hotelId: row.outPoiId || '-',
+    relatedRoomTypeSummary: `${roomTypeCount}/${roomTypeCount}`,
+    status: linked ? 'linked' : 'unlinked',
+    statusLabel: linked ? '已关联' : '未关联',
   }
 }
 
@@ -877,6 +1259,77 @@ function applyStoreRelation(channel: OtaChannel, storeId: string): OtaChannel {
   }
 }
 
+function resolveCampId(fallback = defaultCampId) {
+  if (typeof window === 'undefined') return fallback
+  const configured =
+    window.localStorage.getItem('pmsCampId')?.trim() ||
+    window.localStorage.getItem('pms.currentCampId')?.trim() ||
+    window.localStorage.getItem('pms.campId')?.trim()
+  return configured || fallback
+}
+
+function normalizeChannelKey(value: string) {
+  const normalized = value.toLowerCase().trim()
+  if (normalized.includes('携程') || normalized.includes('ctrip') || normalized === '2' || normalized === '5') return 'ctrip'
+  if (normalized.includes('美团') || normalized.includes('meituan') || normalized === '1') return 'meituan-hotel'
+  if (normalized.includes('booking') || normalized === '22') return 'booking'
+  if (normalized.includes('飞猪') || normalized.includes('fliggy')) return 'fliggy'
+  if (normalized.includes('途家') || normalized.includes('tujia')) return 'tujia'
+  return normalized.replaceAll(/\s+/g, '-')
+}
+
+function resolveRealAccountChannelKey(account: RealOtaAccount) {
+  const keys = [account.channelName, account.channelId, account.accountName, account.accountId]
+    .map((value) => normalizeChannelKey(value || ''))
+    .filter(Boolean)
+  return keys.find(isKnownChannelKey) ?? keys[0] ?? 'ota-channel'
+}
+
+function isKnownChannelKey(value: string) {
+  return ['ctrip', 'meituan-hotel', 'booking', 'fliggy', 'tujia'].includes(value)
+}
+
+function displayChannelName(value: string) {
+  const key = normalizeChannelKey(value)
+  if (key === 'ctrip') return '携程直连'
+  if (key === 'meituan-hotel') return '美团酒店直连'
+  return value || 'OTA渠道'
+}
+
+function logoText(value: string) {
+  return value.length > 4 ? value.slice(0, 2) : value
+}
+
+function logoTone(value: string): OtaChannelDetailView['logoTone'] {
+  const key = normalizeChannelKey(value)
+  if (key === 'ctrip') return 1
+  if (key === 'meituan-hotel') return 4
+  if (key === 'fliggy') return 3
+  if (key === 'tujia') return 2
+  return 5
+}
+
+function dedupeOptions(options: OtaOption[]) {
+  const map = new Map<string, OtaOption>()
+  for (const option of options) {
+    if (option.value) map.set(option.value, option)
+  }
+  return [...map.values()]
+}
+
+function latestAuthorizedAt(accounts: RealOtaAccount[]) {
+  return accounts
+    .map((item) => item.authorizedAt)
+    .filter((value): value is string => Boolean(value))
+    .sort()
+    .at(-1) ?? '-'
+}
+
+function readNumber(value: unknown, fallback: number) {
+  const number = Number(value)
+  return Number.isFinite(number) ? number : fallback
+}
+
 function toMockState(value: string | null): OtaMockState {
   return value === 'empty' || value === 'error' ? value : 'success'
 }
@@ -897,4 +1350,8 @@ function validatePagination(page: number, pageSize: number) {
 
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

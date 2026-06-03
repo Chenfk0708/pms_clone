@@ -280,7 +280,7 @@ function describeTabState(pageData: SortSettingPageData, tab: SortSettingTab) {
   }
 
   if (tab === 'goods') {
-    return '拖拽商品后会同步当前会话顺序，商品保存接口待后端最终确认'
+    return '拖拽商品后会提交到真实商品排序接口'
   }
 
   return pageData.lastActionSummary

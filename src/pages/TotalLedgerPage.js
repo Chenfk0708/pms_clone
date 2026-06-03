@@ -32,6 +32,7 @@ export function TotalLedgerPage() {
         catch (loadError) {
             if (loadError instanceof DOMException && loadError.name === 'AbortError')
                 return;
+            setData(null);
             setError(loadError instanceof Error ? loadError.message : '收支汇总服务暂不可用，请稍后重试');
         }
         finally {
@@ -243,7 +244,13 @@ function pickChartColor(index) {
 function readCurrentMockState() {
     if (typeof window === 'undefined')
         return 'success';
-    const params = new URLSearchParams(window.location.search);
-    const configured = params.get('mockState') || params.get('totalLedgerMockMode');
+    const configured = readMockModeFromSearch(window.location.search) ||
+        readMockModeFromSearch(window.location.hash.split('?')[1] ? `?${window.location.hash.split('?')[1]}` : '') ||
+        window.localStorage.getItem('pms.totalLedgerMockMode')?.trim() ||
+        '';
     return configured === 'empty' || configured === 'error' || configured === 'success' ? configured : 'success';
+}
+function readMockModeFromSearch(search) {
+    const params = new URLSearchParams(search);
+    return params.get('mockState') || params.get('totalLedgerMockMode') || '';
 }

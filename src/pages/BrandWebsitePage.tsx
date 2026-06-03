@@ -530,7 +530,7 @@ function PhonePreview({ data }: { data: BrandWebsiteViewModel }) {
     <div className="brand-phone brand-phone--home">
       <MiniTop title="首页" />
       <div className="brand-hero">
-        <div className="brand-hero__logo">LOCALS</div>
+        <img className="brand-hero__logo" src="/brand-yinsu.png" alt="银宿" />
         <div className="brand-hero__cn">{data.pageConfig.heroTitle}</div>
       </div>
       <div className="brand-search-card">

@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 const pagePath = '/#/psb/log?campId=1796067693589061634'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 const psbLogEndpoint = '**/checkinGuestPsbLog/page/get'
+const retryEndpoint = '**/checkinGuestPsbLog/retry'
 const storeEndpoint = '**/select/poi/page/get'
 const forbiddenDevelopmentCopy = /mock|provider|后端|真实接口|接口契约|开发态/i
 
@@ -15,6 +16,8 @@ test.describe.configure({ timeout: 60_000 })
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'psb-log-test-token')
+    window.localStorage.setItem('pmsCampId', '10001')
     window.localStorage.setItem('pms.psbLogProvider', 'mock')
     window.localStorage.removeItem('pms.psbLogMockState')
     window.localStorage.removeItem('pms.psbLog.lastRequest')
@@ -309,8 +312,129 @@ test('/psb/log can switch to the captured api contract', async ({ page }) => {
   const diagnostics = await waitForDiagnostics(page)
   expect(diagnostics).toMatchObject({
     provider: 'api',
-    endpoint: 'https://hudson-prod.localhome.cn/checkinGuestPsbLog/page/get',
+    endpoint: '/api/checkinGuestPsbLog/page/get',
   })
+})
+
+test('/psb/log api provider retries failed report through the captured backend contract', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.psbLogProvider', 'api')
+  })
+
+  const capturedRequests: Array<Record<string, unknown>> = []
+
+  await page.route(storeEndpoint, async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        errorCode: null,
+        errorMsg: null,
+        errorDetail: null,
+        data: {
+          total: 1,
+          size: 999,
+          current: 1,
+          pageNum: 1,
+          hasNextPage: false,
+          pages: 1,
+          list: [
+            {
+              poiId: '1796425098638573570',
+              poiName: '天蓉名宿公寓(前海壹方城宝安中心店)',
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route(psbLogEndpoint, async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        errorCode: null,
+        errorMsg: null,
+        errorDetail: null,
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          hasNextPage: false,
+          pages: 1,
+          list: [
+            {
+              id: 'api-log-001',
+              name: '接口重报客人',
+              mobile: '13800138000',
+              idCard: '440301199001011234',
+              roomNo: 'A-1801',
+              channelName: '携程',
+              orderNo: 'api-order-retry-001',
+              channelOrderNo: 'ctrip-retry-001',
+              uploadTime: '2026-05-19 09:12:44',
+              bizType: '5',
+              state: '0',
+              remark: '公安回执：待重新上报',
+              receiptMessage: '公安回执：待重新上报',
+              poiId: '1796425098638573570',
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route(retryEndpoint, async (route) => {
+    capturedRequests.push({
+      url: route.request().url(),
+      body: route.request().postDataJSON(),
+    })
+    await route.fulfill({
+      json: {
+        success: true,
+        errorCode: null,
+        errorMsg: null,
+        errorDetail: null,
+        data: {
+          id: 'api-log-001',
+          name: '接口重报客人',
+          mobile: '13800138000',
+          idCard: '440301199001011234',
+          roomNo: 'A-1801',
+          channelName: '携程',
+          orderNo: 'api-order-retry-001',
+          channelOrderNo: 'ctrip-retry-001',
+          uploadTime: '2026-05-19 09:42:10',
+          reportTime: '2026-05-19 09:42:10',
+          bizType: '5',
+          state: '1',
+          remark: '重新上报成功，公安回执已更新',
+          receiptMessage: '公安回执：重新上报成功',
+          poiId: '1796425098638573570',
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl(pagePath))
+
+  await expect(page.locator('.psb-log-page')).toHaveAttribute('data-provider', 'api', { timeout: 15_000 })
+  await page.getByRole('button', { name: '查看订单 api-order-retry-001' }).click()
+  await expect(page.getByRole('dialog', { name: '上报详情' })).toContainText('失败')
+  await page.getByRole('button', { name: '重新上报' }).click()
+
+  await expect(page.getByRole('dialog', { name: '上报详情' })).toContainText('成功', { timeout: 15_000 })
+  await expect(page.getByRole('status')).toContainText('订单 api-order-retry-001 已重新上报')
+  expect(capturedRequests).toEqual([
+    expect.objectContaining({
+      body: {
+        campId: '1796067693589061634',
+        id: 'api-log-001',
+        orderNo: 'api-order-retry-001',
+      },
+    }),
+  ])
 })
 
 async function readDiagnostics(page: import('@playwright/test').Page) {

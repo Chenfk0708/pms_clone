@@ -1,5 +1,5 @@
 export const HOUSE_STATUS_LOG_ENDPOINT =
-  'https://hudson-prod.localhome.cn/roomStatusOperationLog/page/get/v2'
+  '/api/roomStatusOperationLog/page/get/v2'
 
 export type HouseStatusLogsProvider = 'mock' | 'real'
 

@@ -66,7 +66,7 @@ function getScrmMemberLevelProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
     const configured = window.localStorage.getItem('pms.scrmMemberLevelProvider');
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 async function fetchMockDashboard(filters) {
     await delay(120);

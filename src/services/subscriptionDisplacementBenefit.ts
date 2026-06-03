@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const HUDSON_BASE_URL = '/api'
 const TASK_ID = 'yingyong-dingyue--quanyi-yu-dingyue--zhihuan-quanyi'
 const DEFAULT_CAMP_ID = '1796067693589061634'
 const DEFAULT_TIMESTAMP = '2026-05-19T20:40:00+08:00'
@@ -247,7 +247,7 @@ export function readInitialSubscriptionDisplacementBenefitFilters(): Subscriptio
 
 export function getSubscriptionDisplacementBenefitProvider(): SubscriptionDisplacementBenefitProvider {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 export function getSubscriptionDisplacementBenefitMockState(): SubscriptionDisplacementBenefitMockState {
@@ -766,4 +766,8 @@ function delay(ms: number, signal?: AbortSignal) {
 
     signal?.addEventListener('abort', onAbort, { once: true })
   })
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

@@ -220,6 +220,10 @@ const DEFAULT_CAMP_ID = '1796067693589061634'
 const DEFAULT_STORE_ID = '1796425098638573570'
 const ORDER_LEDGER_PROVIDER_KEY = 'pms.orderLedgerProvider'
 const ORDER_LEDGER_STATE_KEY = 'pms.orderLedgerMockState'
+const realBaseUrl = '/api'
+const paymentTypesEndpoint = '/paymentTypes/get'
+const paymentWaysEndpoint = '/paymentWays/get'
+const orderLedgerDashboardEndpoint = '/orderLedger/dashboard/get'
 
 const storeOptions = [
   {
@@ -456,7 +460,7 @@ export class OrderLedgerServiceError extends Error {
 
 export function defaultOrderLedgerRequest(state: OrderLedgerMockState = 'success'): OrderLedgerRequest {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCampId(),
     pageNum: 1,
     pageSize: 10,
     beginTime: '2026-05-18',
@@ -481,9 +485,10 @@ export function resolveOrderLedgerProvider(search = currentSearch()): OrderLedge
     typeof import.meta !== 'undefined' && 'env' in import.meta
       ? ((import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_ORDER_LEDGER_PROVIDER ?? '').trim()
       : ''
-  const provider = urlValue || storageValue || envValue || 'mock'
+  const provider = (urlValue || storageValue || envValue || 'mock').toLowerCase()
 
   if (provider === 'mock' || provider === 'api') return provider
+  if (provider === 'real') return 'api'
   throw new Error(`Unsupported order ledger provider: ${provider}`)
 }
 
@@ -506,11 +511,7 @@ export async function fetchOrderLedgerDashboard(
   const normalizedRequest = normalizeRequest(request)
 
   if (provider === 'api') {
-    throw new OrderLedgerServiceError(
-      '收支明细数据加载失败，请稍后重试',
-      envelope(503, 'service unavailable', null, 'api-order-ledger-unavailable'),
-      normalizedRequest,
-    )
+    return fetchRealOrderLedgerDashboard(normalizedRequest, signal)
   }
 
   await waitForMockLatency(signal)
@@ -634,6 +635,318 @@ function filterRecords(request: OrderLedgerRequest) {
   })
 }
 
+async function fetchRealOrderLedgerDashboard(
+  request: OrderLedgerRequest,
+  signal?: AbortSignal,
+): Promise<OrderLedgerDashboard> {
+  const apiRequest = normalizeApiRequest(request)
+  const [paymentTypeResponse, paymentWayResponse, dashboardPayload] = await Promise.all([
+    postHudson<{ paymentTypes: RawPaymentType[] }>(paymentTypesEndpoint, { campId: apiRequest.campId }, signal),
+    postHudson<{ paymentWays: RawPaymentWay[] }>(paymentWaysEndpoint, { campId: apiRequest.campId }, signal),
+    postHudson<unknown>(orderLedgerDashboardEndpoint, apiRequest, signal),
+  ])
+
+  return adaptRealDashboard(request, apiRequest, paymentTypeResponse, paymentWayResponse, dashboardPayload)
+}
+
+function normalizeApiRequest(request: OrderLedgerRequest): OrderLedgerRequest {
+  return {
+    ...request,
+    campId: resolveCampId(request.campId),
+    beginTime: toDayStart(request.beginTime),
+    endTime: toDayEnd(request.endTime),
+  }
+}
+
+async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {
+  const response = await fetch(`${realBaseUrl}${endpoint}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  let payload: ApiEnvelope<T> | HudsonEnvelope<T> | null
+  try {
+    payload = (await response.json()) as ApiEnvelope<T> | HudsonEnvelope<T>
+  } catch {
+    payload = null
+  }
+
+  if (!response.ok) {
+    throw new Error(`${endpoint} 返回 HTTP ${response.status}`)
+  }
+
+  if (!payload) {
+    throw new Error(`${endpoint} 响应不是 JSON`)
+  }
+
+  if ('success' in payload && payload.success === false) {
+    throw new Error(payload.errorMsg ?? payload.errorDetail ?? payload.errorCode ?? `${endpoint} 业务请求失败`)
+  }
+
+  if ('code' in payload && payload.code !== 0) {
+    throw new Error(payload.message || `${endpoint} 业务请求失败`)
+  }
+
+  if (payload.data === undefined || payload.data === null) {
+    throw new Error(`${endpoint} 响应缺少 data 字段`)
+  }
+
+  return payload.data
+}
+
+function adaptRealDashboard(
+  pageRequest: OrderLedgerRequest,
+  apiRequest: OrderLedgerRequest,
+  paymentTypeResponse: { paymentTypes: RawPaymentType[] },
+  paymentWayResponse: { paymentWays: RawPaymentWay[] },
+  dashboardPayload: unknown,
+): OrderLedgerDashboard {
+  const payload = asRecord(dashboardPayload)
+  const rawSummary = asRecord(payload.summary)
+  const rawRecords = asArray(payload.records ?? payload.list)
+  const records = rawRecords.map(adaptRealRecord)
+
+  return {
+    provider: 'api',
+    state: pageRequest.state ?? 'success',
+    request: apiRequest,
+    stores: adaptRealStores(payload, records),
+    typeOptions: [
+      { value: 'all', label: '鍏ㄩ儴绫诲瀷' },
+      { value: 'income', label: '鏀跺叆' },
+      { value: 'expense', label: '鏀嚭' },
+    ],
+    sourceOptions: [
+      { value: 'all', label: '鍏ㄩ儴鏉ユ簮' },
+      { value: 'stayOrder', label: '浣忓璁㈠崟' },
+      { value: 'manualEntry', label: '记一笔' },
+    ],
+    projectOptions: paymentTypeResponse.paymentTypes
+      .filter((item) => item.isEnable !== 0)
+      .filter((item) => pageRequest.isIncome === null || item.isIncome === pageRequest.isIncome)
+      .map((item) => ({ value: String(item.paymentTypeId), label: item.paymentTypeName })),
+    paymentWayOptions: paymentWayResponse.paymentWays
+      .filter((item) => item.isEnable !== 0)
+      .map((item) => ({ value: String(item.paymentWayId), label: item.paymentWayName })),
+    roomOptions: adaptRealRoomOptions(payload, records),
+    summary: {
+      netIncome: readNumber(rawSummary.netIncome, 0),
+      totalIncome: readNumber(rawSummary.totalIncome ?? rawSummary.totalIncomePrice, 0),
+      totalExpense: readNumber(rawSummary.totalExpense ?? rawSummary.totalExpendPrice, 0),
+    },
+    records,
+    pagination: {
+      page: readNumber(payload.pageNum ?? payload.current, apiRequest.pageNum),
+      pageSize: readNumber(payload.pageSize ?? payload.size, apiRequest.pageSize),
+      total: readNumber(payload.total, records.length),
+    },
+    updatedAt: new Date().toISOString(),
+    traceIds: [
+      'api-payment-types-get',
+      'api-payment-ways-get',
+      'api-order-ledger-dashboard-get',
+    ],
+  }
+}
+
+function adaptRealRecord(value: unknown): OrderLedgerRecord {
+  const record = asRecord(value)
+  const id = readString(record, ['id', 'costPriceId', 'paymentId'])
+  const orderId = readString(record, ['orderId', 'orderNo'])
+  const roomLabel = readString(record, ['roomLabel', 'roomName', 'roomCategoryName'])
+  const amount = readNumber(record.amount ?? record.price, 0)
+  const paymentTime = readString(record, ['paymentTime', 'paidAt'])
+  const createdAt = readString(record, ['createdAt', 'tradeTime', 'createTime'])
+  const projectLabel = readString(record, ['projectLabel', 'paymentTypeName'])
+  const paymentWayLabel = readString(record, ['paymentWayLabel', 'paymentWayName'])
+  const paymentNo = readString(record, ['paymentNo', 'paymentOutId'])
+  const remark = readString(record, ['remark'])
+  const operatorName = readString(record, ['operatorName', 'operationUserName'])
+
+  return {
+    id: id || orderId || paymentNo || `${createdAt}-${amount}`,
+    poiId: readString(record, ['poiId']),
+    typeLabel: readString(record, ['typeLabel', 'isInComeName']),
+    sourceLabel: readString(record, ['sourceLabel', 'typeName']),
+    orderId,
+    projectLabel,
+    amount,
+    debtAmount: readNumber(record.debtAmount ?? record.debtPrice, 0),
+    paymentWayLabel,
+    paymentNo,
+    paymentTime: paymentTime || '-',
+    createdAt,
+    roomLabel,
+    remark,
+    operatorName,
+    detail: adaptRealDetail(record, {
+      orderId,
+      roomLabel,
+      amount,
+      paymentTime,
+      createdAt,
+      projectLabel,
+      paymentWayLabel,
+      paymentNo,
+      remark,
+    }),
+  }
+}
+
+function adaptRealDetail(
+  record: Record<string, unknown>,
+  fallback: {
+    orderId: string
+    roomLabel: string
+    amount: number
+    paymentTime: string
+    createdAt: string
+    projectLabel: string
+    paymentWayLabel: string
+    paymentNo: string
+    remark: string
+  },
+): OrderLedgerDetail {
+  const detail = asRecord(record.detail)
+  const paymentRecords = asArray(detail.paymentRecords).map(adaptRealPaymentRecord)
+  const roomBreakdown = asArray(detail.roomBreakdown).map(adaptRealRoomBreakdown)
+  const extraLines = asArray(detail.extraLines).map(adaptRealExtraLine)
+
+  return {
+    channelName: readString(detail, ['channelName']) || '-',
+    channelOrderNo: readString(detail, ['channelOrderNo']) || fallback.orderId,
+    roomLabel: readString(detail, ['roomLabel']) || fallback.roomLabel || '-',
+    statusLabel: readString(detail, ['statusLabel']) || '-',
+    totalAmount: readNumber(detail.totalAmount, fallback.amount),
+    stayRange: readString(detail, ['stayRange']) || fallback.createdAt || fallback.paymentTime || '-',
+    guestSummary: readString(detail, ['guestSummary']) || '-',
+    productName: readString(detail, ['productName']) || fallback.projectLabel || '-',
+    breakdownTitle: readString(detail, ['breakdownTitle']) || fallback.projectLabel || '-',
+    breakdownAmount: readNumber(detail.breakdownAmount, fallback.amount),
+    totalIncome: readNumber(detail.totalIncome, fallback.amount),
+    roomBreakdown:
+      roomBreakdown.length > 0
+        ? roomBreakdown
+        : [
+            {
+              date: (fallback.createdAt || fallback.paymentTime || '').slice(0, 10) || '-',
+              roomLabel: fallback.roomLabel || '-',
+              amount: fallback.amount,
+            },
+          ],
+    extraLines:
+      extraLines.length > 0
+        ? extraLines
+        : [
+            { title: '支付方式', primary: fallback.paymentWayLabel || '-' },
+            { title: '备注', primary: fallback.remark || '-' },
+          ],
+    paymentRecords:
+      paymentRecords.length > 0
+        ? paymentRecords
+        : [
+            {
+              id: fallback.paymentNo || fallback.orderId || fallback.createdAt,
+              typeLabel: '支付',
+              roomLabel: fallback.roomLabel || '-',
+              projectLabel: fallback.projectLabel || '-',
+              paymentWayLabel: fallback.paymentWayLabel || '-',
+              amount: fallback.amount,
+              paymentNo: fallback.paymentNo || '-',
+              paidAt: fallback.paymentTime || fallback.createdAt || '-',
+              remark: fallback.remark || '-',
+              actionLabel: '查看',
+            },
+          ],
+  }
+}
+
+function adaptRealPaymentRecord(value: unknown): OrderLedgerPaymentRecord {
+  const record = asRecord(value)
+  return {
+    id: readString(record, ['id', 'paymentNo']) || '-',
+    typeLabel: readString(record, ['typeLabel']) || '-',
+    roomLabel: readString(record, ['roomLabel']) || '-',
+    projectLabel: readString(record, ['projectLabel']) || '-',
+    paymentWayLabel: readString(record, ['paymentWayLabel']) || '-',
+    amount: readNumber(record.amount, 0),
+    paymentNo: readString(record, ['paymentNo']) || '-',
+    paidAt: readString(record, ['paidAt', 'paymentTime']) || '-',
+    remark: readString(record, ['remark']) || '-',
+    actionLabel: readString(record, ['actionLabel']) || '查看',
+  }
+}
+
+function adaptRealRoomBreakdown(value: unknown): OrderLedgerDetail['roomBreakdown'][number] {
+  const record = asRecord(value)
+  return {
+    date: readString(record, ['date']) || '-',
+    roomLabel: readString(record, ['roomLabel']) || '-',
+    amount: readNumber(record.amount, 0),
+  }
+}
+
+function adaptRealExtraLine(value: unknown): OrderLedgerDetail['extraLines'][number] {
+  const record = asRecord(value)
+  return {
+    title: readString(record, ['title']) || '-',
+    primary: readString(record, ['primary']) || '-',
+    secondary: readString(record, ['secondary']) || undefined,
+  }
+}
+
+function adaptRealStores(payload: Record<string, unknown>, records: OrderLedgerRecord[]) {
+  const stores = asArray(payload.stores).map((value) => {
+    const record = asRecord(value)
+    return {
+      id: readString(record, ['id', 'poiId']),
+      name: readString(record, ['name', 'poiName']),
+    }
+  })
+
+  if (stores.length > 0) return stores
+
+  const uniqueIds = Array.from(new Set(records.map((record) => record.poiId).filter(Boolean)))
+  return uniqueIds.map((poiId) => ({ id: poiId, name: poiId }))
+}
+
+function adaptRealRoomOptions(payload: Record<string, unknown>, records: OrderLedgerRecord[]): RawRoomGroup[] {
+  const directGroups = asArray(payload.roomOptions ?? payload.roomCategoryRooms)
+  if (directGroups.length > 0) {
+    return directGroups.map((value) => {
+      const group = asRecord(value)
+      const roomCategoryId = readString(group, ['roomCategoryId']) || 'api-room-category'
+      const roomCategoryName = readString(group, ['roomCategoryName']) || 'API 房型'
+      return {
+        roomCategoryId,
+        roomCategoryName,
+        rooms: asArray(group.rooms).map((roomValue) => {
+          const room = asRecord(roomValue)
+          return {
+            roomId: readString(room, ['roomId']) || readString(room, ['roomName']),
+            roomName: readString(room, ['roomName']) || '-',
+          }
+        }),
+      }
+    })
+  }
+
+  return records.length > 0
+    ? [
+        {
+          roomCategoryId: 'api-room-category',
+          roomCategoryName: 'API 房型',
+          rooms: records
+            .filter((record) => record.roomLabel)
+            .map((record) => ({ roomId: record.roomLabel, roomName: record.roomLabel })),
+        },
+      ]
+    : []
+}
+
 function adaptDashboard(
   provider: OrderLedgerProviderName,
   request: OrderLedgerRequest,
@@ -741,6 +1054,50 @@ function envelope<T>(code: number, message: string, data: T, traceId: string): A
     traceId,
     timestamp: RESPONSE_TIMESTAMP,
   }
+}
+
+function resolveCampId(fallback = DEFAULT_CAMP_ID) {
+  const storageCampId =
+    typeof window !== 'undefined'
+      ? window.localStorage.getItem('pmsCampId')?.trim() ||
+        window.localStorage.getItem('pms.currentCampId')?.trim() ||
+        ''
+      : ''
+  const envCampId =
+    typeof import.meta !== 'undefined' && 'env' in import.meta
+      ? ((import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_PMS_CAMP_ID ?? '').trim()
+      : ''
+  return storageCampId || envCampId || fallback
+}
+
+function toDayStart(value: string) {
+  return value.length === 10 ? `${value} 00:00:00` : value
+}
+
+function toDayEnd(value: string) {
+  return value.length === 10 ? `${value} 23:59:59` : value
+}
+
+function readString(record: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const value = record[key]
+    if (typeof value === 'string' && value.trim()) return value.trim()
+    if (typeof value === 'number' && Number.isFinite(value)) return String(value)
+  }
+  return ''
+}
+
+function readNumber(value: unknown, fallback: number) {
+  const numeric = Number(value)
+  return Number.isFinite(numeric) ? numeric : fallback
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function asArray(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : []
 }
 
 function waitForMockLatency(signal?: AbortSignal) {

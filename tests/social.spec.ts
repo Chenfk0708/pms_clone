@@ -76,13 +76,107 @@ test('/channels/social card, subscription and table detail interactions are hand
 
 test('/channels/social supports empty and error response states', async ({ page }) => {
   await page.evaluate(() => window.localStorage.setItem('pms.socialMockMode', 'empty'))
-  await page.reload()
+  await page.goto('/#/channels/social')
   await expect(page.getByText('暂无符合当前筛选条件的社媒渠道')).toBeVisible()
 
   await page.evaluate(() => window.localStorage.setItem('pms.socialMockMode', 'error'))
-  await page.reload()
+  await page.goto('/#/channels/social')
   await expect(page.getByRole('alert')).toContainText('社媒数据加载失败')
   await page.getByRole('button', { name: '重新加载' }).click()
   await expect(page.getByRole('alert')).toContainText('社媒数据加载失败')
   await page.evaluate(() => window.localStorage.removeItem('pms.socialMockMode'))
+})
+
+test('/channels/social real provider sends gateway auth header and adapts social overview response', async ({ page }) => {
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms_token', 'social-token')
+    window.localStorage.setItem('pms.socialProvider', 'real')
+  })
+
+  const capturedRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  await page.route('**/api/channels/social/overview', async (route) => {
+    capturedRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-social-trace-001',
+        timestamp: '2026-05-30T22:00:00+08:00',
+        data: {
+          filterOptions: {
+            camps: [
+              { label: '全部门店', value: 'all' },
+              { label: '当前门店', value: '10001' },
+            ],
+            projects: [
+              { label: '全部项目', value: 'all' },
+              { label: '日历房', value: 'calendar-room' },
+            ],
+          },
+          metrics: [
+            { label: '已直连渠道', value: '1', change: '真实渠道账户统计', tone: 'blue' },
+            { label: '今日渠道订单', value: '2', change: '来自订单真实数据', tone: 'green' },
+          ],
+          channels: [
+            {
+              id: 'douyin-lk',
+              name: '抖音来客',
+              status: 'connected',
+              relation: '关联房型2/3',
+              support: ['日历房', '预售券'],
+              action: '管理渠道',
+              accent: 'blue',
+              conversionRate: '100%',
+              roomTypeCount: 3,
+              linkedRoomTypeCount: 2,
+              dailyOrders: 2,
+              pendingTasks: ['1 个房型待授权'],
+            },
+          ],
+          trend: [{ label: '05-18', douyin: 2, xiaohongshu: 0, shipinhao: 0 }],
+          todos: [{ id: 'todo-1', title: '1 个房型待授权', channel: '抖音来客', priority: '中', dueText: '今日' }],
+          accounts: {
+            list: [
+              {
+                id: '59001',
+                channel: '抖音来客',
+                accountId: 'DY-59001',
+                store: '当前门店',
+                authorization: ['酒店行业预售券解决方案'],
+                auditStatus: '已发布',
+                syncStatus: '房型已同步',
+                updatedAt: '2026-05-18 09:40',
+              },
+            ],
+            pagination: { page: 1, pageSize: 20, total: 1 },
+          },
+          quickLinks: [{ label: '房价管理', path: '/houseManage/houseCale' }],
+          updatedAt: '2026-05-30 22:00:00',
+        },
+      },
+    })
+  })
+
+  await page.goto('/#/channels/social')
+
+  await expect(page.getByTestId('social-channel-page')).toHaveAttribute('data-provider', 'real')
+  await expect(page.getByTestId('social-channel-page')).toHaveAttribute('data-trace-id', 'real-social-trace-001')
+  await expect(page.getByRole('article', { name: /抖音来客/ })).toContainText('关联房型2/3')
+
+  expect(capturedRequests).toHaveLength(1)
+  expect(capturedRequests[0].headers.authorization).toBe('Bearer social-token')
+  expect(capturedRequests[0].body).toMatchObject({
+    bizDate: '2026-05-18',
+    campId: null,
+    projectId: null,
+    channelStatus: null,
+    keyword: null,
+    page: 1,
+    pageSize: 20,
+  })
 })

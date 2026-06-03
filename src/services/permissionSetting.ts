@@ -125,7 +125,7 @@ type RoleDetailPayload = {
   authorities?: unknown
 }
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 export const permissionRoleListEndpoint = '/role/camp/get'
 export const permissionRoleDetailEndpoint = '/roleAuthority/camp/get'
 export const permissionRoleCreateEndpoint = '/role/camp/create'
@@ -434,7 +434,7 @@ export function getPermissionSettingProviderName(): PermissionSettingProviderNam
 function resolveProvider(): PermissionSettingProviderName {
   const configured =
     readRuntimeConfig('pms.permissionSettingProvider') || import.meta.env.VITE_PERMISSION_SETTING_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockState(): PermissionSettingMockState {

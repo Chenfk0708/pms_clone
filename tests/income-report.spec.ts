@@ -3,11 +3,13 @@ import { expect, test, type Page } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
 }
 
 async function openIncomeReport(page: Page, state: 'success' | 'empty' | 'error' = 'success') {
   await page.addInitScript((mockState) => {
+    window.localStorage.setItem('pms_token', 'income-report-test-token')
     window.localStorage.setItem('pms.incomeReport.provider', 'mock')
     window.localStorage.setItem('pms.incomeReport.state', mockState)
   }, state)
@@ -54,6 +56,134 @@ test('/statistics/stay loads through the income report provider contract', async
   await expect(contract).toContainText('"startDate":"2026-05-01"')
   await expect(contract).toContainText('"endDate":"2026-05-19"')
   await expect(contract).toContainText('"traceId":"mock-baobiao--tongji-baobiao--shouru-baobiao-day-001"')
+})
+
+test('/statistics/stay real provider posts income report request and renders API rows', async ({ page }) => {
+  const reportRequests: Array<Record<string, unknown>> = []
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'income-report-real-token')
+    window.localStorage.setItem('pms.incomeReport.provider', 'real')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          total: 1,
+          list: [{ poiId: '100', poiName: '真实门店' }],
+        },
+        traceId: 'real-poi-options-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+  await page.route('**/api/select/roomCategory/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          total: 1,
+          list: [{ roomCategoryId: '200', name: '真实房型' }],
+        },
+        traceId: 'real-room-category-options-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+  await page.route('**/api/select/calChannel4Order/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          list: [{ channelId: '300', channelName: '真实渠道' }],
+        },
+        traceId: 'real-channel-options-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+  await page.route('**/api/roomCategoryGroups/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          list: [{ roomCategoryGroupId: '400', roomCategoryGroupName: '真实房型组' }],
+        },
+        traceId: 'real-room-group-options-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+  await page.route('**/api/rooms/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          roomCategoryRooms: [{ roomCategoryId: '200', roomCategoryName: '真实房型', rooms: [{ roomId: '500', roomName: 'A-501' }] }],
+        },
+        traceId: 'real-room-options-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+  await page.route('**/api/report/accommodation/get', async (route) => {
+    reportRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        success: true,
+        data: {
+          total: 1,
+          pageNum: 1,
+          pageSize: 20,
+          list: [
+            {
+              label: '真实收入合计',
+              roomFeeMinusCommission: '123.45',
+              channelCommission: '6.78',
+              roomFeeIncludingCommission: '130.23',
+              allDayRoomFeeIncludingCommission: '130.23',
+              hourRoomFeeIncludingCommission: '0',
+              otherExpense: '0',
+              accommodationExpense: '0',
+              cateringExpense: '0',
+              supermarketExpense: '0',
+              entertainmentExpense: '0',
+              venueExpense: '0',
+              orderTotalIncome: '130.23',
+              manualIncome: '0',
+              manualAccommodationIncome: '0',
+              manualCateringIncome: '0',
+              manualSupermarketIncome: '0',
+              manualEntertainmentIncome: '0',
+              manualVenueIncome: '0',
+              businessIncomeIncludingCommission: '130.23',
+              businessIncomeMinusCommission: '123.45',
+              detailContext: '真实订单收入',
+            },
+          ],
+        },
+        traceId: 'real-income-report-001',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      },
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/statistics/stay'))
+
+  await expect.poll(() => reportRequests.length).toBeGreaterThan(0)
+  expect(reportRequests.at(-1)).toMatchObject({
+    campId: '10001',
+    pageNum: 1,
+    pageSize: 20,
+    queryType: 1,
+  })
+  await expect(page.locator('.income-report-page')).toHaveAttribute('data-provider', 'api')
+  await expect(page.getByLabel('收入报表表格')).toContainText('真实收入合计')
+  await expect(page.getByLabel('收入报表表格')).toContainText('123.45')
+  await expect(page.getByTestId('income-report-contract')).toContainText('"traceId":"real-income-report-001"')
 })
 
 test('/statistics/stay refreshes data from filters and exposes actionable feedback', async ({ page }) => {

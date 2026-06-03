@@ -280,7 +280,7 @@ export function buildStatisticsReportQueryForPreset(preset, current) {
 }
 export function resolveStatisticsReportProvider() {
     const value = typeof window !== 'undefined' ? window.localStorage.getItem('pms.statisticsReport.provider') : null;
-    return value === 'api' ? 'api' : 'mock';
+    return value === 'api' || value === 'real' ? 'api' : 'mock';
 }
 export function resolveStatisticsReportState() {
     const value = typeof window !== 'undefined' ? window.localStorage.getItem('pms.statisticsReport.scenario') : null;

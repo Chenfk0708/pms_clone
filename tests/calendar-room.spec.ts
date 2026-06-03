@@ -4,8 +4,16 @@ const appBaseURL = process.env.PMS_TEST_BASE_URL
 const forbiddenDevelopmentCopy = /mock|provider|未接入|阻塞|后端|契约/
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}${normalizedPath}` : normalizedPath
 }
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem('pms.calendarRoomProvider', 'mock')
+  })
+})
 
 test('/setting/localRoomTypeProductionSetting loads through explicit calendar-room mock provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -24,6 +32,112 @@ test('/setting/localRoomTypeProductionSetting loads through explicit calendar-ro
   await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-request-keyword', '观影')
   await expect(page.locator('.calendar-room-table__room-row')).toHaveCount(1)
   await expect(page.getByLabel('日历房售卖产品列表')).toContainText('观影大床房')
+})
+
+
+test('/setting/localRoomTypeProductionSetting switches to real provider and adapts weiRoomCategories response', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'calendar-token')
+    window.localStorage.setItem('pms.currentCampId', '10001')
+  })
+
+  const capturedRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  await page.route('**/api/weiRoomCategories/page/get', async (route) => {
+    capturedRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-calendar-room-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 2,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              channelRoomCategoryId: 'wei-room-1',
+              channelRoomCategoryName: 'Real Calendar Room A',
+              goodsType: 7,
+              isCanBooking: 1,
+              isAvailability: '1',
+              roomCategoryProductGetViews: [
+                {
+                  roomCategoryProductId: 'sku-1',
+                  roomCategoryProductName: 'Real Calendar Room A No Breakfast',
+                  sellingPrice: 32800,
+                  originalPrice: 39800,
+                  isCanBooking: 1,
+                  stock: 8,
+                  breakfastCount: 0,
+                },
+                {
+                  roomCategoryProductId: 'sku-2',
+                  roomCategoryProductName: 'Real Calendar Room A Long Stay',
+                  sellingPrice: 29800,
+                  originalPrice: 35800,
+                  isCanBooking: 0,
+                  stock: 0,
+                  breakfastCount: 2,
+                  cancelPolicy: 'step-refund',
+                },
+              ],
+            },
+            {
+              channelRoomCategoryId: 'wei-room-2',
+              channelRoomCategoryName: 'Real Calendar Room B',
+              goodsType: 7,
+              isCanBooking: 1,
+              roomCategoryProductGetViews: [
+                {
+                  roomCategoryProductId: 'sku-3',
+                  roomCategoryProductName: 'Real Calendar Room B Standard',
+                  sellingPrice: 26800,
+                  originalPrice: 32800,
+                  isCanBooking: 1,
+                  stock: 4,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomProvider=real'))
+
+  await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-provider', 'real')
+  await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-request-keyword', '')
+  await expect(page.locator('.calendar-room-table')).toContainText('Real Calendar Room A')
+  await expect(page.locator('.calendar-room-table')).toContainText('Real Calendar Room B')
+  await page.locator('.calendar-room-row-toggle').first().click()
+  const firstProductGroup = page.locator('.calendar-room-products').first()
+  await expect(firstProductGroup).toContainText('Real Calendar Room A No Breakfast')
+  await expect(firstProductGroup).toContainText('Real Calendar Room A Long Stay')
+
+  expect(capturedRequests.length).toBeGreaterThanOrEqual(1)
+  for (const apiRequest of capturedRequests) {
+    expect(apiRequest.headers.authorization).toBe('Bearer calendar-token')
+    expect(apiRequest.body).toMatchObject({
+      campId: '10001',
+      buyCampId: '10001',
+      roomCategoryTypes: [1],
+      goodsTypes: [7],
+      pageNum: 1,
+      pageSize: 20,
+      keyword: '',
+    })
+  }
 })
 
 test('/setting/localRoomTypeProductionSetting renders empty and failure response states', async ({ page }) => {
@@ -52,7 +166,7 @@ test('/setting/localRoomTypeProductionSetting gives feedback for all visible pro
   await page.getByRole('button', { name: '关闭售卖产品详情' }).click()
 
   await firstProductGroup.getByRole('button', { name: '编辑' }).first().click()
-  await expect(page).toHaveURL(/\/setting\/localRoomTypeProductionSetting\/channelGoodsSetting$/)
+  await expect(page).toHaveURL(/\/setting\/localRoomTypeProductionSetting\/channelGoodsSetting\?/)
 
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
   await page.getByRole('button', { name: '展开' }).first().click()
@@ -79,8 +193,8 @@ test('/setting/localRoomTypeProductionSetting matches captured calendar-room lis
   await expect(page.locator('.sidebar').getByRole('link', { name: '预售券' })).toBeVisible()
   await expect(page.locator('.sidebar').getByRole('link', { name: '酒店套餐' })).toBeVisible()
 
-  await expect(page.getByRole('button', { name: '全部门店' })).toHaveCount(0)
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toBeVisible()
   await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
   await expect(page.getByRole('button', { name: '新增售卖产品' })).toBeVisible()
   await expect(page.getByPlaceholder('请输入房型名称')).toBeVisible()
@@ -124,7 +238,7 @@ test('/setting/localRoomTypeProductionSetting supports captured expansion and na
   await expect(page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')).toContainText('下架')
 
   await page.getByRole('button', { name: '房价管理' }).first().click()
-  await expect(page).toHaveURL(/\/houseManage\/houseCale$/)
+  await expect(page).toHaveURL(/\/houseManage\/channelPrice$/)
 
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
   await page.getByRole('button', { name: '新增售卖产品' }).click()

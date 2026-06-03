@@ -52,8 +52,8 @@ export function CleanTaskPage() {
         return [];
     }, [dashboard, openFilter]);
     const requestStatus = dashboard
-        ? `${cleanTaskListEndpoint.replace('https://hudson-prod.localhome.cn', '')} ${formatRequestParams(dashboard.requestBody)}`
-        : `${cleanTaskListEndpoint.replace('https://hudson-prod.localhome.cn', '')} 等待加载`;
+        ? `${cleanTaskListEndpoint.replace('/api', '')} ${formatRequestParams(dashboard.requestBody)}`
+        : `${cleanTaskListEndpoint.replace('/api', '')} 等待加载`;
     async function loadData(nextFilters, options = {}) {
         setLoading(true);
         setError('');
@@ -100,15 +100,15 @@ export function CleanTaskPage() {
         setSelectedIds((current) => (checked ? [...current, taskId] : current.filter((id) => id !== taskId)));
     }
     function handleBatchNotify() {
-        setFeedback(`已通知 ${selectedIds.length} 个任务，通知接口 ${cleanTaskNotifyEndpoint.replace('https://hudson-prod.localhome.cn', '')}`);
+        setFeedback(`已通知 ${selectedIds.length} 个任务，通知接口 ${cleanTaskNotifyEndpoint.replace('/api', '')}`);
     }
     function handleExport() {
-        setFeedback(`已创建导出任务，导出接口 ${cleanTaskExportEndpoint.replace('https://hudson-prod.localhome.cn', '')}`);
+        setFeedback(`已创建导出任务，导出接口 ${cleanTaskExportEndpoint.replace('/api', '')}`);
     }
     function handleCreateConfirm() {
         setCreateOpen(false);
         setRemark('');
-        setFeedback(`保洁任务已创建，创建接口 ${cleanTaskCreateEndpoint.replace('https://hudson-prod.localhome.cn', '')}`);
+        setFeedback(`保洁任务已创建，创建接口 ${cleanTaskCreateEndpoint.replace('/api', '')}`);
     }
     function handleMoreRoute(path) {
         setMoreOpen(false);

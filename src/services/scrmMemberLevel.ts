@@ -160,7 +160,7 @@ export function buildScrmMemberLevelRequest(filters: ScrmMemberLevelFilters) {
 function getScrmMemberLevelProviderName(): ScrmMemberLevelProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem('pms.scrmMemberLevelProvider')
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 async function fetchMockDashboard(

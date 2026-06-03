@@ -1,4 +1,4 @@
-const realBaseUrl = 'https://hudson-prod.localhome.cn';
+const realBaseUrl = '/api';
 const statementEndpoint = '/report/storer/statement/get';
 const exportExcelMenuId = '1732967098146951178';
 const defaultCampId = '1796067693589061634';
@@ -106,7 +106,7 @@ export async function exportStatementOrderData(scope, signal) {
 export function createStatementOrderQuery(scope) {
     const store = stores.find((item) => item.id === scope) ?? stores[0];
     return {
-        campId: defaultCampId,
+        campId: resolveCampId(),
         poiIds: store.poiIds,
         bookingStartDate: defaultBookingStartDate,
         bookingEndDate: defaultBookingEndDate,
@@ -118,7 +118,7 @@ export function createStatementOrderQuery(scope) {
 }
 function resolveProvider() {
     const configured = readRuntimeConfig('pms.statementOrderProvider') || import.meta.env.VITE_STATEMENT_ORDER_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockMode() {
     const fromUrl = readUrlMockMode();
@@ -132,14 +132,23 @@ function resolveMockMode() {
 function readUrlMockMode() {
     if (typeof window === 'undefined')
         return '';
-    const params = new URLSearchParams(window.location.search);
-    const configured = params.get('mockState') || params.get('statementOrderMockMode');
+    const configured = readMockModeFromSearch(window.location.search) ||
+        readMockModeFromSearch(window.location.hash.split('?')[1] ? `?${window.location.hash.split('?')[1]}` : '');
     return configured === 'empty' || configured === 'error' || configured === 'success' ? configured : '';
+}
+function readMockModeFromSearch(search) {
+    const params = new URLSearchParams(search);
+    return params.get('mockState') || params.get('statementOrderMockMode') || '';
 }
 function readRuntimeConfig(key) {
     if (typeof window === 'undefined')
         return '';
     return window.localStorage.getItem(key)?.trim() || '';
+}
+function resolveCampId(fallback = defaultCampId) {
+    const storageCampId = readRuntimeConfig('pmsCampId') || readRuntimeConfig('pms.currentCampId') || readRuntimeConfig('pms.campId');
+    const envCampId = import.meta.env.VITE_PMS_CAMP_ID?.trim() || '';
+    return storageCampId || envCampId || fallback;
 }
 async function waitForMockLatency(signal) {
     if (signal?.aborted)

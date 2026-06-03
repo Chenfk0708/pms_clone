@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const HUDSON_BASE_URL = '/api'
 const TASK_ID = 'shezhi--tongyong-shezhi--jiyibi-shezhi'
 const DEFAULT_CAMP_ID = '1796067693589061634'
 
@@ -186,7 +186,7 @@ const paymentWaysSeed = [
 
 export function resolveWriteExpendSettingProviderName(): WriteExpendSettingProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(WRITE_EXPEND_SETTING_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(WRITE_EXPEND_SETTING_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 export function resolveWriteExpendSettingQuery(search: string): {
@@ -262,18 +262,7 @@ export async function createWriteExpendSettingItem(input: {
   }
 
   if (provider === 'api') {
-    persistDiagnostics({
-      provider,
-      action: 'create',
-      state: 'error',
-      endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
-      requestBody,
-      traceId: `api-${TASK_ID}-create-unavailable`,
-      timestamp: new Date().toISOString(),
-      totalItems: 0,
-      disabledCount: 0,
-    })
-    throw new Error('当前环境暂不支持在线新增，请稍后重试')
+    return createWriteExpendSettingItemFromApi(requestBody)
   }
 
   const storedItems = readStoredCustomItems()
@@ -352,6 +341,53 @@ function buildPayloadFromPageData(pageData: WriteExpendSettingPageData): WriteEx
       isEnable: 1,
     })),
   }
+}
+
+async function createWriteExpendSettingItemFromApi(requestBody: {
+  campId: string
+  groupType: number
+  groupName: string
+  paymentTypeName: string
+  isIncome: number
+  bizType: number
+}): Promise<WriteExpendSettingPageData> {
+  const response = await fetch(`${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(requestBody),
+  })
+
+  const payload = (await response.json()) as HudsonEnvelope<WriteExpendSettingPayload>
+
+  if (!response.ok || payload.success === false) {
+    persistDiagnostics({
+      provider: 'api',
+      action: 'create',
+      state: 'error',
+      endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
+      requestBody,
+      traceId: `api-${TASK_ID}-create-http-${response.status}`,
+      timestamp: new Date().toISOString(),
+      totalItems: 0,
+      disabledCount: 0,
+    })
+    throw new Error(payload.errorMsg || 'write expend setting request failed')
+  }
+
+  return buildPageData({
+    provider: 'api',
+    action: 'create',
+    state: 'success',
+    endpoint: `${HUDSON_BASE_URL}${WRITE_EXPEND_SETTING_CREATE_PATH}`,
+    requestBody,
+    payload: {
+      paymentGroups: payload.data?.paymentGroups ?? [],
+      paymentWays: payload.data?.paymentWays ?? paymentWaysSeed,
+    },
+    traceId: `api-${TASK_ID}-create-001`,
+    timestamp: new Date().toISOString(),
+  })
 }
 
 async function fetchWriteExpendSettingPageDataFromApi(requestBody: {
@@ -560,8 +596,9 @@ function buildPageData(input: {
   traceId: string
   timestamp: string
 }): WriteExpendSettingPageData {
-  const incomeGroups = createEmptyGroups()
-  const expenseGroups = createEmptyGroups()
+  const availableGroups = createGroupsFromPayload(input.payload.paymentGroups)
+  const incomeGroups = createEmptyGroups(availableGroups)
+  const expenseGroups = createEmptyGroups(availableGroups)
   const disabledItems: WriteExpendSettingItem[] = []
 
   for (const paymentGroup of input.payload.paymentGroups) {
@@ -623,7 +660,7 @@ function buildPageData(input: {
       },
     },
     disabledItems,
-    availableGroups: groupCatalog.map((group) => ({ groupType: group.groupType, name: group.name })),
+    availableGroups,
     paymentWays: input.payload.paymentWays.filter((item) => item.isEnable === 1).map((item) => item.paymentWayName),
     traceId: input.traceId,
     timestamp: input.timestamp,
@@ -631,8 +668,19 @@ function buildPageData(input: {
   }
 }
 
-function createEmptyGroups(): WriteExpendSettingGroup[] {
-  return groupCatalog.map((group) => ({
+function createGroupsFromPayload(paymentGroups: PaymentGroupDTO[]) {
+  if (!paymentGroups.length) {
+    return groupCatalog.map((group) => ({ groupType: group.groupType, name: group.name }))
+  }
+
+  return paymentGroups.map((group) => ({
+    groupType: group.groupType,
+    name: group.groupTypeName,
+  }))
+}
+
+function createEmptyGroups(groups: Array<{ groupType: number; name: string }>): WriteExpendSettingGroup[] {
+  return groups.map((group) => ({
     id: `group-${group.groupType}`,
     groupType: group.groupType,
     name: group.name,
@@ -684,4 +732,8 @@ function normalizeName(value: string) {
 
 function delay(ms: number) {
   return new Promise((resolve) => globalThis.setTimeout(resolve, ms))
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

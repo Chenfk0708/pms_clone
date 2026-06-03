@@ -1,5 +1,6 @@
+import { resolveCurrentCampId } from '../utils/camp';
 const TASK_ID = 'shezhi--tongyong-shezhi--paixu-shezhi';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CAMP_ID = '10001';
 const SORT_SETTING_PROVIDER_KEY = 'pms.sortSetting.provider';
 const SORT_SETTING_STATE_KEY = 'pms.sortSetting.mockState';
 const SORT_SETTING_DELAY_KEY = 'pms.sortSetting.mockDelayMs';
@@ -74,7 +75,7 @@ function toMockState(value) {
     return value === 'success' || value === 'empty' || value === 'error' ? value : undefined;
 }
 function toProviderName(value) {
-    return value === 'mock' || value === 'api' ? value : undefined;
+    return value === 'mock' ? 'mock' : value === 'api' || value === 'real' ? 'api' : undefined;
 }
 function toSortTab(value) {
     return value === 'store' || value === 'room' || value === 'goods' ? value : undefined;
@@ -82,7 +83,7 @@ function toSortTab(value) {
 function readRuntimeConfig(search = typeof window === 'undefined' ? '' : window.location.search) {
     const params = new URLSearchParams(search);
     const provider = toProviderName(params.get('provider')) ??
-        (typeof window !== 'undefined' && window.localStorage.getItem(SORT_SETTING_PROVIDER_KEY) === 'api' ? 'api' : 'mock');
+        resolveSortSettingProvider();
     const mockState = toMockState(params.get('mockState')) ??
         (toMockState(typeof window !== 'undefined' ? window.localStorage.getItem(SORT_SETTING_STATE_KEY) : null) ?? 'success');
     const activeTab = toSortTab(params.get('tab')) ?? 'store';
@@ -95,7 +96,7 @@ function getCampId() {
     if (typeof window === 'undefined')
         return DEFAULT_CAMP_ID;
     const params = new URLSearchParams(window.location.search);
-    return params.get('campId') || window.localStorage.getItem('pmsCampId') || DEFAULT_CAMP_ID;
+    return params.get('campId') || resolveCurrentCampId(DEFAULT_CAMP_ID);
 }
 function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -142,7 +143,7 @@ function createLoadContracts(campId) {
                 label: '商品列表',
                 method: 'POST',
                 path: SORT_SETTING_GOODS_PATH,
-                requestBody: { campId: '64', buyCampId: campId, roomCategoryTypes: [1], goodsTypes: [7] },
+                requestBody: { campId, buyCampId: campId, roomCategoryTypes: [1, 2, 3], goodsTypes: [7] },
             },
         ],
     };
@@ -170,7 +171,7 @@ function createSaveContract(tab, campId, items) {
             channelRoomCategorySeqs: items.map((item, index) => ({ channelRoomCategoryId: item.entityId, seq: index })),
             campId,
         },
-        note: '该保存路径根据房型排序的同构接口推断，目标站本轮仅取证到商品列表请求，待后端确认最终保存接口。',
+        note: '已接入真实后端商品排序保存接口，拖拽后会同步更新商品顺序。',
     };
 }
 function createTabs(campId, state) {
@@ -255,17 +256,19 @@ function reorderByIds(items, orderedIds) {
     const orderMap = new Map(orderedIds.map((id, index) => [id, index]));
     return [...items].sort((left, right) => (orderMap.get(left.id) ?? 0) - (orderMap.get(right.id) ?? 0));
 }
-function assertApiProvider() {
-    throw new Error('排序设置 API 数据源当前不可用，请先使用默认数据源继续排序。');
-}
 export function resolveSortSettingRuntimeConfig(search) {
     return readRuntimeConfig(search);
+}
+export function resolveSortSettingProvider() {
+    const configured = toProviderName(typeof window !== 'undefined' ? window.localStorage.getItem(SORT_SETTING_PROVIDER_KEY) : null) ??
+        toProviderName(import.meta.env.VITE_SORT_SETTING_PROVIDER ?? null);
+    return configured ?? 'mock';
 }
 export async function fetchSortSettingPageData(runtime = readRuntimeConfig()) {
     if (runtime.mockDelayMs > 0)
         await delay(runtime.mockDelayMs);
     if (runtime.provider === 'api') {
-        assertApiProvider();
+        return fetchApiSortSettingPageData(runtime, getCampId());
     }
     if (runtime.mockState === 'error') {
         throw new Error('排序设置加载失败，请重试后重新进入当前页面。');
@@ -275,7 +278,7 @@ export async function fetchSortSettingPageData(runtime = readRuntimeConfig()) {
 }
 export async function reorderSortSettingItems({ pageData, tab, orderedIds }) {
     if (pageData.provider === 'api') {
-        assertApiProvider();
+        return reorderApiSortSettingItems({ pageData, tab, orderedIds });
     }
     const nextTabs = {
         ...pageData.tabs,
@@ -295,7 +298,7 @@ export async function reorderSortSettingItems({ pageData, tab, orderedIds }) {
     const summaryByTab = {
         store: '门店顺序已更新，当前仅展示 1 个门店，无需提交排序。',
         room: '房型排序已更新，拖拽结果已按目标站房型接口契约生成提交参数。',
-        goods: '商品排序已更新，当前会话顺序已同步，商品保存接口待后端最终确认。',
+        goods: '商品排序已更新，拖拽结果已提交到真实商品排序接口。',
     };
     saveLastRequest({
         tab,
@@ -310,4 +313,172 @@ export async function reorderSortSettingItems({ pageData, tab, orderedIds }) {
         lastContract: nextTabs[tab].saveContract ?? null,
         timestamp: createTimestamp(),
     };
+}
+async function fetchApiSortSettingPageData(runtime, campId) {
+    const storeRequest = { campId, pageSize: 999, pageNum: 1, channelId: 0, isAvailability: '1' };
+    const roomRequest = { campId, pageSize: 999, pageNum: 1, roomCategoryName: '', keyword: '', cityIds: [], channelId: '' };
+    const goodsRequest = { campId, buyCampId: campId, roomCategoryTypes: [1, 2, 3], goodsTypes: [7], pageNum: 1, pageSize: 999, keyword: '' };
+    const [storeEnvelope, roomEnvelope, goodsEnvelope] = await Promise.all([
+        postHudson(SORT_SETTING_STORE_PATH, storeRequest),
+        postHudson(SORT_SETTING_ROOM_PATH, roomRequest),
+        postHudson(SORT_SETTING_GOODS_PATH, goodsRequest),
+    ]);
+    const storePayload = unwrapHudsonEnvelope(storeEnvelope, SORT_SETTING_STORE_PATH);
+    const roomPayload = unwrapHudsonEnvelope(roomEnvelope, SORT_SETTING_ROOM_PATH);
+    const goodsPayload = unwrapHudsonEnvelope(goodsEnvelope, SORT_SETTING_GOODS_PATH);
+    const tabs = {
+        store: {
+            key: 'store',
+            label: '门店排序',
+            ariaLabel: '门店排序列表',
+            items: adaptStoreItems(storePayload.list),
+            loadContracts: [{ label: '门店列表', method: 'POST', path: SORT_SETTING_STORE_PATH, requestBody: storeRequest }],
+            saveContract: null,
+        },
+        room: {
+            key: 'room',
+            label: '房型排序',
+            ariaLabel: '房型排序列表',
+            items: adaptRoomItems(roomPayload.list),
+            loadContracts: [
+                { label: '房型列表', method: 'POST', path: SORT_SETTING_ROOM_PATH, requestBody: roomRequest },
+            ],
+            saveContract: null,
+        },
+        goods: {
+            key: 'goods',
+            label: '商品排序',
+            ariaLabel: '商品排序列表',
+            items: adaptGoodsItems(goodsPayload.list),
+            loadContracts: [{ label: '商品列表', method: 'POST', path: SORT_SETTING_GOODS_PATH, requestBody: goodsRequest }],
+            saveContract: null,
+        },
+    };
+    tabs.room.saveContract = createSaveContract('room', campId, tabs.room.items);
+    tabs.goods.saveContract = createSaveContract('goods', campId, tabs.goods.items);
+    const lastRequest = readLastRequest();
+    return {
+        provider: 'api',
+        state: tabs[runtime.activeTab].items.length ? 'success' : 'empty',
+        campId,
+        projectMenuId: 1,
+        activeTab: runtime.activeTab,
+        infoTip: '拖拽即可进行排序，当前数据来自真实后端接口并会同步保存。',
+        tabs,
+        traceId: readString(roomEnvelope.traceId ?? goodsEnvelope.traceId ?? storeEnvelope.traceId, 'api-sort-setting'),
+        timestamp: readString(roomEnvelope.timestamp ?? goodsEnvelope.timestamp ?? storeEnvelope.timestamp, new Date().toISOString()),
+        lastActionSummary: lastRequest?.summary ?? '已同步真实排序数据',
+        lastContract: lastRequest?.contract ?? null,
+    };
+}
+async function reorderApiSortSettingItems({ pageData, tab, orderedIds }) {
+    const nextTabs = {
+        ...pageData.tabs,
+        [tab]: {
+            ...pageData.tabs[tab],
+            items: reorderByIds(pageData.tabs[tab].items, orderedIds),
+        },
+    };
+    nextTabs.room = {
+        ...nextTabs.room,
+        saveContract: createSaveContract('room', pageData.campId, nextTabs.room.items),
+    };
+    nextTabs.goods = {
+        ...nextTabs.goods,
+        saveContract: createSaveContract('goods', pageData.campId, nextTabs.goods.items),
+    };
+    const contract = nextTabs[tab].saveContract ?? null;
+    if (contract) {
+        const envelope = await postHudson(contract.path, contract.requestBody);
+        unwrapHudsonEnvelope(envelope, contract.path);
+    }
+    const summaryByTab = {
+        store: '门店顺序已更新，当前仅展示可排序门店。',
+        room: '房型排序已更新，并已提交到真实房型排序接口。',
+        goods: '商品排序已更新，并已提交到真实商品排序接口。',
+    };
+    const summary = summaryByTab[tab];
+    saveLastRequest({ tab, summary, contract, timestamp: new Date().toISOString() });
+    return {
+        ...pageData,
+        tabs: nextTabs,
+        lastActionSummary: summary,
+        lastContract: contract,
+        timestamp: new Date().toISOString(),
+    };
+}
+async function postHudson(endpoint, body) {
+    const response = await fetch(`/api${endpoint}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+    });
+    const payload = (await response.json().catch(() => null));
+    if (!response.ok)
+        throw new Error(`${endpoint}: HTTP ${response.status}`);
+    if (!payload)
+        throw new Error(`${endpoint}: empty response`);
+    return payload;
+}
+function unwrapHudsonEnvelope(payload, endpoint) {
+    if (payload.success === false || (payload.code !== undefined && payload.code !== 0)) {
+        throw new Error(payload.errorMsg || payload.errorDetail || payload.message || `${endpoint}: business error`);
+    }
+    if (payload.data === undefined || payload.data === null) {
+        throw new Error(`${endpoint}: missing data`);
+    }
+    return payload.data;
+}
+function adaptStoreItems(input) {
+    return asArray(input).map((item, index) => {
+        const record = asRecord(item);
+        const id = readString(record.poiId ?? record.id, `store-${index + 1}`);
+        return {
+            id: `store-${id}`,
+            entityId: id,
+            title: readString(record.poiName ?? record.name ?? record.label, `门店${index + 1}`),
+        };
+    });
+}
+function adaptRoomItems(input) {
+    return asArray(input).map((item, index) => {
+        const record = asRecord(item);
+        const id = readString(record.roomCategoryId ?? record.id, `room-${index + 1}`);
+        return {
+            id: `room-${id}`,
+            entityId: id,
+            title: readString(record.roomCategoryName ?? record.name, `房型${index + 1}`),
+            imageUrl: readString(record.mainPhoto ?? record.mainPhotoMediaUrl, ''),
+        };
+    });
+}
+function adaptGoodsItems(input) {
+    return asArray(input).map((item, index) => {
+        const record = asRecord(item);
+        const id = readString(record.channelRoomCategoryId ?? record.goodsId ?? record.id, `goods-${index + 1}`);
+        return {
+            id: `goods-${id}`,
+            entityId: id,
+            title: readString(record.channelRoomCategoryName ?? record.name, `商品${index + 1}`),
+            subtitle: '商品',
+            imageUrl: readString(record.mainPhoto ?? record.mainPhotoMediaUrl, ''),
+        };
+    });
+}
+function asArray(value) {
+    if (!value)
+        return [];
+    if (Array.isArray(value))
+        return value;
+    const record = asRecord(value);
+    return Array.isArray(record.list) ? record.list : [];
+}
+function asRecord(value) {
+    return value && typeof value === 'object' ? value : {};
+}
+function readString(value, fallback) {
+    if (value === undefined || value === null || value === '')
+        return fallback;
+    return String(value);
 }

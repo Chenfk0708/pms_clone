@@ -105,7 +105,7 @@ export function ShiftRecordPage() {
         {serviceContract}
       </div>
 
-      <div className="sr-only-heading" role="status">
+      <div className="sr-only-heading" role="status" aria-label="交接班操作反馈">
         {feedback}
       </div>
       {/*

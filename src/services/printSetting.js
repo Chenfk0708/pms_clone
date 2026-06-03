@@ -1,9 +1,13 @@
+import { apiPost } from '../api/client';
+import { resolveCurrentCampId } from '../utils/camp';
 export const PRINT_SETTING_PROVIDER_KEY = 'pms.printSettingProvider';
 export const PRINT_SETTING_MOCK_STATE_KEY = 'pms.printSettingMockState';
 export const PRINT_SETTING_MUTATION_STATE_KEY = 'pms.printSettingMutationState';
 export const PRINT_SETTING_BOOTSTRAP_ENDPOINT = '/setting/print/bootstrap';
 export const PRINT_SETTING_SAVE_ENDPOINT = '/setting/print/save';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+export const PRINT_SETTING_API_GET_ENDPOINT = '/printSettings/get';
+export const PRINT_SETTING_API_SAVE_ENDPOINT = '/printSettings/save';
+const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_TIMESTAMP = '2026-05-19T19:25:52+08:00';
 export class PrintSettingServiceError extends Error {
     provider;
@@ -63,7 +67,7 @@ export function resolvePrintSettingRuntimeConfig(location) {
 }
 export function createDefaultPrintSettingQuery(runtimeConfig) {
     return {
-        campId: DEFAULT_CAMP_ID,
+        campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
         provider: runtimeConfig.provider,
         mockState: runtimeConfig.mockState,
         mutationState: runtimeConfig.mutationState,
@@ -72,10 +76,11 @@ export function createDefaultPrintSettingQuery(runtimeConfig) {
 export async function loadPrintSettingViewModel(query, signal) {
     const provider = query.provider ?? 'mock';
     const request = buildBootstrapRequest(query);
-    await delay(180, signal);
     if (provider === 'api') {
-        throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'bootstrap', 503, '打印设置暂时不可用，请稍后重试'));
+        const data = await apiPost(PRINT_SETTING_API_GET_ENDPOINT, request, signal);
+        return adaptPrintSettingEnvelope(provider, request, createApiEnvelope(data, 'print-settings-get'), normalizeResponseState(data), PRINT_SETTING_API_GET_ENDPOINT);
     }
+    await delay(180, signal);
     if (query.mockState === 'error') {
         throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'bootstrap', 50001, '打印设置加载失败，请稍后重试'));
     }
@@ -86,7 +91,6 @@ export async function loadPrintSettingViewModel(query, signal) {
 }
 export async function savePrintSettingSection(query, draft, signal) {
     validateDraft(draft);
-    await delay(160, signal);
     const provider = query.provider ?? 'mock';
     const request = {
         campId: query.campId,
@@ -95,7 +99,12 @@ export async function savePrintSettingSection(query, draft, signal) {
         selectedDocument: draft.selectedDocument,
         customText: draft.customText,
     };
-    if (provider === 'api' || query.mutationState === 'error') {
+    if (provider === 'api') {
+        const data = await apiPost(PRINT_SETTING_API_SAVE_ENDPOINT, request, signal);
+        return adaptPrintSettingEnvelope(provider, request, createApiEnvelope(data, 'print-settings-save'), 'success', PRINT_SETTING_API_SAVE_ENDPOINT);
+    }
+    await delay(160, signal);
+    if (query.mutationState === 'error') {
         throw new PrintSettingServiceError(provider, request, createEnvelope('error', 'save', 50011, '打印模板保存失败，请稍后重试'));
     }
     mockSections = mockSections.map((section) => section.key === draft.key
@@ -109,28 +118,60 @@ export async function savePrintSettingSection(query, draft, signal) {
     return adaptPrintSettingEnvelope(provider, request, createEnvelope('success', 'save', 0, 'success', buildPayload(mockSections)), 'success');
 }
 export async function applyDefaultPrintSettingTemplates(query, signal) {
+    const provider = query.provider ?? 'mock';
+    if (provider === 'api') {
+        let response = null;
+        for (const section of initialSections) {
+            response = await savePrintSettingSection(query, {
+                key: section.key,
+                paperType: section.paperType,
+                selectedDocument: section.selectedDocument,
+                customText: section.customText,
+            }, signal);
+        }
+        if (!response) {
+            const request = { campId: query.campId, action: 'apply-default' };
+            return adaptPrintSettingEnvelope(provider, request, createApiEnvelope(buildPayload(initialSections), 'print-settings-apply-default'), 'success', PRINT_SETTING_API_SAVE_ENDPOINT);
+        }
+        return response;
+    }
     await delay(140, signal);
     mockSections = cloneSections(initialSections);
     const request = {
         campId: query.campId,
         action: 'apply-default',
     };
-    return adaptPrintSettingEnvelope(query.provider ?? 'mock', request, createEnvelope('success', 'save', 0, 'success', buildPayload(mockSections)), 'success');
+    return adaptPrintSettingEnvelope(provider, request, createEnvelope('success', 'save', 0, 'success', buildPayload(mockSections)), 'success');
 }
-function adaptPrintSettingEnvelope(provider, request, response, state) {
+function adaptPrintSettingEnvelope(provider, request, response, state, endpoint = String(request.section ? PRINT_SETTING_SAVE_ENDPOINT : PRINT_SETTING_BOOTSTRAP_ENDPOINT)) {
     if (response.code !== 0) {
         throw new PrintSettingServiceError(provider, request, response);
     }
     return {
         provider,
         state,
-        endpoint: String(request.section ? PRINT_SETTING_SAVE_ENDPOINT : PRINT_SETTING_BOOTSTRAP_ENDPOINT),
+        endpoint,
         traceId: response.traceId,
         timestamp: response.timestamp,
         request,
         sections: cloneSections(response.data.sections),
         emptyState: response.data.emptyState,
     };
+}
+function createApiEnvelope(data, traceId) {
+    return {
+        code: 0,
+        message: 'success',
+        data: {
+            sections: Array.isArray(data.sections) ? data.sections : [],
+            emptyState: data.emptyState ?? buildPayload([]).emptyState,
+        },
+        traceId,
+        timestamp: new Date().toISOString(),
+    };
+}
+function normalizeResponseState(data) {
+    return Array.isArray(data.sections) && data.sections.length > 0 ? 'success' : 'empty';
 }
 function buildPayload(sections) {
     return {
@@ -182,7 +223,11 @@ function delay(ms, signal) {
     });
 }
 function normalizeProvider(value) {
-    return value === 'api' || value === 'mock' ? value : undefined;
+    if (value === 'api' || value === 'real')
+        return 'api';
+    if (value === 'mock')
+        return 'mock';
+    return undefined;
 }
 function normalizeMockState(value) {
     return value === 'success' || value === 'empty' || value === 'error' ? value : undefined;
@@ -193,7 +238,8 @@ function normalizeMutationState(value) {
 function readProvider() {
     if (typeof window === 'undefined')
         return 'mock';
-    return normalizeProvider(window.localStorage.getItem(PRINT_SETTING_PROVIDER_KEY)) ?? 'mock';
+    const provider = normalizeProvider(window.localStorage.getItem(PRINT_SETTING_PROVIDER_KEY));
+    return provider ?? 'mock';
 }
 function readMockState() {
     if (typeof window === 'undefined')

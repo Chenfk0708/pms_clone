@@ -109,14 +109,14 @@ function OtaDashboardPage() {
                 channels={data.connectedChannels}
                 kind="connected"
                 onAuthorize={(channel) => setDialog({ type: 'authorization', channel })}
-                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${channel.id}`)}
+                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`)}
               />
               <ChannelSection
                 title="未直连渠道"
                 channels={data.pendingChannels}
                 kind="pending"
                 onAuthorize={(channel) => setDialog({ type: 'pending-guide', channel })}
-                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${channel.id}`)}
+                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`)}
               />
             </>
           )}
@@ -604,6 +604,10 @@ function ChannelSection({
       </div>
     </section>
   )
+}
+
+function toOtaDetailChannelParam(channel: OtaChannel) {
+  return channel.accountId ? `${channel.id}|account:${channel.accountId}` : channel.id
 }
 
 function FeedbackStatus({ feedback }: { feedback: { kind: FeedbackKind; message: string } }) {

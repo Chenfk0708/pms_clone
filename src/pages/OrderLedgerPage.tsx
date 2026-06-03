@@ -52,6 +52,25 @@ export function OrderLedgerPage() {
   const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
   const [dateDraft, setDateDraft] = useState(() => ({ beginTime: request.beginTime, endTime: request.endTime }))
   const dateRangeRef = useRef<HTMLDivElement | null>(null)
+  const searchRef = useRef(location.search)
+
+  useEffect(() => {
+    if (searchRef.current === location.search) return
+    searchRef.current = location.search
+    setDashboard(null)
+    setError('')
+    setNotice('')
+    setLoading(true)
+    setOpenSelect(null)
+    setProjectPanelOpen(false)
+    setRoomDialogOpen(false)
+    setDetailRecord(null)
+    setActiveDetailTab('order')
+    setMoreActionsOpen(false)
+    setIsDatePanelOpen(false)
+    setDatePickTarget('start')
+    setRequest(createPageRequest(location.search))
+  }, [location.search])
 
   useEffect(() => {
     const abort = new AbortController()

@@ -144,8 +144,12 @@ function LocalsMallViewShell({
   const provider = overview?.provider ?? detail?.provider ?? 'mock'
   const state = errorMessage ? 'error' : overview?.emptyState ? 'empty' : isLoading ? 'loading' : 'ready'
   const traceId = overview?.traceId ?? detail?.traceId ?? ''
+  const contractQuery = {
+    ...query,
+    productId: resolveContractProductId(query, overview, detail),
+  }
   const contract = getLocalsMallContract(
-    query,
+    contractQuery,
     provider,
     errorMessage ? 'error' : overview?.emptyState ? 'empty' : isLoading ? 'loading' : 'success',
     traceId,
@@ -497,4 +501,19 @@ function StatusToast({ message }: { message: string }) {
       {message}
     </div>
   )
+}
+
+function resolveContractProductId(
+  query: LocalsMallQuery,
+  overview: LocalsMallOverview | null,
+  detail: LocalsMallDetail | null,
+) {
+  if (detail?.productId) return detail.productId
+
+  for (const section of overview?.sections ?? []) {
+    const currentProduct = section.products.find((product) => product.id)
+    if (currentProduct) return currentProduct.id
+  }
+
+  return query.productId
 }

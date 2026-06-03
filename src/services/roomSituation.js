@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn';
+const HUDSON_BASE_URL = '/api';
 const mockCampId = 'mock-camp-fangqingbiao';
 const mockTimestamp = '2026-05-18T10:00:00+08:00';
 const dayMs = 24 * 60 * 60 * 1000;

@@ -1,4 +1,4 @@
-export const centralPriceEndpoint = 'https://hudson-prod.localhome.cn/roomCategoryStatuses/central/get'
+export const centralPriceEndpoint = '/api/roomCategoryStatuses/central/get'
 export const centralPriceBusinessSourceLabel = '中央价格服务'
 
 export type CentralPriceProviderName = 'mock' | 'real'

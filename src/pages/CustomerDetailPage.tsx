@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchCustomerDetail, type CustomerDetailData, type CustomerDetailTab } from '../services/customerDetail'
-import { fetchCustomerListDashboard, type CustomerRecord } from '../services/customerList'
 import './CustomerDetailPage.css'
 
 const tabs: Array<{ key: CustomerDetailTab; label: string }> = [
@@ -28,8 +27,7 @@ export function CustomerDetailPage() {
       setLoading(true)
       setError('')
       try {
-        const record = await findCustomerById(customerId, controller.signal)
-        const nextDetail = await fetchCustomerDetail(record, controller.signal)
+        const nextDetail = await fetchCustomerDetail(customerId, controller.signal)
         setDetail(nextDetail)
       } catch (reason) {
         if (reason instanceof DOMException && reason.name === 'AbortError') return
@@ -66,6 +64,14 @@ export function CustomerDetailPage() {
       </div>
 
       <section className="customer-detail-shell">
+        <pre
+          hidden
+          data-testid="customer-detail-contract"
+          data-provider={detail?.provider ?? 'mock'}
+          data-endpoint={detail?.endpoint ?? 'static-customer-detail'}
+        >
+          {detail ? JSON.stringify(detail.requestBody) : '{}'}
+        </pre>
         <nav className="customer-detail-tabs" aria-label="客户详情标签">
           {tabs.map((tab) => (
             <button key={tab.key} type="button" className={activeTab === tab.key ? 'is-active' : ''} onClick={() => setActiveTab(tab.key)}>
@@ -246,38 +252,4 @@ function ProfileTab({ detail, onOpenFollowDialog }: { detail: CustomerDetailData
       </section>
     </div>
   )
-}
-
-async function findCustomerById(customerId: string, signal?: AbortSignal): Promise<CustomerRecord | null> {
-  const query = {
-    campId: '1796067693589061634',
-    pageNum: 1,
-    pageSize: 20,
-    memberSearchType: 'mobile' as const,
-    keyword: '',
-    status: '' as const,
-    identity: '' as const,
-    memberCardId: '',
-    wechatState: '' as const,
-    gender: '' as const,
-    ageRange: '',
-    firstMemberStartTime: '',
-    firstMemberEndTime: '',
-    firstMemberCardStartTime: '',
-    firstMemberCardEndTime: '',
-    lastFollowStartTime: '',
-    lastFollowEndTime: '',
-    lastConsumeStartTime: '',
-    lastConsumeEndTime: '',
-    lastConsumeMin: '',
-    lastConsumeMax: '',
-    totalConsumeMin: '',
-    totalConsumeMax: '',
-    avgConsumeMin: '',
-    avgConsumeMax: '',
-    scenario: 'success' as const,
-  }
-
-  const dashboard = await fetchCustomerListDashboard(query, signal)
-  return dashboard.rows.find((row) => row.id === customerId) ?? dashboard.rows[5] ?? dashboard.rows[0] ?? null
 }

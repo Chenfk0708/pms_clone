@@ -1,17 +1,19 @@
-import { expect, test } from '@playwright/test'
+﻿import { expect, test } from '@playwright/test'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 const pagePath = '/version/subscriptionCenter'
 const forbiddenDevelopmentCopy = /mock 数据|mock provider|provider=mock|未接入|待接入|阻塞|后端未就绪|后端接口未完成/i
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalizedPath}` : normalizedPath
 }
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
-    window.localStorage.setItem('pms.versionSubscriptionProvider', 'mock')
+    if (!window.localStorage.getItem('pms.versionSubscriptionProvider')) window.localStorage.setItem('pms.versionSubscriptionProvider', 'mock')
+    window.localStorage.setItem('pms_token', 'version-subscription-mock-token')
     window.localStorage.removeItem('pms.versionSubscriptionMockState')
     window.localStorage.removeItem('pms.versionSubscription.lastRequest')
   })
@@ -93,9 +95,125 @@ test('/version/subscriptionCenter renders empty and error states with retry', as
   await expect(page.locator('.version-subscription-page')).toHaveAttribute('data-response-state', 'success')
 })
 
+test('/version/subscriptionCenter api provider requests real dashboard, catalog, and order contracts', async ({ page }) => {
+  const requests: Array<{ path: string; body: Record<string, unknown> }> = []
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.versionSubscriptionProvider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms_token', 'version-subscription-api-contract-token')
+  })
+
+  await page.route('**/api/edition/resource/get', async (route) => {
+    requests.push({ path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() as Record<string, unknown> })
+    await route.fulfill({
+      json: {
+        code: 0,
+        message: 'success',
+        traceId: 'api-version-subscription-dashboard-001',
+        timestamp: '2026-06-01T12:00:00+08:00',
+        data: {
+          editionId: '9',
+          editionName: '畅享版',
+          buildVersion: 'v4.10.7',
+          campName: '路客云演示租户',
+          expireDateRange: '2026-06-01 至 2027-05-31',
+          resourceGetViews: [
+            { resourceName: '门店', quotaNum: 1, usedQuotaView: { usedQuotaNum: 1 } },
+            { resourceName: '库存', quotaNum: 10, usedQuotaView: { usedQuotaNum: 4 } },
+            { resourceName: '成员账号', quotaNum: 3, usedQuotaView: { usedQuotaNum: 1 } },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/weiRoomCategories/page/get', async (route) => {
+    requests.push({ path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() as Record<string, unknown> })
+    await route.fulfill({
+      json: {
+        code: 0,
+        message: 'success',
+        traceId: 'api-version-subscription-catalog-001',
+        timestamp: '2026-06-01T12:00:01+08:00',
+        data: {
+          total: 2,
+          list: [
+            {
+              channelRoomCategoryId: 'version-standard',
+              channelRoomCategoryName: '标准版',
+              goodsType: 2,
+              lowestSellingPrice: 0,
+              lowestOriginalPrice: 0,
+              description: '适合单店基础运营。',
+              roomCategoryProductGetViews: [{ roomCategoryProductId: 'sku-standard-1y', roomCategoryProductName: '12个月', sellingPrice: 0 }],
+            },
+            {
+              channelRoomCategoryId: 'version-delight',
+              channelRoomCategoryName: '畅享版',
+              goodsType: 2,
+              lowestSellingPrice: 138800,
+              lowestOriginalPrice: 158800,
+              description: '覆盖住宿管理、基础渠道和专业报表。',
+              roomCategoryProductGetViews: [{ roomCategoryProductId: 'sku-delight-1y', roomCategoryProductName: '12个月', sellingPrice: 138800 }],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/version/subscription/order/submit', async (route) => {
+    requests.push({ path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() as Record<string, unknown> })
+    await route.fulfill({
+      json: {
+        code: 0,
+        message: 'success',
+        traceId: 'api-version-subscription-order-001',
+        timestamp: '2026-06-01T12:00:02+08:00',
+        data: {
+          message: '畅享版购买信息已生成',
+          redirectTo: '/version/applicationPayment/detail?plan=delight&duration=2y',
+          orderNo: 'VS202606010001',
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl(pagePath))
+  const providerValue = await page.evaluate(() => window.localStorage.getItem('pms.versionSubscriptionProvider'))
+  expect(providerValue).toBe('api')
+
+  await expect(page.locator('.version-subscription-page')).toHaveAttribute('data-provider', 'api')
+  await expect(page.getByRole('region', { name: '当前版本信息' })).toContainText('当前版本：畅享版')
+  await expect(page.getByRole('region', { name: '版本能力矩阵' })).toContainText('库存(10个)')
+  await expect(page.getByRole('list', { name: '版本套餐' })).toContainText('畅享版')
+
+  await page.getByRole('button', { name: '两年' }).click()
+  await page.getByRole('button', { name: '立即购买' }).click()
+  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail\?plan=delight&duration=2y$/)
+
+  expect(requests).toEqual(
+    expect.arrayContaining([
+      { path: '/api/edition/resource/get', body: { campId: '10001' } },
+      {
+        path: '/api/weiRoomCategories/page/get',
+        body: expect.objectContaining({ campId: '64', buyCampId: '10001', goodsTypes: [2], roomCategoryTypes: [1] }),
+      },
+      {
+        path: '/api/version/subscription/order/submit',
+        body: expect.objectContaining({ campId: '10001', editionId: '9', duration: '2y', quantity: 2 }),
+      },
+    ]),
+  )
+})
+
 async function readDiagnostics(page: import('@playwright/test').Page) {
   return page.evaluate(() => {
     const rawValue = window.localStorage.getItem('pms.versionSubscription.lastRequest')
     return rawValue ? JSON.parse(rawValue) : null
   })
 }
+
+
+

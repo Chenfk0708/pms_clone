@@ -106,11 +106,13 @@ export function PsbLogPage() {
 
   useEffect(() => {
     const controller = new AbortController()
+    let ignore = false
 
     setError('')
     setSelectedLog(null)
     fetchPsbLogPageData(query, controller.signal)
       .then((nextResult) => {
+        if (ignore) return
         setResult(nextResult)
         setStatusMessage(
           nextResult.view.rows.length > 0
@@ -121,12 +123,16 @@ export function PsbLogPage() {
         )
       })
       .catch((caught: unknown) => {
+        if (ignore) return
         if (caught instanceof DOMException && caught.name === 'AbortError') return
         setResult(null)
         setError(caught instanceof Error ? caught.message : '上报日志加载失败，请稍后重试')
       })
 
-    return () => controller.abort()
+    return () => {
+      ignore = true
+      controller.abort()
+    }
   }, [appliedFilters, query, reloadToken])
 
   const stores = result?.view.stores ?? [

@@ -1,4 +1,4 @@
-export const HOTEL_PACKAGE_ORDER_ENDPOINT = 'https://hudson-prod.localhome.cn/orders/page/get'
+export const HOTEL_PACKAGE_ORDER_ENDPOINT = '/api/orders/page/get'
 
 export type HotelPackageOrderProvider = 'mock' | 'api'
 export type HotelPackageOrderMockState = 'success' | 'empty' | 'error'
@@ -168,7 +168,7 @@ export function readInitialHotelPackageOrderFilters(): HotelPackageOrderFilters 
 }
 
 export function getHotelPackageOrderProvider(): HotelPackageOrderProvider {
-  return window.localStorage.getItem('pmsHotelPackageOrderProvider') === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem('pmsHotelPackageOrderProvider')) === 'api' ? 'api' : 'mock'
 }
 
 export function getHotelPackageOrderMockState(): HotelPackageOrderMockState {
@@ -420,4 +420,8 @@ function toArray(value: unknown): unknown[] {
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

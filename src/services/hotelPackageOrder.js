@@ -1,4 +1,4 @@
-export const HOTEL_PACKAGE_ORDER_ENDPOINT = 'https://hudson-prod.localhome.cn/orders/page/get';
+export const HOTEL_PACKAGE_ORDER_ENDPOINT = '/api/orders/page/get';
 export const HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE = 20;
 const TASK_ID = 'dingdan--yushouquan-dingdan--jiudian-taocan-dingdan';
 const HOTEL_PACKAGE_TYPE = '4';
@@ -75,7 +75,7 @@ export function readInitialHotelPackageOrderFilters() {
     };
 }
 export function getHotelPackageOrderProvider() {
-    return window.localStorage.getItem('pmsHotelPackageOrderProvider') === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem('pmsHotelPackageOrderProvider')) === 'api' ? 'api' : 'mock';
 }
 export function getHotelPackageOrderMockState() {
     const state = new URLSearchParams(window.location.search).get('mockState');
@@ -297,4 +297,7 @@ function toArray(value) {
 }
 function asRecord(value) {
     return value && typeof value === 'object' ? value : {};
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

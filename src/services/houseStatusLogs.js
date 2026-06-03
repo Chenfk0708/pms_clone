@@ -1,4 +1,4 @@
-export const HOUSE_STATUS_LOG_ENDPOINT = 'https://hudson-prod.localhome.cn/roomStatusOperationLog/page/get/v2';
+export const HOUSE_STATUS_LOG_ENDPOINT = '/api/roomStatusOperationLog/page/get/v2';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const MOCK_TRACE_ID = 'mock-fangtai--fangtai-guanli--fangtai-rizhi-list-001';
 const mockHouseStatusLogs = [

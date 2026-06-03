@@ -1,4 +1,4 @@
-const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn';
+const HUDSON_API_BASE = '/api';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const DEFAULT_MOCK_CAMP_ID = 'mock-camp-qianhai-001';
 const REQUEST_PATHS = ['/order/report/get', '/orders/page/get'];
@@ -9,21 +9,24 @@ export class HouseOrderRequestError extends Error {
     }
 }
 export function resolveHouseOrderCampId() {
-    const params = new URLSearchParams(window.location.search);
+    const params = readHouseOrderSearchParams();
     return (params.get('campId') ||
         window.localStorage.getItem('pmsCampId') ||
         window.localStorage.getItem('pms.currentCampId') ||
+        readStoredUserCampId() ||
         import.meta.env.VITE_PMS_CAMP_ID ||
         '');
 }
 export function resolveHouseOrderProviderMode() {
-    const params = new URLSearchParams(window.location.search);
+    const params = readHouseOrderSearchParams();
     const configured = params.get('houseOrderProvider') ||
         window.localStorage.getItem('pms.houseOrderProvider') ||
         import.meta.env.VITE_HOUSE_ORDER_PROVIDER ||
-        'mock';
-    if (configured === 'mock' || configured === 'api')
-        return configured;
+        'api';
+    if (configured === 'api' || configured === 'real')
+        return 'api';
+    if (configured === 'mock')
+        return 'mock';
     throw new HouseOrderRequestError(`住宿订单数据源配置无效：${configured}`);
 }
 export async function fetchHouseOrders(filters, signal) {
@@ -37,11 +40,45 @@ export async function fetchHouseOrders(filters, signal) {
     return fetchApiHouseOrders(filters, signal);
 }
 function resolveHouseOrderMockState() {
-    const params = new URLSearchParams(window.location.search);
+    const params = readHouseOrderSearchParams();
     const state = params.get('houseOrderMockState') || window.localStorage.getItem('pms.houseOrderMockState') || 'success';
     if (state === 'success' || state === 'empty' || state === 'error')
         return state;
     throw new HouseOrderRequestError(`住宿订单数据状态配置无效：${state}`);
+}
+function readHouseOrderSearchParams() {
+    const params = new URLSearchParams(window.location.search);
+    const hashQuery = window.location.hash.split('?')[1];
+    if (!hashQuery)
+        return params;
+    const hashParams = new URLSearchParams(hashQuery);
+    hashParams.forEach((value, key) => {
+        if (!params.has(key))
+            params.set(key, value);
+    });
+    return params;
+}
+function readStoredUserCampId() {
+    const rawValue = window.localStorage.getItem('pms_user')?.trim();
+    if (!rawValue)
+        return '';
+    try {
+        const user = JSON.parse(rawValue);
+        const campId = user.campId ?? user.currentCampId;
+        if (typeof campId === 'string' || typeof campId === 'number') {
+            return String(campId).trim();
+        }
+        // 兼容旧登录代码曾把 campId 写入 campName 的会话格式。
+        const legacyCampName = user.campName;
+        if (typeof legacyCampName === 'string' || typeof legacyCampName === 'number') {
+            const candidate = String(legacyCampName).trim();
+            return /^\d+$/.test(candidate) ? candidate : '';
+        }
+    }
+    catch {
+        return '';
+    }
+    return '';
 }
 async function fetchMockHouseOrders(filters, state, signal) {
     await waitForMockLatency(signal);
@@ -312,7 +349,8 @@ function formatMoney(value) {
     const number = Number(value ?? 0);
     if (!Number.isFinite(number))
         return '0';
-    return Number.isInteger(number) ? String(number) : number.toFixed(2).replace(/\.?0+$/, '');
+    const amount = Number.isInteger(number) && Math.abs(number) >= 1000 ? number / 100 : number;
+    return Number.isInteger(amount) ? String(amount) : amount.toFixed(2).replace(/\.?0+$/, '');
 }
 function formatDateTime(value) {
     const number = Number(value);

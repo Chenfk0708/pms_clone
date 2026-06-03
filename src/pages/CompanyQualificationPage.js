@@ -112,7 +112,11 @@ export function CompanyQualificationPage() {
         setSaving(true);
         setFeedback('企业资质保存中');
         try {
-            const nextViewModel = await saveCompanyQualificationProfile(draft);
+            const nextViewModel = await saveCompanyQualificationProfile(draft, {
+                ...defaultCompanyQualificationQuery,
+                provider: runtime.provider,
+                legalIdentity: viewModel?.legalIdentity,
+            });
             setViewModel(nextViewModel);
             setDraft(nextViewModel.profile ? cloneProfile(nextViewModel.profile) : createEmptyCompanyQualificationDraft());
             setEditing(false);
@@ -147,7 +151,10 @@ export function CompanyQualificationPage() {
         setSaving(true);
         setFeedback(`正在上传${label}`);
         try {
-            const result = await uploadCompanyQualificationAsset(target);
+            const result = await uploadCompanyQualificationAsset(target, {
+                ...defaultCompanyQualificationQuery,
+                provider: runtime.provider,
+            });
             setViewModel(result.viewModel);
             setFeedback(`${label}已上传：${result.file.name}`);
         }

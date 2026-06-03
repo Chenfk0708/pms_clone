@@ -12,8 +12,11 @@ function appUrl(routePath: string) {
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
-    window.localStorage.removeItem('pms.notificationSetting.provider')
+    window.localStorage.setItem('pms.notificationSetting.provider', 'mock')
     window.localStorage.removeItem('pms.notificationSetting.mockState')
+    if (!window.localStorage.getItem('pms_token')) {
+      window.localStorage.setItem('pms_token', 'notification-setting-test-token')
+    }
   })
   await page.setViewportSize({ width: 1440, height: 900 })
 })
@@ -95,4 +98,133 @@ test('/setting/wechatPushSetting exposes the error state and supports retry', as
   await page.getByRole('button', { name: '重新加载通知设置' }).click()
   await expect(contract).toHaveAttribute('data-response-state', 'success')
   await expect(page.getByText('订单通知')).toBeVisible()
+})
+
+test('/setting/wechatPushSetting real provider sends gateway auth header and persists notification excludes', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'crm-authority-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const listRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const excludeRequests: Array<{ method: string; headers: Record<string, string>; body: Record<string, unknown> }> = []
+  let orderPcExcluded = false
+
+  await page.route('**/api/userAuthority/notification/get', async (route) => {
+    listRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-crm-authority-list-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          modules: [
+            {
+              moduleName: 'CRM通知',
+              items: [
+                {
+                  authorityId: '43001',
+                  authorityName: '订单通知',
+                  authorityCode: 'notification.pcApp.order',
+                  excluded: orderPcExcluded,
+                },
+                {
+                  authorityId: '43002',
+                  authorityName: '订单通知',
+                  authorityCode: 'notification.wechat.order',
+                  excluded: false,
+                },
+                {
+                  authorityId: '43003',
+                  authorityName: '门店预警',
+                  authorityCode: 'notification.pcApp.storeAlert',
+                  excluded: false,
+                },
+                {
+                  authorityId: '43004',
+                  authorityName: '门店预警',
+                  authorityCode: 'notification.wechat.storeAlert',
+                  excluded: true,
+                },
+                {
+                  authorityId: '43005',
+                  authorityName: '门店动态',
+                  authorityCode: 'notification.pcApp.storeUpdate',
+                  excluded: false,
+                },
+                {
+                  authorityId: '43006',
+                  authorityName: '门店动态',
+                  authorityCode: 'notification.wechat.storeUpdate',
+                  excluded: false,
+                },
+                {
+                  authorityId: '43007',
+                  authorityName: 'IM消息通知',
+                  authorityCode: 'notification.pcApp.im',
+                  excluded: false,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/userAuthority/exclude', async (route) => {
+    const body = (route.request().postDataJSON() as Record<string, unknown>) ?? {}
+    excludeRequests.push({
+      method: route.request().method(),
+      headers: route.request().headers(),
+      body,
+    })
+    orderPcExcluded = route.request().method() !== 'DELETE'
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-crm-authority-exclude-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: true,
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/wechatPushSetting?provider=api'))
+
+  const contract = page.getByTestId('notification-setting-service-contract')
+  await expect(contract).toHaveAttribute('data-provider', 'api')
+  await expect(contract).toHaveAttribute('data-response-state', 'success')
+  await expect(contract).toHaveAttribute('data-endpoint', '/userAuthority/notification/get')
+
+  await expect(page.getByRole('switch', { name: '订单通知 PC\\APP推送' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.getByRole('switch', { name: '门店预警 公众号推送' })).toHaveAttribute('aria-checked', 'false')
+  await expect(page.getByRole('switch')).toHaveCount(9)
+
+  await page.getByRole('switch', { name: '订单通知 PC\\APP推送' }).click()
+  await expect(page.getByRole('switch', { name: '订单通知 PC\\APP推送' })).toHaveAttribute('aria-checked', 'false')
+  await expect(page.getByRole('status')).toContainText('订单通知')
+
+  expect(listRequests.length).toBeGreaterThanOrEqual(2)
+  expect(excludeRequests).toHaveLength(1)
+  expect(listRequests[0].headers.authorization).toBe('Bearer crm-authority-token')
+  expect(excludeRequests[0].headers.authorization).toBe('Bearer crm-authority-token')
+  expect(listRequests[0].body).toMatchObject({ campId: '10001' })
+  expect(excludeRequests[0]).toMatchObject({
+    method: 'POST',
+    body: {
+      campId: '10001',
+      authorityIds: ['43001'],
+    },
+  })
 })

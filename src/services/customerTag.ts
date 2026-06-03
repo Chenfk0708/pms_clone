@@ -1,8 +1,8 @@
 export const customerTagProvider = 'mock'
-export const customerTagListEndpoint = 'https://hudson-prod.localhome.cn/memberTagGroup/page/get'
-export const customerTagSyncEndpoint = 'https://hudson-prod.localhome.cn/wxCpOpen/accounts/get'
-export const customerTagSaveEndpoint = 'https://hudson-prod.localhome.cn/memberTagGroup/save'
-export const customerTagExportEndpoint = 'https://hudson-prod.localhome.cn/memberTagGroup/export'
+export const customerTagListEndpoint = '/api/memberTagGroup/page/get'
+export const customerTagSyncEndpoint = '/api/wxCpOpen/accounts/get'
+export const customerTagSaveEndpoint = '/api/memberTagGroup/save'
+export const customerTagExportEndpoint = '/api/memberTagGroup/export'
 
 export type CustomerTagScenario = 'success' | 'empty' | 'error'
 

@@ -109,7 +109,7 @@ export function DistributionDisplacementPage() {
         className="distribution-displacement-service-state"
         data-testid="distribution-displacement-service-state"
         data-provider={data?.provider ?? 'mock'}
-        data-endpoint={data?.endpoint ?? 'https://hudson-prod.localhome.cn/edition/replace/order/get'}
+        data-endpoint={data?.endpoint ?? '/api/edition/replace/order/get'}
         data-request-body={requestBodyText}
         data-trace-id={data?.traceId ?? ''}
       />

@@ -233,7 +233,7 @@ export async function submitSmartDoorLockAccount(
 
 function getSmartDoorLockProviderName(): SmartDoorLockProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(SMART_DOOR_LOCK_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(SMART_DOOR_LOCK_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 function buildDashboardEnvelope(query: SmartDoorLockQuery): UnifiedEnvelope<SmartDoorLockDashboardPayload> {
@@ -417,4 +417,8 @@ async function waitForMockLatency(signal?: AbortSignal) {
       { once: true },
     )
   })
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

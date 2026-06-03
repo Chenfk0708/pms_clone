@@ -90,7 +90,7 @@ type CustomerMarketingEnvelope<T> = {
 
 type CustomerMarketingEnvelopeData = Omit<CustomerMarketingData, 'provider' | 'requestSummary' | 'traceId' | 'timestamp'>
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const overviewEndpoint = '/scrm/marketing/customer/overview'
 
 const filterOptions = {

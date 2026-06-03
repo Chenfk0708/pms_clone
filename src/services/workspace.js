@@ -1,13 +1,14 @@
-const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn';
+import { resolveCurrentCampId } from '../utils/camp';
+const HUDSON_API_BASE = '/api';
 const WORKSPACE_PROVIDER_STORAGE_KEY = 'pmsWorkspaceProvider';
 const WORKSPACE_MOCK_MODE_STORAGE_KEY = 'pmsWorkspaceMockMode';
 const WORKSPACE_MOCK_CAMP_ID = 'mock-camp-shouye';
 export function resolveWorkspaceCampId() {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get('campId');
-    const fromStorage = window.localStorage.getItem('pmsCampId');
     const fromEnv = import.meta.env.VITE_PMS_CAMP_ID;
-    const campId = fromQuery || fromStorage || fromEnv;
+    const fromRuntime = resolveCurrentCampId(fromEnv || '');
+    const campId = fromQuery || fromRuntime;
     if (campId)
         return campId;
     if (getWorkspaceDataProviderName() === 'mock')
@@ -15,11 +16,11 @@ export function resolveWorkspaceCampId() {
     throw new Error('缺少 campId：请通过 URL query、localStorage.pmsCampId 或 VITE_PMS_CAMP_ID 提供当前门店上下文');
 }
 export function getWorkspaceDataProviderName() {
-    const fromStorage = typeof window === 'undefined' ? null : window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY);
-    if (fromStorage === 'real' || fromStorage === 'mock')
-        return fromStorage;
     const fromEnv = import.meta.env.VITE_WORKSPACE_DATA_PROVIDER;
-    return fromEnv === 'real' ? 'real' : 'mock';
+    if (fromEnv === 'real' || fromEnv === 'mock')
+        return fromEnv;
+    const fromStorage = typeof window === 'undefined' ? null : window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY);
+    return fromStorage === 'real' ? 'real' : 'mock';
 }
 function getWorkspaceMockMode() {
     if (typeof window === 'undefined')
@@ -170,7 +171,20 @@ function buildWorkspaceMockData(endpoint, body, empty) {
         return { total: list.length, list, pagination: { page: 1, pageSize: 10, total: list.length } };
     }
     if (endpoint === '/memo/page/get') {
-        return { total: 0, list: [], pagination: { page: 1, pageSize: 10, total: 0 } };
+        const isHandle = Number(body.isHandle ?? 0);
+        const list = empty
+            ? []
+            : [
+                { memoId: 'mock-memo-001', content: '核对今日预抵客人押金', isHandle: 0 },
+                { memoId: 'mock-memo-002', content: '已同步夜审交接事项', isHandle: 1 },
+            ].filter((item) => item.isHandle === isHandle);
+        return { total: list.length, list, pagination: { page: 1, pageSize: 10, total: list.length } };
+    }
+    if (endpoint === '/memo/add') {
+        return { memoId: 'mock-memo-created', content: String(body.content ?? ''), isHandle: 0 };
+    }
+    if (endpoint === '/memo/handle') {
+        return { memoId: String(body.memoId ?? ''), content: String(body.content ?? ''), isHandle: Number(body.isHandle ?? 1) };
     }
     if (endpoint === '/backlogs/get') {
         return empty
@@ -319,7 +333,7 @@ export async function fetchWorkspaceAnalysis(campId, range) {
         donutSlices: normalizeOriginSlices(data.orderOriginAnalysisList),
     };
 }
-export async function fetchWorkspaceLists(campId, orderTab, keyword) {
+export async function fetchWorkspaceLists(campId, orderTab, keyword, memoHandle = 0) {
     assertRealCampId(campId);
     const [orderData, memoData, backlogData] = await Promise.all([
         requestWorkspaceData('/orders/get', {
@@ -329,24 +343,62 @@ export async function fetchWorkspaceLists(campId, orderTab, keyword) {
             keyword,
             pageSize: 10,
         }),
-        requestWorkspaceData('/memo/page/get', { campId: requireCampId(campId), pageNum: 1, pageSize: 10, isHandle: 0 }),
+        requestWorkspaceData('/memo/page/get', { campId: requireCampId(campId), pageNum: 1, pageSize: 10, isHandle: memoHandle }),
         requestWorkspaceData('/backlogs/get', { campId: requireCampId(campId) }),
     ]);
+    const backlogItems = Array.isArray(backlogData) ? backlogData.map(normalizeBacklogItem).filter(isBacklogItem) : [];
+    const memoItems = Array.isArray(memoData.list) ? memoData.list.map(normalizeMemoItem).filter(isMemoItem) : [];
     return {
         orders: Array.isArray(orderData.list) ? orderData.list.map(normalizeOrder) : [],
         memoCount: Number(memoData.total ?? 0),
-        productItems: Array.isArray(backlogData) ? backlogData.map(normalizeBacklogItem).filter(isBacklogItem) : [],
+        memoItems,
+        todoItems: backlogItems.filter((item) => item.type === 'todo').map(toWorkspaceNewsItem),
+        productItems: backlogItems.filter((item) => item.type === 'product').map(toWorkspaceNewsItem),
     };
+}
+export async function fetchWorkspaceMemos(campId, isHandle) {
+    assertRealCampId(campId);
+    const data = await requestWorkspaceData('/memo/page/get', {
+        campId: requireCampId(campId),
+        pageNum: 1,
+        pageSize: 10,
+        isHandle,
+    });
+    const memoItems = Array.isArray(data.list) ? data.list.map(normalizeMemoItem).filter(isMemoItem) : [];
+    return {
+        memoCount: Number(data.total ?? memoItems.length),
+        memoItems,
+    };
+}
+export async function createWorkspaceMemo(campId, content) {
+    assertRealCampId(campId);
+    return normalizeMemoItem(await requestWorkspaceData('/memo/add', { campId: requireCampId(campId), content }));
+}
+export async function handleWorkspaceMemo(campId, memoId, isHandle) {
+    assertRealCampId(campId);
+    return normalizeMemoItem(await requestWorkspaceData('/memo/handle', { campId: requireCampId(campId), memoId, isHandle }));
 }
 export async function fetchWorkspaceTraffic(campId) {
     assertRealCampId(campId);
     const data = await requestWorkspaceData('/campFlow/get', { campId: requireCampId(campId) });
-    const connectedChannels = data.channelInfos?.filter((item) => item.isApplyOpen).map((item) => item.channelName || '未命名渠道') ?? [];
+    const channels = Array.isArray(data.channelInfos) ? data.channelInfos : [];
+    const connectedChannels = channels.filter((item) => item.isApplyOpen).map((item) => item.channelName || '未命名渠道');
+    const pendingChannels = channels.filter((item) => !item.isApplyOpen).map((item) => item.channelName || '未命名渠道');
     return {
-        level: data.isOpenFlow ? '较好' : '待开通',
+        level: connectedChannels.length > 0 || data.isOpenFlow ? '较好' : '待开通',
         connectedChannels,
-        suggestions: ['小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单。'],
+        pendingChannels,
+        suggestions: [buildTrafficSuggestion(connectedChannels, pendingChannels)],
     };
+}
+function buildTrafficSuggestion(connectedChannels, pendingChannels) {
+    if (pendingChannels.length > 0) {
+        return `还有 ${pendingChannels.length} 个渠道待开通：${pendingChannels.join('、')}`;
+    }
+    if (connectedChannels.length > 0) {
+        return `已开通 ${connectedChannels.length} 个渠道：${connectedChannels.join('、')}`;
+    }
+    return '暂无渠道配置，请先维护 OTA 渠道。';
 }
 const orderTypeByTab = {
     arrivals: '11',
@@ -366,6 +418,21 @@ function normalizeOrder(raw) {
         status: String(item.orderDetailDisplayStateName ?? item.statusName ?? '待确认'),
     };
 }
+function normalizeMemoItem(raw) {
+    const item = raw;
+    const memoId = item.memoId ?? item.id;
+    const content = item.content ?? item.memoContent ?? item.title;
+    if (memoId === undefined || memoId === null || content === undefined || content === null)
+        return null;
+    return {
+        memoId: String(memoId),
+        content: String(content),
+        isHandle: Number(item.isHandle ?? item.handled ?? 0),
+    };
+}
+function isMemoItem(value) {
+    return value !== null;
+}
 function normalizeBacklogItem(raw) {
     const item = raw;
     const content = item.content;
@@ -373,11 +440,22 @@ function normalizeBacklogItem(raw) {
         return null;
     try {
         const parsed = JSON.parse(content);
-        return { title: parsed.title || '待办事项', detail: parsed.sub_title || parsed.button || '' };
+        return {
+            type: normalizeBacklogItemType(parsed.type ?? parsed.category ?? item.type ?? item.category),
+            title: parsed.title || '待办事项',
+            detail: parsed.sub_title || parsed.button || '',
+        };
     }
     catch {
-        return { title: content, detail: '' };
+        return { type: normalizeBacklogItemType(item.type ?? item.category), title: content, detail: '' };
     }
+}
+function normalizeBacklogItemType(value) {
+    const normalized = String(value ?? '').trim().toLowerCase();
+    return normalized === 'product' || normalized === 'product_dynamic' || normalized === 'productdynamic' ? 'product' : 'todo';
+}
+function toWorkspaceNewsItem(item) {
+    return { title: item.title, detail: item.detail };
 }
 function isBacklogItem(value) {
     return value !== null;

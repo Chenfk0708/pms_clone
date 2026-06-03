@@ -1,9 +1,15 @@
+import { apiPost } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const MEMBER_SETTING_PROVIDER_KEY = 'pms.memberSetting.provider'
 export const MEMBER_SETTING_MOCK_STATE_KEY = 'pms.memberSetting.mockState'
 export const MEMBER_SETTING_ENDPOINT = '/setting/member/bootstrap'
+export const MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT = '/memberSettings/bootstrap'
+export const MEMBER_SETTING_API_SAVE_ENDPOINT = '/memberSettings/save'
+export const MEMBER_SETTING_API_WECOM_BIND_ENDPOINT = '/memberSettings/wecom/bind'
 export const MEMBER_SETTING_TARGET_URL = 'https://minsubao.localhome.cn/setting/member'
 
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_TIMESTAMP = '2026-05-20T00:35:00+08:00'
 const DEFAULT_PAGE_SIZE = 20
 const ROLE_ALL_NAME = '全部'
@@ -208,7 +214,7 @@ export function resolveMemberSettingRuntimeConfig(location: { pathname: string; 
 
 export function createDefaultMemberSettingQuery(config: MemberSettingRuntimeConfig): MemberSettingQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     keyword: '',
     roleName: ROLE_ALL_NAME,
     page: 1,
@@ -228,11 +234,19 @@ export async function loadMemberSettingViewModel(
   const request = buildMemberSettingRequest(query)
   const requestedState = query.mockState ?? 'success'
 
-  await delay(180, signal)
-
   if (provider === 'api') {
-    throw new MemberSettingServiceError(provider, request, createEnvelope('error', 503, '成员设置数据暂时不可用，请稍后重试'))
+    const data = await apiPost<MemberSettingPayload>(MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT, request, signal)
+    return adaptMemberSettingEnvelope(
+      provider,
+      request,
+      createApiEnvelope(data, 'member-settings-bootstrap'),
+      normalizeResponseState(data),
+      query.routeMode,
+      MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
+    )
   }
+
+  await delay(180, signal)
 
   if (requestedState === 'error') {
     throw new MemberSettingServiceError(provider, request, createEnvelope('error', 50001, '成员设置数据加载失败，请稍后重试'))
@@ -250,7 +264,14 @@ export async function bindMemberWecom(
   userId: string,
   signal?: AbortSignal,
 ): Promise<MemberSettingMember[]> {
+  const provider = query.provider ?? 'mock'
   const request = { campId: query.campId, userId }
+
+  if (provider === 'api') {
+    const data = await apiPost<MemberSettingPayload>(MEMBER_SETTING_API_WECOM_BIND_ENDPOINT, request, signal)
+    return cloneMembers(data.members ?? [])
+  }
+
   await delay(120, signal)
 
   let found = false
@@ -268,10 +289,10 @@ export async function bindMemberWecom(
   })
 
   if (!found) {
-    throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要绑定的成员'))
+    throw new MemberSettingServiceError(provider, request, createEnvelope('error', 40404, '未找到要绑定的成员'))
   }
 
-  return mockMembers.map(cloneMember)
+  return cloneMembers(mockMembers)
 }
 
 export async function saveMemberSettingMember(
@@ -286,6 +307,13 @@ export async function saveMemberSettingMember(
   }
 
   validateDraft(draft)
+
+  const provider = query.provider ?? 'mock'
+  if (provider === 'api') {
+    const data = await apiPost<MemberSettingPayload>(MEMBER_SETTING_API_SAVE_ENDPOINT, request, signal)
+    return cloneMembers(data.members ?? [])
+  }
+
   await delay(180, signal)
 
   if (draft.userId) {
@@ -307,7 +335,7 @@ export async function saveMemberSettingMember(
     })
 
     if (!found) {
-      throw new MemberSettingServiceError('mock', request, createEnvelope('error', 40404, '未找到要编辑的成员'))
+      throw new MemberSettingServiceError(provider, request, createEnvelope('error', 40404, '未找到要编辑的成员'))
     }
   } else {
     mockMembers = [
@@ -326,7 +354,7 @@ export async function saveMemberSettingMember(
     ]
   }
 
-  return mockMembers.map(cloneMember)
+  return cloneMembers(mockMembers)
 }
 
 export function createEditorDraft(query: MemberSettingQuery): MemberSettingDraft {
@@ -416,6 +444,7 @@ function adaptMemberSettingEnvelope(
   response: MemberSettingEnvelope<MemberSettingPayload>,
   state: MemberSettingMockState,
   routeMode: MemberSettingRouteMode,
+  endpoint = MEMBER_SETTING_ENDPOINT,
 ): MemberSettingViewModel {
   if (response.code !== 0) {
     throw new MemberSettingServiceError(provider, request, response)
@@ -425,12 +454,31 @@ function adaptMemberSettingEnvelope(
     ...response.data,
     provider,
     state,
-    endpoint: MEMBER_SETTING_ENDPOINT,
+    endpoint,
     traceId: response.traceId,
     timestamp: response.timestamp,
     request,
     routeMode,
   }
+}
+
+
+function createApiEnvelope(data: MemberSettingPayload, traceId: string): MemberSettingEnvelope<MemberSettingPayload> {
+  return {
+    code: 0,
+    message: 'success',
+    data,
+    traceId,
+    timestamp: new Date().toISOString(),
+  }
+}
+
+function normalizeResponseState(data: MemberSettingPayload): MemberSettingMockState {
+  return Array.isArray(data.members) && data.members.length > 0 ? 'success' : 'empty'
+}
+
+function cloneMembers(members: MemberSettingMember[]): MemberSettingMember[] {
+  return members.map(cloneMember)
 }
 
 function createEnvelope(
@@ -496,7 +544,9 @@ function delay(ms: number, signal?: AbortSignal) {
 }
 
 function normalizeProvider(value: string | null | undefined): MemberSettingProvider | undefined {
-  return value === 'api' || value === 'mock' ? value : undefined
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
+  return undefined
 }
 
 function normalizeMockState(value: string | null | undefined): MemberSettingMockState | undefined {
@@ -508,7 +558,8 @@ function readProvider(): MemberSettingProvider {
     return 'mock'
   }
 
-  return normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY)) ?? 'mock'
+  const provider = normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY))
+  return provider ?? 'mock'
 }
 
 function readMockState(): MemberSettingMockState {

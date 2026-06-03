@@ -1,9 +1,12 @@
-export const PSB_LOG_ENDPOINT = 'https://hudson-prod.localhome.cn/checkinGuestPsbLog/page/get'
-export const PSB_LOG_STORE_ENDPOINT = 'https://hudson-prod.localhome.cn/select/poi/page/get'
+import { resolveCurrentCampId } from '../utils/camp'
+
+export const PSB_LOG_ENDPOINT = '/api/checkinGuestPsbLog/page/get'
+export const PSB_LOG_RETRY_ENDPOINT = '/api/checkinGuestPsbLog/retry'
+export const PSB_LOG_STORE_ENDPOINT = '/api/select/poi/page/get'
 export const PSB_LOG_MOCK_ENDPOINT = '/psb/log/mock/page/get'
 
 const TASK_ID = 'zhihui-jiudian--zhizhu-yu-yingjian--shangbao-rizhi'
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_TIMESTAMP = '2026-05-19T18:30:00+08:00'
 const DEFAULT_PAGE_SIZE = 20
 const DEFAULT_PSB_TYPES = ['4', '5']
@@ -92,6 +95,10 @@ type PsbLogBackendData = {
 }
 
 type HudsonPageResponse<T> = {
+  code?: number
+  message?: string | null
+  traceId?: string | null
+  timestamp?: string | null
   success?: boolean
   errorCode?: string | number | null
   errorMsg?: string | null
@@ -103,6 +110,18 @@ type HudsonPageResponse<T> = {
     pageNum?: number
     list?: T[]
   } | null
+}
+
+type HudsonLegacyResponse<T> = {
+  code?: number
+  message?: string | null
+  traceId?: string | null
+  timestamp?: string | null
+  success?: boolean
+  errorCode?: string | number | null
+  errorMsg?: string | null
+  errorDetail?: string | null
+  data?: T | null
 }
 
 type PsbLogBackendRow = {
@@ -202,7 +221,7 @@ export async function retryPsbLogReport(
   const provider = query.provider ?? resolvePsbLogProvider()
 
   if (provider === 'api') {
-    throw new Error('重新上报接口待后端确认，请先使用当前页面查询链路复核。')
+    return retryApiPsbLogReport(row, query.campId, signal)
   }
 
   await delay(180, signal)
@@ -238,7 +257,7 @@ export function resolvePsbLogRuntimeConfig(
 
 export function resolvePsbLogProvider(): PsbLogProvider {
   const configured = readRuntimeConfig('pms.psbLogProvider') || import.meta.env.VITE_PSB_LOG_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 export function createDefaultPsbLogQuery(
@@ -246,7 +265,7 @@ export function createDefaultPsbLogQuery(
 ): Pick<PsbLogQuery, 'campId' | 'page' | 'pageSize'> {
   const params = readLocationParams(location)
   return {
-    campId: params.get('campId') || DEFAULT_CAMP_ID,
+    campId: params.get('campId') || resolveCurrentCampId(DEFAULT_CAMP_ID),
     page: 1,
     pageSize: DEFAULT_PAGE_SIZE,
   }
@@ -326,6 +345,7 @@ async function fetchApiPsbStores(
       body: JSON.stringify(request),
     })
   } catch (error) {
+    rethrowAbortError(error, signal)
     throw new Error(`门店列表加载失败，请稍后重试：${readErrorMessage(error)}`, { cause: error })
   }
 
@@ -334,10 +354,10 @@ async function fetchApiPsbStores(
   }
 
   const payload = (await response.json()) as HudsonPageResponse<PsbLogStoreBackendRow>
-  if (payload.success !== true) {
+  if (!isSuccessfulHudsonPayload(payload)) {
     return {
       code: 50001,
-      message: payload.errorMsg || payload.errorDetail || '门店列表加载失败，请稍后重试',
+      message: payload.errorMsg || payload.errorDetail || payload.message || '门店列表加载失败，请稍后重试',
       data: [],
       traceId: `api-${TASK_ID}-store-error`,
       timestamp: new Date().toISOString(),
@@ -406,6 +426,7 @@ async function fetchApiPsbLogs(
       body: JSON.stringify(request),
     })
   } catch (error) {
+    rethrowAbortError(error, signal)
     throw new Error(`上报日志加载失败，请稍后重试：${readErrorMessage(error)}`, { cause: error })
   }
 
@@ -414,10 +435,10 @@ async function fetchApiPsbLogs(
   }
 
   const payload = (await response.json()) as HudsonPageResponse<PsbLogBackendRow>
-  if (payload.success !== true) {
+  if (!isSuccessfulHudsonPayload(payload)) {
     return {
       code: 50001,
-      message: payload.errorMsg || payload.errorDetail || '上报日志加载失败，请稍后重试',
+      message: payload.errorMsg || payload.errorDetail || payload.message || '上报日志加载失败，请稍后重试',
       data: createBackendData([], query),
       traceId: `api-${TASK_ID}-business-error`,
       timestamp: new Date().toISOString(),
@@ -439,6 +460,44 @@ async function fetchApiPsbLogs(
     traceId: `api-${TASK_ID}-list`,
     timestamp: new Date().toISOString(),
   }
+}
+
+async function retryApiPsbLogReport(
+  row: PsbLogRow,
+  campId: string,
+  signal?: AbortSignal,
+): Promise<PsbLogRow> {
+  let response: Response
+
+  try {
+    response = await fetch(PSB_LOG_RETRY_ENDPOINT, {
+      method: 'POST',
+      credentials: 'include',
+      signal,
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        campId,
+        id: row.id,
+        orderNo: row.orderNo,
+      }),
+    })
+  } catch (error) {
+    rethrowAbortError(error, signal)
+    throw new Error(`重新上报失败，请稍后重试：${readErrorMessage(error)}`, { cause: error })
+  }
+
+  if (!response.ok) {
+    throw new Error(`重新上报失败，请稍后重试：HTTP ${response.status}`)
+  }
+
+  const payload = (await response.json()) as HudsonLegacyResponse<PsbLogBackendRow>
+  if (!isSuccessfulHudsonPayload(payload) || !payload.data) {
+    throw new Error(payload.errorMsg || payload.errorDetail || payload.message || '重新上报失败，请稍后重试')
+  }
+
+  return adaptPsbLogRow(payload.data)
 }
 
 function createBackendData(rows: PsbLogBackendRow[], query: PsbLogQuery): PsbLogBackendData {
@@ -485,6 +544,11 @@ function unwrapEnvelope<T>(envelope: UnifiedEnvelope<T>) {
   }
 
   return envelope.data
+}
+
+function isSuccessfulHudsonPayload(payload: HudsonPageResponse<unknown> | HudsonLegacyResponse<unknown>) {
+  if (payload.success === true) return true
+  return payload.success !== false && payload.code === 0
 }
 
 function adaptPsbLogRow(row: PsbLogBackendRow): PsbLogRow {
@@ -562,6 +626,12 @@ function readString(value: unknown, fallback: string) {
 
 function readErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
+}
+
+function rethrowAbortError(error: unknown, signal?: AbortSignal): never | void {
+  if (signal?.aborted || (error instanceof DOMException && error.name === 'AbortError')) {
+    throw new DOMException('请求已取消', 'AbortError')
+  }
 }
 
 function delay(ms: number, signal?: AbortSignal) {

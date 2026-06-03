@@ -4,7 +4,7 @@ export class SocialRequestError extends Error {
         this.name = 'SocialRequestError';
     }
 }
-export const socialOverviewEndpoint = 'https://hudson-prod.localhome.cn/channels/social/overview';
+export const socialOverviewEndpoint = '/api/channels/social/overview';
 export const socialMockSourceLabel = '统一响应包 mock provider';
 export const defaultSocialFilters = {
     date: '2026-05-18',
@@ -20,7 +20,7 @@ export async function fetchSocialOverview(filters, signal) {
     }
     const response = await fetch(socialOverviewEndpoint, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: createJsonHeaders(),
         credentials: 'include',
         body: JSON.stringify(requestBody),
         signal,
@@ -422,6 +422,13 @@ function readRuntimeConfig(key) {
     if (typeof window === 'undefined')
         return '';
     return window.localStorage.getItem(key)?.trim() || '';
+}
+function createJsonHeaders() {
+    const headers = new Headers({ 'content-type': 'application/json' });
+    const token = readRuntimeConfig('pms_token');
+    if (token)
+        headers.set('Authorization', `Bearer ${token}`);
+    return headers;
 }
 function readRecord(value) {
     return value && typeof value === 'object' ? value : null;

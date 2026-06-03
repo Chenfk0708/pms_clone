@@ -1,3 +1,6 @@
+import { apiPost } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 export type CompanyQualificationProviderName = 'mock' | 'api'
 export type CompanyQualificationMockMode = 'success' | 'empty' | 'error'
 export type CompanyQualificationAction = 'get' | 'save' | 'upload'
@@ -101,8 +104,24 @@ type CompanyQualificationSnapshot = {
   legalIdentity: CompanyQualificationLegalIdentity
 }
 
+type CompanyQualificationApiPayload = Partial<CompanyQualificationSnapshot> & {
+  provider?: string
+  state?: string
+  fields?: CompanyQualificationField[]
+  cityOptions?: string[]
+}
+
+type CompanyQualificationApiUploadPayload = {
+  file?: Partial<CompanyQualificationFile>
+  viewModel?: CompanyQualificationApiPayload
+}
+
+type CompanyQualificationMutationOptions = Partial<CompanyQualificationQuery> & {
+  legalIdentity?: CompanyQualificationLegalIdentity
+}
+
 const TASK_ID = 'shezhi--qiye-shezhi--qiye-zizhi'
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const RESPONSE_TIMESTAMP = '2026-05-19T18:40:00+08:00'
 const COMPANY_QUALIFICATION_GET_ENDPOINT = '/company/qualification/get'
 const COMPANY_QUALIFICATION_SAVE_ENDPOINT = '/company/qualification/save'
@@ -208,7 +227,7 @@ export function resolveCompanyQualificationRuntimeConfig(search: string): {
   const mockState = params.get('mockState') || params.get('companyQualificationMockMode')
 
   return {
-    provider: provider === 'api' || provider === 'mock' ? provider : undefined,
+    provider: provider === 'api' || provider === 'real' ? 'api' : provider === 'mock' ? provider : undefined,
     mockState: mockState === 'success' || mockState === 'empty' || mockState === 'error' ? mockState : undefined,
   }
 }
@@ -218,10 +237,22 @@ export async function fetchCompanyQualification(
   signal?: AbortSignal,
 ): Promise<CompanyQualificationViewModel> {
   const provider = resolveProvider(query.provider)
-  const normalizedQuery = { ...defaultCompanyQualificationQuery, ...query, provider: undefined }
+  const normalizedQuery = normalizeQuery(query)
 
   if (provider === 'api') {
-    throw new CompanyQualificationRequestError('企业资质尚未接入真实接口，请先切回 mock provider')
+    const data = await apiPost<CompanyQualificationApiPayload>(
+      COMPANY_QUALIFICATION_GET_ENDPOINT,
+      normalizedQuery,
+      signal,
+    )
+
+    return buildApiViewModel({
+      action: 'get',
+      path: COMPANY_QUALIFICATION_GET_ENDPOINT,
+      requestBody: normalizedQuery,
+      data,
+      traceId: `api-${TASK_ID}-get`,
+    })
   }
 
   return waitForMockQualification(normalizedQuery, signal)
@@ -229,15 +260,37 @@ export async function fetchCompanyQualification(
 
 export async function saveCompanyQualificationProfile(
   profile: CompanyQualificationProfile,
+  options: CompanyQualificationMutationOptions = {},
+  signal?: AbortSignal,
 ): Promise<CompanyQualificationViewModel> {
-  const provider = resolveProvider()
+  const provider = resolveProvider(options.provider)
+  const campId = resolveCompanyQualificationCampId(options.campId)
+  const normalizedProfile = normalizeProfile(profile)
+  const requestBody = {
+    campId,
+    profile: normalizedProfile,
+    legalIdentity: normalizeLegalIdentityForRequest(options.legalIdentity),
+  }
+
   if (provider === 'api') {
-    throw new CompanyQualificationRequestError('企业资质保存尚未接入真实接口，请先切回 mock provider')
+    const data = await apiPost<CompanyQualificationApiPayload>(
+      COMPANY_QUALIFICATION_SAVE_ENDPOINT,
+      requestBody,
+      signal,
+    )
+
+    return buildApiViewModel({
+      action: 'save',
+      path: COMPANY_QUALIFICATION_SAVE_ENDPOINT,
+      requestBody,
+      data,
+      traceId: `api-${TASK_ID}-save`,
+    })
   }
 
   mockSnapshotState = {
     ...mockSnapshotState,
-    profile: normalizeProfile(profile),
+    profile: normalizedProfile,
   }
 
   return buildViewModel({
@@ -246,7 +299,7 @@ export async function saveCompanyQualificationProfile(
     action: 'save',
     path: COMPANY_QUALIFICATION_SAVE_ENDPOINT,
     requestBody: {
-      campId: DEFAULT_CAMP_ID,
+      campId,
       profile: cloneProfile(mockSnapshotState.profile),
     },
     responseCode: 0,
@@ -258,10 +311,45 @@ export async function saveCompanyQualificationProfile(
 
 export async function uploadCompanyQualificationAsset(
   target: CompanyQualificationUploadTarget,
+  options: CompanyQualificationMutationOptions = {},
+  signal?: AbortSignal,
 ): Promise<CompanyQualificationUploadResult> {
-  const provider = resolveProvider()
+  const provider = resolveProvider(options.provider)
+  const campId = resolveCompanyQualificationCampId(options.campId)
+
   if (provider === 'api') {
-    throw new CompanyQualificationRequestError('企业资质上传尚未接入真实接口，请先切回 mock provider')
+    const draftFile = createUploadedFile(
+      target,
+      cloneSnapshot({
+        profile: null,
+        businessLicenses: defaultBusinessLicenses,
+        legalIdentity: defaultLegalIdentity,
+      }),
+    )
+    const requestBody = {
+      campId,
+      target,
+      fileName: draftFile.name,
+      kind: draftFile.kind,
+      sizeLabel: draftFile.sizeLabel,
+    }
+    const data = await apiPost<CompanyQualificationApiUploadPayload>(
+      COMPANY_QUALIFICATION_UPLOAD_ENDPOINT,
+      requestBody,
+      signal,
+    )
+    const file = adaptFile(data.file) ?? draftFile
+
+    return {
+      file,
+      viewModel: buildApiViewModel({
+        action: 'upload',
+        path: COMPANY_QUALIFICATION_UPLOAD_ENDPOINT,
+        requestBody,
+        data: data.viewModel ?? buildFallbackUploadPayload(target, file),
+        traceId: `api-${TASK_ID}-upload-${target}`,
+      }),
+    }
   }
 
   await delay(120)
@@ -277,7 +365,7 @@ export async function uploadCompanyQualificationAsset(
       action: 'upload',
       path: COMPANY_QUALIFICATION_UPLOAD_ENDPOINT,
       requestBody: {
-        campId: DEFAULT_CAMP_ID,
+        campId,
         target,
         fileName: file.name,
       },
@@ -303,6 +391,17 @@ export function createDraftCompanyQualificationImage(
 
 export function createEmptyCompanyQualificationDraft(): CompanyQualificationProfile {
   return cloneProfile(emptyProfileDraft)
+}
+
+function normalizeQuery(query: CompanyQualificationQuery = defaultCompanyQualificationQuery) {
+  return {
+    campId: resolveCompanyQualificationCampId(query.campId),
+    includeAssets: query.includeAssets ?? true,
+  }
+}
+
+function resolveCompanyQualificationCampId(campId?: string) {
+  return campId?.trim() || resolveCurrentCampId(DEFAULT_CAMP_ID)
 }
 
 function cloneSnapshot(snapshot: CompanyQualificationSnapshot): CompanyQualificationSnapshot {
@@ -340,6 +439,13 @@ function normalizeProfile(profile: CompanyQualificationProfile): CompanyQualific
   }
 }
 
+function normalizeLegalIdentityForRequest(legalIdentity?: CompanyQualificationLegalIdentity) {
+  return {
+    documentType: legalIdentity?.documentType?.trim() || defaultLegalIdentity.documentType,
+    documentNumber: legalIdentity?.documentNumber?.trim() || '',
+  }
+}
+
 function resolveProvider(
   explicitProvider?: CompanyQualificationProviderName,
 ): CompanyQualificationProviderName {
@@ -347,7 +453,7 @@ function resolveProvider(
     explicitProvider ||
     readRuntimeConfig('pms.companyQualification.provider') ||
     (import.meta.env.VITE_COMPANY_QUALIFICATION_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockMode(): CompanyQualificationMockMode {
@@ -375,6 +481,167 @@ function resolveMockLatencyMs() {
 function readRuntimeConfig(key: string) {
   if (typeof window === 'undefined') return ''
   return window.localStorage.getItem(key)?.trim() || ''
+}
+
+function buildApiViewModel(input: {
+  action: CompanyQualificationAction
+  path: string
+  requestBody: Record<string, unknown>
+  data: CompanyQualificationApiPayload
+  traceId: string
+}): CompanyQualificationViewModel {
+  const state = normalizeApiState(input.data.state)
+  const snapshot = adaptApiSnapshot(input.data)
+
+  return {
+    provider: 'api',
+    state,
+    profile: snapshot.profile ? cloneProfile(snapshot.profile) : null,
+    fields: Array.isArray(input.data.fields) ? input.data.fields.map((field) => ({ ...field })) : buildFields(snapshot.profile),
+    cityOptions: Array.isArray(input.data.cityOptions) && input.data.cityOptions.length > 0 ? [...input.data.cityOptions] : [...CITY_OPTIONS],
+    businessLicenses: snapshot.businessLicenses.map((section) => ({
+      ...section,
+      files: section.files.map((file) => ({ ...file })),
+    })),
+    legalIdentity: {
+      ...snapshot.legalIdentity,
+      photos: snapshot.legalIdentity.photos.map((photo) => ({
+        ...photo,
+        files: photo.files.map((file) => ({ ...file })),
+      })),
+    },
+    contract: {
+      provider: 'api',
+      action: input.action,
+      path: input.path,
+      method: 'POST',
+      requestBody: input.requestBody,
+      traceId: input.traceId,
+      timestamp: new Date().toISOString(),
+      responseCode: 0,
+      state,
+    },
+  }
+}
+
+function adaptApiSnapshot(data: CompanyQualificationApiPayload): CompanyQualificationSnapshot {
+  return {
+    profile: adaptProfile(data.profile),
+    businessLicenses: adaptBusinessLicenses(data.businessLicenses),
+    legalIdentity: adaptLegalIdentity(data.legalIdentity),
+  }
+}
+
+function adaptProfile(profile: CompanyQualificationApiPayload['profile']): CompanyQualificationProfile | null {
+  if (!profile) return null
+  return {
+    name: typeof profile.name === 'string' ? profile.name : '',
+    type: typeof profile.type === 'string' ? profile.type : emptyProfileDraft.type,
+    phone: typeof profile.phone === 'string' ? profile.phone : '',
+    city: typeof profile.city === 'string' ? profile.city : '',
+    address: typeof profile.address === 'string' ? profile.address : '',
+    images: Array.isArray(profile.images) ? profile.images.map(adaptFile).filter(isFile) : [],
+  }
+}
+
+function adaptBusinessLicenses(
+  businessLicenses: CompanyQualificationApiPayload['businessLicenses'],
+): CompanyQualificationDocumentSection[] {
+  const source = Array.isArray(businessLicenses) && businessLicenses.length > 0 ? businessLicenses : defaultBusinessLicenses
+  return source.map((section, index) => {
+    const fallback = defaultBusinessLicenses[index] ?? defaultBusinessLicenses[0]
+    return {
+      id: isUploadTarget(section.id) ? section.id : fallback.id,
+      title: typeof section.title === 'string' && section.title ? section.title : fallback.title,
+      links: Array.isArray(section.links) ? section.links.map(String) : [...fallback.links],
+      hint: typeof section.hint === 'string' && section.hint ? section.hint : fallback.hint,
+      uploadLabel: typeof section.uploadLabel === 'string' && section.uploadLabel ? section.uploadLabel : fallback.uploadLabel,
+      kind: section.kind === 'pdf' ? 'pdf' : 'image',
+      maxFiles: typeof section.maxFiles === 'number' && section.maxFiles > 0 ? section.maxFiles : fallback.maxFiles,
+      files: Array.isArray(section.files) ? section.files.map(adaptFile).filter(isFile) : [],
+    }
+  })
+}
+
+function adaptLegalIdentity(
+  legalIdentity: CompanyQualificationApiPayload['legalIdentity'],
+): CompanyQualificationLegalIdentity {
+  const source = legalIdentity ?? defaultLegalIdentity
+  return {
+    documentType: typeof source.documentType === 'string' && source.documentType ? source.documentType : defaultLegalIdentity.documentType,
+    documentNumber: typeof source.documentNumber === 'string' ? source.documentNumber : '',
+    photos:
+      Array.isArray(source.photos) && source.photos.length > 0
+        ? source.photos.map((photo, index) => {
+            const fallback = defaultLegalIdentity.photos[index] ?? defaultLegalIdentity.photos[0]
+            return {
+              id: isLegalPhotoTarget(photo.id) ? photo.id : fallback.id,
+              label: typeof photo.label === 'string' && photo.label ? photo.label : fallback.label,
+              files: Array.isArray(photo.files) ? photo.files.map(adaptFile).filter(isFile) : [],
+            }
+          })
+        : defaultLegalIdentity.photos.map((photo) => ({ ...photo, files: [] })),
+  }
+}
+
+function adaptFile(file: Partial<CompanyQualificationFile> | null | undefined): CompanyQualificationFile | null {
+  if (!file || typeof file !== 'object') return null
+  const id = String(file.id ?? '').trim()
+  const name = String(file.name ?? '').trim()
+  if (!id || !name) return null
+  return {
+    id,
+    name,
+    kind: file.kind === 'pdf' ? 'pdf' : 'image',
+    uploadedAt: String(file.uploadedAt ?? ''),
+    sizeLabel: String(file.sizeLabel ?? ''),
+  }
+}
+
+function isFile(file: CompanyQualificationFile | null): file is CompanyQualificationFile {
+  return file !== null
+}
+
+function normalizeApiState(state: string | undefined): CompanyQualificationMockMode {
+  return state === 'empty' ? 'empty' : 'success'
+}
+
+function isUploadTarget(value: unknown): value is CompanyQualificationUploadTarget {
+  return (
+    value === 'businessLicense' ||
+    value === 'industryLicense' ||
+    value === 'supplementLicense' ||
+    value === 'authorizationLetter' ||
+    value === 'legalFront' ||
+    value === 'legalBack' ||
+    value === 'legalHandheld'
+  )
+}
+
+function isLegalPhotoTarget(value: unknown): value is Extract<CompanyQualificationUploadTarget, 'legalFront' | 'legalBack' | 'legalHandheld'> {
+  return value === 'legalFront' || value === 'legalBack' || value === 'legalHandheld'
+}
+
+function buildFallbackUploadPayload(
+  target: CompanyQualificationUploadTarget,
+  file: CompanyQualificationFile,
+): CompanyQualificationApiPayload {
+  const snapshot = appendUploadedFile(
+    {
+      profile: null,
+      businessLicenses: defaultBusinessLicenses,
+      legalIdentity: defaultLegalIdentity,
+    },
+    target,
+    file,
+  )
+
+  return {
+    provider: 'api',
+    state: 'success',
+    businessLicenses: snapshot.businessLicenses,
+    legalIdentity: snapshot.legalIdentity,
+  }
 }
 
 async function waitForMockQualification(

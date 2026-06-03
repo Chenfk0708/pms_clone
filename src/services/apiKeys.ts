@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const HUDSON_BASE_URL = '/api'
 
 export const API_KEYS_GET_PATH = '/user/secret/get'
 export const API_KEYS_GENERATE_PATH = '/user/secret/generate'
@@ -16,11 +16,15 @@ export type ApiKeysGenerateState = 'success' | 'error'
 export type ApiKeysAction = 'get' | 'generate'
 
 type HudsonResponse<T> = {
+  code?: number
+  message?: string | null
   success?: boolean
   errorCode?: string | null
   errorMsg?: string | null
   errorDetail?: string | null
   data?: T
+  traceId?: string
+  timestamp?: string
 }
 
 type UnifiedEnvelope<T> = {
@@ -83,7 +87,7 @@ export type ApiKeysPageData = {
 
 export function resolveApiKeysProviderName(): ApiKeysProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(API_KEYS_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(API_KEYS_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
 }
 
 export function resolveApiKeysQuery(search: string): { mockState?: ApiKeysMockState } {
@@ -128,7 +132,7 @@ export async function fetchApiKeysPageData(overrides: {
       throw new Error(payload.errorMsg || 'API keys 加载失败，请稍后重试')
     }
 
-    return adaptHudsonPayload('get', provider, requestBody, payload.data)
+    return adaptHudsonPayload('get', provider, requestBody, payload.data, payload.traceId, payload.timestamp)
   }
 
   const state = overrides.mockState ?? resolveFetchMockState()
@@ -158,7 +162,7 @@ export async function generateApiKeys(overrides: {
       throw new Error(payload.errorMsg || 'API keys 生成失败，请稍后重试')
     }
 
-    return adaptHudsonPayload('generate', provider, requestBody, payload.data)
+    return adaptHudsonPayload('generate', provider, requestBody, payload.data, payload.traceId, payload.timestamp)
   }
 
   const envelope = await fetchMockApiKeysEnvelope('generate', resolveGenerateMockState())
@@ -170,22 +174,105 @@ function adaptHudsonPayload(
   provider: ApiKeysProviderName,
   requestBody: { campId: string },
   payload: unknown,
+  traceId?: string,
+  timestamp?: string,
 ): ApiKeysPageData {
-  if (action === 'get' && (payload === '' || payload === null || payload === undefined)) {
-    return buildPageData({
-      provider,
-      action,
-      state: 'empty',
-      endpoint: `${HUDSON_BASE_URL}${API_KEYS_GET_PATH}`,
-      requestBody,
-      keyRecord: null,
-      activityLog: [],
-      traceId: 'api-shezhi--qiye-shezhi--api-keys-get-empty',
-      timestamp: new Date().toISOString(),
-    })
+  const data = normalizeApiKeysPayload(payload)
+  return buildPageData({
+    provider,
+    action,
+    state: data.keyRecord ? 'success' : 'empty',
+    endpoint: `${HUDSON_BASE_URL}${action === 'get' ? API_KEYS_GET_PATH : API_KEYS_GENERATE_PATH}`,
+    requestBody,
+    keyRecord: data.keyRecord,
+    activityLog: data.activityLog,
+    traceId: traceId || `api-shezhi--qiye-shezhi--api-keys-${action}-${data.keyRecord ? 'success' : 'empty'}`,
+    timestamp: timestamp || new Date().toISOString(),
+  })
+}
+
+function normalizeApiKeysPayload(payload: unknown): ApiKeysPayload {
+  if (payload === '' || payload === null || payload === undefined) {
+    return { keyRecord: null, activityLog: [] }
   }
 
-  throw new Error('API keys 实时接口返回结构待确认，请先核对 user/secret 契约')
+  if (!isRecord(payload)) {
+    throw new Error('API keys real response is invalid: data must be an object')
+  }
+
+  return {
+    keyRecord: normalizeApiKeyRecord(payload.keyRecord),
+    activityLog: normalizeApiKeysActivities(payload.activityLog),
+  }
+}
+
+function normalizeApiKeyRecord(value: unknown): ApiKeyRecord | null {
+  if (value === null || value === undefined || value === '') return null
+  if (!isRecord(value)) {
+    throw new Error('API keys real response is invalid: keyRecord must be an object')
+  }
+
+  return {
+    appId: readRequiredString(value.appId, 'keyRecord.appId'),
+    accessKeyId: readRequiredString(value.accessKeyId, 'keyRecord.accessKeyId'),
+    secretKeyPreview: readRequiredString(value.secretKeyPreview, 'keyRecord.secretKeyPreview'),
+    createdAt: readRequiredString(value.createdAt, 'keyRecord.createdAt'),
+    lastUsedAt: readDisplayString(value.lastUsedAt, 'Not used yet'),
+    rotationTip: readDisplayString(value.rotationTip, 'Rotate regularly'),
+    status: readActiveStatus(value.status),
+    scopes: normalizeStringArray(value.scopes, 'keyRecord.scopes'),
+  }
+}
+
+function normalizeApiKeysActivities(value: unknown): ApiKeysActivity[] {
+  if (value === null || value === undefined) return []
+  if (!Array.isArray(value)) {
+    throw new Error('API keys real response is invalid: activityLog must be an array')
+  }
+
+  return value.map((item, index) => {
+    if (!isRecord(item)) {
+      throw new Error(`API keys real response is invalid: activityLog[${index}] must be an object`)
+    }
+    return {
+      id: readRequiredString(item.id, `activityLog[${index}].id`),
+      title: readRequiredString(item.title, `activityLog[${index}].title`),
+      detail: readRequiredString(item.detail, `activityLog[${index}].detail`),
+      occurredAt: readDisplayString(item.occurredAt, ''),
+    }
+  })
+}
+
+function normalizeStringArray(value: unknown, fieldName: string): string[] {
+  if (!Array.isArray(value)) {
+    throw new Error(`API keys real response is invalid: ${fieldName} must be an array`)
+  }
+
+  return value.map((item, index) => readRequiredString(item, `${fieldName}[${index}]`))
+}
+
+function readRequiredString(value: unknown, fieldName: string) {
+  if (typeof value === 'number') return String(value)
+  if (typeof value === 'string' && value.trim()) return value.trim()
+  throw new Error(`API keys real response is invalid: ${fieldName} is required`)
+}
+
+function readDisplayString(value: unknown, fallback: string) {
+  if (typeof value === 'number') return String(value)
+  if (typeof value === 'string' && value.trim()) return value.trim()
+  return fallback
+}
+
+function readActiveStatus(value: unknown): 'active' {
+  const status = readRequiredString(value, 'keyRecord.status')
+  if (status !== 'active') {
+    throw new Error(`API keys real response has unsupported keyRecord.status=${status}`)
+  }
+  return 'active'
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 async function fetchMockApiKeysEnvelope(
@@ -364,4 +451,8 @@ function createMockKeyRecord(version: number): ApiKeyRecord {
 
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

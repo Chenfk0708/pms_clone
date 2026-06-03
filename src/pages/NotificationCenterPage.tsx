@@ -5,6 +5,7 @@ import './NotificationCenterPage.css'
 type NotificationCategoryKey = 'order' | 'alert' | 'activity'
 type NotificationTabKey = 'all' | 'unread' | 'read'
 type NotificationStatus = 'unread' | 'read'
+type NotificationCenterProvider = 'mock' | 'api'
 
 type NotificationCategory = {
   key: NotificationCategoryKey
@@ -27,6 +28,11 @@ type NotificationItem = {
 }
 
 const PAGE_SIZE = 20
+const DEFAULT_CAMP_ID = '10001'
+const SYSTEM_MESSAGE_PAGE_PATH = '/systemMessage/page/get'
+const SYSTEM_MESSAGE_UNREAD_COUNT_PATH = '/systemMessage/unReadCount/get'
+const SYSTEM_MESSAGE_READ_ALL_PATH = '/systemMessage/read/all'
+const SYSTEM_MESSAGE_READ_UPDATE_PATH = '/systemMessage/read/update'
 
 const CATEGORIES: NotificationCategory[] = [
   { key: 'order', label: '订单通知' },
@@ -346,29 +352,89 @@ const INITIAL_ITEMS = Object.values(CATEGORY_DATA).flatMap((category) => categor
 
 export function NotificationCenterPage() {
   const navigate = useNavigate()
+  const provider = resolveNotificationCenterProvider()
   const [selectedCategory, setSelectedCategory] = useState<NotificationCategoryKey>('order')
   const [selectedTab, setSelectedTab] = useState<NotificationTabKey>('all')
   const [page, setPage] = useState(1)
   const [items, setItems] = useState(INITIAL_ITEMS)
+  const [apiItems, setApiItems] = useState<NotificationItem[]>([])
+  const [apiTotalCount, setApiTotalCount] = useState(0)
+  const [apiUnreadCount, setApiUnreadCount] = useState(0)
+  const [apiError, setApiError] = useState('')
+  const [reloadKey, setReloadKey] = useState(0)
+  const [contract, setContract] = useState({
+    provider,
+    endpoint: provider === 'api' ? SYSTEM_MESSAGE_PAGE_PATH : 'static-notification-center',
+    request: {},
+  })
+
+  useEffect(() => {
+    if (provider !== 'api') {
+      setContract({
+        provider,
+        endpoint: 'static-notification-center',
+        request: {},
+      })
+      return
+    }
+
+    const abort = new AbortController()
+    const request = createSystemMessagePageRequest(selectedCategory, selectedTab, page)
+    setContract({
+      provider,
+      endpoint: SYSTEM_MESSAGE_PAGE_PATH,
+      request,
+    })
+
+    Promise.all([
+      fetchSystemMessagePage(request, selectedCategory, abort.signal),
+      fetchSystemMessageUnreadCount(selectedCategory, abort.signal),
+    ])
+      .then(([pageData, unread]) => {
+        setApiItems(pageData.items)
+        setApiTotalCount(pageData.total)
+        setApiUnreadCount(unread)
+        setApiError('')
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setApiItems([])
+        setApiTotalCount(0)
+        setApiUnreadCount(0)
+        setApiError(error instanceof Error ? error.message : '通知中心加载失败，请稍后重试')
+      })
+
+    return () => abort.abort()
+  }, [page, provider, reloadKey, selectedCategory, selectedTab])
+
+  const currentItems = provider === 'api' ? apiItems : items
 
   const categoryUnreadCounts = useMemo(
     () =>
-      CATEGORIES.reduce<Record<NotificationCategoryKey, number>>(
-        (result, category) => {
-          result[category.key] = items.filter(
-            (item) => item.category === category.key && item.status === 'unread',
-          ).length
-          return result
-        },
-        { order: 0, alert: 0, activity: 0 },
-      ),
-    [items],
+      provider === 'api'
+        ? CATEGORIES.reduce<Record<NotificationCategoryKey, number>>(
+            (result, category) => {
+              result[category.key] = category.key === selectedCategory ? apiUnreadCount : 0
+              return result
+            },
+            { order: 0, alert: 0, activity: 0 },
+          )
+        : CATEGORIES.reduce<Record<NotificationCategoryKey, number>>(
+            (result, category) => {
+              result[category.key] = currentItems.filter(
+                (item) => item.category === category.key && item.status === 'unread',
+              ).length
+              return result
+            },
+            { order: 0, alert: 0, activity: 0 },
+          ),
+    [apiUnreadCount, currentItems, provider, selectedCategory],
   )
   const unreadCount = categoryUnreadCounts[selectedCategory]
-  const totalCount = CATEGORY_DATA[selectedCategory].totalCount
+  const totalCount = provider === 'api' ? apiTotalCount : CATEGORY_DATA[selectedCategory].totalCount
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    return currentItems.filter((item) => {
       if (item.category !== selectedCategory) {
         return false
       }
@@ -383,7 +449,7 @@ export function NotificationCenterPage() {
 
       return true
     })
-  }, [items, selectedCategory, selectedTab])
+  }, [currentItems, selectedCategory, selectedTab])
 
   useEffect(() => {
     const maxPage = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
@@ -411,13 +477,47 @@ export function NotificationCenterPage() {
   }
 
   function handleMarkAllRead() {
+    if (provider === 'api') {
+      void markAllApiMessagesRead(selectedCategory).then(() => {
+        setSelectedTab('all')
+        setPage(1)
+        setReloadKey((current) => current + 1)
+      })
+      return
+    }
+
     setItems((current) => current.map((item) => ({ ...item, status: 'read', highlight: false })))
     setSelectedTab('all')
     setPage(1)
   }
 
+  function handleMarkSingleRead(item: NotificationItem) {
+    if (item.status === 'read') return
+
+    if (provider === 'api') {
+      void markApiMessageRead(selectedCategory, item.id).then(() => {
+        setReloadKey((current) => current + 1)
+      })
+      return
+    }
+
+    setItems((current) =>
+      current.map((candidate) =>
+        candidate.id === item.id ? { ...candidate, status: 'read', highlight: false } : candidate,
+      ),
+    )
+  }
+
   return (
     <div className="notification-center-page">
+      <pre
+        hidden
+        data-testid="notification-center-service-contract"
+        data-provider={contract.provider}
+        data-endpoint={contract.endpoint}
+      >
+        {JSON.stringify(contract)}
+      </pre>
       <div className="notification-center-page__layout">
         <aside className="notification-center-page__sidebar" aria-label="通知分类">
           {CATEGORIES.map((category) => {
@@ -484,6 +584,12 @@ export function NotificationCenterPage() {
             </div>
           </header>
 
+          {apiError ? (
+            <section role="alert" aria-label="通知中心加载失败">
+              {apiError}
+            </section>
+          ) : null}
+
           <div className="notification-center-page__table" role="table" aria-label="通知列表">
             <div className="notification-center-page__thead" role="row">
               <div role="columnheader">标题</div>
@@ -497,6 +603,16 @@ export function NotificationCenterPage() {
                   <div className="notification-center-page__row" role="row" key={item.id}>
                     <div className="notification-center-page__title-cell" role="cell">
                       <span>{item.title}</span>
+                      {item.status === 'unread' ? (
+                        <button
+                          type="button"
+                          className="notification-center-page__read-action"
+                          aria-label={`Mark read ${item.title}`}
+                          onClick={() => handleMarkSingleRead(item)}
+                        >
+                          标记已读
+                        </button>
+                      ) : null}
                     </div>
                     <div className="notification-center-page__content-cell" role="cell">
                       {item.highlight ? <i aria-hidden="true" /> : null}
@@ -593,4 +709,181 @@ function NotificationTab({
       {badge ? <em>{badge}</em> : null}
     </button>
   )
+}
+
+function resolveNotificationCenterProvider(): NotificationCenterProvider {
+  const configured =
+    readRuntimeConfig('pms.notificationCenter.provider') ||
+    readRuntimeConfig('pmsNotificationCenterProvider') ||
+    (import.meta.env.VITE_NOTIFICATION_CENTER_PROVIDER as string | undefined) ||
+    (import.meta.env.VITE_PMS_NOTIFICATION_CENTER_PROVIDER as string | undefined)
+
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+}
+
+function createSystemMessagePageRequest(
+  category: NotificationCategoryKey,
+  tab: NotificationTabKey,
+  pageNum: number,
+) {
+  return {
+    campId: resolveCampId(),
+    groupType: toGroupType(category),
+    pageNum,
+    pageSize: PAGE_SIZE,
+    current: pageNum,
+    ...(tab === 'unread' ? { isRead: 0 } : {}),
+    ...(tab === 'read' ? { isRead: 1 } : {}),
+  }
+}
+
+async function fetchSystemMessagePage(
+  request: ReturnType<typeof createSystemMessagePageRequest>,
+  category: NotificationCategoryKey,
+  signal?: AbortSignal,
+) {
+  const response = await fetch(`/api${SYSTEM_MESSAGE_PAGE_PATH}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: createJsonHeaders(),
+    body: JSON.stringify(request),
+    signal,
+  })
+  const payload = (await response.json().catch(() => null)) as
+    | {
+        code?: number
+        success?: boolean
+        message?: string
+        errorMsg?: string
+        data?: {
+          total?: number
+          list?: Array<{
+            messageId?: string
+            groupType?: string
+            title?: string
+            content?: string
+            priority?: string
+            isRead?: boolean
+            createdAt?: string
+          }>
+        }
+      }
+    | null
+
+  if (!response.ok || !payload?.data || payload.code !== 0 || payload.success === false) {
+    throw new Error(payload?.message || payload?.errorMsg || '通知中心加载失败，请稍后重试')
+  }
+
+  return {
+    total: Number(payload.data.total ?? 0),
+    items: (payload.data.list ?? []).map((item): NotificationItem => ({
+      id: String(item.messageId ?? crypto.randomUUID()),
+      category,
+      title: item.title ?? '',
+      content: item.content ?? '',
+      time: item.createdAt ?? '',
+      status: item.isRead ? 'read' : 'unread',
+      highlight: !item.isRead || item.priority === 'high',
+    })),
+  }
+}
+
+async function fetchSystemMessageUnreadCount(category: NotificationCategoryKey, signal?: AbortSignal) {
+  const response = await fetch(`/api${SYSTEM_MESSAGE_UNREAD_COUNT_PATH}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: createJsonHeaders(),
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      groupType: toGroupType(category),
+    }),
+    signal,
+  })
+  const payload = (await response.json().catch(() => null)) as
+    | { code?: number; success?: boolean; message?: string; errorMsg?: string; data?: number }
+    | null
+
+  if (!response.ok || payload?.code !== 0 || payload.success === false) {
+    throw new Error(payload?.message || payload?.errorMsg || '通知未读数加载失败')
+  }
+
+  return Number(payload.data ?? 0)
+}
+
+async function markAllApiMessagesRead(category: NotificationCategoryKey) {
+  const response = await fetch(`/api${SYSTEM_MESSAGE_READ_ALL_PATH}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: createJsonHeaders(),
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      groupType: toGroupType(category),
+    }),
+  })
+  const payload = (await response.json().catch(() => null)) as
+    | { code?: number; success?: boolean; message?: string; errorMsg?: string; data?: boolean }
+    | null
+
+  if (!response.ok || payload?.code !== 0 || payload.success === false) {
+    throw new Error(payload?.message || payload?.errorMsg || '通知已读更新失败')
+  }
+}
+
+async function markApiMessageRead(category: NotificationCategoryKey, messageId: string) {
+  const response = await fetch(`/api${SYSTEM_MESSAGE_READ_UPDATE_PATH}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: createJsonHeaders(),
+    body: JSON.stringify({
+      campId: resolveCampId(),
+      groupType: toGroupType(category),
+      messageId,
+    }),
+  })
+  const payload = (await response.json().catch(() => null)) as
+    | { code?: number; success?: boolean; message?: string; errorMsg?: string; data?: boolean }
+    | null
+
+  if (!response.ok || payload?.code !== 0 || payload.success === false) {
+    throw new Error(payload?.message || payload?.errorMsg || '通知已读更新失败')
+  }
+}
+
+function toGroupType(category: NotificationCategoryKey) {
+  if (category === 'order') return 'crm'
+  return category
+}
+
+function createJsonHeaders() {
+  const headers = new Headers({ 'content-type': 'application/json' })
+  const token = readRuntimeConfig('pms_token')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  return headers
+}
+
+function resolveCampId() {
+  return (
+    readRuntimeConfig('pmsCampId') ||
+    readRuntimeConfig('pms.currentCampId') ||
+    readCampIdFromStoredObject('pms.currentCamp') ||
+    readCampIdFromStoredObject('pms.camp') ||
+    (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) ||
+    DEFAULT_CAMP_ID
+  )
+}
+
+function readCampIdFromStoredObject(key: string) {
+  const raw = readRuntimeConfig(key)
+  if (!raw) return ''
+  try {
+    const value = JSON.parse(raw) as Record<string, unknown>
+    return String(value.campId ?? value.id ?? '')
+  } catch {
+    return ''
+  }
+}
+
+function readRuntimeConfig(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key) || ''
 }

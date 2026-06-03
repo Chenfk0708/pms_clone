@@ -1,11 +1,11 @@
-export const IM_PHRASE_GROUP_ENDPOINT = 'https://hudson-prod.localhome.cn/imWordsGroup/tree/get';
-export const IM_PHRASE_LIST_ENDPOINT = 'https://hudson-prod.localhome.cn/imWords/page/get';
-export const IM_SHORTCUT_GET_ENDPOINT = 'https://hudson-prod.localhome.cn/systemConfigs/user/shortcut/get';
+export const IM_PHRASE_GROUP_ENDPOINT = '/api/imWordsGroup/tree/get';
+export const IM_PHRASE_LIST_ENDPOINT = '/api/imWords/page/get';
+export const IM_SHORTCUT_GET_ENDPOINT = '/api/systemConfigs/user/shortcut/get';
 export const IM_SHORTCUT_SAVE_ENDPOINT = '/systemConfigs/user/shortcut/save';
-export const IM_COMMONS_ENDPOINT = 'https://hudson-prod.localhome.cn/commons/get';
-export const IM_ACCOUNT_ENDPOINT = 'https://hudson-prod.localhome.cn/imYunxinUser/get';
-export const IM_EDITION_ENDPOINT = 'https://hudson-prod.localhome.cn/edition/resource/get';
-export const IM_MENU_OPTION_ENDPOINT = 'https://hudson-prod.localhome.cn/menu/optionJsons/get';
+export const IM_COMMONS_ENDPOINT = '/api/commons/get';
+export const IM_ACCOUNT_ENDPOINT = '/api/imYunxinUser/get';
+export const IM_EDITION_ENDPOINT = '/api/edition/resource/get';
+export const IM_MENU_OPTION_ENDPOINT = '/api/menu/optionJsons/get';
 const MENU_ID = '1848317056370487297';
 const DIAGNOSTICS_KEY = 'pms.imSetting.diagnostics';
 export async function fetchImSettingView(query, signal) {

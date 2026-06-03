@@ -1,4 +1,4 @@
-const realBaseUrl = 'https://hudson-prod.localhome.cn';
+const realBaseUrl = '/api';
 const flowEndpoint = '/report/flows/get';
 const defaultCampId = '1796067693589061634';
 const defaultCampName = '天落会宿公寓(前海壹方城宝安中心店)';
@@ -28,7 +28,7 @@ export function getDistributionOrderProviderName() {
 }
 function resolveProvider() {
     const configured = readRuntimeConfig('pms.distributionOrderProvider') || import.meta.env.VITE_DISTRIBUTION_ORDER_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockMode() {
     const fromUrl = readUrlMockMode();

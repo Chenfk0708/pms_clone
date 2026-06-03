@@ -1,7 +1,8 @@
 const TASK_ID = 'shoumai-chanpin--rilifang--rilifang';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const MOCK_ENDPOINT = '/setting/localRoomTypeProductionSetting/products/page';
-const REAL_ENDPOINT = 'https://hudson-prod.localhome.cn/weiRoomCategories/page/get';
+const REAL_ENDPOINT = '/api/weiRoomCategories/page/get';
+const DEFAULT_BUY_CAMP_ID = '10001';
 import ctripIcon from '../assets/channel-icons/ctrip.png';
 import meituanHomestayIcon from '../assets/channel-icons/meituan-homestay.png';
 import feizhuIcon from '../assets/channel-icons/feizhu.png';
@@ -37,7 +38,9 @@ export async function fetchCalendarRoomProducts(query, signal) {
     };
 }
 function resolveProviderMode() {
-    const configured = import.meta.env.VITE_PMS_CALENDAR_ROOM_PROVIDER?.trim();
+    const configured = readRuntimeConfig('pms.calendarRoomProvider') ||
+        readRuntimeConfig('pmsCalendarRoomProvider') ||
+        import.meta.env.VITE_PMS_CALENDAR_ROOM_PROVIDER?.trim();
     return configured === 'real' ? 'real' : 'mock';
 }
 async function fetchMockCalendarRoom(query, signal) {
@@ -61,8 +64,30 @@ async function fetchMockCalendarRoom(query, signal) {
     };
 }
 async function fetchRealCalendarRoom(query, signal) {
-    await delay(1, signal);
-    throw new Error(`日历房数据加载失败，请稍后重试。real provider 待在服务层接入 ${REAL_ENDPOINT}，请求参数 ${JSON.stringify(buildRequestParams(query))}`);
+    const requestParams = buildRealRequestParams(query);
+    const envelope = await postRealCalendarRoom(REAL_ENDPOINT, requestParams, signal);
+    const payload = envelope.data ?? {};
+    const rows = filterRows(adaptRealCalendarRoomRows(payload.list), query);
+    const page = readNumber(payload.pageNum ?? payload.current, query.page);
+    const pageSize = readNumber(payload.size, query.pageSize);
+    return {
+        providerMode: 'real',
+        responseState: rows.length > 0 ? 'success' : 'empty',
+        endpoint: REAL_ENDPOINT,
+        traceId: readString(envelope.traceId, `real-${TASK_ID}`),
+        timestamp: readString(envelope.timestamp, new Date().toISOString()),
+        requestParams,
+        storeOptions: createRealStoreOptions(requestParams.buyCampId),
+        channelOptions: collectChannelOptions(rows),
+        statusOptions: ['全部', '上架', '下架'],
+        rows,
+        pagination: {
+            page,
+            pageSize,
+            total: readNumber(payload.total, rows.length),
+        },
+        routeTargets: createRouteTargets(),
+    };
 }
 function createBackendData(query, rows) {
     return {
@@ -79,12 +104,7 @@ function createBackendData(query, rows) {
             pageSize: query.pageSize,
             total: rows.length,
         },
-        routeTargets: {
-            roomTypeList: '/setting/roomTypeInfo',
-            roomTypeEdit: '/setting/roomTypeInfo/edit',
-            price: '/houseManage/channelPrice',
-            createProduct: '/setting/localRoomTypeProductionSetting/channelGoodsSetting',
-        },
+        routeTargets: createRouteTargets(),
     };
 }
 function buildRequestParams(query) {
@@ -96,6 +116,97 @@ function buildRequestParams(query) {
         page: query.page,
         pageSize: query.pageSize,
     };
+}
+function buildRealRequestParams(query) {
+    const buyCampId = resolveBuyCampId();
+    return {
+        campId: resolveCatalogCampId(buyCampId),
+        buyCampId,
+        roomCategoryTypes: [1],
+        goodsTypes: [7],
+        pageNum: query.page,
+        pageSize: query.pageSize,
+        keyword: query.keyword.trim(),
+    };
+}
+async function postRealCalendarRoom(endpoint, body, signal) {
+    const headers = new Headers({ 'content-type': 'application/json' });
+    const token = readRuntimeConfig('pms_token');
+    if (token)
+        headers.set('Authorization', `Bearer ${token}`);
+    let response;
+    try {
+        response = await fetch(endpoint, {
+            method: 'POST',
+            credentials: 'include',
+            headers,
+            body: JSON.stringify(body),
+            signal,
+        });
+    }
+    catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+            throw error;
+        }
+        throw new Error(`日历房数据加载失败：${error instanceof Error ? error.message : String(error)}`);
+    }
+    const payload = (await response.json().catch(() => null));
+    if (!response.ok) {
+        throw new Error(payload?.errorMsg || payload?.message || `日历房数据加载失败：HTTP ${response.status}`);
+    }
+    if (!payload || payload.success === false || (payload.code !== undefined && payload.code !== 0)) {
+        throw new Error(payload?.errorMsg || payload?.message || payload?.errorCode?.toString() || '日历房数据加载失败，请稍后重试');
+    }
+    if (payload.data === undefined || payload.data === null) {
+        throw new Error('日历房数据加载失败：接口响应缺少 data 字段');
+    }
+    return payload;
+}
+function adaptRealCalendarRoomRows(input) {
+    return asArray(input).map((item, index) => {
+        const record = asRecord(item);
+        const roomName = readString(record.channelRoomCategoryName ?? record.roomCategoryName ?? record.name, `未命名日历房${index + 1}`);
+        const products = adaptRealCalendarRoomProducts(record, roomName);
+        return {
+            id: readString(record.channelRoomCategoryId ?? record.roomCategoryId ?? record.goodsId ?? record.id, `real-calendar-room-${index}`),
+            name: roomName,
+            channelBadges: buildRealChannelBadges(products),
+            products,
+        };
+    });
+}
+function adaptRealCalendarRoomProducts(roomRecord, roomName) {
+    const sourceProducts = asArray(roomRecord.roomCategoryProductGetViews);
+    const rowCanBooking = readBookingStatus(roomRecord.isCanBooking ?? roomRecord.isAvailability, true);
+    if (sourceProducts.length === 0) {
+        const status = rowCanBooking ? 'online' : 'offline';
+        return [
+            {
+                id: readString(roomRecord.channelRoomCategoryId ?? roomRecord.goodsId ?? roomRecord.id, `${roomName}-default-product`),
+                name: roomName,
+                channel: readProductChannel(roomRecord),
+                breakfast: readBreakfastLabel(roomRecord.breakfastCount),
+                refund: readRefundLabel(roomRecord.cancelPolicy ?? roomRecord.refundRule),
+                pricePlan: readPricePlan(roomRecord, roomName),
+                status,
+                actions: createProductActions(status),
+            },
+        ];
+    }
+    return sourceProducts.map((product, index) => {
+        const record = asRecord(product);
+        const status = rowCanBooking && readBookingStatus(record.isCanBooking ?? record.isAvailability, true) ? 'online' : 'offline';
+        return {
+            id: readString(record.roomCategoryProductId ?? record.productId ?? record.goodsSkuId ?? record.id, `${roomName}-product-${index}`),
+            name: readString(record.roomCategoryProductName ?? record.productName ?? record.skuName ?? record.name, `${roomName}-${index + 1}`),
+            channel: readProductChannel(record, roomRecord),
+            breakfast: readBreakfastLabel(record.breakfastCount),
+            refund: readRefundLabel(record.cancelPolicy ?? roomRecord.cancelPolicy ?? record.refundRule ?? roomRecord.refundRule),
+            pricePlan: readPricePlan(record, roomName),
+            status,
+            actions: createProductActions(status),
+        };
+    });
 }
 function filterRows(rows, query) {
     const keyword = query.keyword.trim();
@@ -121,6 +232,131 @@ function unwrapEnvelope(envelope) {
         throw new Error(envelope.message || '日历房数据加载失败，请稍后重试');
     }
     return envelope.data;
+}
+function resolveBuyCampId() {
+    return (readRuntimeConfig('pmsCampId') ||
+        readRuntimeConfig('pms.currentCampId') ||
+        readCampIdFromStoredObject('pms.currentCamp') ||
+        readCampIdFromStoredObject('pms.camp') ||
+        import.meta.env.VITE_PMS_CAMP_ID?.trim() ||
+        DEFAULT_BUY_CAMP_ID);
+}
+function resolveCatalogCampId(buyCampId) {
+    return (readRuntimeConfig('pmsCalendarRoomCatalogCampId') ||
+        readRuntimeConfig('pms.calendarRoomCatalogCampId') ||
+        import.meta.env.VITE_PMS_CALENDAR_ROOM_CATALOG_CAMP_ID?.trim() ||
+        buyCampId);
+}
+function readCampIdFromStoredObject(key) {
+    const text = readRuntimeConfig(key);
+    if (!text)
+        return '';
+    try {
+        const value = JSON.parse(text);
+        return readString(value.campId ?? value.id, '');
+    }
+    catch {
+        return '';
+    }
+}
+function createRealStoreOptions(campId) {
+    return [
+        { id: 'all', name: '全部门店' },
+        { id: String(campId || DEFAULT_BUY_CAMP_ID), name: '当前门店' },
+    ];
+}
+function createRouteTargets() {
+    return {
+        roomTypeList: '/setting/roomTypeInfo',
+        roomTypeEdit: '/setting/roomTypeInfo/edit',
+        price: '/houseManage/channelPrice',
+        createProduct: '/setting/localRoomTypeProductionSetting/channelGoodsSetting',
+    };
+}
+function collectChannelOptions(rows) {
+    const channels = rows.flatMap((row) => row.products.map((product) => product.channel).filter(Boolean));
+    return Array.from(new Set(channels));
+}
+function buildRealChannelBadges(products) {
+    const keys = Array.from(new Set(products.map((product) => toChannelBadgeKey(product.channel)).filter(Boolean)));
+    return buildChannelBadges([...(keys.length > 0 ? keys : ['locals']), 'add']);
+}
+function toChannelBadgeKey(channel) {
+    if (channel.includes('携程'))
+        return 'ctrip';
+    if (channel.includes('美团酒店'))
+        return 'meituanHotel';
+    if (channel.includes('美团'))
+        return 'meituanHomestay';
+    if (channel.includes('飞猪'))
+        return 'feizhu';
+    if (channel.includes('途家'))
+        return 'tujia';
+    if (channel.includes('木鸟'))
+        return 'muniao';
+    if (channel.includes('小猪'))
+        return 'xiaozhu';
+    if (channel.includes('路客') || channel.includes('聚合') || channel.includes('本地'))
+        return 'locals';
+    return '';
+}
+function readProductChannel(...records) {
+    for (const record of records) {
+        const channel = readString(record.channelName ?? record.channel ?? record.channelLabel, '');
+        if (channel)
+            return channel;
+    }
+    return '路客云聚合';
+}
+function readBreakfastLabel(value) {
+    const count = readNumber(value, 0);
+    return count > 0 ? `${count}份早餐` : '无早餐';
+}
+function readRefundLabel(value) {
+    const text = readString(value, '');
+    if (!text)
+        return '-';
+    const mapped = {
+        '0': '不可退',
+        '1': '免费取消',
+        '2': '阶梯退',
+    };
+    return mapped[text] ?? text;
+}
+function readPricePlan(record, fallback) {
+    const plan = readString(record.pricePlan ?? record.ratePlanName ?? record.roomCategoryProductName ?? record.productName, '');
+    if (plan)
+        return plan;
+    const sellingPrice = readNumber(record.sellingPrice ?? record.salePrice ?? record.price, NaN);
+    return Number.isFinite(sellingPrice) ? `¥${(sellingPrice / 100).toFixed(2)}` : fallback;
+}
+function readBookingStatus(value, fallback) {
+    if (value === undefined || value === null || value === '')
+        return fallback;
+    if (value === true || value === 1 || value === '1' || value === 'true' || value === 'on_shelf')
+        return true;
+    return false;
+}
+function createProductActions(status) {
+    return ['预览', '编辑', '修改价格', status === 'offline' ? '上架' : '下架'];
+}
+function readRuntimeConfig(key) {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem(key)?.trim() || '';
+}
+function asArray(value) {
+    return Array.isArray(value) ? value : [];
+}
+function asRecord(value) {
+    return value && typeof value === 'object' ? value : {};
+}
+function readString(value, fallback) {
+    return typeof value === 'string' && value.trim() ? value.trim() : fallback;
+}
+function readNumber(value, fallback) {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : fallback;
 }
 function delay(ms, signal) {
     if (signal?.aborted) {

@@ -52,7 +52,7 @@ export interface HouseMonthsFilters {
   roomCategoryId?: string
 }
 
-const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn'
+const HUDSON_API_BASE = '/api'
 const CAMPS_PATH = '/camps/get'
 const DEFAULT_MONTH_STORE_ID = 'poi-1796067693589061634'
 const DEFAULT_MONTH_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'

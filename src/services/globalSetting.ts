@@ -765,7 +765,7 @@ function resolveProvider(explicitProvider?: GlobalSettingProviderName): GlobalSe
     explicitProvider ||
     readRuntimeConfig('pms.globalSettingProvider') ||
     (import.meta.env.VITE_PMS_GLOBAL_SETTING_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockMode(): GlobalSettingMockMode {

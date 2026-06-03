@@ -5,7 +5,7 @@ export const CUSTOMER_ADD_BATCH_MOCK_ENDPOINT = '/customer/addBatch/dashboard/ge
 export const CUSTOMER_ADD_BATCH_EXPORT_ENDPOINT = '/customer/addBatch/export/create'
 export const CUSTOMER_ADD_BATCH_SMS_ENDPOINT = '/customer/addBatch/sms/send'
 export const CUSTOMER_ADD_BATCH_MARK_ENDPOINT = '/customer/addBatch/friend/mark'
-export const CUSTOMER_ADD_BATCH_TARGET_RESOURCE_ENDPOINT = 'https://hudson-prod.localhome.cn/edition/resource/get'
+export const CUSTOMER_ADD_BATCH_TARGET_RESOURCE_ENDPOINT = '/api/edition/resource/get'
 
 export type CustomerAddBatchProvider = 'mock' | 'api'
 export type CustomerAddBatchMockState = 'success' | 'empty' | 'error'
@@ -207,7 +207,7 @@ export function createCustomerAddBatchMarkTask(candidate: CustomerAddBatchCandid
 
 function resolveCustomerAddBatchProvider(): CustomerAddBatchProvider {
   const configured = readRuntimeConfig('pms.customerAddBatchProvider') || import.meta.env.VITE_CUSTOMER_ADD_BATCH_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function readCustomerAddBatchMockState(): CustomerAddBatchMockState {

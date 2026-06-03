@@ -1,5 +1,5 @@
 export const otherPriceMockSourceLabel = '统一响应包 mock provider';
-export const otherPriceRealBaseUrl = 'https://hudson-prod.localhome.cn';
+export const otherPriceRealBaseUrl = '/api';
 const feeEndpoint = '/roomCategoryPricings/get';
 const rulesEndpoint = '/roomCategoryRules/get';
 const defaultFeeColumns = ['押金', '可加客人数', '加人费(每人)', '餐食数量', '佣金率(%)'];

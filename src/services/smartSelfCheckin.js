@@ -21,7 +21,7 @@ function getSmartSelfCheckinProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
     const configured = window.localStorage.getItem(SMART_SELF_CHECKIN_PROVIDER_KEY);
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function buildMockEnvelope(filters) {
     if (filters.mockState === 'error') {

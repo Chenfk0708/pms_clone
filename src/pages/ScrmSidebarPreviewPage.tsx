@@ -8,6 +8,7 @@ import {
   type ScrmSidebarFilters,
   type ScrmSidebarScenario,
 } from '../services/scrmSidebarPreview'
+import { resolveCurrentCampId } from '../utils/camp'
 import './ScrmSidebarPreviewPage.css'
 
 type ConversationTabKey = 'all' | 'waiting' | 'consulting' | 'converted' | 'followup'
@@ -24,8 +25,7 @@ type ChatMessage = {
 
 type AvatarTone = 'is-blue' | 'is-sky' | 'is-gold' | 'is-coral'
 
-const DEFAULT_FILTERS: Omit<ScrmSidebarFilters, 'scenario'> = {
-  campId: '1796067693589061634',
+const DEFAULT_FILTERS: Omit<ScrmSidebarFilters, 'scenario' | 'campId'> = {
   poiId: 'ALL',
   date: '2026-05-18',
   channel: 'ALL',
@@ -48,6 +48,7 @@ export function ScrmSidebarPreviewPage() {
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
   const scenario = normalizeScenario(searchParams.get('mockState'))
   const queryConversationId = searchParams.get('conversationId') ?? ''
+  const campId = useMemo(() => searchParams.get('campId') || resolveCurrentCampId(), [searchParams])
 
   const [dashboard, setDashboard] = useState<ScrmSidebarDashboard | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -68,6 +69,7 @@ export function ScrmSidebarPreviewPage() {
       try {
         const nextDashboard = await fetchScrmSidebarDashboard({
           ...DEFAULT_FILTERS,
+          campId,
           scenario,
         })
 
@@ -96,7 +98,7 @@ export function ScrmSidebarPreviewPage() {
     return () => {
       cancelled = true
     }
-  }, [queryConversationId, refreshTick, scenario])
+  }, [campId, queryConversationId, refreshTick, scenario])
 
   const counts = useMemo(() => createTabCounts(dashboard?.conversations ?? []), [dashboard?.conversations])
   const filteredConversations = useMemo(

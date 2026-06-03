@@ -1,4 +1,4 @@
-export const LONG_RENTAL_ORDER_ENDPOINT = 'https://hudson-prod.localhome.cn/orders/page/get';
+export const LONG_RENTAL_ORDER_ENDPOINT = '/api/orders/page/get';
 export const LONG_RENTAL_MOCK_ENDPOINT = '/order/house-longRental-order/list';
 const TASK_ID = 'dingdan--zhusu-dingdan--changzu-dingdan';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
@@ -48,7 +48,7 @@ export function createLongRentalOrderRequestBody(query) {
 }
 function resolveLongRentalProviderMode() {
     const configured = import.meta.env.VITE_PMS_LONG_RENTAL_PROVIDER?.trim();
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 async function fetchMockLongRentalOrders(query, signal) {
     await delay(80, signal);

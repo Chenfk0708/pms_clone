@@ -1,14 +1,112 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page, type Route } from '@playwright/test'
 
 const baseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(path: string) {
-  return baseURL ? `${baseURL}${path}` : path
+  const hashPath = path.startsWith('/#') ? path : `/#${path}`
+  return baseURL ? `${baseURL}${hashPath}` : hashPath
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'ledger-entry-test-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+})
+
+async function mockLedgerEntryApi(page: Page) {
+  const requests: Array<{ path: string; body: Record<string, unknown> }> = []
+
+  const fulfill = async (route: Route, data: unknown) => {
+    requests.push({
+      path: new URL(route.request().url()).pathname.replace('/api', ''),
+      body: (route.request().postDataJSON() ?? {}) as Record<string, unknown>,
+    })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({ code: 0, message: 'success', success: true, data, traceId: `trace-${requests.length}` }),
+    })
+  }
+
+  await page.route('**/api/select/poi/page/get', async (route) =>
+    fulfill(route, {
+      total: 1,
+      size: 100,
+      current: 1,
+      extraInfo: null,
+      pageNum: 1,
+      hasNextPage: false,
+      pages: 1,
+      list: [{ poiId: '62010', poiName: 'API Ledger Store' }],
+    }),
+  )
+  await page.route('**/api/roomCategories/page/get', async (route) =>
+    fulfill(route, {
+      total: 1,
+      size: 100,
+      current: 1,
+      extraInfo: null,
+      pageNum: 1,
+      hasNextPage: false,
+      pages: 1,
+      list: [{ roomCategoryId: '62021', name: 'API Ledger Room' }],
+    }),
+  )
+  await page.route('**/api/paymentWays/get', async (route) =>
+    fulfill(route, {
+      paymentWays: [{ paymentWayId: '62011', paymentWayName: 'API Ledger Pay' }],
+    }),
+  )
+  await page.route('**/api/rooms/get', async (route) =>
+    fulfill(route, {
+      roomCategoryRooms: [
+        {
+          roomCategoryId: '62021',
+          roomCategoryName: 'API Ledger Room',
+          rooms: [{ roomId: '62022', roomName: '620A' }],
+        },
+      ],
+    }),
+  )
+  await page.route('**/api/orderLedger/dashboard/get', async (route) =>
+    fulfill(route, {
+      costPricePages: {
+        total: 1,
+        size: 10,
+        current: 1,
+        extraInfo: null,
+        pageNum: 1,
+        hasNextPage: false,
+        pages: 1,
+        list: [
+          {
+            id: '62031',
+            accountName: 'API Ledger Income',
+            isIncome: 1,
+            typeName: '??',
+            amount: 188,
+            paymentWayName: 'API Ledger Pay',
+            roomCategoryName: 'API Ledger Room',
+            roomName: '620A',
+            note: 'api ledger note',
+            operatorName: 'API Operator',
+            channelName: 'API Channel',
+            gmtCreate: '2026-05-20 10:15:00',
+          },
+        ],
+      },
+      income: 188,
+      expend: 0,
+      netIncome: 188,
+    }),
+  )
+
+  return requests
 }
 
 test('/statistics/ledger renders ledger data from the page service', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/ledger'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
   await expect(page.getByRole('navigation', { name: '顶部导航' }).getByRole('link', { name: '报表' })).toHaveClass(
@@ -50,7 +148,7 @@ test('/statistics/ledger renders ledger data from the page service', async ({ pa
 
 test('/statistics/ledger supports filters, date selection, export and detail feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/ledger'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock'))
 
   await page.getByRole('button', { name: '类型 全部类型' }).click()
   await expect(page.getByRole('listbox', { name: '类型选项' })).toContainText('全部类型')
@@ -95,12 +193,12 @@ test('/statistics/ledger supports filters, date selection, export and detail fee
 test('/statistics/ledger exposes empty and error states as business feedback', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
-  await page.goto(appUrl('/statistics/ledger?mockState=empty'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock&mockState=empty'))
   await expect(page.locator('#ledger-entry-diagnostics')).toHaveAttribute('data-state', 'empty')
   await expect(page.getByLabel('账本明细表格')).toContainText('暂无数据')
   await expect(page.getByLabel('账本概括')).toContainText('净收入：¥ 0.00')
 
-  await page.goto(appUrl('/statistics/ledger?mockState=error'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock&mockState=error'))
   await expect(page.locator('#ledger-entry-diagnostics')).toHaveAttribute('data-state', 'error')
   await expect(page.getByRole('alert')).toContainText('记一笔明细数据加载失败')
   await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
@@ -108,22 +206,54 @@ test('/statistics/ledger exposes empty and error states as business feedback', a
 
 test('/statistics/ledger coordinates route handoff and survives reload', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/ledger'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock'))
 
   await page.getByRole('button', { name: '查看收入(元)详情' }).click()
   await page.getByRole('link', { name: '查看收支明细' }).click()
   await expect(page).toHaveURL(/\/statistics\/orderLedger$/)
 
-  await page.goto(appUrl('/statistics/ledger'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock'))
   await page.getByRole('button', { name: '门店设置' }).click()
   await page.getByRole('link', { name: '前往收支汇总' }).click()
   await expect(page).toHaveURL(/\/statistics\/totalLedger$/)
 
-  await page.goto(appUrl('/statistics/ledger'))
+  await page.goto(appUrl('/statistics/ledger?provider=mock'))
   await page.getByRole('button', { name: '类型 全部类型' }).click()
   await page.getByRole('option', { name: '收入' }).click()
   await expect(page.locator('#ledger-entry-diagnostics')).toHaveAttribute('data-request', /"type":"income"/)
   await page.reload()
   await expect(page.getByRole('button', { name: '类型 全部类型' })).toBeVisible()
   await expect(page.locator('#ledger-entry-diagnostics')).toHaveAttribute('data-provider', 'mock')
+})
+
+
+test('/statistics/ledger defaults to api provider and calls local gateway endpoints', async ({ page }) => {
+  const requests = await mockLedgerEntryApi(page)
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/statistics/ledger'))
+
+  await expect(page.locator('#ledger-entry-diagnostics')).toHaveAttribute('data-provider', 'api')
+  const table = page.locator('.ledger-entry-table-section')
+  await expect(table).toContainText('API Ledger Income')
+  await expect(table).toContainText('API Ledger Pay')
+  await page.locator('.order-ledger-select-field').nth(1).getByRole('button').click()
+  await expect(page.locator('.order-ledger-options')).toContainText('API Ledger Room')
+  await expect.poll(() => requests.length).toBe(5)
+  expect(requests.map((request) => request.path).sort()).toEqual([
+    '/orderLedger/dashboard/get',
+    '/paymentWays/get',
+    '/roomCategories/page/get',
+    '/rooms/get',
+    '/select/poi/page/get',
+  ])
+  expect(requests.every((request) => request.body.campId === '10001')).toBe(true)
+  const dashboardRequest = requests.find((request) => request.path === '/orderLedger/dashboard/get')?.body
+  expect(dashboardRequest).toMatchObject({
+    campId: '10001',
+    pageNum: 1,
+    pageSize: 10,
+    beginTime: '2026-05-01 00:00:00',
+    endTime: '2026-05-31 23:59:59',
+  })
 })

@@ -2,10 +2,10 @@ export const houseDaysDataSource = {
     capturedAt: '2026-05-16 11:45 +08:00',
     evidenceBatch: '20260516-audit',
     networkEndpoints: [
-        'POST https://hudson-prod.localhome.cn/roomStatusesToday/get',
-        'POST https://hudson-prod.localhome.cn/rooms/get',
-        'POST https://hudson-prod.localhome.cn/roomCategories/page/get',
-        'POST https://hudson-prod.localhome.cn/cleanTask/status/count',
+        'POST /api/roomStatusesToday/get',
+        'POST /api/rooms/get',
+        'POST /api/roomCategories/page/get',
+        'POST /api/cleanTask/status/count',
     ],
     blocker: '本地 SPA 目前没有可复用的已认证 PMS API 代理或统一请求层，实时接口无法安全接入；当前数据为固定 Chrome 目标站取证快照，未静默伪装为实时成功。',
 };

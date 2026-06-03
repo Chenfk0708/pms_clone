@@ -4,7 +4,7 @@ export class ChannelPriceRequestError extends Error {
         this.name = 'ChannelPriceRequestError';
     }
 }
-export const channelPriceEndpoint = 'https://hudson-prod.localhome.cn/roomCategoryStatuses/roomCategory/channel/get';
+export const channelPriceEndpoint = '/api/roomCategoryStatuses/roomCategory/channel/get';
 export const channelPriceMockSourceLabel = '统一响应包 mock provider';
 export async function fetchChannelPriceRows(filters, signal) {
     const body = createChannelPriceRequestBody(filters);
@@ -57,7 +57,7 @@ function adaptChannelPriceData(data, requestBody, provider) {
         requestBody,
         endpoint: provider === 'mock' ? channelPriceMockSourceLabel : channelPriceEndpoint,
         provider,
-        sourceLabel: provider === 'mock' ? channelPriceMockSourceLabel : channelPriceEndpoint.replace('https://hudson-prod.localhome.cn/', ''),
+        sourceLabel: provider === 'mock' ? channelPriceMockSourceLabel : channelPriceEndpoint.replace('/api/', ''),
     };
 }
 export function adaptChannelPriceRows(data) {

@@ -898,7 +898,7 @@ function readPayloadMessage(payload) {
 }
 function resolveProvider() {
     const configured = readRuntimeConfig('pms.aiGlobalDataProvider') || import.meta.env.VITE_AI_GLOBAL_DATA_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockState() {
     const configured = readRuntimeConfig('pms.aiGlobalDataMockState') || import.meta.env.VITE_AI_GLOBAL_DATA_MOCK_STATE;

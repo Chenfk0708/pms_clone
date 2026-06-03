@@ -241,7 +241,7 @@ export async function publishSmartHotelSettingsShare(
 function getSmartHotelSettingsProviderName(): SmartHotelSettingsProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem(SMART_HOTEL_SETTINGS_PROVIDER_KEY)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function buildMockDashboardEnvelope(

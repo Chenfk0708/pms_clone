@@ -1,10 +1,10 @@
 const fixedTimestamp = '2026-05-21T10:00:00+08:00';
 export const distributionListEndpoints = {
-    campFlow: 'https://hudson-prod.localhome.cn/campFlow/get',
-    roomCategories: 'https://hudson-prod.localhome.cn/roomCategories/page/get',
-    undistributedRoomCategories: 'https://hudson-prod.localhome.cn/select/roomCategory/page/get',
-    importedRoomCategories: 'https://hudson-prod.localhome.cn/weiRoomCategories/page/get',
-    stores: 'https://hudson-prod.localhome.cn/select/poi/page/get',
+    campFlow: '/api/campFlow/get',
+    roomCategories: '/api/roomCategories/page/get',
+    undistributedRoomCategories: '/api/select/roomCategory/page/get',
+    importedRoomCategories: '/api/weiRoomCategories/page/get',
+    stores: '/api/select/poi/page/get',
 };
 const stores = [
     { id: 'ALL', label: '全部门店' },
@@ -98,7 +98,7 @@ export function buildDistributionRequests(filters) {
 function getDistributionProvider() {
     if (typeof window === 'undefined')
         return 'mock';
-    return window.localStorage.getItem('pms.distributionListProvider') === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem('pms.distributionListProvider')) === 'api' ? 'api' : 'mock';
 }
 async function fetchMockDistributionDashboard(filters) {
     await delay(120);
@@ -201,4 +201,7 @@ function toScenario(value) {
 }
 function delay(ms) {
     return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

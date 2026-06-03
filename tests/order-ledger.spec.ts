@@ -8,7 +8,21 @@ function appUrl(path: string) {
 
 async function openOrderLedger(page: Page, search = '') {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl(`/statistics/orderLedger${search}`))
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'order-ledger-test-token')
+    window.localStorage.setItem('pms.orderLedgerProvider', 'mock')
+  })
+  await page.goto(appUrl(`/#/statistics/orderLedger${search}`))
+}
+
+async function openRealOrderLedger(page: Page, search = '') {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'order-ledger-api-token')
+    window.localStorage.setItem('pms.orderLedgerProvider', 'real')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+  await page.goto(appUrl(`/#/statistics/orderLedger${search}`))
 }
 
 async function readDiagnosticsRequest(page: Page) {
@@ -84,18 +98,19 @@ test('/statistics/orderLedger opens detail feedback and coordinates project rout
   await openOrderLedger(page)
 
   await page.getByRole('button', { name: '查看详情' }).first().click()
-  await expect(page.locator('.order-ledger-drawer')).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
-  await expect(page.getByRole('dialog', { name: '收款记录' })).toContainText('空空如也')
+  const detailDrawer = page.locator('.order-ledger-detail-drawer')
+  await expect(detailDrawer).toContainText('总裁套间（桑拿浴缸露台电竞麻将）')
+  await expect(detailDrawer).toContainText('暂无收款记录')
 
   await page.getByRole('button', { name: '更多操作' }).click()
-  await expect(page.getByRole('button', { name: '查看订单页' })).toBeVisible()
-  await page.getByRole('button', { name: '查看订单页' }).click()
+  await expect(page.getByRole('menuitem', { name: '查看订单页' })).toBeVisible()
+  await page.getByRole('menuitem', { name: '查看订单页' }).click()
   await expect(page).toHaveURL(/\/order\/house-order\/list$/)
 
   await openOrderLedger(page)
   await page.getByRole('button', { name: '查看详情' }).first().click()
   await page.getByRole('button', { name: '更多操作' }).click()
-  await page.getByRole('button', { name: '查看房态页' }).click()
+  await page.getByRole('menuitem', { name: '查看房态页' }).click()
   await expect(page).toHaveURL(/\/statistics\/roomSituation$/)
 })
 
@@ -109,4 +124,114 @@ test('/statistics/orderLedger exposes empty and error states without silent fall
   await expect(page.locator('#order-ledger-diagnostics')).toHaveAttribute('data-state', 'error')
   await expect(page.getByRole('alert', { name: '收支明细错误反馈' })).toContainText('收支明细数据加载失败')
   await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
+})
+
+test('/statistics/orderLedger real provider posts dashboard contract and renders ledger rows', async ({ page }) => {
+  const dashboardRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/paymentTypes/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          paymentTypes: [
+            {
+              paymentTypeId: '52001',
+              paymentTypeName: 'API 房费收入',
+              isIncome: 1,
+              isEnable: 1,
+              bizType: 3,
+              groupType: 91,
+            },
+          ],
+        },
+        traceId: 'api-payment-types-get-test',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      }),
+    })
+  })
+
+  await page.route('**/api/paymentWays/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          paymentWays: [
+            {
+              paymentWayId: '53001',
+              paymentWayName: 'API 微信',
+              isEnable: 1,
+            },
+          ],
+        },
+        traceId: 'api-payment-ways-get-test',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      }),
+    })
+  })
+
+  await page.route('**/api/orderLedger/dashboard/get', async (route) => {
+    dashboardRequests.push({
+      headers: route.request().headers(),
+      body: route.request().postDataJSON() as Record<string, unknown>,
+    })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          summary: {
+            netIncome: 123.45,
+            totalIncome: 123.45,
+            totalExpense: 0,
+          },
+          records: [
+            {
+              id: '54001',
+              poiId: '11001',
+              typeLabel: '收入',
+              sourceLabel: 'manual',
+              orderId: 'ORDER-API-001',
+              projectLabel: 'API 房费收入',
+              amount: 123.45,
+              debtAmount: 0,
+              paymentWayLabel: 'API 微信',
+              paymentNo: 'PAY-API-001',
+              paymentTime: '2026-05-18 10:00:00',
+              createdAt: '2026-05-18 10:00:00',
+              roomLabel: 'API 房间 101',
+              remark: 'api ledger row',
+              operatorName: 'API Operator',
+            },
+          ],
+          pageNum: 1,
+          pageSize: 10,
+          total: 1,
+        },
+        traceId: 'api-order-ledger-dashboard-get-test',
+        timestamp: '2026-05-31T10:00:00+08:00',
+      }),
+    })
+  })
+
+  await openRealOrderLedger(page)
+
+  await expect(page.locator('#order-ledger-diagnostics')).toHaveAttribute('data-provider', 'api')
+  await expect(page.locator('.order-ledger-summary')).toContainText('123.45')
+  await expect(page.locator('.order-ledger-table-section')).toContainText('ORDER-API-001')
+  await expect(page.locator('.order-ledger-table-section')).toContainText('API 房间 101')
+  await expect.poll(() => dashboardRequests.length).toBe(1)
+  expect(dashboardRequests[0].headers.authorization).toBe('Bearer order-ledger-api-token')
+  expect(dashboardRequests[0].body).toMatchObject({
+    campId: '10001',
+    pageNum: 1,
+    pageSize: 10,
+    beginTime: '2026-05-18 00:00:00',
+    endTime: '2026-05-19 23:59:59',
+  })
 })

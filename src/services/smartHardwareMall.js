@@ -1,8 +1,15 @@
+import { resolveCurrentCampId } from '../utils/camp';
 const SMART_HARDWARE_MALL_PROVIDER_KEY = 'pms.smartHardwareMallProvider';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CATALOG_CAMP_ID = '64';
+const DEFAULT_REAL_CAMP_ID = '10001';
+const DEFAULT_MOCK_CAMP_ID = '1796067693589061634';
 const DEFAULT_TIMESTAMP = '2026-05-19T16:03:00+08:00';
+const DEFAULT_ROUTE_AFTER_SUBMIT = '/smartHotel/smartHardware/smartLook';
+const DEFAULT_AGREEMENT_LABEL = '我已经阅读同意《路客云产品服务购买协议》';
+const DEFAULT_PURCHASE_NOTICE = '提交后会创建智慧酒店硬件采购任务，并同步给门店专家跟进。';
 const assetBase = '/assets/smart-hardware-mall';
 const defaultProductId = 'door-card-system';
+const defaultProductName = '门卡管理系统';
 const overviewProducts = [
     {
         id: 'door-card-system',
@@ -17,7 +24,7 @@ const overviewProducts = [
     },
     {
         id: 'cpe-p5',
-        name: '蜂助手CPE路由器P5(5G门店版)',
+        name: '蜂助手 CPE 路由器 P5(5G 门店版)',
         description: '适用于高并发门店联网场景，支持现场部署咨询。',
         image: `${assetBase}/cpe-p5.png`,
         priceLabel: '¥1643',
@@ -27,7 +34,7 @@ const overviewProducts = [
     },
     {
         id: 'cpe-s1',
-        name: '蜂助手CPE路由器S1(4G版)',
+        name: '蜂助手 CPE 路由器 S1(4G 版)',
         description: '适合轻量网络覆盖与门店备用链路。',
         image: `${assetBase}/cpe-s1.jpg`,
         priceLabel: '¥896',
@@ -37,7 +44,7 @@ const overviewProducts = [
     },
     {
         id: 'box-s2',
-        name: '蜂助手4G盒子S2(极光TV版)',
+        name: '蜂助手 4G 盒子 S2(极光 TV 版)',
         description: '客房多媒体场景快速接入，支持套餐咨询。',
         image: `${assetBase}/box-s2.jpg`,
         priceLabel: '¥1195',
@@ -47,7 +54,7 @@ const overviewProducts = [
     },
     {
         id: 'uifi-u1',
-        name: '蜂助手随身UiFi U1',
+        name: '蜂助手随身 WiFi U1',
         description: '适合临时部署与移动覆盖补盲。',
         image: `${assetBase}/uifi-u1.png`,
         priceLabel: '¥341',
@@ -125,9 +132,12 @@ const paymentGroups = [
         paymentTypes: ['加床', '加人', '损坏赔偿', '其他收入', '退房费'],
     },
 ];
+const consultationProducts = overviewProducts.filter((product) => product.action === 'contact');
 export function createDefaultSmartHardwareMallQuery(searchParams = new URLSearchParams(), page = 'mall') {
+    const provider = getSmartHardwareMallProviderName();
+    const fallbackCampId = provider === 'api' ? resolveCurrentCampId(DEFAULT_REAL_CAMP_ID) : DEFAULT_MOCK_CAMP_ID;
     return {
-        campId: searchParams.get('campId') || DEFAULT_CAMP_ID,
+        campId: searchParams.get('campId')?.trim() || fallbackCampId,
         page,
         mockState: toMockState(searchParams.get('mockState')),
         productId: searchParams.get('productId') || defaultProductId,
@@ -136,7 +146,7 @@ export function createDefaultSmartHardwareMallQuery(searchParams = new URLSearch
 export async function fetchSmartHardwareMallOverview(query, signal, providerName = getSmartHardwareMallProviderName()) {
     validateQuery(query);
     if (providerName === 'api') {
-        throw new Error('智能硬件商城数据加载失败，请稍后重试');
+        return fetchApiSmartHardwareMallOverview(query, signal);
     }
     await waitForMockLatency(signal);
     return adaptOverviewEnvelope(buildOverviewEnvelope(query), providerName);
@@ -144,7 +154,7 @@ export async function fetchSmartHardwareMallOverview(query, signal, providerName
 export async function fetchSmartHardwareMallDetail(query, signal, providerName = getSmartHardwareMallProviderName()) {
     validateQuery(query);
     if (providerName === 'api') {
-        throw new Error('智能硬件商城详情加载失败，请稍后重试');
+        return fetchApiSmartHardwareMallDetail(query, signal);
     }
     await waitForMockLatency(signal);
     return adaptDetailEnvelope(buildDetailEnvelope(query), providerName);
@@ -152,7 +162,8 @@ export async function fetchSmartHardwareMallDetail(query, signal, providerName =
 export async function fetchSmartHardwareApplicableRooms(query, signal, providerName = getSmartHardwareMallProviderName()) {
     validateQuery(query);
     if (providerName === 'api') {
-        throw new Error('适用房型加载失败，请稍后重试');
+        const composite = await fetchApiSmartHardwareMallComposite(query, signal);
+        return composite.roomGroups;
     }
     await waitForMockLatency(signal);
     if (query.mockState === 'error') {
@@ -163,7 +174,8 @@ export async function fetchSmartHardwareApplicableRooms(query, signal, providerN
 export async function fetchSmartHardwarePaymentGroups(query, signal, providerName = getSmartHardwareMallProviderName()) {
     validateQuery(query);
     if (providerName === 'api') {
-        throw new Error('支付方式加载失败，请稍后重试');
+        const composite = await fetchApiSmartHardwareMallComposite(query, signal);
+        return composite.paymentGroups;
     }
     await waitForMockLatency(signal);
     if (query.mockState === 'error') {
@@ -174,7 +186,76 @@ export async function fetchSmartHardwarePaymentGroups(query, signal, providerNam
 function getSmartHardwareMallProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
-    return window.localStorage.getItem(SMART_HARDWARE_MALL_PROVIDER_KEY) === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem(SMART_HARDWARE_MALL_PROVIDER_KEY)) === 'api' ? 'api' : 'mock';
+}
+async function fetchApiSmartHardwareMallOverview(query, signal) {
+    const response = await postHudsonEnvelope('/weiRoomCategories/page/get', {
+        campId: DEFAULT_CATALOG_CAMP_ID,
+        buyCampId: query.campId,
+        roomCategoryTypes: [1],
+        goodsTypes: [6],
+    }, signal);
+    const buyableProducts = asArray(response.data?.list).map(adaptApiOverviewItem);
+    return {
+        provider: 'api',
+        traceId: response.traceId,
+        requestedAt: response.timestamp,
+        requestedAtLabel: buildRequestedAtLabel(response.timestamp),
+        heroTitle: '门卡管理系统',
+        heroDescription: '助力酒店高效运营',
+        products: [...buyableProducts, ...consultationProducts],
+        quickEntries,
+    };
+}
+async function fetchApiSmartHardwareMallDetail(query, signal) {
+    const composite = await fetchApiSmartHardwareMallComposite(query, signal);
+    const commodity = composite.commodity;
+    const roomGroupsList = composite.roomGroups;
+    const paymentGroupsList = composite.paymentGroups;
+    return {
+        provider: 'api',
+        traceId: commodity.traceId,
+        requestedAt: commodity.timestamp,
+        requestedAtLabel: buildRequestedAtLabel(commodity.timestamp),
+        productId: readString(commodity.data.commodityId, query.productId),
+        productName: readString(commodity.data.commodityName, defaultProductName),
+        productDescription: readString(commodity.data.description, ''),
+        purchaseTermLabel: readString(commodity.data.purchaseTermLabel, '1年'),
+        buyerName: readBuyerName(),
+        totalAmountLabel: formatMoneyLabel(commodity.data.sellingPriceCent),
+        agreementLabel: DEFAULT_AGREEMENT_LABEL,
+        purchaseNotice: DEFAULT_PURCHASE_NOTICE,
+        routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
+        roomCategoryIds: asArray(commodity.data.roomCategoryIds).filter(Boolean).length > 0
+            ? asArray(commodity.data.roomCategoryIds).filter(Boolean)
+            : roomGroupsList.map((group) => group.roomCategoryId),
+        roomSummary: buildRoomSummary(roomGroupsList),
+        paymentSummary: buildPaymentSummary(paymentGroupsList),
+    };
+}
+async function fetchApiSmartHardwareMallComposite(query, signal) {
+    const commodity = await postHudsonEnvelope('/youzan/commodity/get', {
+        campId: query.campId,
+        commodityId: query.productId,
+    }, signal);
+    const roomCategoryIds = asArray(commodity.data?.roomCategoryIds).filter(Boolean);
+    const [roomsResponse, paymentResponse] = await Promise.all([
+        postHudsonEnvelope('/rooms/get', {
+            campId: query.campId,
+            roomCategoryIds,
+            saleType: 1,
+        }, signal),
+        postHudsonEnvelope('/paymentTypes/get/v2', {
+            campId: query.campId,
+            bizTypes: [2],
+            isEnable: 1,
+        }, signal),
+    ]);
+    return {
+        commodity,
+        roomGroups: adaptRoomGroups(roomsResponse.data),
+        paymentGroups: adaptPaymentGroups(paymentResponse.data),
+    };
 }
 function buildOverviewEnvelope(query) {
     if (query.mockState === 'error') {
@@ -241,9 +322,9 @@ function buildDetailEnvelope(query) {
             purchaseTermLabel: '一年',
             buyerName: '路客云6TS5',
             totalAmountLabel: '¥800',
-            agreementLabel: '我已经阅读同意《路客云产品服务购买协议》',
-            purchaseNotice: '提交后会创建智慧酒店硬件采购任务，并同步给门店专家跟进。',
-            routeAfterSubmit: '/smartHotel/smartHardware/smartLook',
+            agreementLabel: DEFAULT_AGREEMENT_LABEL,
+            purchaseNotice: DEFAULT_PURCHASE_NOTICE,
+            routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
             roomCategoryIds: applicableRoomGroups.map((group) => group.roomCategoryId),
             roomSummary: '4 个适用房型 / 4 间房',
             paymentSummary: '住宿分组 / 5 个支付项',
@@ -267,14 +348,14 @@ function createEmptyDetailPayload() {
         requestedAt: DEFAULT_TIMESTAMP,
         requestedAtLabel: '最近同步：2026-05-19 16:03',
         productId: defaultProductId,
-        productName: '门卡管理系统',
+        productName: defaultProductName,
         productDescription: '',
         purchaseTermLabel: '一年',
         buyerName: '路客云6TS5',
         totalAmountLabel: '¥800',
-        agreementLabel: '我已经阅读同意《路客云产品服务购买协议》',
+        agreementLabel: DEFAULT_AGREEMENT_LABEL,
         purchaseNotice: '',
-        routeAfterSubmit: '/smartHotel/smartHardware/smartLook',
+        routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
         roomCategoryIds: [],
         roomSummary: '0 个适用房型',
         paymentSummary: '0 个支付项',
@@ -308,6 +389,118 @@ function adaptDetailEnvelope(envelope, provider) {
         traceId: envelope.traceId,
     };
 }
+async function postHudsonEnvelope(endpoint, body, signal) {
+    const response = await fetch(`/api${endpoint}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: buildApiHeaders(),
+        body: JSON.stringify(body),
+        signal,
+    });
+    const payload = (await response.json().catch(() => null));
+    if (!response.ok || !payload) {
+        throw new Error(payload?.message || `${endpoint} 请求失败，HTTP ${response.status}`);
+    }
+    if (payload.code !== 0 || payload.data === undefined || payload.data === null) {
+        throw new Error(payload.message || `${endpoint} 响应无效`);
+    }
+    return {
+        data: payload.data,
+        traceId: payload.traceId,
+        timestamp: payload.timestamp,
+    };
+}
+function buildApiHeaders() {
+    const headers = { 'content-type': 'application/json' };
+    if (typeof window !== 'undefined') {
+        const token = window.localStorage.getItem('pms_token')?.trim();
+        if (token)
+            headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
+}
+function adaptApiOverviewItem(item) {
+    const fallback = overviewProducts.find((product) => product.source === 'internal') ?? overviewProducts[0];
+    const name = readString(item.channelRoomCategoryName, fallback?.name || defaultProductName);
+    return {
+        id: readString(item.channelRoomCategoryId, defaultProductId),
+        name,
+        description: readString(item.description, fallback?.description || ''),
+        image: readString(item.mainPhoto, fallback?.image || ''),
+        priceLabel: formatMoneyLabel(item.lowestSellingPrice),
+        action: 'buy',
+        source: 'internal',
+        tag: '官方硬件',
+        supportRoute: '/smartHotel/smartHardware/mall/detail',
+    };
+}
+function adaptRoomGroups(data) {
+    return asArray(data?.roomCategoryRooms).map((group) => ({
+        roomCategoryId: readString(group.roomCategoryId, ''),
+        roomCategoryName: readString(group.roomCategoryName, '未命名房型'),
+        rooms: asArray(group.rooms)
+            .map((room) => readString(room.roomName, ''))
+            .filter(Boolean),
+    }));
+}
+function adaptPaymentGroups(data) {
+    return asArray(data?.paymentGroups).map((group) => ({
+        groupType: readNumber(group.groupType, 0),
+        groupTypeName: readString(group.groupTypeName, '未命名分组'),
+        paymentTypes: asArray(group.paymentTypes)
+            .map((item) => readString(item.paymentTypeName, ''))
+            .filter(Boolean),
+    }));
+}
+function buildRoomSummary(groups) {
+    const roomCount = groups.reduce((sum, group) => sum + group.rooms.length, 0);
+    return `${groups.length} 个适用房型${roomCount > 0 ? ` / ${roomCount} 间房` : ''}`;
+}
+function buildPaymentSummary(groups) {
+    const itemCount = groups.reduce((sum, group) => sum + group.paymentTypes.length, 0);
+    const groupLabel = groups.length > 0 ? `${groups[0].groupTypeName}分组` : '0 个分组';
+    return `${groupLabel} / ${itemCount} 个支付项`;
+}
+function buildRequestedAtLabel(timestamp) {
+    if (!timestamp)
+        return '最近同步：--';
+    const value = timestamp.replace('T', ' ').replace(/([+-]\d{2}:\d{2}|Z)$/, '');
+    return `最近同步：${value.slice(0, 16)}`;
+}
+function readBuyerName() {
+    if (typeof window === 'undefined')
+        return '当前门店';
+    try {
+        const raw = window.localStorage.getItem('pms_user');
+        if (!raw)
+            return '当前门店';
+        const user = JSON.parse(raw);
+        return user.campName || user.name || '当前门店';
+    }
+    catch {
+        return '当前门店';
+    }
+}
+function formatMoneyLabel(value) {
+    const amount = readNumber(value, 0);
+    return `¥${formatMoney(amount / 100)}`;
+}
+function formatMoney(value) {
+    const numberFormat = new Intl.NumberFormat('zh-CN', {
+        minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+        maximumFractionDigits: 2,
+    });
+    return numberFormat.format(value);
+}
+function readString(value, fallback) {
+    return typeof value === 'string' && value.trim() ? value.trim() : fallback;
+}
+function readNumber(value, fallback) {
+    return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+function asArray(value) {
+    return Array.isArray(value) ? value : [];
+}
 function validateQuery(query) {
     if (!query.campId.trim()) {
         throw new Error('智能硬件商城门店参数不正确');
@@ -326,4 +519,7 @@ async function waitForMockLatency(signal) {
             reject(new DOMException('Aborted', 'AbortError'));
         }, { once: true });
     });
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

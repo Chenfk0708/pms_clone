@@ -4,7 +4,7 @@ export const SHIFT_RECORD_LIST_PATH = '/shiftWorkReport/page/get'
 export const SHIFT_RECORD_STORE_PATH = '/select/poi/page/get'
 export const SHIFT_RECORD_EMPLOYEE_PATH = '/campRoles/get'
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
+const realBaseUrl = '/api'
 const defaultCampId = '1796067693589061634'
 const currentStorePoiId = '1796425098638573570'
 
@@ -383,7 +383,7 @@ export async function exportShiftRecords(
 function getShiftRecordProviderName(): ShiftRecordProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem(SHIFT_RECORD_PROVIDER_KEY)?.trim()
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 async function fetchMockShiftRecordDashboard(

@@ -109,9 +109,9 @@ export const defaultFullMarketingDistributionFilters: FullMarketingDistributionF
   pageSize: 10,
 }
 
-export const fullMarketingCommissionEndpoint = 'https://hudson-prod.localhome.cn/promotionPlanProducts/page/get'
-export const fullMarketingDistributionMetricEndpoint = 'https://hudson-prod.localhome.cn/report/promotion/get'
-export const fullMarketingProductSaleEndpoint = 'https://hudson-prod.localhome.cn/report/promotion/productSale/page/get'
+export const fullMarketingCommissionEndpoint = '/api/promotionPlanProducts/page/get'
+export const fullMarketingDistributionMetricEndpoint = '/api/report/promotion/get'
+export const fullMarketingProductSaleEndpoint = '/api/report/promotion/productSale/page/get'
 
 const campId = '1796067693589061634'
 
@@ -128,7 +128,7 @@ export async function fetchFullMarketingCommission(
 
   const response = await fetch(fullMarketingCommissionEndpoint, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: createJsonHeaders(),
     credentials: 'include',
     body: JSON.stringify(requestBody),
     signal,
@@ -154,14 +154,14 @@ export async function fetchFullMarketingDistribution(
   const [metricResponse, productResponse] = await Promise.all([
     fetch(fullMarketingDistributionMetricEndpoint, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: createJsonHeaders(),
       credentials: 'include',
       body: JSON.stringify(requestBody.metric),
       signal,
     }),
     fetch(fullMarketingProductSaleEndpoint, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: createJsonHeaders(),
       credentials: 'include',
       body: JSON.stringify(requestBody.productSale),
       signal,
@@ -562,8 +562,17 @@ function resolveFullMarketingProviderName(explicitProvider?: FullMarketingProvid
   const configured =
     explicitProvider ||
     readRuntimeConfig('pms.fullMarketingProvider') ||
+    readRuntimeConfig('pmsFullMarketingProvider') ||
+    (import.meta.env.VITE_FULL_MARKETING_PROVIDER as string | undefined) ||
     (import.meta.env.VITE_PMS_FULL_MARKETING_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+}
+
+function createJsonHeaders() {
+  const headers = new Headers({ 'content-type': 'application/json' })
+  const token = readRuntimeConfig('pms_token')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  return headers
 }
 
 function resolveFullMarketingMockMode(): FullMarketingMockMode {

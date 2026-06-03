@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   createLedgerEntryExportTask,
   defaultLedgerEntryQuery,
@@ -30,6 +30,7 @@ type PresetRangeKey = (typeof presetRanges)[number]['key'] | 'custom'
 
 export function LedgerEntryPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [query, setQuery] = useState<LedgerEntryQuery>(() => makeInitialQuery())
   const [dashboard, setDashboard] = useState<LedgerEntryDashboard | null>(null)
   const [serviceError, setServiceError] = useState<LedgerEntryServiceError | null>(null)
@@ -37,6 +38,8 @@ export function LedgerEntryPage() {
   const [notice, setNotice] = useState('')
   const [openSelect, setOpenSelect] = useState<SelectKind>(null)
   const [selectedRow, setSelectedRow] = useState<LedgerEntryRow | null>(null)
+  const [selectedSummaryKey, setSelectedSummaryKey] = useState<'income' | 'expense' | null>(null)
+  const [isStoreDialogOpen, setIsStoreDialogOpen] = useState(false)
   const [isDatePanelOpen, setIsDatePanelOpen] = useState(false)
   const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
   const [calendarMonth, setCalendarMonth] = useState(() => query.startDate.slice(0, 7))
@@ -48,6 +51,14 @@ export function LedgerEntryPage() {
     const controller = new AbortController()
 
     async function run() {
+      const params = readLedgerEntrySearchParams()
+      const mockState = params.get('mockState')
+      const routeState = mockState === 'empty' || mockState === 'error' ? mockState : 'success'
+      if ((query.state ?? 'success') !== routeState) {
+        setQuery((current) => ({ ...current, state: routeState }))
+        return
+      }
+
       setIsLoading(true)
       setServiceError(null)
       try {
@@ -68,7 +79,7 @@ export function LedgerEntryPage() {
     void run()
 
     return () => controller.abort()
-  }, [query])
+  }, [location.search, query])
 
   const diagnosticsProvider = dashboard?.provider ?? serviceError?.provider ?? 'mock'
   const diagnosticsState = dashboard?.state ?? serviceError?.state ?? query.state ?? 'success'
@@ -116,9 +127,13 @@ export function LedgerEntryPage() {
     const nextStartDate = date < dateDraft.startDate ? date : dateDraft.startDate
     const nextEndDate = date < dateDraft.startDate ? dateDraft.startDate : date
     setDateDraft({ startDate: nextStartDate, endDate: nextEndDate })
+    setDatePickTarget('start')
+  }
+
+  function confirmDateSelection() {
     setIsDatePanelOpen(false)
     setDatePickTarget('start')
-    patchQuery({ startDate: nextStartDate, endDate: nextEndDate }, '已更新账本日期')
+    patchQuery({ startDate: dateDraft.startDate, endDate: dateDraft.endDate }, '已更新账本日期')
   }
 
   function resetFilters() {
@@ -184,7 +199,7 @@ export function LedgerEntryPage() {
               type="button"
               className="order-ledger-gear"
               aria-label="门店设置"
-              onClick={() => navigate('/InformationMaintenance/campInfo')}
+              onClick={() => setIsStoreDialogOpen(true)}
             >
               ⚙
             </button>
@@ -272,10 +287,10 @@ export function LedgerEntryPage() {
 
           <div className="order-ledger-actions">
             <button type="button" onClick={resetFilters} disabled={isLoading}>
-              重置
+              重置筛选
             </button>
             <button type="button" className="is-primary" onClick={exportReport} disabled={isLoading}>
-              导出
+              报表导出
             </button>
           </div>
         </div>
@@ -294,6 +309,27 @@ export function LedgerEntryPage() {
           </button>
         </section>
       ) : null}
+
+      <section className="order-ledger-summary ledger-entry-summary" aria-label="账本概括">
+        <h2>账本概括</h2>
+        <div className="order-ledger-summary-grid">
+          {(dashboard?.summaryCards ?? []).map((card) => (
+            <article key={card.key}>
+              <span>{card.title}</span>
+              <strong>¥ {formatMoney(card.amount)}</strong>
+              <p>{card.trend}</p>
+              <button type="button" onClick={() => setSelectedSummaryKey(card.key)} aria-label={`查看${card.title}详情`}>
+                详情
+              </button>
+            </article>
+          ))}
+          <article>
+            <span>净收入</span>
+            <strong>¥ {formatMoney(dashboard?.netIncome ?? 0)}</strong>
+            <p>净收入：¥ {formatMoney(dashboard?.netIncome ?? 0)}</p>
+          </article>
+        </div>
+      </section>
 
       <section className="ledger-entry-table-section" aria-label="账本明细表格">
         <div className="ledger-entry-section-header">
@@ -386,9 +422,14 @@ export function LedgerEntryPage() {
           onPrevious={() => setCalendarMonth((current) => shiftMonth(current, -1))}
           onNext={() => setCalendarMonth((current) => shiftMonth(current, 1))}
           onPick={applyDateSelection}
+          onConfirm={confirmDateSelection}
         />
       ) : null}
 
+      {selectedSummaryKey ? (
+        <SummaryDialog dashboard={dashboard} summaryKey={selectedSummaryKey} onClose={() => setSelectedSummaryKey(null)} />
+      ) : null}
+      {isStoreDialogOpen ? <StoreDialog onClose={() => setIsStoreDialogOpen(false)} /> : null}
       {selectedRow ? <RowDialog row={selectedRow} onClose={() => setSelectedRow(null)} /> : null}
     </div>
   )
@@ -396,10 +437,21 @@ export function LedgerEntryPage() {
 
 function makeInitialQuery() {
   const query = defaultLedgerEntryQuery()
-  const params = new URLSearchParams(window.location.search)
+  const params = readLedgerEntrySearchParams()
   const mockState = params.get('mockState')
   if (mockState === 'empty' || mockState === 'error') query.state = mockState
   return query
+}
+
+function readLedgerEntrySearchParams() {
+  const params = new URLSearchParams(window.location.search)
+  const hashQuery = window.location.hash.split('?')[1]
+  if (hashQuery) {
+    new URLSearchParams(hashQuery).forEach((value, key) => {
+      if (!params.has(key)) params.set(key, value)
+    })
+  }
+  return params
 }
 
 function findPresetRangeKey(startDate: string, endDate: string): PresetRangeKey {
@@ -455,6 +507,7 @@ function DatePanel({
   onPrevious,
   onNext,
   onPick,
+  onConfirm,
 }: {
   month: string
   startDate: string
@@ -465,6 +518,7 @@ function DatePanel({
   onPrevious: () => void
   onNext: () => void
   onPick: (date: string) => void
+  onConfirm: () => void
 }) {
   const months = [month, shiftMonth(month, 1)]
 
@@ -473,7 +527,7 @@ function DatePanel({
       <section
         className="order-ledger-date-panel"
         role="dialog"
-        aria-label="记一笔明细日期面板"
+        aria-label="日期选择"
         style={{ top: `${position.top}px`, left: `${position.left}px` }}
         onMouseDown={(event) => event.stopPropagation()}
       >
@@ -501,6 +555,11 @@ function DatePanel({
             />
           ))}
         </div>
+        <footer className="order-ledger-date-panel__footer">
+          <button type="button" onClick={onConfirm}>
+            确定
+          </button>
+        </footer>
       </section>
     </div>
   )
@@ -547,7 +606,7 @@ function CalendarMonth({
             <button
               key={day.date}
               type="button"
-              aria-label={day.date}
+              aria-label={`选择 ${day.date}`}
               className={`${day.isMuted ? 'is-muted' : ''}${inRange ? ' is-in-range' : ''}${isSelected ? ' is-selected' : ''}`}
               onClick={() => onPick(day.date)}
             >
@@ -566,7 +625,7 @@ function RowDialog({ row, onClose }: { row: LedgerEntryRow; onClose: () => void 
       <section className="ledger-entry-dialog" role="dialog" aria-modal="true" aria-label="账本明细详情">
         <header>
           <strong>账本明细详情</strong>
-          <button type="button" aria-label="关闭账本明细详情" onClick={onClose}>
+          <button type="button" aria-label="关闭明细详情" onClick={onClose}>
             ×
           </button>
         </header>
@@ -600,6 +659,57 @@ function RowDialog({ row, onClose }: { row: LedgerEntryRow; onClose: () => void 
         </dl>
         <footer>
           <Link to="/statistics/orderLedger">查看收支明细</Link>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+function SummaryDialog({
+  dashboard,
+  summaryKey,
+  onClose,
+}: {
+  dashboard: LedgerEntryDashboard | null
+  summaryKey: 'income' | 'expense'
+  onClose: () => void
+}) {
+  const card = dashboard?.summaryCards.find((item) => item.key === summaryKey)
+  const title = card?.title ?? (summaryKey === 'income' ? '收入(元)' : '支出 (元)')
+
+  return (
+    <div className="ledger-entry-dialog-layer">
+      <section className="ledger-entry-dialog" role="dialog" aria-modal="true" aria-label={`${title}详情`}>
+        <header>
+          <strong>{title}详情</strong>
+          <button type="button" aria-label="关闭详情" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <p>{card?.detail ?? '账本分页接口返回当前筛选范围内的流水明细。'}</p>
+        <p>账本分页接口：/orderLedger/dashboard/get</p>
+        <footer>
+          <Link to="/statistics/orderLedger">查看收支明细</Link>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+function StoreDialog({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="ledger-entry-dialog-layer">
+      <section className="ledger-entry-dialog" role="dialog" aria-modal="true" aria-label="门店设置">
+        <header>
+          <strong>门店设置</strong>
+          <button type="button" aria-label="关闭门店设置" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <p>当前页面按门店维度查询账本流水，可跳转到关联报表继续核对。</p>
+        <footer>
+          <Link to="/statistics/orderLedger">前往收支明细</Link>
+          <Link to="/statistics/totalLedger">前往收支汇总</Link>
         </footer>
       </section>
     </div>

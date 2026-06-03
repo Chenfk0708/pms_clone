@@ -53,7 +53,7 @@ interface RetailPriceApiEnvelope<T> {
   timestamp: string
 }
 
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn'
+const HUDSON_BASE_URL = '/api'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
 const REAL_REQUEST_PATHS = [
   '/camps/get',

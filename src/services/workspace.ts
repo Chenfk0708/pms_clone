@@ -1,6 +1,7 @@
 import type { DonutSlice, RevenueMetric, WorkspaceMetric } from '../types'
+import { resolveCurrentCampId } from '../utils/camp'
 
-const HUDSON_API_BASE = 'https://hudson-prod.localhome.cn'
+const HUDSON_API_BASE = '/api'
 const WORKSPACE_PROVIDER_STORAGE_KEY = 'pmsWorkspaceProvider'
 const WORKSPACE_MOCK_MODE_STORAGE_KEY = 'pmsWorkspaceMockMode'
 const WORKSPACE_MOCK_CAMP_ID = 'mock-camp-shouye'
@@ -49,13 +50,22 @@ export interface WorkspaceAnalysis {
 export interface WorkspaceListState {
   orders: WorkspaceOrder[]
   memoCount: number
+  memoItems: WorkspaceMemo[]
+  todoItems: Array<{ title: string; detail: string }>
   productItems: Array<{ title: string; detail: string }>
+}
+
+export interface WorkspaceMemo {
+  memoId: string
+  content: string
+  isHandle: number
 }
 
 export interface WorkspaceTrafficState {
   level: string
   suggestions: string[]
   connectedChannels: string[]
+  pendingChannels: string[]
 }
 
 export interface WorkspaceDashboard {
@@ -68,9 +78,9 @@ export interface WorkspaceDashboard {
 export function resolveWorkspaceCampId() {
   const params = new URLSearchParams(window.location.search)
   const fromQuery = params.get('campId')
-  const fromStorage = window.localStorage.getItem('pmsCampId')
   const fromEnv = import.meta.env.VITE_PMS_CAMP_ID as string | undefined
-  const campId = fromQuery || fromStorage || fromEnv
+  const fromRuntime = resolveCurrentCampId(fromEnv || '')
+  const campId = fromQuery || fromRuntime
 
   if (campId) return campId
   if (getWorkspaceDataProviderName() === 'mock') return WORKSPACE_MOCK_CAMP_ID
@@ -79,11 +89,11 @@ export function resolveWorkspaceCampId() {
 }
 
 export function getWorkspaceDataProviderName(): WorkspaceDataProviderName {
-  const fromStorage = typeof window === 'undefined' ? null : window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY)
-  if (fromStorage === 'real' || fromStorage === 'mock') return fromStorage
-
   const fromEnv = import.meta.env.VITE_WORKSPACE_DATA_PROVIDER as WorkspaceDataProviderName | undefined
-  return fromEnv === 'real' ? 'real' : 'mock'
+  if (fromEnv === 'real' || fromEnv === 'mock') return fromEnv
+
+  const fromStorage = typeof window === 'undefined' ? null : window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY)
+  return fromStorage === 'real' ? 'real' : 'mock'
 }
 
 function getWorkspaceMockMode() {
@@ -251,7 +261,22 @@ function buildWorkspaceMockData(endpoint: string, body: Record<string, unknown>,
   }
 
   if (endpoint === '/memo/page/get') {
-    return { total: 0, list: [], pagination: { page: 1, pageSize: 10, total: 0 } }
+    const isHandle = Number(body.isHandle ?? 0)
+    const list = empty
+      ? []
+      : [
+          { memoId: 'mock-memo-001', content: '核对今日预抵客人押金', isHandle: 0 },
+          { memoId: 'mock-memo-002', content: '已同步夜审交接事项', isHandle: 1 },
+        ].filter((item) => item.isHandle === isHandle)
+    return { total: list.length, list, pagination: { page: 1, pageSize: 10, total: list.length } }
+  }
+
+  if (endpoint === '/memo/add') {
+    return { memoId: 'mock-memo-created', content: String(body.content ?? ''), isHandle: 0 }
+  }
+
+  if (endpoint === '/memo/handle') {
+    return { memoId: String(body.memoId ?? ''), content: String(body.content ?? ''), isHandle: Number(body.isHandle ?? 1) }
   }
 
   if (endpoint === '/backlogs/get') {
@@ -449,7 +474,7 @@ export async function fetchWorkspaceAnalysis(campId: string, range: WorkspacePer
   }
 }
 
-export async function fetchWorkspaceLists(campId: string, orderTab: WorkspaceOrderTab, keyword: string): Promise<WorkspaceListState> {
+export async function fetchWorkspaceLists(campId: string, orderTab: WorkspaceOrderTab, keyword: string, memoHandle = 0): Promise<WorkspaceListState> {
   assertRealCampId(campId)
   const [orderData, memoData, backlogData] = await Promise.all([
     requestWorkspaceData<{ list?: unknown[] }>('/orders/get', {
@@ -459,27 +484,69 @@ export async function fetchWorkspaceLists(campId: string, orderTab: WorkspaceOrd
       keyword,
       pageSize: 10,
     }),
-    requestWorkspaceData<{ total?: number; list?: unknown[] }>('/memo/page/get', { campId: requireCampId(campId), pageNum: 1, pageSize: 10, isHandle: 0 }),
+    requestWorkspaceData<{ total?: number; list?: unknown[] }>('/memo/page/get', { campId: requireCampId(campId), pageNum: 1, pageSize: 10, isHandle: memoHandle }),
     requestWorkspaceData<unknown[]>('/backlogs/get', { campId: requireCampId(campId) }),
   ])
+  const backlogItems = Array.isArray(backlogData) ? backlogData.map(normalizeBacklogItem).filter(isBacklogItem) : []
+  const memoItems = Array.isArray(memoData.list) ? memoData.list.map(normalizeMemoItem).filter(isMemoItem) : []
 
   return {
     orders: Array.isArray(orderData.list) ? orderData.list.map(normalizeOrder) : [],
     memoCount: Number(memoData.total ?? 0),
-    productItems: Array.isArray(backlogData) ? backlogData.map(normalizeBacklogItem).filter(isBacklogItem) : [],
+    memoItems,
+    todoItems: backlogItems.filter((item) => item.type === 'todo').map(toWorkspaceNewsItem),
+    productItems: backlogItems.filter((item) => item.type === 'product').map(toWorkspaceNewsItem),
   }
+}
+
+export async function fetchWorkspaceMemos(campId: string, isHandle: number) {
+  assertRealCampId(campId)
+  const data = await requestWorkspaceData<{ total?: number; list?: unknown[] }>('/memo/page/get', {
+    campId: requireCampId(campId),
+    pageNum: 1,
+    pageSize: 10,
+    isHandle,
+  })
+  const memoItems = Array.isArray(data.list) ? data.list.map(normalizeMemoItem).filter(isMemoItem) : []
+  return {
+    memoCount: Number(data.total ?? memoItems.length),
+    memoItems,
+  }
+}
+
+export async function createWorkspaceMemo(campId: string, content: string) {
+  assertRealCampId(campId)
+  return normalizeMemoItem(await requestWorkspaceData<unknown>('/memo/add', { campId: requireCampId(campId), content }))
+}
+
+export async function handleWorkspaceMemo(campId: string, memoId: string, isHandle: number) {
+  assertRealCampId(campId)
+  return normalizeMemoItem(await requestWorkspaceData<unknown>('/memo/handle', { campId: requireCampId(campId), memoId, isHandle }))
 }
 
 export async function fetchWorkspaceTraffic(campId: string): Promise<WorkspaceTrafficState> {
   assertRealCampId(campId)
   const data = await requestWorkspaceData<{ isOpenFlow?: number; channelInfos?: Array<{ channelName?: string; isApplyOpen?: number }> }>('/campFlow/get', { campId: requireCampId(campId) })
-  const connectedChannels = data.channelInfos?.filter((item) => item.isApplyOpen).map((item) => item.channelName || '未命名渠道') ?? []
+  const channels = Array.isArray(data.channelInfos) ? data.channelInfos : []
+  const connectedChannels = channels.filter((item) => item.isApplyOpen).map((item) => item.channelName || '未命名渠道')
+  const pendingChannels = channels.filter((item) => !item.isApplyOpen).map((item) => item.channelName || '未命名渠道')
 
   return {
-    level: data.isOpenFlow ? '较好' : '待开通',
+    level: connectedChannels.length > 0 || data.isOpenFlow ? '较好' : '待开通',
     connectedChannels,
-    suggestions: ['小红书和抖音渠道暂未开通，渠道每天上亿流量，搭载图文和视频，能够快速吸引用户，促成下单。'],
+    pendingChannels,
+    suggestions: [buildTrafficSuggestion(connectedChannels, pendingChannels)],
   }
+}
+
+function buildTrafficSuggestion(connectedChannels: string[], pendingChannels: string[]) {
+  if (pendingChannels.length > 0) {
+    return `还有 ${pendingChannels.length} 个渠道待开通：${pendingChannels.join('、')}`
+  }
+  if (connectedChannels.length > 0) {
+    return `已开通 ${connectedChannels.length} 个渠道：${connectedChannels.join('、')}`
+  }
+  return '暂无渠道配置，请先维护 OTA 渠道。'
 }
 
 const orderTypeByTab: Record<WorkspaceOrderTab, string> = {
@@ -503,20 +570,52 @@ function normalizeOrder(raw: unknown): WorkspaceOrder {
   }
 }
 
-function normalizeBacklogItem(raw: unknown): { title: string; detail: string } | null {
+function normalizeMemoItem(raw: unknown): WorkspaceMemo | null {
+  const item = raw as Record<string, unknown>
+  const memoId = item.memoId ?? item.id
+  const content = item.content ?? item.memoContent ?? item.title
+  if (memoId === undefined || memoId === null || content === undefined || content === null) return null
+
+  return {
+    memoId: String(memoId),
+    content: String(content),
+    isHandle: Number(item.isHandle ?? item.handled ?? 0),
+  }
+}
+
+function isMemoItem(value: WorkspaceMemo | null): value is WorkspaceMemo {
+  return value !== null
+}
+
+type WorkspaceBacklogItemType = 'todo' | 'product'
+
+function normalizeBacklogItem(raw: unknown): { type: WorkspaceBacklogItemType; title: string; detail: string } | null {
   const item = raw as Record<string, unknown>
   const content = item.content
   if (typeof content !== 'string') return null
 
   try {
-    const parsed = JSON.parse(content) as { title?: string; sub_title?: string; button?: string }
-    return { title: parsed.title || '待办事项', detail: parsed.sub_title || parsed.button || '' }
+    const parsed = JSON.parse(content) as { type?: string; category?: string; title?: string; sub_title?: string; button?: string }
+    return {
+      type: normalizeBacklogItemType(parsed.type ?? parsed.category ?? item.type ?? item.category),
+      title: parsed.title || '待办事项',
+      detail: parsed.sub_title || parsed.button || '',
+    }
   } catch {
-    return { title: content, detail: '' }
+    return { type: normalizeBacklogItemType(item.type ?? item.category), title: content, detail: '' }
   }
 }
 
-function isBacklogItem(value: { title: string; detail: string } | null): value is { title: string; detail: string } {
+function normalizeBacklogItemType(value: unknown): WorkspaceBacklogItemType {
+  const normalized = String(value ?? '').trim().toLowerCase()
+  return normalized === 'product' || normalized === 'product_dynamic' || normalized === 'productdynamic' ? 'product' : 'todo'
+}
+
+function toWorkspaceNewsItem(item: { title: string; detail: string }) {
+  return { title: item.title, detail: item.detail }
+}
+
+function isBacklogItem(value: { type: WorkspaceBacklogItemType; title: string; detail: string } | null): value is { type: WorkspaceBacklogItemType; title: string; detail: string } {
   return value !== null
 }
 

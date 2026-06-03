@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useSyncExternalStore, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   createCleanStatisticsExportTask,
@@ -9,6 +9,7 @@ import {
   type CleanMetric,
   type CleanMockState,
   type CleanStatisticsDashboard,
+  type CleanStatisticsExportTask,
 } from '../services/cleanStatistics'
 import './CleanStatisticsPage.css'
 
@@ -71,6 +72,7 @@ function FieldMultiSelect({
 
 export function CleanStatisticsPage() {
   const navigate = useNavigate()
+  const routeKey = useRouteSearchKey()
   const [tab, setTab] = useState<CleanTab>('summary')
   const [storeId, setStoreId] = useState(defaultFilters.storeId ?? 'all')
   const [range, setRange] = useState(initialRange)
@@ -83,10 +85,10 @@ export function CleanStatisticsPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [dialog, setDialog] = useState<DialogState>(null)
   const [lastRequestBody, setLastRequestBody] = useState<Record<string, unknown>>({})
-  const initialLoadRef = useRef(false)
+  const [exportTask, setExportTask] = useState<CleanStatisticsExportTask | null>(null)
 
-  const campId = useMemo(() => resolveCampId(), [])
-  const mockState = useMemo(() => resolveMockState(), [])
+  const campId = useMemo(() => resolveCampId(), [routeKey])
+  const mockState = useMemo(() => resolveMockState(), [routeKey])
   const summaryRows = dashboard?.statistics.rows ?? []
   const detailRows = dashboard?.statistics.detailRows ?? []
   const metrics = dashboard?.statistics.metrics ?? []
@@ -131,8 +133,6 @@ export function CleanStatisticsPage() {
   )
 
   useEffect(() => {
-    if (initialLoadRef.current) return undefined
-    initialLoadRef.current = true
     let cancelled = false
     queueMicrotask(() => {
       if (!cancelled) void loadStatistics(range, '保洁统计已加载')
@@ -140,7 +140,9 @@ export function CleanStatisticsPage() {
     return () => {
       cancelled = true
     }
-  }, [loadStatistics, range])
+    // 只用于首次进入和路由查询参数变化时加载；普通筛选变更由“查询/重置”显式触发，避免覆盖操作反馈。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campId, mockState])
 
   function toggleOption(kind: SelectKind, optionId: string) {
     const updater = kind === 'room' ? setRooms : setCleaners
@@ -159,11 +161,16 @@ export function CleanStatisticsPage() {
 
   async function exportStatistics() {
     const task = await createCleanStatisticsExportTask(buildFilters())
+    setExportTask(task)
     setStatus(`导出任务已创建：${task.taskId}`)
   }
 
   return (
-    <div className="clean-stat-page" data-clean-request={JSON.stringify(lastRequestBody)}>
+    <div
+      className="clean-stat-page"
+      data-clean-request={JSON.stringify(lastRequestBody)}
+      data-clean-export={exportTask ? JSON.stringify(exportTask) : ''}
+    >
       <div className="clean-stat-title">保洁统计</div>
       <section className="clean-stat-shell">
         <div className="clean-stat-tabs" aria-label="保洁统计视图">
@@ -457,13 +464,34 @@ function CleanStatisticsDialog({ dialog, onClose }: { dialog: DialogState; onClo
 }
 
 function resolveCampId() {
-  const params = new URLSearchParams(window.location.search)
-  return params.get('campId') || window.localStorage.getItem('pmsCampId') || (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) || defaultFilters.campId
+  return readRouteParam('campId') || window.localStorage.getItem('pmsCampId') || (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) || defaultFilters.campId
 }
 
 function resolveMockState(): CleanMockState {
-  const state = new URLSearchParams(window.location.search).get('cleanMockState')
+  const state = readRouteParam('cleanMockState')
   return state === 'empty' || state === 'error' ? state : 'success'
+}
+
+function readRouteParam(key: string) {
+  const searchValue = new URLSearchParams(window.location.search).get(key)
+  if (searchValue) return searchValue
+
+  const hashQuery = window.location.hash.split('?')[1] ?? ''
+  return new URLSearchParams(hashQuery).get(key)
+}
+
+function useRouteSearchKey() {
+  return useSyncExternalStore(
+    (notify) => {
+      window.addEventListener('hashchange', notify)
+      window.addEventListener('popstate', notify)
+      return () => {
+        window.removeEventListener('hashchange', notify)
+        window.removeEventListener('popstate', notify)
+      }
+    },
+    () => `${window.location.search}|${window.location.hash}`,
+  )
 }
 
 function getPreviousMonthRange(currentStart: string) {

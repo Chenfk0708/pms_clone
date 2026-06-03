@@ -1,7 +1,7 @@
 const timestamp = '2026-05-18T10:00:00+08:00';
 const endpoint = '/mallManagement/weapp/decorate/overview/get';
 const stores = [
-    { id: 'camp-ts5', name: '路客云 TS5 的店铺' },
+    { id: 'camp-ts5', name: '银宿' },
     { id: 'camp-hotel', name: '南山电竞酒店' },
     { id: 'camp-resort', name: '海岸露营地' },
 ];
@@ -86,7 +86,7 @@ const baseData = {
         { label: '设置', path: '/InformationMaintenance/campInfo' },
     ],
     pageConfig: {
-        storeName: '路客云 TS5 的店铺',
+        storeName: '银宿',
         heroTitle: '住进城市里的露营地',
         primaryColor: '#405f9e',
         bottomNavigation: [
@@ -183,7 +183,7 @@ function normalizeQuery(query) {
 }
 function resolveProvider() {
     const configured = readRuntimeConfig('pms.brandWebsiteProvider') || import.meta.env.VITE_BRAND_WEBSITE_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockMode() {
     const configured = readRuntimeConfig('pms.brandWebsiteMockMode') || import.meta.env.VITE_BRAND_WEBSITE_MOCK_MODE;

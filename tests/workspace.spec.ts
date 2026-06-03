@@ -1,12 +1,17 @@
 import { expect, test, type Page } from '@playwright/test'
 
-const HUDSON_API = 'https://hudson-prod.localhome.cn'
+const HUDSON_API = '**/api'
 
 const workspaceApiCalls: Array<{ url: string; body: Record<string, unknown> }> = []
 
 async function mockWorkspaceApis(page: Page) {
   workspaceApiCalls.length = 0
+  const memoItems: Array<{ memoId: string; content: string; isHandle: number }> = [
+    { memoId: 'memo-001', content: '核对今日预抵客人押金', isHandle: 0 },
+    { memoId: 'memo-002', content: '已同步夜审交接事项', isHandle: 1 },
+  ]
   await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'workspace-playwright-token')
     window.localStorage.setItem('pmsCampId', '1796067693589061634')
     window.localStorage.setItem('pmsWorkspaceProvider', 'real')
     window.localStorage.removeItem('pmsWorkspaceMockMode')
@@ -127,7 +132,25 @@ async function mockWorkspaceApis(page: Page) {
     }
 
     if (url.endsWith('/memo/page/get')) {
-      await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ success: true, data: { total: 0, list: [] } }) })
+      const isHandle = Number(body.isHandle ?? 0)
+      const list = memoItems.filter((item) => item.isHandle === isHandle)
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ success: true, data: { total: list.length, list } }) })
+      return
+    }
+
+    if (url.endsWith('/memo/add')) {
+      const content = String(body.content ?? '').trim()
+      const item = { memoId: `memo-${memoItems.length + 1}`.padStart(8, '0'), content, isHandle: 0 }
+      memoItems.unshift(item)
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ success: true, data: item }) })
+      return
+    }
+
+    if (url.endsWith('/memo/handle')) {
+      const memoId = String(body.memoId ?? '')
+      const item = memoItems.find((candidate) => candidate.memoId === memoId)
+      if (item) item.isHandle = Number(body.isHandle ?? 1)
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ success: true, data: item ?? null }) })
       return
     }
 
@@ -142,6 +165,9 @@ async function mockWorkspaceApis(page: Page) {
             },
             {
               content: JSON.stringify({ title: '上个月报表已生成', sub_title: '来看看上个月的表现如何？', button: '查看' }),
+            },
+            {
+              content: JSON.stringify({ type: 'product', title: '日历房售卖产品已上架', sub_title: '标准大床房预售券已同步', button: '查看产品' }),
             },
           ],
         }),
@@ -256,8 +282,9 @@ test.describe('workspace page clone', () => {
     await expect(page.getByText('门店流量获取能力')).toBeVisible()
     await expect(page.getByText('一键上渠道')).toBeVisible()
     await expect(page.getByText('OTA流量')).toBeVisible()
-    await expect(page.getByText('社媒流量')).toBeVisible()
-    await expect(page.getByText('私域流量')).toBeVisible()
+    await expect(page.locator('.workspace-traffic-card')).toContainText('路客云聚合')
+    await expect(page.locator('.workspace-traffic-card')).toContainText('飞猪酒店直连')
+    expect(workspaceApiCalls.some((call) => call.url.endsWith('/campFlow/get'))).toBe(true)
   })
 
   test('supports captured workspace interactions', async ({ page }) => {
@@ -270,8 +297,11 @@ test.describe('workspace page clone', () => {
     await expect(page.getByTestId('workspace-chart-dates')).toContainText('05/04')
     await expect(page.getByTestId('workspace-chart-dates')).toContainText('05/10')
 
-    await page.getByRole('button', { name: '产品动态' }).click()
-    await expect(page.getByTestId('workspace-todo-panel')).toContainText('绑定微信账号')
+    await expect(page.getByTestId('workspace-todo-panel')).toContainText('\u7ed1\u5b9a\u5fae\u4fe1\u8d26\u53f7')
+    await expect(page.getByTestId('workspace-todo-panel')).not.toContainText('\u65e5\u5386\u623f\u552e\u5356\u4ea7\u54c1\u5df2\u4e0a\u67b6')
+    await page.getByRole('button', { name: '\u4ea7\u54c1\u52a8\u6001' }).click()
+    await expect(page.getByTestId('workspace-todo-panel')).toContainText('\u65e5\u5386\u623f\u552e\u5356\u4ea7\u54c1\u5df2\u4e0a\u67b6')
+    await expect(page.getByTestId('workspace-todo-panel')).not.toContainText('\u7ed1\u5b9a\u5fae\u4fe1\u8d26\u53f7')
 
     await page.getByTestId('workspace-metric-staying').click()
     await expect(page).toHaveURL(/\/statistics\/roomSituation$/)
@@ -326,6 +356,13 @@ test.describe('workspace page clone', () => {
     await page.getByPlaceholder('请输入新的备忘录').fill('跟进今日预抵')
     await page.getByRole('button', { name: '提交' }).click()
     await expect(page.getByRole('status')).toContainText('备忘录已提交')
+    await expect(page.locator('.memo-panel')).toContainText('跟进今日预抵')
+    expect(workspaceApiCalls.some((call) => call.url.endsWith('/memo/add') && call.body.content === '跟进今日预抵')).toBe(true)
+
+    await page.locator('.memo-panel').getByRole('button', { name: '处理', exact: true }).first().click()
+    await expect(page.getByRole('status')).toContainText('备忘录已处理')
+    await page.locator('.memo-panel').getByRole('button', { name: '已处理' }).click()
+    await expect(page.locator('.memo-panel')).toContainText('跟进今日预抵')
 
     await page.getByRole('button', { name: '排' }).first().click()
     await expect(page).toHaveURL(/\/houseManage\/months$/)
@@ -372,19 +409,22 @@ test.describe('workspace page clone', () => {
     await expect(page).toHaveURL(/\/scrm\/sidebarPreview$/)
     await expect(page.locator('.conversation-full-page')).toBeVisible()
 
-    await toolbar.getByRole('button', { name: '收款' }).click()
+    await page.goto('/workspace')
+    const workspaceToolbar = page.getByLabel('顶部工具栏')
+
+    await workspaceToolbar.getByRole('button', { name: '收款' }).click()
     await expect(page.getByRole('dialog', { name: '收款' })).toContainText('收款方式')
     await page.getByRole('button', { name: '关闭收款' }).click()
 
-    await toolbar.getByRole('button', { name: '客服' }).click()
+    await workspaceToolbar.getByRole('button', { name: '客服' }).click()
     await expect(page.getByRole('dialog', { name: '路客云AI客服' })).toContainText('如何调整房价?')
     await page.getByRole('button', { name: '关闭客服' }).click()
 
-    await toolbar.getByRole('button', { name: '用户菜单' }).click()
+    await workspaceToolbar.getByRole('button', { name: '用户菜单' }).click()
     await expect(page.getByRole('dialog', { name: '用户菜单面板' })).toBeVisible()
     await expect(page.getByRole('dialog', { name: '用户菜单面板' }).getByRole('link', { name: '门店信息' })).toBeVisible()
 
-    await toolbar.getByRole('button', { name: '接待' }).click()
+    await workspaceToolbar.getByRole('button', { name: '接待' }).click()
     await expect(page).toHaveURL(/\/statistics\/shift\/record$/)
 
     await page.goto('/workspace')

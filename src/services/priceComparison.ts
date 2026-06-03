@@ -191,7 +191,7 @@ export function normalizePriceComparisonMockState(value: string | null): PriceCo
 
 function getConfiguredProvider(): PriceComparisonProviderName {
   const configured = import.meta.env.VITE_PMS_PRICE_COMPARISON_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function normalizeFilters(request: PriceComparisonRequest): PriceComparisonFilters {

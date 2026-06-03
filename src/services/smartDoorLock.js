@@ -126,7 +126,7 @@ export async function submitSmartDoorLockAccount(payload, signal, providerName =
 function getSmartDoorLockProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
-    return window.localStorage.getItem(SMART_DOOR_LOCK_PROVIDER_KEY) === 'api' ? 'api' : 'mock';
+    return normalizeProviderValue(window.localStorage.getItem(SMART_DOOR_LOCK_PROVIDER_KEY)) === 'api' ? 'api' : 'mock';
 }
 function buildDashboardEnvelope(query) {
     if (query.mockState === 'error') {
@@ -285,4 +285,7 @@ async function waitForMockLatency(signal) {
             reject(new DOMException('Aborted', 'AbortError'));
         }, { once: true });
     });
+}
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
 }

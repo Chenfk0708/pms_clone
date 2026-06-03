@@ -1,4 +1,4 @@
-const HUDSON_BASE_URL = 'https://hudson-prod.localhome.cn';
+const HUDSON_BASE_URL = '/api';
 const TICKET_PAGE_PATH = '/ticket/page/get';
 const TICKET_CHECK_PATH = '/ticket/check';
 const CAMPS_PATH = '/camps/get';

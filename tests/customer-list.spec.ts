@@ -3,11 +3,17 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalizedPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}${normalizedPath}` : normalizedPath
+}
+
+function appHashUrl(routePath: string) {
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}/#${routePath}` : `/#${routePath}`
 }
 
 async function openCustomerList(page, scenario: 'success' | 'empty' | 'error' = 'success') {
   await page.addInitScript((mode) => {
+    window.localStorage.setItem('pms_token', 'customer-list-test-token')
     window.localStorage.setItem('pms.customerList.scenario', mode)
     window.localStorage.setItem('pms.customerList.provider', 'mock')
   }, scenario)
@@ -23,7 +29,7 @@ test('/customer/list loads through the customer list provider contract', async (
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
 
   await expect(page.getByText('客户搜索')).toBeVisible()
-  await expect(page.getByRole('button', { name: '客户标签' })).toBeVisible()
+  await expect(page.getByRole('link', { name: '客户标签' })).toBeVisible()
   await expect(page.getByRole('button', { name: '导出数据' })).toBeVisible()
   await expect(page.getByRole('button', { name: '添加客户' })).toBeVisible()
   await expect(page.getByLabel('客户列表表格')).toContainText('任清明')
@@ -32,18 +38,111 @@ test('/customer/list loads through the customer list provider contract', async (
 
   const contract = page.getByTestId('customer-list-contract')
   await expect(contract).toHaveAttribute('data-provider', 'mock')
-  await expect(contract).toHaveAttribute('data-endpoint', '/member/page/get')
+  await expect(contract).toHaveAttribute('data-endpoint', '/customers/page/get')
   await expect(contract).toContainText('"memberSearchType":"mobile"')
   await expect(contract).toContainText('"pageNum":1')
   await expect(contract).toContainText('"pageSize":20')
 
-  await page.getByRole('button', { name: '客户标签' }).click()
+  await page.getByRole('link', { name: '客户标签' }).click()
   await expect(page).toHaveURL(/\/customer\/tag$/)
   await page.goBack()
   await expect(page).toHaveURL(/\/customer\/list$/)
 
-  await page.getByRole('button', { name: '批量加好友' }).click()
+  await page.getByRole('button', { name: '增长获客' }).click()
+  await page.getByRole('link', { name: '批量加好友' }).click()
   await expect(page).toHaveURL(/\/customer\/addBatch$/)
+})
+
+test('/customer/detail real provider sends gateway auth header and adapts CRM customer detail payload', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.customerDetail.provider', 'api')
+    window.localStorage.setItem('pms_token', 'crm-customer-detail-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const detailRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/customers/detail/get', async (route) => {
+    detailRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-crm-customers-detail-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          customerId: '41001',
+          name: 'Real CRM Detail',
+          mobile: '13941001001',
+          profileJson: JSON.stringify({
+            memberNo: 'M41001',
+            memberCardName: '黑金会员',
+            memberStatusText: '正常',
+            firstMemberTime: '2026-05-28 11:20:00',
+            followPublicAccountTime: '2026-05-29 08:00:00',
+            channelName: '直营网店',
+            tagNames: ['高价值', '复购'],
+            gender: '女',
+            birthday: '1996-06-01',
+            region: '深圳',
+            wechat: 'crm-detail',
+            email: 'detail@example.com',
+            qq: '41001',
+            isJoinWxCp: 1,
+            isJoinGroup: 0,
+            remark: '来自真实 CRM 详情',
+            followRecords: [
+              {
+                id: 'follow-41001',
+                owner: 'CRM 顾问',
+                time: '2026-05-30 09:00:00',
+                content: '已电话回访',
+              },
+            ],
+            couponAvailable: 3,
+            couponExpired: 1,
+            couponUsed: 2,
+            points: 1888,
+            balance: 128.5,
+            lastConsumeTime: '2026-05-29 21:00:00',
+            lastConsumePrice: 6600,
+            totalConsumePrice: 12800,
+            totalConsumeCount: 2,
+            avgConsumePrice: 6400,
+          }),
+          lastActiveAt: '2026-05-29 21:00:00',
+          status: 1,
+        },
+      },
+    })
+  })
+
+  await page.goto(appHashUrl('/customer/list/detail?id=41001'))
+
+  const contract = page.getByTestId('customer-detail-contract')
+  await expect(contract).toHaveAttribute('data-provider', 'api')
+  await expect(contract).toHaveAttribute('data-endpoint', '/customers/detail/get')
+  await expect(page.getByLabel('客户摘要')).toContainText('Real CRM Detail')
+  await expect(page.getByLabel('客户摘要')).toContainText('13941001001')
+  await expect(page.getByLabel('客户摘要')).toContainText('黑金会员')
+  await expect(page.getByLabel('客户摘要')).toContainText('直营网店')
+  await expect(page.getByLabel('客户摘要')).toContainText('高价值')
+  await expect(page.getByLabel('基础信息')).toContainText('detail@example.com')
+  await expect(page.getByLabel('跟进记录')).toContainText('已电话回访')
+  await expect(page.getByLabel('资产信息')).toContainText('可用优惠券 3')
+  await expect(page.getByLabel('交易信息')).toContainText('128.00')
+
+  expect(detailRequests).toHaveLength(1)
+  expect(detailRequests[0].headers.authorization).toBe('Bearer crm-customer-detail-token')
+  expect(detailRequests[0].body).toMatchObject({
+    campId: '10001',
+    customerId: '41001',
+  })
 })
 
 test('/customer/list refreshes data from filters and keeps dropdown aligned to its trigger', async ({ page }) => {
@@ -94,6 +193,7 @@ test('/customer/list refreshes data from filters and keeps dropdown aligned to i
   await page.getByRole('button', { name: '导出数据' }).click()
   await expect(page.getByRole('status')).toContainText('客户导出任务已创建')
 
+  await page.evaluate(() => window.localStorage.setItem('pms.customerDetail.provider', 'mock'))
   await page.getByRole('button', { name: '详情' }).first().evaluate((element: HTMLButtonElement) => element.click())
   await expect(page).toHaveURL(/\/customer\/list\/detail\?id=/)
   await expect(page.locator('.customer-detail-breadcrumb')).toContainText('客户列表')
@@ -208,6 +308,10 @@ test('/customer/list keeps the action column fixed on the right while horizontal
 })
 
 test('/customer/detail replicates the target layout skeleton', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'customer-detail-test-token')
+    window.localStorage.setItem('pms.customerDetail.provider', 'mock')
+  })
   await page.goto(appUrl('/customer/list/detail?id=1801949727954239490'))
 
   await expect(page.locator('.customer-detail-breadcrumb')).toContainText('客户列表')
@@ -230,6 +334,10 @@ test('/customer/detail replicates the target layout skeleton', async ({ page }) 
 })
 
 test('/customer/detail opens the target-style modal from edit and add-follow actions', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'customer-detail-test-token')
+    window.localStorage.setItem('pms.customerDetail.provider', 'mock')
+  })
   await page.goto(appUrl('/customer/list/detail?id=1801949727954239490'))
 
   await page.getByLabel('基础信息').getByRole('button', { name: '编辑' }).evaluate((element: HTMLButtonElement) => element.click())
@@ -248,4 +356,102 @@ test('/customer/detail opens the target-style modal from edit and add-follow act
   await expect(followDialog.getByText('跟进记录')).toBeVisible()
   await followDialog.getByRole('button', { name: '取消' }).click()
   await expect(followDialog).toBeHidden()
+})
+
+test('/customer/list real provider sends gateway auth header and adapts CRM customer payload', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms.customerList.provider', 'api')
+    window.localStorage.setItem('pms_token', 'crm-customer-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const pageRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const saveRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/customers/page/get', async (route) => {
+    pageRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-crm-customers-page-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          total: 1,
+          pageNum: 1,
+          pageSize: 20,
+          list: [
+            {
+              customerId: '41001',
+              name: 'Real CRM Alpha',
+              mobile: '13941001001',
+              profileJson:
+                '{"channelName":"直营","memberCardName":"金卡会员","tagNames":["高价值"],"lastConsumePrice":6600,"totalConsumePrice":12800,"totalConsumeCount":2,"avgConsumePrice":6400}',
+              lastActiveAt: '2036-05-29 10:30',
+              status: 1,
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/customers/save', async (route) => {
+    saveRequests.push({
+      headers: route.request().headers(),
+      body: (route.request().postDataJSON() as Record<string, unknown>) ?? {},
+    })
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-crm-customers-save-trace-001',
+        timestamp: '2026-05-30T10:00:00+08:00',
+        data: {
+          customerId: '41099',
+          message: '客户保存成功',
+        },
+      },
+    })
+  })
+
+  await page.goto(appHashUrl('/customer/list'))
+
+  const contract = page.getByTestId('customer-list-contract')
+  await expect(contract).toHaveAttribute('data-provider', 'api')
+  await expect(contract).toHaveAttribute('data-endpoint', '/customers/page/get')
+  await expect(page.locator('.customer-list-table')).toContainText('Real CRM Alpha')
+  await expect(page.locator('.customer-list-table')).toContainText('13941001001')
+
+  await page.locator('.customer-list-add').click()
+  await page.locator('.customer-list-modal input').nth(0).fill('13941099099')
+  await page.locator('.customer-list-modal input').nth(1).fill('Real Saved Customer')
+  await page.locator('.customer-list-modal footer .is-primary').click()
+
+  expect(pageRequests).toHaveLength(1)
+  expect(saveRequests).toHaveLength(1)
+  expect(pageRequests[0].headers.authorization).toBe('Bearer crm-customer-token')
+  expect(saveRequests[0].headers.authorization).toBe('Bearer crm-customer-token')
+  expect(pageRequests[0].body).toMatchObject({
+    campId: '10001',
+    pageNum: 1,
+    pageSize: 20,
+    current: 1,
+  })
+  expect(saveRequests[0].body).toMatchObject({
+    campId: '10001',
+    name: 'Real Saved Customer',
+    mobile: '13941099099',
+  })
+  expect(String(saveRequests[0].body.customerId ?? '')).toMatch(/^crm-\d+$/)
+  expect(JSON.parse(String(saveRequests[0].body.profileJson))).toMatchObject({
+    channelName: '自来客',
+    remark: '',
+  })
 })

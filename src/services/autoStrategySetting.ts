@@ -1,3 +1,6 @@
+import { apiPost } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const AUTO_STRATEGY_SETTING_PROVIDER_KEY = 'pms.autoStrategySetting.provider'
 export const AUTO_STRATEGY_SETTING_MOCK_STATE_KEY = 'pms.autoStrategySetting.mockState'
 export const AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT = '/systemConfigs/get'
@@ -5,7 +8,7 @@ export const AUTO_STRATEGY_SETTING_ORDER_AUTO_PENDING_ENDPOINT = '/systemConfig/
 export const AUTO_STRATEGY_SETTING_ORDER_AUTO_SETTLE_ENDPOINT = '/systemConfig/orderAutoSettleStrategy'
 export const AUTO_STRATEGY_SETTING_NEGOTIATE_REFUND_ENDPOINT = '/systemConfig/negotiateRefundAutomaticAcceptStrategy'
 
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_TIMESTAMP = '2026-05-20T10:35:00+08:00'
 const TRACE_PREFIX = 'mock-shezhi--tongyong-shezhi--zidong-celue-shezhi'
 
@@ -44,7 +47,7 @@ export type AutoStrategySettingQuery = {
 
 export type AutoStrategySettingConfigItem = {
   configKey: string
-  configValue: string
+  configValue: unknown
   source: 'verified' | 'assumed'
 }
 
@@ -186,6 +189,17 @@ type AutoStrategySettingPayload = {
   emptyState: AutoStrategySettingViewModel['emptyState']
 }
 
+type SystemConfigItemResponse = {
+  configKey: string
+  configValue: unknown
+  configScope?: string
+  source?: string
+}
+
+type SystemConfigsResponse = {
+  configs?: SystemConfigItemResponse[]
+}
+
 const tabs: AutoStrategySettingViewModel['tabs'] = [
   { key: 'orderRules', label: '接单规则' },
   { key: 'roomAutomation', label: '房态自动化' },
@@ -296,7 +310,7 @@ export function createDefaultAutoStrategySettingQuery(
   runtimeConfig: ReturnType<typeof resolveAutoStrategySettingRuntimeConfig>,
 ): AutoStrategySettingQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     provider: runtimeConfig.provider,
     mockState: runtimeConfig.mockState,
   }
@@ -309,16 +323,18 @@ export async function loadAutoStrategySettingViewModel(
   const provider = query.provider ?? 'mock'
   const requestBody = buildBootstrapRequestBody(query)
 
-  await delay(180, signal)
-
   if (provider === 'api') {
-    throw new AutoStrategySettingServiceError(
+    const data = await apiPost<SystemConfigsResponse>(AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT, requestBody, signal)
+    return adaptEnvelope(
       provider,
       AUTO_STRATEGY_SETTING_BOOTSTRAP_ENDPOINT,
       requestBody,
-      createEnvelope('error', 50301, '自动策略设置实时接口暂未开放，请切换到 mock 数据源'),
+      createApiEnvelope(data, 'success'),
+      'success',
     )
   }
+
+  await delay(180, signal)
 
   if (query.mockState === 'error') {
     throw new AutoStrategySettingServiceError(
@@ -530,18 +546,28 @@ async function performMutation(
   patchItems: AutoStrategySettingConfigItem[],
   signal?: AbortSignal,
 ): Promise<AutoStrategySettingMutationResult> {
-  await delay(150, signal)
-
   const provider = query.provider ?? 'mock'
 
   if (provider === 'api') {
-    throw new AutoStrategySettingServiceError(
+    const data = await apiPost<SystemConfigsResponse>(endpoint, requestBody, signal)
+    const viewModel = adaptEnvelope(
       provider,
       endpoint,
-      requestBody,
-      createEnvelope('error', 50302, '自动策略设置保存接口暂未开放，请切换到 mock 数据源'),
+      buildBootstrapRequestBody(query),
+      createApiEnvelope(data, 'success'),
+      'success',
     )
+
+    return {
+      viewModel,
+      statusMessage,
+      lastAction,
+      endpoint,
+      requestBody,
+    }
   }
+
+  await delay(150, signal)
 
   mockConfigs = mergeConfigItems(mockConfigs, patchItems)
 
@@ -594,11 +620,41 @@ function createEnvelope(
   }
 }
 
+function createApiEnvelope(
+  data: SystemConfigsResponse,
+  state: AutoStrategySettingMockState,
+): AutoStrategySettingEnvelope<AutoStrategySettingPayload> {
+  return {
+    code: 0,
+    message: 'success',
+    data: buildPayload(adaptApiConfigs(data.configs ?? [])),
+    traceId: `api-auto-strategy-setting-${state}`,
+    timestamp: new Date().toISOString(),
+  }
+}
+
+function adaptApiConfigs(configs: SystemConfigItemResponse[]): AutoStrategySettingConfigItem[] {
+  return configs.map((item) => ({
+    configKey: item.configKey,
+    configValue: stringifyConfigValue(item.configValue),
+    source:
+      item.source === 'user' || item.source === 'platform' || item.source === 'seed' || item.configScope === 'camp'
+        ? 'verified'
+        : 'assumed',
+  }))
+}
+
 function createConfigMap(configs: AutoStrategySettingConfigItem[]) {
   return configs.reduce<Record<string, string>>((current, item) => {
-    current[item.configKey] = item.configValue
+    current[item.configKey] = stringifyConfigValue(item.configValue)
     return current
   }, {})
+}
+
+function stringifyConfigValue(value: unknown) {
+  if (typeof value === 'string') return value
+  if (value === null || value === undefined) return ''
+  return Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : String(value)
 }
 
 function mergeConfigItems(
@@ -627,7 +683,8 @@ function cloneOptions<TValue extends string>(source: AutoStrategySettingOption<T
 }
 
 function normalizeProvider(value: string | null): AutoStrategySettingProvider | null {
-  if (value === 'mock' || value === 'api') return value
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
   return null
 }
 
@@ -665,7 +722,8 @@ function normalizeDirtyRoomStrategyValue(value: string | undefined): DirtyRoomSt
 
 function readProvider(): AutoStrategySettingProvider {
   if (typeof window === 'undefined') return 'mock'
-  return normalizeProvider(window.localStorage.getItem(AUTO_STRATEGY_SETTING_PROVIDER_KEY)) ?? 'mock'
+  const provider = normalizeProvider(window.localStorage.getItem(AUTO_STRATEGY_SETTING_PROVIDER_KEY))
+  return provider ?? 'mock'
 }
 
 function readMockState(): AutoStrategySettingMockState {

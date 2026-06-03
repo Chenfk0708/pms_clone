@@ -2,6 +2,13 @@ const RESPONSE_TIMESTAMP = '2026-05-19T16:40:00+08:00';
 const PRIMARY_STORE_ID = '1796067693589061634';
 const PRIMARY_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)';
 const ALL_STORES_ID = 'all-stores';
+const LEDGER_ENTRY_PROVIDER_KEY = 'pms.ledgerEntryProvider';
+const realBaseUrl = '/api';
+const poiEndpoint = '/select/poi/page/get';
+const roomCategoriesEndpoint = '/roomCategories/page/get';
+const paymentWaysEndpoint = '/paymentWays/get';
+const roomsEndpoint = '/rooms/get';
+const ledgerDashboardEndpoint = '/orderLedger/dashboard/get';
 const ledgerRows = [
     {
         id: 'ledger-20260518-001',
@@ -138,21 +145,24 @@ export function defaultLedgerEntryQuery() {
         state: 'success',
     };
 }
-export function resolveLedgerEntryProvider() {
-    const localValue = typeof window !== 'undefined' ? window.localStorage.getItem('pms.ledgerEntryProvider') : null;
-    const envValue = import.meta.env.VITE_LEDGER_ENTRY_PROVIDER;
-    const provider = localValue || envValue || 'mock';
+export function resolveLedgerEntryProvider(searchParams = readLedgerEntrySearchParams()) {
+    const urlValue = searchParams.get('provider')?.trim() || searchParams.get('ledgerEntryProvider')?.trim();
+    const localValue = typeof window !== 'undefined' ? window.localStorage.getItem(LEDGER_ENTRY_PROVIDER_KEY)?.trim() : null;
+    const envValue = import.meta.env.VITE_LEDGER_ENTRY_PROVIDER?.trim();
+    const provider = (urlValue || localValue || envValue || 'api').toLowerCase();
     if (provider === 'mock' || provider === 'api')
         return provider;
+    if (provider === 'real')
+        return 'api';
     throw new Error(`Unsupported ledger entry provider: ${provider}`);
 }
 export async function fetchLedgerEntryDashboard(request, signal) {
     const provider = resolveLedgerEntryProvider();
     const normalizedRequest = normalizeQuery(request);
-    if (provider === 'api') {
-        throw new LedgerEntryServiceError('记一笔明细数据加载失败，请稍后重试', failEnvelope('API_PROVIDER_DISABLED', 'service unavailable', null), normalizedRequest);
-    }
     validateQuery(normalizedRequest);
+    if (provider === 'api') {
+        return fetchApiLedgerEntryDashboard(normalizedRequest, signal);
+    }
     await waitForMockLatency(signal);
     if (normalizedRequest.state === 'error') {
         throw new LedgerEntryServiceError('记一笔明细数据加载失败，请稍后重试', failEnvelope('LEDGER_ENTRY_QUERY_FAILED', '账本明细查询失败', null), normalizedRequest);
@@ -192,6 +202,55 @@ function validateQuery(request) {
     if (request.startDate > request.endDate) {
         throw new LedgerEntryServiceError('开始日期不能晚于结束日期', failEnvelope('LEDGER_ENTRY_INVALID_DATE_RANGE', '开始日期不能晚于结束日期', null), request);
     }
+}
+async function fetchApiLedgerEntryDashboard(request, signal) {
+    const campId = resolveCampId();
+    const ledgerRequest = {
+        campId,
+        pageNum: request.page,
+        pageSize: request.pageSize,
+        beginTime: toDayStart(request.startDate),
+        endTime: toDayEnd(request.endDate),
+        isIncome: request.type === 'income' ? 1 : request.type === 'expense' ? 0 : null,
+        roomCategoryId: request.roomCategoryId === 'all' ? null : request.roomCategoryId,
+    };
+    const [poiEnvelope, roomCategoriesEnvelope, paymentWaysEnvelope, roomsEnvelope, ledgerEnvelope] = await Promise.all([
+        postHudson(poiEndpoint, { campId, pageNum: 1, pageSize: 100 }, signal),
+        postHudson(roomCategoriesEndpoint, { campId, pageNum: 1, pageSize: 100 }, signal),
+        postHudson(paymentWaysEndpoint, { campId }, signal),
+        postHudson(roomsEndpoint, { campId }, signal),
+        postHudson(ledgerDashboardEndpoint, ledgerRequest, signal),
+    ]);
+    return adaptDashboard('api', request, roomCategoriesEnvelope, paymentWaysEnvelope, roomsEnvelope, ledgerEnvelope, poiEnvelope);
+}
+async function postHudson(endpoint, body, signal) {
+    const response = await fetch(`${realBaseUrl}${endpoint}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+        signal,
+    });
+    let payload;
+    try {
+        payload = (await response.json());
+    }
+    catch {
+        payload = null;
+    }
+    if (!response.ok || !payload) {
+        throw new Error(`${endpoint} request failed`);
+    }
+    if ('code' in payload && payload.code !== 0) {
+        throw new Error(payload.message || `${endpoint} business error`);
+    }
+    if ('success' in payload && payload.success === false) {
+        throw new Error(payload.errorMsg ?? payload.errorDetail ?? `${endpoint} business error`);
+    }
+    if (payload.data === undefined || payload.data === null) {
+        throw new Error(`${endpoint} response missing data`);
+    }
+    return okEnvelope(payload.data);
 }
 function makeRoomCategoriesEnvelope() {
     return okEnvelope({
@@ -253,12 +312,20 @@ function filterLedgerRows(request) {
         return typeMatches && roomCategoryMatches && dateMatches;
     });
 }
-function adaptDashboard(provider, request, roomCategoriesEnvelope, paymentWaysEnvelope, roomsEnvelope, ledgerEnvelope) {
+function adaptDashboard(provider, request, roomCategoriesEnvelope, paymentWaysEnvelope, roomsEnvelope, ledgerEnvelope, poiEnvelope) {
     assertSuccess(roomCategoriesEnvelope);
     assertSuccess(paymentWaysEnvelope);
     assertSuccess(roomsEnvelope);
     assertSuccess(ledgerEnvelope);
+    if (poiEnvelope)
+        assertSuccess(poiEnvelope);
     const paymentWayNames = paymentWaysEnvelope.data.paymentWays.map((item) => item.paymentWayName);
+    const storeList = poiEnvelope
+        ? [
+            { id: ALL_STORES_ID, name: '全部门店' },
+            ...poiEnvelope.data.list.map((item) => ({ id: item.poiId, name: item.poiName })),
+        ]
+        : stores;
     const rows = ledgerEnvelope.data.costPricePages.list.map((row) => ({
         id: row.id,
         type: (row.isIncome === 1 ? 'income' : 'expense'),
@@ -289,13 +356,17 @@ function adaptDashboard(provider, request, roomCategoriesEnvelope, paymentWaysEn
             detail: '支出明细来自账本分页接口，覆盖保洁、布草和门店补货等成本项目。',
         },
     ];
+    const roomCategoryOptions = [
+        { id: roomCategories[0].roomCategoryId, name: roomCategories[0].name },
+        ...roomCategoriesEnvelope.data.list.map((item) => ({ id: item.roomCategoryId, name: item.name })),
+    ];
     return {
         provider,
         state: request.state ?? 'success',
         request,
-        stores,
+        stores: storeList,
         typeOptions,
-        roomCategories: roomCategories.map((item) => ({ id: item.roomCategoryId, name: item.name })),
+        roomCategories: roomCategoryOptions,
         paymentWays: paymentWayNames,
         summaryCards,
         netIncome: ledgerEnvelope.data.netIncome,
@@ -350,4 +421,38 @@ function waitForMockLatency(signal) {
             reject(new DOMException('Request aborted', 'AbortError'));
         }, { once: true });
     });
+}
+function readLedgerEntrySearchParams(baseParams = new URLSearchParams()) {
+    const params = new URLSearchParams(baseParams);
+    if (typeof window === 'undefined')
+        return params;
+    new URLSearchParams(window.location.search).forEach((value, key) => {
+        if (!params.has(key))
+            params.set(key, value);
+    });
+    const hashQuery = window.location.hash.split('?')[1];
+    if (hashQuery) {
+        new URLSearchParams(hashQuery).forEach((value, key) => {
+            if (!params.has(key))
+                params.set(key, value);
+        });
+    }
+    return params;
+}
+function resolveCampId() {
+    const params = readLedgerEntrySearchParams();
+    const urlCampId = params.get('campId')?.trim();
+    const storageCampId = typeof window !== 'undefined'
+        ? window.localStorage.getItem('pmsCampId')?.trim() ||
+            window.localStorage.getItem('pms.currentCampId')?.trim() ||
+            ''
+        : '';
+    const envCampId = import.meta.env.VITE_PMS_CAMP_ID?.trim();
+    return urlCampId || storageCampId || envCampId || PRIMARY_STORE_ID;
+}
+function toDayStart(value) {
+    return value.length === 10 ? `${value} 00:00:00` : value;
+}
+function toDayEnd(value) {
+    return value.length === 10 ? `${value} 23:59:59` : value;
 }

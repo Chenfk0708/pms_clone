@@ -149,7 +149,7 @@ function CalendarRoomListPage() {
     }
 
     if (action === '修改价格') {
-      navigate(viewModel?.routeTargets.price ?? '/houseManage/channelPrice')
+      setDialog({ type: 'price', product })
       return
     }
 
@@ -319,6 +319,8 @@ function CalendarRoomListPage() {
         </button>
         <button type="button">{query.pageSize} 条/页</button>
       </div>
+
+      {notice ? <div className="calendar-room-notice" role="status" aria-label="日历房操作反馈">{notice}</div> : null}
 
       {dialog ? (
         <CalendarRoomDialog
@@ -531,13 +533,38 @@ function CalendarRoomDialog({
     )
   }
 
+  if (dialog.type === 'price') {
+    return (
+      <div className="calendar-room-dialog-mask" role="presentation" onMouseDown={onClose}>
+        <section className="calendar-room-dialog" role="dialog" aria-modal="true" aria-label="调整售卖价格" onMouseDown={(event) => event.stopPropagation()}>
+          <header>
+            <strong>调整售卖价格</strong>
+            <button type="button" aria-label="关闭调整售卖价格" onClick={onClose}>×</button>
+          </header>
+          <dl>
+            <dt>产品名称</dt>
+            <dd>{dialog.product.name}</dd>
+            <dt>当前价格计划</dt>
+            <dd>{dialog.product.pricePlan}</dd>
+          </dl>
+          <footer>
+            <button type="button" onClick={onClose}>取消</button>
+            <button type="button" className="is-primary" onClick={() => onConfirm('售卖价格已保存')}>
+              保存价格
+            </button>
+          </footer>
+        </section>
+      </div>
+    )
+  }
+
   const isOnline = dialog.product.status === 'online'
   const title = isOnline ? '是否确认下架售卖产品?' : '是否确认上架售卖产品?'
   const description = isOnline ? '确认下架后将无法进行售卖，可能会影响收益。' : ''
 
   return (
     <div className="calendar-room-dialog-mask" role="presentation" onMouseDown={onClose}>
-      <section className="calendar-room-dialog calendar-room-dialog--status" role="dialog" aria-modal="true" aria-label="售卖状态确认" onMouseDown={(event) => event.stopPropagation()}>
+        <section className="calendar-room-dialog calendar-room-dialog--status" role="dialog" aria-modal="true" aria-label="调整上下架状态" onMouseDown={(event) => event.stopPropagation()}>
         <header>
           <span className="calendar-room-dialog__warning" aria-hidden="true">!</span>
           <div className="calendar-room-dialog__status-copy">
@@ -548,7 +575,7 @@ function CalendarRoomDialog({
         <footer>
           <button type="button" onClick={onClose}>取消</button>
           <button type="button" className="is-primary" onClick={() => onConfirm('售卖状态已更新')}>
-            确定
+            确认调整
           </button>
         </footer>
       </section>

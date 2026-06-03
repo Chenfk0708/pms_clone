@@ -263,7 +263,7 @@ function resolveProvider(explicitProvider?: CompanyInfoProviderName): CompanyInf
     explicitProvider ||
     readRuntimeConfig('pms.companyInfo.provider') ||
     (import.meta.env.VITE_COMPANY_INFO_PROVIDER as string | undefined)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockMode(): CompanyInfoMockMode {

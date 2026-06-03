@@ -1,11 +1,11 @@
 const fixedTimestamp = '2026-05-21T10:00:00+08:00'
 
 export const distributionListEndpoints = {
-  campFlow: 'https://hudson-prod.localhome.cn/campFlow/get',
-  roomCategories: 'https://hudson-prod.localhome.cn/roomCategories/page/get',
-  undistributedRoomCategories: 'https://hudson-prod.localhome.cn/select/roomCategory/page/get',
-  importedRoomCategories: 'https://hudson-prod.localhome.cn/weiRoomCategories/page/get',
-  stores: 'https://hudson-prod.localhome.cn/select/poi/page/get',
+  campFlow: '/api/campFlow/get',
+  roomCategories: '/api/roomCategories/page/get',
+  undistributedRoomCategories: '/api/select/roomCategory/page/get',
+  importedRoomCategories: '/api/weiRoomCategories/page/get',
+  stores: '/api/select/poi/page/get',
 }
 
 export type DistributionProvider = 'mock' | 'api'
@@ -181,7 +181,7 @@ export function buildDistributionRequests(filters: DistributionFilters) {
 
 function getDistributionProvider(): DistributionProvider {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem('pms.distributionListProvider') === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem('pms.distributionListProvider')) === 'api' ? 'api' : 'mock'
 }
 
 async function fetchMockDistributionDashboard(filters: DistributionFilters): Promise<Envelope<DashboardPayload>> {
@@ -307,4 +307,8 @@ function toScenario(value: string | null): DistributionScenario {
 
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

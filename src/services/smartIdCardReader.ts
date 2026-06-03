@@ -193,7 +193,7 @@ export async function fetchSmartIdCardReaderDashboard(
 export function getSmartIdCardReaderProviderName(): SmartIdCardReaderProviderName {
   if (typeof window === 'undefined') return 'mock'
   const configured = window.localStorage.getItem(SMART_ID_CARD_READER_PROVIDER_KEY)
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 export function getSmartIdCardReaderRequestSummary(

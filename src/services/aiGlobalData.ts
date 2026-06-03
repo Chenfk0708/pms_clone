@@ -1212,7 +1212,7 @@ function readPayloadMessage(payload: ApiPayload) {
 
 function resolveProvider(): AiGlobalDataProvider {
   const configured = readRuntimeConfig('pms.aiGlobalDataProvider') || import.meta.env.VITE_AI_GLOBAL_DATA_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function resolveMockState(): AiGlobalDataMockState {

@@ -1,7 +1,14 @@
+import type { ApiEnvelope } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 const LOCALS_MALL_PROVIDER_KEY = 'pms.localsMall.provider'
-const DEFAULT_CAMP_ID = '1796067693589061634'
-const DEFAULT_BUY_CAMP_ID = '1796067693589061634'
+const DEFAULT_CATALOG_CAMP_ID = '64'
+const DEFAULT_REAL_CAMP_ID = '10001'
+const DEFAULT_MOCK_CAMP_ID = '1796067693589061634'
 const DEFAULT_TIMESTAMP = '2026-05-19T11:28:54+08:00'
+const DEFAULT_ROUTE_AFTER_SUBMIT = '/smartHotel/smartHardware/smartLook'
+const DEFAULT_AGREEMENT_LABEL = '我已经阅读并同意《路客云产品服务购买协议》'
+const DEFAULT_PURCHASE_NOTICE = '提交后会创建采购申请，并同步到智能酒店后续配置流程。'
 
 export type LocalsMallProviderName = 'mock' | 'api'
 export type LocalsMallMockState = 'success' | 'empty' | 'error'
@@ -95,7 +102,10 @@ export type LocalsMallContract = {
   commodityRequest: {
     method: 'POST'
     path: '/youzan/commodity/get'
-    body: Record<string, never>
+    body: {
+      campId: string
+      commodityId: string
+    }
   }
   roomsRequest: {
     method: 'POST'
@@ -135,6 +145,73 @@ type UnifiedEnvelope<T> = {
 type LocalsMallOverviewPayload = Omit<LocalsMallOverview, 'provider' | 'traceId'>
 type LocalsMallDetailPayload = Omit<LocalsMallDetail, 'provider' | 'traceId'>
 
+type WeiRoomCategoryProduct = {
+  roomCategoryProductId?: string
+  roomCategoryProductName?: string
+  sellingPrice?: number
+  originalPrice?: number
+}
+
+type WeiRoomCategoryItem = {
+  channelRoomCategoryId?: string
+  channelRoomCategoryName?: string
+  description?: string
+  mainPhoto?: string
+  goodsType?: number
+  lowestSellingPrice?: number
+  roomCategoryProductGetViews?: WeiRoomCategoryProduct[]
+}
+
+type WeiRoomCategoryResponse = {
+  list?: WeiRoomCategoryItem[]
+}
+
+type CommodityDetailApiPayload = {
+  commodityId?: string
+  commodityName?: string
+  description?: string
+  mainPhoto?: string
+  sellingPriceCent?: number
+  originalPriceCent?: number
+  settlementPriceCent?: number
+  purchaseTermLabel?: string
+  roomCategoryIds?: string[]
+}
+
+type PaymentTypeApiItem = {
+  paymentTypeName?: string
+}
+
+type PaymentTypeApiGroup = {
+  groupType?: number
+  groupTypeName?: string
+  paymentTypes?: PaymentTypeApiItem[]
+}
+
+type PaymentTypeApiResponse = {
+  paymentGroups?: PaymentTypeApiGroup[]
+}
+
+type RoomApiItem = {
+  roomName?: string
+}
+
+type RoomApiGroup = {
+  roomCategoryId?: string
+  roomCategoryName?: string
+  rooms?: RoomApiItem[]
+}
+
+type RoomApiResponse = {
+  roomCategoryRooms?: RoomApiGroup[]
+}
+
+type ApiEnvelopeWithMeta<T> = {
+  data: T
+  traceId: string
+  timestamp: string
+}
+
 const defaultProductId = 'door-card-system'
 const defaultRoomCategoryIds = [
   '1796425099729092609',
@@ -156,8 +233,8 @@ const mallProducts: LocalsMallProduct[] = [
   {
     id: 'cpe-p5',
     sectionId: 'hardware',
-    name: '蜂助手CPE路由器P5(5G门店版)',
-    description: '适合高并发门店联网部署，当前按商城统一购买链路承接。',
+    name: '蜂助手 CPE 路由器 P5(5G 门店版)',
+    description: '适合高并发门店联网部署，当前按商城统一采购链路承接。',
     image: 'https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Frlt8ag-VDbNxOh89eJ1VdLMUa89.png',
     priceLabel: '¥ 1,643',
     tag: '智能硬件',
@@ -165,7 +242,7 @@ const mallProducts: LocalsMallProduct[] = [
   {
     id: 'cpe-s1',
     sectionId: 'hardware',
-    name: '蜂助手CPE路由器S1(4G版)',
+    name: '蜂助手 CPE 路由器 S1(4G 版)',
     description: '适合轻量门店联网与备用链路场景。',
     image: 'https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/Fj94TEpC_LcsFp5VvAjmtvNZxsEu.jpg',
     priceLabel: '¥ 896',
@@ -174,8 +251,8 @@ const mallProducts: LocalsMallProduct[] = [
   {
     id: 'box-s2',
     sectionId: 'hardware',
-    name: '蜂助手4G盒子S2(极光TV版)',
-    description: '客房多媒体与轻部署场景的统一采买入口。',
+    name: '蜂助手 4G 盒子 S2(极光 TV 版)',
+    description: '客房多媒体与轻部署场景的统一采购入口。',
     image: 'https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/FrJO5s4hR7Rv7WZizAXeUrsVDW6j.jpg',
     priceLabel: '¥ 1,195',
     tag: '智能硬件',
@@ -183,8 +260,8 @@ const mallProducts: LocalsMallProduct[] = [
   {
     id: 'uifi-u1',
     sectionId: 'hardware',
-    name: '蜂助手随身WiFi U1',
-    description: '适用于移动补盲和短期门店布点。',
+    name: '蜂助手随身 WiFi U1',
+    description: '适用于移动补点和短期门店布点。',
     image: 'https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/FoqI8nd05yB3budBt9VZt9BI8NGw.png',
     priceLabel: '¥ 341',
     tag: '智能硬件',
@@ -201,7 +278,7 @@ const mallProducts: LocalsMallProduct[] = [
   {
     id: 'd12-lock',
     sectionId: 'hardware',
-    name: '无人入住智能门锁智能入住 D12',
+    name: '无人入住智能门锁 D12',
     description: '适合无人入住场景的硬件采购入口。',
     image: 'https://locals-house-prod.oss-cn-shenzhen.aliyuncs.com//localhomeqy/wrrzms.webp',
     priceLabel: '¥ 299',
@@ -243,7 +320,7 @@ const roomGroups: LocalsMallRoomGroup[] = [
   },
   {
     roomCategoryId: '1796425099242553345',
-    roomCategoryName: '天落大床电竞套间',
+    roomCategoryName: '天际大床电竞套间',
     rooms: ['房间1'],
   },
   {
@@ -265,9 +342,13 @@ export function createDefaultLocalsMallQuery(
   searchParams = new URLSearchParams(),
   page: LocalsMallPageMode = 'mall',
 ): LocalsMallQuery {
+  const provider = getLocalsMallProviderName()
+  const fallbackCampId = provider === 'api' ? resolveCurrentCampId(DEFAULT_REAL_CAMP_ID) : DEFAULT_MOCK_CAMP_ID
+  const campId = searchParams.get('campId')?.trim() || fallbackCampId
+  const buyCampId = searchParams.get('buyCampId')?.trim() || campId
   return {
-    campId: searchParams.get('campId') || DEFAULT_CAMP_ID,
-    buyCampId: searchParams.get('buyCampId') || DEFAULT_BUY_CAMP_ID,
+    campId,
+    buyCampId,
     page,
     mockState: toMockState(searchParams.get('mockState')),
     productId: searchParams.get('productId') || defaultProductId,
@@ -288,7 +369,7 @@ export function getLocalsMallContract(
       method: 'POST',
       path: '/weiRoomCategories/page/get',
       body: {
-        campId: '64',
+        campId: DEFAULT_CATALOG_CAMP_ID,
         buyCampId: query.buyCampId,
         roomCategoryTypes: [1],
         goodsTypes: [6],
@@ -297,7 +378,10 @@ export function getLocalsMallContract(
     commodityRequest: {
       method: 'POST',
       path: '/youzan/commodity/get',
-      body: {},
+      body: {
+        campId: query.campId,
+        commodityId: query.productId,
+      },
     },
     roomsRequest: {
       method: 'POST',
@@ -334,7 +418,7 @@ export async function fetchLocalsMallOverview(
 ): Promise<LocalsMallOverview> {
   validateQuery(query)
   if (providerName === 'api') {
-    throw new Error('路客商城数据加载失败，请稍后重试')
+    return fetchApiLocalsMallOverview(query, signal)
   }
 
   await waitForMockLatency(signal)
@@ -348,7 +432,7 @@ export async function fetchLocalsMallDetail(
 ): Promise<LocalsMallDetail> {
   validateQuery(query)
   if (providerName === 'api') {
-    throw new Error('路客商城详情加载失败，请稍后重试')
+    return fetchApiLocalsMallDetail(query, signal)
   }
 
   await waitForMockLatency(signal)
@@ -362,7 +446,8 @@ export async function fetchLocalsMallApplicableRooms(
 ): Promise<LocalsMallRoomGroup[]> {
   validateQuery(query)
   if (providerName === 'api') {
-    throw new Error('适用房型加载失败，请稍后重试')
+    const detail = await fetchApiLocalsMallComposite(query, signal)
+    return detail.roomGroups
   }
 
   await waitForMockLatency(signal)
@@ -380,7 +465,8 @@ export async function fetchLocalsMallPaymentGroups(
 ): Promise<LocalsMallPaymentGroup[]> {
   validateQuery(query)
   if (providerName === 'api') {
-    throw new Error('支付方式加载失败，请稍后重试')
+    const detail = await fetchApiLocalsMallComposite(query, signal)
+    return detail.paymentGroups
   }
 
   await waitForMockLatency(signal)
@@ -393,7 +479,117 @@ export async function fetchLocalsMallPaymentGroups(
 
 function getLocalsMallProviderName(): LocalsMallProviderName {
   if (typeof window === 'undefined') return 'mock'
-  return window.localStorage.getItem(LOCALS_MALL_PROVIDER_KEY) === 'api' ? 'api' : 'mock'
+  return normalizeProviderValue(window.localStorage.getItem(LOCALS_MALL_PROVIDER_KEY)) === 'api' ? 'api' : 'mock'
+}
+
+async function fetchApiLocalsMallOverview(query: LocalsMallQuery, signal?: AbortSignal): Promise<LocalsMallOverview> {
+  const response = await postHudsonEnvelope<WeiRoomCategoryResponse>(
+    '/weiRoomCategories/page/get',
+    {
+      campId: DEFAULT_CATALOG_CAMP_ID,
+      buyCampId: query.buyCampId,
+      roomCategoryTypes: [1],
+      goodsTypes: [6],
+      pageNum: 1,
+      pageSize: 99,
+      keyword: '',
+    },
+    signal,
+  )
+
+  const items = asArray(response.data?.list)
+  const products = items.map(adaptOverviewItem)
+  const sections = buildOverviewSections(products)
+
+  return {
+    provider: 'api',
+    traceId: response.traceId,
+    requestedAt: response.timestamp,
+    requestedAtLabel: buildRequestedAtLabel(response.timestamp),
+    sections,
+    quickEntries,
+    emptyState:
+      products.length === 0
+        ? {
+            title: '当前门店暂无可采购的商品',
+            description: '可先完成智慧酒店基础设置，再回到路客商城统一发起采购。',
+            actionLabel: '前往全局设置',
+            actionPath: '/smartHotel/checkInGuide',
+          }
+        : undefined,
+  }
+}
+
+async function fetchApiLocalsMallDetail(query: LocalsMallQuery, signal?: AbortSignal): Promise<LocalsMallDetail> {
+  const composite = await fetchApiLocalsMallComposite(query, signal)
+  const commodity = composite.commodity
+  const roomGroupsList = composite.roomGroups
+  const paymentGroupsList = composite.paymentGroups
+
+  return {
+    provider: 'api',
+    traceId: commodity.traceId,
+    requestedAt: commodity.timestamp,
+    requestedAtLabel: buildRequestedAtLabel(commodity.timestamp),
+    productId: commodity.data.commodityId || query.productId,
+    productName: commodity.data.commodityName || fallbackProductName(query.productId),
+    productDescription: commodity.data.description || '',
+    purchaseTermLabel: commodity.data.purchaseTermLabel || '1年',
+    buyerName: readBuyerName(),
+    totalAmountLabel: formatMoneyLabel(commodity.data.sellingPriceCent),
+    agreementLabel: DEFAULT_AGREEMENT_LABEL,
+    purchaseNotice: DEFAULT_PURCHASE_NOTICE,
+    routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
+    roomSummary: buildRoomSummary(roomGroupsList),
+    paymentSummary: buildPaymentSummary(paymentGroupsList),
+    roomCategoryIds: commodity.data.roomCategoryIds?.length ? commodity.data.roomCategoryIds : roomGroupsList.map((group) => group.roomCategoryId),
+  }
+}
+
+async function fetchApiLocalsMallComposite(
+  query: LocalsMallQuery,
+  signal?: AbortSignal,
+): Promise<{
+  commodity: ApiEnvelopeWithMeta<CommodityDetailApiPayload>
+  roomGroups: LocalsMallRoomGroup[]
+  paymentGroups: LocalsMallPaymentGroup[]
+}> {
+  const commodity = await postHudsonEnvelope<CommodityDetailApiPayload>(
+    '/youzan/commodity/get',
+    {
+      campId: query.campId,
+      commodityId: query.productId,
+    },
+    signal,
+  )
+
+  const roomCategoryIds = asArray(commodity.data?.roomCategoryIds).filter(Boolean)
+  const [roomsResponse, paymentResponse] = await Promise.all([
+    postHudsonEnvelope<RoomApiResponse>(
+      '/rooms/get',
+      {
+        campId: query.campId,
+        roomCategoryIds,
+        saleType: 1,
+      },
+      signal,
+    ),
+    postHudsonEnvelope<PaymentTypeApiResponse>(
+      '/paymentTypes/get/v2',
+      {
+        campId: query.campId,
+        bizTypes: [2],
+        isEnable: 1,
+      },
+      signal,
+    ),
+  ])
+
+  return {
+    commodity,
+    roomGroups: adaptRoomGroups(roomsResponse.data),
+    paymentGroups: adaptPaymentGroups(paymentResponse.data),
+  }
 }
 
 function buildOverviewEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMallOverviewPayload> {
@@ -402,7 +598,7 @@ function buildOverviewEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMa
       code: 50301,
       message: '路客商城数据加载失败，请稍后重试',
       data: createEmptyOverviewPayload(),
-      traceId: 'mock-yingyong-dingyue--quanyi-yu-dingyue--luke-shangcheng-overview-error-001',
+      traceId: 'mock-locals-mall-overview-error-001',
       timestamp: DEFAULT_TIMESTAMP,
     }
   }
@@ -420,7 +616,7 @@ function buildOverviewEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMa
           actionPath: '/smartHotel/checkInGuide',
         },
       },
-      traceId: 'mock-yingyong-dingyue--quanyi-yu-dingyue--luke-shangcheng-overview-empty-001',
+      traceId: 'mock-locals-mall-overview-empty-001',
       timestamp: DEFAULT_TIMESTAMP,
     }
   }
@@ -431,21 +627,10 @@ function buildOverviewEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMa
     data: {
       requestedAt: DEFAULT_TIMESTAMP,
       requestedAtLabel: '最近同步：2026-05-19 11:28',
-      sections: [
-        {
-          id: 'system',
-          title: '系统功能',
-          products: mallProducts.filter((product) => product.sectionId === 'system'),
-        },
-        {
-          id: 'hardware',
-          title: '智能硬件',
-          products: mallProducts.filter((product) => product.sectionId === 'hardware'),
-        },
-      ],
+      sections: buildOverviewSections(mallProducts),
       quickEntries,
     },
-    traceId: 'mock-yingyong-dingyue--quanyi-yu-dingyue--luke-shangcheng-overview-success-001',
+    traceId: 'mock-locals-mall-overview-success-001',
     timestamp: DEFAULT_TIMESTAMP,
   }
 }
@@ -456,7 +641,7 @@ function buildDetailEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMall
       code: 50302,
       message: '路客商城详情加载失败，请稍后重试',
       data: createEmptyDetailPayload(),
-      traceId: 'mock-yingyong-dingyue--quanyi-yu-dingyue--luke-shangcheng-detail-error-001',
+      traceId: 'mock-locals-mall-detail-error-001',
       timestamp: DEFAULT_TIMESTAMP,
     }
   }
@@ -471,17 +656,17 @@ function buildDetailEnvelope(query: LocalsMallQuery): UnifiedEnvelope<LocalsMall
       productId: product.id,
       productName: product.name,
       productDescription: '已按目标站取证补齐购买、适用房型和支付方式闭环。',
-      purchaseTermLabel: '一年',
-      buyerName: '路客云6TS5',
+      purchaseTermLabel: '1年',
+      buyerName: '路客云 TS5',
       totalAmountLabel: '¥ 800',
-      agreementLabel: '我已经阅读并同意《路客云产品服务购买协议》',
-      purchaseNotice: '提交后会创建采购申请，并同步到智慧酒店后续配置流程。',
-      routeAfterSubmit: '/smartHotel/smartHardware/smartLook',
+      agreementLabel: DEFAULT_AGREEMENT_LABEL,
+      purchaseNotice: DEFAULT_PURCHASE_NOTICE,
+      routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
       roomSummary: '4 个适用房型 / 4 间房',
       paymentSummary: '住宿分组 / 5 个支付项',
       roomCategoryIds: defaultRoomCategoryIds,
     },
-    traceId: 'mock-yingyong-dingyue--quanyi-yu-dingyue--luke-shangcheng-detail-success-001',
+    traceId: 'mock-locals-mall-detail-success-001',
     timestamp: DEFAULT_TIMESTAMP,
   }
 }
@@ -505,12 +690,12 @@ function createEmptyDetailPayload(): LocalsMallDetailPayload {
     productId: defaultProductId,
     productName: '门卡管理系统',
     productDescription: '',
-    purchaseTermLabel: '一年',
-    buyerName: '路客云6TS5',
+    purchaseTermLabel: '1年',
+    buyerName: '路客云 TS5',
     totalAmountLabel: '¥ 800',
-    agreementLabel: '我已经阅读并同意《路客云产品服务购买协议》',
+    agreementLabel: DEFAULT_AGREEMENT_LABEL,
     purchaseNotice: '',
-    routeAfterSubmit: '/smartHotel/smartHardware/smartLook',
+    routeAfterSubmit: DEFAULT_ROUTE_AFTER_SUBMIT,
     roomSummary: '0 个适用房型',
     paymentSummary: '0 个支付项',
     roomCategoryIds: [],
@@ -557,6 +742,166 @@ function adaptDetailEnvelope(
   }
 }
 
+async function postHudsonEnvelope<T>(
+  endpoint: string,
+  body: Record<string, unknown>,
+  signal?: AbortSignal,
+): Promise<ApiEnvelopeWithMeta<T>> {
+  const response = await fetch(`/api${endpoint}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: buildApiHeaders(),
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  const payload = (await response.json().catch(() => null)) as ApiEnvelope<T> | null
+  if (!response.ok || !payload) {
+    throw new Error(payload?.message || `${endpoint} 请求失败，HTTP ${response.status}`)
+  }
+  if (payload.code !== 0 || payload.data === undefined || payload.data === null) {
+    throw new Error(payload.message || `${endpoint} 响应无效`)
+  }
+
+  return {
+    data: payload.data,
+    traceId: payload.traceId,
+    timestamp: payload.timestamp,
+  }
+}
+
+function buildApiHeaders() {
+  const headers: Record<string, string> = { 'content-type': 'application/json' }
+  if (typeof window !== 'undefined') {
+    const token = window.localStorage.getItem('pms_token')?.trim()
+    if (token) headers.Authorization = `Bearer ${token}`
+  }
+  return headers
+}
+
+function buildOverviewSections(products: LocalsMallProduct[]): LocalsMallProductSection[] {
+  return [
+    { id: 'system', title: '系统功能', products: products.filter((product) => product.sectionId === 'system') },
+    { id: 'hardware', title: '智能硬件', products: products.filter((product) => product.sectionId === 'hardware') },
+  ]
+}
+
+function adaptOverviewItem(item: WeiRoomCategoryItem): LocalsMallProduct {
+  const productId = readString(item.channelRoomCategoryId, '')
+  const fallback = mallProducts.find((product) => product.id === productId)
+  const name = readString(item.channelRoomCategoryName, fallback?.name || '未命名商品')
+  const description = readString(item.description, fallback?.description || '')
+  const image = readString(item.mainPhoto, fallback?.image || '')
+  const lowestSellingPrice = readNumber(item.lowestSellingPrice, 0)
+
+  return {
+    id: productId || slugify(name) || defaultProductId,
+    sectionId: resolveSectionId(item.goodsType, fallback?.sectionId),
+    name,
+    description,
+    image,
+    priceLabel: lowestSellingPrice > 0 ? formatMoneyLabel(lowestSellingPrice) : fallback?.priceLabel || '¥ 0',
+    tag: fallback?.tag || resolveTag(item.goodsType),
+  }
+}
+
+function adaptRoomGroups(data: RoomApiResponse | undefined): LocalsMallRoomGroup[] {
+  return asArray(data?.roomCategoryRooms).map((group) => ({
+    roomCategoryId: readString(group.roomCategoryId, ''),
+    roomCategoryName: readString(group.roomCategoryName, '未命名房型'),
+    rooms: asArray(group.rooms).map((room) => readString(room.roomName, '')).filter(Boolean),
+  }))
+}
+
+function adaptPaymentGroups(data: PaymentTypeApiResponse | undefined): LocalsMallPaymentGroup[] {
+  return asArray(data?.paymentGroups).map((group) => ({
+    groupType: readNumber(group.groupType, 0),
+    groupTypeName: readString(group.groupTypeName, '未命名分组'),
+    paymentTypes: asArray(group.paymentTypes).map((item) => readString(item.paymentTypeName, '')).filter(Boolean),
+  }))
+}
+
+function buildRoomSummary(groups: LocalsMallRoomGroup[]) {
+  const roomCount = groups.reduce((sum, group) => sum + group.rooms.length, 0)
+  return `${groups.length} 个适用房型${roomCount > 0 ? ` / ${roomCount} 间房` : ''}`
+}
+
+function buildPaymentSummary(groups: LocalsMallPaymentGroup[]) {
+  const itemCount = groups.reduce((sum, group) => sum + group.paymentTypes.length, 0)
+  const groupLabel = groups.length > 0 ? `${groups[0].groupTypeName}分组` : '0 个分组'
+  return `${groupLabel} / ${itemCount} 个支付项`
+}
+
+function buildRequestedAtLabel(timestamp: string) {
+  if (!timestamp) return '最近同步：--'
+  const value = timestamp.replace('T', ' ').replace(/([+-]\d{2}:\d{2}|Z)$/, '')
+  return `最近同步：${value.slice(0, 16)}`
+}
+
+function readBuyerName() {
+  if (typeof window === 'undefined') return '当前门店'
+  try {
+    const raw = window.localStorage.getItem('pms_user')
+    if (!raw) return '当前门店'
+    const user = JSON.parse(raw) as { campName?: string; name?: string }
+    return user.campName || user.name || '当前门店'
+  } catch {
+    return '当前门店'
+  }
+}
+
+function fallbackProductName(productId: string) {
+  return mallProducts.find((item) => item.id === productId)?.name || '未命名商品'
+}
+
+function resolveSectionId(goodsType: number | undefined, fallback?: LocalsMallProductSectionId): LocalsMallProductSectionId {
+  if (fallback) return fallback
+  return goodsType === 6 ? 'system' : 'hardware'
+}
+
+function resolveTag(goodsType: number | undefined) {
+  return goodsType === 6 ? '系统功能' : '智能硬件'
+}
+
+function formatMoneyLabel(value: number | undefined) {
+  const amount = readNumber(value, 0)
+  return `¥ ${formatMoney(amount / 100)}`
+}
+
+function formatMoney(value: number) {
+  const numberFormat = new Intl.NumberFormat('zh-CN', {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })
+  return numberFormat.format(value)
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function readString(value: unknown, fallback: string) {
+  if (typeof value === 'string' && value.trim()) return value.trim()
+  if (typeof value === 'number') return String(value)
+  return fallback
+}
+
+function readNumber(value: unknown, fallback: number) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value)
+    if (Number.isFinite(parsed)) return parsed
+  }
+  return fallback
+}
+
+function asArray<T>(value: T[] | undefined | null): T[] {
+  return Array.isArray(value) ? value : []
+}
+
 function validateQuery(query: LocalsMallQuery) {
   if (!query.campId.trim()) {
     throw new Error('路客商城门店参数不正确')
@@ -581,4 +926,8 @@ async function waitForMockLatency(signal?: AbortSignal) {
       { once: true },
     )
   })
+}
+
+function normalizeProviderValue(value: string | null | undefined) {
+  return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined
 }

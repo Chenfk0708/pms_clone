@@ -1,5 +1,5 @@
-export const scrmSidebarDashboardEndpoint = 'https://hudson-prod.localhome.cn/scrm/sidebarPreview/dashboard';
-export const scrmSidebarExportEndpoint = 'https://hudson-prod.localhome.cn/scrm/sidebarPreview/export';
+export const scrmSidebarDashboardEndpoint = '/api/scrm/sidebarPreview/dashboard';
+export const scrmSidebarExportEndpoint = '/api/scrm/sidebarPreview/export';
 export const scrmSidebarProviderMode = 'mock';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const stores = [
@@ -108,7 +108,28 @@ export function createScrmSidebarRequestBody(filters) {
     };
 }
 export async function fetchScrmSidebarDashboard(filters) {
-    return getScrmSidebarProvider(scrmSidebarProviderMode).fetchDashboard(filters);
+    return getScrmSidebarProvider(resolveScrmSidebarProvider()).fetchDashboard(filters);
+}
+export function resolveScrmSidebarProvider() {
+    const params = typeof window === 'undefined' ? new URLSearchParams() : new URLSearchParams(window.location.search);
+    const configured = normalizeProvider(params.get('scrmSidebarProvider')) ??
+        normalizeProvider(params.get('provider')) ??
+        normalizeProvider(readRuntimeConfig('pms.scrmSidebarProvider')) ??
+        normalizeProvider(import.meta.env.VITE_SCRM_SIDEBAR_PROVIDER) ??
+        normalizeProvider(import.meta.env.VITE_WECHAT_SERVICE_PROVIDER);
+    return configured ?? scrmSidebarProviderMode;
+}
+function normalizeProvider(value) {
+    if (value === 'api' || value === 'real')
+        return 'api';
+    if (value === 'mock')
+        return 'mock';
+    return undefined;
+}
+function readRuntimeConfig(key) {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem(key)?.trim() || '';
 }
 function getScrmSidebarProvider(mode) {
     if (mode === 'api')
@@ -186,7 +207,7 @@ function createEnvelope(traceId, data) {
         timestamp: MOCK_TIMESTAMP,
     };
 }
-function adaptScrmSidebarDashboard(envelope, requestBody, providerMode = scrmSidebarProviderMode) {
+function adaptScrmSidebarDashboard(envelope, requestBody, providerMode = resolveScrmSidebarProvider()) {
     const payload = assertEnvelope(envelope);
     const data = payload.data;
     return {

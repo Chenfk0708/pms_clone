@@ -138,7 +138,7 @@ export function defaultPicturesVideosRequest(
 
 export function resolvePicturesVideosProvider(): PicturesVideosProviderName {
   const configured = readRuntimeConfig('pms.picturesVideosProvider') || import.meta.env.VITE_PICTURES_VIDEOS_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 export function resolvePicturesVideosMockState(search = currentSearch()): PicturesVideosMockState {

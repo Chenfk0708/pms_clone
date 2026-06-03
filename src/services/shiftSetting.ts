@@ -2,9 +2,11 @@ const SHIFT_SETTING_PROVIDER_KEY = 'pms.shiftSettingProvider'
 
 export const SHIFT_SETTING_CONFIG_PATH = '/shiftWorkConfig/page/get'
 export const SHIFT_SETTING_GOODS_PATH = '/shiftWorkGoods/page/get'
+export const SHIFT_SETTING_CONFIG_SAVE_PATH = '/shiftWorkConfig/save'
+export const SHIFT_SETTING_GOODS_SAVE_PATH = '/shiftWorkGoods/save'
 export const SHIFT_SETTING_MEMBER_PATH = '/campRoles/get'
 
-const REAL_BASE_URL = 'https://hudson-prod.localhome.cn'
+const REAL_BASE_URL = '/api'
 const DEFAULT_CAMP_ID = '1796067693589061634'
 const DEFAULT_TRACE_PREFIX = 'mock-shezhi--tongyong-shezhi--jiaojieban-shezhi'
 const DEFAULT_TIMESTAMP = '2026-05-23 10:18:34'
@@ -107,9 +109,15 @@ function createBasePayload(): ShiftSettingPayload {
 }
 
 export function createDefaultShiftSettingFilters(searchParams = new URLSearchParams()): ShiftSettingFilters {
+  const params = readShiftSettingSearchParams(searchParams)
   return {
-    campId: searchParams.get('campId') || DEFAULT_CAMP_ID,
-    mockState: toMockState(searchParams.get('mockState')),
+    campId:
+      params.get('campId') ||
+      readRuntimeValue('pmsCampId') ||
+      readRuntimeValue('pms.currentCampId') ||
+      (import.meta.env.VITE_PMS_CAMP_ID as string | undefined) ||
+      DEFAULT_CAMP_ID,
+    mockState: toMockState(params.get('mockState') || params.get('shiftSettingMockState')),
   }
 }
 
@@ -138,8 +146,24 @@ export async function saveShiftConfigs(
   validateShiftDrafts(drafts)
 
   if (providerName === 'api') {
-    throw new Error('交接班设置保存接口暂未接入，请稍后重试')
+    const payload = await postHudson<Record<string, unknown>>(
+      SHIFT_SETTING_CONFIG_SAVE_PATH,
+      { campId: filters.campId, drafts },
+      signal,
+    )
+    const dashboard = await fetchApiShiftSettingDashboard(filters, signal)
+    return {
+      provider: 'api',
+      message: readString(asRecord(payload), ['message']) || 'shift work configs saved',
+      dashboard: {
+        ...dashboard,
+        shiftConfigs: asArray(payload.shiftConfigs).length
+          ? asArray(payload.shiftConfigs).map((item, index) => adaptApiShiftConfig(item, dashboard.memberOptions, index))
+          : dashboard.shiftConfigs,
+      },
+    }
   }
+
 
   await delay(120, signal)
   const shiftConfigs = drafts.map((draft, index) => toShiftConfig(draft, index))
@@ -170,8 +194,24 @@ export async function saveShiftGoods(
   validateGoodsDrafts(drafts)
 
   if (providerName === 'api') {
-    throw new Error('交班物品保存接口暂未接入，请稍后重试')
+    const payload = await postHudson<Record<string, unknown>>(
+      SHIFT_SETTING_GOODS_SAVE_PATH,
+      { campId: filters.campId, drafts },
+      signal,
+    )
+    const dashboard = await fetchApiShiftSettingDashboard(filters, signal)
+    return {
+      provider: 'api',
+      message: readString(asRecord(payload), ['message']) || 'shift work goods saved',
+      dashboard: {
+        ...dashboard,
+        goodsConfigs: asArray(payload.goodsConfigs).length
+          ? asArray(payload.goodsConfigs).map((item, index) => adaptApiGoodsItem(item, index))
+          : dashboard.goodsConfigs,
+      },
+    }
   }
+
 
   await delay(120, signal)
   const goodsConfigs = drafts.map((draft, index) => toShiftGoodsItem(draft, index))
@@ -193,9 +233,40 @@ export async function saveShiftGoods(
 }
 
 function getShiftSettingProviderName(): ShiftSettingProviderName {
-  if (typeof window === 'undefined') return 'mock'
-  const configured = window.localStorage.getItem(SHIFT_SETTING_PROVIDER_KEY)?.trim()
-  return configured === 'api' ? 'api' : 'mock'
+  if (typeof window === 'undefined') return 'api'
+  const params = readShiftSettingSearchParams()
+  const configured =
+    params.get('provider') ||
+    params.get('shiftSettingProvider') ||
+    window.localStorage.getItem(SHIFT_SETTING_PROVIDER_KEY)?.trim() ||
+    (import.meta.env.VITE_SHIFT_SETTING_PROVIDER as string | undefined) ||
+    'api'
+  if (configured === 'api' || configured === 'real') return 'api'
+  if (configured === 'mock') return 'mock'
+  throw new Error(`交接班设置数据源配置无效：${configured}`)
+}
+
+function readShiftSettingSearchParams(baseParams = new URLSearchParams()) {
+  const params = new URLSearchParams(baseParams)
+  if (typeof window === 'undefined') return params
+
+  new URLSearchParams(window.location.search).forEach((value, key) => {
+    if (!params.has(key)) params.set(key, value)
+  })
+
+  const hashQuery = window.location.hash.split('?')[1]
+  if (hashQuery) {
+    new URLSearchParams(hashQuery).forEach((value, key) => {
+      if (!params.has(key)) params.set(key, value)
+    })
+  }
+
+  return params
+}
+
+function readRuntimeValue(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() || ''
 }
 
 async function fetchMockShiftSettingDashboard(

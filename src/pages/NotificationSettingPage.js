@@ -75,7 +75,9 @@ function NotificationSettingSurface({ query }) {
         setBusyKey(busyLabel);
         try {
             const result = await task();
-            setMockStateOverride(result.viewModel.state);
+            if ((requestQuery.provider ?? 'mock') !== 'api') {
+                setMockStateOverride(result.viewModel.state);
+            }
             setState({
                 kind: 'ready',
                 data: result.viewModel,

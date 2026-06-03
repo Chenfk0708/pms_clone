@@ -1,3 +1,6 @@
+import { apiPost } from '../api/client'
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const FINANCE_SETTING_PROVIDER_KEY = 'pms.financeSetting.provider'
 export const FINANCE_SETTING_MOCK_STATE_KEY = 'pms.financeSetting.mockState'
 export const FINANCE_SETTING_GET_ENDPOINT = '/systemConfigs/get'
@@ -5,7 +8,7 @@ export const FINANCE_SETTING_SAVE_NIGHT_AUDIT_ENDPOINT = '/systemConfigs/nightAu
 export const FINANCE_SETTING_SAVE_STRATEGY_ENDPOINT = '/systemConfigs/financeStrategy/save'
 export const FINANCE_SETTING_SAVE_VENDIBLE_ENDPOINT = '/systemConfigs/vendibleTypes/save'
 
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_TIMESTAMP = '2026-05-20T20:15:00+08:00'
 const DEFAULT_TRACE_PREFIX = 'mock-shezhi--tongyong-shezhi--caiwu-shezhi'
 const AMORTIZE_LOCK_SUFFIX = '_isChangeOrderAmortizeStrategy'
@@ -123,10 +126,19 @@ export type FinanceSettingMutationResult = {
 }
 
 type FinanceSettingPayload = {
-  isNightAudit?: string | number | null
-  autoNightAuditTime?: string | number | null
-  orderAmortizeStrategy?: string | number | null
-  vendibleTypes?: string | number[] | null
+  isNightAudit?: unknown
+  autoNightAuditTime?: unknown
+  orderAmortizeStrategy?: unknown
+  vendibleTypes?: unknown
+}
+
+type SystemConfigItemResponse = {
+  configKey: string
+  configValue: unknown
+}
+
+type SystemConfigsResponse = {
+  configs?: SystemConfigItemResponse[]
 }
 
 type MutableFinanceSettingState = {
@@ -180,7 +192,7 @@ export function resolveFinanceSettingRuntimeConfig(search: string): FinanceSetti
 
 export function createDefaultFinanceSettingQuery(config: FinanceSettingRuntimeConfig): FinanceSettingQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     provider: config.provider,
     mockState: config.mockState,
   }
@@ -194,11 +206,16 @@ export async function loadFinanceSettingViewModel(
   const provider = query.provider
   const mockStateName = query.mockState
 
-  await delay(180, signal)
-
   if (provider === 'api') {
-    throw new FinanceSettingServiceError(provider, request, createEnvelope('error', '财务设置服务暂未接入真实后端'))
+    const data = await apiPost<SystemConfigsResponse>(FINANCE_SETTING_GET_ENDPOINT, request, signal)
+    return adaptViewModel({ ...query, mockState: 'success' }, extractFinancePayload(data), {
+      traceId: 'api-finance-setting-get',
+      timestamp: new Date().toISOString(),
+      feedback: '财务设置数据已同步',
+    })
   }
+
+  await delay(180, signal)
 
   if (mockStateName === 'error') {
     throw new FinanceSettingServiceError(provider, request, createEnvelope('error', '财务设置加载失败，请稍后重试'))
@@ -229,6 +246,36 @@ export async function saveFinanceNightAuditSetting(
   action: FinanceNightAuditAction,
   signal?: AbortSignal,
 ): Promise<FinanceSettingMutationResult> {
+  if (current.provider === 'api') {
+    const nextTime = typeof input.time === 'number' ? clampTime(input.time) : current.nightAudit.time
+    const request = {
+      campId: current.request.campId,
+      isNightAudit: (input.enabled ? 1 : 0) as 0 | 1,
+      autoNightAuditTime: nextTime,
+    }
+    const data = await apiPost<SystemConfigsResponse>(FINANCE_SETTING_SAVE_NIGHT_AUDIT_ENDPOINT, request, signal)
+    const feedback =
+      action === 'disable'
+        ? '夜审已关闭'
+        : action === 'time'
+          ? `自动夜审时间已更新为 ${formatHour(nextTime)}`
+          : '夜审设置已更新'
+
+    return {
+      viewModel: adaptViewModel(
+        { ...current.request, provider: current.provider, mockState: 'success' },
+        extractFinancePayload(data),
+        {
+          traceId: 'api-finance-setting-night-audit-save',
+          timestamp: new Date().toISOString(),
+          feedback,
+        },
+      ),
+      feedback,
+      traceId: 'api-finance-setting-night-audit-save',
+    }
+  }
+
   const nextState = {
     ...mockState,
     isNightAudit: (input.enabled ? 1 : 0) as 0 | 1,
@@ -270,6 +317,30 @@ export async function saveFinanceAmortizeSetting(
   strategy: FinanceAmortizeStrategy,
   signal?: AbortSignal,
 ): Promise<FinanceSettingMutationResult> {
+  if (current.provider === 'api') {
+    const request = {
+      campId: current.request.campId,
+      orderAmortizeStrategy: strategy === 'calendar' ? 1 : 2,
+    }
+    const data = await apiPost<SystemConfigsResponse>(FINANCE_SETTING_SAVE_STRATEGY_ENDPOINT, request, signal)
+    writeLock(current.amortize.lockKey)
+    const feedback = '连住订单分摊模式已更新'
+
+    return {
+      viewModel: adaptViewModel(
+        { ...current.request, provider: current.provider, mockState: 'success' },
+        extractFinancePayload(data),
+        {
+          traceId: 'api-finance-setting-amortize-save',
+          timestamp: new Date().toISOString(),
+          feedback,
+        },
+      ),
+      feedback,
+      traceId: 'api-finance-setting-amortize-save',
+    }
+  }
+
   await delay(160, signal)
   mockState = {
     ...mockState,
@@ -306,6 +377,30 @@ export async function saveFinanceVendibleSetting(
 ): Promise<FinanceSettingMutationResult> {
   const normalized = normalizeVendibleValues(selectedValues)
 
+  if (current.provider === 'api') {
+    const request = {
+      campId: current.request.campId,
+      vendibleTypes: normalized,
+    }
+    const data = await apiPost<SystemConfigsResponse>(FINANCE_SETTING_SAVE_VENDIBLE_ENDPOINT, request, signal)
+    writeLock(current.vendible.lockKey)
+    const feedback = '关房计入可售规则已更新'
+
+    return {
+      viewModel: adaptViewModel(
+        { ...current.request, provider: current.provider, mockState: 'success' },
+        extractFinancePayload(data),
+        {
+          traceId: 'api-finance-setting-vendible-save',
+          timestamp: new Date().toISOString(),
+          feedback,
+        },
+      ),
+      feedback,
+      traceId: 'api-finance-setting-vendible-save',
+    }
+  }
+
   await delay(160, signal)
   mockState = {
     ...mockState,
@@ -339,6 +434,49 @@ export async function initializeFinanceSettingDefaults(
   current: FinanceSettingViewModel,
   signal?: AbortSignal,
 ): Promise<FinanceSettingMutationResult> {
+  if (current.provider === 'api') {
+    await apiPost<SystemConfigsResponse>(
+      FINANCE_SETTING_SAVE_NIGHT_AUDIT_ENDPOINT,
+      {
+        campId: current.request.campId,
+        isNightAudit: 0,
+        autoNightAuditTime: 6,
+      },
+      signal,
+    )
+    await apiPost<SystemConfigsResponse>(
+      FINANCE_SETTING_SAVE_STRATEGY_ENDPOINT,
+      {
+        campId: current.request.campId,
+        orderAmortizeStrategy: 1,
+      },
+      signal,
+    )
+    const data = await apiPost<SystemConfigsResponse>(
+      FINANCE_SETTING_SAVE_VENDIBLE_ENDPOINT,
+      {
+        campId: current.request.campId,
+        vendibleTypes: [1, 2, 3, 4, 5],
+      },
+      signal,
+    )
+    const feedback = '财务规则已初始化为默认方案'
+
+    return {
+      viewModel: adaptViewModel(
+        { ...current.request, provider: current.provider, mockState: 'success' },
+        extractFinancePayload(data),
+        {
+          traceId: 'api-finance-setting-initialize',
+          timestamp: new Date().toISOString(),
+          feedback,
+        },
+      ),
+      feedback,
+      traceId: 'api-finance-setting-initialize',
+    }
+  }
+
   await delay(160, signal)
   mockState = createDefaultMutableState()
 
@@ -483,6 +621,23 @@ function adaptMutableState(payload: FinanceSettingPayload | undefined): MutableF
   }
 }
 
+function extractFinancePayload(data: SystemConfigsResponse): FinanceSettingPayload | undefined {
+  const configs = data.configs ?? []
+  if (configs.length === 0) return undefined
+
+  const configMap = configs.reduce<Record<string, unknown>>((current, item) => {
+    current[item.configKey] = item.configValue
+    return current
+  }, {})
+
+  return {
+    isNightAudit: configMap['hudson.finance.isNightAudit'],
+    autoNightAuditTime: configMap['hudson.finance.autoNightAuditTime'],
+    orderAmortizeStrategy: configMap['hudson.finance.orderAmortizeStrategy'],
+    vendibleTypes: configMap['hudson.finance.vendibleTypes'],
+  }
+}
+
 function createDefaultMutableState(): MutableFinanceSettingState {
   return {
     isNightAudit: 0,
@@ -506,7 +661,9 @@ function createEnvelope(
 }
 
 function normalizeProvider(value: string | null | undefined): FinanceSettingProvider | undefined {
-  return value === 'api' || value === 'mock' ? value : undefined
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
+  return undefined
 }
 
 function normalizeMockState(value: string | null | undefined): FinanceSettingMockState | undefined {
@@ -515,7 +672,8 @@ function normalizeMockState(value: string | null | undefined): FinanceSettingMoc
 
 function readProvider(): FinanceSettingProvider {
   if (typeof window === 'undefined') return 'mock'
-  return normalizeProvider(window.localStorage.getItem(FINANCE_SETTING_PROVIDER_KEY)) ?? 'mock'
+  const provider = normalizeProvider(window.localStorage.getItem(FINANCE_SETTING_PROVIDER_KEY))
+  return provider ?? 'mock'
 }
 
 function readMockState(): FinanceSettingMockState {

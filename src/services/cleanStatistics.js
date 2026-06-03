@@ -1,7 +1,7 @@
-export const cleanStatisticsEndpoint = 'https://hudson-prod.localhome.cn/cleanTask/statistics';
-export const cleanCleanerEndpoint = 'https://hudson-prod.localhome.cn/cleaner/list/get';
-export const cleanRoomCategoriesEndpoint = 'https://hudson-prod.localhome.cn/roomCategories/page/get';
-export const cleanRoomsEndpoint = 'https://hudson-prod.localhome.cn/rooms/get';
+export const cleanStatisticsEndpoint = '/api/cleanTask/statistics';
+export const cleanCleanerEndpoint = '/api/cleaner/list/get';
+export const cleanRoomCategoriesEndpoint = '/api/roomCategories/page/get';
+export const cleanRoomsEndpoint = '/api/rooms/get';
 export const cleanStatisticsContractPath = '/api/clean/statistics/dashboard';
 export const cleanStatisticsExportPath = '/api/clean/statistics/export';
 const defaultCampId = 'mock-camp-main';
@@ -147,6 +147,20 @@ export async function fetchCleanStatisticsDashboard(filters, signal) {
 }
 export async function createCleanStatisticsExportTask(filters) {
     const requestBody = createCleanStatisticsRequestBody(filters);
+    if (resolveProviderMode() === 'api') {
+        const payload = asRecord(await postHudson(cleanStatisticsExportPath, requestBody));
+        const taskId = String(payload.taskId ?? '').trim();
+        if (!taskId) {
+            throw new Error('保洁统计导出响应缺少 taskId');
+        }
+        return {
+            taskId,
+            path: cleanStatisticsExportPath,
+            requestBody,
+            downloadUrl: typeof payload.downloadUrl === 'string' ? payload.downloadUrl : undefined,
+            total: toNumber(payload.total, 0),
+        };
+    }
     return {
         taskId: `CLEAN-EXPORT-${String(requestBody.cleanStartTime).slice(-6)}`,
         path: cleanStatisticsExportPath,
@@ -154,7 +168,15 @@ export async function createCleanStatisticsExportTask(filters) {
     };
 }
 function resolveProviderMode() {
-    return import.meta.env.VITE_PMS_CLEAN_STATISTICS_PROVIDER === 'api' ? 'api' : 'mock';
+    const configured = readRuntimeConfig('pms.cleanStatisticsProvider') ||
+        import.meta.env.VITE_CLEAN_STATISTICS_PROVIDER ||
+        import.meta.env.VITE_PMS_CLEAN_STATISTICS_PROVIDER;
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
+}
+function readRuntimeConfig(key) {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem(key)?.trim() || '';
 }
 async function fetchMockDashboard(filters) {
     const requestBody = createCleanStatisticsRequestBody(filters);

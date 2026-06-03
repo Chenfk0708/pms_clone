@@ -18,7 +18,7 @@ export function resolveMyBenefitRuntimeConfig(location) {
 }
 export function resolveMyBenefitProvider() {
     const configured = readRuntimeConfig('pms.myBenefitProvider') || import.meta.env.VITE_MY_BENEFIT_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 export function createDefaultMyBenefitQuery(location = window.location) {
     const runtime = resolveMyBenefitRuntimeConfig(location);

@@ -434,9 +434,9 @@
 }
 
 .brand-hero__logo {
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  width: 104px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .brand-hero__cn {

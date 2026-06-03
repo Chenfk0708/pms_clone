@@ -1,6 +1,6 @@
 export const PRESALE_GOODS_PROVIDER = 'mock'
 export const PRESALE_GOODS_ENDPOINT = '/mallManagement/goodsManagement'
-export const PRESALE_GOODS_TARGET_ENDPOINT = 'https://hudson-prod.localhome.cn/channelRoomCategories/page/get/v2'
+export const PRESALE_GOODS_TARGET_ENDPOINT = '/api/channelRoomCategories/page/get/v2'
 
 export type PresaleGoodsScenario = 'success' | 'empty' | 'error'
 

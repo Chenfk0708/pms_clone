@@ -1,10 +1,11 @@
-export const CUSTOMER_LIST_PATH = '/member/page/get';
+export const CUSTOMER_LIST_PATH = '/customers/page/get';
 export const CUSTOMER_EXPORT_PATH = '/member/export/create';
-export const CUSTOMER_SAVE_PATH = '/member/save';
+export const CUSTOMER_SAVE_PATH = '/customers/save';
 export const CUSTOMER_PROVIDER = 'mock';
 const generatedAt = '2026-05-18T10:00:00+08:00';
 const tracePrefix = 'mock-scrm--kehu-guanli--kehu-liebiao';
 const defaultCampId = '1796067693589061634';
+const defaultRealCampId = '10001';
 const normalMemberCardId = '1796067693727473665';
 export const customerStatusOptions = [
     { id: '', label: '全部' },
@@ -231,10 +232,30 @@ export async function createCustomerListExport(query, signal) {
     }, 'export');
 }
 export async function saveCustomer(input, signal) {
-    await delay(120, signal);
     if (!input.mobile.trim()) {
         throw new Error('请输入手机号');
     }
+    if (resolveProvider() === 'api') {
+        const requestBody = createCustomerSaveRequestBody(input);
+        const response = await fetch(`/api${CUSTOMER_SAVE_PATH}`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: createJsonHeaders(),
+            body: JSON.stringify(requestBody),
+            signal,
+        });
+        const payload = (await response.json().catch(() => null));
+        if (!response.ok || isFailedResponse(payload) || !payload?.data) {
+            throw new Error(extractErrorMessage(payload) || `${CUSTOMER_SAVE_PATH} request failed`);
+        }
+        return createEnvelope({
+            saved: true,
+            path: CUSTOMER_SAVE_PATH,
+            memberId: payload.data.customerId,
+            requestBody,
+        }, 'save');
+    }
+    await delay(120, signal);
     return createEnvelope({
         saved: true,
         path: CUSTOMER_SAVE_PATH,
@@ -262,22 +283,28 @@ async function fetchMockCustomerList(query, signal) {
     return adaptCustomerListEnvelope(envelope, createCustomerListRequestBody(query), 'mock');
 }
 async function fetchApiCustomerList(query, signal) {
-    const requestBody = createCustomerListRequestBody(query);
-    const response = await fetch(`https://hudson-prod.localhome.cn${CUSTOMER_LIST_PATH}`, {
+    const requestBody = createCustomerListRequestBody({ ...query, campId: resolveRealCampId(query.campId) });
+    const response = await fetch(`/api${CUSTOMER_LIST_PATH}`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'content-type': 'application/json' },
+        headers: createJsonHeaders(),
         body: JSON.stringify(requestBody),
         signal,
     });
     const payload = (await response.json().catch(() => null));
-    if (!response.ok) {
-        throw new Error(`${CUSTOMER_LIST_PATH} 返回 HTTP ${response.status}`);
+    if (!response.ok || isFailedResponse(payload)) {
+        throw new Error(extractErrorMessage(payload) || `${CUSTOMER_LIST_PATH} HTTP ${response.status}`);
     }
-    if (!payload || payload.success === false || !payload.data) {
-        throw new Error(payload?.errorMsg || payload?.errorDetail || '客户列表接口返回失败');
+    if (!payload?.data) {
+        throw new Error('customer list response missing data');
     }
-    return adaptCustomerListEnvelope(createEnvelope(payload.data, 'api'), requestBody, 'api');
+    return adaptCustomerListEnvelope({
+        code: 0,
+        message: payload.message || 'success',
+        data: payload.data,
+        traceId: payload.traceId || 'api-customers-page-get',
+        timestamp: payload.timestamp || new Date().toISOString(),
+    }, requestBody, 'api');
 }
 function adaptCustomerListEnvelope(envelope, requestBody, provider) {
     if (envelope.code !== 0) {
@@ -315,28 +342,29 @@ function adaptCustomerListEnvelope(envelope, requestBody, provider) {
     };
 }
 function adaptCustomer(raw) {
+    const profile = parseCustomerProfile(raw.profileJson);
+    const id = readString(raw.memberId) || readString(raw.customerId) || '-';
+    const totalConsumeCount = raw.totalConsumeCount ?? profile.totalConsumeCount;
     return {
-        id: raw.memberId,
-        name: raw.nickName || raw.name || '-',
-        mobile: raw.mobile || '-',
-        memberNo: raw.memberNo || raw.memberId,
-        channelName: raw.channelName || '-',
-        memberCardName: raw.memberCardName || '-',
-        tagNames: Array.isArray(raw.memberTagViews)
-            ? raw.memberTagViews.map((item) => String(item.tagName ?? '')).filter(Boolean)
-            : [],
-        lastConsumePrice: formatCentMoney(raw.lastConsumePrice),
-        totalConsumeCount: raw.totalConsumeCount == null ? '-' : String(raw.totalConsumeCount),
-        totalConsumePrice: formatCentMoney(raw.totalConsumePrice),
-        avgConsumePrice: formatCentMoney(raw.avgConsumePrice),
-        isJoinWxCp: yesNo(raw.isJoinWxCp),
-        isJoinWx: yesNo(raw.isJoinWx),
-        isJoinGroup: yesNo(raw.isJoinGroup),
-        firstMemberTime: formatTime(raw.firstMemberTime),
-        firstMemberCardTime: formatTime(raw.firstMemberCardTime),
-        lastConsumeTime: formatTime(raw.lastConsumeTime),
-        lastFollowTime: formatTime(raw.lastFollowTime),
-        remark: raw.remark || '-',
+        id,
+        name: readString(raw.nickName) || readString(raw.name) || '-',
+        mobile: readString(raw.mobile) || '-',
+        memberNo: readString(raw.memberNo) || id,
+        channelName: readString(raw.channelName) || readString(profile.channelName) || '-',
+        memberCardName: readString(raw.memberCardName) || readString(profile.memberCardName) || '-',
+        tagNames: readTagNames(raw.memberTagViews, profile.tagNames),
+        lastConsumePrice: formatCentMoney(readNullableNumber(raw.lastConsumePrice ?? profile.lastConsumePrice)),
+        totalConsumeCount: totalConsumeCount == null ? '-' : String(totalConsumeCount),
+        totalConsumePrice: formatCentMoney(readNullableNumber(raw.totalConsumePrice ?? profile.totalConsumePrice)),
+        avgConsumePrice: formatCentMoney(readNullableNumber(raw.avgConsumePrice ?? profile.avgConsumePrice)),
+        isJoinWxCp: yesNo(readNullableNumber(raw.isJoinWxCp ?? profile.isJoinWxCp)),
+        isJoinWx: yesNo(readNullableNumber(raw.isJoinWx ?? profile.isJoinWx)),
+        isJoinGroup: yesNo(readNullableNumber(raw.isJoinGroup ?? profile.isJoinGroup)),
+        firstMemberTime: formatTime(raw.firstMemberTime ?? profile.firstMemberTime),
+        firstMemberCardTime: formatTime(raw.firstMemberCardTime ?? profile.firstMemberCardTime),
+        lastConsumeTime: formatTime(raw.lastConsumeTime ?? profile.lastConsumeTime),
+        lastFollowTime: formatTime(raw.lastFollowTime ?? raw.lastActiveAt ?? profile.lastFollowTime),
+        remark: readString(raw.remark) || readString(profile.remark) || '-',
     };
 }
 function filterCustomers(query) {
@@ -439,7 +467,7 @@ function formatTime(value) {
         return '-';
     if (typeof value === 'string')
         return value;
-    const date = new Date(value);
+    const date = new Date(Number(value));
     if (Number.isNaN(date.getTime()))
         return '-';
     const pad = (input) => String(input).padStart(2, '0');
@@ -529,9 +557,99 @@ function genderToEnum(value) {
     return 'UNKNOWN';
 }
 function resolveProvider() {
+    const configured = readRuntimeConfig('pms.customerList.provider') ||
+        readRuntimeConfig('pmsCustomerListProvider') ||
+        import.meta.env.VITE_CUSTOMER_LIST_PROVIDER ||
+        import.meta.env.VITE_PMS_CUSTOMER_LIST_PROVIDER ||
+        CUSTOMER_PROVIDER;
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
+}
+function createCustomerSaveRequestBody(input) {
+    return {
+        customerId: `crm-${Date.now()}`,
+        campId: resolveRealCampId(),
+        name: input.name.trim() || input.mobile.trim(),
+        mobile: input.mobile.trim(),
+        profileJson: JSON.stringify({
+            gender: input.gender,
+            channelName: input.channelName,
+            firstMemberTime: input.firstMemberTime,
+            remark: input.remark,
+        }),
+    };
+}
+function createJsonHeaders() {
+    const headers = new Headers({ 'content-type': 'application/json' });
+    const token = readRuntimeConfig('pms_token');
+    if (token)
+        headers.set('Authorization', `Bearer ${token}`);
+    return headers;
+}
+function isFailedResponse(payload) {
+    if (!payload)
+        return false;
+    if (payload.code !== undefined)
+        return payload.code !== 0;
+    return payload.success === false;
+}
+function extractErrorMessage(payload) {
+    if (!payload)
+        return '';
+    return String(payload.message || payload.errorMsg || payload.errorDetail || payload.errorCode || '');
+}
+function resolveRealCampId(candidate) {
+    return (readRuntimeConfig('pmsCampId') ||
+        readRuntimeConfig('pms.currentCampId') ||
+        readCampIdFromStoredObject('pms.currentCamp') ||
+        readCampIdFromStoredObject('pms.camp') ||
+        candidate ||
+        import.meta.env.VITE_PMS_CAMP_ID ||
+        defaultRealCampId);
+}
+function readCampIdFromStoredObject(key) {
+    const raw = readRuntimeConfig(key);
+    if (!raw)
+        return '';
+    try {
+        const value = JSON.parse(raw);
+        return readString(value.campId) || readString(value.id) || '';
+    }
+    catch {
+        return '';
+    }
+}
+function parseCustomerProfile(value) {
+    if (typeof value !== 'string' || !value.trim())
+        return {};
+    try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    }
+    catch {
+        return {};
+    }
+}
+function readTagNames(memberTagViews, profileTagNames) {
+    const fromViews = Array.isArray(memberTagViews)
+        ? memberTagViews.map((item) => String(item.tagName ?? '')).filter(Boolean)
+        : [];
+    if (fromViews.length > 0)
+        return fromViews;
+    return Array.isArray(profileTagNames) ? profileTagNames.map(String).filter(Boolean) : [];
+}
+function readString(value) {
+    return value === null || value === undefined || value === '' ? '' : String(value);
+}
+function readNullableNumber(value) {
+    if (value === null || value === undefined || value === '')
+        return null;
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : null;
+}
+function readRuntimeConfig(key) {
     if (typeof window === 'undefined')
-        return CUSTOMER_PROVIDER;
-    return window.localStorage.getItem('pms.customerList.provider') === 'api' ? 'api' : 'mock';
+        return '';
+    return window.localStorage.getItem(key)?.trim() || '';
 }
 function resolveScenario() {
     if (typeof window === 'undefined')

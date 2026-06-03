@@ -1,4 +1,4 @@
-export const CLEAN_LOG_ENDPOINT = 'https://hudson-prod.localhome.cn/cleanLog/page/get'
+export const CLEAN_LOG_ENDPOINT = '/api/cleanLog/page/get'
 export const CLEAN_LOG_MOCK_ENDPOINT = '/cleanManage/cleanLog/list'
 
 const TASK_ID = 'fangtai--baojie-guanli--baojie-rizhi'
@@ -174,7 +174,7 @@ export function createCleanLogExportTask(query: CleanLogQuery) {
 
 export function resolveCleanLogProvider(): CleanLogProvider {
   const configured = readRuntimeConfig('pms.cleanLogProvider') || import.meta.env.VITE_CLEAN_LOG_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
 }
 
 function readCleanLogMockState(): CleanLogMockState {

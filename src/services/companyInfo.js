@@ -171,7 +171,7 @@ function resolveProvider(explicitProvider) {
     const configured = explicitProvider ||
         readRuntimeConfig('pms.companyInfo.provider') ||
         import.meta.env.VITE_COMPANY_INFO_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function resolveMockMode() {
     const fromUrl = readUrlMockMode();

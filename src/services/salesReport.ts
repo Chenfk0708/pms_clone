@@ -6,7 +6,7 @@ export const SALES_REPORT_ROOM_ENDPOINT = '/rooms/page/get'
 export const SALES_REPORT_EXPORT_MENU_ID = '1898993554540892168'
 
 const TASK_ID = 'baobiao--tongji-baobiao--xiaokuang-baobiao'
-const REAL_BASE_URL = 'https://hudson-prod.localhome.cn'
+const REAL_BASE_URL = '/api'
 const DEFAULT_CAMP_ID = '1796067693589061634'
 const DEFAULT_STORE_POI_ID = '1796425098638573570'
 const DEFAULT_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'
@@ -409,9 +409,9 @@ export function createInitialSalesReportQuery(): SalesReportQuery {
 export function resolveSalesReportProvider(): SalesReportProvider {
   const search = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
   const fromQuery = search?.get('provider')
-  if (fromQuery === 'api') return 'api'
+  if (fromQuery === 'api' || fromQuery === 'real') return 'api'
   const fromStorage = readRuntimeConfig('pms.salesReport.provider') || import.meta.env.VITE_SALES_REPORT_PROVIDER
-  return fromStorage === 'api' ? 'api' : 'mock'
+  return fromStorage === 'api' || fromStorage === 'real' ? 'api' : 'mock'
 }
 
 export function resolveSalesReportMockState(): SalesReportMockState {

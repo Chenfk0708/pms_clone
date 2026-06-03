@@ -7,7 +7,7 @@ export class ComprehensiveMonthlyReportServiceError extends Error {
     }
 }
 const TASK_ID = 'baobiao--tongji-baobiao--zonghe-yuebao';
-const ENDPOINT = 'https://hudson-prod.localhome.cn/report/monthly/page/get';
+const ENDPOINT = '/api/report/monthly/page/get';
 const DEFAULT_CAMP_ID = '1796067693589061634';
 const DEFAULT_QUERY_RANGE = {
     startDate: '2026-01-01',
@@ -305,7 +305,7 @@ function readProviderFromStorage() {
         return 'mock';
     const configured = window.localStorage.getItem('pms.comprehensiveMonthlyReportProvider')?.trim() ||
         import.meta.env.VITE_COMPREHENSIVE_MONTHLY_REPORT_PROVIDER;
-    return configured === 'api' ? 'api' : 'mock';
+    return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function readMockStateFromStorage() {
     if (typeof window === 'undefined')

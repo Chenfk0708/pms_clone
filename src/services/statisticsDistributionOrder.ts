@@ -60,6 +60,8 @@ export type StatisticsDistributionOrderData = {
 }
 
 type HudsonResponse<T> = {
+  code?: number
+  message?: string | null
   success?: boolean
   data?: T
   errorCode?: string | null
@@ -86,6 +88,7 @@ type StatisticsDistributionOrderPayloadItem = {
   settlementStatus?: unknown
   settledState?: unknown
   orderFilter?: unknown
+  customerInfo?: unknown
 }
 
 type StatisticsDistributionOrderPayload = {
@@ -96,10 +99,13 @@ type StatisticsDistributionOrderPayload = {
   hasNextPage?: unknown
   pages?: unknown
   list?: unknown
+  summary?: unknown
+  camp?: unknown
+  pagination?: unknown
 }
 
-const realBaseUrl = 'https://hudson-prod.localhome.cn'
-export const statisticsDistributionOrderEndpoint = '/report/flows/get'
+const realBaseUrl = '/api'
+export const statisticsDistributionOrderEndpoint = '/distribution/orders/page/get'
 export const defaultStatisticsDistributionOrderCampId = '1796067693589061634'
 
 const defaultCampName = '天落会宿公寓(前海壹方城宝安中心店)'
@@ -184,10 +190,23 @@ export function getStatisticsDistributionOrderProviderName(): StatisticsDistribu
 }
 
 function resolveProvider(): StatisticsDistributionOrderProviderName {
+  const fromUrl = readUrlProvider()
+  if (fromUrl) return fromUrl
+
   const configured =
     readRuntimeConfig('pms.statisticsDistributionOrderProvider') ||
     import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_PROVIDER
-  return configured === 'api' ? 'api' : 'mock'
+  if (configured === 'mock') return 'mock'
+  return 'api'
+}
+
+function readUrlProvider(): StatisticsDistributionOrderProviderName | '' {
+  if (typeof window === 'undefined') return ''
+  const configured =
+    new URLSearchParams(window.location.search).get('provider') ||
+    new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('provider')
+  if (configured === 'mock') return 'mock'
+  return configured === 'api' || configured === 'real' ? 'api' : ''
 }
 
 function resolveMockState(): StatisticsDistributionOrderMockState {
@@ -203,8 +222,13 @@ function resolveMockState(): StatisticsDistributionOrderMockState {
 
 function readUrlMockState(): StatisticsDistributionOrderMockState | '' {
   if (typeof window === 'undefined') return ''
-  const params = new URLSearchParams(window.location.search)
-  const configured = params.get('mockState') || params.get('statisticsDistributionOrderMockState')
+  const searchParams = new URLSearchParams(window.location.search)
+  const hashParams = new URLSearchParams(window.location.hash.split('?')[1] ?? '')
+  const configured =
+    searchParams.get('mockState') ||
+    searchParams.get('statisticsDistributionOrderMockState') ||
+    hashParams.get('mockState') ||
+    hashParams.get('statisticsDistributionOrderMockState')
   return configured === 'success' || configured === 'empty' || configured === 'error' ? configured : ''
 }
 
@@ -274,13 +298,20 @@ function createRequestBody(query: StatisticsDistributionOrderQuery) {
     bookingEndDate: query.bookingEndDate,
     keyword: query.keyword?.trim() || undefined,
     breakTemp: mapBreakTemp(query.settlementState),
+    settledState: mapSettledState(query.settlementState),
   }
 }
 
 function mapBreakTemp(settlementState: StatisticsDistributionOrderFilter | undefined) {
   if (settlementState === '置换订单') return true
-  if (settlementState === '全部' || !settlementState) return undefined
-  return false
+  if (settlementState === '非置换订单') return false
+  return undefined
+}
+
+function mapSettledState(settlementState: string | undefined) {
+  if (settlementState === '已结算') return 'settled'
+  if (settlementState === '待结算') return 'pending'
+  return undefined
 }
 
 async function loadRealStatisticsDistributionOrderData(
@@ -295,11 +326,14 @@ async function loadRealStatisticsDistributionOrderData(
   )
 
   const record = asRecord(payload)
+  const camp = asRecord(record.camp)
+  const summaryRecord = asRecord(record.summary)
+  const paginationRecord = asRecord(record.pagination)
   const rawList = asArray(record.list).map(adaptPayloadItem)
   const rows = rawList
     .filter((item) => String(item.orderNo ?? item.orderId ?? '') !== '合计')
     .map(adaptRow)
-  const summary = rows.length ? summarizeRows(rows) : emptySummary()
+  const summary = hasSummary(summaryRecord) ? adaptSummary(summaryRecord) : rows.length ? summarizeRows(rows) : emptySummary()
 
   return {
     provider: 'api',
@@ -309,17 +343,17 @@ async function loadRealStatisticsDistributionOrderData(
     timestamp: new Date().toISOString(),
     requestBody,
     requestSummary: buildRequestSummary(query, requestBody, 'api', 'success', 'api-distribution-order-001'),
-    campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
-    campName: defaultCampName,
+    campId: String(camp.campId ?? requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+    campName: String(camp.campName ?? defaultCampName),
     summary,
     rows,
     pagination: {
-      total: readNumber(record.total, rows.length + (rows.length ? 1 : 0)),
-      size: readNumber(record.size, query.pageSize ?? 20),
-      current: readNumber(record.current, query.current ?? 1),
-      pageNum: readNumber(record.pageNum, query.pageNum ?? 1),
-      pages: readNumber(record.pages, rows.length ? 1 : 0),
-      hasNextPage: Boolean(record.hasNextPage),
+      total: readNumber(paginationRecord.total ?? record.total, rows.length),
+      size: readNumber(paginationRecord.pageSize ?? record.size, query.pageSize ?? 20),
+      current: readNumber(record.current ?? paginationRecord.page ?? record.pageNum, query.current ?? 1),
+      pageNum: readNumber(record.pageNum ?? paginationRecord.page, query.pageNum ?? 1),
+      pages: readNumber(paginationRecord.pages ?? record.pages, rows.length ? 1 : 0),
+      hasNextPage: Boolean(paginationRecord.hasNextPage ?? record.hasNextPage),
     },
   }
 }
@@ -340,8 +374,10 @@ async function postHudson<T>(endpoint: string, body: Record<string, unknown>, si
     payload = null
   }
 
-  if (!response.ok || payload?.success === false) {
-    throw new Error(payload?.errorMsg ?? payload?.errorDetail ?? payload?.errorCode ?? `${endpoint} 返回 HTTP ${response.status}`)
+  if (!response.ok || payload?.success === false || (payload?.code !== undefined && payload.code !== 0)) {
+    throw new Error(
+      payload?.errorMsg ?? payload?.errorDetail ?? payload?.message ?? payload?.errorCode ?? `${endpoint} 返回 HTTP ${response.status}`,
+    )
   }
 
   if (!payload || payload.data === undefined || payload.data === null) {
@@ -383,7 +419,7 @@ function adaptRow(item: StatisticsDistributionOrderPayloadItem): StatisticsDistr
     orderId: String(item.orderNo ?? item.orderId ?? ''),
     customerName,
     customerPhone,
-    customerInfo: [customerName, customerPhone].filter(Boolean).join('/'),
+    customerInfo: String(item.customerInfo ?? [customerName, customerPhone].filter(Boolean).join('/')),
     roomCategoryName: String(item.roomCategoryName ?? ''),
     bookedTime: String(item.bookedTime ?? item.bookedTimeStr ?? ''),
     paidAmount: readNumber(item.paidAmount ?? item.invoicePrice, 0),
@@ -427,4 +463,17 @@ function asArray(value: unknown): unknown[] {
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function hasSummary(value: Record<string, unknown>) {
+  return Object.keys(value).length > 0
+}
+
+function adaptSummary(value: Record<string, unknown>): StatisticsDistributionOrderSummary {
+  return {
+    paidAmount: readNumber(value.paidAmount ?? value.invoicePrice, 0),
+    serviceFee: readNumber(value.serviceFee ?? value.commission, 0),
+    settlementAmount: readNumber(value.settlementAmount ?? value.incomePrice, 0),
+    settledAmount: readNumber(value.settledAmount ?? value.settledPrice, 0),
+  }
 }

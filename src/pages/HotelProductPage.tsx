@@ -7,12 +7,13 @@ import {
   type HotelProductListQuery,
   type HotelProductOption,
 } from '../services/hotelProduct'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './HotelProductPage.css'
 
 type FilterKey = 'roomType' | 'channel'
 type EditTab = '商品信息' | '套餐设置' | '售卖规则'
 
-const defaultStoreName = '天洛会宿公寓(前海壹方城宝安中心店)'
 const filters: Array<{ key: FilterKey; label: string; placeholder: string }> = [
   { key: 'roomType', label: '关联房型：', placeholder: '请选择' },
   { key: 'channel', label: '渠道：', placeholder: '请选择渠道' },
@@ -67,7 +68,7 @@ function HotelProductListPage() {
   const navigate = useNavigate()
   const [openFilter, setOpenFilter] = useState<FilterKey | null>(null)
   const [values, setValues] = useState<Record<FilterKey, string>>({ roomType: '', channel: '' })
-  const [storeScope, setStoreScope] = useState<'all' | 'current'>('all')
+  const [selectedStoreId, setSelectedStoreId] = useState('all')
   const [keyword, setKeyword] = useState('')
   const [submittedKeyword, setSubmittedKeyword] = useState('')
   const [reloadSeq, setReloadSeq] = useState(0)
@@ -77,6 +78,7 @@ function HotelProductListPage() {
   const [selectedProduct, setSelectedProduct] = useState<HotelProductListItem | null>(null)
   const [operationProduct, setOperationProduct] = useState<HotelProductListItem | null>(null)
   const [isStrategyOpen, setIsStrategyOpen] = useState(false)
+  const { storeOptions, storeLoading } = useStoreOptions()
 
   const query = useMemo<HotelProductListQuery>(
     () => ({
@@ -130,7 +132,7 @@ function HotelProductListPage() {
     setValues({ roomType: '', channel: '' })
     setKeyword('')
     setSubmittedKeyword('')
-    setStoreScope('all')
+    setSelectedStoreId('all')
     setOpenFilter(null)
   }
 
@@ -148,36 +150,19 @@ function HotelProductListPage() {
       <h1 className="sr-only-heading">酒店套餐</h1>
 
       <section className="hotel-product-query" aria-label="酒店套餐筛选">
-        <div className="hotel-product-storebar" aria-label="门店切换">
-          <button
-            type="button"
-            className={`hotel-product-storebar__tab${storeScope === 'all' ? ' is-active' : ''}`}
-            onClick={() => {
-              setStoreScope('all')
-              refreshData()
-            }}
-          >
-            全部门店
-          </button>
-          <button
-            type="button"
-            className={`hotel-product-storebar__tab${storeScope === 'current' ? ' is-active' : ''}`}
-            onClick={() => {
-              setStoreScope('current')
-              refreshData()
-            }}
-          >
-            {defaultStoreName}
-          </button>
-          <button
-            type="button"
-            className="hotel-product-storebar__setting"
-            aria-label="门店设置"
-            onClick={() => navigate('/InformationMaintenance/campInfo')}
-          >
-            *
-          </button>
-        </div>
+        <StoreSelectControl
+          className="hotel-product-storebar"
+          label="门店切换"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={selectedStoreId}
+          disabled={storeLoading}
+          onChange={(storeId) => {
+            setSelectedStoreId(storeId)
+            refreshData()
+          }}
+          settingsLabel="门店设置"
+          onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+        />
 
         <div className="hotel-product-query__grid">
           <label className="hotel-product-field hotel-product-keyword">

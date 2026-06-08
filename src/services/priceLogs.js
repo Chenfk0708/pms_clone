@@ -113,6 +113,7 @@ function createBackendData(rows, query, channels = channelOptions) {
 function buildPriceLogRequest(query) {
     return {
         campId: query.campId,
+        poiIds: query.poiIds ?? [],
         keyword: query.keyword,
         adjustType: query.adjustmentMode === '系统调整' ? 'system' : 'manual',
         channelId: query.channelId,

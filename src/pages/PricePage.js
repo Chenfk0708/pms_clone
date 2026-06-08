@@ -11,11 +11,13 @@ import xiaozhuIcon from '../assets/channel-icons/xiaozhu.png';
 import localsIcon from '../assets/channel-icons/locals.png';
 import { priceDates, priceRows } from '../data/mock';
 import { fetchChannelPriceRows } from '../services/channelPrice';
-import { fetchCentralPrices, getCentralPriceRequestDate, } from '../services/centralPrice';
+import { fetchCentralPrices, getCentralPriceRequestDate, saveCentralSaleStatus, } from '../services/centralPrice';
 import { loadOtherPriceData } from '../services/otherPrice';
 import { loadPriceBoardData } from '../services/priceBoard';
 import { loadPriceComparisonDashboard, normalizePriceComparisonMockState, } from '../services/priceComparison';
 import { loadRetailPriceData } from '../services/retailPrice';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { fetchStoreOptions, resolveCurrentCampId } from '../services/storeOptions';
 import './PricePage.css';
 const priceTabs = [
     { label: '中央价', path: '/houseManage/houseCale' },
@@ -53,6 +55,7 @@ const CHANNEL_BADGE_ICON_MAP = {
     locals: localsIcon,
 };
 const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+const actionFeedbackHideDelayMs = 3000;
 const channelOptions = ['全部渠道', '携程', '美团', '同程', '途家'];
 const retailWeekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 const channelRpRows = [
@@ -209,6 +212,15 @@ function parseDateValue(value) {
 function formatHeaderDateValue(date) {
     return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 }
+function formatSaleStatusFailure(error) {
+    const rawMessage = error instanceof Error ? error.message : error == null ? '' : String(error);
+    const message = rawMessage.trim();
+    if (!message || message === 'null' || message === 'undefined')
+        return '售卖状态保存失败，请稍后重试';
+    if (message.includes('售卖状态保存失败'))
+        return message;
+    return `售卖状态保存失败：${message}`;
+}
 function ChannelBadgeIcon({ badgeId, label }) {
     const iconUrl = badgeId ? CHANNEL_BADGE_ICON_MAP[badgeId] : undefined;
     const fallbackLabel = label.trim().charAt(0) || '?';
@@ -344,7 +356,7 @@ function PriceGuideOverlay({ step, variant, onPrev, onNext, onClose, }) {
     const timelineValues = ['100', '100', '100', '100', '120', '120', '100', '100', '100', '100', '100', '120', '120', '100', '120', '100', '120', '100', '120', '120'];
     return (_jsxs("div", { className: "channel-guide-layer", role: "presentation", onClick: onClose, children: [_jsx("div", { className: "channel-guide-fog", "aria-hidden": "true" }), _jsx("div", { className: `channel-guide-highlight ${currentStep.highlightClassName}`, "aria-hidden": "true" }), step === 1 ? (_jsxs("aside", { className: "channel-guide-settings-demo", "aria-hidden": "true", children: [_jsxs("header", { children: [_jsx("strong", { children: "\u5212\u7EBF\u4EF7\u4E0E\u552E\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsx("span", { children: "\u5982\u4F55\u77E5\u9053\u6E20\u9053\u4F18\u60E0\u6BD4\u4F8B" })] }), _jsx("div", { className: "channel-guide-settings-demo__list", children: relationRows.map((name) => (_jsxs("label", { className: "channel-guide-settings-demo__row", children: [_jsxs("span", { children: [name, "\u5B9E\u9645\u552E\u5356\u4EF7/\u5212\u7EBF\u4EF7*"] }), _jsxs("b", { children: [_jsx("em", { children: "100" }), _jsx("i", { children: "%" })] })] }, name))) }), _jsxs("footer", { children: [_jsx("button", { type: "button", children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", className: "is-ghost", children: "\u53D6\u6D88" })] })] })) : null, step === 2 ? (_jsx("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--coefficient", "aria-hidden": "true", children: coefficientRows.map(([name, value]) => (_jsxs("div", { className: "channel-guide-inline-demo__item channel-guide-inline-demo__item--coefficient", children: [_jsx("strong", { children: name }), _jsx("span", { children: value })] }, name))) })) : null, step === 3 ? (_jsx("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--product", "aria-hidden": "true", children: productRows.map(([name, value, note]) => (_jsxs("div", { className: "channel-guide-inline-demo__item channel-guide-inline-demo__item--product", children: [_jsxs("div", { children: [_jsx("strong", { children: name }), _jsx("p", { children: note })] }), _jsx("span", { children: value })] }, `${name}-${value}-${note}`))) })) : null, step === 4 ? (_jsxs("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--timeline", "aria-hidden": "true", children: [_jsx("strong", { children: "\u4E2D\u592E\u4EF7" }), timelineValues.map((value, index) => (_jsx("span", { children: value }, `${value}-${index}`)))] })) : null, step === 5 ? (_jsxs("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--room", "aria-hidden": "true", children: [_jsx("strong", { children: "\u9AD8\u7EA7\u5927\u5E8A\u623F" }), _jsx("span", { children: "\u4E2D\u592E\u4EF7" }), _jsxs("p", { children: ["\u8BF7\u8FDB\u884C\u623F\u578B\u7684 ", _jsx("em", { children: "\u4EF7\u683C\u89C4\u5212" })] })] })) : null, _jsxs("section", { className: `channel-guide-card ${currentStep.cardClassName}`, role: "dialog", "aria-modal": "true", "aria-label": "\u65B0\u624B\u6307\u5F15", onClick: (event) => event.stopPropagation(), children: [_jsx("span", { className: "channel-guide-card__eyebrow", children: "\u65B0\u624B\u6307\u5F15" }), _jsx("h3", { children: currentStep.title }), _jsx("p", { children: currentStep.description }), _jsxs("footer", { children: [_jsxs("span", { children: [step, "/5"] }), _jsxs("div", { className: "channel-guide-card__actions", children: [step > 1 ? (_jsx("button", { type: "button", className: "is-ghost", onClick: onPrev, children: "\u4E0A\u4E00\u6B65" })) : null, _jsx("button", { type: "button", onClick: step === steps.length ? onClose : onNext, children: step === steps.length ? '知道了' : '下一步' })] })] })] })] }));
 }
-function SharedToolbar({ active, renderAsCentral = false, selectedStore = '全部门店', selectedChannel: controlledSelectedChannel, selectedRoom = '全部房型', selectedTag = '房型标签', onStoreChange = () => { }, onChannelChange, onRoomChange = () => { }, onTagChange = () => { }, onActionBlocked = () => { }, }) {
+function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all', storeOptions = [{ id: 'all', label: '全部门店' }], storeLoading = false, channelFilterOptions = channelOptions, roomFilterOptions = roomTypes.map((room) => ({ id: room.name, name: room.name })), selectedChannel: controlledSelectedChannel, selectedRoom = '全部房型', selectedTag = '房型标签', onStoreChange = () => { }, onChannelChange, onRoomChange = () => { }, onTagChange = () => { }, onActionBlocked = () => { }, }) {
     const navigate = useNavigate();
     const [localSelectedChannel, setLocalSelectedChannel] = useState('渠道');
     const [toast, setToast] = useState('');
@@ -382,13 +394,13 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStore = '全�
         }
         showToast(message);
     }
-    return (_jsxs("section", { className: "toolbar-card", children: [_jsxs("div", { className: "toolbar-row", children: [_jsx(PriceTabs, { active: active }), isCentral || isChannelRp ? (_jsxs("div", { className: "channel-price-mode", children: [_jsx("span", { children: "\u5F53\u524D\u901A\u8FC7" }), _jsx("strong", { children: "\"\u5B9E\u9645\u5356\u4EF7\"" }), _jsx("span", { children: "\u8FDB\u884C\u4EF7\u683C\u8C03\u63A7" })] })) : null, _jsxs("div", { className: "toolbar-actions", children: [isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setPreviewOpen(true), children: "\u9884\u89C8\u4E0E\u8986\u76D6" }), _jsx("button", { type: "button", onClick: () => setConfirmOpen(true), children: "\u6682\u4E0D\u5904\u7406" })] })) : null, _jsx("button", { type: "button", onClick: () => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道'), children: isCentral || isChannelRp ? '同步至渠道' : '同步价格' }), isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/localRoomTypeProductionSetting'), children: "RP\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, isCentral ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, _jsx("button", { type: "button", onClick: () => setBatchOpen(true), children: "\u6279\u91CF\u6539\u4EF7" }), isCentral ? (_jsx("button", { type: "button", onClick: () => setSmartOpen(true), children: "\u667A\u80FD\u8C03\u4EF7" })) : (_jsx("button", { type: "button", onClick: () => (isChannelRp ? setGuideStep(1) : undefined), children: isChannelRp ? '新手指引' : '操作日志' }))] })] }), isChannelRp ? _jsx("p", { className: "channel-price-alert", children: "\u6E20\u9053rp\u4EF7\u4E0E\u623F\u578B\u4EF7\u683C\u5B58\u5728\u5DEE\u5F02" }) : null, _jsxs("div", { className: "toolbar-row toolbar-filters", children: [['全部门店', '天落会宿公寓(前海壹方城宝安中心店)'].map((store) => (_jsx("button", { type: "button", className: `chip${selectedStore === store ? ' is-active' : ''}`, onClick: () => onStoreChange(store), children: store }, store))), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'channel' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'channel' ? '' : 'channel'), children: [_jsx("span", { children: selectedChannel }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'channel' ? (_jsx("div", { className: "price-filter-popover", role: "listbox", "aria-label": "\u6E20\u9053\u7B5B\u9009", children: channelOptions.map((item) => (_jsx("button", { type: "button", role: "option", "aria-selected": selectedChannel === item, onClick: () => {
+    return (_jsxs("section", { className: "toolbar-card", children: [_jsxs("div", { className: "toolbar-row", children: [_jsx(PriceTabs, { active: active }), isCentral || isChannelRp ? (_jsxs("div", { className: "channel-price-mode", children: [_jsx("span", { children: "\u5F53\u524D\u901A\u8FC7" }), _jsx("strong", { children: "\"\u5B9E\u9645\u5356\u4EF7\"" }), _jsx("span", { children: "\u8FDB\u884C\u4EF7\u683C\u8C03\u63A7" })] })) : null, _jsxs("div", { className: "toolbar-actions", children: [isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setPreviewOpen(true), children: "\u9884\u89C8\u4E0E\u8986\u76D6" }), _jsx("button", { type: "button", onClick: () => setConfirmOpen(true), children: "\u6682\u4E0D\u5904\u7406" })] })) : null, _jsx("button", { type: "button", onClick: () => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道'), children: isCentral || isChannelRp ? '同步至渠道' : '同步价格' }), isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/localRoomTypeProductionSetting'), children: "RP\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, isCentral ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, _jsx("button", { type: "button", onClick: () => setBatchOpen(true), children: "\u6279\u91CF\u6539\u4EF7" }), isCentral ? (_jsx("button", { type: "button", onClick: () => setSmartOpen(true), children: "\u667A\u80FD\u8C03\u4EF7" })) : (_jsx("button", { type: "button", onClick: () => (isChannelRp ? setGuideStep(1) : undefined), children: isChannelRp ? '新手指引' : '操作日志' }))] })] }), isChannelRp ? _jsx("p", { className: "channel-price-alert", children: "\u6E20\u9053rp\u4EF7\u4E0E\u623F\u578B\u4EF7\u683C\u5B58\u5728\u5DEE\u5F02" }) : null, _jsxs("div", { className: "toolbar-row toolbar-filters", children: [_jsx(StoreSelectControl, { className: "price-toolbar-store-select", label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading, onChange: (storeId) => onStoreChange(storeId) }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'channel' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'channel' ? '' : 'channel'), children: [_jsx("span", { children: selectedChannel }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'channel' ? (_jsx("div", { className: "price-filter-popover", role: "listbox", "aria-label": "\u6E20\u9053\u7B5B\u9009", children: channelFilterOptions.map((item) => (_jsx("button", { type: "button", role: "option", "aria-selected": selectedChannel === item, onClick: () => {
                                         updateSelectedChannel(item === '全部渠道' ? '渠道' : item);
                                         setOpenFilter('');
-                                    }, children: item }, item))) })) : null] }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'room' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'room' ? '' : 'room'), children: [_jsx("span", { children: selectedRoom }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'room' ? (_jsx("div", { className: "price-filter-popover", "aria-label": "\u623F\u578B\u7B5B\u9009", children: roomTypes.map((item) => (_jsx("button", { type: "button", onClick: () => {
-                                        onRoomChange(item.name);
+                                    }, children: item }, item))) })) : null] }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'room' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'room' ? '' : 'room'), children: [_jsx("span", { children: selectedRoom }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'room' ? (_jsx("div", { className: "price-filter-popover", "aria-label": "\u623F\u578B\u7B5B\u9009", children: [{ id: '', name: '全部房型' }, ...roomFilterOptions].map((item) => (_jsx("button", { type: "button", onClick: () => {
+                                        onRoomChange(item.id ? item : null);
                                         setOpenFilter('');
-                                    }, children: item.name }, item.name))) })) : null] }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'tag' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'tag' ? '' : 'tag'), children: [_jsx("span", { children: selectedTag }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'tag' ? (_jsx("div", { className: "price-filter-popover", "aria-label": "\u623F\u578B\u6807\u7B7E\u7B5B\u9009", children: ['全部标签', '热卖', '电竞', '观影', '周末高价'].map((item) => (_jsx("button", { type: "button", onClick: () => {
+                                    }, children: item.name }, item.id || item.name))) })) : null] }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'tag' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'tag' ? '' : 'tag'), children: [_jsx("span", { children: selectedTag }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'tag' ? (_jsx("div", { className: "price-filter-popover", "aria-label": "\u623F\u578B\u6807\u7B7E\u7B5B\u9009", children: ['全部标签', '热卖', '电竞', '观影', '周末高价'].map((item) => (_jsx("button", { type: "button", onClick: () => {
                                         onTagChange(item === '全部标签' ? '房型标签' : item);
                                         setOpenFilter('');
                                     }, children: item }, item))) })) : null] }), _jsx("label", { className: "price-filter-search", children: _jsx("input", { type: "text", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898" }) }), isCentral ? (_jsx("button", { type: "button", className: "price-guide-button", onClick: () => setGuideStep(1), children: "\u65B0\u624B\u6307\u5F15" })) : null] }), false ? (_jsxs("div", { className: "price-filter-popover", role: openFilter === 'channel' ? 'listbox' : undefined, "aria-label": openFilter === 'channel' ? '渠道筛选' : undefined, children: [openFilter === 'channel'
@@ -397,10 +409,10 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStore = '全�
                                 setOpenFilter('');
                             }, children: item }, item)))
                         : null, openFilter === 'room'
-                        ? roomTypes.map((item) => (_jsx("button", { type: "button", onClick: () => {
-                                onRoomChange(item.name);
+                        ? [{ id: '', name: '全部房型' }, ...roomFilterOptions].map((item) => (_jsx("button", { type: "button", onClick: () => {
+                                onRoomChange(item.id ? item : null);
                                 setOpenFilter('');
-                            }, children: item.name }, item.name)))
+                            }, children: item.name }, item.id || item.name)))
                         : null, openFilter === 'tag'
                         ? ['全部标签', '热卖', '电竞', '观影', '周末高价'].map((item) => (_jsx("button", { type: "button", onClick: () => {
                                 onTagChange(item === '全部标签' ? '房型标签' : item);
@@ -424,7 +436,7 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStore = '全�
                     showToast('已保留渠道价格');
                 } })) : null, (isCentral || isChannelRp) && guideStep > 0 ? (_jsx(PriceGuideOverlay, { step: guideStep, variant: isChannelRp ? 'channel-rp' : 'central', onPrev: () => setGuideStep((current) => Math.max(1, current - 1)), onNext: () => setGuideStep((current) => Math.min(5, current + 1)), onClose: () => setGuideStep(0) })) : null] }));
 }
-function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState, channelDate, centralRequestDate, onCentralDateChange, onRetryChannelRequest, centralData, centralState, onRetryCentralRequest, onActionBlocked, }) {
+function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState, channelDate, centralRequestDate, onCentralDateChange, onRetryChannelRequest, centralData, centralState, onRetryCentralRequest, onCentralSaleStatusChange, onActionBlocked, }) {
     const centralHeaderScrollRef = useRef(null);
     const [selectedCells, setSelectedCells] = useState([]);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -433,7 +445,7 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
     const [editValue, setEditValue] = useState('');
     const [collapsed, setCollapsed] = useState(false);
     const [collapsedRooms, setCollapsedRooms] = useState({});
-    const [summarySwitchStates, setSummarySwitchStates] = useState({});
+    const [pendingSaleStatusKeys, setPendingSaleStatusKeys] = useState({});
     const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false);
     const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()));
     const [dateOffset, setDateOffset] = useState(0);
@@ -523,18 +535,32 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
         onCentralDateChange?.(dateValue);
         setIsCentralCalendarOpen(false);
     }
-    function isSummarySwitchOn(cellKey) {
-        return summarySwitchStates[cellKey] !== false;
-    }
-    function toggleSummarySwitch(cellKey) {
-        setSummarySwitchStates((current) => ({
-            ...current,
-            [cellKey]: current[cellKey] === false,
-        }));
-    }
-    function renderCentralDateMetric({ key, roomName, dateLabel, price, stock, }) {
-        const switchOn = isSummarySwitchOn(key);
-        return (_jsxs("div", { "data-testid": "central-summary-date-cell", className: `price-cell price-cell-button price-cell-button--summary ${isCellSelected(key) ? 'is-selected' : ''} ${switchOn ? '' : 'is-switch-off'}`, children: [_jsxs("button", { type: "button", "data-testid": "central-summary-stock-switch", className: `central-price-grid__metric-stock ${switchOn ? 'is-on' : 'is-off'}`, "aria-label": `${dateLabel}库存开关`, "aria-pressed": switchOn, onClick: () => toggleSummarySwitch(key), children: [_jsx("i", { "aria-hidden": "true" }), _jsx("em", { children: stock })] }), _jsx("button", { type: "button", className: "central-price-grid__metric-price-button", "aria-label": `${price} ${dateLabel}`, onClick: () => {
+    function renderCentralDateMetric({ key, roomId, roomName, dateKey, dateLabel, price, stock, saleEnabled, }) {
+        const switchOn = saleEnabled;
+        const isSaving = Boolean(pendingSaleStatusKeys[key]);
+        async function toggleSaleStatus() {
+            if (!onCentralSaleStatusChange || isSaving)
+                return;
+            const nextSaleEnabled = !switchOn;
+            setPendingSaleStatusKeys((current) => ({ ...current, [key]: true }));
+            try {
+                await onCentralSaleStatusChange({
+                    roomCategoryId: roomId,
+                    date: dateKey,
+                    saleEnabled: nextSaleEnabled,
+                });
+            }
+            catch (error) {
+                onActionBlocked?.(formatSaleStatusFailure(error));
+            }
+            finally {
+                setPendingSaleStatusKeys((current) => {
+                    const { [key]: _removed, ...rest } = current;
+                    return rest;
+                });
+            }
+        }
+        return (_jsxs("div", { "data-testid": "central-summary-date-cell", className: `price-cell price-cell-button price-cell-button--summary ${isCellSelected(key) ? 'is-selected' : ''} ${switchOn ? '' : 'is-switch-off'}`, children: [_jsxs("button", { type: "button", "data-testid": "central-summary-stock-switch", className: `central-price-grid__metric-stock ${switchOn ? 'is-on' : 'is-off'}`, "aria-label": `${dateLabel}库存开关`, "aria-pressed": switchOn, disabled: isSaving, onClick: toggleSaleStatus, children: [_jsx("i", { "aria-hidden": "true" }), _jsx("em", { children: stock })] }), _jsx("button", { type: "button", className: "central-price-grid__metric-price-button", "aria-label": `${price} ${dateLabel}`, onClick: () => {
                         toggleSelectedCell({ key, title: `${roomName} / ${dateLabel}`, price, date: dateLabel });
                     }, children: _jsx("strong", { className: "central-price-grid__metric-price", children: price }) })] }, key));
     }
@@ -585,17 +611,20 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
                                 }),
                             }),
                         }) }), visibleDates.map((dateItem, index) => {
-                    const status = room.prices[index] ?? { price: '-', stock: '-' };
+                    const status = room.prices[index] ?? { price: '-', stock: '-', saleEnabled: true };
                     const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key);
                     const key = `${room.id}-summary-${dateItem.key}`;
                     return isChannelRpCentralReuse
                         ? renderCentralStockOnlyMetric(key, status.stock)
                         : renderCentralDateMetric({
                             key,
+                            roomId: room.id,
                             roomName: room.name,
+                            dateKey: dateItem.key,
                             dateLabel,
                             price: status.price,
                             stock: status.stock,
+                            saleEnabled: status.saleEnabled,
                         });
                 })] }, `${room.name}-summary`));
     }
@@ -792,18 +821,19 @@ function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, central
     }
     function renderPriceRow(row, keyPrefix = '') {
         const compareBasePrice = getCentralBaseComparePrice(row);
-        return (_jsxs("div", { "data-testid": "central-channel-row", className: "price-grid__row price-grid__row--central", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsxs("div", { className: "price-room-header price-room-header--central price-room-header--channel-rp", "data-testid": "central-price-matrix-row-header", children: [_jsx(ChannelBadgeIcon, { badgeId: row.channelBadgeId, label: row.channel }), _jsx("strong", { children: row.product ?? row.channel })] }), _jsx("div", { children: _jsx("span", { className: "central-price-grid__pill", children: row.coefficient || '-' }) }), _jsx("div", { children: renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () => setBasePriceDrawerContext({
+        const channelDisplayName = row.channel || '未知渠道';
+        return (_jsxs("div", { "data-testid": "central-channel-row", className: "price-grid__row price-grid__row--central", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsxs("div", { className: "price-room-header price-room-header--central price-room-header--channel-rp", "data-testid": "central-price-matrix-row-header", children: [_jsx(ChannelBadgeIcon, { badgeId: row.channelBadgeId, label: channelDisplayName }), _jsx("strong", { children: channelDisplayName })] }), _jsx("div", { children: _jsx("span", { className: "central-price-grid__pill", children: row.coefficient || '-' }) }), _jsx("div", { children: renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () => setBasePriceDrawerContext({
                         variant: 'channel-rp',
-                        roomName: row.channel,
-                        roomSubtitle: row.product ?? '当前渠道房型',
-                        channelName: row.channel,
+                        roomName: channelDisplayName,
+                        roomSubtitle: '当前渠道房型',
+                        channelName: channelDisplayName,
                         coefficient: row.coefficient,
                         actualPrice: row.basePrice,
                         comparePrice: compareBasePrice,
                         basePrice: row.basePrice,
                         planningRows: buildChannelPlanningRows({
-                            roomName: row.channel,
-                            roomSubtitle: row.product ?? '当前渠道房型',
+                            roomName: channelDisplayName,
+                            roomSubtitle: '当前渠道房型',
                             actualPrice: row.basePrice,
                             comparePrice: compareBasePrice,
                         }),
@@ -871,14 +901,18 @@ function RegularPricePage({ active }) {
     const reuseCentralLayout = location.pathname.includes('channelPrice');
     const isCentral = active === '\u4e2d\u592e\u4ef7' || reuseCentralLayout;
     const isChannelRp = active === '\u6e20\u9053RP\u4ef7' && !reuseCentralLayout;
-    const [selectedStore, setSelectedStore] = useState('全部门店');
+    const [selectedStoreId, setSelectedStoreId] = useState('all');
+    const [storeOptions, setStoreOptions] = useState([{ id: 'all', label: '全部门店' }]);
+    const [storeLoading, setStoreLoading] = useState(false);
     const [selectedChannel, setSelectedChannel] = useState('渠道');
     const [selectedRoom, setSelectedRoom] = useState('全部房型');
+    const [selectedRoomCategoryIds, setSelectedRoomCategoryIds] = useState([]);
+    const [roomFilterOptions, setRoomFilterOptions] = useState([]);
     const [selectedTag, setSelectedTag] = useState('房型标签');
     const [centralRequestDate, setCentralRequestDate] = useState(() => getCentralPriceRequestDate());
     const [reloadKey, setReloadKey] = useState(0);
     const [centralReloadKey, setCentralReloadKey] = useState(0);
-    const [, setActionFeedback] = useState('');
+    const [actionFeedback, setActionFeedback] = useState('');
     const [centralData, setCentralData] = useState();
     const [centralRequestState, setCentralRequestState] = useState({
         kind: 'idle',
@@ -892,18 +926,49 @@ function RegularPricePage({ active }) {
     const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || 'default-camp', [location.search]);
     const channelPriceProvider = useMemo(() => {
         const configured = new URLSearchParams(location.search).get('channelPriceProvider');
-        return configured === 'real' ? 'real' : 'mock';
+        return configured === 'mock' ? 'mock' : 'real';
     }, [location.search]);
     const channelDate = useMemo(() => currentBusinessDate(), []);
     const centralFilters = useMemo(() => ({
-        selectedStore,
+        selectedStoreId,
         selectedChannel,
-        selectedRoom,
+        selectedRoomCategoryIds,
         selectedTag,
         date: centralRequestDate,
         pageNum: 1,
         pageSize: 15,
-    }), [centralRequestDate, selectedChannel, selectedRoom, selectedStore, selectedTag]);
+    }), [centralRequestDate, selectedChannel, selectedRoomCategoryIds, selectedStoreId, selectedTag]);
+    const centralChannelOptions = useMemo(() => {
+        const channels = new Set();
+        centralData?.rooms.forEach((room) => {
+            room.channelRows.forEach((row) => {
+                const channel = row.channel.trim();
+                if (channel)
+                    channels.add(channel);
+            });
+        });
+        return ['全部渠道', ...channels];
+    }, [centralData]);
+    const centralSaveCampId = useMemo(() => (/^\d+$/.test(campId) ? campId : null), [campId]);
+    useEffect(() => {
+        const nextOptions = centralData?.rooms.map((room) => ({ id: room.id, name: room.name })) ?? [];
+        setRoomFilterOptions(nextOptions);
+        setSelectedRoomCategoryIds((current) => {
+            if (current.length === 0)
+                return current;
+            const validIds = new Set(nextOptions.map((room) => room.id));
+            if (current.every((roomCategoryId) => validIds.has(roomCategoryId)))
+                return current;
+            setSelectedRoom('鍏ㄩ儴鎴垮瀷');
+            return [];
+        });
+    }, [centralData]);
+    useEffect(() => {
+        if (!actionFeedback)
+            return;
+        const timer = window.setTimeout(() => setActionFeedback(''), actionFeedbackHideDelayMs);
+        return () => window.clearTimeout(timer);
+    }, [actionFeedback]);
     function normalizeChannelPriceErrorMessage(error) {
         const rawMessage = error instanceof Error ? error.message : String(error);
         if (/mock|traceId|provider/i.test(rawMessage)) {
@@ -925,8 +990,9 @@ function RegularPricePage({ active }) {
             }));
         });
         fetchChannelPriceRows({
-            campId,
+            campId: /^\d+$/.test(campId) ? campId : '',
             channel: selectedChannel,
+            roomCategoryIds: selectedRoomCategoryIds,
             date: channelDate,
             provider: channelPriceProvider,
         }, controller.signal)
@@ -948,7 +1014,67 @@ function RegularPricePage({ active }) {
             });
         });
         return () => controller.abort();
-    }, [campId, channelDate, channelPriceProvider, isChannelRp, reloadKey, selectedChannel]);
+    }, [campId, channelDate, channelPriceProvider, isChannelRp, reloadKey, selectedChannel, selectedRoomCategoryIds]);
+    useEffect(() => {
+        const controller = new AbortController();
+        setStoreLoading(true);
+        fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+            .then((nextOptions) => {
+            setStoreOptions(nextOptions);
+            setSelectedStoreId((current) => (nextOptions.some((store) => store.id === current) ? current : 'all'));
+        })
+            .catch((error) => {
+            if (error instanceof DOMException && error.name === 'AbortError')
+                return;
+            setStoreOptions([{ id: 'all', label: '全部门店' }]);
+            setSelectedStoreId('all');
+        })
+            .finally(() => {
+            if (!controller.signal.aborted)
+                setStoreLoading(false);
+        });
+        return () => controller.abort();
+    }, []);
+    useEffect(() => {
+        if (!isCentral)
+            return;
+        if (selectedChannel !== '渠道' && !centralChannelOptions.includes(selectedChannel)) {
+            setSelectedChannel('渠道');
+        }
+    }, [centralChannelOptions, isCentral, selectedChannel]);
+    async function handleCentralSaleStatusChange(input) {
+        const response = await saveCentralSaleStatus({
+            campId: centralSaveCampId,
+            roomCategoryId: input.roomCategoryId,
+            date: input.date,
+            saleEnabled: input.saleEnabled,
+        });
+        setCentralData((current) => {
+            if (!current)
+                return current;
+            return {
+                ...current,
+                rooms: current.rooms.map((room) => {
+                    if (room.id !== response.roomCategoryId)
+                        return room;
+                    return {
+                        ...room,
+                        prices: room.prices.map((price, index) => {
+                            const dateItem = current.dates[index];
+                            if (dateItem?.key !== response.date)
+                                return price;
+                            return { ...price, saleEnabled: response.saleEnabled };
+                        }),
+                    };
+                }),
+            };
+        });
+        setActionFeedback(response.saleEnabled ? '中央价已恢复可售' : '中央价已停售');
+    }
+    function handleRoomFilterChange(room) {
+        setSelectedRoom(room?.name ?? '全部房型');
+        setSelectedRoomCategoryIds(room?.id ? [room.id] : []);
+    }
     useEffect(() => {
         if (!isCentral)
             return;
@@ -982,7 +1108,7 @@ function RegularPricePage({ active }) {
         });
         return () => controller.abort();
     }, [centralFilters, centralReloadKey, isCentral]);
-    return (_jsxs("div", { className: `page-stack price-page${isCentral ? ' price-page--central' : ''}`, children: [_jsx(SharedToolbar, { active: active, renderAsCentral: reuseCentralLayout, selectedStore: selectedStore, selectedChannel: selectedChannel, selectedRoom: selectedRoom, selectedTag: selectedTag, onStoreChange: setSelectedStore, onChannelChange: setSelectedChannel, onRoomChange: setSelectedRoom, onTagChange: setSelectedTag, onActionBlocked: setActionFeedback }), reuseCentralLayout ? (_jsx(ChannelRpPriceMatrix, { centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onActionBlocked: setActionFeedback })) : (_jsx(PriceMatrix, { mode: active, channelRows: channelRequestState.rows, channelState: isChannelRp ? channelRequestState : undefined, channelDate: channelDate, centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, onRetryChannelRequest: () => setReloadKey((value) => value + 1), centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onActionBlocked: setActionFeedback }))] }));
+    return (_jsxs("div", { className: `page-stack price-page${isCentral ? ' price-page--central' : ''}`, children: [_jsx(SharedToolbar, { active: active, renderAsCentral: reuseCentralLayout, selectedStoreId: selectedStoreId, storeOptions: storeOptions, storeLoading: storeLoading, channelFilterOptions: isCentral ? centralChannelOptions : channelOptions, roomFilterOptions: roomFilterOptions, selectedChannel: selectedChannel, selectedRoom: selectedRoom, selectedTag: selectedTag, onStoreChange: setSelectedStoreId, onChannelChange: setSelectedChannel, onRoomChange: handleRoomFilterChange, onTagChange: setSelectedTag, onActionBlocked: setActionFeedback }), isCentral && actionFeedback ? (_jsx("div", { className: "price-action-feedback", role: "status", "aria-label": "\u4E2D\u592E\u4EF7\u64CD\u4F5C\u53CD\u9988", children: actionFeedback })) : null, reuseCentralLayout ? (_jsx(ChannelRpPriceMatrix, { centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onActionBlocked: setActionFeedback })) : (_jsx(PriceMatrix, { mode: active, channelRows: channelRequestState.rows, channelState: isChannelRp ? channelRequestState : undefined, channelDate: channelDate, centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, onRetryChannelRequest: () => setReloadKey((value) => value + 1), centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onCentralSaleStatusChange: active === '中央价' ? handleCentralSaleStatusChange : undefined, onActionBlocked: setActionFeedback }))] }));
 }
 function toCentralBusinessErrorMessage(message) {
     const normalized = message
@@ -1041,6 +1167,8 @@ function RetailPricePage() {
     const requestedAt = retailData ? new Date(retailData.requestedAt).toLocaleTimeString('zh-CN', { hour12: false }) : '';
     const roomOptions = retailData?.rooms ?? [];
     const stores = retailData?.stores ?? [];
+    const [publicStoreOptions, setPublicStoreOptions] = useState([{ id: 'all', label: '全部门店' }]);
+    const [publicStoreLoading, setPublicStoreLoading] = useState(false);
     const needsSetup = retailData?.salePriceSetting.isInitPriceDisplay === 1;
     const configuredProvider = typeof window !== 'undefined' && window.localStorage.getItem('pmsRetailPriceProvider') === 'real' ? 'real' : 'mock';
     const currentProvider = retailData?.providerName ?? configuredProvider;
@@ -1066,6 +1194,22 @@ function RetailPricePage() {
         });
         return () => controller.abort();
     }, [queryKeyword, requestRevision, selectedStoreId, selectedRoomCategoryIds]);
+    useEffect(() => {
+        const controller = new AbortController();
+        setPublicStoreLoading(true);
+        fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+            .then((nextOptions) => setPublicStoreOptions(nextOptions))
+            .catch((error) => {
+            if (error instanceof DOMException && error.name === 'AbortError')
+                return;
+            setPublicStoreOptions([{ id: 'all', label: '全部门店' }]);
+        })
+            .finally(() => {
+            if (!controller.signal.aborted)
+                setPublicStoreLoading(false);
+        });
+        return () => controller.abort();
+    }, []);
     function beginRetailRequest() {
         setIsLoading(true);
         setRequestError('');
@@ -1108,10 +1252,14 @@ function RetailPricePage() {
                                             setRequestRevision((current) => current + 1);
                                         }, children: "\u91CD\u65B0\u52A0\u8F7D" })] })) : (_jsxs(_Fragment, { children: [_jsx("strong", { children: isLoading ? '正在加载门市价数据' : '门市价数据已更新' }), _jsx("span", { children: retailData
                                             ? `门店 ${stores.length} 个，房型 ${roomOptions.length} 个，${needsSetup ? '当前需完成门市价设置' : '门市价配置已返回'}`
-                                            : '等待数据返回' }), requestedAt ? _jsxs("em", { children: ["\u5237\u65B0\u4E8E ", requestedAt] }) : null] }))] }), actionMessage ? (_jsx("div", { className: "retail-action-feedback", role: "status", "aria-label": "\u95E8\u5E02\u4EF7\u64CD\u4F5C\u53CD\u9988", children: actionMessage })) : null, _jsxs("div", { className: "retail-filter-row", children: [_jsx("button", { type: "button", className: `retail-store-chip${selectedStoreId === '' ? ' is-active' : ''}`, onClick: () => {
-                                    setSelectedStoreId('');
-                                    setActionMessage('已切换到全部门店');
-                                }, children: "\u5168\u90E8\u95E8\u5E97" }), stores.length ? stores.map((store) => (_jsx("button", { type: "button", className: `retail-store-chip retail-store-chip--wide${selectedStoreId === store.poiId ? ' is-active' : ''}`, onClick: () => selectStore(store.poiId), children: store.poiName }, store.poiId))) : (_jsx("button", { type: "button", className: "retail-store-chip retail-store-chip--wide", disabled: true, children: isLoading ? '加载门店中' : '暂无门店数据' })), _jsx("button", { type: "button", className: "retail-gear-button", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => setActionMessage('已打开门店设置入口，请在设置中心维护门店信息'), children: "\u2699" }), _jsx(RetailFilterButton, { label: "\u623F\u578B", onClick: () => setFilterOpen(filterOpen === 'room' ? null : 'room') }), _jsx(RetailFilterButton, { label: "\u623F\u578B\u6807\u7B7E", onClick: () => setFilterOpen(filterOpen === 'tag' ? null : 'tag') }), _jsxs("form", { className: "retail-search", onSubmit: submitSearch, children: [_jsx("input", { type: "search", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898", value: keyword, onChange: (event) => setKeyword(event.target.value) }), _jsx("button", { type: "submit", "aria-label": "\u641C\u7D22", children: "\u2315" }), _jsx("button", { type: "submit", className: "retail-search-submit", children: "\u641C\u7D22" })] })] }), filterOpen ? (_jsx("div", { className: "retail-filter-popover", role: "listbox", "aria-label": filterOpen === 'room' ? '房型筛选' : '房型标签筛选', children: filterOpen === 'room'
+                                            : '等待数据返回' }), requestedAt ? _jsxs("em", { children: ["\u5237\u65B0\u4E8E ", requestedAt] }) : null] }))] }), actionMessage ? (_jsx("div", { className: "retail-action-feedback", role: "status", "aria-label": "\u95E8\u5E02\u4EF7\u64CD\u4F5C\u53CD\u9988", children: actionMessage })) : null, _jsxs("div", { className: "retail-filter-row", children: [_jsx(StoreSelectControl, { className: "retail-store-switch", label: "\u95E8\u5E97\u8303\u56F4", options: publicStoreOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId || 'all', disabled: publicStoreLoading, onChange: (storeId) => {
+                                    if (storeId === 'all') {
+                                        setSelectedStoreId('');
+                                        setActionMessage('已切换到全部门店');
+                                        return;
+                                    }
+                                    selectStore(storeId);
+                                }, settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => setActionMessage('已打开门店设置入口，请在设置中心维护门店信息') }), _jsx(RetailFilterButton, { label: "\u623F\u578B", onClick: () => setFilterOpen(filterOpen === 'room' ? null : 'room') }), _jsx(RetailFilterButton, { label: "\u623F\u578B\u6807\u7B7E", onClick: () => setFilterOpen(filterOpen === 'tag' ? null : 'tag') }), _jsxs("form", { className: "retail-search", onSubmit: submitSearch, children: [_jsx("input", { type: "search", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898", value: keyword, onChange: (event) => setKeyword(event.target.value) }), _jsx("button", { type: "submit", "aria-label": "\u641C\u7D22", children: "\u2315" }), _jsx("button", { type: "submit", className: "retail-search-submit", children: "\u641C\u7D22" })] })] }), filterOpen ? (_jsx("div", { className: "retail-filter-popover", role: "listbox", "aria-label": filterOpen === 'room' ? '房型筛选' : '房型标签筛选', children: filterOpen === 'room'
                             ? roomOptions.length
                                 ? roomOptions.map((item) => (_jsxs("button", { type: "button", role: "option", onClick: () => selectRoom(item.roomCategoryId), children: [item.roomCategoryId, _jsx("span", { children: item.roomCategoryName })] }, item.roomCategoryId)))
                                 : _jsx("span", { className: "retail-filter-empty", children: isLoading ? '加载房型中' : '暂无房型数据' })
@@ -1140,6 +1288,8 @@ function PriceComparisonPage() {
         kind: 'loading',
         message: '正在加载竞争圈比价数据',
     });
+    const [storeOptions, setStoreOptions] = useState([{ id: 'all', label: '全部门店' }]);
+    const [storeLoading, setStoreLoading] = useState(false);
     useEffect(() => {
         let alive = true;
         const params = new URLSearchParams(location.search);
@@ -1168,6 +1318,22 @@ function PriceComparisonPage() {
             alive = false;
         };
     }, [appliedFilters, location.search, requestRevision]);
+    useEffect(() => {
+        const controller = new AbortController();
+        setStoreLoading(true);
+        fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+            .then((nextOptions) => setStoreOptions(nextOptions))
+            .catch((error) => {
+            if (error instanceof DOMException && error.name === 'AbortError')
+                return;
+            setStoreOptions([{ id: 'all', label: '全部门店' }]);
+        })
+            .finally(() => {
+            if (!controller.signal.aborted)
+                setStoreLoading(false);
+        });
+        return () => controller.abort();
+    }, []);
     const isReady = requestState.kind === 'success' || requestState.kind === 'empty';
     const dashboard = isReady ? requestState.data : null;
     const detailRoom = dashboard?.rooms.list.find((room) => room.id === detailId);
@@ -1197,7 +1363,7 @@ function PriceComparisonPage() {
     function exportData() {
         setFeedback('导出任务已创建，可在消息中心查看进度');
     }
-    return (_jsxs("div", { className: "page-stack price-comparison-page", children: [_jsx(SharedToolbar, { active: "\u7ADE\u4E89\u5708\u6BD4\u4EF7" }), _jsxs("section", { className: "price-comparison-panel", children: [_jsxs("div", { className: "price-comparison-header", children: [_jsxs("div", { children: [_jsx("h2", { children: "\u7ADE\u4E89\u5708\u6BD4\u4EF7" }), _jsx("p", { children: "\u8DDF\u8E2A\u540C\u5546\u5708\u7ADE\u54C1\u4EF7\u683C\uFF0C\u7ED3\u5408\u5165\u4F4F\u7387\u548C\u6E20\u9053\u8868\u73B0\u7ED9\u51FA\u8C03\u4EF7\u5EFA\u8BAE\u3002" })] }), _jsxs("div", { className: "price-comparison-actions", children: [_jsx("button", { type: "button", onClick: refreshData, disabled: requestState.kind === 'loading', children: "\u5237\u65B0" }), _jsx("button", { type: "button", onClick: exportData, disabled: !dashboard, children: "\u5BFC\u51FA" }), _jsx("button", { type: "button", onClick: () => setShowMore((current) => !current), children: "\u66F4\u591A" })] })] }), _jsxs("form", { className: "price-comparison-toolbar", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u7B5B\u9009", onSubmit: submitFilters, children: [_jsxs("label", { children: [_jsx("span", { children: "\u6BD4\u4EF7\u65E5\u671F" }), _jsx("input", { "aria-label": "\u6BD4\u4EF7\u65E5\u671F", type: "date", value: filters.date, onChange: (event) => updateFilter('date', event.target.value) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u95E8\u5E97" }), _jsx("select", { "aria-label": "\u95E8\u5E97", value: filters.storeId, onChange: (event) => updateFilter('storeId', event.target.value), children: (dashboard?.filterOptions.stores ?? []).map((item) => (_jsx("option", { value: item.value, children: item.label }, item.value))) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u623F\u578B" }), _jsx("select", { "aria-label": "\u623F\u578B", value: filters.roomTypeId, onChange: (event) => updateFilter('roomTypeId', event.target.value), children: (dashboard?.filterOptions.roomTypes ?? []).map((item) => (_jsx("option", { value: item.value, children: item.label }, item.value))) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6E20\u9053" }), _jsx("select", { "aria-label": "\u6E20\u9053", value: filters.channelId, onChange: (event) => updateFilter('channelId', event.target.value), children: (dashboard?.filterOptions.channels ?? []).map((item) => (_jsx("option", { value: item.value, children: item.label }, item.value))) })] }), _jsx("button", { type: "submit", children: "\u67E5\u8BE2" }), _jsx("button", { type: "button", onClick: resetFilters, children: "\u91CD\u7F6E" })] }), _jsx("div", { className: "price-comparison-feedback", role: "status", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u64CD\u4F5C\u53CD\u9988", children: requestState.kind === 'loading' ? requestState.message : feedback }), requestState.kind === 'error' ? (_jsxs("div", { className: "price-comparison-error", role: "alert", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u6570\u636E\u9519\u8BEF", children: [_jsx("strong", { children: "\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("span", { children: requestState.message }), _jsx("button", { type: "button", onClick: refreshData, children: "\u91CD\u8BD5" })] })) : null, dashboard ? (_jsxs(_Fragment, { children: [_jsx("section", { className: "comparison-summary", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u6838\u5FC3\u6307\u6807", children: dashboard.metrics.map((metric) => (_jsxs("article", { className: `comparison-card comparison-card--${metric.tone}`, children: [_jsxs("div", { children: [_jsx("strong", { children: metric.label }), _jsx("span", { children: metric.delta })] }), _jsx("dl", { children: _jsxs("div", { children: [_jsx("dt", { children: "\u5F53\u524D\u503C" }), _jsx("dd", { children: metric.value })] }) })] }, metric.id))) }), _jsxs("section", { className: "price-comparison-chart", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u8D8B\u52BF\u56FE", children: [_jsxs("div", { className: "section-header", children: [_jsx("h3", { children: "\u4EF7\u683C\u8D8B\u52BF" }), _jsxs("div", { children: [_jsx("span", { children: "\u672C\u5E97\u4EF7" }), _jsx("span", { children: "\u7ADE\u54C1\u4EF7" }), _jsx("span", { children: "\u5E02\u573A\u5747\u4EF7" })] })] }), _jsx("div", { className: "price-comparison-chart__grid", children: dashboard.trend.map((item) => (_jsxs("div", { children: [_jsx("span", { children: item.dateLabel }), _jsx("strong", { style: { height: `${Math.max(20, item.ownPrice / 10)}px` }, children: item.ownPrice }), _jsx("em", { style: { height: `${Math.max(20, item.competitorPrice / 10)}px` }, children: item.competitorPrice }), _jsx("i", { style: { height: `${Math.max(20, item.marketAverage / 10)}px` }, children: item.marketAverage })] }, item.dateLabel))) })] }), _jsxs("section", { className: "comparison-table", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5217\u8868", children: [_jsxs("div", { className: "comparison-table__head", children: [_jsx("div", { children: "\u623F\u578B" }), _jsx("div", { children: "\u6E20\u9053" }), _jsx("div", { children: "\u672C\u5E97\u4EF7" }), _jsx("div", { children: "\u7ADE\u54C1\u4EF7" }), _jsx("div", { children: "\u4EF7\u5DEE" }), _jsx("div", { children: "\u5165\u4F4F\u7387" }), _jsx("div", { children: "\u5EFA\u8BAE" }), _jsx("div", { children: "\u64CD\u4F5C" })] }), _jsx("div", { className: "comparison-matrix", children: dashboard.rooms.list.length ? dashboard.rooms.list.map((room) => (_jsxs("div", { className: "comparison-matrix__row", children: [_jsxs("div", { children: [_jsx("span", { children: "\u623F\u578B" }), _jsx("strong", { children: room.roomType })] }), _jsxs("div", { children: [_jsx("span", { children: "\u6E20\u9053" }), _jsx("strong", { children: room.channel })] }), _jsxs("div", { children: [_jsx("span", { children: "\u672C\u5E97\u4EF7" }), _jsxs("strong", { children: ["\u00A5", room.ownPrice] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u7ADE\u54C1\u4EF7" }), _jsxs("strong", { children: ["\u00A5", room.competitorPrice] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u4EF7\u5DEE" }), _jsxs("strong", { children: [room.priceDiff > 0 ? '+' : '', room.priceDiff] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u5165\u4F4F\u7387" }), _jsx("strong", { children: room.occupancy })] }), _jsxs("div", { children: [_jsx("span", { children: "\u5EFA\u8BAE" }), _jsx("strong", { children: room.suggestion })] }), _jsx("div", { children: _jsx("button", { type: "button", onClick: () => setDetailId(room.id), "aria-label": `查看详情 ${room.roomType}`, children: "\u67E5\u770B\u8BE6\u60C5" }) })] }, room.id))) : _jsx("div", { className: "price-comparison-empty-line", children: "\u5F53\u524D\u6761\u4EF6\u6682\u65E0\u6BD4\u4EF7\u7ED3\u679C\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u3002" }) })] }), _jsxs("section", { className: "price-comparison-lower", children: [_jsxs("div", { "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5F85\u529E", children: [_jsx("h3", { children: "\u5F85\u529E\u63D0\u9192" }), dashboard.todos.length ? dashboard.todos.map((todo) => (_jsxs("button", { type: "button", onClick: () => setFeedback(`${todo.title} 已标记跟进`), children: [_jsx("strong", { children: todo.title }), _jsxs("span", { children: [todo.priority, "\u4F18\u5148\u7EA7 \u00B7 ", todo.due] })] }, todo.id))) : _jsx("p", { children: "\u5F53\u524D\u6CA1\u6709\u5F85\u529E\u63D0\u9192\u3002" })] }), _jsxs("div", { "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5FEB\u6377\u5165\u53E3", children: [_jsx("h3", { children: "\u5FEB\u6377\u5165\u53E3" }), dashboard.quickLinks.map((link) => (_jsx("button", { type: "button", onClick: () => navigate(link.route), children: link.label }, link.id)))] })] })] })) : null, showMore ? (_jsxs("div", { className: "price-comparison-popover", role: "dialog", "aria-label": "\u66F4\u591A\u64CD\u4F5C", children: [_jsx("button", { type: "button", onClick: () => setFeedback('已复制当前比价链接'), children: "\u590D\u5236\u94FE\u63A5" }), _jsx("button", { type: "button", onClick: () => setFeedback('已生成调价复核任务'), children: "\u751F\u6210\u590D\u6838\u4EFB\u52A1" })] })) : null] }), detailRoom ? (_jsx("div", { className: "price-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6BD4\u4EF7\u8BE6\u60C5", children: _jsxs("section", { className: "price-modal__panel", children: [_jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u8BE6\u60C5", onClick: () => setDetailId(''), children: "\u00D7" }), _jsx("h3", { children: detailRoom.roomType }), _jsx("p", { children: "\u7ADE\u54C1\u4EF7\u660E\u7EC6" }), _jsxs("dl", { children: [_jsxs("div", { children: [_jsx("dt", { children: "\u6E20\u9053" }), _jsx("dd", { children: detailRoom.channel })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u672C\u5E97\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.ownPrice] })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u7ADE\u54C1\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.competitorPrice] })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u5E02\u573A\u5747\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.marketAverage] })] })] }), _jsx("strong", { children: detailRoom.suggestion })] }) })) : null] }));
+    return (_jsxs("div", { className: "page-stack price-comparison-page", children: [_jsx(SharedToolbar, { active: "\u7ADE\u4E89\u5708\u6BD4\u4EF7" }), _jsxs("section", { className: "price-comparison-panel", children: [_jsxs("div", { className: "price-comparison-header", children: [_jsxs("div", { children: [_jsx("h2", { children: "\u7ADE\u4E89\u5708\u6BD4\u4EF7" }), _jsx("p", { children: "\u8DDF\u8E2A\u540C\u5546\u5708\u7ADE\u54C1\u4EF7\u683C\uFF0C\u7ED3\u5408\u5165\u4F4F\u7387\u548C\u6E20\u9053\u8868\u73B0\u7ED9\u51FA\u8C03\u4EF7\u5EFA\u8BAE\u3002" })] }), _jsxs("div", { className: "price-comparison-actions", children: [_jsx("button", { type: "button", onClick: refreshData, disabled: requestState.kind === 'loading', children: "\u5237\u65B0" }), _jsx("button", { type: "button", onClick: exportData, disabled: !dashboard, children: "\u5BFC\u51FA" }), _jsx("button", { type: "button", onClick: () => setShowMore((current) => !current), children: "\u66F4\u591A" })] })] }), _jsxs("form", { className: "price-comparison-toolbar", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u7B5B\u9009", onSubmit: submitFilters, children: [_jsxs("label", { children: [_jsx("span", { children: "\u6BD4\u4EF7\u65E5\u671F" }), _jsx("input", { "aria-label": "\u6BD4\u4EF7\u65E5\u671F", type: "date", value: filters.date, onChange: (event) => updateFilter('date', event.target.value) })] }), _jsx(StoreSelectControl, { className: "price-comparison-store", label: "\u95E8\u5E97", options: storeOptions.map((item) => ({ id: item.id, name: item.label })), value: filters.storeId, disabled: storeLoading, onChange: (storeId) => updateFilter('storeId', storeId) }), _jsxs("label", { children: [_jsx("span", { children: "\u623F\u578B" }), _jsx("select", { "aria-label": "\u623F\u578B", value: filters.roomTypeId, onChange: (event) => updateFilter('roomTypeId', event.target.value), children: (dashboard?.filterOptions.roomTypes ?? []).map((item) => (_jsx("option", { value: item.value, children: item.label }, item.value))) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6E20\u9053" }), _jsx("select", { "aria-label": "\u6E20\u9053", value: filters.channelId, onChange: (event) => updateFilter('channelId', event.target.value), children: (dashboard?.filterOptions.channels ?? []).map((item) => (_jsx("option", { value: item.value, children: item.label }, item.value))) })] }), _jsx("button", { type: "submit", children: "\u67E5\u8BE2" }), _jsx("button", { type: "button", onClick: resetFilters, children: "\u91CD\u7F6E" })] }), _jsx("div", { className: "price-comparison-feedback", role: "status", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u64CD\u4F5C\u53CD\u9988", children: requestState.kind === 'loading' ? requestState.message : feedback }), requestState.kind === 'error' ? (_jsxs("div", { className: "price-comparison-error", role: "alert", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u6570\u636E\u9519\u8BEF", children: [_jsx("strong", { children: "\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("span", { children: requestState.message }), _jsx("button", { type: "button", onClick: refreshData, children: "\u91CD\u8BD5" })] })) : null, dashboard ? (_jsxs(_Fragment, { children: [_jsx("section", { className: "comparison-summary", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u6838\u5FC3\u6307\u6807", children: dashboard.metrics.map((metric) => (_jsxs("article", { className: `comparison-card comparison-card--${metric.tone}`, children: [_jsxs("div", { children: [_jsx("strong", { children: metric.label }), _jsx("span", { children: metric.delta })] }), _jsx("dl", { children: _jsxs("div", { children: [_jsx("dt", { children: "\u5F53\u524D\u503C" }), _jsx("dd", { children: metric.value })] }) })] }, metric.id))) }), _jsxs("section", { className: "price-comparison-chart", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u8D8B\u52BF\u56FE", children: [_jsxs("div", { className: "section-header", children: [_jsx("h3", { children: "\u4EF7\u683C\u8D8B\u52BF" }), _jsxs("div", { children: [_jsx("span", { children: "\u672C\u5E97\u4EF7" }), _jsx("span", { children: "\u7ADE\u54C1\u4EF7" }), _jsx("span", { children: "\u5E02\u573A\u5747\u4EF7" })] })] }), _jsx("div", { className: "price-comparison-chart__grid", children: dashboard.trend.map((item) => (_jsxs("div", { children: [_jsx("span", { children: item.dateLabel }), _jsx("strong", { style: { height: `${Math.max(20, item.ownPrice / 10)}px` }, children: item.ownPrice }), _jsx("em", { style: { height: `${Math.max(20, item.competitorPrice / 10)}px` }, children: item.competitorPrice }), _jsx("i", { style: { height: `${Math.max(20, item.marketAverage / 10)}px` }, children: item.marketAverage })] }, item.dateLabel))) })] }), _jsxs("section", { className: "comparison-table", "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5217\u8868", children: [_jsxs("div", { className: "comparison-table__head", children: [_jsx("div", { children: "\u623F\u578B" }), _jsx("div", { children: "\u6E20\u9053" }), _jsx("div", { children: "\u672C\u5E97\u4EF7" }), _jsx("div", { children: "\u7ADE\u54C1\u4EF7" }), _jsx("div", { children: "\u4EF7\u5DEE" }), _jsx("div", { children: "\u5165\u4F4F\u7387" }), _jsx("div", { children: "\u5EFA\u8BAE" }), _jsx("div", { children: "\u64CD\u4F5C" })] }), _jsx("div", { className: "comparison-matrix", children: dashboard.rooms.list.length ? dashboard.rooms.list.map((room) => (_jsxs("div", { className: "comparison-matrix__row", children: [_jsxs("div", { children: [_jsx("span", { children: "\u623F\u578B" }), _jsx("strong", { children: room.roomType })] }), _jsxs("div", { children: [_jsx("span", { children: "\u6E20\u9053" }), _jsx("strong", { children: room.channel })] }), _jsxs("div", { children: [_jsx("span", { children: "\u672C\u5E97\u4EF7" }), _jsxs("strong", { children: ["\u00A5", room.ownPrice] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u7ADE\u54C1\u4EF7" }), _jsxs("strong", { children: ["\u00A5", room.competitorPrice] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u4EF7\u5DEE" }), _jsxs("strong", { children: [room.priceDiff > 0 ? '+' : '', room.priceDiff] })] }), _jsxs("div", { children: [_jsx("span", { children: "\u5165\u4F4F\u7387" }), _jsx("strong", { children: room.occupancy })] }), _jsxs("div", { children: [_jsx("span", { children: "\u5EFA\u8BAE" }), _jsx("strong", { children: room.suggestion })] }), _jsx("div", { children: _jsx("button", { type: "button", onClick: () => setDetailId(room.id), "aria-label": `查看详情 ${room.roomType}`, children: "\u67E5\u770B\u8BE6\u60C5" }) })] }, room.id))) : _jsx("div", { className: "price-comparison-empty-line", children: "\u5F53\u524D\u6761\u4EF6\u6682\u65E0\u6BD4\u4EF7\u7ED3\u679C\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u3002" }) })] }), _jsxs("section", { className: "price-comparison-lower", children: [_jsxs("div", { "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5F85\u529E", children: [_jsx("h3", { children: "\u5F85\u529E\u63D0\u9192" }), dashboard.todos.length ? dashboard.todos.map((todo) => (_jsxs("button", { type: "button", onClick: () => setFeedback(`${todo.title} 已标记跟进`), children: [_jsx("strong", { children: todo.title }), _jsxs("span", { children: [todo.priority, "\u4F18\u5148\u7EA7 \u00B7 ", todo.due] })] }, todo.id))) : _jsx("p", { children: "\u5F53\u524D\u6CA1\u6709\u5F85\u529E\u63D0\u9192\u3002" })] }), _jsxs("div", { "aria-label": "\u7ADE\u4E89\u5708\u6BD4\u4EF7\u5FEB\u6377\u5165\u53E3", children: [_jsx("h3", { children: "\u5FEB\u6377\u5165\u53E3" }), dashboard.quickLinks.map((link) => (_jsx("button", { type: "button", onClick: () => navigate(link.route), children: link.label }, link.id)))] })] })] })) : null, showMore ? (_jsxs("div", { className: "price-comparison-popover", role: "dialog", "aria-label": "\u66F4\u591A\u64CD\u4F5C", children: [_jsx("button", { type: "button", onClick: () => setFeedback('已复制当前比价链接'), children: "\u590D\u5236\u94FE\u63A5" }), _jsx("button", { type: "button", onClick: () => setFeedback('已生成调价复核任务'), children: "\u751F\u6210\u590D\u6838\u4EFB\u52A1" })] })) : null] }), detailRoom ? (_jsx("div", { className: "price-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6BD4\u4EF7\u8BE6\u60C5", children: _jsxs("section", { className: "price-modal__panel", children: [_jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u8BE6\u60C5", onClick: () => setDetailId(''), children: "\u00D7" }), _jsx("h3", { children: detailRoom.roomType }), _jsx("p", { children: "\u7ADE\u54C1\u4EF7\u660E\u7EC6" }), _jsxs("dl", { children: [_jsxs("div", { children: [_jsx("dt", { children: "\u6E20\u9053" }), _jsx("dd", { children: detailRoom.channel })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u672C\u5E97\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.ownPrice] })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u7ADE\u54C1\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.competitorPrice] })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u5E02\u573A\u5747\u4EF7" }), _jsxs("dd", { children: ["\u00A5", detailRoom.marketAverage] })] })] }), _jsx("strong", { children: detailRoom.suggestion })] }) })) : null] }));
 }
 function PriceBoardPage() {
     const [detailOpen, setDetailOpen] = useState(false);

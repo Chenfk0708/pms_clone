@@ -1,6 +1,24 @@
 import { expect, test } from '@playwright/test'
 
+const DAY_MS = 24 * 60 * 60 * 1000
+const WINDOW_START_OFFSET_DAYS = -3
+const HUDSON_API = 'https://hudson-prod.localhome.cn'
+const MONTH_API_ROUTES = [`${HUDSON_API}/**`, '**/api/camps/get', '**/api/roomStatuses/**', '**/api/roomCategoryStatuses/**'] as const
 const appBaseURL = process.env.PMS_TEST_BASE_URL
+
+function monthWindowDate(offsetFromWindowStart: number) {
+  const today = new Date()
+  const localMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  return new Date(localMidnight.getTime() + (WINDOW_START_OFFSET_DAYS + offsetFromWindowStart) * DAY_MS)
+}
+
+function formatIsoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function originUrl(path = '/') {
+  return appBaseURL ? `${appBaseURL}${path}` : path
+}
 
 function appUrl(routePath: string) {
   if (routePath.startsWith('/houseManage/days')) {
@@ -19,13 +37,197 @@ function houseDaysAppUrl(routePath: string) {
   return `/?${params.toString()}#${hashPath}`
 }
 
-test.beforeEach(async ({ page }) => {
+function jsonResponse(body: unknown) {
+  return {
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify(body),
+  }
+}
+
+async function mockDayStatusColorApis(page) {
   await page.addInitScript(() => {
+    window.localStorage.setItem('pms.houseMonthsProvider', 'real')
+  })
+
+  const today = formatIsoDate(monthWindowDate(3))
+  const categories = [
+    {
+      roomCategoryId: 'day-color-pending',
+      roomCategoryName: 'Day Color Pending Type',
+      rooms: [{ roomId: 'day-room-pending', roomName: 'Day Room Pending', price: 668 }],
+    },
+    {
+      roomCategoryId: 'day-color-live',
+      roomCategoryName: 'Day Color Live Type',
+      rooms: [{ roomId: 'day-room-live', roomName: 'Day Room Live', price: 588 }],
+    },
+    {
+      roomCategoryId: 'day-color-checkout',
+      roomCategoryName: 'Day Color Checkout Type',
+      rooms: [{ roomId: 'day-room-checkout', roomName: 'Day Room Checkout', price: 398 }],
+    },
+    {
+      roomCategoryId: 'day-color-duplicate',
+      roomCategoryName: 'Day Color Duplicate Type',
+      rooms: [{ roomId: 'day-room-duplicate', roomName: 'Day Room Duplicate', price: 288 }],
+    },
+  ]
+  const orders = [
+    {
+      roomCategoryId: 'day-color-pending',
+      roomId: 'day-room-pending',
+      date: today,
+      guestName: 'Day Pending Guest',
+      channelName: 'Ctrip',
+      roomFee: 668,
+      totalIncome: 668,
+      orderState: 1,
+      orderId: 'day-pending-order',
+    },
+    {
+      roomCategoryId: 'day-color-live',
+      roomId: 'day-room-live',
+      date: today,
+      guestName: 'Day Live Guest',
+      channelName: 'Ctrip',
+      roomFee: 588,
+      totalIncome: 588,
+      orderState: 3,
+      orderId: 'day-live-order',
+    },
+    {
+      roomCategoryId: 'day-color-checkout',
+      roomId: 'day-room-checkout',
+      date: today,
+      guestName: 'Day Checkout Guest',
+      channelName: 'Ctrip',
+      roomFee: 398,
+      totalIncome: 398,
+      orderState: 4,
+      orderId: 'day-checkout-order',
+    },
+    {
+      roomCategoryId: 'day-color-duplicate',
+      roomId: 'day-room-duplicate',
+      date: today,
+      guestName: 'Day Duplicate Guest A',
+      channelName: 'Ctrip',
+      roomFee: 288,
+      totalIncome: 288,
+      orderState: 1,
+      orderId: 'day-duplicate-order-a',
+    },
+    {
+      roomCategoryId: 'day-color-duplicate',
+      roomId: 'day-room-duplicate',
+      date: today,
+      guestName: 'Day Duplicate Guest B',
+      channelName: 'Meituan',
+      roomFee: 288,
+      totalIncome: 288,
+      orderState: 3,
+      orderId: 'day-duplicate-order-b',
+    },
+  ]
+
+  for (const routePattern of MONTH_API_ROUTES) {
+    await page.route(routePattern, async (route) => {
+      const pathname = new URL(route.request().url()).pathname.replace(/^\/api/, '')
+
+      if (pathname === '/camps/get') {
+        await route.fulfill(jsonResponse({ success: true, data: { camps: [{ campId: 'camp-interface', name: 'API Store' }] } }))
+        return
+      }
+      if (pathname === '/roomStatuses/rooms/get') {
+        await route.fulfill(jsonResponse({ success: true, data: { isSingleInventory: 0, list: categories } }))
+        return
+      }
+      if (pathname === '/roomStatuses/orderDetails/get') {
+        await route.fulfill(jsonResponse({ success: true, data: { list: orders, orderArrangementInfos: [] } }))
+        return
+      }
+      if (pathname === '/roomStatuses/inv/get') {
+        await route.fulfill(
+          jsonResponse({
+            success: true,
+            data: {
+              list: categories.map((category) => ({
+                roomCategoryId: category.roomCategoryId,
+                date: today,
+                inventory: 1,
+              })),
+            },
+          }),
+        )
+        return
+      }
+      if (pathname === '/roomStatuses/dailyMonitor/get') {
+        await route.fulfill(jsonResponse({ success: true, data: { list: [{ date: today, remain: '余0间' }] } }))
+        return
+      }
+      if (pathname.startsWith('/roomStatuses/')) {
+        await route.fulfill(jsonResponse({ success: true, data: { list: [] } }))
+        return
+      }
+
+      await route.fulfill(jsonResponse({ success: true, data: {} }))
+    })
+  }
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        data: {
+          list: [
+            {
+              poiId: 'poi-1796067693589061634',
+              poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+            },
+            {
+              poiId: 'poi-other-demo-store',
+              poiName: '天落会宿公寓(演示分店)',
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.goto(originUrl('/'))
+  await page.evaluate(() => {
     window.localStorage.setItem('pms_token', 'house-days-test-token')
+    window.localStorage.setItem('pmsCampId', 'camp-interface')
     window.localStorage.setItem('pms.currentCampId', 'camp-interface')
     window.localStorage.setItem('pms.houseMonthsProvider', 'mock')
     window.localStorage.setItem('pms.houseMonthsMockMode', 'success')
   })
+})
+
+test('/houseManage/days colors order cards by order state and duplicate bookings', async ({ page }) => {
+  await mockDayStatusColorApis(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  const pendingCard = page.locator('.day-room-card', { hasText: 'Day Pending Guest' }).first()
+  const liveCard = page.locator('.day-room-card', { hasText: 'Day Live Guest' }).first()
+  const checkoutCard = page.locator('.day-room-card', { hasText: 'Day Checkout Guest' }).first()
+  const duplicateCard = page.locator('.day-room-card', { hasText: 'Day Duplicate Guest A' }).first()
+
+  await expect(pendingCard).toHaveAttribute('data-tone', 'pending')
+  await expect(pendingCard).toHaveCSS('background-color', 'rgb(78, 134, 232)')
+  await expect(liveCard).toHaveAttribute('data-tone', 'live')
+  await expect(liveCard).toHaveCSS('background-color', 'rgb(66, 191, 92)')
+  await expect(checkoutCard).toHaveAttribute('data-tone', 'checkout')
+  await expect(checkoutCard).toHaveCSS('background-color', 'rgb(158, 167, 187)')
+  await expect(duplicateCard).toHaveAttribute('data-tone', 'duplicate')
+  await expect(duplicateCard).toHaveCSS('background-color', 'rgb(249, 90, 84)')
 })
 
 test('/houseManage/days loads through the explicit mock provider', async ({ page }) => {
@@ -44,20 +246,40 @@ test('/houseManage/days loads through the explicit mock provider', async ({ page
   await expect(page.getByRole('status')).toContainText('美团酒店订单已刷新')
 })
 
+test('/houseManage/days mirrors the month room status today column', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  await expect(page.locator('.day-room-card')).toHaveCount(4)
+  await expect(page.getByText('李思思')).toBeVisible()
+  await expect(page.getByText('赵晨')).toBeVisible()
+  await expect(page.getByText('张张')).toBeVisible()
+  await expect(page.getByText('王欣怡')).toHaveCount(0)
+
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await page.getByRole('option', { name: '天落会宿公寓(前海壹方城宝安中心店)' }).click()
+
+  await expect(page.locator('.day-room-card')).toHaveCount(2)
+  await expect(page.getByText('李思思')).toBeVisible()
+  await expect(page.getByText('赵晨')).toHaveCount(0)
+  await expect(page.getByText('张张')).toHaveCount(0)
+})
+
 test('/houseManage/days switches view modes to match target layouts', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/houseManage/days'))
 
   const tabs = page.locator('.day-filter-tabs button')
-  await expect(tabs.nth(1)).toHaveClass(/is-active/)
-  await expect(page.locator('.day-room-card')).toHaveCount(4)
-
-  await tabs.nth(0).click()
   await expect(tabs.nth(0)).toHaveClass(/is-active/)
   await expect(page.getByTestId('day-room-type-grid')).toBeVisible()
   await expect(page.locator('.day-room-type-section')).toHaveCount(4)
-  await expect(page.locator('.day-room-type-section h3').first()).not.toHaveText('')
-  await expect(page.locator('.day-room-type-section .day-room-card')).toHaveCount(4)
+  await expect(page.locator('.day-room-card')).toHaveCount(4)
+
+  await tabs.nth(1).click()
+  await expect(tabs.nth(1)).toHaveClass(/is-active/)
+  await expect(page.getByTestId('day-room-type-grid')).toHaveCount(0)
+  await expect(page.locator('.day-room-group h3').first()).not.toHaveText('')
+  await expect(page.locator('.day-room-group .day-room-card')).toHaveCount(4)
 
   await tabs.nth(2).click()
   await expect(tabs.nth(2)).toHaveClass(/is-active/)
@@ -75,7 +297,7 @@ test('/houseManage/days filters the left room list when a right-side status is c
   const roomStatusGroup = page.locator('.day-filter-group').nth(1)
 
   await expect(roomCards).toHaveCount(4)
-  await expect(arrivalGroup).toContainText('预抵0')
+  await expect(arrivalGroup).toContainText('预抵3')
   await expect(arrivalGroup).toContainText('预离3')
   await expect(arrivalGroup).toContainText('在住0')
   await expect(roomStatusGroup).toContainText('空净1')
@@ -83,8 +305,10 @@ test('/houseManage/days filters the left room list when a right-side status is c
   await expect(roomStatusGroup).toContainText('住脏1')
 
   await arrivalGroup.locator('input[type="checkbox"]').first().check()
-  await expect(page.locator('.day-empty-state')).toBeVisible()
-  await expect(page.locator('.day-empty-state')).toContainText('暂无日房态数据')
+  await expect(roomCards).toHaveCount(3)
+  await expect(page.getByText('李思思')).toBeVisible()
+  await expect(page.getByText('赵晨')).toBeVisible()
+  await expect(page.getByText('张张')).toBeVisible()
 })
 
 test('/houseManage/days reuses the month toolbar shell without month-only filters', async ({ page }) => {
@@ -94,8 +318,14 @@ test('/houseManage/days reuses the month toolbar shell without month-only filter
   const toolbar = page.locator('.day-toolbar.month-toolbar')
   await expect(toolbar).toBeVisible()
   await expect(toolbar.locator('.month-store-control')).toHaveCount(1)
-  await expect(toolbar.locator('.month-store-switch')).toHaveCount(1)
-  await expect(toolbar.locator('.month-store-chip')).toBeVisible()
+  await expect(toolbar.locator('.month-store-switch')).toHaveCount(0)
+  await expect(toolbar.locator('.month-store-chip')).toHaveCount(0)
+  await expect(toolbar.locator('.month-store-select')).toHaveCount(1)
+  const storeSelect = toolbar.getByRole('button', { name: '全部门店' })
+  await expect(storeSelect).toBeVisible()
+  await storeSelect.click()
+  await expect(toolbar.getByRole('listbox', { name: '门店切换' })).toBeVisible()
+  await expect(toolbar.getByRole('option', { name: '天落会宿公寓(前海壹方城宝安中心店)' })).toBeVisible()
   await expect(toolbar.locator('.month-settings')).toHaveCount(1)
   await expect(toolbar.locator('.month-batch-action')).toHaveCount(2)
   await expect(toolbar.locator('.month-refresh-action')).toHaveCount(2)
@@ -147,7 +377,7 @@ test('/houseManage/days opens the sharing room status page from the toolbar shar
   await expect(page).toHaveURL(/\/houseManage\/months$/)
 })
 
-test('/houseManage/days filters orders by the selected current store chip', async ({ page }) => {
+test('/houseManage/days filters orders by the selected store dropdown option', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/houseManage/days'))
 
@@ -155,12 +385,14 @@ test('/houseManage/days filters orders by the selected current store chip', asyn
   await expect(page.getByText('李思思')).toBeVisible()
   await expect(page.getByText('赵晨')).toBeVisible()
 
-  await page.getByRole('button', { name: '天落会宿公寓(前海壹方城宝安中心店)' }).click()
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await page.getByRole('option', { name: '天落会宿公寓(前海壹方城宝安中心店)' }).click()
 
   await expect(page.locator('.day-room-card')).toHaveCount(2)
-  await expect(page.getByText('赵晨')).toBeVisible()
-  await expect(page.getByText('张张')).toBeVisible()
-  await expect(page.getByText('李思思')).toHaveCount(0)
+  await expect(page.getByText('李思思')).toBeVisible()
+  await expect(page.getByText('赵晨')).toHaveCount(0)
+  await expect(page.getByText('张张')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '天落会宿公寓(前海壹方城宝安中心店)' })).toBeVisible()
 })
 
 test('/houseManage/days exposes mock provider failures and retry', async ({ page }) => {
@@ -178,7 +410,7 @@ test('/houseManage/days renders the mock empty response without static fallback'
   await page.goto(appUrl('/houseManage/days?houseDaysMockState=empty'))
 
   await expect(page.getByText('暂无日房态数据')).toBeVisible()
-  await expect(page.getByText('当前条件下没有可展示房间，请调整筛选条件后重试。')).toBeVisible()
+  await expect(page.getByText('当前条件下没有可展示房型，请调整筛选条件后重试。')).toBeVisible()
   await expect(page.getByText('李思思')).toHaveCount(0)
   await expect(page.locator('body')).not.toContainText(/mock|未接入阻塞|后端接口未完成/)
 })
@@ -207,7 +439,7 @@ test('/houseManage/days uses shared month order interactions for booked rooms an
   await expect(legendDrawer).toBeVisible()
   await expect(legendDrawer).toContainText('房间信息')
   await expect(legendDrawer).toContainText('订单颜色')
-  await expect(legendDrawer).toContainText('客平台房态不一致')
+  await expect(legendDrawer).toContainText('各平台房态不一致')
   await legendDrawer.getByRole('button', { name: '关闭图例说明' }).click()
 
   await page.getByRole('button', { name: '更多设置' }).click()
@@ -224,12 +456,10 @@ test('/houseManage/days uses shared month order interactions for booked rooms an
   await expect(settingsDrawer.getByRole('radio', { name: '订单状态为主色' })).toBeChecked()
   await expect(settingsDrawer.getByRole('radio', { name: '渠道为主色' })).not.toBeChecked()
   await expect(settingsDrawer.getByRole('switch', { name: '显示门市价' })).not.toBeChecked()
-  await expect(settingsDrawer.getByRole('switch', { name: '显示订单价格' })).toBeChecked()
   await expect(settingsDrawer.getByRole('switch', { name: '显示房源编码' })).not.toBeChecked()
-  await expect(settingsDrawer.getByRole('switch', { name: '显示订单', exact: true })).toBeChecked()
-  await settingsDrawer.getByRole('switch', { name: '显示订单价格' }).click()
-  await expect(settingsDrawer).toBeVisible()
-  await expect(page.locator('.day-room-area')).not.toContainText('¥428.00')
+  await expect(settingsDrawer.getByRole('switch', { name: '显示订单价格' })).toHaveCount(0)
+  await expect(settingsDrawer.getByRole('switch', { name: '显示订单', exact: true })).toHaveCount(0)
+  await expect(bookingCard).toContainText('¥398')
   await settingsDrawer.getByRole('button', { name: '关闭房态显示设置' }).click()
 
   await page.getByRole('button', { name: '读卡' }).click()

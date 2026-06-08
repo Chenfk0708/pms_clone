@@ -10,6 +10,8 @@ import {
   type CleanSettingFilters,
   type CleanSettingPolicyRule,
 } from '../services/cleanSetting'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CleanSettingPage.css'
 
 const subscriptionSideLinks = [
@@ -86,6 +88,12 @@ function CleanSettingBusinessPage({ search }: { search: string }) {
   const selectedProject = dashboard?.projects.find((item) => item.value === filters.projectId)?.label ?? '全部项目'
   const canExport = Boolean(dashboard && dashboard.policyRules.length > 0 && !isLoading)
   const requestSummary = buildCleanSettingRequest(filters)
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? [{ value: 'all', label: '全部门店' }]).map((store) => ({
+      id: store.value,
+      label: store.label,
+    })),
+  })
 
   function updateFilter<K extends keyof CleanSettingFilters>(key: K, value: CleanSettingFilters[K]) {
     setFilters((current) => ({ ...current, [key]: value }))
@@ -157,19 +165,14 @@ function CleanSettingBusinessPage({ search }: { search: string }) {
             onChange={(event) => updateFilter('businessDate', event.target.value)}
           />
         </label>
-        <label>
-          <span>门店</span>
-          <select
-            aria-label="门店"
-            value={filters.storeId}
-            disabled={isLoading || !dashboard}
-            onChange={(event) => updateFilter('storeId', event.target.value)}
-          >
-            {(dashboard?.stores ?? [{ value: 'all', label: '全部门店' }]).map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
+        <StoreSelectControl
+          className="clean-setting-store"
+          label="门店"
+          options={storeOptions.map((option) => ({ id: option.id, name: option.label }))}
+          value={filters.storeId}
+          disabled={isLoading || storeLoading}
+          onChange={(storeId) => updateFilter('storeId', storeId)}
+        />
         <label>
           <span>项目</span>
           <select

@@ -2,8 +2,11 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchCalendarRoomProducts, } from '../services/calendarRoom';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './CalendarRoomPage.css';
 const DEFAULT_QUERY = {
+    storeId: 'all',
     keyword: '',
     channel: '',
     status: '全部',
@@ -67,11 +70,12 @@ function CalendarRoomListPage() {
         });
         return () => controller.abort();
     }, [query, locationQuery]);
-    const storeOptions = viewModel?.storeOptions ?? [];
-    const realStoreOptions = storeOptions.filter((store) => store.id !== 'all');
-    const defaultStore = storeOptions.find((store) => store.id !== 'all') ?? storeOptions[0];
-    const selectedStore = storeOptions.find((store) => store.id === selectedStoreId) ?? defaultStore;
-    const canSwitchStore = realStoreOptions.length > 1;
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: (viewModel?.storeOptions ?? [{ id: 'all', name: '全部门店' }]).map((store) => ({
+            id: store.id,
+            label: store.name,
+        })),
+    });
     function applyFilter(key, value) {
         setIsLoading(true);
         setErrorMessage('');
@@ -80,6 +84,9 @@ function CalendarRoomListPage() {
     }
     function applyStore(storeId) {
         setSelectedStoreId(storeId);
+        setIsLoading(true);
+        setErrorMessage('');
+        setQuery((current) => ({ ...current, storeId, page: 1 }));
         setOpenFilter(null);
     }
     function submitSearch() {
@@ -93,6 +100,7 @@ function CalendarRoomListPage() {
         setIsLoading(true);
         setErrorMessage('');
         setQuery({ ...DEFAULT_QUERY, ...locationQuery });
+        setSelectedStoreId('all');
         setOpenFilter(null);
         setNotice('筛选条件已重置');
     }
@@ -123,14 +131,7 @@ function CalendarRoomListPage() {
         setDialog({ type: 'status', product });
     }
     const rows = viewModel?.rows ?? [];
-    return (_jsxs("div", { className: "calendar-room-page", "data-provider": viewModel?.providerMode ?? query.provider ?? 'mock', "data-request-keyword": viewModel?.requestParams.keyword ?? query.keyword, "data-request-channel": viewModel?.requestParams.channel ?? query.channel, "data-request-status": viewModel?.requestParams.status ?? query.status, children: [_jsx("h1", { className: "sr-only-heading", children: "\u65E5\u5386\u623F" }), _jsxs("section", { className: "calendar-room-query", "aria-label": "\u65E5\u5386\u623F\u7B5B\u9009", children: [_jsxs("div", { className: "calendar-room-query__top", children: [_jsxs("div", { className: "calendar-room-storebar", "aria-label": "\u95E8\u5E97\u5207\u6362", children: [_jsx("button", { type: "button", className: `calendar-room-storebar__tab${selectedStoreId === 'all' ? ' is-active' : ''}`, onClick: () => applyStore('all'), children: "\u5168\u90E8\u95E8\u5E97" }), _jsxs("div", { className: "calendar-room-storebar__current", children: [_jsx("button", { type: "button", className: `calendar-room-storebar__tab${selectedStoreId !== 'all' ? ' is-active' : ''}`, "aria-haspopup": canSwitchStore ? 'listbox' : undefined, "aria-expanded": canSwitchStore ? openFilter === 'store' : undefined, onClick: () => {
-                                                    if (!canSwitchStore) {
-                                                        if (defaultStore?.id)
-                                                            applyStore(defaultStore.id);
-                                                        return;
-                                                    }
-                                                    setOpenFilter(openFilter === 'store' ? null : 'store');
-                                                }, children: defaultStore?.name ?? '加载门店中' }), canSwitchStore && openFilter === 'store' ? (_jsx("div", { className: "calendar-room-storebar__options", role: "listbox", "aria-label": "\u95E8\u5E97\u5217\u8868", children: realStoreOptions.map((store) => (_jsx("button", { type: "button", role: "option", "aria-selected": selectedStoreId === store.id, onClick: () => applyStore(store.id), children: store.name }, store.id))) })) : null] }), _jsx("button", { type: "button", className: "calendar-room-storebar__setting", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u2699" })] }), _jsxs("div", { className: "calendar-room-query__actions", children: [_jsx("button", { type: "button", onClick: () => navigate(viewModel?.routeTargets.roomTypeList ?? '/setting/roomTypeInfo'), children: "\u623F\u578B\u7BA1\u7406" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => navigate(viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting'), children: "\u65B0\u589E\u552E\u5356\u4EA7\u54C1" })] })] }), _jsxs("div", { className: "calendar-room-query__filters", children: [_jsxs("label", { className: "calendar-room-field calendar-room-search", children: [_jsx("span", { children: "\u641C\u7D22\uFF1A" }), _jsx("input", { value: draftKeyword, placeholder: "\u8BF7\u8F93\u5165\u623F\u578B\u540D\u79F0", onChange: (event) => setDraftKeyword(event.target.value), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "calendar-room-page", "data-provider": viewModel?.providerMode ?? query.provider ?? 'mock', "data-request-keyword": viewModel?.requestParams.keyword ?? query.keyword, "data-request-channel": viewModel?.requestParams.channel ?? query.channel, "data-request-status": viewModel?.requestParams.status ?? query.status, children: [_jsx("h1", { className: "sr-only-heading", children: "\u65E5\u5386\u623F" }), _jsxs("section", { className: "calendar-room-query", "aria-label": "\u65E5\u5386\u623F\u7B5B\u9009", children: [_jsxs("div", { className: "calendar-room-query__top", children: [_jsx(StoreSelectControl, { className: "calendar-room-storebar", label: "\u95E8\u5E97\u5207\u6362", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading, onChange: applyStore, settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsxs("div", { className: "calendar-room-query__actions", children: [_jsx("button", { type: "button", onClick: () => navigate(viewModel?.routeTargets.roomTypeList ?? '/setting/roomTypeInfo'), children: "\u623F\u578B\u7BA1\u7406" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => navigate(viewModel?.routeTargets.createProduct ?? '/setting/localRoomTypeProductionSetting/channelGoodsSetting'), children: "\u65B0\u589E\u552E\u5356\u4EA7\u54C1" })] })] }), _jsxs("div", { className: "calendar-room-query__filters", children: [_jsxs("label", { className: "calendar-room-field calendar-room-search", children: [_jsx("span", { children: "\u641C\u7D22\uFF1A" }), _jsx("input", { value: draftKeyword, placeholder: "\u8BF7\u8F93\u5165\u623F\u578B\u540D\u79F0", onChange: (event) => setDraftKeyword(event.target.value), onKeyDown: (event) => {
                                             if (event.key === 'Enter')
                                                 submitSearch();
                                         } })] }), _jsx(FilterButton, { label: "\u6E20\u9053", value: query.channel, placeholder: "\u8BF7\u9009\u62E9\u6E20\u9053", options: viewModel?.channelOptions ?? [], isOpen: openFilter === 'channel', onToggle: () => setOpenFilter(openFilter === 'channel' ? null : 'channel'), onChoose: (value) => applyFilter('channel', value) }), _jsx(FilterButton, { label: "\u4E0A\u67B6\u72B6\u6001", value: query.status, placeholder: "\u5168\u90E8", options: viewModel?.statusOptions ?? [], isOpen: openFilter === 'status', onToggle: () => setOpenFilter(openFilter === 'status' ? null : 'status'), onChoose: (value) => applyFilter('status', value) }), _jsx("button", { type: "button", className: "calendar-room-expand-all", onClick: () => setIsExpanded((value) => !value), children: isExpanded ? '收起' : '展开' }), _jsx("button", { type: "button", className: "calendar-room-reset", onClick: resetFilters, children: "\u91CD \u7F6E" }), _jsx("button", { type: "button", className: "calendar-room-search-button", onClick: submitSearch, disabled: isLoading, children: isLoading ? '查询中' : '搜 索' })] })] }), errorMessage ? (_jsxs("div", { className: "calendar-room-alert", role: "alert", "aria-label": "\u65E5\u5386\u623F\u6570\u636E\u9519\u8BEF", children: [_jsx("span", { children: "\u65E5\u5386\u623F\u6570\u636E\u52A0\u8F7D\u5931\u8D25\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5" }), _jsx("button", { type: "button", onClick: retryLoad, children: "\u91CD\u8BD5" })] })) : null, _jsxs("section", { className: `calendar-room-table${isLoading ? ' is-loading' : ''}`, "aria-label": "\u65E5\u5386\u623F\u552E\u5356\u4EA7\u54C1\u5217\u8868", children: [_jsx("div", { className: "calendar-room-table__head", children: ['展开', '房型名称', '关联渠道', '产品数量', '操作'].map((column) => (_jsx("div", { children: column }, column))) }), rows.length > 0 ? (rows.map((room) => (_jsx(RoomRow, { room: room, isExpanded: isExpanded, onToggle: () => setIsExpanded((value) => !value), onProductAction: handleProductAction, onNavigateRoomType: () => navigate(viewModel?.routeTargets.roomTypeEdit ?? '/setting/roomTypeInfo/edit'), onNavigatePrice: () => navigate(viewModel?.routeTargets.price ?? '/houseManage/houseCale') }, room.id)))) : (_jsxs("div", { className: "calendar-room-empty", role: "status", children: [_jsx("strong", { children: "\u6682\u65E0\u552E\u5356\u4EA7\u54C1" }), _jsx("span", { children: "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6\u4E0B\u6CA1\u6709\u65E5\u5386\u623F\u552E\u5356\u4EA7\u54C1\uFF0C\u8BF7\u8C03\u6574\u6761\u4EF6\u540E\u91CD\u65B0\u67E5\u8BE2\u3002" })] }))] }), _jsxs("div", { className: "calendar-room-pagination", "aria-label": "\u65E5\u5386\u623F\u5206\u9875", children: [_jsxs("span", { children: ["\u7B2C ", rows.length > 0 ? 1 : 0, "-", rows.length, " \u6761/\u603B\u5171 ", viewModel?.pagination.total ?? 0, " \u6761"] }), _jsx("button", { type: "button", className: "is-active", children: query.page }), _jsxs("button", { type: "button", children: [query.pageSize, " \u6761/\u9875"] })] }), notice ? _jsx("div", { className: "calendar-room-notice", role: "status", "aria-label": "\u65E5\u5386\u623F\u64CD\u4F5C\u53CD\u9988", children: notice }) : null, dialog ? (_jsx(CalendarRoomDialog, { dialog: dialog, onClose: () => setDialog(null), onConfirm: (message) => {

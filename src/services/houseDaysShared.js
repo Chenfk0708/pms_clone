@@ -18,13 +18,14 @@ export function createHouseMonthDateColumns(today = new Date()) {
         };
     });
 }
-export async function fetchDayOrderCardsFromMonthSource(queryCode) {
+export async function fetchDayOrderCardsFromMonthSource(queryCode, options = {}) {
     const columns = createHouseMonthDateColumns();
     const snapshot = await fetchHouseMonthsSnapshot({
-        campId: 'camp-001',
+        campId: options.campId ?? 'camp-001',
         startDate: columns[0].isoDate,
         days: MONTH_WINDOW_DAYS,
         queryCode,
+        provider: options.provider,
     }, columns);
     return adaptDayOrderCards(snapshot.rows, columns[DEFAULT_SELECTED_DATE_INDEX].isoDate, queryCode);
 }
@@ -47,9 +48,12 @@ export function adaptDayOrderCards(rows, todayIsoDate, queryCode) {
         const filterLabels = buildFilterLabels(roomCell, booking);
         const card = {
             id: row.id,
+            storeId: row.storeId,
+            storeName: row.storeName,
             roomType: row.label,
             roomName: row.roomLabel,
             roomCategoryId: row.roomCategoryId,
+            roomId: row.roomId,
             status,
             hasTag: Boolean(roomCell?.badge),
             filterLabels,
@@ -88,9 +92,12 @@ function buildFilterLabels(cell, booking) {
         labels.add('在住');
     if (booking.cell.remark)
         labels.add('备注');
-    if (booking.cell.tone === 'booking-blue')
+    if (booking.cell.tone === 'booking-duplicate')
+        labels.add('重单');
+    const channelTone = booking.cell.channelTone ?? booking.cell.tone;
+    if (channelTone === 'booking-blue')
         labels.add('住净');
-    if (booking.cell.tone === 'booking-gold' || booking.cell.tone === 'booking-teal')
+    if (channelTone === 'booking-gold' || channelTone === 'booking-teal')
         labels.add('住脏');
     const stayRange = cell?.stayRange ?? '';
     if (stayRange.includes('-'))

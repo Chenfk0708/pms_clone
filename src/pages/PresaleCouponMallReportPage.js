@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPreSaleCouponMallExportTask, defaultPreSaleCouponMallQuery, fetchPreSaleCouponMallDashboard, PreSaleCouponMallServiceError, } from '../services/preSaleCouponMallReport';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './PresaleCouponMallReportPage.css';
 const datePresetOptions = [
     { key: 'yesterday', label: '昨天' },
@@ -18,7 +20,6 @@ export function PresaleCouponMallReportPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [openSelect, setOpenSelect] = useState(null);
     const [datePanelOpen, setDatePanelOpen] = useState(false);
-    const [storeView, setStoreView] = useState('all');
     const [calendarMonth, setCalendarMonth] = useState(() => makeInitialQuery().startDate.slice(0, 7));
     const [datePickTarget, setDatePickTarget] = useState('start');
     const [descriptionOpen, setDescriptionOpen] = useState(false);
@@ -69,11 +70,9 @@ export function PresaleCouponMallReportPage() {
     const channels = dashboard?.channels ?? [{ value: '', label: '全部渠道' }];
     const categories = dashboard?.categories ?? [{ value: '', label: '全部类型' }];
     const descriptions = dashboard?.descriptions ?? [];
-    const defaultStore = defaultPreSaleCouponMallQuery();
-    const currentStore = dashboard?.stores[0] ?? {
-        id: defaultStore.poiId,
-        name: defaultStore.poiName,
-    };
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: dashboard?.stores.map((store) => ({ id: store.id, label: store.name })),
+    });
     const activePreset = findMatchingPreset(draft.startDate, draft.endDate);
     function updateDraft(next) {
         setDraft((current) => ({ ...current, ...next }));
@@ -87,7 +86,6 @@ export function PresaleCouponMallReportPage() {
         const nextQuery = createAllStoreQuery();
         setDraft(nextQuery);
         setQuery(nextQuery);
-        setStoreView('all');
         setCalendarMonth(nextQuery.startDate.slice(0, 7));
         setDatePickTarget('start');
         setOpenSelect(null);
@@ -111,15 +109,15 @@ export function PresaleCouponMallReportPage() {
         updateDraft(kind === 'channel' ? { channelId: value } : { categoryId: value });
         setOpenSelect(null);
     }
-    function switchStore(nextView) {
-        setStoreView(nextView);
+    function switchStore(storeId) {
         setOpenSelect(null);
         setDatePanelOpen(false);
-        if (nextView === 'all') {
+        if (storeId === 'all') {
             updateDraft({ poiId: 'all', poiName: '全部门店' });
             return;
         }
-        updateDraft({ poiId: currentStore.id, poiName: currentStore.name });
+        const store = storeOptions.find((item) => item.id === storeId);
+        updateDraft({ poiId: storeId, poiName: store?.label ?? storeId });
     }
     function openDatePanel(target = 'start') {
         setOpenSelect(null);
@@ -150,7 +148,7 @@ export function PresaleCouponMallReportPage() {
         setDatePickTarget('start');
         setDatePanelOpen(false);
     }
-    return (_jsxs("div", { className: "presale-coupon-report-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u9884\u552E\u5238\u6838\u9500\u660E\u7EC6" }), _jsx("output", { id: "pre-sale-coupon-mall-diagnostics", hidden: true, "data-provider": diagnosticsProvider, "data-state": diagnosticsState, "data-request": JSON.stringify(diagnosticsRequest) }), _jsxs("section", { className: "presale-coupon-query", "aria-label": "\u9884\u552E\u5238\u6570\u636E\u7B5B\u9009", children: [_jsxs("div", { className: "presale-coupon-store-switch", "aria-label": "\u95E8\u5E97\u5207\u6362", children: [_jsx("button", { type: "button", className: storeView === 'all' ? 'is-active' : '', "aria-pressed": storeView === 'all', onClick: () => switchStore('all'), children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: `is-store${storeView === 'current' ? ' is-active' : ''}`, "aria-pressed": storeView === 'current', title: currentStore.name, onClick: () => switchStore('current'), children: currentStore.name }), _jsx("button", { type: "button", className: "is-setting", "aria-label": "\u6253\u5F00\u95E8\u5E97\u4FE1\u606F\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: _jsx("span", { "aria-hidden": "true", children: "\u2699" }) })] }), _jsxs("div", { className: "presale-coupon-filter-row", children: [_jsxs("div", { className: "presale-coupon-date-range", children: [_jsx("span", { children: "\u7EDF\u8BA1\u65E5\u671F:" }), _jsxs("button", { type: "button", className: "presale-coupon-date-trigger", "aria-label": "\u7EDF\u8BA1\u65E5\u671F", onClick: () => openDatePanel('start'), children: [_jsx("strong", { children: draft.startDate }), _jsx("em", { children: "\u81F3" }), _jsx("strong", { children: draft.endDate }), _jsx("i", { "aria-hidden": "true", children: "\uD83D\uDCC5" })] }), datePanelOpen ? (_jsx(DatePanel, { month: calendarMonth, startDate: draft.startDate, endDate: draft.endDate, pickTarget: datePickTarget, activePreset: activePreset, onPrevious: () => setCalendarMonth((current) => shiftMonth(current, -1)), onNext: () => setCalendarMonth((current) => shiftMonth(current, 1)), onPick: pickDate, onPreset: applyPreset })) : null] }), _jsx(SelectField, { label: "\u6E20\u9053:", displayValue: labelForOption(channels, draft.channelId, '请选择'), isOpen: openSelect === 'channel', options: channels, currentValue: draft.channelId, ariaLabel: "\u5A13\u72BB\u4EBE\u95AB\u5910\u300D", onToggle: () => {
+    return (_jsxs("div", { className: "presale-coupon-report-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u9884\u552E\u5238\u6838\u9500\u660E\u7EC6" }), _jsx("output", { id: "pre-sale-coupon-mall-diagnostics", hidden: true, "data-provider": diagnosticsProvider, "data-state": diagnosticsState, "data-request": JSON.stringify(diagnosticsRequest) }), _jsxs("section", { className: "presale-coupon-query", "aria-label": "\u9884\u552E\u5238\u6570\u636E\u7B5B\u9009", children: [_jsx(StoreSelectControl, { className: "presale-coupon-store-switch", label: "\u95E8\u5E97\u5207\u6362", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: draft.poiId, disabled: storeLoading, onChange: (storeId) => switchStore(storeId), settingsLabel: "\u6253\u5F00\u95E8\u5E97\u4FE1\u606F\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsxs("div", { className: "presale-coupon-filter-row", children: [_jsxs("div", { className: "presale-coupon-date-range", children: [_jsx("span", { children: "\u7EDF\u8BA1\u65E5\u671F:" }), _jsxs("button", { type: "button", className: "presale-coupon-date-trigger", "aria-label": "\u7EDF\u8BA1\u65E5\u671F", onClick: () => openDatePanel('start'), children: [_jsx("strong", { children: draft.startDate }), _jsx("em", { children: "\u81F3" }), _jsx("strong", { children: draft.endDate }), _jsx("i", { "aria-hidden": "true", children: "\uD83D\uDCC5" })] }), datePanelOpen ? (_jsx(DatePanel, { month: calendarMonth, startDate: draft.startDate, endDate: draft.endDate, pickTarget: datePickTarget, activePreset: activePreset, onPrevious: () => setCalendarMonth((current) => shiftMonth(current, -1)), onNext: () => setCalendarMonth((current) => shiftMonth(current, 1)), onPick: pickDate, onPreset: applyPreset })) : null] }), _jsx(SelectField, { label: "\u6E20\u9053:", displayValue: labelForOption(channels, draft.channelId, '请选择'), isOpen: openSelect === 'channel', options: channels, currentValue: draft.channelId, ariaLabel: "\u5A13\u72BB\u4EBE\u95AB\u5910\u300D", onToggle: () => {
                                     setDatePanelOpen(false);
                                     setOpenSelect(openSelect === 'channel' ? null : 'channel');
                                 }, onSelect: (value) => chooseOption('channel', value) }), _jsx(SelectField, { label: "\u9884\u552E\u5238\u7C7B\u578B:", displayValue: labelForOption(categories, draft.categoryId, '请选择'), isOpen: openSelect === 'category', options: categories, currentValue: draft.categoryId, ariaLabel: "\u68F0\u52EB\u656D\u9352\u54E5\u88AB\u9368\u5B2E\u20AC\u5910\u300D", onToggle: () => {

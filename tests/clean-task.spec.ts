@@ -97,3 +97,145 @@ test('/cleanManage/cleanTask exposes empty and error states with retry', async (
   await expect(page.getByRole('alert', { name: '保洁任务数据错误' })).toHaveCount(0)
   await expect(page.getByLabel('保洁任务列表')).toContainText('CT20260518001')
 })
+
+test('/cleanManage/cleanTask api provider posts export notify and create actions to real backend contracts', async ({ page }) => {
+  const exportRequests: Array<Record<string, unknown>> = []
+  const notifyRequests: Array<Record<string, unknown>> = []
+  const createRequests: Array<Record<string, unknown>> = []
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'clean-task-api-action-token')
+    window.localStorage.setItem('pms.cleanTaskProvider', 'api')
+  })
+
+  await page.route('**/api/cleanTask/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-task-api-action-page',
+        timestamp: '2026-06-04T03:05:00+08:00',
+        data: {
+          stores: [{ id: '11001', label: '行动测试门店' }],
+          rooms: [{ id: '23002', label: '行动测试房型 / 102' }],
+          cleanTypes: [
+            { id: 'ALL', label: '全部类型' },
+            { id: 'CHECKOUT', label: '退房保洁' },
+            { id: 'STAY', label: '续住保洁' },
+            { id: 'PLAN', label: '计划保洁' },
+            { id: 'TEMPORARY', label: '临时保洁' },
+          ],
+          statuses: [
+            { id: 'ALL', label: '全部状态' },
+            { id: 'PENDING_ASSIGN', label: '待分配' },
+            { id: 'PENDING_CLEAN', label: '待保洁' },
+            { id: 'CLEANING', label: '保洁中' },
+            { id: 'DONE', label: '已完成' },
+            { id: 'CANCELLED', label: '已取消' },
+          ],
+          cleaners: [{ id: '128301', label: '行动保洁员' }],
+          summary: { total: 1, pendingAssign: 0, pendingClean: 1, cleaning: 0, done: 0, overdue: 0 },
+          list: [
+            {
+              taskId: '128302',
+              taskNo: 'CT128302',
+              roomName: '行动测试房型 / 102',
+              poiName: '行动测试门店',
+              cleanType: 'CHECKOUT',
+              cleanStatus: 'PENDING_CLEAN',
+              cleanerId: '128301',
+              cleanerName: '行动保洁员',
+              cleanDate: '2026-05-18',
+              planTime: '10:00',
+              deadline: '10:00',
+              sourceOrderNo: 'ORDER-CLEAN-128302',
+              guestName: '测试住客',
+              remark: 'action task',
+              progress: 20,
+              priority: 'normal',
+            },
+          ],
+          pagination: { page: 1, pageSize: 20, total: 1 },
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/cleanTask/export', async (route) => {
+    exportRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-task-export-real-contract',
+        timestamp: '2026-06-04T03:05:01+08:00',
+        data: { fileName: 'clean_tasks_2026-05-18.csv', contentType: 'text/csv', total: 1, rows: [] },
+      }),
+    })
+  })
+
+  await page.route('**/api/cleanTask/notify', async (route) => {
+    notifyRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-task-notify-real-contract',
+        timestamp: '2026-06-04T03:05:02+08:00',
+        data: { notifiedCount: 1, taskIds: ['128302'], message: '保洁任务通知成功' },
+      }),
+    })
+  })
+
+  await page.route('**/api/cleanTask/create', async (route) => {
+    createRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-task-create-real-contract',
+        timestamp: '2026-06-04T03:05:03+08:00',
+        data: { taskId: '128399', taskNo: 'CT128399', cleanStatus: 'PENDING_CLEAN', message: '保洁任务创建成功' },
+      }),
+    })
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/#/cleanManage/cleanTask?cleanTaskProvider=api'))
+
+  await expect(page.getByLabel('保洁任务列表')).toContainText('CT128302')
+
+  await page.getByRole('button', { name: '导 出' }).click()
+  await expect.poll(() => exportRequests.length).toBe(1)
+  expect(exportRequests[0]).toMatchObject({ campId: '1796067693589061634', cleanTime: '2026-05-18', pageSize: 20 })
+  await expect(page.getByRole('status', { name: '保洁任务操作反馈' })).toContainText('clean_tasks_2026-05-18.csv')
+
+  await page.getByLabel('选择 CT128302').check()
+  await page.getByRole('button', { name: '批量通知' }).click()
+  await expect.poll(() => notifyRequests.length).toBe(1)
+  expect(notifyRequests[0]).toMatchObject({ campId: '1796067693589061634', taskIds: ['128302'] })
+  await expect(page.getByRole('status', { name: '保洁任务操作反馈' })).toContainText('1')
+
+  await page.getByRole('button', { name: '创建保洁任务' }).click()
+  await page.getByLabel('任务备注').fill('真实接口创建保洁任务')
+  await page.getByRole('button', { name: '确认创建' }).click()
+  await expect.poll(() => createRequests.length).toBe(1)
+  expect(createRequests[0]).toMatchObject({
+    campId: '1796067693589061634',
+    roomId: '23002',
+    cleanerId: '128301',
+    cleanType: 'CHECKOUT',
+    cleanStatus: 'PENDING_CLEAN',
+    cleanTime: '2026-05-18',
+    remark: '真实接口创建保洁任务',
+  })
+  await expect(page.getByRole('status', { name: '保洁任务操作反馈' })).toContainText('CT128399')
+})

@@ -154,6 +154,25 @@ export type AiGlobalDataViewModel = {
   isEmpty: boolean
 }
 
+export type AiGlobalExportTask = {
+  taskId: string
+  traceId: string
+  timestamp: string
+  fileName?: string
+  contentType?: string
+  downloadUrl?: string
+  total?: number
+}
+
+export type AiGlobalReminderActionResult = {
+  reminderId: string
+  orderNo: string
+  status: AiGlobalReminder['status']
+  message: string
+  traceId: string
+  timestamp: string
+}
+
 type Envelope<T> = {
   code: number
   message: string
@@ -491,13 +510,25 @@ export function getAiGlobalDataFallbackFilterOptions() {
 }
 
 export function resolveAiGlobalDataRuntimeConfig(search: string): Pick<AiGlobalDataQuery, 'provider' | 'mockState'> {
-  const params = new URLSearchParams(search)
+  const params = readAiGlobalDataSearchParams(search)
   const provider = params.get('aiGlobalDataProvider')
   const mockState = params.get('aiGlobalDataMockState')
   return {
-    provider: provider === 'api' || provider === 'mock' ? provider : undefined,
+    provider: provider === 'api' || provider === 'real' ? 'api' : provider === 'mock' ? 'mock' : undefined,
     mockState: mockState === 'success' || mockState === 'empty' || mockState === 'error' ? mockState : undefined,
   }
+}
+
+function readAiGlobalDataSearchParams(search: string) {
+  const params = new URLSearchParams(search)
+  if (typeof window === 'undefined') return params
+  const hashQuery = window.location.hash.split('?')[1]
+  if (!hashQuery) return params
+  const hashParams = new URLSearchParams(`?${hashQuery}`)
+  hashParams.forEach((value, key) => {
+    if (!params.has(key)) params.set(key, value)
+  })
+  return params
 }
 
 export function getDefaultAiGlobalDataQuery(
@@ -604,48 +635,105 @@ export async function fetchAiGlobalRoomDetail(
   return createRoomDetail(room)
 }
 
-export function createAiGlobalDataExportTask(query: AiGlobalDataQuery) {
+export async function createAiGlobalDataExportTask(query: AiGlobalDataQuery): Promise<AiGlobalExportTask> {
   const request = createExportRequest(query)
-  writeDiagnostics({
-    endpoint: AI_GLOBAL_DATA_EXPORT_ENDPOINT,
-    provider: query.provider ?? resolveProvider(),
-    state: query.mockState ?? resolveMockState(),
-    traceId: `mock-${TASK_ID}-export-001`,
-    request,
-  })
-  return {
+  const provider = query.provider ?? resolveProvider()
+  const state = query.mockState ?? resolveMockState()
+
+  if (provider === 'api') {
+    const payload = await postJson(AI_GLOBAL_DATA_EXPORT_ENDPOINT, request)
+    const data = asRecord(payload.data)
+    const taskId = readString(data?.taskId)
+    if (!taskId) {
+      throw new Error('?????????? taskId')
+    }
+    const result = {
+      taskId,
+      traceId: payload.traceId ?? `api-${TASK_ID}-export`,
+      timestamp: payload.timestamp ?? MOCK_TIMESTAMP,
+      fileName: readString(data?.fileName) ?? undefined,
+      contentType: readString(data?.contentType) ?? undefined,
+      downloadUrl: readString(data?.downloadUrl) ?? undefined,
+      total: readNumber(data?.total) ?? undefined,
+    }
+    writeDiagnostics({ endpoint: AI_GLOBAL_DATA_EXPORT_ENDPOINT, provider, state, traceId: result.traceId, request })
+    return result
+  }
+
+  const result = {
     taskId: `EXPORT-${TASK_ID}-20260519-001`,
     traceId: `mock-${TASK_ID}-export-001`,
     timestamp: MOCK_TIMESTAMP,
   }
+  writeDiagnostics({ endpoint: AI_GLOBAL_DATA_EXPORT_ENDPOINT, provider, state, traceId: result.traceId, request })
+  return result
 }
 
-export function postponeAiGlobalReminder(reminder: AiGlobalReminder, query: AiGlobalDataQuery) {
-  writeDiagnostics({
-    endpoint: AI_GLOBAL_DATA_REMINDER_POSTPONE_ENDPOINT,
-    provider: query.provider ?? resolveProvider(),
-    state: query.mockState ?? resolveMockState(),
-    traceId: `mock-${TASK_ID}-reminder-postpone-001`,
-    request: {
-      reminderId: reminder.id,
-      orderNo: reminder.orderNo,
-      campId: query.campId,
-    },
-  })
+export async function postponeAiGlobalReminder(
+  reminder: AiGlobalReminder,
+  query: AiGlobalDataQuery,
+): Promise<AiGlobalReminderActionResult> {
+  return submitAiGlobalReminderAction(
+    AI_GLOBAL_DATA_REMINDER_POSTPONE_ENDPOINT,
+    reminder,
+    query,
+    'postponed',
+    `mock-${TASK_ID}-reminder-postpone-001`,
+  )
 }
 
-export function resolveAiGlobalReminder(reminder: AiGlobalReminder, query: AiGlobalDataQuery) {
-  writeDiagnostics({
-    endpoint: AI_GLOBAL_DATA_REMINDER_RESOLVE_ENDPOINT,
-    provider: query.provider ?? resolveProvider(),
-    state: query.mockState ?? resolveMockState(),
-    traceId: `mock-${TASK_ID}-reminder-resolve-001`,
-    request: {
-      reminderId: reminder.id,
-      orderNo: reminder.orderNo,
-      campId: query.campId,
-    },
-  })
+export async function resolveAiGlobalReminder(
+  reminder: AiGlobalReminder,
+  query: AiGlobalDataQuery,
+): Promise<AiGlobalReminderActionResult> {
+  return submitAiGlobalReminderAction(
+    AI_GLOBAL_DATA_REMINDER_RESOLVE_ENDPOINT,
+    reminder,
+    query,
+    'resolved',
+    `mock-${TASK_ID}-reminder-resolve-001`,
+  )
+}
+
+async function submitAiGlobalReminderAction(
+  endpoint: string,
+  reminder: AiGlobalReminder,
+  query: AiGlobalDataQuery,
+  fallbackStatus: AiGlobalReminder['status'],
+  mockTraceId: string,
+): Promise<AiGlobalReminderActionResult> {
+  const provider = query.provider ?? resolveProvider()
+  const state = query.mockState ?? resolveMockState()
+  const request = {
+    reminderId: reminder.id,
+    orderNo: reminder.orderNo,
+    campId: mapCampId(query.campId),
+  }
+
+  if (provider === 'api') {
+    const payload = await postJson(endpoint, request)
+    const data = asRecord(payload.data)
+    const result = {
+      reminderId: readString(data?.reminderId) ?? reminder.id,
+      orderNo: readString(data?.orderNo) ?? reminder.orderNo,
+      status: readReminderStatus(data?.status ?? fallbackStatus),
+      message: readString(data?.message) ?? '',
+      traceId: payload.traceId ?? `api-${TASK_ID}-${fallbackStatus}`,
+      timestamp: payload.timestamp ?? MOCK_TIMESTAMP,
+    }
+    writeDiagnostics({ endpoint, provider, state, traceId: result.traceId, request })
+    return result
+  }
+
+  writeDiagnostics({ endpoint, provider, state, traceId: mockTraceId, request })
+  return {
+    reminderId: reminder.id,
+    orderNo: reminder.orderNo,
+    status: fallbackStatus,
+    message: '',
+    traceId: mockTraceId,
+    timestamp: MOCK_TIMESTAMP,
+  }
 }
 
 function buildViewModel(
@@ -1166,7 +1254,7 @@ function createRoomDetail(room: AiGlobalRoomRow): AiGlobalRoomDetail {
 }
 
 async function postJson(url: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<ApiPayload> {
-  const response = await fetch(url, {
+  const response = await fetch(toApiUrl(url), {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     credentials: 'include',
@@ -1178,6 +1266,11 @@ async function postJson(url: string, body: Record<string, unknown>, signal?: Abo
     throw new Error(readPayloadMessage(payload) ?? `全域数据请求失败（HTTP ${response.status}）`)
   }
   return payload
+}
+
+
+function toApiUrl(url: string) {
+  return url.startsWith('/api/') ? url : `/api${url.startsWith('/') ? url : `/${url}`}`
 }
 
 function normalizeEnvelope(payload: ApiPayload, request: Record<string, unknown>): Envelope<unknown> {

@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createOrderLedgerExportTask, defaultOrderLedgerRequest, fetchOrderLedgerDashboard, resolveOrderLedgerMockState, resolveOrderLedgerProvider, } from '../services/orderLedger';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './OrderLedgerPage.css';
 const datePresets = [
     { label: '昨天', beginTime: '2026-05-18', endTime: '2026-05-19' },
@@ -35,6 +37,9 @@ export function OrderLedgerPage() {
     const [dateDraft, setDateDraft] = useState(() => ({ beginTime: request.beginTime, endTime: request.endTime }));
     const dateRangeRef = useRef(null);
     const searchRef = useRef(location.search);
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: (dashboard?.stores ?? []).map((store) => ({ id: store.id, label: store.name })),
+    });
     useEffect(() => {
         if (searchRef.current === location.search)
             return;
@@ -217,10 +222,7 @@ export function OrderLedgerPage() {
     function toggleRoom(roomId) {
         setRoomDraft((current) => current.includes(roomId) ? current.filter((item) => item !== roomId) : [...current, roomId]);
     }
-    return (_jsxs("div", { className: "order-ledger-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u6536\u652F\u660E\u7EC6" }), _jsx("div", { id: "order-ledger-diagnostics", hidden: true, "data-provider": provider, "data-state": state, "data-request": JSON.stringify(activeRequest) }), _jsxs("section", { className: "order-ledger-filter", "aria-label": "\u6536\u652F\u660E\u7EC6\u7B5B\u9009", children: [_jsxs("div", { className: "order-ledger-filter__top", children: [_jsxs("div", { className: "order-ledger-store-row", "aria-label": "\u95E8\u5E97", children: [_jsx("button", { type: "button", className: activeRequest.poiIds.length === 0 ? 'is-active' : '', "aria-pressed": activeRequest.poiIds.length === 0, onClick: () => patchRequest({ poiIds: [] }), children: "\u5168\u90E8\u95E8\u5E97" }), (dashboard?.stores ?? []).map((store) => {
-                                        const selected = activeRequest.poiIds.includes(store.id);
-                                        return (_jsx("button", { type: "button", className: selected ? 'is-active' : '', "aria-pressed": selected, onClick: () => patchRequest({ poiIds: [store.id] }), children: store.name }, store.id));
-                                    }), _jsx("button", { type: "button", className: "order-ledger-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u2699" })] }), _jsx("div", { className: "order-ledger-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: datePresets.map((preset) => (_jsx("button", { type: "button", className: selectedPreset === preset.label ? 'is-active' : '', onClick: () => patchRequest({ beginTime: preset.beginTime, endTime: preset.endTime }), children: preset.label }, preset.label))) }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u8D26\u672C\u65E5\u671F", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "order-ledger-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u6536\u652F\u660E\u7EC6" }), _jsx("div", { id: "order-ledger-diagnostics", hidden: true, "data-provider": provider, "data-state": state, "data-request": JSON.stringify(activeRequest) }), _jsxs("section", { className: "order-ledger-filter", "aria-label": "\u6536\u652F\u660E\u7EC6\u7B5B\u9009", children: [_jsxs("div", { className: "order-ledger-filter__top", children: [_jsx(StoreSelectControl, { className: "order-ledger-store-row", label: "\u95E8\u5E97", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: activeRequest.poiIds[0] ?? 'all', disabled: storeLoading, onChange: (storeId) => patchRequest({ poiIds: storeId === 'all' ? [] : [storeId] }), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsx("div", { className: "order-ledger-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: datePresets.map((preset) => (_jsx("button", { type: "button", className: selectedPreset === preset.label ? 'is-active' : '', onClick: () => patchRequest({ beginTime: preset.beginTime, endTime: preset.endTime }), children: preset.label }, preset.label))) }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u8D26\u672C\u65E5\u671F", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                     if (event.key === 'Enter' || event.key === ' ') {
                                         event.preventDefault();
                                         openDatePanel('start');

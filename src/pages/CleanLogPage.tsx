@@ -8,6 +8,8 @@ import {
   type CleanLogRow,
   type CleanLogServiceResult,
 } from '../services/cleanLog'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CleanLogPage.css'
 
 const pageSize = 10
@@ -18,6 +20,7 @@ export function CleanLogPage() {
   const defaultOptions = getDefaultCleanLogFilterOptions()
   const [roomDialogOpen, setRoomDialogOpen] = useState(false)
   const [operatorOpen, setOperatorOpen] = useState(false)
+  const [selectedStoreId, setSelectedStoreId] = useState('')
   const [selectedRoomId, setSelectedRoomId] = useState('')
   const [selectedOperatorId, setSelectedOperatorId] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -33,7 +36,7 @@ export function CleanLogPage() {
       provider: runtime.provider,
       mockState: runtime.mockState,
       campId,
-      storeId: '',
+      storeId: selectedStoreId,
       roomIds: selectedRoomId ? [selectedRoomId] : [],
       operatorId: selectedOperatorId,
       operatorStartTime: startDate ? new Date(`${startDate}T00:00:00+08:00`).getTime() : undefined,
@@ -41,7 +44,7 @@ export function CleanLogPage() {
       page: 1,
       pageSize,
     }),
-    [campId, endDate, runtime.mockState, runtime.provider, selectedOperatorId, selectedRoomId, startDate],
+    [campId, endDate, runtime.mockState, runtime.provider, selectedOperatorId, selectedRoomId, selectedStoreId, startDate],
   )
 
   useEffect(() => {
@@ -63,6 +66,9 @@ export function CleanLogPage() {
 
   const options = result?.view.filterOptions ?? defaultOptions
   const rows = result?.view.rows ?? []
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: options.stores.map((store) => ({ id: store.value || 'all', label: store.label })),
+  })
   const selectedRoom = options.rooms.find((room) => room.value === selectedRoomId)
   const selectedOperator = options.operators.find((operator) => operator.value === selectedOperatorId)
 
@@ -72,6 +78,7 @@ export function CleanLogPage() {
   }
 
   function reset() {
+    setSelectedStoreId('')
     setSelectedRoomId('')
     setSelectedOperatorId('')
     setStartDate('')
@@ -91,10 +98,17 @@ export function CleanLogPage() {
     <div className="clean-log-page">
       <section className="clean-log-panel">
         <div className="clean-log-query" aria-label="保洁日志筛选">
-          <button type="button" aria-pressed="true">
-            全部门店
-          </button>
-          <button type="button">{options.stores[1]?.label ?? '当前门店'}</button>
+          <StoreSelectControl
+            className="clean-log-store-row"
+            label="门店筛选"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={selectedStoreId || 'all'}
+            disabled={storeLoading}
+            onChange={(storeId) => {
+              setSelectedStoreId(storeId === 'all' ? '' : storeId)
+              setMessage(storeId === 'all' ? '已切换到全部门店' : '已切换门店')
+            }}
+          />
           <button type="button" onClick={() => setRoomDialogOpen(true)}>
             {selectedRoom ? selectedRoom.label : '请选择房间'}
           </button>

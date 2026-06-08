@@ -1,6 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useSyncExternalStore, useState } from 'react';
 import { createProfitReportExportTask, createProfitReportRequestBody, fetchProfitReportDashboard, getDefaultProfitReportFilters, getProfitReportStaticLookups, resolveProfitReportProvider, } from '../services/profitReport';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './ProfitReportPage.css';
 const staticLookups = getProfitReportStaticLookups();
 export function ProfitReportPage() {
@@ -32,6 +34,9 @@ export function ProfitReportPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mockState]);
     const stores = dashboard?.stores ?? staticLookups.stores;
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: stores.map((item) => ({ id: item.id, label: item.label })),
+    });
     const roomCategories = dashboard?.roomCategories ?? staticLookups.roomCategories;
     const channels = dashboard?.channels ?? staticLookups.channels;
     const roomGroups = dashboard?.roomGroups ?? staticLookups.roomGroups;
@@ -147,10 +152,10 @@ export function ProfitReportPage() {
         setExportTask(nextTask);
         setStatus(`导出任务已创建：${nextTask.taskId}`);
     }
-    return (_jsxs("div", { className: "profit-report-page", "data-provider": provider, "data-profit-request": JSON.stringify(requestBody), "data-profit-filters": JSON.stringify(dataFilters), "data-profit-export": exportTask ? JSON.stringify(exportTask) : '', children: [_jsx("h1", { className: "sr-only-heading", children: "\u5229\u6DA6\u62A5\u8868" }), _jsxs("section", { className: "profit-report-query", "aria-label": "\u5229\u6DA6\u62A5\u8868\u7B5B\u9009", children: [_jsx("div", { className: "profit-report-store-row", role: "radiogroup", "aria-label": "\u95E8\u5E97", children: stores.map((item) => (_jsx("button", { type: "button", role: "radio", "aria-checked": filters.storeId === item.id, className: filters.storeId === item.id ? 'is-active' : '', onClick: () => {
-                                patchFilters({ storeId: item.id, pageNum: 1 });
-                                setStatus(`已切换门店：${item.label}`);
-                            }, children: item.label }, item.id))) }), expanded ? (_jsxs("div", { className: "profit-report-form", children: [_jsxs("div", { className: "profit-report-filter-row", children: [_jsxs("label", { className: "profit-date-field", children: [_jsx("span", { children: "\u65E5\u671F\uFF1A" }), _jsxs("div", { ref: dateRangeRef, className: "profit-date-range", role: "button", tabIndex: 0, "aria-label": "\u5229\u6DA6\u62A5\u8868\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "profit-report-page", "data-provider": provider, "data-profit-request": JSON.stringify(requestBody), "data-profit-filters": JSON.stringify(dataFilters), "data-profit-export": exportTask ? JSON.stringify(exportTask) : '', children: [_jsx("h1", { className: "sr-only-heading", children: "\u5229\u6DA6\u62A5\u8868" }), _jsxs("section", { className: "profit-report-query", "aria-label": "\u5229\u6DA6\u62A5\u8868\u7B5B\u9009", children: [_jsx(StoreSelectControl, { className: "profit-report-store-row", label: "\u95E8\u5E97", options: storeOptions.map((item) => ({ id: item.id, name: item.label })), value: filters.storeId, disabled: storeLoading, onChange: (storeId, option) => {
+                            patchFilters({ storeId, pageNum: 1 });
+                            setStatus(`已切换门店：${option.name}`);
+                        } }), expanded ? (_jsxs("div", { className: "profit-report-form", children: [_jsxs("div", { className: "profit-report-filter-row", children: [_jsxs("label", { className: "profit-date-field", children: [_jsx("span", { children: "\u65E5\u671F\uFF1A" }), _jsxs("div", { ref: dateRangeRef, className: "profit-date-range", role: "button", tabIndex: 0, "aria-label": "\u5229\u6DA6\u62A5\u8868\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                                     if (event.key === 'Enter' || event.key === ' ') {
                                                         event.preventDefault();
                                                         openDatePanel('start');

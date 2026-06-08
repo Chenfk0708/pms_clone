@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { createDefaultPsbLogQuery, fetchPsbLogPageData, psbLogBizTypeOptions, psbLogStateOptions, resolvePsbLogRuntimeConfig, retryPsbLogReport, } from '../services/psbLog';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './PsbLogPage.css';
 const tableColumns = [
     '姓名',
@@ -89,10 +91,13 @@ export function PsbLogPage() {
             controller.abort();
         };
     }, [appliedFilters, query, reloadToken]);
-    const stores = result?.view.stores ?? [
+    const fallbackStores = result?.view.stores ?? [
         { label: '全部门店', value: '' },
-        { label: '天蓉名宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
+        { label: '当前门店', value: '1796425098638573570' },
     ];
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: fallbackStores.map((store) => ({ id: store.value || 'all', label: store.label })),
+    });
     const rows = result?.view.rows ?? [];
     const provider = result?.diagnostics.provider ?? runtime.provider ?? 'mock';
     const viewState = error
@@ -156,7 +161,7 @@ export function PsbLogPage() {
             setRetryingLogId('');
         }
     }
-    return (_jsxs("div", { className: "psb-log-page", "data-provider": provider, "data-view-state": viewState, children: [_jsx("h1", { className: "psb-log-title", children: "\u4E0A\u62A5\u65E5\u5FD7" }), _jsxs("section", { className: "psb-log-panel", "aria-label": "\u4E0A\u62A5\u65E5\u5FD7", children: [_jsxs("div", { className: "psb-log-store-row", role: "radiogroup", "aria-label": "\u95E8\u5E97\u8303\u56F4", children: [stores.map((store) => (_jsxs("label", { className: `psb-log-store${draftFilters.storeId === store.value ? ' is-active' : ''}`, children: [_jsx("input", { type: "radio", name: "psb-store", "aria-label": store.label, checked: draftFilters.storeId === store.value, onChange: () => setDraftFilters((current) => ({ ...current, storeId: store.value })) }), _jsx("span", { children: store.label })] }, store.value || 'all'))), _jsx("button", { type: "button", className: "psb-log-store-settings", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", children: _jsx("span", { children: "\u2699" }) })] }), _jsxs("div", { className: "psb-log-toolbar", children: [_jsxs("label", { className: "psb-log-field psb-log-field--keyword", children: [_jsx("span", { children: "\u641C\u7D22\uFF1A" }), _jsx("input", { "aria-label": "\u641C\u7D22", value: draftFilters.keyword, onChange: (event) => setDraftFilters((current) => ({ ...current, keyword: event.target.value })), placeholder: "\u8BF7\u8F93\u5165\u8BA2\u5355\u53F7/\u624B\u673A\u53F7/\u623F\u53F7" })] }), _jsxs("div", { className: "psb-log-field psb-log-field--date", children: [_jsx("span", { children: "\u4E0A\u62A5\u65F6\u95F4\uFF1A" }), _jsxs("button", { type: "button", className: `psb-log-control-button${openPanel === 'date' ? ' is-open' : ''}`, "aria-label": `上报时间 ${dateLabel}`, onClick: () => setOpenPanel((current) => (current === 'date' ? null : 'date')), children: [_jsx("span", { children: dateLabel }), _jsx("i", { "aria-hidden": "true" })] }), openPanel === 'date' ? (_jsx(DatePanel, { startDate: draftFilters.startDate, endDate: draftFilters.endDate, onChange: (field, value) => setDraftFilters((current) => ({ ...current, [field]: value })) })) : null] }), _jsx(SelectPanel, { label: "\u4E0A\u62A5\u7C7B\u578B\uFF1A", selected: selectedBizType, options: psbLogBizTypeOptions, open: openPanel === 'bizType', onToggle: () => setOpenPanel((current) => (current === 'bizType' ? null : 'bizType')), onSelect: (value) => {
+    return (_jsxs("div", { className: "psb-log-page", "data-provider": provider, "data-view-state": viewState, children: [_jsx("h1", { className: "psb-log-title", children: "\u4E0A\u62A5\u65E5\u5FD7" }), _jsxs("section", { className: "psb-log-panel", "aria-label": "\u4E0A\u62A5\u65E5\u5FD7", children: [_jsx(StoreSelectControl, { className: "psb-log-store-row", label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: draftFilters.storeId || 'all', disabled: storeLoading, onChange: (storeId) => setDraftFilters((current) => ({ ...current, storeId: storeId === 'all' ? '' : storeId })), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => setStatusMessage('请在门店信息页面维护公安上报关联门店') }), _jsxs("div", { className: "psb-log-toolbar", children: [_jsxs("label", { className: "psb-log-field psb-log-field--keyword", children: [_jsx("span", { children: "\u641C\u7D22\uFF1A" }), _jsx("input", { "aria-label": "\u641C\u7D22", value: draftFilters.keyword, onChange: (event) => setDraftFilters((current) => ({ ...current, keyword: event.target.value })), placeholder: "\u8BF7\u8F93\u5165\u8BA2\u5355\u53F7/\u624B\u673A\u53F7/\u623F\u53F7" })] }), _jsxs("div", { className: "psb-log-field psb-log-field--date", children: [_jsx("span", { children: "\u4E0A\u62A5\u65F6\u95F4\uFF1A" }), _jsxs("button", { type: "button", className: `psb-log-control-button${openPanel === 'date' ? ' is-open' : ''}`, "aria-label": `上报时间 ${dateLabel}`, onClick: () => setOpenPanel((current) => (current === 'date' ? null : 'date')), children: [_jsx("span", { children: dateLabel }), _jsx("i", { "aria-hidden": "true" })] }), openPanel === 'date' ? (_jsx(DatePanel, { startDate: draftFilters.startDate, endDate: draftFilters.endDate, onChange: (field, value) => setDraftFilters((current) => ({ ...current, [field]: value })) })) : null] }), _jsx(SelectPanel, { label: "\u4E0A\u62A5\u7C7B\u578B\uFF1A", selected: selectedBizType, options: psbLogBizTypeOptions, open: openPanel === 'bizType', onToggle: () => setOpenPanel((current) => (current === 'bizType' ? null : 'bizType')), onSelect: (value) => {
                                     setDraftFilters((current) => ({ ...current, bizType: value }));
                                     setOpenPanel(null);
                                 } }), _jsx(SelectPanel, { label: "\u4E0A\u62A5\u72B6\u6001\uFF1A", selected: selectedState, options: psbLogStateOptions, open: openPanel === 'state', onToggle: () => setOpenPanel((current) => (current === 'state' ? null : 'state')), onSelect: (value) => {

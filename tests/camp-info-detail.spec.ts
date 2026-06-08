@@ -3,12 +3,14 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const hashPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}${hashPath}` : hashPath
 }
 
 async function openCampInfoDetail(page: import('@playwright/test').Page) {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'camp-info-detail-test-token')
     window.localStorage.setItem('pms.campInfoProvider', 'mock')
     window.localStorage.setItem('pms.campInfoMockMode', 'success')
     window.localStorage.setItem('pms.campInfoMockLatencyMs', '0')

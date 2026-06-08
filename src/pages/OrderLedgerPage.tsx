@@ -11,6 +11,8 @@ import {
   type OrderLedgerRequest,
   type OrderLedgerRoomNode,
 } from '../services/orderLedger'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './OrderLedgerPage.css'
 
 type SelectKind = 'type' | 'source' | 'payment' | null
@@ -53,6 +55,9 @@ export function OrderLedgerPage() {
   const [dateDraft, setDateDraft] = useState(() => ({ beginTime: request.beginTime, endTime: request.endTime }))
   const dateRangeRef = useRef<HTMLDivElement | null>(null)
   const searchRef = useRef(location.search)
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? []).map((store) => ({ id: store.id, label: store.name })),
+  })
 
   useEffect(() => {
     if (searchRef.current === location.search) return
@@ -281,38 +286,16 @@ export function OrderLedgerPage() {
 
       <section className="order-ledger-filter" aria-label="收支明细筛选">
         <div className="order-ledger-filter__top">
-          <div className="order-ledger-store-row" aria-label="门店">
-            <button
-              type="button"
-              className={activeRequest.poiIds.length === 0 ? 'is-active' : ''}
-              aria-pressed={activeRequest.poiIds.length === 0}
-              onClick={() => patchRequest({ poiIds: [] })}
-            >
-              全部门店
-            </button>
-            {(dashboard?.stores ?? []).map((store) => {
-              const selected = activeRequest.poiIds.includes(store.id)
-              return (
-                <button
-                  key={store.id}
-                  type="button"
-                  className={selected ? 'is-active' : ''}
-                  aria-pressed={selected}
-                  onClick={() => patchRequest({ poiIds: [store.id] })}
-                >
-                  {store.name}
-                </button>
-              )
-            })}
-            <button
-              type="button"
-              className="order-ledger-gear"
-              aria-label="门店设置"
-              onClick={() => navigate('/InformationMaintenance/campInfo')}
-            >
-              ⚙
-            </button>
-          </div>
+          <StoreSelectControl
+            className="order-ledger-store-row"
+            label="门店"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={activeRequest.poiIds[0] ?? 'all'}
+            disabled={storeLoading}
+            onChange={(storeId) => patchRequest({ poiIds: storeId === 'all' ? [] : [storeId] })}
+            settingsLabel="门店设置"
+            onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+          />
 
           <div className="order-ledger-presets" role="group" aria-label="日期快捷筛选">
             {datePresets.map((preset) => (

@@ -3,6 +3,7 @@ const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const MOCK_ENDPOINT = '/setting/localRoomTypeProductionSetting/products/page';
 const REAL_ENDPOINT = '/api/weiRoomCategories/page/get';
 const DEFAULT_BUY_CAMP_ID = '10001';
+import { fetchStoreOptions, resolveCurrentCampId } from './storeOptions';
 import ctripIcon from '../assets/channel-icons/ctrip.png';
 import meituanHomestayIcon from '../assets/channel-icons/meituan-homestay.png';
 import feizhuIcon from '../assets/channel-icons/feizhu.png';
@@ -65,7 +66,10 @@ async function fetchMockCalendarRoom(query, signal) {
 }
 async function fetchRealCalendarRoom(query, signal) {
     const requestParams = buildRealRequestParams(query);
-    const envelope = await postRealCalendarRoom(REAL_ENDPOINT, requestParams, signal);
+    const [storeOptions, envelope] = await Promise.all([
+        fetchStoreOptions({ campId: String(requestParams.buyCampId), signal }),
+        postRealCalendarRoom(REAL_ENDPOINT, requestParams, signal),
+    ]);
     const payload = envelope.data ?? {};
     const rows = filterRows(adaptRealCalendarRoomRows(payload.list), query);
     const page = readNumber(payload.pageNum ?? payload.current, query.page);
@@ -77,7 +81,7 @@ async function fetchRealCalendarRoom(query, signal) {
         traceId: readString(envelope.traceId, `real-${TASK_ID}`),
         timestamp: readString(envelope.timestamp, new Date().toISOString()),
         requestParams,
-        storeOptions: createRealStoreOptions(requestParams.buyCampId),
+        storeOptions: storeOptions.map((store) => ({ id: store.id, name: store.label })),
         channelOptions: collectChannelOptions(rows),
         statusOptions: ['全部', '上架', '下架'],
         rows,
@@ -109,7 +113,7 @@ function createBackendData(query, rows) {
 }
 function buildRequestParams(query) {
     return {
-        poiIds: ['1796067693589061634'],
+        poiIds: query.storeId && query.storeId !== 'all' ? [query.storeId] : [],
         keyword: query.keyword.trim(),
         channel: query.channel,
         status: query.status,
@@ -119,9 +123,11 @@ function buildRequestParams(query) {
 }
 function buildRealRequestParams(query) {
     const buyCampId = resolveBuyCampId();
+    const storeId = query.storeId?.trim();
     return {
         campId: resolveCatalogCampId(buyCampId),
         buyCampId,
+        ...(storeId && storeId !== 'all' ? { poiId: storeId } : {}),
         roomCategoryTypes: [1],
         goodsTypes: [7],
         pageNum: query.page,
@@ -234,36 +240,13 @@ function unwrapEnvelope(envelope) {
     return envelope.data;
 }
 function resolveBuyCampId() {
-    return (readRuntimeConfig('pmsCampId') ||
-        readRuntimeConfig('pms.currentCampId') ||
-        readCampIdFromStoredObject('pms.currentCamp') ||
-        readCampIdFromStoredObject('pms.camp') ||
-        import.meta.env.VITE_PMS_CAMP_ID?.trim() ||
-        DEFAULT_BUY_CAMP_ID);
+    return resolveCurrentCampId() || DEFAULT_BUY_CAMP_ID;
 }
 function resolveCatalogCampId(buyCampId) {
     return (readRuntimeConfig('pmsCalendarRoomCatalogCampId') ||
         readRuntimeConfig('pms.calendarRoomCatalogCampId') ||
         import.meta.env.VITE_PMS_CALENDAR_ROOM_CATALOG_CAMP_ID?.trim() ||
         buyCampId);
-}
-function readCampIdFromStoredObject(key) {
-    const text = readRuntimeConfig(key);
-    if (!text)
-        return '';
-    try {
-        const value = JSON.parse(text);
-        return readString(value.campId ?? value.id, '');
-    }
-    catch {
-        return '';
-    }
-}
-function createRealStoreOptions(campId) {
-    return [
-        { id: 'all', name: '全部门店' },
-        { id: String(campId || DEFAULT_BUY_CAMP_ID), name: '当前门店' },
-    ];
 }
 function createRouteTargets() {
     return {

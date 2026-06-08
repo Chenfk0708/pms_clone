@@ -1,7 +1,7 @@
 const timestamp = '2026-05-18T10:00:00+08:00';
 const endpoint = '/mallManagement/weapp/decorate/overview/get';
 const stores = [
-    { id: 'camp-ts5', name: '银宿' },
+    { id: 'camp-ts5', name: '宿银' },
     { id: 'camp-hotel', name: '南山电竞酒店' },
     { id: 'camp-resort', name: '海岸露营地' },
 ];
@@ -86,7 +86,7 @@ const baseData = {
         { label: '设置', path: '/InformationMaintenance/campInfo' },
     ],
     pageConfig: {
-        storeName: '银宿',
+        storeName: '宿银',
         heroTitle: '住进城市里的露营地',
         primaryColor: '#405f9e',
         bottomNavigation: [

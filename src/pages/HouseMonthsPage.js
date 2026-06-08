@@ -1,8 +1,12 @@
 import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchHouseMonthsDefaultCampId, fetchHouseMonthsSnapshot, } from '../services/houseMonths';
+import { cancelHouseMonthOrder, changeHouseMonthOrderRoom, checkInHouseMonthOrder, checkOutHouseMonthOrder, closeHouseMonthRoom, fetchHouseMonthChangeRoomOptions, fetchHouseMonthsDefaultCampId, fetchHouseMonthsSnapshot, openHouseMonthRoom, saveHouseMonthOrderGuests, skipStockHouseMonthOrder, } from '../services/houseMonths';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
+import { fetchOrderRoomCategoryPrice } from '../services/orderRoomSelector';
 import { OrderRefreshPopover } from './HouseStatusSharingPage';
+import { OrderEntryDrawerHost } from './OrdersPage';
 import './HouseMonthsPage.css';
 export const DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS = {
     colorMode: 'order',
@@ -13,6 +17,7 @@ export const DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS = {
     showOrderTags: true,
     showRoomStatus: true,
 };
+const ORDER_GUEST_DOCUMENT_TYPES = ['居民身份证', '港澳通行证', '港澳回乡证', '台胞证', 'Passport'];
 const ORDER_TAG_GROUP_LABEL = '默认标签';
 const ORDER_TAG_OPTIONS = ['促销', '重单', '保留房', '钟点房'];
 const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
@@ -53,6 +58,23 @@ function formatMonthDay(date) {
 function parseIsoDate(isoDate) {
     const [year, month, day] = isoDate.split('-').map(Number);
     return new Date(year, (month || 1) - 1, day || 1);
+}
+function parsePlainAmount(value) {
+    if (!value)
+        return undefined;
+    const amount = Number.parseFloat(value.replace(/[^\d.-]/g, ''));
+    return Number.isFinite(amount) ? amount : undefined;
+}
+function formatPlainAmount(value) {
+    if (!Number.isFinite(value))
+        return '0';
+    return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(2)));
+}
+function sumSelectedCellPrices(cells) {
+    const prices = cells.map((cell) => parsePlainAmount(cell.price));
+    if (prices.some((price) => price === undefined))
+        return undefined;
+    return prices.reduce((sum, price) => sum + (price ?? 0), 0);
 }
 function getStayNightCount(stayRange) {
     const [startPart, endPart] = stayRange.split('-');
@@ -159,6 +181,55 @@ export function createHoveredBooking(rect, cell, roomType, roomLabel) {
         top,
     };
 }
+function createSelectedMonthCell(key, row, column, status) {
+    return {
+        key,
+        storeId: row.storeId,
+        storeName: row.storeName,
+        roomType: row.label,
+        roomCategoryId: row.roomCategoryId || row.id,
+        roomId: row.roomId,
+        roomLabel: row.roomLabel,
+        date: column.isoDate,
+        price: row.price,
+        monthlyRent: row.monthlyRent,
+        status,
+    };
+}
+function sortSelectedMonthCells(cells) {
+    return [...cells].sort((left, right) => left.date.localeCompare(right.date));
+}
+function areSelectedCellsContinuous(cells) {
+    const sortedCells = sortSelectedMonthCells(cells);
+    return sortedCells.every((cell, index) => {
+        if (index === 0)
+            return true;
+        const previousDate = parseIsoDate(sortedCells[index - 1].date);
+        return formatIsoDate(shiftDate(previousDate, 1)) === cell.date;
+    });
+}
+function getBookingMergeKey(cell) {
+    if (!cell.tone.startsWith('booking'))
+        return '';
+    return cell.orderId || `${cell.title}|${cell.subtitle ?? ''}|${cell.stayRange ?? ''}|${cell.phone ?? ''}`;
+}
+function createRenderedRoomCells(cells) {
+    const renderedCells = [];
+    let cellIndex = 0;
+    while (cellIndex < cells.length) {
+        const cell = cells[cellIndex];
+        const mergeKey = getBookingMergeKey(cell);
+        let span = 1;
+        if (mergeKey) {
+            while (cellIndex + span < cells.length && getBookingMergeKey(cells[cellIndex + span]) === mergeKey) {
+                span += 1;
+            }
+        }
+        renderedCells.push({ cell, cellIndex, span });
+        cellIndex += span;
+    }
+    return renderedCells;
+}
 export function MonthOrderPopover({ hoveredBooking }) {
     return (_jsxs("section", { className: "month-order-popover", style: { left: hoveredBooking.left, top: hoveredBooking.top }, "aria-label": "\u8BA2\u5355\u60AC\u6D6E\u4FE1\u606F", children: [_jsxs("header", { children: [hoveredBooking.roomType, "-", hoveredBooking.roomLabel] }), _jsxs("div", { className: "month-order-popover__content", children: [_jsxs("div", { children: ["\u9884\u8BA2\u4EBA: ", hoveredBooking.cell.title] }), _jsxs("div", { children: ["\u624B\u673A\u53F7: ", hoveredBooking.cell.phone ?? '-'] }), _jsxs("div", { children: ["\u5165\u79BB\u65F6\u95F4: ", hoveredBooking.cell.stayRange ?? '2026-05-18-05-20'] }), _jsxs("div", { children: ["\u6E20\u9053\u6765\u6E90: ", _jsx("span", { children: hoveredBooking.cell.subtitle ?? '-' })] }), _jsxs("div", { className: "month-order-popover__price", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63): ", _jsx("em", { children: hoveredBooking.cell.amount ?? '-' })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165: ", _jsx("em", { children: hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-' })] })] }), _jsxs("div", { children: ["\u5907\u6CE8: ", hoveredBooking.cell.remark ?? '-'] })] })] }));
 }
@@ -189,47 +260,76 @@ export function BatchOperationDialog({ mode, state, onChange, onClose, onConfirm
 const legendSections = [
     {
         title: '房间信息',
+        layout: 'rooms',
         items: [
-            { label: '空净房', tone: 'clean', desc: '白底房卡表示可售且已清洁' },
-            { label: '空脏房', tone: 'dirty', desc: '浅灰房卡表示可售但待清洁' },
-            { label: '关房', tone: 'closed', desc: '斜纹底表示当前不可售' },
+            { label: '空房', kind: 'room', tone: 'empty' },
+            { label: '关房', kind: 'room', tone: 'closed' },
+            { label: '各平台房态不一致', kind: 'room', tone: 'mismatch' },
         ],
     },
     {
         title: '订单颜色',
+        layout: 'colors',
         items: [
-            { label: '美团/直连', tone: 'blue', desc: '蓝色订单块' },
-            { label: '携程/飞猪', tone: 'gold', desc: '橙色订单块' },
-            { label: '自有渠道', tone: 'teal', desc: '绿色订单块' },
+            { label: '待入住', kind: 'color', tone: 'pending' },
+            { label: '入住中', kind: 'color', tone: 'live' },
+            { label: '已退房', kind: 'color', tone: 'checkout' },
+            { label: '重单', kind: 'color', tone: 'duplicate' },
         ],
     },
     {
         title: '房间状态',
+        layout: 'icons',
         items: [
-            { label: '客平台房态不一致', tone: 'warning', desc: '需要核对 OTA 与 PMS 库存' },
-            { label: '入住中', tone: 'live', desc: '住客已办理入住' },
-            { label: '预抵/预离', tone: 'arrival', desc: '当日待入住或待离店' },
+            { label: '脏房', kind: 'status', tone: 'orange', icon: 'dirty' },
+            { label: '停用房', kind: 'status', tone: 'red', icon: 'disabled' },
+            { label: '维修房', kind: 'status', tone: 'blue', icon: 'repair' },
+            { label: '保留房', kind: 'status', tone: 'purple', icon: 'reserve' },
         ],
     },
     {
         title: '订单标签',
+        layout: 'icons',
         items: [
-            { label: '欠费', tone: 'debt', desc: '订单存在待收款项' },
-            { label: '备注', tone: 'note', desc: '订单含内部备注' },
-            { label: '钟点房', tone: 'hour', desc: '钟点或短租订单' },
+            { label: '重单', kind: 'tag', tone: 'red', marker: '重', fill: true },
+            { label: '订单备注', kind: 'tag', tone: 'orange', marker: '备' },
+            { label: '订单欠款', kind: 'tag', tone: 'red', marker: '欠' },
+            { label: '提前退房', kind: 'tag', tone: 'blue', marker: '退' },
+            { label: '邀请续住中', kind: 'tag', tone: 'orange', marker: '邀' },
+            { label: '续住订单', kind: 'tag', tone: 'blue', marker: '续' },
         ],
     },
     {
         title: '入住类型',
+        layout: 'icons',
         items: [
-            { label: '全天房', tone: 'all-day', desc: '标准日租订单' },
-            { label: '钟点房', tone: 'hour', desc: '按小时入住' },
-            { label: '长租房', tone: 'long', desc: '长住或月租订单' },
+            { label: '钟点房', kind: 'tag', tone: 'blue', marker: '钟' },
+            { label: '长租', kind: 'tag', tone: 'purple', marker: '长' },
         ],
     },
 ];
+const legendNotices = [
+    '若格子出现“小红点”，为房态不一致，请点格子进行调整，统一当天房态避免重单！',
+    '请避免在平台调整房态、房价等信息，统一在路客云维护，以免发生信息错乱、修改失败之情况！',
+    '请关闭在平台的 iCal/日历同步功能，以免影响房态同步。',
+];
+function LegendStatusMark({ icon }) {
+    switch (icon) {
+        case 'dirty':
+            return (_jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: [_jsx("path", { d: "M6.5 6.5h8l3 3v6.5a3 3 0 0 1-3 3h-5a3 3 0 0 1-3-3z" }), _jsx("path", { d: "m9 12 2.2 2.2 4-4.4" })] }));
+        case 'disabled':
+            return (_jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: [_jsx("path", { d: "M12 5.5 19 18H5z" }), _jsx("path", { d: "M12 10v4.2" }), _jsx("circle", { cx: "12", cy: "16.8", r: "0.9", fill: "currentColor", stroke: "none" })] }));
+        case 'repair':
+            return (_jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: [_jsx("path", { d: "m14.6 6.4 2.9-2.1 1.2 1.2-2.1 2.9-.2 1.8-4.7 4.7a2.1 2.1 0 1 1-3-3l4.7-4.7z" }), _jsx("path", { d: "m8.4 10.8-2.9-.5L4.3 9l2.1-2.9" })] }));
+        case 'reserve':
+            return (_jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: [_jsx("rect", { x: "7", y: "11", width: "10", height: "7.5", rx: "1.6" }), _jsx("path", { d: "M9 11V8.9A3 3 0 0 1 12 6a3 3 0 0 1 3 2.9V11" })] }));
+    }
+}
+function RoomStatusLegendTile({ item, }) {
+    return (_jsxs("div", { className: "room-status-legend__item", children: [_jsxs("span", { className: `room-status-legend__tile is-${item.kind} tone-${item.tone}`, "aria-hidden": "true", children: [item.kind === 'status' && item.icon ? (_jsx("span", { className: `room-status-legend__status-mark tone-${item.tone}`, children: _jsx(LegendStatusMark, { icon: item.icon }) })) : null, item.kind === 'tag' && item.marker ? (_jsx("span", { className: `room-status-legend__tag-mark tone-${item.tone}${item.fill ? ' is-filled' : ''}`, children: item.marker })) : null] }), _jsx("span", { className: "room-status-legend__label", children: item.label })] }));
+}
 export function RoomStatusLegendDrawer({ onClose }) {
-    return (_jsxs("aside", { className: "room-status-side-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u56FE\u4F8B\u8BF4\u660E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u56FE\u4F8B\u8BF4\u660E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u56FE\u4F8B\u8BF4\u660E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-legend", children: [legendSections.map((section) => (_jsxs("section", { className: "room-status-legend__section", children: [_jsx("h3", { children: section.title }), _jsx("div", { className: "room-status-legend__items", children: section.items.map((item) => (_jsxs("div", { className: "room-status-legend__item", children: [_jsx("span", { className: `room-status-legend__swatch is-${item.tone}`, "aria-hidden": "true" }), _jsxs("div", { children: [_jsx("strong", { children: item.label }), _jsx("p", { children: item.desc })] })] }, item.label))) })] }, section.title))), _jsxs("section", { className: "room-status-legend__notice", children: [_jsx("h3", { children: "\u6CE8\u610F\u4E8B\u9879" }), _jsx("p", { children: "\u56FE\u4F8B\u989C\u8272\u4EE5\u8BA2\u5355\u6E20\u9053\u4E3A\u4E3B\u8272\u65F6\uFF0C\u623F\u5361\u80CC\u666F\u8DDF\u968F\u6E20\u9053\u8272\uFF1B\u5207\u6362\u4E3A\u8BA2\u5355\u72B6\u6001\u4E3A\u4E3B\u8272\u540E\uFF0C\u8BA2\u5355\u72B6\u6001\u4F18\u5148\u5C55\u793A\u3002" })] })] })] }));
+    return (_jsxs("aside", { className: "room-status-side-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u56FE\u4F8B\u8BF4\u660E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u56FE\u4F8B\u8BF4\u660E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u56FE\u4F8B\u8BF4\u660E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-legend", children: [legendSections.map((section) => (_jsxs("section", { className: "room-status-legend__section", children: [_jsx("h3", { children: section.title }), _jsx("div", { className: `room-status-legend__items is-${section.layout}`, children: section.items.map((item) => (_jsx(RoomStatusLegendTile, { item: item }, item.label))) })] }, section.title))), _jsxs("section", { className: "room-status-legend__notice", children: [_jsx("h3", { children: "\u6CE8\u610F\u4E8B\u9879" }), _jsx("ol", { children: legendNotices.map((notice) => (_jsx("li", { children: notice }, notice))) })] })] })] }));
 }
 function DrawerSwitch({ label, checked, onChange, }) {
     return (_jsxs("button", { type: "button", role: "switch", "aria-checked": checked, "aria-label": label, className: "room-status-setting-switch", onClick: () => onChange(!checked), children: [_jsx("span", { children: label }), _jsx("i", { "aria-hidden": "true" })] }));
@@ -238,7 +338,7 @@ export function RoomStatusDisplaySettingsDrawer({ settings, onClose, onChange, }
     const patchSettings = (patch) => {
         onChange({ ...settings, ...patch });
     };
-    return (_jsxs("aside", { className: "room-status-side-drawer room-status-side-drawer--settings", role: "dialog", "aria-modal": "true", "aria-label": "\u623F\u6001\u663E\u793A\u8BBE\u7F6E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u623F\u6001\u663E\u793A\u8BBE\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u623F\u6001\u663E\u793A\u8BBE\u7F6E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-settings-panel", children: [_jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u623F\u6001\u9875\uFF08\u53EF\u5DE6\u53F3\u62D6\u52A8\u6392\u5E8F\uFF09" }), _jsx("div", { className: "room-status-settings-panel__drag-list", "aria-label": "\u623F\u6001\u9875\u6392\u5E8F", children: ['月房态', '日房态'].map((label) => (_jsxs("button", { type: "button", className: "room-status-settings-panel__drag-item", children: [_jsx("span", { className: "room-status-settings-panel__eye", "aria-hidden": "true" }), _jsx("span", { children: label }), _jsx("span", { className: "room-status-settings-panel__handle", "aria-hidden": "true" })] }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u65E5\u623F\u6001\u89C6\u56FE\uFF08\u53EF\u5DE6\u53F3\u62D6\u52A8\u6392\u5E8F\uFF09" }), _jsx("div", { className: "room-status-settings-panel__drag-list", "aria-label": "\u65E5\u623F\u6001\u89C6\u56FE\u6392\u5E8F", children: ['按房型', '按房间号', '按楼层'].map((label) => (_jsxs("button", { type: "button", className: "room-status-settings-panel__drag-item", children: [_jsx("span", { className: "room-status-settings-panel__eye", "aria-hidden": "true" }), _jsx("span", { children: label }), _jsx("span", { className: "room-status-settings-panel__handle", "aria-hidden": "true" })] }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u8BA2\u5355\u989C\u8272" }), _jsxs("div", { className: "room-status-setting-radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: settings.colorMode === 'channel', onChange: () => patchSettings({ colorMode: 'channel' }) }), _jsx("span", { children: "\u6E20\u9053\u4E3A\u4E3B\u8272" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: settings.colorMode === 'order', onChange: () => patchSettings({ colorMode: 'order' }) }), _jsx("span", { children: "\u8BA2\u5355\u72B6\u6001\u4E3A\u4E3B\u8272" })] })] })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u663E\u793A\u5185\u5BB9" }), _jsxs("div", { className: "room-status-settings-panel__switches", children: [_jsx(DrawerSwitch, { label: "\u663E\u793A\u95E8\u5E02\u4EF7", checked: settings.showListPrice, onChange: (checked) => patchSettings({ showListPrice: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u8BA2\u5355\u4EF7\u683C", checked: settings.showOrderPrice, onChange: (checked) => patchSettings({ showOrderPrice: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u623F\u6E90\u7F16\u7801", checked: settings.showRoomCode, onChange: (checked) => patchSettings({ showRoomCode: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u8BA2\u5355", checked: settings.showOrders, onChange: (checked) => patchSettings({ showOrders: checked }) })] })] })] })] }));
+    return (_jsxs("aside", { className: "room-status-side-drawer room-status-side-drawer--settings", role: "dialog", "aria-modal": "true", "aria-label": "\u623F\u6001\u663E\u793A\u8BBE\u7F6E", children: [_jsxs("header", { className: "room-status-side-drawer__header", children: [_jsx("strong", { children: "\u623F\u6001\u663E\u793A\u8BBE\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u623F\u6001\u663E\u793A\u8BBE\u7F6E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "room-status-side-drawer__body room-status-settings-panel", children: [_jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u623F\u6001\u9875\uFF08\u53EF\u5DE6\u53F3\u62D6\u52A8\u6392\u5E8F\uFF09" }), _jsx("div", { className: "room-status-settings-panel__drag-list", "aria-label": "\u623F\u6001\u9875\u6392\u5E8F", children: ['月房态', '日房态'].map((label) => (_jsxs("button", { type: "button", className: "room-status-settings-panel__drag-item", children: [_jsx("span", { className: "room-status-settings-panel__eye", "aria-hidden": "true" }), _jsx("span", { children: label }), _jsx("span", { className: "room-status-settings-panel__handle", "aria-hidden": "true" })] }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u65E5\u623F\u6001\u89C6\u56FE\uFF08\u53EF\u5DE6\u53F3\u62D6\u52A8\u6392\u5E8F\uFF09" }), _jsx("div", { className: "room-status-settings-panel__drag-list", "aria-label": "\u65E5\u623F\u6001\u89C6\u56FE\u6392\u5E8F", children: ['按房型', '按房间号', '按楼层'].map((label) => (_jsxs("button", { type: "button", className: "room-status-settings-panel__drag-item", children: [_jsx("span", { className: "room-status-settings-panel__eye", "aria-hidden": "true" }), _jsx("span", { children: label }), _jsx("span", { className: "room-status-settings-panel__handle", "aria-hidden": "true" })] }, label))) })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u8BA2\u5355\u989C\u8272" }), _jsxs("div", { className: "room-status-setting-radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: settings.colorMode === 'channel', onChange: () => patchSettings({ colorMode: 'channel' }) }), _jsx("span", { children: "\u6E20\u9053\u4E3A\u4E3B\u8272" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "room-status-color-mode", checked: settings.colorMode === 'order', onChange: () => patchSettings({ colorMode: 'order' }) }), _jsx("span", { children: "\u8BA2\u5355\u72B6\u6001\u4E3A\u4E3B\u8272" })] })] })] }), _jsxs("section", { className: "room-status-settings-panel__section", children: [_jsx("h3", { children: "\u663E\u793A\u5185\u5BB9" }), _jsxs("div", { className: "room-status-settings-panel__switches", children: [_jsx(DrawerSwitch, { label: "\u663E\u793A\u95E8\u5E02\u4EF7", checked: settings.showListPrice, onChange: (checked) => patchSettings({ showListPrice: checked }) }), _jsx(DrawerSwitch, { label: "\u663E\u793A\u623F\u6E90\u7F16\u7801", checked: settings.showRoomCode, onChange: (checked) => patchSettings({ showRoomCode: checked }) })] })] })] })] }));
 }
 export function HouseMonthsPage() {
     const navigate = useNavigate();
@@ -262,9 +362,12 @@ export function HouseMonthsPage() {
     const [filterMenu, setFilterMenu] = useState(null);
     const [batchResult, setBatchResult] = useState(null);
     const [selectedKeys, setSelectedKeys] = useState([]);
+    const [selectedCells, setSelectedCells] = useState([]);
+    const [selectedCell, setSelectedCell] = useState(null);
     const [selectionAnchor, setSelectionAnchor] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [hoveredBooking, setHoveredBooking] = useState(null);
+    const [orderEntryInitialRoom, setOrderEntryInitialRoom] = useState(null);
     const [statusDrawer, setStatusDrawer] = useState(null);
     const [displaySettings, setDisplaySettings] = useState(DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS);
     const [loadState, setLoadState] = useState('idle');
@@ -355,6 +458,8 @@ export function HouseMonthsPage() {
             setDatePickerOpen(false);
             setSelectedBooking(null);
             setBatchDialogMode(null);
+            setSelectedCells([]);
+            setSelectedCell(null);
             setSelectionAnchor(null);
             setStatusDrawer(null);
         };
@@ -372,7 +477,7 @@ export function HouseMonthsPage() {
                 setRefreshPopoverOpen(false);
             if (!target.closest('.month-calendar-title') && !target.closest('.month-date-picker'))
                 setDatePickerOpen(false);
-            if (!target.closest('.month-order-drawer') && !target.closest('.tone-booking-blue, .tone-booking-gold, .tone-booking-teal')) {
+            if (!target.closest('.month-order-drawer') && !target.closest('.month-cell[class*="tone-booking-"]')) {
                 setSelectedBooking(null);
             }
         };
@@ -383,6 +488,35 @@ export function HouseMonthsPage() {
             window.removeEventListener('click', closeByPointer);
         };
     }, []);
+    const roomGroupStoreFallbackOptions = useMemo(() => roomGroups
+        .filter((group) => group.storeId && group.storeId !== 'all')
+        .map((group) => ({
+        id: group.storeId,
+        label: group.storeName || `门店 ${group.storeId}`,
+    })), [roomGroups]);
+    const { storeOptions: backendStoreOptions } = useStoreOptions({
+        fallbackOptions: roomGroupStoreFallbackOptions,
+    });
+    const storeOptions = useMemo(() => {
+        const stores = new Map();
+        for (const store of backendStoreOptions) {
+            if (store.id && store.id !== 'all')
+                stores.set(store.id, { id: store.id, name: store.label });
+        }
+        for (const group of roomGroups) {
+            if (group.storeId && group.storeId !== 'all') {
+                stores.set(group.storeId, { id: group.storeId, name: group.storeName || `门店 ${stores.size + 1}` });
+            }
+        }
+        return [{ id: 'all', name: '全部门店' }, ...stores.values()];
+    }, [backendStoreOptions, roomGroups]);
+    useEffect(() => {
+        if (activeChip === 'all')
+            return;
+        if (storeOptions.some((store) => store.id === activeChip))
+            return;
+        setActiveChip('all');
+    }, [activeChip, storeOptions]);
     const filteredRows = useMemo(() => {
         const keyword = query.trim();
         return roomGroups.filter((group) => {
@@ -425,17 +559,170 @@ export function HouseMonthsPage() {
         setBatchDialogMode(null);
         setBatchResult(mode);
         setSelectedKeys([]);
+        setSelectedCells([]);
+        setSelectedCell(null);
         setSelectionAnchor(null);
         setToastMessage(`${batchConfig[mode].title}已完成：已设为${batchConfig[mode].result}`);
     };
     const showActionResult = (action) => {
         setToastMessage(action === '复制成功' ? action : `${action}已处理`);
     };
-    const toggleKey = (key) => {
-        setSelectedKeys((current) => (current.includes(key) ? current.filter((item) => item !== key) : [...current, key]));
+    const selectMonthCell = (key, row, cellIndex, rect, status) => {
+        const column = dateColumns[cellIndex];
+        if (!column)
+            return;
+        if (selectedKeys.includes(key)) {
+            const nextCells = selectedCells.filter((cell) => cell.key !== key);
+            setSelectedCells(nextCells);
+            setSelectedKeys(nextCells.map((cell) => cell.key));
+            setSelectedCell(nextCells.at(-1) ?? null);
+            if (nextCells.length === 0) {
+                setSelectionAnchor(null);
+            }
+            else {
+                updateSelectionAnchor(rect);
+            }
+            return;
+        }
+        const nextCell = createSelectedMonthCell(key, row, column, status);
+        const nextCells = [...selectedCells, nextCell];
+        setSelectedCells(nextCells);
+        setSelectedKeys(nextCells.map((cell) => cell.key));
+        setSelectedCell(nextCell);
+        updateSelectionAnchor(rect);
+    };
+    const openOrderEntryForSelectedCell = async () => {
+        const cells = selectedCells.length ? selectedCells : selectedCell ? [selectedCell] : [];
+        if (!cells.length)
+            return;
+        const firstCell = cells[0];
+        const sameRoom = cells.every((cell) => cell.roomCategoryId === firstCell.roomCategoryId && cell.roomId === firstCell.roomId);
+        if (!sameRoom || !areSelectedCellsContinuous(cells)) {
+            setToastMessage('多选录单请连续选择同一房间日期');
+            return;
+        }
+        const sortedCells = sortSelectedMonthCells(cells);
+        const startDate = sortedCells[0].date;
+        const endDate = formatIsoDate(shiftDate(parseIsoDate(sortedCells[sortedCells.length - 1].date), 1));
+        const days = sortedCells.length;
+        const closedCells = sortedCells.filter((cell) => cell.status === 'closed');
+        if (closedCells.length > 0) {
+            const campId = activeStoreCampId || resolvedCampIdRef.current;
+            if (!campId) {
+                setToastMessage('缺少当前门店，无法开房录单');
+                return;
+            }
+            try {
+                await Promise.all(closedCells.map((cell) => openHouseMonthRoom({
+                    campId,
+                    roomCategoryId: cell.roomCategoryId,
+                    roomId: cell.roomId,
+                    date: cell.date,
+                    reason: '月房态录单自动开房',
+                })));
+                await loadSnapshot(roomType, query);
+            }
+            catch (error) {
+                setToastMessage(`开房失败：${error instanceof Error ? error.message : String(error)}`);
+                return;
+            }
+        }
+        const inlinePriceTotal = sumSelectedCellPrices(sortedCells);
+        let price = inlinePriceTotal !== undefined ? formatPlainAmount(inlinePriceTotal) : undefined;
+        let unitPrice = inlinePriceTotal !== undefined ? formatPlainAmount(inlinePriceTotal / days) : firstCell.price;
+        if (!price) {
+            const campId = activeStoreCampId || resolvedCampIdRef.current;
+            if (!campId) {
+                setToastMessage('Missing campId, cannot load room price');
+                return;
+            }
+            try {
+                const categoryPrice = await fetchOrderRoomCategoryPrice({
+                    campId,
+                    poiId: firstCell.storeId,
+                    roomCategoryId: firstCell.roomCategoryId,
+                    startDate,
+                    days,
+                    stayType: 'daily_room',
+                });
+                price = categoryPrice?.price;
+                unitPrice = categoryPrice?.unitPrice;
+            }
+            catch (error) {
+                setToastMessage(`Load room price failed: ${error instanceof Error ? error.message : String(error)}`);
+                return;
+            }
+        }
+        clearSelectedCells();
+        setOrderEntryInitialRoom({
+            poiId: firstCell.storeId,
+            poiName: firstCell.storeName,
+            roomCategoryId: firstCell.roomCategoryId,
+            roomCategoryName: firstCell.roomType,
+            roomId: firstCell.roomId,
+            roomName: firstCell.roomLabel,
+            startDate,
+            endDate,
+            price,
+            unitPrice,
+            monthlyRent: firstCell.monthlyRent,
+        });
+        setToastMessage(closedCells.length > 0 ? '已开房，录入订单面板已打开' : '录入订单面板已打开，可继续补充联系人和费用信息');
+    };
+    const closeSelectedMonthCellRoom = async () => {
+        const targetCells = (selectedCells.length ? selectedCells : selectedCell ? [selectedCell] : []).filter((cell) => cell.status === 'blank');
+        if (!targetCells.length)
+            return;
+        const campId = activeStoreCampId || resolvedCampIdRef.current;
+        if (!campId) {
+            setToastMessage('缺少当前门店，无法关房');
+            return;
+        }
+        try {
+            const results = await Promise.all(targetCells.map((cell) => closeHouseMonthRoom({
+                campId,
+                roomCategoryId: cell.roomCategoryId,
+                roomId: cell.roomId,
+                date: cell.date,
+                reason: '月房态手动关房',
+            })));
+            clearSelectedCells();
+            await loadSnapshot(roomType, query);
+            setToastMessage(targetCells.length === 1 ? results[0]?.message || '关房成功' : `已关房${targetCells.length}个房态`);
+        }
+        catch (error) {
+            setToastMessage(`关房失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+    };
+    const openSelectedMonthCellRoom = async () => {
+        const targetCells = (selectedCells.length ? selectedCells : selectedCell ? [selectedCell] : []).filter((cell) => cell.status === 'closed');
+        if (!targetCells.length)
+            return;
+        const campId = activeStoreCampId || resolvedCampIdRef.current;
+        if (!campId) {
+            setToastMessage('缺少当前门店，无法开房');
+            return;
+        }
+        try {
+            const results = await Promise.all(targetCells.map((cell) => openHouseMonthRoom({
+                campId,
+                roomCategoryId: cell.roomCategoryId,
+                roomId: cell.roomId,
+                date: cell.date,
+                reason: '月房态手动开房',
+            })));
+            clearSelectedCells();
+            await loadSnapshot(roomType, query);
+            setToastMessage(targetCells.length === 1 ? results[0]?.message || '开房成功' : `已开房${targetCells.length}个房态`);
+        }
+        catch (error) {
+            setToastMessage(`开房失败：${error instanceof Error ? error.message : String(error)}`);
+        }
     };
     const clearSelectedCells = () => {
         setSelectedKeys([]);
+        setSelectedCells([]);
+        setSelectedCell(null);
         setSelectionAnchor(null);
     };
     const clearFilters = () => {
@@ -443,10 +730,6 @@ export function HouseMonthsPage() {
         setRoomType('');
         void loadSnapshot('', '');
     };
-    const storeOptions = [
-        { id: 'all', name: '\u5168\u90e8\u95e8\u5e97' },
-        { id: 'poi-1796067693589061634', name: '\u5929\u843d\u4f1a\u5bbf\u516c\u5bd3(\u524d\u6d77\u58f9\u65b9\u57ce\u5b9d\u5b89\u4e2d\u5fc3\u5e97)' },
-    ];
     const handleStoreSwitch = (storeId) => {
         const nextStore = storeOptions.find((store) => store.id === storeId);
         const nextCampId = activeStoreCampId.trim();
@@ -477,7 +760,7 @@ export function HouseMonthsPage() {
             roomLabel: row.roomLabel,
         });
     };
-    const isSelectableCell = (cell) => cell.tone === 'blank';
+    const isSelectableCell = (cell) => cell.tone === 'blank' || cell.tone === 'disabled';
     const updateSelectionAnchor = (rect) => {
         const panelWidth = 112;
         const left = Math.min(window.innerWidth - panelWidth - 12, Math.max(12, Math.round(rect.left + rect.width / 2 - panelWidth / 2)));
@@ -490,7 +773,7 @@ export function HouseMonthsPage() {
                                                         }, children: "\u56FE\u4F8B\u8BF4\u660E" }), _jsx("button", { type: "button", role: "menuitem", onClick: () => {
                                                             setSettingsOpen(false);
                                                             setStatusDrawer('display');
-                                                        }, children: "\u623F\u6001\u8BBE\u7F6E" })] })) : null] })] })] }), _jsxs("div", { className: "month-toolbar__filters", children: [_jsxs("div", { className: "month-store-control", children: [_jsx("div", { className: "month-store-switch", "aria-label": "\u95E8\u5E97\u8303\u56F4", children: storeOptions.map((store, index) => (_jsx("button", { type: "button", className: `chip${index === 0 ? ' month-store-chip' : ''}${activeChip === store.id ? ' is-active' : ''}`, "aria-pressed": activeChip === store.id, onClick: () => handleStoreSwitch(store.id), children: store.name }, store.id))) }), _jsx("button", { type: "button", className: "month-store-settings", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: _jsx("span", { "aria-hidden": "true", children: "\u2699" }) })] }), _jsxs("div", { className: `month-filter-menu month-filter-menu--room${roomType ? ' has-value' : ''}`, children: [_jsx("button", { type: "button", className: "chip month-room-filter-trigger", "aria-expanded": filterMenu === 'room', "data-testid": "month-room-filter-trigger", onClick: () => setFilterMenu(filterMenu === 'room' ? null : 'room'), children: roomType ? (_jsx("span", { className: "month-room-filter-trigger__value", "data-testid": "month-room-filter-value", title: roomType, children: roomType })) : (_jsx("span", { className: "month-room-filter-trigger__placeholder", children: "\u623F\u578B" })) }), roomType ? (_jsx("button", { type: "button", className: "month-room-filter-clear", "aria-label": "\u6E05\u9664\u623F\u578B\u7B5B\u9009", "data-testid": "month-room-filter-clear", onClick: clearRoomTypeFilter, children: "\u00D7" })) : null, filterMenu === 'room' ? (_jsx("div", { className: "month-filter-menu__panel", role: "listbox", "aria-label": "\u623F\u578B\u7B5B\u9009", children: Array.from(new Map(roomGroups.map((row) => [row.roomCategoryId || row.label, row])).values()).map((row) => (_jsx("button", { type: "button", role: "option", "aria-selected": roomType === row.label, onClick: () => {
+                                                        }, children: "\u623F\u6001\u8BBE\u7F6E" })] })) : null] })] })] }), _jsxs("div", { className: "month-toolbar__filters", children: [_jsx(StoreSelectControl, { label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions, value: activeChip, onChange: (storeId) => handleStoreSwitch(storeId), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsxs("div", { className: `month-filter-menu month-filter-menu--room${roomType ? ' has-value' : ''}`, children: [_jsx("button", { type: "button", className: "chip month-room-filter-trigger", "aria-expanded": filterMenu === 'room', "data-testid": "month-room-filter-trigger", onClick: () => setFilterMenu(filterMenu === 'room' ? null : 'room'), children: roomType ? (_jsx("span", { className: "month-room-filter-trigger__value", "data-testid": "month-room-filter-value", title: roomType, children: roomType })) : (_jsx("span", { className: "month-room-filter-trigger__placeholder", children: "\u623F\u578B" })) }), roomType ? (_jsx("button", { type: "button", className: "month-room-filter-clear", "aria-label": "\u6E05\u9664\u623F\u578B\u7B5B\u9009", "data-testid": "month-room-filter-clear", onClick: clearRoomTypeFilter, children: "\u00D7" })) : null, filterMenu === 'room' ? (_jsx("div", { className: "month-filter-menu__panel", role: "listbox", "aria-label": "\u623F\u578B\u7B5B\u9009", children: Array.from(new Map(roomGroups.map((row) => [row.roomCategoryId || row.label, row])).values()).map((row) => (_jsx("button", { type: "button", role: "option", "aria-selected": roomType === row.label, onClick: () => {
                                                 setRoomType(row.label);
                                                 setFilterMenu(null);
                                                 void loadSnapshot(row.label, query);
@@ -503,34 +786,33 @@ export function HouseMonthsPage() {
                                         }, children: collapsed ? '全部展开' : '全部收起' })] }), dateColumns.map((date, index) => (_jsxs("button", { type: "button", "data-testid": "month-date-column", className: `timeline-date${index === activeSelectedDateIndex ? ' is-highlight' : ''}${date.hot ? ' is-hot' : ''}`, "aria-current": index === activeSelectedDateIndex ? 'date' : undefined, onClick: () => {
                                     setSelectedDate(parseIsoDate(date.isoDate));
                                     setDatePickerOpen(false);
-                                }, children: [index === activeSelectedDateIndex ? _jsx("i", { "aria-hidden": "true" }) : null, _jsx("strong", { children: date.date }), _jsx("span", { children: date.weekday }), _jsx("em", { children: date.remain })] }, date.date)))] }), loadState === 'ready' && filteredRows.length === 0 ? (_jsx("div", { className: "month-empty-state", role: "status", children: "\u6682\u65E0\u6708\u623F\u6001\u6570\u636E" })) : null, filteredRows.map((row, rowIndex) => (_jsxs("div", { className: "month-room-group", children: [_jsxs("div", { className: "month-grid-row month-board__row is-type", "data-row-kind": "type", "data-testid": "month-type-row", children: [_jsxs("div", { className: "timeline-room month-board__room", children: [_jsx("strong", { children: row.label }), _jsx("span", { className: "month-room-collapse", children: "\u6536\u8D77" })] }), row.typeCells.map((cell, cellIndex) => (_jsx("button", { type: "button", className: `month-cell tone-${cell.tone}`, children: _jsx("strong", { children: cell.title }) }, `${row.label}-type-${cellIndex}`)))] }), !collapsed ? (_jsxs("div", { className: "month-grid-row month-board__row is-room", "data-row-kind": "room", "data-testid": "month-room-row", children: [_jsx("div", { className: "timeline-room month-board__room", children: _jsx("strong", { children: row.roomLabel }) }), row.roomCells.map((cell, cellIndex) => {
+                                }, children: [index === activeSelectedDateIndex ? _jsx("i", { "aria-hidden": "true" }) : null, _jsx("strong", { children: date.date }), _jsx("span", { children: date.weekday }), _jsx("em", { children: date.remain })] }, date.date)))] }), loadState === 'ready' && filteredRows.length === 0 ? (_jsx("div", { className: "month-empty-state", role: "status", children: "\u6682\u65E0\u6708\u623F\u6001\u6570\u636E" })) : null, filteredRows.map((row, rowIndex) => (_jsxs("div", { className: "month-room-group", children: [_jsxs("div", { className: "month-grid-row month-board__row is-type", "data-row-kind": "type", "data-testid": "month-type-row", children: [_jsxs("div", { className: "timeline-room month-board__room", children: [_jsx("strong", { children: row.label }), _jsx("span", { className: "month-room-collapse", children: "\u6536\u8D77" })] }), row.typeCells.map((cell, cellIndex) => (_jsx("button", { type: "button", className: `month-cell tone-${cell.tone}`, children: _jsx("strong", { children: cell.title }) }, `${row.label}-type-${cellIndex}`)))] }), !collapsed ? (_jsxs("div", { className: "month-grid-row month-board__row is-room", "data-row-kind": "room", "data-testid": "month-room-row", children: [_jsx("div", { className: "timeline-room month-board__room", children: _jsx("strong", { children: row.roomLabel }) }), createRenderedRoomCells(row.roomCells).map(({ cell, cellIndex, span }) => {
                                         const key = `${rowIndex}-${cellIndex}`;
                                         const selected = selectedKeys.includes(key);
                                         const selectable = isSelectableCell(cell);
+                                        const cellStatus = cell.tone === 'disabled' ? 'closed' : 'blank';
+                                        const renderTone = displaySettings.colorMode === 'channel' && cell.tone !== 'booking-duplicate'
+                                            ? cell.channelTone ?? cell.tone
+                                            : cell.tone;
                                         const isBookingCell = cell.tone.startsWith('booking');
-                                        const showBookingDetails = isBookingCell && displaySettings.showOrders;
                                         const showRoomStatusLabel = !isBookingCell && displaySettings.showRoomStatus;
-                                        return (_jsxs("button", { type: "button", "data-testid": selectable ? 'month-selectable-cell' : undefined, "aria-selected": selectable ? selected : undefined, "data-selectable": selectable ? 'true' : undefined, className: `month-cell tone-${cell.tone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`, onMouseEnter: (event) => {
+                                        return (_jsxs("button", { type: "button", "data-testid": cell.tone === 'blank' ? 'month-selectable-cell' : undefined, "data-order-span": span > 1 ? String(span) : undefined, "aria-selected": selectable ? selected : undefined, "data-selectable": selectable ? 'true' : undefined, className: `month-cell tone-${renderTone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`, style: span > 1 ? { gridColumn: `span ${span}` } : undefined, onMouseEnter: (event) => {
                                                 if (cell.tone.startsWith('booking'))
                                                     showBookingPopover(event, cell, row);
                                             }, onMouseLeave: () => setHoveredBooking(null), onClick: (event) => {
                                                 if (selectable) {
-                                                    toggleKey(key);
-                                                    updateSelectionAnchor(event.currentTarget.getBoundingClientRect());
+                                                    selectMonthCell(key, row, cellIndex, event.currentTarget.getBoundingClientRect(), cellStatus);
                                                     return;
                                                 }
                                                 if (cell.tone.startsWith('booking'))
                                                     openOrderDrawer(cell, row);
-                                            }, children: [showBookingDetails || showRoomStatusLabel ? _jsx("strong", { children: cell.title }) : null, showBookingDetails && cell.subtitle ? _jsx("span", { children: cell.subtitle }) : null, showBookingDetails && displaySettings.showOrderPrice && cell.amount ? _jsx("em", { children: cell.amount }) : null, showBookingDetails && displaySettings.showOrderTags && cell.badge ? _jsx("b", { children: cell.badge }) : null, selected ? _jsx("i", { className: "month-cell__check", "aria-hidden": "true", children: "\u2713" }) : null] }, key));
-                                    })] })) : null] }, row.id)))] }), selectedKeys.length > 0 && selectionAnchor ? (_jsxs("div", { className: "month-selection-actions", role: "menu", "aria-label": "\u623F\u6001\u64CD\u4F5C\u83DC\u5355", style: { left: selectionAnchor.left, top: selectionAnchor.top }, children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => {
-                            clearSelectedCells();
-                            showActionResult('\u5f55\u5355');
-                        }, children: '\u5f55\u5355' }), _jsx("button", { type: "button", role: "menuitem", onClick: () => {
-                            setBatchDialogState(createBatchDialogInitialState('close'));
-                            setBatchDialogMode('close');
-                        }, children: '\u5173\u623f' })] })) : null, batchDialogMode ? (_jsx(BatchOperationDialog, { mode: batchDialogMode, state: batchDialogState, onChange: (patch) => setBatchDialogState((current) => ({ ...current, ...patch })), onClose: () => setBatchDialogMode(null), onConfirm: () => applyBatch(batchDialogMode) })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, onClose: () => setSelectedBooking(null), onAction: showActionResult })) : null, hoveredBooking ? (_jsxs("section", { className: "month-order-popover", style: { left: hoveredBooking.left, top: hoveredBooking.top }, "aria-label": "\u8BA2\u5355\u60AC\u6D6E\u4FE1\u606F", children: [_jsxs("header", { children: [hoveredBooking.roomType, "-", hoveredBooking.roomLabel] }), _jsxs("div", { className: "month-order-popover__content", children: [_jsxs("div", { children: ["\u9884\u8BA2\u4EBA: ", hoveredBooking.cell.title] }), _jsxs("div", { children: ["\u624B\u673A\u53F7: ", hoveredBooking.cell.phone ?? '-'] }), _jsxs("div", { children: ["\u5165\u79BB\u65F6\u95F4: ", hoveredBooking.cell.stayRange ?? '2026.05.18-05.20'] }), _jsxs("div", { children: ["\u6E20\u9053\u6765\u6E90: ", _jsx("span", { children: hoveredBooking.cell.subtitle ?? '-' })] }), _jsxs("div", { className: "month-order-popover__price", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63): ", _jsx("em", { children: hoveredBooking.cell.amount ?? '-' })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165: ", _jsx("em", { children: hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-' })] })] }), _jsxs("div", { children: ["\u5907\u6CE8: ", hoveredBooking.cell.remark ?? '-'] })] })] })) : null, statusDrawer === 'legend' ? _jsx(RoomStatusLegendDrawer, { onClose: () => setStatusDrawer(null) }) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onClose: () => setStatusDrawer(null), onChange: setDisplaySettings })) : null] }));
+                                            }, children: [isBookingCell || showRoomStatusLabel ? _jsx("strong", { children: cell.title }) : null, isBookingCell && cell.subtitle ? _jsx("span", { children: cell.subtitle }) : null, isBookingCell && cell.amount ? _jsx("em", { children: cell.amount }) : null, isBookingCell && cell.badge ? _jsx("b", { children: cell.badge }) : null, selected ? _jsx("i", { className: "month-cell__check", "aria-hidden": "true", children: "\u2713" }) : null] }, key));
+                                    })] })) : null] }, row.id)))] }), selectedCells.length > 0 && selectedCell && selectionAnchor ? (_jsxs("div", { className: "month-selection-actions", role: "menu", "aria-label": "\u623F\u6001\u64CD\u4F5C\u83DC\u5355", style: { left: selectionAnchor.left, top: selectionAnchor.top }, children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => void openOrderEntryForSelectedCell(), children: '\u5f55\u5355' }), _jsx("button", { type: "button", role: "menuitem", onClick: () => void (selectedCells.every((cell) => cell.status === 'closed') ? openSelectedMonthCellRoom() : closeSelectedMonthCellRoom()), children: selectedCells.every((cell) => cell.status === 'closed') ? '\u5f00\u623f' : '\u5173\u623f' })] })) : null, batchDialogMode ? (_jsx(BatchOperationDialog, { mode: batchDialogMode, state: batchDialogState, onChange: (patch) => setBatchDialogState((current) => ({ ...current, ...patch })), onClose: () => setBatchDialogMode(null), onConfirm: () => applyBatch(batchDialogMode) })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, campId: activeStoreCampId || resolvedCampIdRef.current, onClose: () => setSelectedBooking(null), onAction: showActionResult, onOrderChanged: () => loadSnapshot(roomType, query) })) : null, _jsx(OrderEntryDrawerHost, { isOpen: Boolean(orderEntryInitialRoom), initialRoom: orderEntryInitialRoom, onClose: () => setOrderEntryInitialRoom(null), onCreated: () => {
+                    setOrderEntryInitialRoom(null);
+                    void loadSnapshot(roomType, query);
+                }, onActionMessage: setToastMessage }), hoveredBooking ? (_jsxs("section", { className: "month-order-popover", style: { left: hoveredBooking.left, top: hoveredBooking.top }, "aria-label": "\u8BA2\u5355\u60AC\u6D6E\u4FE1\u606F", children: [_jsxs("header", { children: [hoveredBooking.roomType, "-", hoveredBooking.roomLabel] }), _jsxs("div", { className: "month-order-popover__content", children: [_jsxs("div", { children: ["\u9884\u8BA2\u4EBA: ", hoveredBooking.cell.title] }), _jsxs("div", { children: ["\u624B\u673A\u53F7: ", hoveredBooking.cell.phone ?? '-'] }), _jsxs("div", { children: ["\u5165\u79BB\u65F6\u95F4: ", hoveredBooking.cell.stayRange ?? '2026.05.18-05.20'] }), _jsxs("div", { children: ["\u6E20\u9053\u6765\u6E90: ", _jsx("span", { children: hoveredBooking.cell.subtitle ?? '-' })] }), _jsxs("div", { className: "month-order-popover__price", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63): ", _jsx("em", { children: hoveredBooking.cell.amount ?? '-' })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165: ", _jsx("em", { children: hoveredBooking.cell.totalIncome ?? hoveredBooking.cell.amount ?? '-' })] })] }), _jsxs("div", { children: ["\u5907\u6CE8: ", hoveredBooking.cell.remark ?? '-'] })] })] })) : null, statusDrawer === 'legend' ? _jsx(RoomStatusLegendDrawer, { onClose: () => setStatusDrawer(null) }) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onClose: () => setStatusDrawer(null), onChange: setDisplaySettings })) : null] }));
 }
-export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
+export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onAction, onOrderChanged }) {
     const [activeTab, setActiveTab] = useState('order');
     const [openDialog, setOpenDialog] = useState(null);
     const [collectDialogOpen, setCollectDialogOpen] = useState(false);
@@ -549,8 +831,23 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
     const [actionFlow, setActionFlow] = useState(null);
     const [editOrderRoomMode, setEditOrderRoomMode] = useState('all-day');
     const [checkoutType, setCheckoutType] = useState('normal');
-    const orderState = resolveMonthOrderState(selectedBooking.cell.liveStatus);
-    const statusLabel = orderState === 'checked-in' ? '入住中' : orderState === 'checked-out' ? '已退房' : '待入住';
+    const [localLiveStatus, setLocalLiveStatus] = useState(selectedBooking.cell.liveStatus ?? '');
+    const [guestForm, setGuestForm] = useState(() => createMonthOrderGuestForm(selectedBooking.cell.title, selectedBooking.cell.phone));
+    const [operationMessage, setOperationMessage] = useState('');
+    const [submittingAction, setSubmittingAction] = useState(null);
+    const [changeRoomOptions, setChangeRoomOptions] = useState([]);
+    const [changeRoomOptionsLoading, setChangeRoomOptionsLoading] = useState(false);
+    const [changeRoomOptionsError, setChangeRoomOptionsError] = useState('');
+    const [selectedChangeRoomId, setSelectedChangeRoomId] = useState('');
+    const [changeRoomReason, setChangeRoomReason] = useState('');
+    const orderState = resolveMonthOrderState(localLiveStatus || selectedBooking.cell.liveStatus);
+    const statusLabel = orderState === 'checked-in'
+        ? '入住中'
+        : orderState === 'checked-out'
+            ? '已退房'
+            : orderState === 'cancelled'
+                ? '已取消'
+                : '待入住';
     const roomFee = formatCurrency(selectedBooking.cell.amount, '¥597.60');
     const totalIncome = formatCurrency(selectedBooking.cell.totalIncome, '¥664.00');
     const commission = formatCurrencyFromNumber(parseCurrencyNumber(totalIncome) * 0.1, '¥66.40');
@@ -561,11 +858,13 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
     const stayRange = selectedBooking.cell.stayRange ?? '2026.05.18-05.20';
     const { checkinDate, checkoutDate, nights: stayNights } = getStayRangeDetails(stayRange);
     const channelName = selectedBooking.cell.subtitle ?? '飞猪酒店';
-    const orderId = selectedBooking.cell.orderId ?? '5116035240226051843';
+    const orderId = selectedBooking.cell.orderId ?? '';
     const channelOrderNo = '5116035240226051843';
     const phone = selectedBooking.cell.phone ?? '-';
     const remark = selectedBooking.cell.remark ?? '-';
     const [selectedOrderTags, setSelectedOrderTags] = useState([]);
+    const roomLogLabel = `${selectedBooking.roomType}(${selectedBooking.roomLabel})`;
+    const [operationLogs, setOperationLogs] = useState(() => createMonthOrderInitialLogs(selectedBooking, roomLogLabel));
     const collectedAmount = 387;
     const outstandingRoomFee = 0;
     const depositAmount = 0;
@@ -683,6 +982,16 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
         setOverlayPanel(null);
         setEditOrderRoomMode('all-day');
         setCheckoutType('normal');
+        setLocalLiveStatus(selectedBooking.cell.liveStatus ?? '');
+        setGuestForm(createMonthOrderGuestForm(selectedBooking.cell.title, selectedBooking.cell.phone));
+        setOperationLogs(createMonthOrderInitialLogs(selectedBooking, `${selectedBooking.roomType}(${selectedBooking.roomLabel})`));
+        setOperationMessage('');
+        setSubmittingAction(null);
+        setChangeRoomOptions([]);
+        setChangeRoomOptionsLoading(false);
+        setChangeRoomOptionsError('');
+        setSelectedChangeRoomId('');
+        setChangeRoomReason('');
     }, [orderKey]);
     useEffect(() => {
         const closeMoreMenu = (event) => {
@@ -696,6 +1005,231 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
         window.addEventListener('click', closeMoreMenu);
         return () => window.removeEventListener('click', closeMoreMenu);
     }, []);
+    useEffect(() => {
+        if (actionFlow !== 'change-room')
+            return;
+        const resolvedCampId = campId.trim();
+        const resolvedOrderId = orderId.trim();
+        if (!resolvedCampId || !resolvedOrderId) {
+            setChangeRoomOptions([]);
+            setSelectedChangeRoomId('');
+            setChangeRoomOptionsError(!resolvedCampId ? '缺少当前门店，无法加载可换房间' : '缺少订单号，无法加载可换房间');
+            return;
+        }
+        let ignored = false;
+        setChangeRoomOptionsLoading(true);
+        setChangeRoomOptionsError('');
+        setChangeRoomOptions([]);
+        setSelectedChangeRoomId('');
+        void fetchHouseMonthChangeRoomOptions({ campId: resolvedCampId, orderId: resolvedOrderId })
+            .then((response) => {
+            if (ignored)
+                return;
+            setChangeRoomOptions(response.rooms);
+            setSelectedChangeRoomId(response.rooms[0]?.roomId ?? '');
+        })
+            .catch((error) => {
+            if (ignored)
+                return;
+            setChangeRoomOptionsError(`加载可换房间失败：${error instanceof Error ? error.message : String(error)}`);
+        })
+            .finally(() => {
+            if (!ignored)
+                setChangeRoomOptionsLoading(false);
+        });
+        return () => {
+            ignored = true;
+        };
+    }, [actionFlow, campId, orderId]);
+    const requireOrderActionContext = () => {
+        const resolvedCampId = campId.trim();
+        const resolvedOrderId = orderId.trim();
+        if (!resolvedCampId) {
+            setOperationMessage('缺少当前门店，无法操作订单');
+            return null;
+        }
+        if (!resolvedOrderId) {
+            setOperationMessage('缺少订单号，无法操作订单');
+            return null;
+        }
+        return { campId: resolvedCampId, orderId: resolvedOrderId };
+    };
+    const refreshOrderSnapshot = () => {
+        if (!onOrderChanged)
+            return;
+        void Promise.resolve(onOrderChanged()).catch((error) => {
+            setOperationMessage(`订单已更新，但刷新月房态失败：${error instanceof Error ? error.message : String(error)}`);
+        });
+    };
+    const addOperationLog = (title, detail, occurredAtText) => {
+        const occurredAt = parseMonthOrderLogTimestamp(occurredAtText) ?? Date.now();
+        setOperationLogs((current) => [createMonthOrderActionLog(title, detail, occurredAt), ...current]);
+    };
+    const handleSaveGuest = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        setSubmittingAction('guest');
+        setOperationMessage('');
+        try {
+            const response = await saveHouseMonthOrderGuests({
+                ...context,
+                guests: [
+                    {
+                        guestName: guestForm.guestName.trim() || selectedBooking.cell.title,
+                        guestMobile: guestForm.guestMobile.trim(),
+                        guestIdCardType: guestForm.guestIdCardType,
+                        guestIdCard: guestForm.guestIdCard.trim(),
+                        guestType: 'adult',
+                    },
+                ],
+            });
+            const message = response.message || '入住人保存成功';
+            setGuestEditorOpen(false);
+            setOperationMessage(message);
+            addOperationLog('登记入住人', `入住人：${guestForm.guestName.trim() || selectedBooking.cell.title}`, response.guestRegisteredAt);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setOperationMessage(`保存入住人失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
+    const handleCheckInOrder = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        setSubmittingAction('checkin');
+        setOperationMessage('');
+        try {
+            const response = await checkInHouseMonthOrder(context);
+            const nextLiveStatus = resolveOrderActionLiveStatus(response.status, '入住中');
+            setLocalLiveStatus(nextLiveStatus);
+            const message = response.message || '办理入住成功';
+            setOperationMessage(message);
+            addOperationLog('办理入住', `入住房间：${roomLogLabel}`, response.guestRegisteredAt);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setOperationMessage(`办理入住失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
+    const handleCheckOutOrder = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        setSubmittingAction('checkout');
+        setOperationMessage('');
+        try {
+            const response = await checkOutHouseMonthOrder(context);
+            const nextLiveStatus = resolveOrderActionLiveStatus(response.status, '已退房');
+            setLocalLiveStatus(nextLiveStatus);
+            const message = response.message || '办理退房成功';
+            setOperationMessage(message);
+            addOperationLog('办理退房', `退房房间：${roomLogLabel}`, response.checkedOutAt);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setOperationMessage(`办理退房失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
+    const handleChangeRoomOrder = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        if (!selectedChangeRoomId) {
+            setChangeRoomOptionsError('请选择要调整到的房间');
+            return;
+        }
+        const selectedRoom = changeRoomOptions.find((room) => room.roomId === selectedChangeRoomId);
+        setSubmittingAction('change-room');
+        setOperationMessage('');
+        setChangeRoomOptionsError('');
+        try {
+            const response = await changeHouseMonthOrderRoom({
+                ...context,
+                roomId: selectedChangeRoomId,
+                reason: changeRoomReason.trim(),
+            });
+            const roomName = response.roomName || selectedRoom?.roomName || selectedChangeRoomId;
+            const roomCategoryName = response.roomCategoryName || selectedRoom?.roomCategoryName || selectedBooking.roomType;
+            const message = response.message || '换房成功';
+            setActionFlow(null);
+            setOperationMessage(message);
+            addOperationLog('换房', `从 ${roomDisplayName} 调整至 ${roomCategoryName} ${roomName}`);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setChangeRoomOptionsError(`换房失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
+    const handleCancelOrder = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        setSubmittingAction('cancel');
+        setOperationMessage('');
+        try {
+            const response = await cancelHouseMonthOrder({
+                ...context,
+                reason: '订单详情取消房单',
+            });
+            const nextLiveStatus = resolveOrderActionLiveStatus(response.status, '已取消');
+            setLocalLiveStatus(nextLiveStatus);
+            const message = response.message || '订单取消成功';
+            setActionFlow(null);
+            setOperationMessage(message);
+            addOperationLog('取消房单', `取消房间：${roomLogLabel}`);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setOperationMessage(`取消房单失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
+    const handleSkipStockOrder = async () => {
+        const context = requireOrderActionContext();
+        if (!context)
+            return;
+        setSubmittingAction('skip-stock');
+        setOperationMessage('');
+        try {
+            const response = await skipStockHouseMonthOrder({
+                ...context,
+                reason: '订单详情不占库存',
+            });
+            const message = response.message || '订单已释放库存并取消排房';
+            setActionFlow(null);
+            setOperationMessage(message);
+            addOperationLog('不占库存', `释放库存并取消排房：${roomLogLabel}`);
+            onAction(message);
+            refreshOrderSnapshot();
+        }
+        catch (error) {
+            setOperationMessage(`不占库存失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        finally {
+            setSubmittingAction(null);
+        }
+    };
     const handleDrawerAction = (action) => {
         setMoreMenuOpen(false);
         if (action === '置为noshow') {
@@ -715,7 +1249,7 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
             return;
         }
         if (action === '退房') {
-            setOpenDialog('checkout');
+            void handleCheckOutOrder();
             return;
         }
         if (action === '邀请登记') {
@@ -771,7 +1305,7 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
             return;
         }
         if (action === '入住') {
-            setActionFlow('checkin');
+            void handleCheckInOrder();
             return;
         }
         if (action === '续住') {
@@ -825,6 +1359,14 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
     const visibleTagOptions = ORDER_TAG_OPTIONS.filter((tag) => tag.includes(tagDialogKeyword.trim()));
     const allVisibleTagChecked = visibleTagOptions.length > 0 && visibleTagOptions.every((tag) => tagDraftSelection.includes(tag));
     const someVisibleTagChecked = visibleTagOptions.some((tag) => tagDraftSelection.includes(tag));
+    const isChangeRoomSubmitting = submittingAction === 'change-room';
+    const isCancelSubmitting = submittingAction === 'cancel';
+    const isSkipStockSubmitting = submittingAction === 'skip-stock';
+    const isActionConfirmDisabled = (actionFlow === 'checkin' && submittingAction === 'checkin') ||
+        (actionFlow === 'cancel-order' && isCancelSubmitting) ||
+        (actionFlow === 'skip-stock' && isSkipStockSubmitting) ||
+        (actionFlow === 'change-room' &&
+            (isChangeRoomSubmitting || changeRoomOptionsLoading || !selectedChangeRoomId || Boolean(changeRoomOptionsError && !changeRoomOptions.length)));
     const openTagDialog = () => {
         setTagDialogKeyword('');
         setTagDraftSelection(selectedOrderTags);
@@ -865,10 +1407,7 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
         setUploadedAttachments((current) => current.filter((attachment) => attachment.id !== attachmentId));
     };
     const actionDialogConfig = actionFlow ? resolveMonthOrderActionDialogConfig(actionFlow) : null;
-    return (_jsxs("aside", { className: "month-order-drawer", role: "dialog", "aria-label": "\u8BA2\u5355\u8BE6\u60C5", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-drawer__header", children: [_jsxs("div", { children: [_jsx("strong", { children: overlayPanel === 'edit-order' ? '编辑订单' : '订单详情' }), _jsx("span", { children: "\u5168\u65E5\u623F" })] }), _jsx("button", { type: "button", "aria-label": overlayPanel === 'edit-order' ? '关闭编辑订单' : '关闭订单详情', onClick: overlayPanel === 'edit-order' ? () => setOverlayPanel(null) : onClose, children: "\u00D7" })] }), overlayPanel === null ? (_jsxs("nav", { className: "month-order-drawer__tabs", "aria-label": "\u8BA2\u5355\u8BE6\u60C5\u6807\u7B7E", children: [_jsx("button", { type: "button", className: activeTab === 'order' ? 'is-active' : '', onClick: () => setActiveTab('order'), children: "\u8BA2\u5355\u4FE1\u606F" }), _jsx("button", { type: "button", className: activeTab === 'channel' ? 'is-active' : '', onClick: () => setActiveTab('channel'), children: "\u6E20\u9053\u4FE1\u606F" }), _jsx("button", { type: "button", className: activeTab === 'log' ? 'is-active' : '', onClick: () => setActiveTab('log'), children: "\u64CD\u4F5C\u65E5\u5FD7" })] })) : null, _jsxs("div", { className: "month-order-drawer__body", "data-testid": "month-order-drawer-body", children: [overlayPanel === 'edit-order' ? (_jsxs("section", { className: "month-order-edit-panel", "data-testid": "month-order-edit-panel", children: [_jsxs("div", { className: "month-order-edit-tabs", role: "tablist", "aria-label": "\u7F16\u8F91\u8BA2\u5355\u623F\u578B", children: [_jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'all-day', className: editOrderRoomMode === 'all-day' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('all-day'), children: "\u5168\u65E5\u623F" }), _jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'hourly', className: editOrderRoomMode === 'hourly' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('hourly'), children: "\u949F\u70B9\u623F" }), _jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'long-stay', className: editOrderRoomMode === 'long-stay' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('long-stay'), children: "\u957F\u79DF\u623F" })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u57FA\u672C\u4FE1\u606F" }) }), _jsxs("div", { className: "month-order-edit-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "*\u59D3\u540D" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: selectedBooking.cell.title })] }), _jsxs("label", { children: [_jsx("span", { children: "\u624B\u673A\u53F7" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: phone === '-' ? '' : phone })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BA2\u5355\u6765\u6E90" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: channelName })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6E20\u9053\u5355\u53F7" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: channelOrderNo })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsxs("div", { className: "month-order-edit-section__header month-order-edit-section__header--summary", children: [_jsx("h3", { children: "\u623F\u95F4/\u8D39\u7528\u4FE1\u606F" }), _jsxs("div", { className: "month-order-edit-section__summary", children: [_jsxs("span", { children: ["\u623F\u8D39\u603B\u8BA1:", totalIncome] }), _jsx("span", { children: "\u51711\u95F4\u623F" })] })] }), _jsxs("div", { className: "month-order-edit-room-row", children: [_jsxs("div", { children: [_jsx("strong", { children: roomDisplayName }), _jsxs("span", { children: [stayRange, " \u00B7 1\u665A \u00B7 1\u4EBA"] })] }), _jsx("button", { type: "button", onClick: () => handleDrawerAction('登记入住人'), children: "\u767B\u8BB0" })] }), _jsxs("div", { className: "month-order-edit-grid month-order-edit-grid--compact", children: [_jsxs("label", { children: [_jsx("span", { children: "\u4F63\u91D1" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(commissionAmount || 0) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: "0" })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u5F00\u7968\u4FE1\u606F" }) }), _jsxs("div", { className: "month-order-edit-grid month-order-edit-grid--compact", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5F00\u7968\u65B9" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u9009\u62E9\u5F00\u7968\u65B9" })] }), _jsxs("label", { children: [_jsx("span", { children: "\u5F00\u7968\u91D1\u989D" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(totalIncomeAmount || 0) })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsxs("div", { className: "month-order-edit-inline-row", children: [_jsx("div", { className: "month-order-edit-inline-row__label", children: "\u8BA2\u5355\u63D0\u9192" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => handleDrawerAction('订单提醒'), children: "+" })] }), _jsxs("div", { className: "month-order-edit-inline-row", children: [_jsx("div", { className: "month-order-edit-inline-row__label", children: "\u8BA2\u5355\u6807\u7B7E" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: openTagDialog, children: "+" })] }), _jsxs("label", { className: "month-order-edit-remark", children: [_jsx("span", { children: "\u8BA2\u5355\u5907\u6CE8" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: remark })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u5173\u8054\u8BA2\u5355" }) }), _jsxs("div", { className: "month-order-edit-related-head", children: [_jsx("span", { children: "\u8BA2\u5355\u53F7" }), _jsx("span", { children: "\u623F\u95F4" }), _jsx("span", { children: "\u72B6\u6001" })] })] })] })) : null, overlayPanel === null && activeTab === 'order' ? (_jsxs(_Fragment, { children: [_jsxs("section", { className: "month-order-card", children: [_jsxs("div", { className: "month-order-card__guest", children: [_jsx("strong", { children: selectedBooking.cell.title }), _jsx("span", { children: channelName })] }), _jsxs("p", { children: ["\u624B\u673A\u53F7\uFF1A", phone] }), _jsxs("p", { children: ["\u6E20\u9053\u5355\u53F7\uFF1A", channelOrderNo] })] }), _jsxs("section", { className: "month-room-order-card", children: [_jsxs("div", { className: "month-room-order-card__top", children: [_jsxs("strong", { children: [selectedBooking.roomType, "\uFF08", selectedBooking.roomLabel, "\uFF09"] }), _jsx("span", { children: statusLabel })] }), _jsxs("div", { className: "month-room-order-card__stay", children: [stayRange, " 2\u665A"] }), _jsx("div", { className: "month-room-order-card__amount", children: totalIncome }), _jsxs("div", { className: "month-room-order-card__guest", children: [_jsx("span", { children: "\u5165\u4F4F\u4EBA\uFF080/1\uFF09" }), _jsx("button", { type: "button", "data-testid": "month-order-register-guest", onClick: () => handleDrawerAction('登记入住人'), children: "\u767B\u8BB0\u5165\u4F4F\u4EBA" })] }), guestEditorOpen ? (_jsxs("div", { className: "month-room-order-card__guest-editor", "data-testid": "month-order-guest-editor", children: [_jsxs("div", { className: "month-order-guest-editor__grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5BA2\u6237\u59D3\u540D" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u5BA2\u6237\u59D3\u540D", defaultValue: selectedBooking.cell.title })] }), _jsxs("label", { children: [_jsx("span", { children: "\u624B\u673A\u53F7" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", defaultValue: phone === '-' ? '' : phone })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BC1\u4EF6\u7C7B\u578B" }), _jsx("select", { className: "month-order-dialog__select", defaultValue: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1", children: _jsx("option", { value: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1", children: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1" }) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BC1\u4EF6\u53F7" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u8BC1\u4EF6\u53F7\u7801" })] })] }), _jsxs("div", { className: "month-order-guest-editor__actions", children: [_jsx("button", { type: "button", onClick: () => onAction('读卡'), children: "\u8BFB\u5361" }), _jsx("button", { type: "button", onClick: () => setGuestEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => {
-                                                            setGuestEditorOpen(false);
-                                                            onAction('保存入住人');
-                                                        }, children: "\u4FDD\u5B58" })] })] })) : null, _jsx("em", { children: selectedBooking.roomType })] }), _jsxs("section", { className: "month-finance-card", children: [_jsxs("div", { className: "month-finance-summary", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63):", _jsx("strong", { children: roomFee })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165:", _jsx("strong", { children: totalIncome })] })] }), _jsxs("div", { className: "month-finance-meta", children: [_jsxs("span", { children: ["\u4F63\u91D1:", commission] }), _jsxs("span", { children: ["\u623F\u8D39(\u542B\u4F63):", totalIncome] }), _jsx("span", { children: "\u5176\u4ED6\u6D88\u8D39:\u00A50.00" })] }), _jsxs("table", { children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "\u623F\u95F4/\u65E5\u671F" }), _jsx("th", { children: "2026-05-18" }), _jsx("th", { children: "2026-05-19" })] }) }), _jsx("tbody", { children: _jsxs("tr", { children: [_jsxs("td", { children: [selectedBooking.roomType, "(", selectedBooking.roomLabel, ")"] }), _jsx("td", { children: nightlyAmount }), _jsx("td", { children: nightlyAmount })] }) })] })] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-payment", children: [_jsxs("div", { className: "month-order-section-header month-order-section-header--summary", children: [_jsx("h3", { children: "\u623F\u8D39\u6536\u6B3E" }), paymentEditorOpen ? (_jsxs("div", { className: "month-order-section-inline-actions", children: [_jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => setPaymentEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => {
+    return (_jsxs("aside", { className: "month-order-drawer", role: "dialog", "aria-label": "\u8BA2\u5355\u8BE6\u60C5", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-drawer__header", children: [_jsxs("div", { children: [_jsx("strong", { children: overlayPanel === 'edit-order' ? '编辑订单' : '订单详情' }), _jsx("span", { children: "\u5168\u65E5\u623F" })] }), _jsx("button", { type: "button", "aria-label": overlayPanel === 'edit-order' ? '关闭编辑订单' : '关闭订单详情', onClick: overlayPanel === 'edit-order' ? () => setOverlayPanel(null) : onClose, children: "\u00D7" })] }), overlayPanel === null ? (_jsxs("nav", { className: "month-order-drawer__tabs", "aria-label": "\u8BA2\u5355\u8BE6\u60C5\u6807\u7B7E", children: [_jsx("button", { type: "button", className: activeTab === 'order' ? 'is-active' : '', onClick: () => setActiveTab('order'), children: "\u8BA2\u5355\u4FE1\u606F" }), _jsx("button", { type: "button", className: activeTab === 'channel' ? 'is-active' : '', onClick: () => setActiveTab('channel'), children: "\u6E20\u9053\u4FE1\u606F" }), _jsx("button", { type: "button", className: activeTab === 'log' ? 'is-active' : '', onClick: () => setActiveTab('log'), children: "\u64CD\u4F5C\u65E5\u5FD7" })] })) : null, _jsxs("div", { className: "month-order-drawer__body", "data-testid": "month-order-drawer-body", children: [overlayPanel === 'edit-order' ? (_jsxs("section", { className: "month-order-edit-panel", "data-testid": "month-order-edit-panel", children: [_jsxs("div", { className: "month-order-edit-tabs", role: "tablist", "aria-label": "\u7F16\u8F91\u8BA2\u5355\u623F\u578B", children: [_jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'all-day', className: editOrderRoomMode === 'all-day' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('all-day'), children: "\u5168\u65E5\u623F" }), _jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'hourly', className: editOrderRoomMode === 'hourly' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('hourly'), children: "\u949F\u70B9\u623F" }), _jsx("button", { type: "button", role: "tab", "aria-selected": editOrderRoomMode === 'long-stay', className: editOrderRoomMode === 'long-stay' ? 'is-active' : '', onClick: () => setEditOrderRoomMode('long-stay'), children: "\u957F\u79DF\u623F" })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u57FA\u672C\u4FE1\u606F" }) }), _jsxs("div", { className: "month-order-edit-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "*\u59D3\u540D" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: selectedBooking.cell.title })] }), _jsxs("label", { children: [_jsx("span", { children: "\u624B\u673A\u53F7" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: phone === '-' ? '' : phone })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BA2\u5355\u6765\u6E90" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: channelName })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6E20\u9053\u5355\u53F7" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: channelOrderNo })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsxs("div", { className: "month-order-edit-section__header month-order-edit-section__header--summary", children: [_jsx("h3", { children: "\u623F\u95F4/\u8D39\u7528\u4FE1\u606F" }), _jsxs("div", { className: "month-order-edit-section__summary", children: [_jsxs("span", { children: ["\u623F\u8D39\u603B\u8BA1:", totalIncome] }), _jsx("span", { children: "\u51711\u95F4\u623F" })] })] }), _jsxs("div", { className: "month-order-edit-room-row", children: [_jsxs("div", { children: [_jsx("strong", { children: roomDisplayName }), _jsxs("span", { children: [stayRange, " \u00B7 1\u665A \u00B7 1\u4EBA"] })] }), _jsx("button", { type: "button", onClick: () => handleDrawerAction('登记入住人'), children: "\u767B\u8BB0" })] }), _jsxs("div", { className: "month-order-edit-grid month-order-edit-grid--compact", children: [_jsxs("label", { children: [_jsx("span", { children: "\u4F63\u91D1" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(commissionAmount || 0) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: "0" })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u5F00\u7968\u4FE1\u606F" }) }), _jsxs("div", { className: "month-order-edit-grid month-order-edit-grid--compact", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5F00\u7968\u65B9" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u9009\u62E9\u5F00\u7968\u65B9" })] }), _jsxs("label", { children: [_jsx("span", { children: "\u5F00\u7968\u91D1\u989D" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(totalIncomeAmount || 0) })] })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsxs("div", { className: "month-order-edit-inline-row", children: [_jsx("div", { className: "month-order-edit-inline-row__label", children: "\u8BA2\u5355\u63D0\u9192" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => handleDrawerAction('订单提醒'), children: "+" })] }), _jsxs("div", { className: "month-order-edit-inline-row", children: [_jsx("div", { className: "month-order-edit-inline-row__label", children: "\u8BA2\u5355\u6807\u7B7E" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: openTagDialog, children: "+" })] }), _jsxs("label", { className: "month-order-edit-remark", children: [_jsx("span", { children: "\u8BA2\u5355\u5907\u6CE8" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: remark })] })] }), _jsxs("section", { className: "month-order-edit-section", children: [_jsx("div", { className: "month-order-edit-section__header", children: _jsx("h3", { children: "\u5173\u8054\u8BA2\u5355" }) }), _jsxs("div", { className: "month-order-edit-related-head", children: [_jsx("span", { children: "\u8BA2\u5355\u53F7" }), _jsx("span", { children: "\u623F\u95F4" }), _jsx("span", { children: "\u72B6\u6001" })] })] })] })) : null, overlayPanel === null && activeTab === 'order' ? (_jsxs(_Fragment, { children: [_jsxs("section", { className: "month-order-card", children: [_jsxs("div", { className: "month-order-card__guest", children: [_jsx("strong", { children: selectedBooking.cell.title }), _jsx("span", { children: channelName })] }), _jsxs("p", { children: ["\u624B\u673A\u53F7\uFF1A", phone] }), _jsxs("p", { children: ["\u6E20\u9053\u5355\u53F7\uFF1A", channelOrderNo] })] }), _jsxs("section", { className: "month-room-order-card", children: [_jsxs("div", { className: "month-room-order-card__top", children: [_jsxs("strong", { children: [selectedBooking.roomType, "\uFF08", selectedBooking.roomLabel, "\uFF09"] }), _jsx("span", { children: statusLabel })] }), _jsxs("div", { className: "month-room-order-card__stay", children: [stayRange, " 2\u665A"] }), _jsx("div", { className: "month-room-order-card__amount", children: totalIncome }), _jsxs("div", { className: "month-room-order-card__guest", children: [_jsx("span", { children: "\u5165\u4F4F\u4EBA\uFF080/1\uFF09" }), _jsx("button", { type: "button", "data-testid": "month-order-register-guest", onClick: () => handleDrawerAction('登记入住人'), children: "\u767B\u8BB0\u5165\u4F4F\u4EBA" })] }), guestEditorOpen ? (_jsxs("div", { className: "month-room-order-card__guest-editor", "data-testid": "month-order-guest-editor", children: [_jsxs("div", { className: "month-order-guest-editor__grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5BA2\u6237\u59D3\u540D" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u5BA2\u6237\u59D3\u540D", value: guestForm.guestName, onChange: (event) => setGuestForm((current) => ({ ...current, guestName: event.target.value })) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u624B\u673A\u53F7" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", value: guestForm.guestMobile, onChange: (event) => setGuestForm((current) => ({ ...current, guestMobile: event.target.value })) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BC1\u4EF6\u7C7B\u578B" }), _jsx("select", { className: "month-order-dialog__select", value: guestForm.guestIdCardType, onChange: (event) => setGuestForm((current) => ({ ...current, guestIdCardType: event.target.value })), children: ORDER_GUEST_DOCUMENT_TYPES.map((type) => (_jsx("option", { value: type, children: type }, type))) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8BC1\u4EF6\u53F7" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u8BC1\u4EF6\u53F7\u7801", value: guestForm.guestIdCard, onChange: (event) => setGuestForm((current) => ({ ...current, guestIdCard: event.target.value })) })] })] }), _jsxs("div", { className: "month-order-guest-editor__actions", children: [_jsx("button", { type: "button", onClick: () => onAction('读卡'), children: "\u8BFB\u5361" }), _jsx("button", { type: "button", onClick: () => setGuestEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", disabled: submittingAction === 'guest', onClick: () => void handleSaveGuest(), children: submittingAction === 'guest' ? '保存中' : '保存' })] })] })) : null, operationMessage ? (_jsx("div", { className: "month-order-operation-message", role: "status", children: operationMessage })) : null, _jsx("em", { children: selectedBooking.roomType })] }), _jsxs("section", { className: "month-finance-card", children: [_jsxs("div", { className: "month-finance-summary", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63):", _jsx("strong", { children: roomFee })] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165:", _jsx("strong", { children: totalIncome })] })] }), _jsxs("div", { className: "month-finance-meta", children: [_jsxs("span", { children: ["\u4F63\u91D1:", commission] }), _jsxs("span", { children: ["\u623F\u8D39(\u542B\u4F63):", totalIncome] }), _jsx("span", { children: "\u5176\u4ED6\u6D88\u8D39:\u00A50.00" })] }), _jsxs("table", { children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "\u623F\u95F4/\u65E5\u671F" }), _jsx("th", { children: "2026-05-18" }), _jsx("th", { children: "2026-05-19" })] }) }), _jsx("tbody", { children: _jsxs("tr", { children: [_jsxs("td", { children: [selectedBooking.roomType, "(", selectedBooking.roomLabel, ")"] }), _jsx("td", { children: nightlyAmount }), _jsx("td", { children: nightlyAmount })] }) })] })] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-payment", children: [_jsxs("div", { className: "month-order-section-header month-order-section-header--summary", children: [_jsx("h3", { children: "\u623F\u8D39\u6536\u6B3E" }), paymentEditorOpen ? (_jsxs("div", { className: "month-order-section-inline-actions", children: [_jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => setPaymentEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => {
                                                             setPaymentEditorOpen(false);
                                                             onAction('保存房费收款');
                                                         }, children: "\u4FDD\u5B58" })] })) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "month-order-section-summary", children: [_jsxs("span", { children: ["\u6536\u6B3E\u91D1\u989D: \u00A5", collectedAmount] }), _jsxs("span", { children: ["\u623F\u8D39\u6B20\u6B3E: \u00A5", outstandingRoomFee] })] }), _jsx("button", { type: "button", className: "month-order-icon-action", "data-testid": "month-order-section-payment-edit", "aria-label": "\u7F16\u8F91\u623F\u8D39\u6536\u6B3E", onClick: () => setPaymentEditorOpen(true), children: "\u270E" })] }))] }), paymentEditorOpen ? (_jsxs("div", { className: "month-order-inline-form month-order-inline-form--payment", "data-testid": "month-order-section-payment-editor", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5DF2\u6536\u623F\u8D39\uFF1A" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(collectedAmount) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6536\u6B3E\u65B9\u5F0F\uFF1A" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u5E73\u53F0\u4EE3\u6536", children: [_jsx("option", { value: "\u5E73\u53F0\u4EE3\u6536", children: "\u5E73\u53F0\u4EE3\u6536" }), _jsx("option", { value: "\u7EBF\u4E0B\u6536\u6B3E", children: "\u7EBF\u4E0B\u6536\u6B3E" })] })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6536\u6B3E\u65F6\u95F4\uFF1A" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: "2026-05-19 20:00" })] })] })) : null] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-invoice", children: [_jsxs("div", { className: "month-order-section-header month-order-section-header--summary", children: [_jsx("h3", { children: "\u5F00\u7968\u4FE1\u606F" }), invoiceEditorOpen ? (_jsxs("div", { className: "month-order-section-inline-actions", children: [_jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => setInvoiceEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => {
@@ -880,17 +1419,26 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
                                                         }, children: "\u4FDD\u5B58" })] })) : (_jsxs(_Fragment, { children: [_jsx("div", { className: "month-order-section-summary", children: _jsxs("span", { children: ["\u62BC\u91D1\u91D1\u989D: \u00A5", depositAmount] }) }), _jsx("button", { type: "button", className: "month-order-icon-action", "data-testid": "month-order-section-deposit-edit", "aria-label": "\u7F16\u8F91\u62BC\u91D1\u4FE1\u606F", onClick: () => setDepositEditorOpen(true), children: "\u270E" })] }))] }), depositEditorOpen ? (_jsx("div", { className: "month-order-inline-form month-order-inline-form--deposit", "data-testid": "month-order-section-deposit-editor", children: _jsxs("label", { className: "month-order-inline-form__single-line", children: [_jsx("span", { children: "\u4FEE\u6539\u62BC\u91D1\uFF1A" }), _jsxs("div", { className: "month-order-inline-money", children: [_jsx("span", { children: "\u00A5" }), _jsx("input", { className: "month-order-dialog__input", defaultValue: String(depositAmount) })] }), _jsx("button", { type: "button", className: "month-order-inline-link", onClick: () => onAction('一键免押'), children: "\u4E00\u952E\u514D\u62BC" })] }) })) : null] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-arrears", children: [_jsx("div", { className: "month-order-section-header", children: _jsx("h3", { children: "\u8BA2\u5355\u6B20\u6B3E" }) }), _jsx("div", { className: "month-order-arrears-shell", "data-testid": "month-order-section-arrears-body", children: _jsx("div", { className: "month-order-arrears-shell__content" }) })] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-remark", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u5907\u6CE8" }), remarkEditorOpen ? (_jsxs("div", { className: "month-order-section-inline-actions", children: [_jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => setRemarkEditorOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "month-order-mini-action", onClick: () => {
                                                             setRemarkEditorOpen(false);
                                                             onAction('保存订单备注');
-                                                        }, children: "\u4FDD\u5B58" })] })) : (_jsx("button", { type: "button", className: "month-order-icon-action", "data-testid": "month-order-section-remark-edit", "aria-label": "\u7F16\u8F91\u8BA2\u5355\u5907\u6CE8", onClick: () => setRemarkEditorOpen(true), children: "\u270E" }))] }), remarkEditorOpen ? (_jsx("div", { className: "month-order-inline-form", "data-testid": "month-order-section-remark-editor", children: _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: remark }) })) : (_jsx("p", { children: remark }))] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-tags", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u6807\u7B7E" }), _jsx("button", { type: "button", className: "month-order-mini-action", "data-testid": "month-order-section-tags-add", "aria-label": "\u65B0\u589E\u8BA2\u5355\u6807\u7B7E", onClick: openTagDialog, children: "+" })] }), selectedOrderTags.length ? (_jsx("div", { children: selectedOrderTags.map((tag) => (_jsx("span", { className: "month-info-tag", children: tag }, tag))) })) : null] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-reminder", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u63D0\u9192" }), _jsx("button", { type: "button", className: "month-order-mini-action", "data-testid": "month-order-section-reminder-add", "aria-label": "\u65B0\u589E\u8BA2\u5355\u63D0\u9192", onClick: () => handleDrawerAction('订单提醒'), children: "+" })] }), _jsx("p", { children: "\u5165\u4F4F\u524D30\u5206\u949F\u77ED\u4FE1\u63D0\u9192" })] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-attachment", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u9644\u4EF6" }), _jsxs("label", { className: "month-order-upload-trigger", "aria-label": "\u65B0\u589E\u8BA2\u5355\u9644\u4EF6", "data-testid": "month-order-section-attachment-upload", children: [_jsx("input", { type: "file", accept: "*", onChange: handleAttachmentChange }), _jsx("span", { children: "+" })] })] }), _jsx("div", { className: "month-order-upload-list", "data-testid": "month-order-section-attachment-list", children: uploadedAttachments.map((attachment) => (_jsxs("div", { className: "month-order-upload-item", "data-testid": "month-order-section-attachment-item", children: [_jsx("span", { className: "month-order-upload-item__icon", "aria-hidden": "true", children: _jsx("svg", { viewBox: "64 64 896 896", focusable: "false", children: _jsx("path", { d: "M779.3 196.6c-94.2-94.2-247.6-94.2-341.7 0l-261 260.8c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l261-260.8c32.4-32.4 75.5-50.2 121.3-50.2s88.9 17.8 121.2 50.2c32.4 32.4 50.2 75.5 50.2 121.2 0 45.8-17.8 88.8-50.2 121.2l-266 265.9-43.1 43.1c-40.3 40.3-105.8 40.3-146.1 0-19.5-19.5-30.2-45.4-30.2-73s10.7-53.5 30.2-73l263.9-263.8c6.7-6.6 15.5-10.3 24.9-10.3h.1c9.4 0 18.1 3.7 24.7 10.3 6.7 6.7 10.3 15.5 10.3 24.9 0 9.3-3.7 18.1-10.3 24.7L372.4 653c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l215.6-215.6c19.9-19.9 30.8-46.3 30.8-74.4s-11-54.6-30.8-74.4c-41.1-41.1-107.9-41-149 0L463 364 224.8 602.1A172.22 172.22 0 00174 724.8c0 46.3 18.1 89.8 50.8 122.5 33.9 33.8 78.3 50.7 122.7 50.7 44.4 0 88.8-16.9 122.6-50.7l309.2-309C824.8 492.7 850 432 850 367.5c.1-64.6-25.1-125.3-70.7-170.9z" }) }) }), _jsx("span", { className: "month-order-upload-item__name", title: attachment.name, children: attachment.name }), _jsx("button", { type: "button", className: "month-order-upload-item__delete", "aria-label": `删除附件 ${attachment.name}`, "data-testid": "month-order-section-attachment-delete", onClick: () => removeAttachment(attachment.id), children: _jsx("svg", { viewBox: "64 64 896 896", focusable: "false", children: _jsx("path", { d: "M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z" }) }) })] }, attachment.id))) })] }), _jsx("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-meta", children: _jsxs("div", { className: "month-order-key-value-list", children: [_jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u521B\u5EFA\u4EBA" }), _jsx("strong", { children: "\u65E0" })] }), _jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u8BA2\u5355\u53F7" }), _jsx("strong", { children: orderId })] }), _jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u9884\u8BA2\u65F6\u95F4" }), _jsx("strong", { children: "2026.05.16 17:41:03" })] })] }) })] })) : null, overlayPanel === null && activeTab === 'channel' ? (_jsx("section", { className: "month-channel-panel", "data-testid": "month-channel-panel", children: channelBlocks.map((section) => (_jsxs("section", { className: "month-channel-section", "data-testid": section.testId, children: [_jsx("div", { className: "month-channel-section__header", children: _jsx("h3", { children: section.title }) }), _jsx("div", { className: `month-channel-grid${section.key === 'fee' ? ' month-channel-grid--compact' : ''}`, children: section.items.map((item, itemIndex) => (_jsxs("div", { className: `month-channel-kv${item.wide || item.label === '预定房型' || item.label === '发票要求' || item.label === '渠道备注信息' ? ' month-channel-kv--wide' : ''}${item.noWrap ? ' month-channel-kv--no-wrap' : ''}${itemIndex === 0 && section.key === 'basic' ? ' month-channel-kv--with-copy' : ''}`, children: [_jsxs("span", { children: [item.label, ":"] }), _jsx("strong", { children: item.value }), itemIndex === 0 && section.key === 'basic' ? (_jsx("button", { type: "button", className: "month-channel-copy", "aria-label": "\u590D\u5236\u6E20\u9053\u8BA2\u5355\u53F7", "data-testid": "month-channel-copy-order-no", onClick: handleChannelOrderCopy, children: _jsx("span", { "aria-hidden": "true" }) })) : null] }, item.label))) })] }, section.key))) })) : null, overlayPanel === null && activeTab === 'log' ? (_jsxs("section", { className: "month-info-block month-info-block--plain", children: [_jsx("h3", { children: "\u64CD\u4F5C\u65E5\u5FD7" }), _jsxs("ul", { className: "month-log-list", children: [_jsx("li", { children: "2026-05-16 17:41:03 \u7CFB\u7EDF\u521B\u5EFA\u8BA2\u5355" }), _jsx("li", { children: "2026-05-16 17:45:21 \u540C\u6B65\u6E20\u9053\u8BA2\u5355\u4FE1\u606F" }), _jsx("li", { children: "2026-05-18 10:20:18 \u524D\u53F0\u786E\u8BA4\u5F85\u5165\u4F4F\u72B6\u6001" })] })] })) : null] }), overlayPanel === 'edit-order' ? (_jsx("footer", { className: "month-order-drawer__footer month-order-drawer__footer--edit", "data-testid": "month-order-drawer-footer", children: _jsxs("div", { className: "month-order-edit-footer", children: [_jsxs("div", { className: "month-order-edit-footer__summary", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63):", roomFee] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165:", totalIncome] })] }), _jsx("button", { type: "button", className: "is-primary", "data-testid": "month-order-edit-submit", onClick: () => onAction('提交编辑订单'), children: "\u63D0\u4EA4" })] }) })) : (_jsxs("footer", { className: "month-order-drawer__footer", "data-testid": "month-order-drawer-footer", children: [_jsx("div", { className: "month-order-actions", children: quickActions.map((action) => (_jsxs("button", { type: "button", className: "month-order-action-button", "data-testid": action.testId, onClick: () => handleDrawerAction(action.label), children: [_jsx("span", { className: "month-order-action-icon", "aria-hidden": "true", children: action.icon }), _jsx("span", { children: action.label })] }, action.key))) }), _jsxs("div", { className: "month-order-footer-row", children: [_jsxs("div", { children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63)\uFF1A", roomFee] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165\uFF1A", totalIncome] })] }), footerActions.map((action) => (_jsx("button", { type: "button", className: action.className || undefined, "data-testid": action.testId, onClick: () => {
+                                                        }, children: "\u4FDD\u5B58" })] })) : (_jsx("button", { type: "button", className: "month-order-icon-action", "data-testid": "month-order-section-remark-edit", "aria-label": "\u7F16\u8F91\u8BA2\u5355\u5907\u6CE8", onClick: () => setRemarkEditorOpen(true), children: "\u270E" }))] }), remarkEditorOpen ? (_jsx("div", { className: "month-order-inline-form", "data-testid": "month-order-section-remark-editor", children: _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: remark }) })) : (_jsx("p", { children: remark }))] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-tags", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u6807\u7B7E" }), _jsx("button", { type: "button", className: "month-order-mini-action", "data-testid": "month-order-section-tags-add", "aria-label": "\u65B0\u589E\u8BA2\u5355\u6807\u7B7E", onClick: openTagDialog, children: "+" })] }), selectedOrderTags.length ? (_jsx("div", { children: selectedOrderTags.map((tag) => (_jsx("span", { className: "month-info-tag", children: tag }, tag))) })) : null] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-reminder", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u63D0\u9192" }), _jsx("button", { type: "button", className: "month-order-mini-action", "data-testid": "month-order-section-reminder-add", "aria-label": "\u65B0\u589E\u8BA2\u5355\u63D0\u9192", onClick: () => handleDrawerAction('订单提醒'), children: "+" })] }), _jsx("p", { children: "\u5165\u4F4F\u524D30\u5206\u949F\u77ED\u4FE1\u63D0\u9192" })] }), _jsxs("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-attachment", children: [_jsxs("div", { className: "month-order-section-header", children: [_jsx("h3", { children: "\u8BA2\u5355\u9644\u4EF6" }), _jsxs("label", { className: "month-order-upload-trigger", "aria-label": "\u65B0\u589E\u8BA2\u5355\u9644\u4EF6", "data-testid": "month-order-section-attachment-upload", children: [_jsx("input", { type: "file", accept: "*", onChange: handleAttachmentChange }), _jsx("span", { children: "+" })] })] }), _jsx("div", { className: "month-order-upload-list", "data-testid": "month-order-section-attachment-list", children: uploadedAttachments.map((attachment) => (_jsxs("div", { className: "month-order-upload-item", "data-testid": "month-order-section-attachment-item", children: [_jsx("span", { className: "month-order-upload-item__icon", "aria-hidden": "true", children: _jsx("svg", { viewBox: "64 64 896 896", focusable: "false", children: _jsx("path", { d: "M779.3 196.6c-94.2-94.2-247.6-94.2-341.7 0l-261 260.8c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l261-260.8c32.4-32.4 75.5-50.2 121.3-50.2s88.9 17.8 121.2 50.2c32.4 32.4 50.2 75.5 50.2 121.2 0 45.8-17.8 88.8-50.2 121.2l-266 265.9-43.1 43.1c-40.3 40.3-105.8 40.3-146.1 0-19.5-19.5-30.2-45.4-30.2-73s10.7-53.5 30.2-73l263.9-263.8c6.7-6.6 15.5-10.3 24.9-10.3h.1c9.4 0 18.1 3.7 24.7 10.3 6.7 6.7 10.3 15.5 10.3 24.9 0 9.3-3.7 18.1-10.3 24.7L372.4 653c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l215.6-215.6c19.9-19.9 30.8-46.3 30.8-74.4s-11-54.6-30.8-74.4c-41.1-41.1-107.9-41-149 0L463 364 224.8 602.1A172.22 172.22 0 00174 724.8c0 46.3 18.1 89.8 50.8 122.5 33.9 33.8 78.3 50.7 122.7 50.7 44.4 0 88.8-16.9 122.6-50.7l309.2-309C824.8 492.7 850 432 850 367.5c.1-64.6-25.1-125.3-70.7-170.9z" }) }) }), _jsx("span", { className: "month-order-upload-item__name", title: attachment.name, children: attachment.name }), _jsx("button", { type: "button", className: "month-order-upload-item__delete", "aria-label": `删除附件 ${attachment.name}`, "data-testid": "month-order-section-attachment-delete", onClick: () => removeAttachment(attachment.id), children: _jsx("svg", { viewBox: "64 64 896 896", focusable: "false", children: _jsx("path", { d: "M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z" }) }) })] }, attachment.id))) })] }), _jsx("section", { className: "month-info-block month-order-section-row", "data-testid": "month-order-section-meta", children: _jsxs("div", { className: "month-order-key-value-list", children: [_jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u521B\u5EFA\u4EBA" }), _jsx("strong", { children: "\u65E0" })] }), _jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u8BA2\u5355\u53F7" }), _jsx("strong", { children: orderId })] }), _jsxs("div", { className: "month-order-key-value-row", children: [_jsx("span", { children: "\u9884\u8BA2\u65F6\u95F4" }), _jsx("strong", { children: "2026.05.16 17:41:03" })] })] }) })] })) : null, overlayPanel === null && activeTab === 'channel' ? (_jsx("section", { className: "month-channel-panel", "data-testid": "month-channel-panel", children: channelBlocks.map((section) => (_jsxs("section", { className: "month-channel-section", "data-testid": section.testId, children: [_jsx("div", { className: "month-channel-section__header", children: _jsx("h3", { children: section.title }) }), _jsx("div", { className: `month-channel-grid${section.key === 'fee' ? ' month-channel-grid--compact' : ''}`, children: section.items.map((item, itemIndex) => (_jsxs("div", { className: `month-channel-kv${item.wide || item.label === '预定房型' || item.label === '发票要求' || item.label === '渠道备注信息' ? ' month-channel-kv--wide' : ''}${item.noWrap ? ' month-channel-kv--no-wrap' : ''}${itemIndex === 0 && section.key === 'basic' ? ' month-channel-kv--with-copy' : ''}`, children: [_jsxs("span", { children: [item.label, ":"] }), _jsx("strong", { children: item.value }), itemIndex === 0 && section.key === 'basic' ? (_jsx("button", { type: "button", className: "month-channel-copy", "aria-label": "\u590D\u5236\u6E20\u9053\u8BA2\u5355\u53F7", "data-testid": "month-channel-copy-order-no", onClick: handleChannelOrderCopy, children: _jsx("span", { "aria-hidden": "true" }) })) : null] }, item.label))) })] }, section.key))) })) : null, overlayPanel === null && activeTab === 'log' ? (_jsx("section", { className: "month-order-log-panel", "data-testid": "month-order-log-panel", children: _jsx("ol", { className: "month-order-log-timeline", "data-testid": "month-order-log-timeline", children: operationLogs.map((log) => (_jsxs("li", { className: "month-order-log-item", "data-testid": "month-order-log-item", children: [_jsxs("time", { className: "month-order-log-time", dateTime: new Date(log.occurredAt).toISOString(), children: [_jsx("span", { children: formatMonthOrderLogDate(log.occurredAt) }), _jsx("span", { children: formatMonthOrderLogTime(log.occurredAt) })] }), _jsx("span", { className: "month-order-log-dot", "aria-hidden": "true" }), _jsxs("article", { className: "month-order-log-card", children: [_jsxs("header", { children: [_jsx("strong", { children: log.title }), _jsxs("span", { children: ["\u64CD\u4F5C\u4EBA\uFF1A", log.operator] })] }), _jsx("p", { children: log.detail })] })] }, log.id))) }) })) : null] }), overlayPanel === 'edit-order' ? (_jsx("footer", { className: "month-order-drawer__footer month-order-drawer__footer--edit", "data-testid": "month-order-drawer-footer", children: _jsxs("div", { className: "month-order-edit-footer", children: [_jsxs("div", { className: "month-order-edit-footer__summary", children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63):", roomFee] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165:", totalIncome] })] }), _jsx("button", { type: "button", className: "is-primary", "data-testid": "month-order-edit-submit", onClick: () => onAction('提交编辑订单'), children: "\u63D0\u4EA4" })] }) })) : (_jsxs("footer", { className: "month-order-drawer__footer", "data-testid": "month-order-drawer-footer", children: [_jsx("div", { className: "month-order-actions", children: quickActions.map((action) => (_jsxs("button", { type: "button", className: "month-order-action-button", "data-testid": action.testId, onClick: () => handleDrawerAction(action.label), children: [_jsx("span", { className: "month-order-action-icon", "aria-hidden": "true", children: action.icon }), _jsx("span", { children: action.label })] }, action.key))) }), _jsxs("div", { className: "month-order-footer-row", children: [_jsxs("div", { children: [_jsxs("span", { children: ["\u623F\u8D39(\u51CF\u4F63)\uFF1A", roomFee] }), _jsxs("span", { children: ["\u8BA2\u5355\u603B\u6536\u5165\uFF1A", totalIncome] })] }), footerActions.map((action) => (_jsx("button", { type: "button", className: action.className || undefined, "data-testid": action.testId, disabled: (action.key === 'checkin' && submittingAction === 'checkin') ||
+                                    (action.key === 'checkout' && submittingAction === 'checkout'), onClick: () => {
                                     if (action.key === 'more') {
                                         setMoreMenuOpen((current) => !current);
                                         return;
                                     }
+                                    if (action.key === 'checkin') {
+                                        void handleCheckInOrder();
+                                        return;
+                                    }
                                     if (action.key === 'checkout') {
-                                        handleDrawerAction('退房');
+                                        void handleCheckOutOrder();
                                         return;
                                     }
                                     handleDrawerAction(action.label);
-                                }, children: action.label }, action.key))), moreMenuOpen ? (_jsxs("div", { className: "month-order-more-menu", role: "menu", "aria-label": "\u6708\u623F\u6001\u8BA2\u5355\u66F4\u591A\u64CD\u4F5C", "data-testid": "month-order-footer-more-menu", children: [_jsx("button", { type: "button", role: "menuitem", "data-testid": "month-order-more-item-edit-order", onClick: () => handleMoreMenuAction('编辑订单'), children: "\u7F16\u8F91\u8BA2\u5355" }), _jsx("button", { type: "button", role: "menuitem", "data-testid": "month-order-more-item-modify-fee", onClick: () => handleMoreMenuAction('修改费用'), children: "\u4FEE\u6539\u8D39\u7528" })] })) : null] })] })), openDialog === 'noshow' ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setOpenDialog(null), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--medium", role: "dialog", "aria-modal": "true", "aria-label": "\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355", "data-testid": "month-order-dialog-noshow", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355", onClick: () => setOpenDialog(null), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-dialog__selection", children: [_jsxs("label", { children: [_jsx("input", { type: "checkbox", checked: true, readOnly: true }), _jsx("span", { children: "\u9009\u62E9\u5168\u90E8\u623F\u95F4" })] }), _jsx("span", { children: "\u5DF2\u90091\u95F4 \u51711\u95F4" })] }), _jsxs("div", { className: "month-order-dialog__room", children: [_jsx("label", { className: "month-order-dialog__room-check", children: _jsx("input", { type: "checkbox", checked: true, readOnly: true }) }), _jsxs("div", { className: "month-order-dialog__room-content", children: [_jsxs("div", { className: "month-order-dialog__room-title", children: [_jsx("strong", { children: roomDisplayName }), _jsx("span", { children: "\u5F85\u5165\u4F4F" })] }), _jsxs("div", { className: "month-order-dialog__room-meta", children: [_jsxs("span", { children: [stayRange.replace(/\./g, '.').replace('-', '-'), " (2\u665A)"] }), _jsx("strong", { children: "\u00A51624" })] })] })] })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setOpenDialog(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmDialog, children: "\u786E\u5B9A" })] })] }) })) : null, openDialog === 'checkout' ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setOpenDialog(null), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--large", role: "dialog", "aria-modal": "true", "aria-label": "\u529E\u7406\u9000\u623F", "data-testid": "month-order-dialog-checkout", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u529E\u7406\u9000\u623F" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u529E\u7406\u9000\u623F", onClick: () => setOpenDialog(null), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body month-order-dialog__body--scroll", children: [_jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u79DF\u5BA2\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__grid", children: [_jsxs("span", { children: ["\u79DF\u5BA2\u59D3\u540D: ", selectedBooking.cell.title] }), _jsxs("span", { children: ["\u624B\u673A\u53F7\u7801: ", phone] })] })] }), _jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u79DF\u8D41\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__grid", children: [_jsxs("span", { children: ["\u623F\u95F4\u4FE1\u606F: ", roomDisplayName] }), _jsx("span", { children: "\u5408\u540C\u65F6\u95F4: 2026-05-16 \u81F3 2026-05-16" }), _jsx("span", { children: "\u5408\u540C\u671F\u9650: 2\u665A" }), _jsx("span", { children: "\u6BCF\u6708\u79DF\u91D1: \u00A50" }), _jsx("span", { children: "\u62BC\u91D1: \u00A50" }), _jsx("span", { children: "\u7F34\u8D39\u65B9\u5F0F: \u7EBF\u4E0A\u9884\u4ED8" })] })] }), _jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u9000\u623F\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "month-checkout-type", checked: checkoutType === 'normal', onChange: () => setCheckoutType('normal') }), _jsx("span", { children: "\u6B63\u5E38\u9000\u623F" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "month-checkout-type", checked: checkoutType === 'early', onChange: () => setCheckoutType('early') }), _jsx("span", { children: "\u63D0\u524D\u9000\u623F" })] })] })] }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("div", { className: "month-order-dialog__checkout-bar", children: [_jsx("span", { children: "\u8D26\u5355\u4FE1\u606F" }), _jsx("button", { type: "button", className: "is-primary", "data-testid": "month-order-dialog-checkout-add-collect", onClick: () => handleDrawerAction('添加收款'), children: "\u6DFB\u52A0\u6536\u6B3E" })] }) }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("div", { className: "month-order-dialog__grid month-order-dialog__grid--inputs", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5E94\u9000\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u9000\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6263\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] })] }) }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("label", { className: "month-order-dialog__textarea-label", children: [_jsx("span", { children: "\u5907\u6CE8\u4FE1\u606F" }), _jsx("textarea", { className: "month-order-dialog__textarea", placeholder: "\u9650\u5236300\u5B57\u4EE5\u5185", defaultValue: remark })] }) })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setOpenDialog(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmDialog, children: "\u529E\u7406\u9000\u623F" })] })] }) })) : null, collectDialogOpen ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setCollectDialogOpen(false), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--medium", role: "dialog", "aria-modal": "true", "aria-label": "\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55", "data-testid": "month-order-dialog-collect", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55", onClick: () => setCollectDialogOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-dialog__stats", children: [_jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u5E94\u6536\u6B3E" }), _jsx("strong", { children: "\u00A51624" })] }), _jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u5DF2\u6536\u6B3E" }), _jsx("strong", { children: "\u00A50" })] }), _jsxs("div", { className: "month-order-dialog__stat month-order-dialog__stat--pending", children: [_jsx("span", { children: "\u5F85\u6536\u6B3E" }), _jsx("strong", { children: "\u00A50" })] })] }), _jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u7C7B\u578B" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "", children: [_jsx("option", { value: "", disabled: true, children: "\u8BF7\u9009\u62E9\u7C7B\u578B" }), _jsx("option", { value: "\u623F\u8D39", children: "\u623F\u8D39" })] })] }), _jsxs("label", { children: [_jsx("span", { children: "\u652F\u4ED8\u65B9\u5F0F" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "", children: [_jsx("option", { value: "", disabled: true, children: "\u8BF7\u9009\u62E9\u652F\u4ED8\u65B9\u5F0F" }), _jsx("option", { value: "\u7EBF\u4E0A\u9884\u4ED8", children: "\u7EBF\u4E0A\u9884\u4ED8" }), _jsx("option", { value: "\u7EBF\u4E0B\u6536\u6B3E", children: "\u7EBF\u4E0B\u6536\u6B3E" })] })] }), _jsxs("label", { children: [_jsx("span", { children: "\u65E5\u671F" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u91D1\u989D(\u00A5)" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u91D1\u989D" })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u5907\u6CE8" }), _jsx("textarea", { className: "month-order-dialog__textarea", placeholder: "\u8BF7\u8F93\u5165\u5907\u6CE8" })] })] })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("span", { className: "month-order-dialog__footer-note", children: "\u5728\u7EBF\u6536\u6B3E" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmCollectDialog, children: "\u63D0\u4EA4" })] })] }) })) : null, tagDialogOpen ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: closeTagDialog, children: _jsxs("section", { className: "month-order-dialog month-order-dialog--tags", role: "dialog", "aria-modal": "true", "aria-label": "\u9009\u62E9\u6807\u7B7E", "data-testid": "month-order-dialog-tags", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u9009\u62E9\u6807\u7B7E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u9009\u62E9\u6807\u7B7E", onClick: closeTagDialog, children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-tag-dialog__toolbar", children: [_jsxs("label", { className: "month-order-tag-dialog__search", children: [_jsx("span", { "aria-hidden": "true", children: "\u2315" }), _jsx("input", { type: "text", placeholder: "\u641C\u7D22", value: tagDialogKeyword, onChange: (event) => setTagDialogKeyword(event.target.value) })] }), _jsx("button", { type: "button", className: "month-order-tag-dialog__create-link", onClick: () => onAction('创建标签'), children: "+\u521B\u5EFA\u6807\u7B7E" })] }), _jsx("div", { className: "month-order-tag-dialog__tabs", children: _jsx("button", { type: "button", className: "is-active", children: "\u8BA2\u5355\u6807\u7B7E" }) }), _jsxs("div", { className: "month-order-tag-tree", "data-testid": "month-order-tag-tree", children: [_jsxs("div", { className: "month-order-tag-tree__group", children: [_jsx("button", { type: "button", className: "month-order-tag-tree__caret", "aria-label": "\u5C55\u5F00\u9ED8\u8BA4\u6807\u7B7E", children: "\u25BE" }), _jsxs("label", { className: "month-order-tag-tree__row month-order-tag-tree__row--group", children: [_jsx("input", { type: "checkbox", checked: allVisibleTagChecked, ref: (node) => {
+                                }, children: action.key === 'checkin' && submittingAction === 'checkin'
+                                    ? '入住中'
+                                    : action.key === 'checkout' && submittingAction === 'checkout'
+                                        ? '退房中'
+                                        : action.label }, action.key))), moreMenuOpen ? (_jsxs("div", { className: "month-order-more-menu", role: "menu", "aria-label": "\u6708\u623F\u6001\u8BA2\u5355\u66F4\u591A\u64CD\u4F5C", "data-testid": "month-order-footer-more-menu", children: [_jsx("button", { type: "button", role: "menuitem", "data-testid": "month-order-more-item-edit-order", onClick: () => handleMoreMenuAction('编辑订单'), children: "\u7F16\u8F91\u8BA2\u5355" }), _jsx("button", { type: "button", role: "menuitem", "data-testid": "month-order-more-item-modify-fee", onClick: () => handleMoreMenuAction('修改费用'), children: "\u4FEE\u6539\u8D39\u7528" })] })) : null] })] })), openDialog === 'noshow' ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setOpenDialog(null), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--medium", role: "dialog", "aria-modal": "true", "aria-label": "\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355", "data-testid": "month-order-dialog-noshow", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u7F6E\u4E3Anoshow\u5931\u7EA6\u5355", onClick: () => setOpenDialog(null), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-dialog__selection", children: [_jsxs("label", { children: [_jsx("input", { type: "checkbox", checked: true, readOnly: true }), _jsx("span", { children: "\u9009\u62E9\u5168\u90E8\u623F\u95F4" })] }), _jsx("span", { children: "\u5DF2\u90091\u95F4 \u51711\u95F4" })] }), _jsxs("div", { className: "month-order-dialog__room", children: [_jsx("label", { className: "month-order-dialog__room-check", children: _jsx("input", { type: "checkbox", checked: true, readOnly: true }) }), _jsxs("div", { className: "month-order-dialog__room-content", children: [_jsxs("div", { className: "month-order-dialog__room-title", children: [_jsx("strong", { children: roomDisplayName }), _jsx("span", { children: "\u5F85\u5165\u4F4F" })] }), _jsxs("div", { className: "month-order-dialog__room-meta", children: [_jsxs("span", { children: [stayRange.replace(/\./g, '.').replace('-', '-'), " (2\u665A)"] }), _jsx("strong", { children: "\u00A51624" })] })] })] })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setOpenDialog(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmDialog, children: "\u786E\u5B9A" })] })] }) })) : null, openDialog === 'checkout' ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setOpenDialog(null), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--large", role: "dialog", "aria-modal": "true", "aria-label": "\u529E\u7406\u9000\u623F", "data-testid": "month-order-dialog-checkout", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u529E\u7406\u9000\u623F" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u529E\u7406\u9000\u623F", onClick: () => setOpenDialog(null), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body month-order-dialog__body--scroll", children: [_jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u79DF\u5BA2\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__grid", children: [_jsxs("span", { children: ["\u79DF\u5BA2\u59D3\u540D: ", selectedBooking.cell.title] }), _jsxs("span", { children: ["\u624B\u673A\u53F7\u7801: ", phone] })] })] }), _jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u79DF\u8D41\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__grid", children: [_jsxs("span", { children: ["\u623F\u95F4\u4FE1\u606F: ", roomDisplayName] }), _jsx("span", { children: "\u5408\u540C\u65F6\u95F4: 2026-05-16 \u81F3 2026-05-16" }), _jsx("span", { children: "\u5408\u540C\u671F\u9650: 2\u665A" }), _jsx("span", { children: "\u6BCF\u6708\u79DF\u91D1: \u00A50" }), _jsx("span", { children: "\u62BC\u91D1: \u00A50" }), _jsx("span", { children: "\u7F34\u8D39\u65B9\u5F0F: \u7EBF\u4E0A\u9884\u4ED8" })] })] }), _jsxs("section", { className: "month-order-dialog__group", children: [_jsx("h3", { children: "\u9000\u623F\u4FE1\u606F" }), _jsxs("div", { className: "month-order-dialog__radio-group", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", name: "month-checkout-type", checked: checkoutType === 'normal', onChange: () => setCheckoutType('normal') }), _jsx("span", { children: "\u6B63\u5E38\u9000\u623F" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "month-checkout-type", checked: checkoutType === 'early', onChange: () => setCheckoutType('early') }), _jsx("span", { children: "\u63D0\u524D\u9000\u623F" })] })] })] }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("div", { className: "month-order-dialog__checkout-bar", children: [_jsx("span", { children: "\u8D26\u5355\u4FE1\u606F" }), _jsx("button", { type: "button", className: "is-primary", "data-testid": "month-order-dialog-checkout-add-collect", onClick: () => handleDrawerAction('添加收款'), children: "\u6DFB\u52A0\u6536\u6B3E" })] }) }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("div", { className: "month-order-dialog__grid month-order-dialog__grid--inputs", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5E94\u9000\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u9000\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6263\u62BC\u91D1" }), _jsx("input", { className: "month-order-dialog__input", value: "0 \u5143", readOnly: true })] })] }) }), _jsx("section", { className: "month-order-dialog__group", children: _jsxs("label", { className: "month-order-dialog__textarea-label", children: [_jsx("span", { children: "\u5907\u6CE8\u4FE1\u606F" }), _jsx("textarea", { className: "month-order-dialog__textarea", placeholder: "\u9650\u5236300\u5B57\u4EE5\u5185", defaultValue: remark })] }) })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setOpenDialog(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmDialog, children: "\u529E\u7406\u9000\u623F" })] })] }) })) : null, collectDialogOpen ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: () => setCollectDialogOpen(false), children: _jsxs("section", { className: "month-order-dialog month-order-dialog--medium", role: "dialog", "aria-modal": "true", "aria-label": "\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55", "data-testid": "month-order-dialog-collect", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6DFB\u52A0\u6536\u6B3E\u8BB0\u5F55", onClick: () => setCollectDialogOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-dialog__stats", children: [_jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u5E94\u6536\u6B3E" }), _jsx("strong", { children: "\u00A51624" })] }), _jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u5DF2\u6536\u6B3E" }), _jsx("strong", { children: "\u00A50" })] }), _jsxs("div", { className: "month-order-dialog__stat month-order-dialog__stat--pending", children: [_jsx("span", { children: "\u5F85\u6536\u6B3E" }), _jsx("strong", { children: "\u00A50" })] })] }), _jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u7C7B\u578B" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "", children: [_jsx("option", { value: "", disabled: true, children: "\u8BF7\u9009\u62E9\u7C7B\u578B" }), _jsx("option", { value: "\u623F\u8D39", children: "\u623F\u8D39" })] })] }), _jsxs("label", { children: [_jsx("span", { children: "\u652F\u4ED8\u65B9\u5F0F" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "", children: [_jsx("option", { value: "", disabled: true, children: "\u8BF7\u9009\u62E9\u652F\u4ED8\u65B9\u5F0F" }), _jsx("option", { value: "\u7EBF\u4E0A\u9884\u4ED8", children: "\u7EBF\u4E0A\u9884\u4ED8" }), _jsx("option", { value: "\u7EBF\u4E0B\u6536\u6B3E", children: "\u7EBF\u4E0B\u6536\u6B3E" })] })] }), _jsxs("label", { children: [_jsx("span", { children: "\u65E5\u671F" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F", readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u91D1\u989D(\u00A5)" }), _jsx("input", { className: "month-order-dialog__input", placeholder: "\u8BF7\u8F93\u5165\u91D1\u989D" })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u5907\u6CE8" }), _jsx("textarea", { className: "month-order-dialog__textarea", placeholder: "\u8BF7\u8F93\u5165\u5907\u6CE8" })] })] })] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("span", { className: "month-order-dialog__footer-note", children: "\u5728\u7EBF\u6536\u6B3E" }), _jsx("button", { type: "button", className: "is-primary", onClick: confirmCollectDialog, children: "\u63D0\u4EA4" })] })] }) })) : null, tagDialogOpen ? (_jsx("div", { className: "month-order-dialog-scrim", onClick: closeTagDialog, children: _jsxs("section", { className: "month-order-dialog month-order-dialog--tags", role: "dialog", "aria-modal": "true", "aria-label": "\u9009\u62E9\u6807\u7B7E", "data-testid": "month-order-dialog-tags", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "month-order-dialog__header", children: [_jsx("strong", { children: "\u9009\u62E9\u6807\u7B7E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u9009\u62E9\u6807\u7B7E", onClick: closeTagDialog, children: "\u00D7" })] }), _jsxs("div", { className: "month-order-dialog__body", children: [_jsxs("div", { className: "month-order-tag-dialog__toolbar", children: [_jsxs("label", { className: "month-order-tag-dialog__search", children: [_jsx("span", { "aria-hidden": "true", children: "\u2315" }), _jsx("input", { type: "text", placeholder: "\u641C\u7D22", value: tagDialogKeyword, onChange: (event) => setTagDialogKeyword(event.target.value) })] }), _jsx("button", { type: "button", className: "month-order-tag-dialog__create-link", onClick: () => onAction('创建标签'), children: "+\u521B\u5EFA\u6807\u7B7E" })] }), _jsx("div", { className: "month-order-tag-dialog__tabs", children: _jsx("button", { type: "button", className: "is-active", children: "\u8BA2\u5355\u6807\u7B7E" }) }), _jsxs("div", { className: "month-order-tag-tree", "data-testid": "month-order-tag-tree", children: [_jsxs("div", { className: "month-order-tag-tree__group", children: [_jsx("button", { type: "button", className: "month-order-tag-tree__caret", "aria-label": "\u5C55\u5F00\u9ED8\u8BA4\u6807\u7B7E", children: "\u25BE" }), _jsxs("label", { className: "month-order-tag-tree__row month-order-tag-tree__row--group", children: [_jsx("input", { type: "checkbox", checked: allVisibleTagChecked, ref: (node) => {
                                                                 if (node) {
                                                                     node.indeterminate = !allVisibleTagChecked && someVisibleTagChecked;
                                                                 }
@@ -908,32 +1456,139 @@ export function MonthOrderDrawer({ selectedBooking, onClose, onAction }) {
                                                         ? '客户已确认延迟退房，需要同步房态与清扫时间。'
                                                         : actionFlow === 'renew' || actionFlow === 'continue'
                                                             ? '续住后沿用当前房间与价格策略。'
-                                                            : '提前入住后请同步门锁密码和入住提醒。' })] })] })) : null, actionFlow === 'change-room' ? (_jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5F53\u524D\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8C03\u6574\u81F3" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u623F\u95F42", children: [_jsxs("option", { value: "\u623F\u95F42", children: [selectedBooking.roomType, " \u623F\u95F42"] }), _jsxs("option", { value: "\u623F\u95F43", children: [selectedBooking.roomType, " \u623F\u95F43"] })] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u6362\u623F\u539F\u56E0" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u5BA2\u6237\u9700\u8981\u66F4\u9AD8\u697C\u5C42\uFF0C\u4FDD\u6301\u539F\u8BA2\u5355\u4EF7\u683C\u4E0D\u53D8\u3002" })] })] })) : null, actionFlow === 'clean' ? (_jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u4FDD\u6D01\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u4F18\u5148\u7EA7" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u666E\u901A", children: [_jsx("option", { value: "\u666E\u901A", children: "\u666E\u901A" }), _jsx("option", { value: "\u52A0\u6025", children: "\u52A0\u6025" })] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u4EFB\u52A1\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u9000\u623F\u540E\u5B89\u6392\u4FDD\u6D01\uFF0C\u68C0\u67E5\u5E03\u8349\u548C minibar \u6D88\u8017\u3002" })] })] })) : null, actionFlow === 'print' ? (_jsxs("div", { className: "month-order-dialog__form-grid month-order-dialog__form-grid--single", children: [_jsxs("label", { children: [_jsx("span", { children: "\u6253\u5370\u7C7B\u578B" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u8BA2\u5355\u8BE6\u60C5\u5355", children: [_jsx("option", { value: "\u8BA2\u5355\u8BE6\u60C5\u5355", children: "\u8BA2\u5355\u8BE6\u60C5\u5355" }), _jsx("option", { value: "\u5165\u4F4F\u5355", children: "\u5165\u4F4F\u5355" }), _jsx("option", { value: "\u8D26\u5355", children: "\u8D26\u5355" })] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u6253\u5370\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u6253\u5370\u5C06\u6309\u5F53\u524D\u8BA2\u5355\u4FE1\u606F\u751F\u6210\u5355\u636E\uFF0C\u63D0\u4EA4\u540E\u8FDB\u5165\u6253\u5370\u6D41\u7A0B\u3002" })] })] })) : null, actionFlow === 'credit-checkout' ? (_jsxs("div", { className: "month-order-dialog__stats", children: [_jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u4FE1\u7528\u4F4F\u623F\u8D39" }), _jsx("strong", { children: roomFee })] }), _jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u4F63\u91D1" }), _jsx("strong", { children: commission })] }), _jsxs("div", { className: "month-order-dialog__stat month-order-dialog__stat--pending", children: [_jsx("span", { children: "\u5F85\u7ED3\u91D1\u989D" }), _jsx("strong", { children: totalIncome })] })] })) : null, actionFlow === 'checkin' ? (_jsxs("div", { className: "month-order-dialog__form-grid month-order-dialog__form-grid--single", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5165\u4F4F\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u5165\u4F4F\u4EBA" }), _jsx("input", { className: "month-order-dialog__input", value: selectedBooking.cell.title, readOnly: true })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u529E\u7406\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u786E\u8BA4\u8BC1\u4EF6\u3001\u623F\u8D39\u4E0E\u62BC\u91D1\u4FE1\u606F\u540E\u5373\u53EF\u529E\u7406\u5165\u4F4F\u3002" })] })] })) : null, actionFlow === 'cancel-arrange' || actionFlow === 'skip-stock' || actionFlow === 'skip-report' || actionFlow === 'cancel-order' ? (_jsxs("div", { className: "month-order-dialog__grid month-order-dialog__grid--inputs", children: [_jsxs("span", { children: ["\u623F\u95F4\u4FE1\u606F: ", roomDisplayName] }), _jsxs("span", { children: ["\u8BA2\u5355\u7F16\u53F7: ", orderId] }), _jsxs("span", { children: ["\u5F53\u524D\u72B6\u6001: ", statusLabel] }), _jsx("span", { children: actionFlow === 'cancel-arrange'
+                                                            : '提前入住后请同步门锁密码和入住提醒。' })] })] })) : null, actionFlow === 'change-room' ? (_jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5F53\u524D\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8C03\u6574\u81F3" }), _jsxs("select", { className: "month-order-dialog__select", value: selectedChangeRoomId, disabled: changeRoomOptionsLoading || !changeRoomOptions.length || submittingAction === 'change-room', onChange: (event) => setSelectedChangeRoomId(event.target.value), children: [changeRoomOptionsLoading ? _jsx("option", { value: "", children: "\u6B63\u5728\u52A0\u8F7D\u53EF\u6362\u623F\u95F4" }) : null, !changeRoomOptionsLoading && !changeRoomOptions.length ? _jsx("option", { value: "", children: "\u5F53\u524D\u623F\u578B\u6682\u65E0\u53EF\u6362\u7A7A\u623F" }) : null, changeRoomOptions.map((room) => (_jsxs("option", { value: room.roomId, children: [room.roomCategoryName || selectedBooking.roomType, " ", room.roomName] }, room.roomId)))] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u6362\u623F\u539F\u56E0" }), _jsx("textarea", { className: "month-order-dialog__textarea", value: changeRoomReason, disabled: submittingAction === 'change-room', onChange: (event) => setChangeRoomReason(event.target.value) })] }), changeRoomOptionsError ? (_jsx("div", { className: "month-order-dialog__form-grid-full month-order-dialog__error", role: "alert", children: changeRoomOptionsError })) : null] })) : null, actionFlow === 'clean' ? (_jsxs("div", { className: "month-order-dialog__form-grid", children: [_jsxs("label", { children: [_jsx("span", { children: "\u4FDD\u6D01\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u4F18\u5148\u7EA7" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u666E\u901A", children: [_jsx("option", { value: "\u666E\u901A", children: "\u666E\u901A" }), _jsx("option", { value: "\u52A0\u6025", children: "\u52A0\u6025" })] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u4EFB\u52A1\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u9000\u623F\u540E\u5B89\u6392\u4FDD\u6D01\uFF0C\u68C0\u67E5\u5E03\u8349\u548C minibar \u6D88\u8017\u3002" })] })] })) : null, actionFlow === 'print' ? (_jsxs("div", { className: "month-order-dialog__form-grid month-order-dialog__form-grid--single", children: [_jsxs("label", { children: [_jsx("span", { children: "\u6253\u5370\u7C7B\u578B" }), _jsxs("select", { className: "month-order-dialog__select", defaultValue: "\u8BA2\u5355\u8BE6\u60C5\u5355", children: [_jsx("option", { value: "\u8BA2\u5355\u8BE6\u60C5\u5355", children: "\u8BA2\u5355\u8BE6\u60C5\u5355" }), _jsx("option", { value: "\u5165\u4F4F\u5355", children: "\u5165\u4F4F\u5355" }), _jsx("option", { value: "\u8D26\u5355", children: "\u8D26\u5355" })] })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u6253\u5370\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u6253\u5370\u5C06\u6309\u5F53\u524D\u8BA2\u5355\u4FE1\u606F\u751F\u6210\u5355\u636E\uFF0C\u63D0\u4EA4\u540E\u8FDB\u5165\u6253\u5370\u6D41\u7A0B\u3002" })] })] })) : null, actionFlow === 'credit-checkout' ? (_jsxs("div", { className: "month-order-dialog__stats", children: [_jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u4FE1\u7528\u4F4F\u623F\u8D39" }), _jsx("strong", { children: roomFee })] }), _jsxs("div", { className: "month-order-dialog__stat", children: [_jsx("span", { children: "\u4F63\u91D1" }), _jsx("strong", { children: commission })] }), _jsxs("div", { className: "month-order-dialog__stat month-order-dialog__stat--pending", children: [_jsx("span", { children: "\u5F85\u7ED3\u91D1\u989D" }), _jsx("strong", { children: totalIncome })] })] })) : null, actionFlow === 'checkin' ? (_jsxs("div", { className: "month-order-dialog__form-grid month-order-dialog__form-grid--single", children: [_jsxs("label", { children: [_jsx("span", { children: "\u5165\u4F4F\u623F\u95F4" }), _jsx("input", { className: "month-order-dialog__input", value: roomDisplayName, readOnly: true })] }), _jsxs("label", { children: [_jsx("span", { children: "\u5165\u4F4F\u4EBA" }), _jsx("input", { className: "month-order-dialog__input", value: selectedBooking.cell.title, readOnly: true })] }), _jsxs("label", { className: "month-order-dialog__form-grid-full", children: [_jsx("span", { children: "\u529E\u7406\u8BF4\u660E" }), _jsx("textarea", { className: "month-order-dialog__textarea", defaultValue: "\u786E\u8BA4\u8BC1\u4EF6\u3001\u623F\u8D39\u4E0E\u62BC\u91D1\u4FE1\u606F\u540E\u5373\u53EF\u529E\u7406\u5165\u4F4F\u3002" })] })] })) : null, actionFlow === 'cancel-order' ? (_jsxs("div", { className: "month-order-cancel-confirm", children: [_jsx("span", { className: "month-order-cancel-confirm__icon", "aria-hidden": "true", children: "!" }), _jsxs("div", { children: [_jsx("strong", { children: "\u786E\u5B9A\u53D6\u6D88\u6B64\u623F\u5355\u5417\uFF1F" }), _jsx("p", { children: "\u53D6\u6D88\u540E\u5C06\u91CA\u653E\u623F\u6001\uFF0C\u4E0D\u53EF\u6062\u590D\uFF0C\u8BF7\u8C28\u614E\u64CD\u4F5C" }), _jsxs("dl", { children: [_jsxs("div", { children: [_jsx("dt", { children: "\u623F\u95F4\u4FE1\u606F" }), _jsx("dd", { children: roomDisplayName })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u8BA2\u5355\u7F16\u53F7" }), _jsx("dd", { children: orderId || '-' })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u5F53\u524D\u72B6\u6001" }), _jsx("dd", { children: statusLabel })] })] })] })] })) : null, actionFlow === 'skip-stock' ? (_jsxs("div", { className: "month-order-cancel-confirm month-order-skip-stock-confirm", children: [_jsx("span", { className: "month-order-cancel-confirm__icon", "aria-hidden": "true", children: "!" }), _jsxs("div", { children: [_jsx("strong", { children: "\u8BA2\u5355\u5C06\u91CA\u653E\u5E93\u5B58\u4F1A\u540C\u65F6\u53D6\u6D88\u6392\u623F\uFF0C\u662F\u5426\u786E\u5B9A\u6B64\u64CD\u4F5C\uFF1F" }), _jsx("p", { children: "\u786E\u8BA4\u540E\u8BE5\u8BA2\u5355\u4E0D\u518D\u5360\u7528\u5F53\u524D\u623F\u95F4\u5E93\u5B58\uFF0C\u5F53\u524D\u6392\u623F\u4E5F\u4F1A\u540C\u6B65\u53D6\u6D88\u3002" }), _jsxs("button", { type: "button", className: "month-order-skip-stock-confirm__tag", onClick: openTagDialog, children: [_jsx("span", { children: "\u6DFB\u52A0\u6807\u7B7E\uFF1A" }), _jsx("strong", { children: "+ \u6DFB\u52A0\u6807\u7B7E" })] }), _jsxs("dl", { children: [_jsxs("div", { children: [_jsx("dt", { children: "\u623F\u95F4\u4FE1\u606F" }), _jsx("dd", { children: roomDisplayName })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u8BA2\u5355\u7F16\u53F7" }), _jsx("dd", { children: orderId || '-' })] }), _jsxs("div", { children: [_jsx("dt", { children: "\u5F53\u524D\u72B6\u6001" }), _jsx("dd", { children: statusLabel })] })] })] })] })) : null, actionFlow === 'cancel-arrange' || actionFlow === 'skip-report' ? (_jsxs("div", { className: "month-order-dialog__grid month-order-dialog__grid--inputs", children: [_jsxs("span", { children: ["\u623F\u95F4\u4FE1\u606F: ", roomDisplayName] }), _jsxs("span", { children: ["\u8BA2\u5355\u7F16\u53F7: ", orderId] }), _jsxs("span", { children: ["\u5F53\u524D\u72B6\u6001: ", statusLabel] }), _jsx("span", { children: actionFlow === 'cancel-arrange'
                                                 ? '确认后将移除当前排房记录。'
-                                                : actionFlow === 'skip-stock'
-                                                    ? '确认后该订单将不再占用房态库存。'
-                                                    : actionFlow === 'skip-report'
-                                                        ? '确认后该订单将不再计入统计口径。'
-                                                        : '确认后将取消当前房单并保留操作记录。' })] })) : null] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setActionFlow(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => {
+                                                : actionFlow === 'skip-report'
+                                                    ? '确认后该订单将不再计入统计口径。'
+                                                    : '' })] })) : null] }), _jsxs("footer", { className: "month-order-dialog__footer", children: [_jsx("button", { type: "button", onClick: () => setActionFlow(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", disabled: isActionConfirmDisabled, onClick: () => {
                                         if (actionFlow === 'checkin') {
                                             setActionFlow(null);
-                                            setGuestEditorOpen(true);
-                                            onAction('办理入住');
+                                            void handleCheckInOrder();
+                                            return;
+                                        }
+                                        if (actionFlow === 'change-room') {
+                                            void handleChangeRoomOrder();
+                                            return;
+                                        }
+                                        if (actionFlow === 'cancel-order') {
+                                            void handleCancelOrder();
+                                            return;
+                                        }
+                                        if (actionFlow === 'skip-stock') {
+                                            void handleSkipStockOrder();
                                             return;
                                         }
                                         confirmActionFlow();
-                                    }, children: actionFlow === 'checkin' ? '登记入住人' : actionDialogConfig.confirmLabel })] })] }) })) : null] }));
+                                    }, children: actionFlow === 'checkin'
+                                        ? (submittingAction === 'checkin' ? '入住中' : '办理入住')
+                                        : actionFlow === 'change-room' && isChangeRoomSubmitting
+                                            ? '换房中'
+                                            : actionFlow === 'cancel-order' && isCancelSubmitting
+                                                ? '取消中'
+                                                : actionFlow === 'skip-stock' && isSkipStockSubmitting
+                                                    ? '处理中'
+                                                    : actionDialogConfig.confirmLabel })] })] }) })) : null] }));
 }
 function parseCurrencyNumber(value) {
     const numeric = Number(value.replace(/[^\d.-]/g, ''));
     return Number.isFinite(numeric) ? numeric : 0;
 }
 function resolveMonthOrderState(liveStatus) {
+    if (liveStatus?.includes('已取消') || liveStatus === 'cancelled' || liveStatus === 'canceled')
+        return 'cancelled';
     if (liveStatus?.includes('入住中'))
         return 'checked-in';
     if (liveStatus?.includes('已退房'))
         return 'checked-out';
     return 'pending';
+}
+function createMonthOrderGuestForm(guestName, guestMobile) {
+    return {
+        guestName,
+        guestMobile: guestMobile && guestMobile !== '-' ? guestMobile : '',
+        guestIdCardType: '居民身份证',
+        guestIdCard: '',
+    };
+}
+function createMonthOrderInitialLogs(selectedBooking, roomLogLabel) {
+    const now = Date.now();
+    const initialId = selectedBooking.cell.orderId || `${selectedBooking.cell.title}-${roomLogLabel}`;
+    const channelTime = parseMonthOrderLogTimestamp(selectedBooking.cell.bookingAt ?? selectedBooking.cell.createdAt) ?? now - 120_000;
+    const checkInTime = parseMonthOrderLogTimestamp(selectedBooking.cell.guestRegisteredAt);
+    const checkOutTime = parseMonthOrderLogTimestamp(selectedBooking.cell.checkedOutAt);
+    const orderState = resolveMonthOrderState(selectedBooking.cell.liveStatus);
+    const logs = [
+        {
+            id: `${initialId}-channel`,
+            occurredAt: channelTime,
+            title: '渠道来单',
+            operator: '系统自动',
+            detail: '订单状态:进行中',
+        },
+    ];
+    if ((orderState === 'checked-in' || orderState === 'checked-out') && checkInTime !== undefined) {
+        logs.push({
+            id: `${initialId}-checkin`,
+            occurredAt: checkInTime,
+            title: '办理入住',
+            operator: '系统自动',
+            detail: `入住房间：${roomLogLabel}`,
+        });
+    }
+    if (orderState === 'checked-out' && checkOutTime !== undefined) {
+        logs.push({
+            id: `${initialId}-checkout`,
+            occurredAt: checkOutTime,
+            title: '办理退房',
+            operator: '系统自动',
+            detail: `退房房间：${roomLogLabel}`,
+        });
+    }
+    return logs.sort((left, right) => right.occurredAt - left.occurredAt);
+}
+function createMonthOrderActionLog(title, detail, occurredAt) {
+    return {
+        id: `${title}-${occurredAt}-${Date.now()}`,
+        occurredAt,
+        title,
+        operator: '系统自动',
+        detail,
+    };
+}
+function formatMonthOrderLogDate(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+}
+function formatMonthOrderLogTime(timestamp) {
+    const date = new Date(timestamp);
+    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+}
+function parseMonthOrderLogTimestamp(value) {
+    if (!value)
+        return undefined;
+    const trimmed = value.trim();
+    const localMatch = trimmed.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:[ T](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+    if (localMatch) {
+        const [, year, month, day, hour = '0', minute = '0', second = '0'] = localMatch;
+        const timestamp = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second)).getTime();
+        return Number.isFinite(timestamp) ? timestamp : undefined;
+    }
+    const parsed = Date.parse(trimmed);
+    return Number.isFinite(parsed) ? parsed : undefined;
+}
+function resolveOrderActionLiveStatus(status, fallback) {
+    if (!status)
+        return fallback;
+    const normalized = status.toLowerCase();
+    if (normalized === 'checked_in' || normalized === 'checked-in' || normalized.includes('入住中'))
+        return '入住中';
+    if (normalized === 'completed' || normalized === 'checked_out' || normalized === 'checked-out' || normalized.includes('已退房'))
+        return '已退房';
+    if (normalized === 'cancelled' || normalized === 'canceled' || normalized.includes('已取消'))
+        return '已取消';
+    if (normalized === 'booked' || normalized.includes('待入住'))
+        return '待入住';
+    return fallback;
 }
 function formatCurrency(value, fallback) {
     if (!value)
@@ -985,7 +1640,7 @@ function resolveMonthOrderActionDialogConfig(action) {
         },
         'skip-stock': {
             title: '不占库存',
-            confirmLabel: '确认设置',
+            confirmLabel: '确定',
             actionLabel: '设置不占库存',
             testId: 'month-order-dialog-skip-stock',
         },
@@ -1003,7 +1658,7 @@ function resolveMonthOrderActionDialogConfig(action) {
         },
         'cancel-order': {
             title: '取消房单',
-            confirmLabel: '确认取消',
+            confirmLabel: '确定',
             actionLabel: '取消房单',
             testId: 'month-order-dialog-cancel-order',
         },

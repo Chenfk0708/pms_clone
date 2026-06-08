@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createDefaultIncomeReportQuery, createIncomeReportExportTask, fetchIncomeReportDashboard, } from '../services/incomeReport';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './IncomeReportPage.css';
 export function IncomeReportPage() {
     const navigate = useNavigate();
@@ -46,6 +48,9 @@ export function IncomeReportPage() {
     }), [dashboard, query.state]);
     const dimensions = dashboard?.dimensions ?? [];
     const stores = dashboard?.stores ?? [];
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: stores.map((item) => ({ id: item.id, label: item.label })),
+    });
     const roomTypes = dashboard?.roomTypes ?? [];
     const channels = dashboard?.channels ?? [];
     const roomGroups = dashboard?.roomGroups ?? [];
@@ -122,7 +127,7 @@ export function IncomeReportPage() {
         setQuery(createInitialQuery());
         setDraft(createInitialQuery());
     }
-    return (_jsxs("div", { className: "income-report-page", "data-provider": dashboard?.provider ?? 'mock', "data-state": dashboard?.state ?? query.state ?? 'success', children: [_jsx("h1", { className: "sr-only-heading", children: "\u6536\u5165\u62A5\u8868" }), _jsx("pre", { hidden: true, "data-testid": "income-report-contract", "data-provider": dashboard?.provider ?? 'mock', "data-endpoint": dashboard?.endpoint ?? '/report/accommodation/get', children: contractText }), _jsxs("section", { className: "income-report-query", "aria-label": "\u6536\u5165\u62A5\u8868\u7B5B\u9009", children: [_jsx("div", { className: "income-report-mode", role: "group", "aria-label": "\u7EDF\u8BA1\u7EF4\u5EA6", children: dimensions.map((item) => (_jsx("button", { type: "button", className: query.dimension === item.value ? 'is-active' : '', "aria-pressed": query.dimension === item.value, onClick: () => switchDimension(item.value), children: item.label }, item.value))) }), _jsxs("div", { className: "income-report-form", children: [_jsx("div", { className: "income-report-store-row", "aria-label": "\u95E8\u5E97", children: stores.map((item) => (_jsx("button", { type: "button", "aria-pressed": draft.storeId === item.id, className: draft.storeId === item.id ? 'is-active' : '', onClick: () => patchDraft({ storeId: item.id, storeName: item.label }), children: item.label }, item.id))) }), expanded ? (_jsxs("div", { className: "income-report-filter-row", children: [_jsxs("label", { className: "income-date-field", children: [_jsx("span", { children: "\u5F00\u59CB\u65E5\u671F" }), _jsxs("div", { ref: dateRangeRef, className: "income-date-range", role: "button", tabIndex: 0, "aria-label": "\u6536\u5165\u62A5\u8868\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "income-report-page", "data-provider": dashboard?.provider ?? 'mock', "data-state": dashboard?.state ?? query.state ?? 'success', children: [_jsx("h1", { className: "sr-only-heading", children: "\u6536\u5165\u62A5\u8868" }), _jsx("pre", { hidden: true, "data-testid": "income-report-contract", "data-provider": dashboard?.provider ?? 'mock', "data-endpoint": dashboard?.endpoint ?? '/report/accommodation/get', children: contractText }), _jsxs("section", { className: "income-report-query", "aria-label": "\u6536\u5165\u62A5\u8868\u7B5B\u9009", children: [_jsx("div", { className: "income-report-mode", role: "group", "aria-label": "\u7EDF\u8BA1\u7EF4\u5EA6", children: dimensions.map((item) => (_jsx("button", { type: "button", className: query.dimension === item.value ? 'is-active' : '', "aria-pressed": query.dimension === item.value, onClick: () => switchDimension(item.value), children: item.label }, item.value))) }), _jsxs("div", { className: "income-report-form", children: [_jsx(StoreSelectControl, { className: "income-report-store-row", label: "\u95E8\u5E97", options: storeOptions.map((item) => ({ id: item.id, name: item.label })), value: draft.storeId, disabled: storeLoading, onChange: (storeId, option) => patchDraft({ storeId, storeName: option.name }) }), expanded ? (_jsxs("div", { className: "income-report-filter-row", children: [_jsxs("label", { className: "income-date-field", children: [_jsx("span", { children: "\u5F00\u59CB\u65E5\u671F" }), _jsxs("div", { ref: dateRangeRef, className: "income-date-range", role: "button", tabIndex: 0, "aria-label": "\u6536\u5165\u62A5\u8868\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                                     if (event.key === 'Enter' || event.key === ' ') {
                                                         event.preventDefault();
                                                         openDatePanel('start');

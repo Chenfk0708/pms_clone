@@ -1,6 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { exportTotalLedger, getDefaultTotalLedgerQuery, getDefaultTotalLedgerRangeKey, getTotalLedgerProviderName, getTotalLedgerRangePresets, loadTotalLedgerData, } from '../services/totalLedger';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './TotalLedgerPage.css';
 const rangePresets = getTotalLedgerRangePresets();
 const defaultQuery = getDefaultTotalLedgerQuery();
@@ -22,6 +24,7 @@ export function TotalLedgerPage() {
     const [datePanelPosition, setDatePanelPosition] = useState({ top: 0, left: 0 });
     const [isExporting, setIsExporting] = useState(false);
     const dateRangeRef = useRef(null);
+    const { storeOptions, storeLoading } = useStoreOptions({ fallbackOptions: data?.stores });
     const fetchData = useCallback(async (signal) => {
         setIsLoading(true);
         setError('');
@@ -51,11 +54,8 @@ export function TotalLedgerPage() {
     const contractProvider = data?.provider ?? getTotalLedgerProviderName();
     const contractMockState = data?.mockState ?? readCurrentMockState();
     const requestBody = data?.requestBody ?? query;
-    const stores = data?.stores ?? [
-        { id: 'all', label: '全部门店' },
-        { id: defaultQuery.campId, label: '天落会宿公寓(前海壹方城宝安中心店)' },
-    ];
-    const activeStoreLabel = stores.find((item) => item.id === activeStoreId)?.label ?? '全部门店';
+    const stores = storeOptions;
+    const activeStoreLabel = stores.find((store) => store.id === activeStoreId)?.label ?? '全部门店';
     const pageStart = data?.pagination.total ? 1 : 0;
     const pageEnd = data?.pagination.total ? Math.min(data.pagination.total, data.pagination.pageSize) : 0;
     const ratioCards = useMemo(() => [
@@ -153,7 +153,7 @@ export function TotalLedgerPage() {
     function retryLoad() {
         setReloadSeq((current) => current + 1);
     }
-    return (_jsxs("div", { className: "total-ledger-page", children: [_jsx("div", { "data-testid": "total-ledger-service-contract", "data-provider": contractProvider, "data-endpoint": "/accountBookPaymentWay/page/get", "data-export-endpoint": "/accountBookPaymentWay/page/get", "data-mock-state": contractMockState, "data-request-body": JSON.stringify(requestBody), hidden: true }), _jsx("h1", { className: "sr-only-heading", children: "\u6536\u652F\u6C47\u603B" }), _jsxs("section", { className: "total-ledger-filter", "aria-label": "\u6536\u652F\u6C47\u603B\u7B5B\u9009", children: [_jsx("div", { className: "total-ledger-store-head", children: _jsx("div", { className: "total-ledger-store-row", role: "radiogroup", "aria-label": "\u95E8\u5E97", children: stores.map((store) => (_jsx("button", { type: "button", role: "radio", "aria-checked": activeStoreId === store.id, className: activeStoreId === store.id ? 'is-active' : '', onClick: () => applyStore(store.id), disabled: isLoading || isExporting, children: store.label }, store.id))) }) }), _jsxs("div", { className: "total-ledger-query-row", children: [_jsxs("div", { className: "total-ledger-query-main", children: [_jsx("div", { className: "total-ledger-range-buttons", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: rangePresets.map((range) => (_jsx("button", { type: "button", className: activeRange === range.key ? 'is-active' : '', onClick: () => applyRange(range.key), disabled: isLoading || isExporting, children: range.label }, range.key))) }), _jsxs("div", { ref: dateRangeRef, className: "total-ledger-date-range", role: "button", tabIndex: 0, "aria-label": "\u6536\u652F\u6C47\u603B\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "total-ledger-page", children: [_jsx("div", { "data-testid": "total-ledger-service-contract", "data-provider": contractProvider, "data-endpoint": "/accountBookPaymentWay/page/get", "data-export-endpoint": "/accountBookPaymentWay/page/get", "data-mock-state": contractMockState, "data-request-body": JSON.stringify(requestBody), hidden: true }), _jsx("h1", { className: "sr-only-heading", children: "\u6536\u652F\u6C47\u603B" }), _jsxs("section", { className: "total-ledger-filter", "aria-label": "\u6536\u652F\u6C47\u603B\u7B5B\u9009", children: [_jsx("div", { className: "total-ledger-store-head", children: _jsx(StoreSelectControl, { className: "total-ledger-store-row", label: "\u95E8\u5E97", options: stores.map((store) => ({ id: store.id, name: store.label })), value: activeStoreId, onChange: (storeId) => applyStore(storeId), disabled: isLoading || isExporting || storeLoading }) }), _jsxs("div", { className: "total-ledger-query-row", children: [_jsxs("div", { className: "total-ledger-query-main", children: [_jsx("div", { className: "total-ledger-range-buttons", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: rangePresets.map((range) => (_jsx("button", { type: "button", className: activeRange === range.key ? 'is-active' : '', onClick: () => applyRange(range.key), disabled: isLoading || isExporting, children: range.label }, range.key))) }), _jsxs("div", { ref: dateRangeRef, className: "total-ledger-date-range", role: "button", tabIndex: 0, "aria-label": "\u6536\u652F\u6C47\u603B\u65E5\u671F\u8303\u56F4", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                             if (event.key === 'Enter' || event.key === ' ') {
                                                 event.preventDefault();
                                                 openDatePanel('start');

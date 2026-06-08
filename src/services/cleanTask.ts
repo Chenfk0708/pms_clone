@@ -77,6 +77,39 @@ export type CleanTaskDashboard = {
   updatedAt: string
 }
 
+export type CleanTaskCreatePayload = {
+  campId: string
+  poiId?: string
+  roomId: string
+  cleanerId?: string
+  cleanType: CleanTaskType
+  cleanStatus: CleanTaskStatus
+  cleanTime: string
+  deadlineAt?: string
+  deadline?: string
+  remark?: string
+}
+
+export type CleanTaskActionResult = {
+  taskId?: string
+  taskNo?: string
+  cleanStatus?: CleanTaskStatus
+  notifiedCount?: number
+  taskIds?: string[]
+  message?: string
+  traceId?: string
+  timestamp?: string
+}
+
+export type CleanTaskExportResult = {
+  fileName: string
+  contentType?: string
+  total?: number
+  rows?: CleanTaskRecord[]
+  traceId?: string
+  timestamp?: string
+}
+
 type ApiEnvelope<T> = {
   code: number
   message: string
@@ -230,7 +263,83 @@ export function createCleanTaskRequestBody(filters: CleanTaskFilters): Record<st
 }
 
 export async function fetchCleanTaskDashboard(filters: CleanTaskFilters): Promise<CleanTaskDashboard> {
-  return getCleanTaskProvider(cleanTaskProviderMode).fetchDashboard(filters)
+  return getCleanTaskProvider(resolveCleanTaskProviderMode()).fetchDashboard(filters)
+}
+
+export async function exportCleanTasks(filters: CleanTaskFilters): Promise<CleanTaskExportResult> {
+  const requestBody = createCleanTaskRequestBody(filters)
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskExportEndpoint, requestBody)
+    const data = asRecord(assertEnvelope(envelope).data)
+    return {
+      fileName: String(data.fileName ?? `clean_tasks_${filters.cleanDate}.csv`),
+      contentType: data.contentType === undefined ? undefined : String(data.contentType),
+      total: data.total === undefined ? undefined : toNumber(data.total, 0),
+      rows: Array.isArray(data.rows) ? data.rows.map(adaptTask) : undefined,
+      traceId: envelope.traceId,
+      timestamp: envelope.timestamp,
+    }
+  }
+
+  return {
+    fileName: `clean_tasks_${filters.cleanDate}.csv`,
+    contentType: 'text/csv',
+    total: filterTasks(sourceTasks, filters).length,
+    traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-export',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+export async function notifyCleanTasks(campId: string, taskIds: string[]): Promise<CleanTaskActionResult> {
+  const requestBody = { campId, taskIds }
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskNotifyEndpoint, requestBody)
+    return adaptActionResult(envelope)
+  }
+
+  return {
+    notifiedCount: taskIds.length,
+    taskIds,
+    message: '保洁任务通知成功',
+    traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-notify',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+export async function createCleanTask(payload: CleanTaskCreatePayload): Promise<CleanTaskActionResult> {
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskCreateEndpoint, payload)
+    return adaptActionResult(envelope)
+  }
+
+  return {
+    taskId: `mock-clean-task-${Date.now()}`,
+    taskNo: `CT-MOCK-${payload.cleanTime.replaceAll('-', '')}`,
+    cleanStatus: payload.cleanStatus,
+    message: '保洁任务创建成功',
+    traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-create',
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
+export function resolveCleanTaskProviderMode(search?: string): CleanTaskProviderMode {
+  const params = readCleanTaskSearchParams(search)
+  const configured =
+    params.get('cleanTaskProvider') ||
+    params.get('provider') ||
+    readRuntimeValue('pms.cleanTaskProvider') ||
+    (import.meta.env.VITE_CLEAN_TASK_PROVIDER as string | undefined) ||
+    cleanTaskProviderMode
+
+  if (configured === 'api' || configured === 'real') return 'api'
+  if (configured === 'mock') return 'mock'
+  throw new Error(`保洁任务数据源配置无效：${configured}`)
 }
 
 function getCleanTaskProvider(mode: CleanTaskProviderMode): CleanTaskProvider {
@@ -285,6 +394,54 @@ const apiCleanTaskProvider: CleanTaskProvider = {
     }
     return adaptCleanTaskDashboard(assertEnvelope(envelope), requestBody, 'api')
   },
+}
+
+async function postJson<T>(endpoint: string, body: Record<string, unknown>): Promise<ApiEnvelope<T>> {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+  const envelope = (await readJson(response)) as ApiEnvelope<T> | null
+  if (!response.ok) {
+    throw new Error(`${endpoint} 返回 HTTP ${response.status}`)
+  }
+  return assertEnvelope(envelope)
+}
+
+function adaptActionResult(envelope: ApiEnvelope<unknown>): CleanTaskActionResult {
+  const payload = assertEnvelope(envelope)
+  const data = asRecord(payload.data)
+  return {
+    taskId: data.taskId === undefined ? undefined : String(data.taskId),
+    taskNo: data.taskNo === undefined ? undefined : String(data.taskNo),
+    cleanStatus: asOptionalCleanStatus(data.cleanStatus),
+    notifiedCount: data.notifiedCount === undefined ? undefined : toNumber(data.notifiedCount, 0),
+    taskIds: Array.isArray(data.taskIds) ? data.taskIds.map(String) : undefined,
+    message: data.message === undefined ? undefined : String(data.message),
+    traceId: payload.traceId,
+    timestamp: payload.timestamp,
+  }
+}
+
+function readCleanTaskSearchParams(search?: string) {
+  const params = new URLSearchParams(search ?? (typeof window === 'undefined' ? '' : window.location.search))
+  if (typeof window === 'undefined') return params
+
+  const hashQuery = window.location.hash.split('?')[1]
+  if (!hashQuery) return params
+  new URLSearchParams(hashQuery).forEach((value, key) => {
+    if (!params.has(key)) params.set(key, value)
+  })
+  return params
+}
+
+function readRuntimeValue(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() ?? ''
 }
 
 function filterTasks(tasks: RawCleanTask[], filters: CleanTaskFilters) {
@@ -419,6 +576,10 @@ function asCleanType(value: unknown): CleanTaskType {
 
 function asCleanStatus(value: unknown): CleanTaskStatus {
   return statuses.some((item) => item.id === value) ? (value as CleanTaskStatus) : 'PENDING_ASSIGN'
+}
+
+function asOptionalCleanStatus(value: unknown): CleanTaskStatus | undefined {
+  return statuses.some((item) => item.id === value) ? (value as CleanTaskStatus) : undefined
 }
 
 function labelOf<T extends string>(options: Array<CleanLookupOption & { id: T }>, id: T) {

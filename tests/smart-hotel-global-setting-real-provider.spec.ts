@@ -322,7 +322,7 @@ test('/smartHotel/checkInGuide api provider adapts real dashboard contract', asy
   await expect(page.getByText('最近同步：2026-06-01 16:11')).toBeVisible({ timeout: 15_000 })
 
   await page.getByRole('button', { name: '充值' }).click()
-  await expect(page.getByRole('dialog', { name: '认证与短信余额详情' })).toContainText('实名认证剩余 1 次')
+  await expect(page.getByRole('dialog', { name: '认证与短信余额详情' })).toContainText('实名认证剩余 5 次')
   await expect(page.getByRole('dialog', { name: '认证与短信余额详情' })).toContainText('短信剩余 50 条')
   await expect(page.getByRole('dialog', { name: '认证与短信余额详情' })).toContainText('携程直连')
   await page.getByRole('button', { name: '关闭认证与短信余额详情' }).click()

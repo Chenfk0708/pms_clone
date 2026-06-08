@@ -5,6 +5,7 @@ import {
   createRoomTypeTag,
   createQuickRoomNoSuggestion,
   deleteRoomType,
+  getRoomTypeInfoProviderName,
   loadRoomTypeFloorPage,
   loadRoomTypeInfoDashboard,
   loadRoomTypeInfoDraft,
@@ -26,10 +27,13 @@ import {
   type RoomTypeInfoRoomsDialog,
   type RoomTypeTagPageData,
 } from '../services/roomTypeInfo'
+import { fetchStoreOptions, type StoreOption } from '../services/storeOptions'
 import { RoomTypeLocationSection } from '../components/RoomTypeLocationSection'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './RoomTypeInfoPage.css'
 
-type OpenSelect = 'store' | 'group' | null
+type OpenSelect = 'group' | null
 type RoomTypePhotoSection = (typeof roomTypePhotoSections)[number]
 
 type ActiveDialog =
@@ -44,7 +48,7 @@ type EditRouteState = {
 }
 
 const emptyQuery: RoomTypeInfoQuery = {
-  storeId: '',
+  storeId: 'all',
   groupId: '',
   keyword: '',
   pageNum: 1,
@@ -555,6 +559,9 @@ function RoomTypeListPage() {
   const [openSelect, setOpenSelect] = useState<OpenSelect>(null)
   const [dialog, setDialog] = useState<ActiveDialog>(null)
   const [statusMessage, setStatusMessage] = useState('')
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: dashboard?.stores ?? [{ id: 'all', label: '全部门店' }],
+  })
 
   useEffect(() => {
     const controller = new AbortController()
@@ -666,15 +673,14 @@ function RoomTypeListPage() {
       ) : null}
 
       <section className="room-type-info-query" aria-label="房型信息筛选">
-        <FilterSelector
+        <StoreSelectControl
+          className="room-type-info-store-select"
           label="门店"
-          open={openSelect === 'store'}
-          value={dashboard?.stores.find((item) => item.id === queryDraft.storeId)?.label || ''}
-          placeholder="门店 请选择"
-          options={dashboard?.stores ?? []}
-          onToggle={() => setOpenSelect(openSelect === 'store' ? null : 'store')}
-          onSelect={(value) => {
-            setQueryDraft({ ...queryDraft, storeId: value })
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={queryDraft.storeId}
+          disabled={storeLoading}
+          onChange={(storeId) => {
+            setQueryDraft({ ...queryDraft, storeId })
             setOpenSelect(null)
           }}
         />
@@ -776,7 +782,16 @@ function RoomTypeListPage() {
               <div className="room-type-info-table__body">
                 {dashboard.rows.map((row) => (
                   <div className="room-type-info-table__row" role="row" key={row.id} data-testid="room-type-info-row">
-                    <div role="cell">{row.name}</div>
+                    <div role="cell" className="room-type-info-room-name">
+                      {row.coverImageUrl ? (
+                        <img className="room-type-info-room-name__thumb" src={row.coverImageUrl} alt={`${row.name}照片`} />
+                      ) : (
+                        <span className="room-type-info-room-name__placeholder" aria-hidden="true" />
+                      )}
+                      <span className="room-type-info-room-name__text" title={row.name}>
+                        {row.name}
+                      </span>
+                    </div>
                     <div role="cell">{row.storeName}</div>
                     <div role="cell">{row.roomCount}</div>
                     <div role="cell">{row.roomNames.join('、')}</div>
@@ -903,7 +918,7 @@ function RoomTypeListPage() {
       {dialog?.kind === 'delete' ? (
         <Dialog title="确认删除房型" onClose={() => setDialog(null)}>
           <p className="room-type-info-modal__copy">
-            删除房型后将无法恢复，已产生的订单不会产生影响，未完成的保洁任务将同步删除，请谨慎操作
+            删除房型后将无法恢复。当前或未来已有订单时不能删除；确认无相关订单后，房间和未完成保洁任务将同步删除。
           </p>
           <div className="room-type-info-modal__actions">
             <button type="button" onClick={() => setDialog(null)}>
@@ -940,6 +955,7 @@ function RoomTypeEditPage() {
   const [activeStep, setActiveStep] = useState(0)
   const [saving, setSaving] = useState(false)
   const [uploadingPhotoSections, setUploadingPhotoSections] = useState<Partial<Record<RoomTypePhotoSectionKey, boolean>>>({})
+  const [storeOptions, setStoreOptions] = useState<StoreOption[]>(roomTypeEditStoreOptions)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -948,7 +964,13 @@ function RoomTypeEditPage() {
       setLoading(true)
       setError('')
       try {
-        const nextDraft = await loadRoomTypeInfoDraft(mode, roomTypeId, controller.signal)
+        const [nextDraft, nextStoreOptions] = await Promise.all([
+          loadRoomTypeInfoDraft(mode, roomTypeId, controller.signal),
+          getRoomTypeInfoProviderName() === 'api'
+            ? fetchStoreOptions({ signal: controller.signal, includeAll: false })
+            : Promise.resolve(roomTypeEditStoreOptions),
+        ])
+        setStoreOptions(nextStoreOptions.length ? nextStoreOptions : roomTypeEditStoreOptions)
         setDraft(nextDraft)
       } catch (loadError) {
         if (controller.signal.aborted) return
@@ -1005,6 +1027,7 @@ function RoomTypeEditPage() {
     if (!draft) return
     const safeCount = Math.max(1, Number.parseInt(nextCountText, 10) || 1)
     const currentRoomNos = draft.form.roomNos.length ? [...draft.form.roomNos] : ['房间1']
+    const currentRoomIds = draft.form.roomIds.length ? [...draft.form.roomIds] : []
     const nextRoomNos =
       currentRoomNos.length >= safeCount
         ? currentRoomNos.slice(0, safeCount)
@@ -1012,12 +1035,17 @@ function RoomTypeEditPage() {
             ...currentRoomNos,
             ...Array.from({ length: safeCount - currentRoomNos.length }, (_, index) => `房间${currentRoomNos.length + index + 1}`),
           ]
+    const nextRoomIds =
+      currentRoomIds.length >= safeCount
+        ? currentRoomIds.slice(0, safeCount)
+        : [...currentRoomIds, ...Array.from({ length: safeCount - currentRoomIds.length }, () => '')]
 
     setDraft({
       ...draft,
       form: {
         ...draft.form,
         roomCount: String(safeCount),
+        roomIds: nextRoomIds,
         roomNos: nextRoomNos,
       },
     })
@@ -1032,10 +1060,12 @@ function RoomTypeEditPage() {
   function addRoomNo() {
     if (!draft) return
     const nextRoomNos = [...draft.form.roomNos, `房间${draft.form.roomNos.length + 1}`]
+    const nextRoomIds = [...draft.form.roomIds, '']
     setDraft({
       ...draft,
       form: {
         ...draft.form,
+        roomIds: nextRoomIds,
         roomNos: nextRoomNos,
         roomCount: String(nextRoomNos.length),
       },
@@ -1045,10 +1075,12 @@ function RoomTypeEditPage() {
   function removeRoomNo(index: number) {
     if (!draft || draft.form.roomNos.length <= 1) return
     const nextRoomNos = draft.form.roomNos.filter((_, currentIndex) => currentIndex !== index)
+    const nextRoomIds = draft.form.roomIds.filter((_, currentIndex) => currentIndex !== index)
     setDraft({
       ...draft,
       form: {
         ...draft.form,
+        roomIds: nextRoomIds,
         roomNos: nextRoomNos,
         roomCount: String(nextRoomNos.length),
       },
@@ -1177,7 +1209,7 @@ function RoomTypeEditPage() {
                     value={draft.form.storeId}
                     onChange={(event) => updateForm('storeId', event.target.value)}
                   >
-                    {roomTypeEditStoreOptions.map((option) => (
+                    {storeOptions.map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.label}
                       </option>
@@ -1636,7 +1668,10 @@ function RoomTypeEditPage() {
             type="button"
             className="is-primary"
             onClick={() => {
-              updateForm('roomNos', createQuickRoomNoSuggestion(draft.form.roomCount))
+              updateFormPatch({
+                roomIds: [],
+                roomNos: createQuickRoomNoSuggestion(draft.form.roomCount),
+              })
               setStatusMessage('已生成房间号草案')
             }}
           >

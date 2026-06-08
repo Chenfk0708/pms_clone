@@ -103,7 +103,73 @@ export function createCleanTaskRequestBody(filters) {
     };
 }
 export async function fetchCleanTaskDashboard(filters) {
-    return getCleanTaskProvider(cleanTaskProviderMode).fetchDashboard(filters);
+    return getCleanTaskProvider(resolveCleanTaskProviderMode()).fetchDashboard(filters);
+}
+export async function exportCleanTasks(filters) {
+    const requestBody = createCleanTaskRequestBody(filters);
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskExportEndpoint, requestBody);
+        const data = asRecord(assertEnvelope(envelope).data);
+        return {
+            fileName: String(data.fileName ?? `clean_tasks_${filters.cleanDate}.csv`),
+            contentType: data.contentType === undefined ? undefined : String(data.contentType),
+            total: data.total === undefined ? undefined : toNumber(data.total, 0),
+            rows: Array.isArray(data.rows) ? data.rows.map(adaptTask) : undefined,
+            traceId: envelope.traceId,
+            timestamp: envelope.timestamp,
+        };
+    }
+    return {
+        fileName: `clean_tasks_${filters.cleanDate}.csv`,
+        contentType: 'text/csv',
+        total: filterTasks(sourceTasks, filters).length,
+        traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-export',
+        timestamp: '2026-05-18T10:00:00+08:00',
+    };
+}
+export async function notifyCleanTasks(campId, taskIds) {
+    const requestBody = { campId, taskIds };
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskNotifyEndpoint, requestBody);
+        return adaptActionResult(envelope);
+    }
+    return {
+        notifiedCount: taskIds.length,
+        taskIds,
+        message: '保洁任务通知成功',
+        traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-notify',
+        timestamp: '2026-05-18T10:00:00+08:00',
+    };
+}
+export async function createCleanTask(payload) {
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskCreateEndpoint, payload);
+        return adaptActionResult(envelope);
+    }
+    return {
+        taskId: `mock-clean-task-${Date.now()}`,
+        taskNo: `CT-MOCK-${payload.cleanTime.replaceAll('-', '')}`,
+        cleanStatus: payload.cleanStatus,
+        message: '保洁任务创建成功',
+        traceId: 'mock-fangtai--baojie-guanli--baojie-renwu-create',
+        timestamp: '2026-05-18T10:00:00+08:00',
+    };
+}
+export function resolveCleanTaskProviderMode(search) {
+    const params = readCleanTaskSearchParams(search);
+    const configured = params.get('cleanTaskProvider') ||
+        params.get('provider') ||
+        readRuntimeValue('pms.cleanTaskProvider') ||
+        import.meta.env.VITE_CLEAN_TASK_PROVIDER ||
+        cleanTaskProviderMode;
+    if (configured === 'api' || configured === 'real')
+        return 'api';
+    if (configured === 'mock')
+        return 'mock';
+    throw new Error(`保洁任务数据源配置无效：${configured}`);
 }
 function getCleanTaskProvider(mode) {
     if (mode === 'api')
@@ -153,6 +219,53 @@ const apiCleanTaskProvider = {
         return adaptCleanTaskDashboard(assertEnvelope(envelope), requestBody, 'api');
     },
 };
+async function postJson(endpoint, body) {
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    });
+    const envelope = (await readJson(response));
+    if (!response.ok) {
+        throw new Error(`${endpoint} 返回 HTTP ${response.status}`);
+    }
+    return assertEnvelope(envelope);
+}
+function adaptActionResult(envelope) {
+    const payload = assertEnvelope(envelope);
+    const data = asRecord(payload.data);
+    return {
+        taskId: data.taskId === undefined ? undefined : String(data.taskId),
+        taskNo: data.taskNo === undefined ? undefined : String(data.taskNo),
+        cleanStatus: asOptionalCleanStatus(data.cleanStatus),
+        notifiedCount: data.notifiedCount === undefined ? undefined : toNumber(data.notifiedCount, 0),
+        taskIds: Array.isArray(data.taskIds) ? data.taskIds.map(String) : undefined,
+        message: data.message === undefined ? undefined : String(data.message),
+        traceId: payload.traceId,
+        timestamp: payload.timestamp,
+    };
+}
+function readCleanTaskSearchParams(search) {
+    const params = new URLSearchParams(search ?? (typeof window === 'undefined' ? '' : window.location.search));
+    if (typeof window === 'undefined')
+        return params;
+    const hashQuery = window.location.hash.split('?')[1];
+    if (!hashQuery)
+        return params;
+    new URLSearchParams(hashQuery).forEach((value, key) => {
+        if (!params.has(key))
+            params.set(key, value);
+    });
+    return params;
+}
+function readRuntimeValue(key) {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem(key)?.trim() ?? '';
+}
 function filterTasks(tasks, filters) {
     return tasks.filter((task) => {
         if (filters.poiId !== 'ALL' && task.poiName !== stores.find((store) => store.id === filters.poiId)?.label)
@@ -277,6 +390,9 @@ function asCleanType(value) {
 }
 function asCleanStatus(value) {
     return statuses.some((item) => item.id === value) ? value : 'PENDING_ASSIGN';
+}
+function asOptionalCleanStatus(value) {
+    return statuses.some((item) => item.id === value) ? value : undefined;
 }
 function labelOf(options, id) {
     return options.find((option) => option.id === id)?.label ?? id;

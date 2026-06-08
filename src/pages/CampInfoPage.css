@@ -83,6 +83,7 @@
 
 .camp-info-page input,
 .camp-info-page textarea,
+.camp-info-page select,
 .camp-info-select {
   min-width: 0;
   height: 32px;
@@ -267,9 +268,7 @@
   border-color: #8ba1ff;
 }
 
-.camp-info-thumb,
-.camp-info-room-image,
-.camp-info-photo {
+.camp-info-room-image {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.08)),
     linear-gradient(145deg, #dfd5c8, #9daec3 48%, #f1e6d3);
@@ -281,9 +280,20 @@
   place-items: center;
   width: 78px;
   height: 48px;
+  border: 1px solid #e4e9f2;
   border-radius: 3px;
-  color: #fff;
+  background: #f8fafc;
+  color: #8792a6;
   font-size: 12px;
+}
+
+img.camp-info-thumb {
+  display: block;
+  object-fit: cover;
+}
+
+.camp-info-thumb.is-empty {
+  border-style: dashed;
 }
 
 .camp-info-actions button,
@@ -312,9 +322,23 @@
 }
 
 .camp-info-room-image {
+  display: grid;
+  place-items: center;
   width: 60px;
   height: 38px;
   border-radius: 4px;
+}
+
+img.camp-info-room-image {
+  display: block;
+  object-fit: cover;
+}
+
+.camp-info-room-image--empty {
+  border: 1px dashed #d9e0ec;
+  background: #fafbfd;
+  color: #8a94a8;
+  font-size: 12px;
 }
 
 .camp-info-room-image--night {
@@ -578,6 +602,25 @@
   width: 100%;
   height: 96px;
   border-radius: 6px;
+  object-fit: cover;
+}
+
+.camp-info-photo-empty {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 58px;
+  border: 1px dashed #d9e0ec;
+  border-radius: 4px;
+  background: #fafbfd;
+  color: #8a94a8;
+  font-size: 12px;
+}
+
+.camp-info-detail-photo-grid .camp-info-photo-empty {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 96px;
 }
 
 .camp-info-detail-map-card {
@@ -734,193 +777,421 @@
 }
 
 .camp-info-edit-page {
-  padding-top: 12px;
+  position: relative;
+  min-height: calc(100vh - 68px);
+  padding: 12px 10px 70px;
+  background: #fff;
 }
 
-.camp-info-steps {
-  display: grid;
-  grid-template-columns: 240px 470px 240px;
-  align-items: start;
-  justify-content: center;
-  padding: 28px 0 10px;
+.camp-info-edit-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  color: #6d778a;
+  white-space: nowrap;
 }
 
-.camp-info-steps span {
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  color: #8d96a8;
-}
-
-.camp-info-steps b {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #9aa3b7;
-  color: #fff;
-  font-size: 18px;
-}
-
-.camp-info-steps span.is-active {
+.camp-info-edit-breadcrumb button {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #4664f4;
 }
 
-.camp-info-steps span.is-active b,
-.camp-info-steps i {
+.camp-info-edit-breadcrumb strong {
+  color: #182033;
+  font-weight: 500;
+}
+
+.camp-info-edit-steps {
+  display: grid;
+  grid-template-columns: 170px minmax(180px, 420px) 170px;
+  align-items: start;
+  justify-content: center;
+  padding: 22px 0 20px;
+}
+
+.camp-info-step {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  color: #8c96aa;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.camp-info-step b {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #a3abbc;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.camp-info-step.is-active {
+  color: #4664f4;
+}
+
+.camp-info-step.is-active b,
+.camp-info-step.is-complete b,
+.camp-info-edit-steps i {
   background: #4664f4;
 }
 
-.camp-info-steps i {
-  height: 3px;
+.camp-info-edit-steps i {
+  height: 2px;
   margin-top: 16px;
 }
 
 .camp-info-form-card {
-  max-height: calc(100vh - 280px);
+  height: calc(100vh - 230px);
   overflow: auto;
-  padding: 0 0 80px;
+  padding-bottom: 28px;
 }
 
-.camp-info-form-grid {
+.camp-info-edit-form {
   display: grid;
-  grid-template-columns: 80px 300px minmax(240px, 1fr);
-  gap: 18px 10px;
-  max-width: 1120px;
-  margin-left: 60px;
+  gap: 13px;
+  width: min(1040px, calc(100vw - 260px));
+  margin-left: 58px;
 }
 
-.camp-info-form-grid label,
-.camp-info-upload-row,
-.camp-info-map,
-.camp-info-tags {
+.camp-info-edit-form--detail {
+  width: min(1120px, calc(100vw - 230px));
+}
+
+.camp-info-edit-row {
   display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: 80px 300px 1fr;
+  grid-template-columns: 96px 286px minmax(0, 1fr);
   align-items: start;
-  gap: 10px;
+  gap: 8px;
 }
 
-.camp-info-tag-row {
-  grid-template-columns: 80px 215px 1fr !important;
+.camp-info-edit-row > span {
+  padding-top: 6px;
+  color: #405168;
+  text-align: right;
+  white-space: nowrap;
 }
 
-.camp-info-tag-row button {
-  width: 138px;
+.camp-info-edit-row input,
+.camp-info-edit-row select {
+  width: 286px;
+}
+
+.camp-info-edit-tag-row {
+  grid-template-columns: 96px 210px 150px minmax(0, 1fr);
+}
+
+.camp-info-edit-tag-row input {
+  width: 210px;
+}
+
+.camp-info-edit-tag-row > button {
+  width: 142px;
+  padding: 0 10px;
   border-style: dashed;
-}
-
-.camp-info-tags {
-  margin-top: -10px;
-}
-
-.camp-info-tags span {
-  display: inline-flex;
-  align-items: center;
-  margin-right: 8px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #f3f7ff;
   color: #4664f4;
 }
 
-.camp-info-photo-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 120px);
-  gap: 10px;
+.camp-info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  padding-top: 1px;
 }
 
+.camp-info-tags button {
+  min-height: 26px;
+  padding: 0 10px;
+  border-color: #dfe7ff;
+  background: #f4f7ff;
+  color: #4664f4;
+}
+
+.camp-info-edit-photo-row {
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.camp-info-edit-photo-row > .camp-info-edit-photo-grid,
+.camp-info-edit-photo-row > p {
+  grid-column: 2;
+}
+
+.camp-info-edit-photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 1040px;
+}
+
+.camp-info-photo-item,
 .camp-info-photo,
 .camp-info-upload-button {
-  width: 120px;
-  height: 80px;
+  width: 78px;
+  height: 58px;
   border-radius: 4px;
 }
 
-.camp-info-photo--2 { background-image: linear-gradient(135deg, #b7c0c9, #697687); }
-.camp-info-photo--3 { background-image: linear-gradient(135deg, #d8c4a6, #7b8798); }
-.camp-info-photo--4 { background-image: linear-gradient(135deg, #e8a05d, #f3dfc6); }
-.camp-info-photo--5 { background-image: linear-gradient(135deg, #d8d2d0, #4d5664); }
-.camp-info-photo--6 { background-image: linear-gradient(135deg, #ece7db, #9aa6b6); }
-.camp-info-photo--7 { background-image: linear-gradient(135deg, #d6c2a0, #f4ead8); }
-.camp-info-photo--8 { background-image: linear-gradient(135deg, #ece6dd, #c8b49e); }
-.camp-info-photo--9 { background-image: linear-gradient(135deg, #eee6db, #baa895); }
+.camp-info-photo-item {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #f7f9fc;
+}
 
-.camp-info-upload-button {
-  border-style: dashed !important;
+.camp-info-photo {
+  display: block;
+  border: 1px solid #e5eaf3;
+  object-fit: cover;
+}
+
+.camp-info-photo-item .camp-info-photo {
+  border: 0;
+}
+
+.camp-info-photo-item span {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(24, 32, 51, 0.68);
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.camp-info-photo-item button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(24, 32, 51, 0.72);
+  color: #fff;
   line-height: 18px;
 }
 
-.camp-info-upload-row p {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0 0 90px;
+.camp-info-upload-input {
+  display: none;
 }
 
-.camp-info-upload-row em {
+.camp-info-upload-button {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  border-style: dashed !important;
   color: #6d778a;
+  line-height: 18px;
+}
+
+.camp-info-upload-button span {
+  display: block;
+  font-size: 12px;
+}
+
+.camp-info-edit-photo-row p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 7px 0 0;
+}
+
+.camp-info-edit-photo-row em {
+  color: #f05b58;
   font-style: normal;
 }
 
-.camp-info-upload-row p button {
+.camp-info-edit-photo-row p button {
   min-height: 24px;
   padding-inline: 8px;
+  border: 0;
+  background: transparent;
+  color: #4664f4;
 }
 
 .camp-info-address textarea {
-  min-height: 72px;
+  width: 520px;
+  min-height: 58px;
   padding-top: 8px;
-  resize: none;
+  resize: vertical;
+}
+
+.camp-info-map {
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.camp-info-map > .camp-info-map__canvas,
+.camp-info-map > p {
+  grid-column: 2;
 }
 
 .camp-info-map__canvas {
   position: relative;
-  min-height: 220px;
-  border-radius: 8px;
+  width: 540px;
+  height: 128px;
+  border: 1px solid #d6dfed;
+  border-radius: 4px;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.72), transparent 30%),
-    linear-gradient(135deg, #dbe6f4, #b8c5d9 55%, #8ca0bf);
+    linear-gradient(31deg, transparent 0 47%, rgba(255, 255, 255, 0.86) 48% 51%, transparent 52%),
+    linear-gradient(132deg, transparent 0 42%, rgba(255, 255, 255, 0.72) 43% 46%, transparent 47%),
+    linear-gradient(90deg, rgba(70, 100, 244, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(70, 100, 244, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, #dce8f3, #f1e8d8 55%, #c8d4e2);
+  background-size: auto, auto, 32px 32px, 32px 32px, auto;
   overflow: hidden;
 }
 
 .camp-info-map__canvas button {
   position: absolute;
-  right: 16px;
-  width: 30px;
-  min-height: 30px;
+  right: 12px;
+  z-index: 2;
+  width: 28px;
+  min-height: 28px;
   padding: 0;
+  background: rgba(252, 253, 255, 0.94);
 }
 
 .camp-info-map__canvas button:first-child {
-  top: 16px;
+  top: 12px;
 }
 
-.camp-info-map__canvas button:last-child {
-  top: 54px;
+.camp-info-map__canvas button:nth-child(2) {
+  top: 44px;
+}
+
+.camp-info-map__marker {
+  position: absolute;
+  left: 52%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #4664f4;
+  box-shadow: 0 0 0 5px rgba(70, 100, 244, 0.18);
+  transform: translate(-50%, -50%);
+}
+
+.camp-info-map__marker::after {
+  position: absolute;
+  left: 50%;
+  top: 13px;
+  width: 2px;
+  height: 14px;
+  background: rgba(70, 100, 244, 0.66);
+  content: '';
+  transform: translateX(-50%);
 }
 
 .camp-info-map__canvas small {
   position: absolute;
-  left: 16px;
-  bottom: 14px;
-  color: rgba(24, 32, 51, 0.74);
+  left: 12px;
+  bottom: 10px;
+  max-width: calc(100% - 90px);
+  overflow: hidden;
+  color: rgba(24, 32, 51, 0.72);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .camp-info-map p {
-  margin: 8px 0 0 90px;
+  margin: 7px 0 0;
   color: #6d778a;
+  font-size: 13px;
+}
+
+.camp-info-edit-text-row,
+.camp-info-rich-row {
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.camp-info-edit-text-row textarea {
+  width: min(100%, 1030px);
+  min-height: 150px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.camp-info-rich-editor {
+  display: grid;
+  width: min(100%, 1030px);
+  min-height: 315px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.camp-info-rich-editor__toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 38px;
+  padding: 4px 8px;
+  border-bottom: 1px solid #eceff5;
+  background: #fbfcff;
+}
+
+.camp-info-rich-editor__toolbar button,
+.camp-info-rich-editor__toolbar select {
+  width: auto;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+  padding: 0 8px;
+  border-color: transparent;
+  background: transparent;
+  color: #405168;
+}
+
+.camp-info-rich-editor__toolbar select {
+  border-color: #d9d9d9;
+  background: #fff;
+}
+
+.camp-info-rich-editor__preview {
+  margin-left: auto;
+  border-color: #d9d9d9 !important;
+  background: #fff !important;
+}
+
+.camp-info-rich-editor textarea {
+  width: 100%;
+  min-height: 274px;
+  border: 0;
+  border-radius: 0;
+  resize: vertical;
 }
 
 .camp-info-edit-footer {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  left: 10px;
   justify-content: center;
-  margin-top: 20px;
+  min-height: 58px;
+  border-top: 1px solid #edf1f6;
+  background: #fff;
 }
 
 .camp-info-edit-footer button {
-  min-width: 120px;
-  min-height: 36px;
+  min-width: 112px;
+  min-height: 34px;
 }
 
 .camp-info-sort-page {

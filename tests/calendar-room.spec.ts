@@ -43,6 +43,21 @@ test('/setting/localRoomTypeProductionSetting switches to real provider and adap
   })
 
   const capturedRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [{ poiId: '11001', poiName: 'API Store A' }],
+          total: 1,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
   await page.route('**/api/weiRoomCategories/page/get', async (route) => {
     capturedRequests.push({
       headers: route.request().headers(),
@@ -138,6 +153,80 @@ test('/setting/localRoomTypeProductionSetting switches to real provider and adap
       keyword: '',
     })
   }
+})
+
+test('/setting/localRoomTypeProductionSetting loads real store options and filters calendar rooms by selected poi', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'calendar-token')
+    window.localStorage.setItem('pms.currentCampId', '10001')
+  })
+
+  const poiRequests: Array<Record<string, unknown>> = []
+  const calendarRequests: Array<Record<string, unknown>> = []
+
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    poiRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [
+            { poiId: '11001', poiName: 'API Store A' },
+            { poiId: '22002', poiName: 'API Store B' },
+          ],
+          total: 2,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/weiRoomCategories/page/get', async (route) => {
+    const body = (route.request().postDataJSON() as Record<string, unknown>) ?? {}
+    calendarRequests.push(body)
+    const poiId = body.poiId === '22002' ? '22002' : 'all'
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: `real-calendar-room-${poiId}`,
+        timestamp: '2026-06-05T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          list: [
+            {
+              channelRoomCategoryId: `room-${poiId}`,
+              channelRoomCategoryName: poiId === '22002' ? 'Store B Calendar Room' : 'All Store Calendar Room',
+              isCanBooking: 1,
+              roomCategoryProductGetViews: [],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomProvider=real'))
+
+  await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'API Store A' })).toBeVisible()
+  await expect(page.locator('.calendar-room-table')).toContainText('All Store Calendar Room')
+
+  await page.getByRole('button', { name: 'API Store A' }).click()
+  await page.getByRole('option', { name: 'API Store B' }).click()
+
+  await expect(page.getByRole('button', { name: 'API Store B' })).toBeVisible()
+  await expect(page.locator('.calendar-room-table')).toContainText('Store B Calendar Room')
+  expect(poiRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 100 })
+  expect(calendarRequests.at(-1)).toMatchObject({ poiId: '22002' })
 })
 
 test('/setting/localRoomTypeProductionSetting renders empty and failure response states', async ({ page }) => {

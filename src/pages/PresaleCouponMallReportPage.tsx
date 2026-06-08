@@ -11,10 +11,11 @@ import {
   type PreSaleCouponMallQuery,
   type PreSaleCouponMallRow,
 } from '../services/preSaleCouponMallReport'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './PresaleCouponMallReportPage.css'
 
 type SelectKind = 'channel' | 'category' | null
-type StoreView = 'all' | 'current'
 type DatePickTarget = 'start' | 'end'
 type DatePreset = 'yesterday' | 'thisWeek' | 'thisMonth' | 'lastMonth'
 
@@ -34,7 +35,6 @@ export function PresaleCouponMallReportPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [openSelect, setOpenSelect] = useState<SelectKind>(null)
   const [datePanelOpen, setDatePanelOpen] = useState(false)
-  const [storeView, setStoreView] = useState<StoreView>('all')
   const [calendarMonth, setCalendarMonth] = useState(() => makeInitialQuery().startDate.slice(0, 7))
   const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
   const [descriptionOpen, setDescriptionOpen] = useState(false)
@@ -86,11 +86,9 @@ export function PresaleCouponMallReportPage() {
   const channels = dashboard?.channels ?? [{ value: '', label: '全部渠道' }]
   const categories = dashboard?.categories ?? [{ value: '', label: '全部类型' }]
   const descriptions = dashboard?.descriptions ?? []
-  const defaultStore = defaultPreSaleCouponMallQuery()
-  const currentStore = dashboard?.stores[0] ?? {
-    id: defaultStore.poiId,
-    name: defaultStore.poiName,
-  }
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: dashboard?.stores.map((store) => ({ id: store.id, label: store.name })),
+  })
   const activePreset = findMatchingPreset(draft.startDate, draft.endDate)
 
   function updateDraft(next: Partial<PreSaleCouponMallQuery>) {
@@ -107,7 +105,6 @@ export function PresaleCouponMallReportPage() {
     const nextQuery = createAllStoreQuery()
     setDraft(nextQuery)
     setQuery(nextQuery)
-    setStoreView('all')
     setCalendarMonth(nextQuery.startDate.slice(0, 7))
     setDatePickTarget('start')
     setOpenSelect(null)
@@ -134,17 +131,17 @@ export function PresaleCouponMallReportPage() {
     setOpenSelect(null)
   }
 
-  function switchStore(nextView: StoreView) {
-    setStoreView(nextView)
+  function switchStore(storeId: string) {
     setOpenSelect(null)
     setDatePanelOpen(false)
 
-    if (nextView === 'all') {
+    if (storeId === 'all') {
       updateDraft({ poiId: 'all', poiName: '全部门店' })
       return
     }
 
-    updateDraft({ poiId: currentStore.id, poiName: currentStore.name })
+    const store = storeOptions.find((item) => item.id === storeId)
+    updateDraft({ poiId: storeId, poiName: store?.label ?? storeId })
   }
 
   function openDatePanel(target: DatePickTarget = 'start') {
@@ -192,33 +189,16 @@ export function PresaleCouponMallReportPage() {
       />
 
       <section className="presale-coupon-query" aria-label="预售券数据筛选">
-        <div className="presale-coupon-store-switch" aria-label="门店切换">
-          <button
-            type="button"
-            className={storeView === 'all' ? 'is-active' : ''}
-            aria-pressed={storeView === 'all'}
-            onClick={() => switchStore('all')}
-          >
-            全部门店
-          </button>
-          <button
-            type="button"
-            className={`is-store${storeView === 'current' ? ' is-active' : ''}`}
-            aria-pressed={storeView === 'current'}
-            title={currentStore.name}
-            onClick={() => switchStore('current')}
-          >
-            {currentStore.name}
-          </button>
-          <button
-            type="button"
-            className="is-setting"
-            aria-label="打开门店信息设置"
-            onClick={() => navigate('/InformationMaintenance/campInfo')}
-          >
-            <span aria-hidden="true">⚙</span>
-          </button>
-        </div>
+        <StoreSelectControl
+          className="presale-coupon-store-switch"
+          label="门店切换"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={draft.poiId}
+          disabled={storeLoading}
+          onChange={(storeId) => switchStore(storeId)}
+          settingsLabel="打开门店信息设置"
+          onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+        />
 
         <div className="presale-coupon-filter-row">
           <div className="presale-coupon-date-range">

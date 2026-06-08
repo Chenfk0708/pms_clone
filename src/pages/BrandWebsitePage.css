@@ -193,6 +193,17 @@
   color: #202631;
 }
 
+.brand-toolbar-store .month-store-select,
+.brand-toolbar-store .month-store-select__trigger {
+  width: 180px;
+  max-width: 180px;
+}
+
+.brand-toolbar-store .month-store-select__trigger {
+  height: 32px;
+  border-radius: 4px;
+}
+
 .brand-toolbar button,
 .brand-template__head button,
 .brand-secondary-button,

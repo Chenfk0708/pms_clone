@@ -155,20 +155,25 @@
 
 .room-type-info-table {
   width: 100%;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e5e9f0;
+  border-right: 0;
   border-bottom: 0;
+  background: #fff;
+  overflow-x: auto;
 }
 
 .room-type-info-table__head,
 .room-type-info-table__row {
   display: grid;
-  grid-template-columns: minmax(250px, 1.25fr) minmax(265px, 1.2fr) 95px 120px minmax(110px, 0.55fr) 90px 292px;
+  grid-template-columns: minmax(286px, 1.18fr) minmax(210px, 0.85fr) 108px minmax(160px, 0.66fr) minmax(170px, 0.7fr) minmax(130px, 0.5fr) 280px;
+  min-width: 1344px;
 }
 
 .room-type-info-table__head {
-  min-height: 48px;
-  background: #fafafa;
+  min-height: 38px;
+  background: #f5f8fc;
   font-weight: 500;
+  color: rgb(0 0 0 / 72%);
 }
 
 .room-type-info-table__head > div,
@@ -176,9 +181,55 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  padding: 14px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  min-height: 56px;
+  padding: 8px 10px;
+  border-right: 1px solid #e5e9f0;
+  border-bottom: 1px solid #e5e9f0;
   overflow-wrap: anywhere;
+}
+
+.room-type-info-table__head > div {
+  min-height: 38px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.room-type-info-room-name {
+  gap: 10px;
+}
+
+.room-type-info-room-name__thumb,
+.room-type-info-room-name__placeholder {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 42px;
+  border: 1px solid #e2e8f0;
+  border-radius: 2px;
+  background: #eef2f7;
+}
+
+.room-type-info-room-name__thumb {
+  display: block;
+  object-fit: cover;
+}
+
+.room-type-info-room-name__placeholder {
+  position: relative;
+}
+
+.room-type-info-room-name__placeholder::before {
+  content: '无图';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgb(0 0 0 / 38%);
+  font-size: 12px;
+}
+
+.room-type-info-room-name__text {
+  min-width: 0;
+  line-height: 20px;
 }
 
 .room-type-info-row-actions {
@@ -394,8 +445,12 @@
 }
 
 .room-type-info-status {
-  bottom: 24px;
+  top: 24px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   background: #4d65f6;
+  text-align: center;
 }
 
 .room-type-tags-page__breadcrumb {
@@ -1406,6 +1461,7 @@
 
   .room-type-info-table__head,
   .room-type-info-table__row {
-    grid-template-columns: minmax(160px, 1.2fr) minmax(180px, 1fr) 90px 100px 110px 90px 220px;
+    grid-template-columns: 240px 180px 90px 120px 140px 100px 220px;
+    min-width: 1090px;
   }
 }

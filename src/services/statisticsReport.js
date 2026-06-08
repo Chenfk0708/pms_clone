@@ -246,6 +246,7 @@ export function createDefaultStatisticsReportQuery() {
         roomCategoryIds: [],
         channelIds: [],
         roomCategoryGroupIds: [],
+        poiIds: [],
         state: 'success',
     };
 }
@@ -302,6 +303,8 @@ export function createStatisticsReportRequestBody(query) {
         requestBody.channelIds = query.channelIds;
     if (query.roomCategoryGroupIds.length > 0)
         requestBody.roomCategoryGroupIds = query.roomCategoryGroupIds;
+    if (query.poiIds.length > 0)
+        requestBody.poiIds = query.poiIds;
     return requestBody;
 }
 export async function fetchStatisticsReportDashboard(input, signal) {
@@ -523,6 +526,7 @@ function normalizeQuery(input) {
         roomCategoryIds: Array.isArray(input.roomCategoryIds) ? [...input.roomCategoryIds] : [],
         channelIds: Array.isArray(input.channelIds) ? [...input.channelIds] : [],
         roomCategoryGroupIds: Array.isArray(input.roomCategoryGroupIds) ? [...input.roomCategoryGroupIds] : [],
+        poiIds: Array.isArray(input.poiIds) ? [...input.poiIds] : [],
         state: input.state ?? resolveStatisticsReportState(),
     };
 }

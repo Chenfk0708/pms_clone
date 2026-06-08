@@ -10,6 +10,8 @@ import {
   type ShiftRecordOption,
   type ShiftRecordRow,
 } from '../services/shiftRecord'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './ShiftRecordPage.css'
 
 type LoadReason = 'initial' | 'query' | 'reset' | 'retry'
@@ -27,6 +29,12 @@ export function ShiftRecordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
   const [exportAudit, setExportAudit] = useState<string[]>([])
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? fallbackStores()).map((store) => ({
+      id: store.value,
+      label: store.label,
+    })),
+  })
 
   const loadDashboard = useCallback(async (nextFilters: ShiftRecordFilters, reason: LoadReason) => {
     setIsLoading(true)
@@ -61,7 +69,7 @@ export function ShiftRecordPage() {
     return parts.join(';')
   }, [dashboard?.audit, exportAudit])
 
-  const stores = dashboard?.stores ?? fallbackStores()
+  const stores = storeOptions.map((store) => ({ value: store.id, label: store.label }))
   const employees = dashboard?.employees ?? fallbackEmployees()
   const rows = dashboard?.rows ?? []
   const canExport = Boolean(dashboard && rows.length > 0 && !error && !isLoading && !isExporting)
@@ -143,21 +151,13 @@ export function ShiftRecordPage() {
           />
         </label>
 
-        <label>
-          <span>门店</span>
-          <select
-            aria-label="门店"
-            value={filters.storeId}
-            disabled={isLoading}
-            onChange={(event) => updateFilter('storeId', event.target.value)}
-          >
-            {stores.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <StoreSelectControl
+          label="门店"
+          options={stores.map((option) => ({ id: option.value, name: option.label }))}
+          value={filters.storeId}
+          disabled={isLoading || storeLoading}
+          onChange={(storeId) => updateFilter('storeId', storeId)}
+        />
 
         <label>
           <span>交班人</span>

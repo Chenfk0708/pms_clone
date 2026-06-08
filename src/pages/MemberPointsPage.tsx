@@ -11,6 +11,8 @@ import {
   type MemberPointsRecord,
   type MemberPointsSceneKey,
 } from '../services/memberPoints'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './MemberPointsPage.css'
 
 type SeriesKey = 'issued' | 'consumed'
@@ -60,6 +62,12 @@ export function MemberPointsPage() {
   const diagnosticsState = dashboard?.state ?? serviceError?.state ?? query.state ?? 'success'
   const diagnosticsProvider = dashboard?.provider ?? serviceError?.provider ?? 'mock'
   const diagnosticsRequest = dashboard?.request ?? serviceError?.request ?? query
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? [{ id: draft.storeId, name: draft.storeName }]).map((store) => ({
+      id: store.id,
+      label: store.name,
+    })),
+  })
 
   function updateDraft(next: Partial<MemberPointsQuery>) {
     setDraft((current) => ({ ...current, ...next }))
@@ -129,23 +137,14 @@ export function MemberPointsPage() {
       </section>
 
       <section className="member-points-filters" aria-label="会员积分查询条件">
-        <label>
-          <span>门店</span>
-          <select
-            aria-label="门店"
-            value={draft.storeId}
-            onChange={(event) => {
-              const store = dashboard?.stores.find((item) => item.id === event.target.value)
-              updateDraft({ storeId: event.target.value, storeName: store?.name ?? draft.storeName })
-            }}
-          >
-            {(dashboard?.stores ?? [{ id: draft.storeId, name: draft.storeName }]).map((store) => (
-              <option key={store.id} value={store.id}>
-                {store.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <StoreSelectControl
+          className="member-points-store-select"
+          label="门店"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={draft.storeId}
+          disabled={storeLoading}
+          onChange={(storeId, option) => updateDraft({ storeId, storeName: option.name })}
+        />
         <label>
           <span>开始日期</span>
           <input

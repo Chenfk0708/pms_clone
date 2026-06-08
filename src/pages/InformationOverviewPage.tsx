@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   informationFlowItems,
   informationRadarMetrics,
   informationSummaryTags,
 } from '../data/discovery'
+import { StoreSelectControl, type StoreSelectOption } from '../components/StoreSelect'
+import { fetchStoreOptions, resolveCurrentCampId, type StoreOption } from '../services/storeOptions'
 import { CompanyInfoPage } from './CompanyInfoPage'
 import './InformationOverviewPage.css'
 
@@ -31,10 +33,8 @@ const flowIconGroups: Record<string, Array<{ label: string; tone: string }>> = {
   私域流量: [{ label: '企微', tone: 'green' }],
 }
 
-const storeOptions = [
-  '天落会舍公寓(前海壹方城宝安中心店)',
-  '天落会舍公寓(科技园店)',
-  '天落会舍公寓(会展中心店)',
+const fallbackStoreOptions: StoreOption[] = [
+  { id: 'all', label: '全部门店' },
 ]
 
 const channelTabs = [
@@ -64,22 +64,33 @@ export function InformationOverviewPage() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const [selectedStore, setSelectedStore] = useState(storeOptions[0])
-  const [storeDropdownOpen, setStoreDropdownOpen] = useState(false)
+  const [storeOptions, setStoreOptions] = useState<StoreOption[]>(fallbackStoreOptions)
+  const [selectedStoreId, setSelectedStoreId] = useState('all')
   const [importMenuOpen, setImportMenuOpen] = useState(false)
   const [importDialogMode, setImportDialogMode] = useState<ImportMenuMode>(null)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+      .then(setStoreOptions)
+      .catch(() => {
+        setStoreOptions(fallbackStoreOptions)
+      })
+
+    return () => controller.abort()
+  }, [])
 
   if (location.pathname === '/InformationMaintenance/companyInfo') {
     return <CompanyInfoPage />
   }
 
   const radarPoints = buildRadarPoints(informationRadarMetrics.map((item) => item.value))
+  const selectedStore = storeOptions.find((store) => store.id === selectedStoreId) ?? storeOptions[0]
 
   return (
     <div
       className="settings-page information-overview-page"
       onClick={() => {
-        setStoreDropdownOpen(false)
         setImportMenuOpen(false)
       }}
     >
@@ -88,38 +99,13 @@ export function InformationOverviewPage() {
           <div className="settings-summary__main">
             <div className="settings-summary__row">
               <span className="settings-summary__label">门店:</span>
-              <div className="settings-store-select-wrap" onClick={(event) => event.stopPropagation()}>
-                <button
-                  type="button"
-                  className="settings-store-select"
-                  aria-haspopup="listbox"
-                  aria-expanded={storeDropdownOpen}
-                  aria-label="当前门店"
-                  onClick={() => setStoreDropdownOpen((current) => !current)}
-                >
-                  <span className="settings-store-select__text">{selectedStore}</span>
-                  <span aria-hidden="true">▽</span>
-                </button>
-                {storeDropdownOpen ? (
-                  <div className="settings-store-select__dropdown" role="listbox" aria-label="门店列表">
-                    {storeOptions.map((store) => (
-                      <button
-                        key={store}
-                        type="button"
-                        role="option"
-                        aria-selected={selectedStore === store}
-                        className={selectedStore === store ? 'is-selected' : ''}
-                        onClick={() => {
-                          setSelectedStore(store)
-                          setStoreDropdownOpen(false)
-                        }}
-                      >
-                        {store}
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
+              <StoreSelectControl
+                className="settings-store-select-wrap"
+                label="门店范围"
+                options={storeOptions.map((s) => ({ id: s.id, name: s.label }))}
+                value={selectedStoreId}
+                onChange={(storeId) => setSelectedStoreId(storeId)}
+              />
               <span className="summary-chip summary-chip--outline">数字化能力</span>
               {informationSummaryTags.map((tag) => (
                 <span key={tag.label} className={`summary-chip summary-chip--${tag.tone ?? 'blue'}`}>
@@ -136,8 +122,8 @@ export function InformationOverviewPage() {
               </button>
             </div>
             <div className="settings-summary__meta">
-              <span>● 地址: 深圳宝安区新安街道海裕社区N15幸福海岸花园10栋10楼 中国</span>
-              <span>☎ 联系电话: +86-18123941382</span>
+              {selectedStore?.address ? <span>● 地址: {selectedStore.address}</span> : null}
+              {selectedStore?.contactNumber ? <span>☎ 联系电话: {selectedStore.contactNumber}</span> : null}
             </div>
           </div>
         </section>
@@ -321,7 +307,8 @@ export function InformationOverviewPage() {
       {importDialogMode ? (
         <ChannelImportDialog
           mode={importDialogMode}
-          defaultStore={selectedStore}
+          defaultStore={selectedStore?.label ?? '全部门店'}
+          storeOptions={storeOptions.map((store) => store.label)}
           onClose={() => setImportDialogMode(null)}
         />
       ) : null}
@@ -332,10 +319,12 @@ export function InformationOverviewPage() {
 function ChannelImportDialog({
   mode,
   defaultStore,
+  storeOptions,
   onClose,
 }: {
   mode: Exclude<ImportMenuMode, null>
   defaultStore: string
+  storeOptions: string[]
   onClose: () => void
 }) {
   const layerRef = useRef<HTMLDivElement | null>(null)

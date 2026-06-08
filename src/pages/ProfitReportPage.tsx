@@ -13,6 +13,8 @@ import {
   type ProfitReportFilters,
   type ProfitReportOption,
 } from '../services/profitReport'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './ProfitReportPage.css'
 
 type SelectKind = 'roomType' | 'channel' | 'roomGroup' | null
@@ -52,6 +54,9 @@ export function ProfitReportPage() {
   }, [mockState])
 
   const stores = dashboard?.stores ?? staticLookups.stores
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: stores.map((item) => ({ id: item.id, label: item.label })),
+  })
   const roomCategories = dashboard?.roomCategories ?? staticLookups.roomCategories
   const channels = dashboard?.channels ?? staticLookups.channels
   const roomGroups = dashboard?.roomGroups ?? staticLookups.roomGroups
@@ -192,23 +197,17 @@ export function ProfitReportPage() {
       <h1 className="sr-only-heading">利润报表</h1>
 
       <section className="profit-report-query" aria-label="利润报表筛选">
-        <div className="profit-report-store-row" role="radiogroup" aria-label="门店">
-          {stores.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              role="radio"
-              aria-checked={filters.storeId === item.id}
-              className={filters.storeId === item.id ? 'is-active' : ''}
-              onClick={() => {
-                patchFilters({ storeId: item.id, pageNum: 1 })
-                setStatus(`已切换门店：${item.label}`)
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+        <StoreSelectControl
+          className="profit-report-store-row"
+          label="门店"
+          options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
+          value={filters.storeId}
+          disabled={storeLoading}
+          onChange={(storeId, option) => {
+            patchFilters({ storeId, pageNum: 1 })
+            setStatus(`已切换门店：${option.name}`)
+          }}
+        />
 
         {expanded ? (
           <div className="profit-report-form">

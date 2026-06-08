@@ -13,6 +13,8 @@ import {
   type PsbLogRow,
   type PsbLogServiceResult,
 } from '../services/psbLog'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './PsbLogPage.css'
 
 const tableColumns = [
@@ -135,10 +137,13 @@ export function PsbLogPage() {
     }
   }, [appliedFilters, query, reloadToken])
 
-  const stores = result?.view.stores ?? [
+  const fallbackStores = result?.view.stores ?? [
     { label: '全部门店', value: '' },
-    { label: '天蓉名宿公寓(前海壹方城宝安中心店)', value: '1796425098638573570' },
+    { label: '当前门店', value: '1796425098638573570' },
   ]
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: fallbackStores.map((store) => ({ id: store.value || 'all', label: store.label })),
+  })
   const rows = result?.view.rows ?? []
   const provider = result?.diagnostics.provider ?? runtime.provider ?? 'mock'
   const viewState: PageViewState = error
@@ -214,27 +219,16 @@ export function PsbLogPage() {
       <h1 className="psb-log-title">上报日志</h1>
 
       <section className="psb-log-panel" aria-label="上报日志">
-        <div className="psb-log-store-row" role="radiogroup" aria-label="门店范围">
-          {stores.map((store) => (
-            <label
-              key={store.value || 'all'}
-              className={`psb-log-store${draftFilters.storeId === store.value ? ' is-active' : ''}`}
-            >
-              <input
-                type="radio"
-                name="psb-store"
-                aria-label={store.label}
-                checked={draftFilters.storeId === store.value}
-                onChange={() => setDraftFilters((current) => ({ ...current, storeId: store.value }))}
-              />
-              <span>{store.label}</span>
-            </label>
-          ))}
-
-          <button type="button" className="psb-log-store-settings" aria-label="门店设置">
-            <span>⚙</span>
-          </button>
-        </div>
+        <StoreSelectControl
+          className="psb-log-store-row"
+          label="门店范围"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={draftFilters.storeId || 'all'}
+          disabled={storeLoading}
+          onChange={(storeId) => setDraftFilters((current) => ({ ...current, storeId: storeId === 'all' ? '' : storeId }))}
+          settingsLabel="门店设置"
+          onSettingsClick={() => setStatusMessage('请在门店信息页面维护公安上报关联门店')}
+        />
 
         <div className="psb-log-toolbar">
           <label className="psb-log-field psb-log-field--keyword">

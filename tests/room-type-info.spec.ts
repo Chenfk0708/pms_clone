@@ -92,6 +92,21 @@ test('room type photo step uploads image and saves photo metadata through api pr
   })
 
   const capturedRequests: Array<{ url: string; headers: Record<string, string>; body?: Record<string, unknown>; rawBody?: string }> = []
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [{ poiId: '11001', poiName: '门店A' }],
+          total: 1,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
   await page.route('**/api/roomCategory/detail/get', async (route) => {
     capturedRequests.push({
       url: route.request().url(),
@@ -207,6 +222,154 @@ test('room type photo step uploads image and saves photo metadata through api pr
   })
 })
 
+test('room type info loads real poi store options and filters by selected store', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'room-type-token')
+    window.localStorage.setItem('pms.roomTypeInfoProvider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const storeRequests: Array<Record<string, unknown>> = []
+  const roomTypeRequests: Array<Record<string, unknown>> = []
+
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    storeRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [
+            { poiId: '11001', poiName: 'API Store A' },
+            { poiId: '22002', poiName: 'API Store B' },
+          ],
+          total: 2,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
+  await page.route('**/api/roomCategoryGroups/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: [{ id: '21001', name: '默认分组' }],
+      },
+    })
+  })
+  await page.route('**/api/roomCategories/page/get', async (route) => {
+    const body = (route.request().postDataJSON() as Record<string, unknown>) ?? {}
+    roomTypeRequests.push(body)
+    const selectedPoiId = body.poiId === '22002' ? '22002' : 'all'
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              id: `room-type-${selectedPoiId}`,
+              roomCategoryId: `room-type-${selectedPoiId}`,
+              roomCategoryName: selectedPoiId === '22002' ? 'Store B Room Type' : 'All Store Room Type',
+              poiId: selectedPoiId === '22002' ? '22002' : '11001',
+              poiName: selectedPoiId === '22002' ? 'API Store B' : 'API Store A',
+              roomNum: 1,
+              roomNames: 'A-101',
+              roomCategoryGroupId: '21001',
+              roomCategoryGroupName: '默认分组',
+              linkRcs: [],
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/roomTypeInfo'), { waitUntil: 'domcontentloaded' })
+
+  await expect(page.getByRole('button', { name: '门店 全部门店' })).toBeVisible()
+  await expect(page.getByTestId('room-type-info-row')).toContainText('All Store Room Type')
+
+  await page.getByRole('button', { name: '门店 全部门店' }).click()
+  await page.getByRole('option', { name: 'API Store B' }).click()
+  await page.getByRole('button', { name: '查 询' }).click()
+
+  await expect(page.getByRole('button', { name: '门店 API Store B' })).toBeVisible()
+  await expect(page.getByTestId('room-type-info-row')).toContainText('Store B Room Type')
+  expect(storeRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 100 })
+  expect(roomTypeRequests.at(-1)).toMatchObject({ campId: '10001', poiId: '22002' })
+})
+
+test('room type edit page loads real store options for owning store select', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'room-type-token')
+    window.localStorage.setItem('pms.roomTypeInfoProvider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  const storeRequests: Array<Record<string, unknown>> = []
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    storeRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [
+            { poiId: '11001', poiName: 'API Store A' },
+            { poiId: '22002', poiName: 'API Store B' },
+          ],
+        },
+      },
+    })
+  })
+  await page.route('**/api/roomCategory/detail/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'create-detail-trace-002',
+        timestamp: '2026-06-05T12:00:00+08:00',
+        data: {
+          mode: 'create',
+          title: '新增房型',
+          steps: ['基础信息', '位置信息', '房型设施', '详细介绍', '照片信息'],
+          form: {
+            roomTypeName: '',
+            storeId: '22002',
+            groupId: '21001',
+            roomCount: '1',
+            roomNos: ['B-201'],
+            photoCounts: { cover: 0, livingRoom: 0, kitchen: 0, other: 0, bathroom: 0, building: 0, entertainment: 0, uncategorized: 0 },
+          },
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/roomTypeInfo/edit?mode=create'), { waitUntil: 'domcontentloaded' })
+
+  const storeSelect = page.getByLabel('所属门店')
+  await expect(storeSelect).toHaveValue('22002')
+  await expect(storeSelect.locator('option')).toHaveText(['API Store A', 'API Store B'])
+  expect(storeRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 100 })
+})
+
 test('room type save shows backend business error message when request fails', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(() => {
@@ -215,6 +378,21 @@ test('room type save shows backend business error message when request fails', a
     window.localStorage.setItem('pmsCampId', '10001')
   })
 
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [{ poiId: '11001', poiName: '门店A' }],
+          total: 1,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
   await page.route('**/api/roomCategory/detail/get', async (route) => {
     await route.fulfill({
       json: {
@@ -275,6 +453,7 @@ test('房型信息首屏由统一服务层驱动', async ({ page }) => {
   await expect(page.getByRole('table', { name: '房型信息列表' })).toBeVisible()
   await expect(page.getByTestId('room-type-info-row')).toHaveCount(4)
   await expect(page.getByTestId('room-type-info-row').first()).toContainText('顶层套房')
+  await expect(page.getByAltText('顶层套房（浴缸巨幕电竞麻将）照片')).toBeVisible()
 })
 
 test('房型信息支持筛选、重置和管理入口反馈', async ({ page }) => {
@@ -470,14 +649,16 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
           {
             id: '92001',
             roomCategoryId: '92001',
-            roomCategoryName: '房型A',
-            name: '房型A',
+            roomCategoryName: '特价单间',
+            name: '单间',
+            displayName: '单间',
             poiId: '11001',
             poiName: '门店A',
             roomNum: 1,
             roomNames: 'A-101',
             roomCategoryGroupId: '21001',
             roomCategoryGroupName: '分组A',
+            mainPhoto: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 96 54%22%3E%3Crect width=%2296%22 height=%2254%22 fill=%22%23dce7f0%22/%3E%3Cpath d=%22M0 45h96V23L72 34 50 19 0 42z%22 fill=%22%2393a9b9%22/%3E%3Ccircle cx=%2274%22 cy=%2216%22 r=%227%22 fill=%22%23f7c873%22/%3E%3C/svg%3E',
             linkRcs: [{ roomCategoryId: '92002', roomCategoryName: '房型B' }],
           },
           {
@@ -516,11 +697,11 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
       message: 'success',
       traceId: 'linkage-get-trace-001',
       timestamp: '2026-05-30T12:00:00+08:00',
-      data: {
-        roomTypeId: '92001',
-        roomTypeName: '房型A',
-        description: '设置联动关房后会双向联动关房。',
-        candidates: [
+        data: {
+          roomTypeId: '92001',
+          roomTypeName: '特价单间',
+          description: '设置联动关房后会双向联动关房。',
+          candidates: [
           { id: '92002', name: '房型B', selected: true },
           { id: '92003', name: '房型C', selected: false },
         ],
@@ -560,10 +741,11 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
         steps: ['基础信息', '位置信息', '房型设施', '详细介绍', '照片信息'],
         form: {
           roomTypeId: '92001',
-          roomTypeName: '房型A',
+          roomTypeName: '特价单间',
           storeId: '11001',
           groupId: '21001',
           roomCount: '1',
+          roomIds: ['93001'],
           roomNos: ['A-101'],
           weekdayPrice: '268',
           weekendPrice: '288',
@@ -578,7 +760,7 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
           kitchenCount: '1',
           bathroomCount: '1',
           bathroomType: 'private',
-          displayName: '房型A展示',
+          displayName: '单间',
           earliestCheckIn: '14',
           latestCheckOut: '12',
           latestCheckIn: '23',
@@ -604,7 +786,8 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
   const byUrl = (fragment: string) => capturedRequests.filter((item) => item.url.includes(fragment))
   await page.goto(appUrl('/setting/roomTypeInfo'), { waitUntil: 'domcontentloaded' })
   await expect(page.getByTestId('room-type-info-contract')).toHaveAttribute('data-provider', 'api')
-  await expect(page.getByTestId('room-type-info-row').first()).toContainText('房型A')
+  await expect(page.getByTestId('room-type-info-row').first().locator('.room-type-info-room-name__text')).toHaveText('特价单间')
+  await expect(page.getByAltText('特价单间照片')).toBeVisible()
   expect(byUrl('/rooms/get')).toHaveLength(0)
 
   await page.getByTestId('room-type-info-row').first().getByRole('button', { name: '房间' }).click()
@@ -624,8 +807,8 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
 
   await page.getByTestId('room-type-info-row').first().getByRole('button', { name: '详情' }).click()
   await expect(page).toHaveURL(/\/setting\/roomTypeInfo\/edit/)
-  await expect(page.getByLabel('房型名称')).toHaveValue('房型A')
-  await page.getByLabel('房型名称').fill('房型A改')
+  await expect(page.getByLabel('房型名称')).toHaveValue('特价单间')
+  await page.getByLabel('房型名称').fill('特价单间改')
   await Promise.all([
     page.waitForURL(/\/setting\/roomTypeInfo$/),
     page.getByRole('button', { name: '保存并退出' }).click(),
@@ -646,10 +829,96 @@ test('房型信息 api provider 使用真实详情、联动、保存和删除接
     campId: '10001',
     form: expect.objectContaining({
       roomTypeId: '92001',
-      roomTypeName: '房型A改',
+      roomTypeName: '特价单间改',
       storeId: '11001',
       groupId: '21001',
+      roomIds: ['93001'],
       roomNos: ['A-101'],
     }),
   })
+})
+
+test('房型信息删除遇到当前或未来订单时展示后端错误且保留行', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'room-type-token')
+    window.localStorage.setItem('pms.roomTypeInfoProvider', 'api')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  await page.route('**/api/select/poi/page/get', (route) =>
+    route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: [{ id: '11001', name: '门店A' }],
+      },
+    }),
+  )
+  await page.route('**/api/roomCategoryGroups/get', (route) =>
+    route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: [{ id: '21001', name: '分组A' }],
+      },
+    }),
+  )
+  await page.route('**/api/roomCategories/page/get', (route) =>
+    route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          pages: 1,
+          hasNextPage: false,
+          list: [
+            {
+              id: '92001',
+              roomCategoryId: '92001',
+              roomCategoryName: '特价单间',
+              name: '单间',
+              poiId: '11001',
+              poiName: '门店A',
+              roomNum: 1,
+              roomNames: 'A-101',
+              roomCategoryGroupId: '21001',
+              roomCategoryGroupName: '分组A',
+              linkRcs: [],
+            },
+          ],
+        },
+      },
+    }),
+  )
+  await page.route('**/api/roomCategory/delete', (route) =>
+    route.fulfill({
+      json: {
+        code: 40001,
+        success: false,
+        message: '当前或未来已有订单，不能删除房型',
+        errorMsg: '当前或未来已有订单，不能删除房型',
+        data: null,
+      },
+    }),
+  )
+
+  await page.goto(appUrl('/setting/roomTypeInfo'), { waitUntil: 'domcontentloaded' })
+  await expect(page.getByTestId('room-type-info-row')).toHaveCount(1)
+
+  await page.getByTestId('room-type-info-row').first().getByRole('button', { name: '删除' }).click()
+  const confirmDialog = page.getByRole('dialog', { name: '确认删除房型' })
+  await expect(confirmDialog).toContainText('当前或未来已有订单时不能删除')
+  await confirmDialog.getByRole('button', { name: '删 除' }).click()
+
+  await expect(page.getByRole('status')).toContainText('当前或未来已有订单，不能删除房型')
+  await expect(confirmDialog).toBeVisible()
+  await expect(page.getByTestId('room-type-info-row')).toHaveCount(1)
 })

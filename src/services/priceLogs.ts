@@ -13,6 +13,7 @@ export type PriceLogQuery = {
   provider?: PriceLogProviderMode
   mockState?: PriceLogMockState
   campId: string
+  poiIds?: string[]
   keyword: string
   adjustmentMode: string
   channelId: string
@@ -238,6 +239,7 @@ function createBackendData(rows: PriceLogBackendRow[], query: PriceLogQuery, cha
 function buildPriceLogRequest(query: PriceLogQuery) {
   return {
     campId: query.campId,
+    poiIds: query.poiIds ?? [],
     keyword: query.keyword,
     adjustType: query.adjustmentMode === '系统调整' ? 'system' : 'manual',
     channelId: query.channelId,

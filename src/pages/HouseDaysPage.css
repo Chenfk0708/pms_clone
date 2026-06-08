@@ -575,14 +575,28 @@
   cursor: pointer;
 }
 
-.day-room-card[data-tone='blue'] {
-  border-color: #8ab8ff;
-  background: #eaf4ff;
+.day-room-card[data-tone='pending'] {
+  border-color: #4e86e8;
+  background: #4e86e8;
+  color: #fff;
 }
 
-.day-room-card[data-tone='orange'] {
-  border-color: #ffc38b;
-  background: #fff2df;
+.day-room-card[data-tone='live'] {
+  border-color: #42bf5c;
+  background: #42bf5c;
+  color: #fff;
+}
+
+.day-room-card[data-tone='checkout'] {
+  border-color: #9ea7bb;
+  background: #9ea7bb;
+  color: #fff;
+}
+
+.day-room-card[data-tone='duplicate'] {
+  border-color: #f95a54;
+  background: #f95a54;
+  color: #fff;
 }
 
 .day-room-card:focus-visible {
@@ -626,6 +640,17 @@
 
 .day-room-card .day-room-booking strong {
   font-weight: 600;
+}
+
+.day-room-card[data-tone='pending'] strong,
+.day-room-card[data-tone='pending'] span,
+.day-room-card[data-tone='live'] strong,
+.day-room-card[data-tone='live'] span,
+.day-room-card[data-tone='checkout'] strong,
+.day-room-card[data-tone='checkout'] span,
+.day-room-card[data-tone='duplicate'] strong,
+.day-room-card[data-tone='duplicate'] span {
+  color: #fff;
 }
 
 .day-room-card b {

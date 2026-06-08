@@ -13,6 +13,7 @@ import {
   type CustomerAddBatchTask,
   type CustomerAddBatchViewModel,
 } from '../services/customerAddBatch'
+import { StoreSelectControl } from '../components/StoreSelect'
 import './CustomerAddBatchPage.css'
 
 const assetBase = '/scrm-add-batch-assets'
@@ -32,7 +33,7 @@ const detailImages = [
   },
 ]
 
-type SelectKey = 'storeId' | 'channel' | 'friendStatus'
+type SelectKey = 'channel' | 'friendStatus'
 type DetailDialog =
   | { type: 'metric'; metric: CustomerAddBatchMetric }
   | { type: 'candidate'; candidate: CustomerAddBatchCandidate }
@@ -71,7 +72,6 @@ export function CustomerAddBatchPage() {
     return () => controller.abort()
   }, [query])
 
-  const storeName = viewModel?.storeOptions.find((option) => option.value === query.storeId)?.label ?? '全部门店'
   const channelName = viewModel?.channelOptions.find((option) => option.value === query.channel)?.label ?? '全部渠道'
   const statusName = viewModel?.statusOptions.find((option) => option.value === query.friendStatus)?.label ?? '全部状态'
 
@@ -160,11 +160,13 @@ export function CustomerAddBatchPage() {
         <section className="customer-add-batch-query" aria-label="批量加好友筛选">
           <div className="customer-add-batch-field">
             <span>门店:</span>
-            <SelectButton
+            <StoreSelectControl
               label="门店"
-              value={storeName}
-              isOpen={openSelect === 'storeId'}
-              onClick={() => setOpenSelect(openSelect === 'storeId' ? null : 'storeId')}
+              className="customer-add-batch-store-select"
+              options={viewModel?.storeOptions ?? []}
+              value={query.storeId || 'all'}
+              disabled={isLoading}
+              onChange={(storeId) => updateQuery({ storeId: storeId === 'all' ? '' : storeId }, '筛选条件已更新')}
             />
           </div>
           <label className="customer-add-batch-field">
@@ -210,9 +212,7 @@ export function CustomerAddBatchPage() {
           {openSelect ? (
             <SelectOptions
               options={
-                openSelect === 'storeId'
-                  ? (viewModel?.storeOptions ?? [])
-                  : openSelect === 'channel'
+                openSelect === 'channel'
                     ? (viewModel?.channelOptions ?? [])
                     : (viewModel?.statusOptions ?? [])
               }

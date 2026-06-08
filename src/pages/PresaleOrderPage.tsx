@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   type PresaleOrderData,
   type PresaleOrderFilters,
@@ -86,6 +88,7 @@ export function PresaleOrderPage() {
     traceId: '',
   })
   const initialFiltersRef = useRef(filters)
+  const { storeOptions, storeLoading } = useStoreOptions()
 
   const optionsByFilter = useMemo<Record<FilterKey, SelectOption[]>>(
     () => ({
@@ -145,7 +148,7 @@ export function PresaleOrderPage() {
   }
 
   function resetFilters() {
-    const nextFilters = { ...defaultFilters, campId: filters.campId }
+    const nextFilters = { ...defaultFilters, campId: filters.campId, poiIds: filters.poiIds }
     setFilters(nextFilters)
     setOpenFilter(null)
     void requestOrders(nextFilters, undefined, '重置')
@@ -169,6 +172,17 @@ export function PresaleOrderPage() {
     setNotice('导出任务已创建，可在消息中心查看进度')
   }
 
+  function switchStore(storeId: string) {
+    const nextFilters = {
+      ...filters,
+      poiIds: storeId === 'all' ? [] : [storeId],
+      pageNum: 1,
+    }
+    setFilters(nextFilters)
+    setOpenFilter(null)
+    void requestOrders(nextFilters, undefined, '闂ㄥ簵鍒囨崲')
+  }
+
   function handleQuickLink(path: string, label: string) {
     setNotice(`正在前往${label}`)
     navigate(path)
@@ -190,6 +204,18 @@ export function PresaleOrderPage() {
 
       <section className="presale-order-query" aria-label="预售券订单筛选">
         <div className="presale-order-query__grid">
+          <div className="presale-order-field presale-order-store-field">
+            <span>闂ㄥ簵</span>
+            <StoreSelectControl
+              className="presale-order-store"
+              label="闂ㄥ簵鑼冨洿"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={filters.poiIds?.[0] ?? 'all'}
+              disabled={storeLoading || loading}
+              onChange={(storeId) => switchStore(storeId)}
+            />
+          </div>
+
           <FilterSelect
             filterKey="orderState"
             label="订单状态"

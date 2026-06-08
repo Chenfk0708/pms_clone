@@ -16,6 +16,8 @@ import {
   type GlobalSettingTodo,
   type GlobalSettingViewModel,
 } from '../services/globalSetting'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './GlobalSettingPage.css'
 
 type DialogState =
@@ -35,6 +37,9 @@ export function GlobalSettingPage() {
   const [feedback, setFeedback] = useState('配置中心数据加载中')
   const [dialog, setDialog] = useState<DialogState>(null)
   const nextSuccessFeedback = useRef('')
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: viewModel?.filterOptions.camps.map((option) => ({ id: option.value, label: option.label })),
+  })
 
   useEffect(() => {
     const controller = new AbortController()
@@ -227,16 +232,14 @@ export function GlobalSettingPage() {
       </header>
 
       <section className="global-setting-filter-bar" aria-label="配置中心筛选条件">
-        <label>
-          <span>门店范围</span>
-          <select aria-label="门店范围" value={filters.campId} onChange={(event) => updateFilter('campId', event.target.value)}>
-            {viewModel?.filterOptions.camps.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            )) ?? null}
-          </select>
-        </label>
+        <StoreSelectControl
+          className="global-setting-store-select"
+          label="门店范围"
+          options={storeOptions.map((option) => ({ id: option.id, name: option.label }))}
+          value={filters.campId}
+          disabled={storeLoading}
+          onChange={(campId) => updateFilter('campId', campId)}
+        />
         <label>
           <span>授权状态</span>
           <select

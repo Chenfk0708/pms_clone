@@ -19,6 +19,7 @@ export type StatisticsReportQuery = {
   roomCategoryIds: string[]
   channelIds: string[]
   roomCategoryGroupIds: string[]
+  poiIds: string[]
   state?: StatisticsReportState
 }
 
@@ -419,6 +420,7 @@ export function createDefaultStatisticsReportQuery(): StatisticsReportQuery {
     roomCategoryIds: [],
     channelIds: [],
     roomCategoryGroupIds: [],
+    poiIds: [],
     state: 'success',
   }
 }
@@ -478,6 +480,7 @@ export function createStatisticsReportRequestBody(query: StatisticsReportQuery):
   if (query.roomCategoryIds.length > 0) requestBody.roomCategoryIds = query.roomCategoryIds
   if (query.channelIds.length > 0) requestBody.channelIds = query.channelIds
   if (query.roomCategoryGroupIds.length > 0) requestBody.roomCategoryGroupIds = query.roomCategoryGroupIds
+  if (query.poiIds.length > 0) requestBody.poiIds = query.poiIds
   return requestBody
 }
 
@@ -744,6 +747,7 @@ function normalizeQuery(input: StatisticsReportQuery): StatisticsReportQuery {
     roomCategoryIds: Array.isArray(input.roomCategoryIds) ? [...input.roomCategoryIds] : [],
     channelIds: Array.isArray(input.channelIds) ? [...input.channelIds] : [],
     roomCategoryGroupIds: Array.isArray(input.roomCategoryGroupIds) ? [...input.roomCategoryGroupIds] : [],
+    poiIds: Array.isArray(input.poiIds) ? [...input.poiIds] : [],
     state: input.state ?? resolveStatisticsReportState(),
   }
 }

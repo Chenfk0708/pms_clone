@@ -18,6 +18,8 @@ import {
   type AiGlobalRoomRow,
   type AiGlobalSummaryMetric,
 } from '../services/aiGlobalData'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './AiRadarPage.css'
 
 type DialogState =
@@ -39,6 +41,9 @@ export function AiRadarPage() {
   const [reminderStatusMap, setReminderStatusMap] = useState<Record<string, AiGlobalReminder['status']>>({})
   const nextSuccessFeedback = useRef('')
   const filterOptions = viewModel?.filterOptions ?? getAiGlobalDataFallbackFilterOptions()
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: filterOptions.camps.map((option) => ({ id: option.value, label: option.label })),
+  })
   const filterIds = {
     camp: 'ai-global-data-filter-camp',
     channel: 'ai-global-data-filter-channel',
@@ -126,10 +131,15 @@ export function AiRadarPage() {
     setQuery((current) => ({ ...current }))
   }
 
-  function exportSnapshot() {
-    createAiGlobalDataExportTask(query)
-    setFeedback('全域数据导出任务已创建')
+  async function exportSnapshot() {
+    try {
+      const task = await createAiGlobalDataExportTask(query)
+      setFeedback(`全域数据导出任务已创建：${task.taskId}`)
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : '全域数据导出失败')
+    }
   }
+
 
   function openSubscription() {
     navigate('/version/applicationPayment/detail?app=globalRadar')
@@ -140,17 +150,26 @@ export function AiRadarPage() {
     setDialog({ type: 'room', detail })
   }
 
-  function postponeReminder(reminder: AiGlobalReminder) {
-    postponeAiGlobalReminder(reminder, query)
-    setReminderStatusMap((current) => ({ ...current, [reminder.id]: 'postponed' }))
-    setFeedback('已延后提醒并保留在今日待办')
+  async function postponeReminder(reminder: AiGlobalReminder) {
+    try {
+      const result = await postponeAiGlobalReminder(reminder, query)
+      setReminderStatusMap((current) => ({ ...current, [reminder.id]: result.status }))
+      setFeedback('已延后提醒并保留在今日待办')
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : '强提醒操作失败')
+    }
   }
 
-  function resolveReminder(reminder: AiGlobalReminder) {
-    resolveAiGlobalReminder(reminder, query)
-    setReminderStatusMap((current) => ({ ...current, [reminder.id]: 'resolved' }))
-    setFeedback('提醒已标记为已处理')
+  async function resolveReminder(reminder: AiGlobalReminder) {
+    try {
+      const result = await resolveAiGlobalReminder(reminder, query)
+      setReminderStatusMap((current) => ({ ...current, [reminder.id]: result.status }))
+      setFeedback('强提醒已标记完成')
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : '强提醒操作失败')
+    }
   }
+
 
   function openReminderTarget(reminder: AiGlobalReminder) {
     if (reminder.primaryAction === 'status') {
@@ -185,7 +204,7 @@ export function AiRadarPage() {
               type="button"
               data-testid="ai-global-data-export"
               aria-label="导出快照"
-              onClick={exportSnapshot}
+              onClick={() => void exportSnapshot()}
               disabled={isLoading || !viewModel}
             >
               导出快照
@@ -203,21 +222,13 @@ export function AiRadarPage() {
         </header>
 
         <section className="ai-global-data-filters" aria-label="全域数据筛选条件">
-          <label htmlFor={filterIds.camp}>
-            <span>门店范围</span>
-            <select
-              id={filterIds.camp}
-              aria-label="门店范围"
-              value={filters.campId}
-              onChange={(event) => updateFilter('campId', event.target.value)}
-            >
-              {filterOptions.camps.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <StoreSelectControl
+            label="门店范围"
+            options={storeOptions.map((option) => ({ id: option.id, name: option.label }))}
+            value={filters.campId}
+            disabled={storeLoading}
+            onChange={(campId) => updateFilter('campId', campId)}
+          />
           <label htmlFor={filterIds.channel}>
             <span>渠道视图</span>
             <select
@@ -342,7 +353,7 @@ export function AiRadarPage() {
                           <button
                             type="button"
                             aria-label="稍后提醒"
-                            onClick={() => postponeReminder(reminder)}
+                            onClick={() => void postponeReminder(reminder)}
                             disabled={reminder.status !== 'pending'}
                           >
                             稍后提醒
@@ -350,7 +361,7 @@ export function AiRadarPage() {
                           <button
                             type="button"
                             aria-label="标记完成"
-                            onClick={() => resolveReminder(reminder)}
+                            onClick={() => void resolveReminder(reminder)}
                             disabled={reminder.status === 'resolved'}
                           >
                             标记完成

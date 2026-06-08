@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CLEAN_STAFF_LIST_PATH, CLEAN_STAFF_PROVIDER, CLEAN_STAFF_STORES_PATH, createCleanStaffExport, createCleanStaffMember, createDefaultCleanStaffQuery, fetchCleanStaffDashboard, } from '../services/cleanStaff';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './CleanStaffPage.css';
 const defaultQuery = createDefaultCleanStaffQuery();
 const statusOptions = [
@@ -76,7 +78,12 @@ export function CleanStaffPage() {
             `pageSize=${requestBody.pageSize}`,
         ].join(';');
     }, [dashboard, query]);
-    const stores = dashboard?.stores ?? [{ id: 'all', name: '全部门店' }];
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: (dashboard?.stores ?? [{ id: 'all', name: '全部门店' }]).map((store) => ({
+            id: store.id,
+            label: store.name,
+        })),
+    });
     const list = dashboard?.list ?? [];
     const summary = dashboard?.summary ?? {
         total: 0,
@@ -140,7 +147,7 @@ export function CleanStaffPage() {
             setIsLoading(false);
         }
     };
-    return (_jsxs("div", { className: "clean-staff-page", children: [_jsxs("header", { className: "clean-staff-hero", children: [_jsxs("div", { children: [_jsx("h1", { children: "\u4FDD\u6D01\u4EBA\u5458" }), _jsx("p", { children: "\u6309\u95E8\u5E97\u3001\u65E5\u671F\u548C\u72B6\u6001\u7BA1\u7406\u4FDD\u6D01\u4EBA\u5458\u6392\u73ED\u3001\u4EFB\u52A1\u627F\u63A5\u4E0E\u670D\u52A1\u8D28\u91CF\u3002" })] }), _jsxs("div", { className: "clean-staff-hero__actions", children: [_jsx("button", { type: "button", onClick: () => navigate('/cleanManage/cleanTask'), disabled: isLoading, children: "\u67E5\u770B\u4FDD\u6D01\u4EFB\u52A1" }), _jsx("button", { type: "button", onClick: () => navigate('/cleanManage/cleanStatistics'), disabled: isLoading, children: "\u67E5\u770B\u4FDD\u6D01\u7EDF\u8BA1" })] })] }), _jsxs("section", { className: "clean-staff-panel", "aria-label": "\u4FDD\u6D01\u4EBA\u5458\u7B5B\u9009", children: [_jsx("div", { className: "clean-store-tabs", "aria-label": "\u95E8\u5E97\u7B5B\u9009", children: stores.map((store) => (_jsx("button", { type: "button", "aria-pressed": query.poiId === store.id, className: query.poiId === store.id ? 'is-active' : '', disabled: isLoading, onClick: () => setQuery((current) => ({ ...current, poiId: store.id, pageNum: 1, scenario: 'success' })), children: store.name }, store.id))) }), _jsxs("div", { className: "clean-staff-filters", children: [_jsxs("label", { children: [_jsx("span", { children: "\u65E5\u671F" }), _jsx("input", { type: "date", value: query.serviceDate, disabled: isLoading, onChange: (event) => setQuery((current) => ({ ...current, serviceDate: event.target.value, pageNum: 1, scenario: 'success' })) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u4FDD\u6D01\u72B6\u6001" }), _jsx("select", { "aria-label": "\u4FDD\u6D01\u72B6\u6001", value: query.status, disabled: isLoading, onChange: (event) => setQuery((current) => ({
+    return (_jsxs("div", { className: "clean-staff-page", children: [_jsxs("header", { className: "clean-staff-hero", children: [_jsxs("div", { children: [_jsx("h1", { children: "\u4FDD\u6D01\u4EBA\u5458" }), _jsx("p", { children: "\u6309\u95E8\u5E97\u3001\u65E5\u671F\u548C\u72B6\u6001\u7BA1\u7406\u4FDD\u6D01\u4EBA\u5458\u6392\u73ED\u3001\u4EFB\u52A1\u627F\u63A5\u4E0E\u670D\u52A1\u8D28\u91CF\u3002" })] }), _jsxs("div", { className: "clean-staff-hero__actions", children: [_jsx("button", { type: "button", onClick: () => navigate('/cleanManage/cleanTask'), disabled: isLoading, children: "\u67E5\u770B\u4FDD\u6D01\u4EFB\u52A1" }), _jsx("button", { type: "button", onClick: () => navigate('/cleanManage/cleanStatistics'), disabled: isLoading, children: "\u67E5\u770B\u4FDD\u6D01\u7EDF\u8BA1" })] })] }), _jsxs("section", { className: "clean-staff-panel", "aria-label": "\u4FDD\u6D01\u4EBA\u5458\u7B5B\u9009", children: [_jsx(StoreSelectControl, { className: "clean-store-tabs", label: "\u95E8\u5E97\u7B5B\u9009", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: query.poiId, disabled: isLoading || storeLoading, onChange: (storeId) => setQuery((current) => ({ ...current, poiId: storeId, pageNum: 1, scenario: 'success' })) }), _jsxs("div", { className: "clean-staff-filters", children: [_jsxs("label", { children: [_jsx("span", { children: "\u65E5\u671F" }), _jsx("input", { type: "date", value: query.serviceDate, disabled: isLoading, onChange: (event) => setQuery((current) => ({ ...current, serviceDate: event.target.value, pageNum: 1, scenario: 'success' })) })] }), _jsxs("label", { children: [_jsx("span", { children: "\u4FDD\u6D01\u72B6\u6001" }), _jsx("select", { "aria-label": "\u4FDD\u6D01\u72B6\u6001", value: query.status, disabled: isLoading, onChange: (event) => setQuery((current) => ({
                                             ...current,
                                             status: event.target.value,
                                             pageNum: 1,

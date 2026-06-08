@@ -16,7 +16,7 @@ export type SalesReportProvider = 'mock' | 'api'
 export type SalesReportMockState = 'success' | 'empty' | 'error'
 export type SalesReportTab = 'day' | 'month' | 'store' | 'channel' | 'roomType' | 'room'
 
-export type SalesReportStoreScope = 'all' | 'current'
+export type SalesReportStoreScope = string
 
 export type SalesReportStoreOption = {
   id: SalesReportStoreScope
@@ -504,6 +504,8 @@ export function createSalesReportRequestBody(query: SalesReportQuery): Record<st
   if (query.channelIds.length > 0) requestBody.channelIds = [...query.channelIds]
   if (query.roomCategoryGroupIds.length > 0) requestBody.roomCategoryGroupIds = [...query.roomCategoryGroupIds]
   if (query.activeTab === 'room') requestBody.roomIds = [...query.roomIds]
+  const poiIds = resolveSalesReportPoiIds(query.storeScope)
+  if (poiIds.length > 0) requestBody.poiIds = poiIds
 
   return requestBody
 }
@@ -786,7 +788,15 @@ function normalizeQuery(input: SalesReportQuery): SalesReportQuery {
     channelIds: [...input.channelIds],
     roomCategoryGroupIds: [...input.roomCategoryGroupIds],
     roomIds: [...input.roomIds],
+    storeScope: input.storeScope || defaults.storeScope,
   }
+}
+
+function resolveSalesReportPoiIds(storeScope: SalesReportStoreScope) {
+  if (!storeScope || storeScope === 'all') return []
+  const knownStore = storeOptions.find((store) => store.id === storeScope)
+  if (knownStore) return [...knownStore.poiIds]
+  return [storeScope]
 }
 
 function resolveQueryType(tab: SalesReportTab) {

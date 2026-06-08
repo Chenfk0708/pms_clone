@@ -7,6 +7,7 @@ export type HouseStatusLogsMockScenario = 'success' | 'empty' | 'error'
 
 export type HouseStatusLogQuery = {
   campId?: string
+  poiIds?: string[]
   pageNum: number
   pageSize: number
   current: number

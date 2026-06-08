@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   type HotelPackageOrderData,
   type HotelPackageOrderFilters,
@@ -59,6 +61,7 @@ export function HotelPackageOrderPage() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const initialFiltersRef = useRef(filters)
+  const { storeOptions, storeLoading } = useStoreOptions()
 
   const optionsByFilter = useMemo<Record<FilterKey, HotelPackageOrderOption[]>>(
     () => ({
@@ -104,7 +107,7 @@ export function HotelPackageOrderPage() {
   }
 
   function resetFilters() {
-    const nextFilters = { ...defaultFilters }
+    const nextFilters = { ...defaultFilters, poiIds: filters.poiIds }
     setFilters(nextFilters)
     setOpenFilter(null)
     void requestOrders(nextFilters, undefined, '重置')
@@ -129,6 +132,17 @@ export function HotelPackageOrderPage() {
     setNotice(`导出任务已创建，范围为第 ${filters.pageNum} 页、${data?.pagination.total ?? 0} 条订单`)
   }
 
+  function switchStore(storeId: string) {
+    const nextFilters = {
+      ...filters,
+      poiIds: storeId === 'all' ? [] : [storeId],
+      pageNum: 1,
+    }
+    setFilters(nextFilters)
+    setOpenFilter(null)
+    void requestOrders(nextFilters, undefined, '闂ㄥ簵鍒囨崲')
+  }
+
   const requestPreview = data?.requestBody ?? createHotelPackageOrderRequestBody(filters)
   const hasNextPage = Boolean(data && filters.pageNum * filters.pageSize < data.pagination.total)
 
@@ -147,6 +161,18 @@ export function HotelPackageOrderPage() {
 
       <section className="presale-order-query" aria-label="酒店套餐订单筛选">
         <div className="presale-order-query__grid">
+          <div className="presale-order-field presale-order-store-field">
+            <span>闂ㄥ簵</span>
+            <StoreSelectControl
+              className="hotel-package-order-store"
+              label="闂ㄥ簵鑼冨洿"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={filters.poiIds?.[0] ?? 'all'}
+              disabled={storeLoading || loading}
+              onChange={(storeId) => switchStore(storeId)}
+            />
+          </div>
+
           <FilterSelect
             filterKey="orderState"
             label="订单状态"

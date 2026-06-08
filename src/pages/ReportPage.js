@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { buildStatisticsReportQueryForPreset, createDefaultStatisticsReportQuery, fetchStatisticsReportDashboard, statisticsReportPresetOptions, } from '../services/statisticsReport';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './ReportPage.css';
 export function ReportPage() {
     const navigate = useNavigate();
@@ -16,7 +18,6 @@ export function ReportPage() {
     const [openFilter, setOpenFilter] = useState(null);
     const [activeTrendKey, setActiveTrendKey] = useState('businessIncome');
     const [isDatePanelOpen, setIsDatePanelOpen] = useState(false);
-    const [storeScope, setStoreScope] = useState('current');
     const [calendarMonth, setCalendarMonth] = useState(() => query.startDate.slice(0, 7));
     const [datePickTarget, setDatePickTarget] = useState('start');
     const [datePanelPosition, setDatePanelPosition] = useState({ top: 0, left: 0 });
@@ -44,6 +45,8 @@ export function ReportPage() {
     const roomTypeLabel = selectedLabel(dashboard?.roomTypeOptions ?? [], query.roomCategoryIds[0], '全部房型');
     const channelLabel = selectedLabel(dashboard?.channelOptions ?? [], query.channelIds[0], '全部渠道');
     const roomTagLabel = dashboard && dashboard.roomTagOptions.length > 0 ? '全部房型标签' : '暂无房型标签';
+    const { storeOptions, storeLoading } = useStoreOptions({ fallbackOptions: dashboard?.storeOptions });
+    const selectedStoreId = query.poiIds[0] ?? 'all';
     const contractText = useMemo(() => JSON.stringify({
         provider: dashboard?.provider ?? 'mock',
         state: dashboard?.state ?? query.state ?? 'success',
@@ -67,6 +70,7 @@ export function ReportPage() {
                 roomCategoryIds: current.roomCategoryIds,
                 channelIds: current.channelIds,
                 roomCategoryGroupIds: current.roomCategoryGroupIds,
+                poiIds: current.poiIds,
                 state: current.state,
             };
         });
@@ -118,7 +122,6 @@ export function ReportPage() {
         setOpenFilter(null);
         setIsDatePanelOpen(false);
         setQuery(createInitialQuery());
-        setStoreScope('current');
         setMode('overview');
         setActiveTrendKey('businessIncome');
         setNotice('已恢复默认筛选');
@@ -134,9 +137,17 @@ export function ReportPage() {
     function exportDashboard() {
         setNotice('统计概览导出任务已创建');
     }
-    function switchStoreScope(nextScope) {
-        setStoreScope(nextScope);
-        setNotice(nextScope === 'all' ? '已切换到全部门店视角' : '已切换到当前门店视角');
+    function switchStore(storeId) {
+        setLoading(true);
+        setError('');
+        setOpenFilter(null);
+        setIsDatePanelOpen(false);
+        setQuery((current) => ({
+            ...current,
+            poiIds: storeId === 'all' ? [] : [storeId],
+        }));
+        const store = storeOptions.find((item) => item.id === storeId);
+        setNotice(storeId === 'all' ? '已切换到全部门店视角' : `已切换到${store?.label ?? '所选门店'}视角`);
     }
     function openTagSelect() {
         setOpenFilter(openFilter === 'tag' ? null : 'tag');
@@ -150,7 +161,7 @@ export function ReportPage() {
                                         }, children: "\u7EDF\u8BA1\u603B\u89C8" }), _jsx("button", { type: "button", className: mode === 'future' ? 'is-active' : '', onClick: () => {
                                             setMode('future');
                                             setNotice('已切换到远期分析');
-                                        }, children: "\u8FDC\u671F\u5206\u6790" })] }), _jsxs("div", { className: "statistics-report-form", children: [_jsx("div", { className: "statistics-report-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: statisticsReportPresetOptions.map((preset) => (_jsx("button", { type: "button", className: activePreset === preset.key ? 'is-active' : '', onClick: () => switchPreset(preset.key, preset.label), children: preset.label }, preset.key))) }), _jsxs("div", { className: "statistics-report-store", children: [_jsx("button", { type: "button", className: `store-scope${storeScope === 'all' ? ' is-active' : ''}`, "aria-pressed": storeScope === 'all', onClick: () => switchStoreScope('all'), children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: `store-current${storeScope === 'current' ? ' is-active' : ''}`, "aria-pressed": storeScope === 'current', onClick: () => switchStoreScope('current'), children: dashboard?.currentStoreName ?? '天落会宿公寓(前海壹方城宝安中心店)' }), _jsx("button", { type: "button", className: "store-settings-button", "aria-label": "\u6253\u5F00\u95E8\u5E97\u4FE1\u606F\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: _jsx("span", { "aria-hidden": "true" }) })] }), expanded ? (_jsxs("div", { className: "statistics-report-filters", children: [_jsxs("label", { className: "statistics-date-field", children: [_jsx("span", { children: "\u5F00\u59CB\u65E5\u671F" }), _jsxs("div", { ref: dateRangeRef, className: "report-date-range", role: "button", tabIndex: 0, "aria-label": "\u7EDF\u8BA1\u65E5\u671F", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+                                        }, children: "\u8FDC\u671F\u5206\u6790" })] }), _jsxs("div", { className: "statistics-report-form", children: [_jsx("div", { className: "statistics-report-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: statisticsReportPresetOptions.map((preset) => (_jsx("button", { type: "button", className: activePreset === preset.key ? 'is-active' : '', onClick: () => switchPreset(preset.key, preset.label), children: preset.label }, preset.key))) }), _jsx(StoreSelectControl, { className: "statistics-report-store", label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading, onChange: (storeId) => switchStore(storeId), settingsLabel: "\u6253\u5F00\u95E8\u5E97\u4FE1\u606F\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), expanded ? (_jsxs("div", { className: "statistics-report-filters", children: [_jsxs("label", { className: "statistics-date-field", children: [_jsx("span", { children: "\u5F00\u59CB\u65E5\u671F" }), _jsxs("div", { ref: dateRangeRef, className: "report-date-range", role: "button", tabIndex: 0, "aria-label": "\u7EDF\u8BA1\u65E5\u671F", onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                                             if (event.key === 'Enter' || event.key === ' ') {
                                                                 event.preventDefault();
                                                                 openDatePanel('start');

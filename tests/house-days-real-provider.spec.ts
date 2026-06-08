@@ -1,171 +1,182 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
-function formatShanghaiDate(date: Date) {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-    .formatToParts(date)
-    .reduce<Record<string, string>>((acc, part) => {
-      acc[part.type] = part.value
-      return acc
-    }, {})
+const DAY_MS = 24 * 60 * 60 * 1000
+const WINDOW_START_OFFSET_DAYS = -3
+const FRONT_STORE_ID = 'poi-1796067693589061634'
+const FRONT_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'
+const BRANCH_STORE_ID = 'poi-other-demo-store'
+const BRANCH_STORE_NAME = '天落会宿公寓(演示分店)'
 
-  return `${parts.year}-${parts.month}-${parts.day}`
+function appUrl(routePath: string) {
+  return `/?houseDaysProvider=real#${routePath}`
 }
 
-test('/houseManage/days real provider requests today for roomStatusesToday', async ({ page }) => {
-  const requests: Array<Record<string, unknown>> = []
-  const today = formatShanghaiDate(new Date())
+function monthWindowDate(offsetFromWindowStart: number) {
+  const today = new Date()
+  const localMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  return new Date(localMidnight.getTime() + (WINDOW_START_OFFSET_DAYS + offsetFromWindowStart) * DAY_MS)
+}
 
-  await page.addInitScript(() => {
-    window.localStorage.setItem('pms_token', 'house-days-real-token')
-    window.localStorage.setItem('pmsCampId', '10001')
-  })
+function formatIsoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
 
-  await page.route('**/api/roomStatusesToday/get', async (route) => {
-    requests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+async function installSession(page: Page) {
+  await page.route('**/api/select/poi/page/get', async (route) => {
     await route.fulfill({
       json: {
         code: 0,
         message: 'success',
-        traceId: 'house-days-real-provider-test',
-        timestamp: new Date().toISOString(),
         data: {
-          basic: {
-            preComeNum: 1,
-            preLeaveNum: 0,
-            liveNum: 1,
-            idleCleanNum: 0,
-            idleDirtyNum: 0,
-            liveCleanNum: 1,
-            liveDirtyNum: 0,
-            hourRoomOrderNum: 0,
-            ltNum: 0,
-            debtNum: 0,
-            extendStayNum: 0,
-          },
-          roomCategories: [
-            {
-              roomCategoryId: 'cat-1',
-              roomCategoryName: '大床房',
-              rooms: [
-                {
-                  roomId: 'room-1',
-                  roomName: '201',
-                  roomCategoryId: 'cat-1',
-                  roomCategoryName: '大床房',
-                  isDirty: 0,
-                  isOcc: 1,
-                  isLive: 1,
-                  isIdle: 0,
-                  isPreCome: 0,
-                  isPreLeave: 0,
-                  isOrderRemark: 0,
-                  isLt: 0,
-                  isDebt: 0,
-                  isHourRoomOrder: 0,
-                  isExtendStay: 0,
-                  guestName: '测试住客',
-                  orders: [
-                    {
-                      orderId: 'order-1',
-                      guestName: '测试住客',
-                      channelName: '直营渠道',
-                      totalPriceCent: 29800,
-                    },
-                  ],
-                },
-              ],
-            },
+          list: [
+            { poiId: FRONT_STORE_ID, poiName: FRONT_STORE_NAME },
+            { poiId: BRANCH_STORE_ID, poiName: BRANCH_STORE_NAME },
           ],
         },
       },
     })
   })
 
-  await page.goto('/#/houseManage/days?houseDaysProvider=real')
-
-  await expect.poll(() => requests.length).toBeGreaterThan(0)
-  expect(requests.at(-1)).toMatchObject({
-    campId: '10001',
-    date: today,
-    viewMode: '按房间号',
+  await page.goto('/')
+  await page.evaluate(() => {
+    window.localStorage.setItem('pms_token', 'house-days-real-token')
+    window.localStorage.setItem('pmsCampId', 'camp-interface')
+    window.localStorage.setItem('pms.currentCampId', 'camp-interface')
   })
-  await expect(page.locator('.day-room-card')).toContainText('测试住客')
+}
+
+async function mockMonthStatusApis(page: Page, requestedPaths: string[]) {
+  const categories = [
+    {
+      storeId: FRONT_STORE_ID,
+      storeName: FRONT_STORE_NAME,
+      roomCategoryId: 'cat-front',
+      roomCategoryName: '前海大床房',
+      rooms: [{ roomId: 'room-front-201', roomName: '201' }],
+    },
+    {
+      storeId: BRANCH_STORE_ID,
+      storeName: BRANCH_STORE_NAME,
+      roomCategoryId: 'cat-branch',
+      roomCategoryName: '演示影音房',
+      rooms: [{ roomId: 'room-branch-706', roomName: '706' }],
+    },
+  ]
+  const today = formatIsoDate(monthWindowDate(3))
+  const tomorrow = formatIsoDate(monthWindowDate(4))
+
+  await page.route('**/api/roomStatuses/**', async (route) => {
+    const pathname = new URL(route.request().url()).pathname.replace(/^\/api/, '')
+    requestedPaths.push(pathname)
+
+    if (pathname === '/roomStatuses/rooms/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            isSingleInventory: 0,
+            list: categories,
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/orderDetails/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: [
+              {
+                roomCategoryId: 'cat-front',
+                roomId: 'room-front-201',
+                date: today,
+                guestName: '月房态今日客人',
+                channelName: '携程',
+                roomFee: 288,
+                totalIncome: 318,
+                liveStatus: '入住中',
+                orderId: 'month-today-order',
+              },
+              {
+                roomCategoryId: 'cat-branch',
+                roomId: 'room-branch-706',
+                date: today,
+                guestName: '分店今日客人',
+                orderChannelName: '订单表渠道',
+                sourceLabelSnapshot: '渠道快照',
+                roomFee: 218,
+                totalIncome: 236,
+                liveStatus: '待入住',
+                hasRemark: true,
+                orderId: 'branch-today-order',
+              },
+              {
+                roomCategoryId: 'cat-front',
+                roomId: 'room-front-201',
+                date: tomorrow,
+                guestName: '明日客人不应显示',
+                channelName: '美团酒店',
+                roomFee: 388,
+                totalIncome: 399,
+                orderId: 'tomorrow-order',
+              },
+            ],
+            orderArrangementInfos: [],
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/dailyMonitor/get') {
+      await route.fulfill({ json: { success: true, data: { list: [{ date: today, remain: '余0间' }] } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/inv/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: categories.map((category) => ({
+              roomCategoryId: category.roomCategoryId,
+              date: today,
+              inventory: 1,
+            })),
+          },
+        },
+      })
+      return
+    }
+
+    await route.fulfill({ json: { success: true, data: { list: [] } } })
+  })
+}
+
+test.beforeEach(async ({ page }) => {
+  await installSession(page)
 })
 
-test('/houseManage/days real provider keeps all orders for the same room and can search the secondary guest', async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    window.localStorage.setItem('pms_token', 'house-days-real-multi-order-token')
-    window.localStorage.setItem('pmsCampId', '10001')
-  })
-
+test('/houseManage/days real provider mirrors the month room status today column', async ({ page }) => {
+  const monthRequests: string[] = []
+  const todayRequests: string[] = []
+  await mockMonthStatusApis(page, monthRequests)
   await page.route('**/api/roomStatusesToday/get', async (route) => {
+    todayRequests.push(route.request().url())
     await route.fulfill({
       json: {
         code: 0,
         message: 'success',
-        traceId: 'house-days-real-provider-multi-order',
+        traceId: 'legacy-today-endpoint',
         timestamp: new Date().toISOString(),
         data: {
-          basic: {
-            preComeNum: 2,
-            preLeaveNum: 0,
-            liveNum: 0,
-            idleCleanNum: 0,
-            idleDirtyNum: 0,
-            liveCleanNum: 0,
-            liveDirtyNum: 0,
-            hourRoomOrderNum: 0,
-            ltNum: 0,
-            debtNum: 0,
-            extendStayNum: 0,
-          },
           roomCategories: [
             {
-              roomCategoryId: 'cat-202',
-              roomCategoryName: '豪华双床房',
-              rooms: [
-                {
-                  roomId: 'room-202',
-                  roomName: '202',
-                  roomCategoryId: 'cat-202',
-                  roomCategoryName: '豪华双床房',
-                  isDirty: 0,
-                  isOcc: 1,
-                  isLive: 0,
-                  isIdle: 0,
-                  isPreCome: 1,
-                  isPreLeave: 0,
-                  isOrderRemark: 0,
-                  isLt: 0,
-                  isDebt: 0,
-                  isHourRoomOrder: 0,
-                  isExtendStay: 0,
-                  guestName: 'Real Guest C',
-                  orders: [
-                    {
-                      orderId: 'order-1',
-                      guestName: 'Real Guest C',
-                      guestMobile: '13900003103',
-                      channelName: '携程',
-                      totalPriceCent: 37800,
-                    },
-                    {
-                      orderId: 'order-2',
-                      guestName: '刘敏',
-                      guestMobile: '13910003102',
-                      channelName: '美团',
-                      totalPriceCent: 42000,
-                    },
-                  ],
-                },
-              ],
+              roomCategoryId: 'legacy-cat',
+              roomCategoryName: '旧日房态房型',
+              rooms: [{ roomId: 'legacy-room', roomName: '999', guestName: '旧接口客人', isOcc: 1 }],
             },
           ],
         },
@@ -173,13 +184,44 @@ test('/houseManage/days real provider keeps all orders for the same room and can
     })
   })
 
-  await page.goto('/#/houseManage/days?houseDaysProvider=real')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
 
-  await expect(page.locator('.day-room-area')).toContainText('Real Guest C')
-  await expect(page.locator('.day-room-area')).toContainText('刘敏')
+  await expect(page.locator('.day-room-card')).toHaveCount(2)
+  await expect(page.getByText('月房态今日客人')).toBeVisible()
+  await expect(page.getByText('分店今日客人')).toBeVisible()
+  await expect(page.getByText('明日客人不应显示')).toHaveCount(0)
+  await expect(page.getByText('旧接口客人')).toHaveCount(0)
+  expect(todayRequests).toHaveLength(0)
+  expect(monthRequests).toEqual(
+    expect.arrayContaining([
+      '/roomStatuses/rooms/get',
+      '/roomStatuses/orderDetails/get',
+      '/roomStatuses/inv/get',
+      '/roomStatuses/dailyMonitor/get',
+    ]),
+  )
+})
 
-  await page.locator('.month-toolbar__actions input').fill('刘敏')
-  await page.locator('.month-toolbar__actions input').press('Enter')
+test('/houseManage/days real provider keeps month-row store and channel filtering', async ({ page }) => {
+  const monthRequests: string[] = []
+  await mockMonthStatusApis(page, monthRequests)
 
-  await expect(page.locator('.day-room-area')).toContainText('刘敏')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await page.getByRole('option', { name: BRANCH_STORE_NAME }).click()
+
+  await expect(page.locator('.day-room-card')).toHaveCount(1)
+  await expect(page.getByText('分店今日客人')).toBeVisible()
+  await expect(page.getByText('月房态今日客人')).toHaveCount(0)
+
+  const channelSelect = page.locator('.day-filter-group select').first()
+  await channelSelect.selectOption('ota')
+  await expect(page.locator('.day-room-card')).toHaveCount(1)
+  await expect(page.getByText('订单表渠道')).toBeVisible()
+
+  await channelSelect.selectOption('direct')
+  await expect(page.locator('.day-empty-state')).toContainText('暂无日房态数据')
 })

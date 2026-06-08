@@ -11,6 +11,8 @@ import {
   type DistributionRoomCategory,
   type DistributionTab,
 } from '../services/distributionList'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './DistributionListPage.css'
 
 const actionButtons = [
@@ -21,7 +23,6 @@ const actionButtons = [
 ]
 
 type ImportDialogMode = 'store' | 'room' | null
-type UndistributedStoreMode = 'all' | 'current'
 
 const importStoreOptions = [
   '天洛会宿公寓(前海壹方城宝安中心店)',
@@ -42,7 +43,12 @@ export function DistributionListPage() {
   const [roomProgressMap, setRoomProgressMap] = useState<Record<string, DistributionProgress>>({})
   const [importMenuOpen, setImportMenuOpen] = useState(false)
   const [importDialogMode, setImportDialogMode] = useState<ImportDialogMode>(null)
-  const [undistributedStoreMode, setUndistributedStoreMode] = useState<UndistributedStoreMode>('all')
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: dashboard?.stores.map((store) => ({
+      id: store.id,
+      label: store.label,
+    })),
+  })
 
   const updateFilters = (nextFilters: (current: DistributionFilters) => DistributionFilters) => {
     setNotice('')
@@ -92,25 +98,16 @@ export function DistributionListPage() {
     return () => window.clearTimeout(timer)
   }, [notice])
 
-  const currentStoreLabel = useMemo(() => {
-    const matched = dashboard?.stores.find((store) => store.id === filters.poiId)
-    return matched?.label ?? dashboard?.stores[1]?.label ?? '当前门店'
-  }, [dashboard, filters.poiId])
-
   const visibleRows = useMemo(() => {
     if (!dashboard) return []
 
     const list = filters.tab === 'distributed' ? dashboard.distributedRooms : dashboard.undistributedRooms
-    const filteredByStore =
-      filters.tab === 'undistributed' && undistributedStoreMode === 'current'
-        ? list.filter((room) => room.storeId === filters.poiId || filters.poiId === 'ALL')
-        : list
 
-    return filteredByStore.map((room) => ({
+    return list.map((room) => ({
       ...room,
       progress: roomProgressMap[room.id] ?? room.progress,
     }))
-  }, [dashboard, filters.poiId, filters.tab, roomProgressMap, undistributedStoreMode])
+  }, [dashboard, filters.tab, roomProgressMap])
 
   const selectedRoom = useMemo(
     () => visibleRows.find((room) => room.id === drawerRoomId) ?? null,
@@ -188,40 +185,22 @@ export function DistributionListPage() {
 
         {filters.tab === 'undistributed' ? (
           <div className="distribution-undistributed-toolbar">
-            <div className="distribution-store-switch" aria-label="未分销门店切换">
-              <button
-                type="button"
-                className={undistributedStoreMode === 'all' ? 'is-active' : ''}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setUndistributedStoreMode('all')
-                }}
-              >
-                全部门店
-              </button>
-              <button
-                type="button"
-                className={`is-store${undistributedStoreMode === 'current' ? ' is-active' : ''}`}
-                title={currentStoreLabel}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setUndistributedStoreMode('current')
-                }}
-              >
-                {currentStoreLabel}
-              </button>
-              <button
-                type="button"
-                className="is-setting"
-                aria-label="门店设置"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  navigate('/InformationMaintenance/campInfo')
-                }}
-              >
-                ⚙
-              </button>
-            </div>
+            <StoreSelectControl
+              className="distribution-store-switch"
+              label="未分销门店切换"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={filters.poiId}
+              disabled={storeLoading}
+              onChange={(storeId) =>
+                updateFilters((current) => ({
+                  ...current,
+                  poiId: storeId,
+                  page: 1,
+                }))
+              }
+              settingsLabel="门店设置"
+              onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+            />
 
             <div className="distribution-panel__actions">
               <button type="button" className="is-disabled" disabled>

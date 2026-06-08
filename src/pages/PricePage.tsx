@@ -16,6 +16,7 @@ import {
   type CentralPriceRoom,
   fetchCentralPrices,
   getCentralPriceRequestDate,
+  saveCentralSaleStatus,
 } from '../services/centralPrice'
 import { loadOtherPriceData, type OtherPriceData } from '../services/otherPrice'
 import { loadPriceBoardData, type PriceBoardData, type PriceBoardDurationOption } from '../services/priceBoard'
@@ -26,6 +27,8 @@ import {
   type PriceComparisonFilters,
 } from '../services/priceComparison'
 import { loadRetailPriceData, type RetailPriceData, type RetailRoomCategory, type RetailStore } from '../services/retailPrice'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { fetchStoreOptions, resolveCurrentCampId, type StoreOption } from '../services/storeOptions'
 import './PricePage.css'
 
 const priceTabs = [
@@ -65,6 +68,11 @@ type PriceMatrixRow = {
   comparePrices: string[]
   product?: string
   channelBadgeId?: string
+}
+
+type PriceRoomFilterOption = {
+  id: string
+  name: string
 }
 
 type SelectedPriceCell = {
@@ -128,6 +136,7 @@ type PriceComparisonRequestState =
   | { kind: 'error'; message: string }
 
 const weekdays = ['日', '一', '二', '三', '四', '五', '六']
+const actionFeedbackHideDelayMs = 3000
 
 const channelOptions = ['全部渠道', '携程', '美团', '同程', '途家']
 const retailWeekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
@@ -296,6 +305,14 @@ function parseDateValue(value: string) {
 
 function formatHeaderDateValue(date: Date) {
   return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
+}
+
+function formatSaleStatusFailure(error: unknown) {
+  const rawMessage = error instanceof Error ? error.message : error == null ? '' : String(error)
+  const message = rawMessage.trim()
+  if (!message || message === 'null' || message === 'undefined') return '售卖状态保存失败，请稍后重试'
+  if (message.includes('售卖状态保存失败')) return message
+  return `售卖状态保存失败：${message}`
 }
 
 function ChannelBadgeIcon({ badgeId, label }: { badgeId?: string; label: string }) {
@@ -1014,7 +1031,11 @@ function PriceGuideOverlay({
 function SharedToolbar({
   active,
   renderAsCentral = false,
-  selectedStore = '全部门店',
+  selectedStoreId = 'all',
+  storeOptions = [{ id: 'all', label: '全部门店' }],
+  storeLoading = false,
+  channelFilterOptions = channelOptions,
+  roomFilterOptions = roomTypes.map((room) => ({ id: room.name, name: room.name })),
   selectedChannel: controlledSelectedChannel,
   selectedRoom = '全部房型',
   selectedTag = '房型标签',
@@ -1027,13 +1048,17 @@ function SharedToolbar({
   active: string
   mode?: string
   renderAsCentral?: boolean
-  selectedStore?: string
+  selectedStoreId?: string
+  storeOptions?: StoreOption[]
+  storeLoading?: boolean
+  channelFilterOptions?: string[]
+  roomFilterOptions?: PriceRoomFilterOption[]
   selectedChannel?: string
   selectedRoom?: string
   selectedTag?: string
-  onStoreChange?: (store: string) => void
+  onStoreChange?: (storeId: string) => void
   onChannelChange?: (channel: string) => void
-  onRoomChange?: (room: string) => void
+  onRoomChange?: (room: PriceRoomFilterOption | null) => void
   onTagChange?: (tag: string) => void
   onActionBlocked?: (message: string) => void
 }) {
@@ -1143,16 +1168,14 @@ function SharedToolbar({
       </div>
       {isChannelRp ? <p className="channel-price-alert">渠道rp价与房型价格存在差异</p> : null}
       <div className="toolbar-row toolbar-filters">
-        {['全部门店', '天落会宿公寓(前海壹方城宝安中心店)'].map((store) => (
-          <button
-            key={store}
-            type="button"
-            className={`chip${selectedStore === store ? ' is-active' : ''}`}
-            onClick={() => onStoreChange(store)}
-          >
-            {store}
-          </button>
-        ))}
+        <StoreSelectControl
+          className="price-toolbar-store-select"
+          label="门店范围"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={selectedStoreId}
+          disabled={storeLoading}
+          onChange={(storeId) => onStoreChange(storeId)}
+        />
         <div className="price-filter-field">
         <button
           type="button"
@@ -1164,7 +1187,7 @@ function SharedToolbar({
         </button>
         {openFilter === 'channel' ? (
           <div className="price-filter-popover" role="listbox" aria-label="渠道筛选">
-            {channelOptions.map((item) => (
+            {channelFilterOptions.map((item) => (
               <button
                 key={item}
                 type="button"
@@ -1192,12 +1215,12 @@ function SharedToolbar({
         </button>
         {openFilter === 'room' ? (
           <div className="price-filter-popover" aria-label="房型筛选">
-            {roomTypes.map((item) => (
+            {[{ id: '', name: '全部房型' }, ...roomFilterOptions].map((item) => (
               <button
-                key={item.name}
+                key={item.id || item.name}
                 type="button"
                 onClick={() => {
-                  onRoomChange(item.name)
+                  onRoomChange(item.id ? item : null)
                   setOpenFilter('')
                 }}
               >
@@ -1261,12 +1284,12 @@ function SharedToolbar({
               ))
             : null}
           {openFilter === 'room'
-            ? roomTypes.map((item) => (
+            ? [{ id: '', name: '全部房型' }, ...roomFilterOptions].map((item) => (
                 <button
-                  key={item.name}
+                  key={item.id || item.name}
                   type="button"
                   onClick={() => {
-                    onRoomChange(item.name)
+                    onRoomChange(item.id ? item : null)
                     setOpenFilter('')
                   }}
                 >
@@ -1583,6 +1606,7 @@ function PriceMatrix({
   centralData,
   centralState,
   onRetryCentralRequest,
+  onCentralSaleStatusChange,
   onActionBlocked,
 }: {
   mode: string
@@ -1596,6 +1620,7 @@ function PriceMatrix({
   centralData?: CentralPriceData
   centralState?: CentralPriceRequestState
   onRetryCentralRequest?: () => void
+  onCentralSaleStatusChange?: (input: { roomCategoryId: string; date: string; saleEnabled: boolean }) => Promise<void>
   onActionBlocked?: (message: string) => void
 }) {
   const centralHeaderScrollRef = useRef<HTMLDivElement | null>(null)
@@ -1606,7 +1631,7 @@ function PriceMatrix({
   const [editValue, setEditValue] = useState('')
   const [collapsed, setCollapsed] = useState(false)
   const [collapsedRooms, setCollapsedRooms] = useState<Record<string, boolean>>({})
-  const [summarySwitchStates, setSummarySwitchStates] = useState<Record<string, boolean>>({})
+  const [pendingSaleStatusKeys, setPendingSaleStatusKeys] = useState<Record<string, boolean>>({})
   const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false)
   const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
   const [dateOffset, setDateOffset] = useState(0)
@@ -1710,31 +1735,47 @@ function PriceMatrix({
     setIsCentralCalendarOpen(false)
   }
 
-  function isSummarySwitchOn(cellKey: string) {
-    return summarySwitchStates[cellKey] !== false
-  }
-
-  function toggleSummarySwitch(cellKey: string) {
-    setSummarySwitchStates((current) => ({
-      ...current,
-      [cellKey]: current[cellKey] === false,
-    }))
-  }
-
   function renderCentralDateMetric({
     key,
+    roomId,
     roomName,
+    dateKey,
     dateLabel,
     price,
     stock,
+    saleEnabled,
   }: {
     key: string
+    roomId: string
     roomName: string
+    dateKey: string
     dateLabel: string
     price: string
     stock: string
+    saleEnabled: boolean
   }) {
-    const switchOn = isSummarySwitchOn(key)
+    const switchOn = saleEnabled
+    const isSaving = Boolean(pendingSaleStatusKeys[key])
+
+    async function toggleSaleStatus() {
+      if (!onCentralSaleStatusChange || isSaving) return
+      const nextSaleEnabled = !switchOn
+      setPendingSaleStatusKeys((current) => ({ ...current, [key]: true }))
+      try {
+        await onCentralSaleStatusChange({
+          roomCategoryId: roomId,
+          date: dateKey,
+          saleEnabled: nextSaleEnabled,
+        })
+      } catch (error) {
+        onActionBlocked?.(formatSaleStatusFailure(error))
+      } finally {
+        setPendingSaleStatusKeys((current) => {
+          const { [key]: _removed, ...rest } = current
+          return rest
+        })
+      }
+    }
 
     return (
       <div
@@ -1750,7 +1791,8 @@ function PriceMatrix({
           className={`central-price-grid__metric-stock ${switchOn ? 'is-on' : 'is-off'}`}
           aria-label={`${dateLabel}库存开关`}
           aria-pressed={switchOn}
-          onClick={() => toggleSummarySwitch(key)}
+          disabled={isSaving}
+          onClick={toggleSaleStatus}
         >
           <i aria-hidden="true" />
           <em>{stock}</em>
@@ -1928,7 +1970,7 @@ function PriceMatrix({
               })}
         </div>
         {visibleDates.map((dateItem, index) => {
-          const status = room.prices[index] ?? { price: '-', stock: '-' }
+          const status = room.prices[index] ?? { price: '-', stock: '-', saleEnabled: true }
           const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key)
           const key = `${room.id}-summary-${dateItem.key}`
 
@@ -1936,10 +1978,13 @@ function PriceMatrix({
             ? renderCentralStockOnlyMetric(key, status.stock)
             : renderCentralDateMetric({
                 key,
+                roomId: room.id,
                 roomName: room.name,
+                dateKey: dateItem.key,
                 dateLabel,
                 price: status.price,
                 stock: status.stock,
+                saleEnabled: status.saleEnabled,
               })
         })}
       </div>
@@ -2611,6 +2656,7 @@ function ChannelRpPriceMatrix({
 
   function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
     const compareBasePrice = getCentralBaseComparePrice(row)
+    const channelDisplayName = row.channel || '未知渠道'
 
     return (
       <div
@@ -2620,8 +2666,8 @@ function ChannelRpPriceMatrix({
         style={{ gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }}
       >
         <div className="price-room-header price-room-header--central price-room-header--channel-rp" data-testid="central-price-matrix-row-header">
-          <ChannelBadgeIcon badgeId={row.channelBadgeId} label={row.channel} />
-          <strong>{row.product ?? row.channel}</strong>
+          <ChannelBadgeIcon badgeId={row.channelBadgeId} label={channelDisplayName} />
+          <strong>{channelDisplayName}</strong>
         </div>
         <div>
           <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
@@ -2630,16 +2676,16 @@ function ChannelRpPriceMatrix({
           {renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () =>
             setBasePriceDrawerContext({
               variant: 'channel-rp',
-              roomName: row.channel,
-              roomSubtitle: row.product ?? '当前渠道房型',
-              channelName: row.channel,
+              roomName: channelDisplayName,
+              roomSubtitle: '当前渠道房型',
+              channelName: channelDisplayName,
               coefficient: row.coefficient,
               actualPrice: row.basePrice,
               comparePrice: compareBasePrice,
               basePrice: row.basePrice,
               planningRows: buildChannelPlanningRows({
-                roomName: row.channel,
-                roomSubtitle: row.product ?? '当前渠道房型',
+                roomName: channelDisplayName,
+                roomSubtitle: '当前渠道房型',
                 actualPrice: row.basePrice,
                 comparePrice: compareBasePrice,
               }),
@@ -2912,14 +2958,18 @@ function RegularPricePage({ active }: { active: string }) {
   const reuseCentralLayout = location.pathname.includes('channelPrice')
   const isCentral = active === '\u4e2d\u592e\u4ef7' || reuseCentralLayout
   const isChannelRp = active === '\u6e20\u9053RP\u4ef7' && !reuseCentralLayout
-  const [selectedStore, setSelectedStore] = useState('全部门店')
+  const [selectedStoreId, setSelectedStoreId] = useState('all')
+  const [storeOptions, setStoreOptions] = useState<StoreOption[]>([{ id: 'all', label: '全部门店' }])
+  const [storeLoading, setStoreLoading] = useState(false)
   const [selectedChannel, setSelectedChannel] = useState('渠道')
   const [selectedRoom, setSelectedRoom] = useState('全部房型')
+  const [selectedRoomCategoryIds, setSelectedRoomCategoryIds] = useState<string[]>([])
+  const [roomFilterOptions, setRoomFilterOptions] = useState<PriceRoomFilterOption[]>([])
   const [selectedTag, setSelectedTag] = useState('房型标签')
   const [centralRequestDate, setCentralRequestDate] = useState(() => getCentralPriceRequestDate())
   const [reloadKey, setReloadKey] = useState(0)
   const [centralReloadKey, setCentralReloadKey] = useState(0)
-  const [, setActionFeedback] = useState('')
+  const [actionFeedback, setActionFeedback] = useState('')
   const [centralData, setCentralData] = useState<CentralPriceData | undefined>()
   const [centralRequestState, setCentralRequestState] = useState<CentralPriceRequestState>({
     kind: 'idle',
@@ -2933,21 +2983,51 @@ function RegularPricePage({ active }: { active: string }) {
   const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || 'default-camp', [location.search])
   const channelPriceProvider = useMemo<ChannelPriceProviderName>(() => {
     const configured = new URLSearchParams(location.search).get('channelPriceProvider')
-    return configured === 'real' ? 'real' : 'mock'
+    return configured === 'mock' ? 'mock' : 'real'
   }, [location.search])
   const channelDate = useMemo(() => currentBusinessDate(), [])
   const centralFilters = useMemo<CentralPriceFilters>(
     () => ({
-      selectedStore,
+      selectedStoreId,
       selectedChannel,
-      selectedRoom,
+      selectedRoomCategoryIds,
       selectedTag,
       date: centralRequestDate,
       pageNum: 1,
       pageSize: 15,
     }),
-    [centralRequestDate, selectedChannel, selectedRoom, selectedStore, selectedTag],
+    [centralRequestDate, selectedChannel, selectedRoomCategoryIds, selectedStoreId, selectedTag],
   )
+  const centralChannelOptions = useMemo(() => {
+    const channels = new Set<string>()
+    centralData?.rooms.forEach((room) => {
+      room.channelRows.forEach((row) => {
+        const channel = row.channel.trim()
+        if (channel) channels.add(channel)
+      })
+    })
+    return ['全部渠道', ...channels]
+  }, [centralData])
+
+  const centralSaveCampId = useMemo(() => (/^\d+$/.test(campId) ? campId : null), [campId])
+
+  useEffect(() => {
+    const nextOptions = centralData?.rooms.map((room) => ({ id: room.id, name: room.name })) ?? []
+    setRoomFilterOptions(nextOptions)
+    setSelectedRoomCategoryIds((current) => {
+      if (current.length === 0) return current
+      const validIds = new Set(nextOptions.map((room) => room.id))
+      if (current.every((roomCategoryId) => validIds.has(roomCategoryId))) return current
+      setSelectedRoom('鍏ㄩ儴鎴垮瀷')
+      return []
+    })
+  }, [centralData])
+
+  useEffect(() => {
+    if (!actionFeedback) return
+    const timer = window.setTimeout(() => setActionFeedback(''), actionFeedbackHideDelayMs)
+    return () => window.clearTimeout(timer)
+  }, [actionFeedback])
 
   function normalizeChannelPriceErrorMessage(error: unknown) {
     const rawMessage = error instanceof Error ? error.message : String(error)
@@ -2972,8 +3052,9 @@ function RegularPricePage({ active }: { active: string }) {
 
     fetchChannelPriceRows(
       {
-        campId,
+        campId: /^\d+$/.test(campId) ? campId : '',
         channel: selectedChannel,
+        roomCategoryIds: selectedRoomCategoryIds,
         date: channelDate,
         provider: channelPriceProvider,
       },
@@ -2997,7 +3078,69 @@ function RegularPricePage({ active }: { active: string }) {
       })
 
     return () => controller.abort()
-  }, [campId, channelDate, channelPriceProvider, isChannelRp, reloadKey, selectedChannel])
+  }, [campId, channelDate, channelPriceProvider, isChannelRp, reloadKey, selectedChannel, selectedRoomCategoryIds])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setStoreLoading(true)
+
+    fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+      .then((nextOptions) => {
+        setStoreOptions(nextOptions)
+        setSelectedStoreId((current) => (nextOptions.some((store) => store.id === current) ? current : 'all'))
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setStoreOptions([{ id: 'all', label: '全部门店' }])
+        setSelectedStoreId('all')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setStoreLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [])
+
+  useEffect(() => {
+    if (!isCentral) return
+    if (selectedChannel !== '渠道' && !centralChannelOptions.includes(selectedChannel)) {
+      setSelectedChannel('渠道')
+    }
+  }, [centralChannelOptions, isCentral, selectedChannel])
+
+  async function handleCentralSaleStatusChange(input: { roomCategoryId: string; date: string; saleEnabled: boolean }) {
+    const response = await saveCentralSaleStatus(
+      {
+        campId: centralSaveCampId,
+        roomCategoryId: input.roomCategoryId,
+        date: input.date,
+        saleEnabled: input.saleEnabled,
+      },
+    )
+    setCentralData((current) => {
+      if (!current) return current
+      return {
+        ...current,
+        rooms: current.rooms.map((room) => {
+          if (room.id !== response.roomCategoryId) return room
+          return {
+            ...room,
+            prices: room.prices.map((price, index) => {
+              const dateItem = current.dates[index]
+              if (dateItem?.key !== response.date) return price
+              return { ...price, saleEnabled: response.saleEnabled }
+            }),
+          }
+        }),
+      }
+    })
+    setActionFeedback(response.saleEnabled ? '中央价已恢复可售' : '中央价已停售')
+  }
+
+  function handleRoomFilterChange(room: PriceRoomFilterOption | null) {
+    setSelectedRoom(room?.name ?? '全部房型')
+    setSelectedRoomCategoryIds(room?.id ? [room.id] : [])
+  }
 
   useEffect(() => {
     if (!isCentral) return
@@ -3040,16 +3183,25 @@ function RegularPricePage({ active }: { active: string }) {
       <SharedToolbar
         active={active}
         renderAsCentral={reuseCentralLayout}
-        selectedStore={selectedStore}
+        selectedStoreId={selectedStoreId}
+        storeOptions={storeOptions}
+        storeLoading={storeLoading}
+        channelFilterOptions={isCentral ? centralChannelOptions : channelOptions}
+        roomFilterOptions={roomFilterOptions}
         selectedChannel={selectedChannel}
         selectedRoom={selectedRoom}
         selectedTag={selectedTag}
-        onStoreChange={setSelectedStore}
+        onStoreChange={setSelectedStoreId}
         onChannelChange={setSelectedChannel}
-        onRoomChange={setSelectedRoom}
+        onRoomChange={handleRoomFilterChange}
         onTagChange={setSelectedTag}
         onActionBlocked={setActionFeedback}
       />
+      {isCentral && actionFeedback ? (
+        <div className="price-action-feedback" role="status" aria-label="中央价操作反馈">
+          {actionFeedback}
+        </div>
+      ) : null}
       {reuseCentralLayout ? (
         <ChannelRpPriceMatrix
           centralRequestDate={centralRequestDate}
@@ -3071,6 +3223,7 @@ function RegularPricePage({ active }: { active: string }) {
           centralData={centralData}
           centralState={isCentral ? centralRequestState : undefined}
           onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
+          onCentralSaleStatusChange={active === '中央价' ? handleCentralSaleStatusChange : undefined}
           onActionBlocked={setActionFeedback}
         />
       )}
@@ -3389,6 +3542,8 @@ function RetailPricePage() {
   const requestedAt = retailData ? new Date(retailData.requestedAt).toLocaleTimeString('zh-CN', { hour12: false }) : ''
   const roomOptions = retailData?.rooms ?? []
   const stores = retailData?.stores ?? []
+  const [publicStoreOptions, setPublicStoreOptions] = useState<StoreOption[]>([{ id: 'all', label: '全部门店' }])
+  const [publicStoreLoading, setPublicStoreLoading] = useState(false)
   const needsSetup = retailData?.salePriceSetting.isInitPriceDisplay === 1
   const configuredProvider = typeof window !== 'undefined' && window.localStorage.getItem('pmsRetailPriceProvider') === 'real' ? 'real' : 'mock'
   const currentProvider = retailData?.providerName ?? configuredProvider
@@ -3415,6 +3570,23 @@ function RetailPricePage() {
 
     return () => controller.abort()
   }, [queryKeyword, requestRevision, selectedStoreId, selectedRoomCategoryIds])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setPublicStoreLoading(true)
+
+    fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+      .then((nextOptions) => setPublicStoreOptions(nextOptions))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setPublicStoreOptions([{ id: 'all', label: '全部门店' }])
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setPublicStoreLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [])
 
   function beginRetailRequest() {
     setIsLoading(true)
@@ -3549,33 +3721,23 @@ function RetailPricePage() {
           </div>
         ) : null}
         <div className="retail-filter-row">
-          <button
-            type="button"
-            className={`retail-store-chip${selectedStoreId === '' ? ' is-active' : ''}`}
-            onClick={() => {
-              setSelectedStoreId('')
-              setActionMessage('已切换到全部门店')
+          <StoreSelectControl
+            className="retail-store-switch"
+            label="门店范围"
+            options={publicStoreOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={selectedStoreId || 'all'}
+            disabled={publicStoreLoading}
+            onChange={(storeId) => {
+              if (storeId === 'all') {
+                setSelectedStoreId('')
+                setActionMessage('已切换到全部门店')
+                return
+              }
+              selectStore(storeId)
             }}
-          >
-            全部门店
-          </button>
-          {stores.length ? stores.map((store) => (
-            <button
-              key={store.poiId}
-              type="button"
-              className={`retail-store-chip retail-store-chip--wide${selectedStoreId === store.poiId ? ' is-active' : ''}`}
-              onClick={() => selectStore(store.poiId)}
-            >
-              {store.poiName}
-            </button>
-          )) : (
-            <button type="button" className="retail-store-chip retail-store-chip--wide" disabled>
-              {isLoading ? '加载门店中' : '暂无门店数据'}
-            </button>
-          )}
-          <button type="button" className="retail-gear-button" aria-label="门店设置" onClick={() => setActionMessage('已打开门店设置入口，请在设置中心维护门店信息')}>
-            ⚙
-          </button>
+            settingsLabel="门店设置"
+            onSettingsClick={() => setActionMessage('已打开门店设置入口，请在设置中心维护门店信息')}
+          />
           <RetailFilterButton
             label="房型"
             onClick={() => setFilterOpen(filterOpen === 'room' ? null : 'room')}
@@ -3694,6 +3856,8 @@ function PriceComparisonPage() {
     kind: 'loading',
     message: '正在加载竞争圈比价数据',
   })
+  const [storeOptions, setStoreOptions] = useState<StoreOption[]>([{ id: 'all', label: '全部门店' }])
+  const [storeLoading, setStoreLoading] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -3722,6 +3886,23 @@ function PriceComparisonPage() {
       alive = false
     }
   }, [appliedFilters, location.search, requestRevision])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setStoreLoading(true)
+
+    fetchStoreOptions({ campId: resolveCurrentCampId(), signal: controller.signal })
+      .then((nextOptions) => setStoreOptions(nextOptions))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setStoreOptions([{ id: 'all', label: '全部门店' }])
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setStoreLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [])
 
   const isReady = requestState.kind === 'success' || requestState.kind === 'empty'
   const dashboard = isReady ? requestState.data : null
@@ -3786,14 +3967,14 @@ function PriceComparisonPage() {
             <span>比价日期</span>
             <input aria-label="比价日期" type="date" value={filters.date} onChange={(event) => updateFilter('date', event.target.value)} />
           </label>
-          <label>
-            <span>门店</span>
-            <select aria-label="门店" value={filters.storeId} onChange={(event) => updateFilter('storeId', event.target.value)}>
-              {(dashboard?.filterOptions.stores ?? []).map((item) => (
-                <option key={item.value} value={item.value}>{item.label}</option>
-              ))}
-            </select>
-          </label>
+          <StoreSelectControl
+            className="price-comparison-store"
+            label="门店"
+            options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
+            value={filters.storeId}
+            disabled={storeLoading}
+            onChange={(storeId) => updateFilter('storeId', storeId)}
+          />
           <label>
             <span>房型</span>
             <select aria-label="房型" value={filters.roomTypeId} onChange={(event) => updateFilter('roomTypeId', event.target.value)}>

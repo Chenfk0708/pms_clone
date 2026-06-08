@@ -14,6 +14,8 @@ import {
   type SalesReportTab,
   type SalesReportTableRow,
 } from '../services/salesReport'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './SalesReportPage.css'
 
 type ExpandableSalesColumn =
@@ -85,6 +87,9 @@ export function SalesReportPage() {
   const [filtersCollapsed, setFiltersCollapsed] = useState(false)
   const [exportTask, setExportTask] = useState<SalesReportExportTask | null>(null)
   const [expandedColumns, setExpandedColumns] = useState<ExpandableSalesColumn[]>([])
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? staticLookups.stores).map((store) => ({ id: store.id, label: store.label })),
+  })
 
   useEffect(() => {
     void runQuery(query)
@@ -92,7 +97,6 @@ export function SalesReportPage() {
   }, [])
 
   const currentState = error ? 'error' : dashboard?.state ?? query.mockState ?? 'success'
-  const stores = dashboard?.stores ?? staticLookups.stores
   const roomTypes = dashboard?.roomTypes ?? staticLookups.roomTypes
   const channels = dashboard?.channels ?? staticLookups.channels
   const roomGroups = dashboard?.roomGroups ?? staticLookups.roomGroups
@@ -243,21 +247,14 @@ export function SalesReportPage() {
           </div>
 
           <div className="sales-report-form">
-            <div className="sales-report-store-row" role="radiogroup" aria-label="门店范围">
-              {stores.map((item) => (
-                <label key={item.id} className={query.storeScope === item.id ? 'is-active' : ''}>
-                  <input
-                    type="radio"
-                    name="sales-store-scope"
-                    value={item.id}
-                    aria-label={item.label}
-                    checked={query.storeScope === item.id}
-                    onChange={() => patchQuery({ storeScope: item.id })}
-                  />
-                  <span>{item.label}</span>
-                </label>
-              ))}
-            </div>
+            <StoreSelectControl
+              className="sales-report-store-row"
+              label="门店范围"
+              options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
+              value={query.storeScope}
+              disabled={storeLoading}
+              onChange={(storeId) => patchQuery({ storeScope: storeId })}
+            />
 
             {!filtersCollapsed ? (
               <div className="sales-report-filter-row">

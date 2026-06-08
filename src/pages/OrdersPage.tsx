@@ -1,8 +1,10 @@
 ﻿import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
+  cancelHouseOrder,
   fetchHouseOrders,
   resolveHouseOrderCampId,
+  skipStockHouseOrder,
   type HouseOrderData,
   type HouseOrderRow as OrderRow,
 } from '../services/houseOrders'
@@ -19,6 +21,7 @@ import {
   fetchOrderRoomSelectorOptions,
   type OrderRoomSelectorGroup,
 } from '../services/orderRoomSelector'
+import { StoreSelectControl } from '../components/StoreSelect'
 import './OrdersPage.css'
 
 const quickFilters = [
@@ -104,6 +107,20 @@ type EntryPayMethod = 'platform' | 'wechat' | 'alipay' | 'cash'
 type EntryStayKind = 'fullDay' | 'hourly'
 type LongRentalStep = 1 | 2
 
+export type OrderEntryInitialRoom = {
+  poiId?: string
+  poiName?: string
+  roomCategoryId: string
+  roomCategoryName: string
+  roomId: string
+  roomName: string
+  startDate: string
+  endDate?: string
+  price?: string
+  unitPrice?: string
+  monthlyRent?: string
+}
+
 type EntryInlineItem = {
   id: string
   text: string
@@ -116,6 +133,9 @@ type EntryRoomSelection = {
   roomCategoryName: string
   roomId: string
   roomName: string
+  price?: string
+  unitPrice?: string
+  monthlyRent?: string
 }
 
 type EntryStayRoom = {
@@ -129,6 +149,7 @@ type EntryStayRoom = {
   poiName: string
   dateRange: string
   price: string
+  unitPrice: string
   quantity: string
   guests: string
   configured: boolean
@@ -221,7 +242,6 @@ type RoomSelectorModalState = {
   selectedHour: string
   selectedMinute: string
   selectingEnd: boolean
-  roomTag: string
   keyword: string
   expandedRoomTypes: string[]
   selectedRooms: string[]
@@ -258,7 +278,6 @@ const entryPayMethodOptions: Array<{ value: EntryPayMethod; label: string }> = [
 const longRentalPaymentCycles: LongRentalEntryForm['paymentCycle'][] = ['月付', '季付', '半年付', '一次性付清']
 const longRentalPaymentMonths: LongRentalEntryForm['paymentMonth'][] = ['本月', '下月']
 const longRentalPaymentDays = Array.from({ length: 31 }, (_, index) => `${index + 1}号`)
-const roomTagOptions = ['全部房型']
 const hourlyRoomHours = Array.from({ length: 24 }, (_, index) => String(index).padStart(2, '0'))
 const hourlyRoomMinutes = Array.from({ length: 60 }, (_, index) => String(index).padStart(2, '0'))
 const orderTagGroups = [
@@ -301,6 +320,41 @@ function formatContractDuration(start: string, end: string) {
   return `${Math.max(diff, 1)}日`
 }
 
+function formatDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function formatClockTime(date: Date) {
+  const hour = String(date.getHours()).padStart(2, '0')
+  const minute = String(date.getMinutes()).padStart(2, '0')
+  return `${hour}:${minute}`
+}
+
+function getTodayDateKey() {
+  return formatDateKey(new Date())
+}
+
+function addDaysToDateKey(dateKey: string, days: number) {
+  const date = new Date(`${dateKey}T00:00:00`)
+  date.setDate(date.getDate() + days)
+  return formatDateKey(date)
+}
+
+function getMonthKey(dateKey: string) {
+  return dateKey.slice(0, 7)
+}
+
+function toDisplayDateRange(start: string, end: string) {
+  return `${start.replace(/-/g, '.')}-${end.replace(/-/g, '.')}`
+}
+
+function toDisplayHourlyStartDateTime(date = new Date()) {
+  return `${formatDateKey(date).replace(/-/g, '.')} ${formatClockTime(date)}`
+}
+
 function formatMonthLabel(value: string) {
   const [year, month] = value.split('-')
   return `${year}-${month}`
@@ -340,7 +394,7 @@ function buildCalendarDays(month: string) {
     const date = new Date(gridStart)
     date.setDate(gridStart.getDate() + index)
     return {
-      key: date.toISOString().slice(0, 10),
+      key: formatDateKey(date),
       date,
       day: String(date.getDate()),
       isCurrentMonth: date.getMonth() === monthNumber - 1,
@@ -354,7 +408,37 @@ function resolveCount(value: string, fallback = 0) {
 }
 
 function calculateStayRoomAmount(room: EntryStayRoom) {
-  return sanitizeAmount(room.price) * Math.max(resolveCount(room.quantity, 1), 0)
+  return sanitizeAmount(room.price)
+}
+
+function formatPlainAmount(value: number) {
+  if (!Number.isFinite(value)) return '0'
+  return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(2)))
+}
+
+function resolveRoomUnitPrice(price: string, unitPrice: string | undefined, quantity: string, fallbackQuantity = 1) {
+  const normalizedUnitPrice = sanitizeAmount(unitPrice || '')
+  if (normalizedUnitPrice > 0) return normalizedUnitPrice
+  const count = Math.max(resolveCount(quantity, fallbackQuantity), 1)
+  return sanitizeAmount(price) / count
+}
+
+function calculateRoomTotalPrice(unitPrice: number, quantity: number) {
+  return formatPlainAmount(unitPrice * Math.max(quantity, 1))
+}
+
+function updateStayRoomQuantity(room: EntryStayRoom, nextQuantity: number, fallbackQuantity = 1) {
+  const unitPrice = resolveRoomUnitPrice(room.price, room.unitPrice, room.quantity, fallbackQuantity)
+  return {
+    ...room,
+    quantity: String(Math.max(nextQuantity, 1)),
+    unitPrice: formatPlainAmount(unitPrice),
+    price: calculateRoomTotalPrice(unitPrice, nextQuantity),
+  }
+}
+
+function looksLikeHourlyDateRange(value: string) {
+  return /\d{4}\.\d{2}\.\d{2}\s+\d{2}:\d{2}/.test(value.trim())
 }
 
 function splitRoomTypeAndName(value: string) {
@@ -431,14 +515,14 @@ function validateLongRentalEntryStep(form: LongRentalEntryForm) {
   return errors
 }
 
-function createStayForm(): EntryStayForm {
+function createStayForm(type: EntryStayKind = 'fullDay'): EntryStayForm {
   return {
     useGuestAsCheckin: false,
     guestName: '',
     guestMobile: '',
     orderSource: '自来客',
     channelOrderNo: '',
-    rooms: [createStayRoom()],
+    rooms: [type === 'hourly' ? createHourlyStayRoom() : createStayRoom()],
     commission: '0',
     deposit: '0',
     roomChargeStatus: 'received',
@@ -456,6 +540,8 @@ function createStayForm(): EntryStayForm {
 }
 
 function createStayRoom(): EntryStayRoom {
+  const today = getTodayDateKey()
+  const tomorrow = addDaysToDateKey(today, 1)
   return {
     id: nextOrderEntryId('stay-room'),
     roomType: '',
@@ -465,13 +551,54 @@ function createStayRoom(): EntryStayRoom {
     roomName: '',
     poiId: '',
     poiName: '',
-    dateRange: '2026.06.01-2026.06.02',
+    dateRange: toDisplayDateRange(today, tomorrow),
     price: '0',
+    unitPrice: '0',
     quantity: '1',
     guests: '1',
     configured: false,
     registeredGuests: [],
     registrationOpen: false,
+  }
+}
+
+function createHourlyStayRoom(): EntryStayRoom {
+  return {
+    ...createStayRoom(),
+    dateRange: toDisplayHourlyStartDateTime(),
+    quantity: '1',
+  }
+}
+
+function createStayRoomFromInitialRoom(initialRoom: OrderEntryInitialRoom, type: EntryStayKind = 'fullDay'): EntryStayRoom {
+  const start = initialRoom.startDate
+  const end = initialRoom.endDate || addDaysToDateKey(start, 1)
+  const initialNights = Math.max(getNightCount(start, end), 1)
+  const totalPrice = initialRoom.price || '0'
+  const unitPrice = initialRoom.unitPrice || formatPlainAmount(sanitizeAmount(totalPrice) / initialNights)
+  return {
+    ...(type === 'hourly' ? createHourlyStayRoom() : createStayRoom()),
+    roomType: `${initialRoom.roomCategoryName}（${initialRoom.roomName}）`,
+    roomCategoryId: initialRoom.roomCategoryId,
+    roomCategoryName: initialRoom.roomCategoryName,
+    roomId: initialRoom.roomId,
+    roomName: initialRoom.roomName,
+    poiId: initialRoom.poiId || '',
+    poiName: initialRoom.poiName || '',
+    dateRange: type === 'hourly' ? toDisplayHourlyStartDateTime() : toDisplayDateRange(start, end),
+    price: totalPrice,
+    unitPrice,
+    quantity: type === 'hourly' ? '1' : String(initialNights),
+    configured: true,
+  }
+}
+
+function createStayFormWithInitialRoom(initialRoom?: OrderEntryInitialRoom, type: EntryStayKind = 'fullDay'): EntryStayForm {
+  const form = createStayForm(type)
+  if (!initialRoom) return form
+  return {
+    ...form,
+    rooms: [createStayRoomFromInitialRoom(initialRoom, type)],
   }
 }
 
@@ -486,6 +613,8 @@ function createStayGuest(): EntryStayGuest {
 }
 
 function createLongRentalRoom(): LongRentalRoom {
+  const today = getTodayDateKey()
+  const tomorrow = addDaysToDateKey(today, 1)
   return {
     id: nextOrderEntryId('long-room'),
     roomLabel: '',
@@ -495,15 +624,31 @@ function createLongRentalRoom(): LongRentalRoom {
     roomName: '',
     poiId: '',
     poiName: '',
-    contractStart: '2026-06-01',
-    contractEnd: '2026-06-02',
+    contractStart: today,
+    contractEnd: tomorrow,
     monthlyRent: '0',
     deposit: '0',
     guests: '1',
   }
 }
 
-function createLongRentalEntryForm(): LongRentalEntryForm {
+function createLongRentalRoomFromInitialRoom(initialRoom: OrderEntryInitialRoom): LongRentalRoom {
+  return {
+    ...createLongRentalRoom(),
+    roomLabel: `${initialRoom.roomCategoryName}（${initialRoom.roomName}）`,
+    roomCategoryId: initialRoom.roomCategoryId,
+    roomCategoryName: initialRoom.roomCategoryName,
+    roomId: initialRoom.roomId,
+    roomName: initialRoom.roomName,
+    poiId: initialRoom.poiId || '',
+    poiName: initialRoom.poiName || '',
+    contractStart: initialRoom.startDate,
+    contractEnd: initialRoom.endDate || addDaysToDateKey(initialRoom.startDate, 1),
+    monthlyRent: initialRoom.monthlyRent || initialRoom.price || '0',
+  }
+}
+
+function createLongRentalEntryForm(initialRoom?: OrderEntryInitialRoom): LongRentalEntryForm {
   return {
     step: 1,
     tenantName: '',
@@ -511,7 +656,7 @@ function createLongRentalEntryForm(): LongRentalEntryForm {
     emergencyName: '',
     emergencyPhone: '',
     orderSource: '自来客',
-    rooms: [createLongRentalRoom()],
+    rooms: [initialRoom ? createLongRentalRoomFromInitialRoom(initialRoom) : createLongRentalRoom()],
     commission: '0',
     paymentCycle: '月付',
     paymentMonth: '本月',
@@ -527,17 +672,19 @@ function createLongRentalEntryForm(): LongRentalEntryForm {
   }
 }
 
-function createRoomSelectorModalState(): RoomSelectorModalState {
+function createRoomSelectorModalState(initialRoom?: OrderEntryInitialRoom): RoomSelectorModalState {
+  const now = new Date()
+  const today = initialRoom?.startDate || formatDateKey(now)
+  const tomorrow = initialRoom?.endDate || addDaysToDateKey(today, 1)
   return {
     open: false,
     mode: 'fullDay',
-    visibleMonth: '2026-06',
-    selectedStart: '2026-06-01',
-    selectedEnd: '2026-06-02',
-    selectedHour: '22',
-    selectedMinute: '22',
+    visibleMonth: getMonthKey(today),
+    selectedStart: today,
+    selectedEnd: tomorrow,
+    selectedHour: String(now.getHours()).padStart(2, '0'),
+    selectedMinute: String(now.getMinutes()).padStart(2, '0'),
     selectingEnd: false,
-    roomTag: '',
     keyword: '',
     expandedRoomTypes: [],
     selectedRooms: [],
@@ -570,15 +717,19 @@ function toCent(value: string) {
 
 function parseStayDateRange(value: string) {
   const [startRaw, endRaw] = value.split('-')
-  const start = startRaw?.replace(/\./g, '-').trim() || '2026-06-01'
+  const start = startRaw?.replace(/\./g, '-').trim() || getTodayDateKey()
   const end = endRaw?.replace(/\./g, '-').trim() || start
   return { start, end }
 }
 
 function parseHourlyDateTimeRange(value: string, hours: string) {
-  const [dateRaw = '2026.06.01', timeRaw = '22:00'] = value.trim().split(/\s+/)
-  const startDate = dateRaw.replace(/\./g, '-')
-  const [hour = '22', minute = '00'] = timeRaw.split(':')
+  const now = new Date()
+  const fallbackDateTime = toDisplayHourlyStartDateTime(now)
+  const [dateRaw = formatDateKey(now).replace(/-/g, '.'), timeRaw = formatClockTime(now)] =
+    (value.trim() || fallbackDateTime).split(/\s+/)
+  const normalizedDateRaw = dateRaw.trim()
+  const startDate = normalizedDateRaw.includes('.') ? parseStayDateRange(normalizedDateRaw).start : normalizedDateRaw
+  const [hour = String(now.getHours()), minute = String(now.getMinutes())] = timeRaw.split(':')
   const start = new Date(`${startDate}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:00`)
   const duration = Math.max(resolveCount(hours, 1), 1)
   const end = new Date(start)
@@ -588,14 +739,13 @@ function parseHourlyDateTimeRange(value: string, hours: string) {
 
 function formatHourlyDateTimeRange(dateRange: string, hours: string) {
   const { start, end } = parseHourlyDateTimeRange(dateRange, hours)
-  const format = (value: Date) => {
+  const formatDateTime = (value: Date) => {
     const month = String(value.getMonth() + 1).padStart(2, '0')
     const day = String(value.getDate()).padStart(2, '0')
-    const hour = String(value.getHours()).padStart(2, '0')
-    const minute = String(value.getMinutes()).padStart(2, '0')
-    return `${month}-${day} ${hour}:${minute}`
+    return `${month}-${day} ${formatClockTime(value)}`
   }
-  return `${format(start)}-${format(end)}`
+  const endText = formatDateKey(start) === formatDateKey(end) ? formatClockTime(end) : formatDateTime(end)
+  return `${formatDateTime(start)}-${endText}`
 }
 
 function roomSelectionKey(roomCategoryId: string, roomId: string) {
@@ -617,10 +767,62 @@ function findRoomSelection(groups: OrderRoomSelectorGroup[], key: string): Entry
     roomCategoryName: group.roomCategoryName,
     roomId: room.roomId,
     roomName: room.roomName,
+    price: room.price ?? group.price,
+    unitPrice: room.unitPrice ?? group.unitPrice,
+    monthlyRent: room.monthlyRent ?? group.monthlyRent ?? room.price ?? group.price,
+  }
+}
+
+function resolveRoomSelectorRange(state: RoomSelectorModalState) {
+  const start = state.selectedStart || getTodayDateKey()
+  const end = state.mode === 'hourly' ? start : state.selectedEnd || start
+  return start <= end ? { start, end } : { start: end, end: start }
+}
+
+function resolveRoomSelectorStayType(mode: EntryOrderType) {
+  if (mode === 'hourly') return 'hourly_room'
+  if (mode === 'longRental') return 'long_rental'
+  return 'daily_room'
+}
+
+function applyHourlyRoomToSelectorState(state: RoomSelectorModalState, room: EntryStayRoom): RoomSelectorModalState {
+  const { start } = parseHourlyDateTimeRange(room.dateRange, room.quantity)
+  const selectedStart = formatDateKey(start)
+  const [selectedHour, selectedMinute] = formatClockTime(start).split(':')
+  return {
+    ...state,
+    open: true,
+    mode: 'hourly',
+    visibleMonth: getMonthKey(selectedStart),
+    selectedStart,
+    selectedEnd: selectedStart,
+    selectedHour,
+    selectedMinute,
+    selectingEnd: false,
+  }
+}
+
+function buildRoomSelectorQuery(state: RoomSelectorModalState, campId: string) {
+  const { start, end } = resolveRoomSelectorRange(state)
+  return {
+    campId,
+    startDate: start,
+    days: state.mode === 'hourly' ? 1 : Math.max(getNightCount(start, end), 1),
+    stayType: resolveRoomSelectorStayType(state.mode),
+    keyword: state.keyword,
   }
 }
 
 function applySelectionToStayRoom(room: EntryStayRoom, selection: EntryRoomSelection, dateRange: string): EntryStayRoom {
+  const isHourly = looksLikeHourlyDateRange(dateRange)
+  const { start, end } = parseStayDateRange(dateRange)
+  const quantity = isHourly ? Math.max(resolveCount(room.quantity, 1), 1) : Math.max(getNightCount(start, end), 1)
+  const selectedPrice = selection.price || room.price || '0'
+  const unitPrice = selection.unitPrice || formatPlainAmount(sanitizeAmount(selectedPrice) / quantity)
+  const price =
+    quantity > 1 && selection.unitPrice && sanitizeAmount(selectedPrice) === sanitizeAmount(selection.unitPrice)
+      ? calculateRoomTotalPrice(sanitizeAmount(selection.unitPrice), quantity)
+      : selectedPrice
   return {
     ...room,
     roomType: `${selection.roomCategoryName}（${selection.roomName}）`,
@@ -631,6 +833,9 @@ function applySelectionToStayRoom(room: EntryStayRoom, selection: EntryRoomSelec
     poiId: selection.poiId,
     poiName: selection.poiName,
     dateRange,
+    price,
+    unitPrice,
+    quantity: String(quantity),
     configured: true,
   }
 }
@@ -647,6 +852,7 @@ function applySelectionToLongRentalRoom(room: LongRentalRoom, selection: EntryRo
     poiName: selection.poiName,
     contractStart: start || room.contractStart,
     contractEnd: end || room.contractEnd,
+    monthlyRent: selection.monthlyRent || room.monthlyRent || '0',
   }
 }
 
@@ -708,6 +914,8 @@ function buildStayOrderPayload(type: EntryStayKind, form: EntryStayForm, campId:
     depositChargeMethod: form.depositChargeMethod,
     rooms: [
       {
+        roomCategoryId: room.roomCategoryId || undefined,
+        roomId: room.roomId || undefined,
         roomType: roomCategoryName || room.roomType,
         roomName,
         dateRange: room.dateRange,
@@ -766,6 +974,8 @@ function buildLongRentalOrderPayload(form: LongRentalEntryForm, campId: string) 
     extraFee: Math.round(summary.extras * 100),
     rooms: [
       {
+        roomCategoryId: room.roomCategoryId || undefined,
+        roomId: room.roomId || undefined,
         roomType: roomCategoryName || room.roomLabel,
         roomName,
         contractStart: room.contractStart,
@@ -901,13 +1111,88 @@ function OrderDetail({
   order,
   onClose,
   onBlockedAction,
+  onOrderCancelled,
+  onOrderSkippedStock,
 }: {
   order: OrderRow
   onClose: () => void
   onBlockedAction: (label: string) => void
+  onOrderCancelled: (orderNo: string, message: string) => void
+  onOrderSkippedStock: (orderNo: string, message: string) => void
 }) {
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
+  const [skipStockDialogOpen, setSkipStockDialogOpen] = useState(false)
+  const [isCancelling, setIsCancelling] = useState(false)
+  const [isSkippingStock, setIsSkippingStock] = useState(false)
+  const [localOrderStatus, setLocalOrderStatus] = useState(order.status)
+  const [localLiveStatus, setLocalLiveStatus] = useState(order.liveStatus)
+  const [localRoom, setLocalRoom] = useState(order.room)
+  const [localNeedsRoomAssignment, setLocalNeedsRoomAssignment] = useState(order.needsRoomAssignment)
+  const [localStockFlag, setLocalStockFlag] = useState(order.stockFlag)
+  const [localRoomFlag, setLocalRoomFlag] = useState(order.roomFlag)
+  const [operationMessage, setOperationMessage] = useState('')
   const collected = order.collected ?? order.totalRevenue
   const commission = order.commission ?? '0'
+  const isCancelled = localOrderStatus === '已取消' || localLiveStatus === '已取消'
+  const roomDisplayText = `${order.roomType}（${localRoom === '-' ? '未排房' : localRoom}）`
+
+  const handleCancelOrder = async () => {
+    const campId = resolveHouseOrderCampId()
+    if (!campId) {
+      setOperationMessage('缺少当前门店，无法取消订单')
+      return
+    }
+
+    setIsCancelling(true)
+    setOperationMessage('')
+    try {
+      const response = await cancelHouseOrder({
+        campId,
+        orderId: order.orderNo,
+        reason: '订单详情取消房单',
+      })
+      const message = response.message || '订单取消成功'
+      setLocalOrderStatus('已取消')
+      setLocalLiveStatus('已取消')
+      setCancelDialogOpen(false)
+      setOperationMessage(message)
+      onOrderCancelled(order.orderNo, message)
+    } catch (error) {
+      setOperationMessage(`取消房单失败：${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      setIsCancelling(false)
+    }
+  }
+
+  const handleSkipStockOrder = async () => {
+    const campId = resolveHouseOrderCampId()
+    if (!campId) {
+      setOperationMessage('缺少当前门店，无法设置不占库存')
+      return
+    }
+
+    setIsSkippingStock(true)
+    setOperationMessage('')
+    try {
+      const response = await skipStockHouseOrder({
+        campId,
+        orderId: order.orderNo,
+        reason: '订单详情不占库存',
+      })
+      const message = response.message || '订单已释放库存并取消排房'
+      setLocalRoom('-')
+      setLocalNeedsRoomAssignment(true)
+      setLocalStockFlag('')
+      setLocalRoomFlag('未排房')
+      setSkipStockDialogOpen(false)
+      setOperationMessage(message)
+      onOrderSkippedStock(order.orderNo, message)
+    } catch (error) {
+      setOperationMessage(`不占库存失败：${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      setIsSkippingStock(false)
+    }
+  }
 
   return (
     <div className="order-detail-backdrop" role="presentation" onClick={onClose}>
@@ -950,13 +1235,23 @@ function OrderDetail({
           <section className="order-room-card">
             <div className="order-room-card__title">
               <strong>
-                {order.roomType}（{order.room === '-' ? '未排房' : order.room}）
+                {roomDisplayText}
               </strong>
-              <span className={statusTone(order.liveStatus)}>{order.liveStatus}</span>
+              <span className={`order-status ${statusTone(localLiveStatus)}`}>{localLiveStatus}</span>
+            </div>
+            <div className="order-room-card__status-row">
+              <span>订单状态</span>
+              <strong className={`order-status ${statusTone(localOrderStatus)}`}>{localOrderStatus}</strong>
             </div>
             <p>{formatDateRange(order)}</p>
             <strong className="order-room-card__total">¥ {order.totalRevenue}</strong>
           </section>
+
+          {operationMessage ? (
+            <div className={`order-detail-operation-message ${operationMessage.includes('失败') ? 'is-error' : ''}`} role="status">
+              {operationMessage}
+            </div>
+          ) : null}
 
           <section className="order-detail-section">
             <h3>入住人（0/1）</h3>
@@ -988,7 +1283,7 @@ function OrderDetail({
               </div>
               <div role="row">
                 <div role="cell">
-                  {order.roomType}({order.room === '-' ? '未排房' : order.room})
+                  {order.roomType}({localRoom === '-' ? '未排房' : localRoom})
                 </div>
                 <div role="cell">{order.roomRevenueNet}</div>
               </div>
@@ -1032,11 +1327,28 @@ function OrderDetail({
             <span>创建人 无</span>
             <span>订单号 {order.orderNo}</span>
             <span>预订时间 {order.bookedAt.replace(/-/g, '.')}</span>
+            <span>占库存 {localStockFlag ? '占库存' : '不占库存'}</span>
+            <span>已排房 {localRoomFlag || (localNeedsRoomAssignment ? '未排房' : '已排房')}</span>
           </section>
 
           <section className="order-detail-actions" aria-label="订单操作">
             {['邀请登记', '邀请续住', '入住人', '延迟退房', '换房', '取消排房', '不占库存', '不计入统计', '设为续住单', '取消房单', '保洁', '打印'].map((action) => (
-              <button key={action} type="button" onClick={() => onBlockedAction(action)}>
+              <button
+                key={action}
+                type="button"
+                disabled={action === '取消房单' && (isCancelled || isCancelling)}
+                onClick={() => {
+                  if (action === '取消房单') {
+                    setCancelDialogOpen(true)
+                    return
+                  }
+                  if (action === '不占库存') {
+                    setSkipStockDialogOpen(true)
+                    return
+                  }
+                  onBlockedAction(action)
+                }}
+              >
                 {action}
               </button>
             ))}
@@ -1058,6 +1370,112 @@ function OrderDetail({
           <button type="button" onClick={() => onBlockedAction('入住')}>入住</button>
           <button type="button" onClick={() => onBlockedAction('退房')}>退房</button>
         </footer>
+
+        {cancelDialogOpen ? (
+          <div className="order-confirm-backdrop" role="presentation" onClick={() => setCancelDialogOpen(false)}>
+            <section
+              className="order-confirm-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-label="取消房单"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <header>
+                <strong>取消房单</strong>
+                <button type="button" aria-label="关闭取消房单" onClick={() => setCancelDialogOpen(false)}>
+                  ×
+                </button>
+              </header>
+              <div className="order-cancel-confirm">
+                <span className="order-cancel-confirm__icon" aria-hidden="true">
+                  !
+                </span>
+                <div>
+                  <strong>确定取消此房单吗？</strong>
+                  <p>取消后将释放房态，不可恢复，请谨慎操作</p>
+                  <dl>
+                    <div>
+                      <dt>房间信息</dt>
+                      <dd>
+                        {roomDisplayText}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>订单编号</dt>
+                      <dd>{order.orderNo}</dd>
+                    </div>
+                    <div>
+                      <dt>当前状态</dt>
+                      <dd>{localLiveStatus}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+              <footer>
+                <button type="button" onClick={() => setCancelDialogOpen(false)} disabled={isCancelling}>
+                  取消
+                </button>
+                <button type="button" className="is-primary" onClick={() => void handleCancelOrder()} disabled={isCancelling}>
+                  {isCancelling ? '取消中' : '确定'}
+                </button>
+              </footer>
+            </section>
+          </div>
+        ) : null}
+
+        {skipStockDialogOpen ? (
+          <div className="order-confirm-backdrop" role="presentation" onClick={() => setSkipStockDialogOpen(false)}>
+            <section
+              className="order-confirm-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-label="不占库存"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <header>
+                <strong>不占库存</strong>
+                <button type="button" aria-label="关闭不占库存" onClick={() => setSkipStockDialogOpen(false)}>
+                  ×
+                </button>
+              </header>
+              <div className="order-cancel-confirm order-skip-stock-confirm">
+                <span className="order-cancel-confirm__icon" aria-hidden="true">
+                  !
+                </span>
+                <div>
+                  <strong>订单将释放库存会同时取消排房，是否确定此操作？</strong>
+                  <p>确认后该订单不再占用当前房间库存，当前排房也会同步取消。</p>
+                  <button type="button" className="order-skip-stock-confirm__tag" onClick={() => onBlockedAction('添加标签')}>
+                    <span>添加标签：</span>
+                    <strong>+ 添加标签</strong>
+                  </button>
+                  <dl>
+                    <div>
+                      <dt>房间信息</dt>
+                      <dd>{roomDisplayText}</dd>
+                    </div>
+                    <div>
+                      <dt>订单编号</dt>
+                      <dd>{order.orderNo}</dd>
+                    </div>
+                    <div>
+                      <dt>当前状态</dt>
+                      <dd>{localLiveStatus}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+              <footer>
+                <button type="button" onClick={() => setSkipStockDialogOpen(false)} disabled={isSkippingStock}>
+                  取消
+                </button>
+                <button type="button" className="is-primary" onClick={() => void handleSkipStockOrder()} disabled={isSkippingStock}>
+                  {isSkippingStock ? '处理中' : '确定'}
+                </button>
+              </footer>
+            </section>
+          </div>
+        ) : null}
       </section>
     </div>
   )
@@ -1450,7 +1868,20 @@ function LongRentalOrdersPage() {
             <LongRentalSelect label="订单渠道" placeholder="全部" value={channel} options={options?.channels ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单渠道', value, setChannel)} />
             <LongRentalSelect label="订单房型" placeholder="全部" value={roomType} options={options?.roomTypes ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单房型', value, setRoomType)} />
             <LongRentalSelect label="入住状态" placeholder="全部" value={liveStatus} options={options?.liveStatuses ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('入住状态', value, setLiveStatus)} />
-            <LongRentalSelect label="订单门店" placeholder="全部" value={store} options={options?.stores ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={(value) => handleSelect('订单门店', value, setStore)} />
+            <label className="order-select-field order-select-field--store">
+              <span>订单门店</span>
+              <StoreSelectControl
+                label="订单门店"
+                className="order-store-select"
+                options={options?.stores ?? []}
+                value={store || 'all'}
+                disabled={isLoading}
+                onChange={(storeId) => {
+                  setOpenSelect(null)
+                  handleSelect('订单门店', storeId === 'all' ? '' : storeId, setStore)
+                }}
+              />
+            </label>
             <LongRentalSelect label="订单标签" placeholder="全部" value="" options={options?.tags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('订单标签筛选')} />
             <LongRentalSelect label="排房情况" placeholder="请选择排房情况" value="" options={options?.roomFlags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('排房情况筛选')} />
             <LongRentalSelect label="库存情况" placeholder="请选择占库存情况" value="" options={options?.stockFlags ?? []} openSelect={openSelect} setOpenSelect={setOpenSelect} onSelect={() => handleAction('库存情况筛选')} />
@@ -1966,11 +2397,16 @@ function StayOrderForm({
                       type="text"
                       value={room.price}
                       onChange={(event) =>
-                        updatePrimaryRoom((current) => ({
-                          ...current,
-                          price: event.target.value,
-                          quantity: current.quantity || '1',
-                        }))
+                        updatePrimaryRoom((current) => {
+                          const nextPrice = event.target.value
+                          const quantity = type === 'hourly' ? hourlyDuration : nightCount
+                          return {
+                            ...current,
+                            price: nextPrice,
+                            unitPrice: formatPlainAmount(sanitizeAmount(nextPrice) / Math.max(quantity, 1)),
+                            quantity: current.quantity || '1',
+                          }
+                        })
                       }
                     />
                   </label>
@@ -1979,10 +2415,9 @@ function StayOrderForm({
                       <button
                         type="button"
                         onClick={() =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            quantity: String(Math.max(resolveCount(current.quantity, 5) - 1, 1)),
-                          }))
+                          updatePrimaryRoom((current) =>
+                            updateStayRoomQuantity(current, Math.max(resolveCount(current.quantity, 5) - 1, 1), 5),
+                          )
                         }
                       >
                         −
@@ -1992,19 +2427,17 @@ function StayOrderForm({
                         min="1"
                         value={String(hourlyDuration)}
                         onChange={(event) =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            quantity: String(Math.max(resolveCount(event.target.value, 1), 1)),
-                          }))
+                          updatePrimaryRoom((current) =>
+                            updateStayRoomQuantity(current, Math.max(resolveCount(event.target.value, 1), 1), 1),
+                          )
                         }
                       />
                       <button
                         type="button"
                         onClick={() =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            quantity: String(Math.max(resolveCount(current.quantity, 5), 1) + 1),
-                          }))
+                          updatePrimaryRoom((current) =>
+                            updateStayRoomQuantity(current, Math.max(resolveCount(current.quantity, 5), 1) + 1, 5),
+                          )
                         }
                       >
                         +
@@ -2024,8 +2457,7 @@ function StayOrderForm({
                             startDate.setDate(startDate.getDate() + nextNightCount)
                             const end = startDate.toISOString().slice(0, 10).replace(/-/g, '.')
                             updatePrimaryRoom((current) => ({
-                              ...current,
-                              quantity: String(nextNightCount),
+                              ...updateStayRoomQuantity(current, nextNightCount),
                               dateRange: `${start.replace(/-/g, '.')} - ${end}`.replace(' - ', '-'),
                             }))
                           }}
@@ -2823,12 +3255,11 @@ function RoomSelectorModal({
 
   const filteredTypes = state.roomOptions.filter((roomType) => {
     const keyword = state.keyword.trim()
-    const matchesTag = !state.roomTag || state.roomTag === '全部房型'
     const matchesKeyword =
       !keyword ||
       roomType.roomCategoryName.includes(keyword) ||
       roomType.rooms.some((room) => room.roomName.includes(keyword))
-    return matchesTag && matchesKeyword
+    return matchesKeyword
   })
 
   return (
@@ -2977,14 +3408,6 @@ function RoomSelectorModal({
 
         <div className="room-selector-modal__content">
           <div className="room-selector-modal__toolbar">
-            <select value={state.roomTag} onChange={(event) => setState((current) => ({ ...current, roomTag: event.target.value }))}>
-              <option value="">请选择房型标签</option>
-              {roomTagOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
             <input
               type="text"
               value={state.keyword}
@@ -3014,17 +3437,7 @@ function RoomSelectorModal({
                       }))
                     }
                   >
-                    <label>
-                      <input
-                        type="checkbox"
-                        readOnly
-                        checked={
-                          roomType.rooms.every((room) => state.selectedRooms.includes(roomSelectionKey(roomType.roomCategoryId, room.roomId))) &&
-                          roomType.rooms.length > 0
-                        }
-                      />
-                      <span>{roomType.roomCategoryName}</span>
-                    </label>
+                    <span>{roomType.roomCategoryName}</span>
                     <span>{expanded ? '▼' : '▶'}</span>
                   </button>
                   {expanded ? (
@@ -3040,6 +3453,7 @@ function RoomSelectorModal({
                               onChange={(event) =>
                                 setState((current) => ({
                                   ...current,
+                                  error: '',
                                   selectedRooms: event.target.checked ? [id] : current.selectedRooms.filter((item) => item !== id),
                                 }))
                               }
@@ -3256,7 +3670,7 @@ function OrderEntryDrawer({
     try {
       await createOrder(buildStayOrderPayload(type, form, campId))
       if (type === 'hourly') {
-        setHourlyForm(() => createStayForm())
+        setHourlyForm(() => createStayForm('hourly'))
       } else {
         setFullDayForm(() => createStayForm())
       }
@@ -3337,7 +3751,7 @@ function OrderEntryDrawer({
               type="hourly"
               form={hourlyForm}
               setForm={setHourlyForm}
-              onOpenRoomSelector={() => setRoomSelectorModal((current) => ({ ...current, open: true, mode: 'hourly', selectedEnd: current.selectedStart, selectingEnd: false }))}
+              onOpenRoomSelector={() => setRoomSelectorModal((current) => applyHourlyRoomToSelectorState(current, hourlyForm.rooms[0] ?? createHourlyStayRoom()))}
               onOpenReminder={() => setReminderModal((current) => ({ ...current, open: true }))}
               onOpenTags={() => setTagSelectorModal((current) => ({ ...current, open: true }))}
               onSubmit={() => void handleStaySubmit('hourly')}
@@ -3361,18 +3775,13 @@ function OrderEntryDrawer({
         onClose={() => setRoomSelectorModal((current) => ({ ...current, open: false }))}
         onConfirm={() => {
           const selection = findRoomSelection(roomSelectorModal.roomOptions, roomSelectorModal.selectedRooms[0] ?? '')
-          const start = roomSelectorModal.selectedStart
-          const end = roomSelectorModal.selectedEnd || roomSelectorModal.selectedStart
+          const { start, end } = resolveRoomSelectorRange(roomSelectorModal)
           const nextDateRange = orderType === 'hourly'
-            ? `${(start || '2026-06-01').replace(/-/g, '.')} ${roomSelectorModal.selectedHour}:${roomSelectorModal.selectedMinute}`
-            : start && end
-              ? `${start.replace(/-/g, '.')}-${
-                  end.replace(/-/g, '.')
-                }`
-              : '2026.06.01-2026.06.02'
+            ? `${start.replace(/-/g, '.')} ${roomSelectorModal.selectedHour}:${roomSelectorModal.selectedMinute}`
+            : toDisplayDateRange(start, end)
 
           if (!selection) {
-            setRoomSelectorModal((current) => ({ ...current, open: false }))
+            setRoomSelectorModal((current) => ({ ...current, error: '请选择可用房间' }))
             return
           }
 
@@ -3447,6 +3856,157 @@ function OrderEntryDrawer({
   )
 }
 
+export function OrderEntryDrawerHost({
+  isOpen,
+  initialRoom,
+  onClose,
+  onCreated,
+  onActionMessage,
+}: {
+  isOpen: boolean
+  initialRoom?: OrderEntryInitialRoom | null
+  onClose: () => void
+  onCreated?: () => void
+  onActionMessage?: (message: string) => void
+}) {
+  const [entryOrderType, setEntryOrderType] = useState<EntryOrderType>('fullDay')
+  const [fullDayForm, setFullDayFormState] = useState<EntryStayForm>(() => createStayFormWithInitialRoom(initialRoom ?? undefined))
+  const [hourlyForm, setHourlyFormState] = useState<EntryStayForm>(() => createStayFormWithInitialRoom(initialRoom ?? undefined, 'hourly'))
+  const [longRentalForm, setLongRentalFormState] = useState<LongRentalEntryForm>(() => createLongRentalEntryForm(initialRoom ?? undefined))
+  const [roomSelectorModal, setRoomSelectorModalState] = useState<RoomSelectorModalState>(() => createRoomSelectorModalState(initialRoom ?? undefined))
+  const [reminderModal, setReminderModalState] = useState<ReminderModalState>(() => createReminderModalState())
+  const [tagSelectorModal, setTagSelectorModalState] = useState<TagSelectorModalState>(() => createTagSelectorModalState())
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) return
+    setEntryOrderType('fullDay')
+    setFullDayFormState(createStayFormWithInitialRoom(initialRoom ?? undefined))
+    setHourlyFormState(createStayFormWithInitialRoom(initialRoom ?? undefined, 'hourly'))
+    setLongRentalFormState(createLongRentalEntryForm(initialRoom ?? undefined))
+    setRoomSelectorModalState(createRoomSelectorModalState(initialRoom ?? undefined))
+    setReminderModalState(createReminderModalState())
+    setTagSelectorModalState(createTagSelectorModalState())
+    setIsSubmittingOrder(false)
+  }, [initialRoom, isOpen])
+
+  useEffect(() => {
+    if (!roomSelectorModal.open) return
+
+    const controller = new AbortController()
+    setRoomSelectorModalState((current) => ({
+      ...current,
+      isLoading: true,
+      error: '',
+    }))
+
+    async function loadRoomOptions() {
+      try {
+        const options = await fetchOrderRoomSelectorOptions(
+          buildRoomSelectorQuery(roomSelectorModal, resolveHouseOrderCampId()),
+          controller.signal,
+        )
+        if (controller.signal.aborted) return
+        const validSelectionKeys = new Set(
+          options.flatMap((group) => group.rooms.map((room) => roomSelectionKey(group.roomCategoryId, room.roomId))),
+        )
+        setRoomSelectorModalState((current) => ({
+          ...current,
+          roomOptions: options,
+          expandedRoomTypes: options.map((item) => item.roomCategoryId),
+          selectedRooms: current.selectedRooms.filter((item) => validSelectionKeys.has(item)),
+          isLoading: false,
+          error: '',
+        }))
+      } catch (requestError) {
+        if (controller.signal.aborted) return
+        setRoomSelectorModalState((current) => ({
+          ...current,
+          roomOptions: [],
+          expandedRoomTypes: [],
+          selectedRooms: [],
+          isLoading: false,
+          error: `房型房间加载失败：${requestError instanceof Error ? requestError.message : String(requestError)}`,
+        }))
+      }
+    }
+
+    void loadRoomOptions()
+    return () => controller.abort()
+  }, [
+    roomSelectorModal.open,
+    roomSelectorModal.mode,
+    roomSelectorModal.selectedStart,
+    roomSelectorModal.selectedEnd,
+    roomSelectorModal.selectedHour,
+    roomSelectorModal.selectedMinute,
+    roomSelectorModal.keyword,
+  ])
+
+  const setFullDayForm = useCallback<StayFormUpdater>((updater) => {
+    setFullDayFormState((current) => updater(current))
+  }, [])
+
+  const setHourlyForm = useCallback<StayFormUpdater>((updater) => {
+    setHourlyFormState((current) => updater(current))
+  }, [])
+
+  const setLongRentalForm = useCallback<LongRentalFormUpdater>((updater) => {
+    setLongRentalFormState((current) => updater(current))
+  }, [])
+
+  const setRoomSelectorModal = useCallback((updater: (current: RoomSelectorModalState) => RoomSelectorModalState) => {
+    setRoomSelectorModalState((current) => updater(current))
+  }, [])
+
+  const setReminderModal = useCallback((updater: (current: ReminderModalState) => ReminderModalState) => {
+    setReminderModalState((current) => updater(current))
+  }, [])
+
+  const setTagSelectorModal = useCallback((updater: (current: TagSelectorModalState) => TagSelectorModalState) => {
+    setTagSelectorModalState((current) => updater(current))
+  }, [])
+
+  const closeEntryDrawer = useCallback(() => {
+    setEntryOrderType('fullDay')
+    setFullDayFormState(createStayFormWithInitialRoom(initialRoom ?? undefined))
+    setHourlyFormState(createStayFormWithInitialRoom(initialRoom ?? undefined, 'hourly'))
+    setLongRentalFormState(createLongRentalEntryForm(initialRoom ?? undefined))
+    setRoomSelectorModalState(createRoomSelectorModalState(initialRoom ?? undefined))
+    setReminderModalState(createReminderModalState())
+    setTagSelectorModalState(createTagSelectorModalState())
+    setIsSubmittingOrder(false)
+    onClose()
+  }, [initialRoom, onClose])
+
+  return (
+    <OrderEntryDrawer
+      isOpen={isOpen}
+      orderType={entryOrderType}
+      fullDayForm={fullDayForm}
+      hourlyForm={hourlyForm}
+      longRentalForm={longRentalForm}
+      roomSelectorModal={roomSelectorModal}
+      reminderModal={reminderModal}
+      tagSelectorModal={tagSelectorModal}
+      onClose={closeEntryDrawer}
+      onTypeChange={setEntryOrderType}
+      setFullDayForm={setFullDayForm}
+      setHourlyForm={setHourlyForm}
+      setLongRentalForm={setLongRentalForm}
+      setRoomSelectorModal={setRoomSelectorModal}
+      setReminderModal={setReminderModal}
+      setTagSelectorModal={setTagSelectorModal}
+      onCreated={() => {
+        onCreated?.()
+      }}
+      setActionMessage={(message) => onActionMessage?.(message)}
+      isSubmitting={isSubmittingOrder}
+      setIsSubmitting={setIsSubmittingOrder}
+    />
+  )
+}
+
 const orderTypeByFilter: Record<string, string> = {
   全部: '',
   今日新单: '1',
@@ -3469,7 +4029,7 @@ function HouseOrdersPage() {
   const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false)
   const [entryOrderType, setEntryOrderType] = useState<EntryOrderType>('fullDay')
   const [fullDayForm, setFullDayFormState] = useState<EntryStayForm>(() => createStayForm())
-  const [hourlyForm, setHourlyFormState] = useState<EntryStayForm>(() => createStayForm())
+  const [hourlyForm, setHourlyFormState] = useState<EntryStayForm>(() => createStayForm('hourly'))
   const [longRentalForm, setLongRentalFormState] = useState<LongRentalEntryForm>(() => createLongRentalEntryForm())
   const [roomSelectorModal, setRoomSelectorModalState] = useState<RoomSelectorModalState>(() => createRoomSelectorModalState())
   const [reminderModal, setReminderModalState] = useState<ReminderModalState>(() => createReminderModalState())
@@ -3528,7 +4088,10 @@ function HouseOrdersPage() {
 
     async function loadRoomOptions() {
       try {
-        const options = await fetchOrderRoomSelectorOptions(resolveHouseOrderCampId(), controller.signal)
+        const options = await fetchOrderRoomSelectorOptions(
+          buildRoomSelectorQuery(roomSelectorModal, resolveHouseOrderCampId()),
+          controller.signal,
+        )
         if (controller.signal.aborted) return
         const validSelectionKeys = new Set(
           options.flatMap((group) => group.rooms.map((room) => roomSelectionKey(group.roomCategoryId, room.roomId))),
@@ -3556,7 +4119,15 @@ function HouseOrdersPage() {
 
     void loadRoomOptions()
     return () => controller.abort()
-  }, [roomSelectorModal.open])
+  }, [
+    roomSelectorModal.open,
+    roomSelectorModal.mode,
+    roomSelectorModal.selectedStart,
+    roomSelectorModal.selectedEnd,
+    roomSelectorModal.selectedHour,
+    roomSelectorModal.selectedMinute,
+    roomSelectorModal.keyword,
+  ])
 
   const filteredOrders = useMemo(() => {
     const trimmedKeyword = keyword.trim().toLowerCase()
@@ -3604,6 +4175,68 @@ function HouseOrdersPage() {
     setActionMessage(actionMessages[label] ?? `${label}操作已响应，请在订单详情中继续处理。`)
   }, [])
 
+  const handleOrderCancelled = useCallback((orderNo: string, message: string) => {
+    setData((current) => {
+      if (!current) return current
+      return {
+        ...current,
+        rows: current.rows.map((row) =>
+          row.orderNo === orderNo
+            ? {
+                ...row,
+                status: '已取消',
+                liveStatus: '已取消',
+              }
+            : row,
+        ),
+      }
+    })
+    setSelectedOrder((current) =>
+      current?.orderNo === orderNo
+        ? {
+            ...current,
+            status: '已取消',
+            liveStatus: '已取消',
+          }
+        : current,
+    )
+    setActionMessage(message)
+    setRequestRevision((value) => value + 1)
+  }, [])
+
+  const handleOrderSkippedStock = useCallback((orderNo: string, message: string) => {
+    setData((current) => {
+      if (!current) return current
+      return {
+        ...current,
+        rows: current.rows.map((row) =>
+          row.orderNo === orderNo
+            ? {
+                ...row,
+                room: '-',
+                stockFlag: '',
+                roomFlag: '未排房',
+                needsRoomAssignment: true,
+              }
+            : row,
+        ),
+      }
+    })
+    setSelectedOrder((current) =>
+      current?.orderNo === orderNo
+        ? {
+            ...current,
+            room: '-',
+            stockFlag: '',
+            roomFlag: '未排房',
+            needsRoomAssignment: true,
+          }
+        : current,
+    )
+    setActionMessage(message)
+    setRequestRevision((value) => value + 1)
+  }, [])
+
   const setFullDayForm = useCallback<StayFormUpdater>((updater) => {
     setFullDayFormState((current) => updater(current))
   }, [])
@@ -3638,7 +4271,7 @@ function HouseOrdersPage() {
     setIsEntryDrawerOpen(false)
     setEntryOrderType('fullDay')
     setFullDayFormState(createStayForm())
-    setHourlyFormState(createStayForm())
+    setHourlyFormState(createStayForm('hourly'))
     setLongRentalFormState(createLongRentalEntryForm())
     setRoomSelectorModalState(createRoomSelectorModalState())
     setReminderModalState(createReminderModalState())
@@ -3854,7 +4487,13 @@ function HouseOrdersPage() {
       </section>
 
       {selectedOrder ? (
-        <OrderDetail order={selectedOrder} onClose={() => setSelectedOrder(null)} onBlockedAction={handleBlockedAction} />
+        <OrderDetail
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+          onBlockedAction={handleBlockedAction}
+          onOrderCancelled={handleOrderCancelled}
+          onOrderSkippedStock={handleOrderSkippedStock}
+        />
       ) : null}
       <OrderEntryDrawer
         isOpen={isEntryDrawerOpen}

@@ -7,9 +7,15 @@ const screenshotDir = path.resolve(
   __dirname,
   '../artifacts/screenshots/dingdan--zhusu-dingdan--zhusu-dingdan',
 )
+const DAY_MS = 24 * 60 * 60 * 1000
 
 function appUrl(routePath: string) {
   return routePath.startsWith('/#') ? routePath : `/#${routePath}`
+}
+
+function addDaysToIso(dateKey: string, days: number) {
+  const date = new Date(`${dateKey}T00:00:00`)
+  return new Date(date.getTime() + days * DAY_MS).toISOString().slice(0, 10)
 }
 
 test.beforeEach(async ({ page }) => {
@@ -129,8 +135,60 @@ async function mockHouseOrderApiProvider(page: Page, payload = houseOrderPayload
   return requests
 }
 
+async function mockHouseOrderCancelApi(page: Page) {
+  const requests: Array<{ path: string; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/orders/*/cancel', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    const body = request.postDataJSON() as Record<string, unknown>
+    requests.push({ path: pathname, body })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          orderId: pathname.split('/')[2],
+          status: 'cancelled',
+          message: '订单取消成功',
+        },
+      }),
+    })
+  })
+
+  return requests
+}
+
+async function mockHouseOrderSkipStockApi(page: Page) {
+  const requests: Array<{ path: string; body: Record<string, unknown> }> = []
+
+  await page.route('**/api/orders/*/skip-stock', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    const body = request.postDataJSON() as Record<string, unknown>
+    requests.push({ path: pathname, body })
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          orderId: pathname.split('/')[2],
+          roomId: '',
+          roomName: '',
+          message: '订单已释放库存并取消排房',
+        },
+      }),
+    })
+  })
+
+  return requests
+}
+
 async function mockOrderRoomSelectorApi(page: Page) {
-  await page.route('**/api/rooms/get', async (route) => {
+  await page.route('**/api/roomStatuses/rooms/get', async (route) => {
+    const body = route.request().postDataJSON() as Record<string, unknown>
+    const stayType = String(body.stayType ?? 'daily_room')
+    const roomPrice = stayType === 'hourly_room' ? 88 : stayType === 'long_rental' ? 3600 : 268
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
@@ -140,9 +198,14 @@ async function mockOrderRoomSelectorApi(page: Page) {
             {
               roomCategoryId: '2061750967433125889',
               roomCategoryName: '特价单间',
+              poiId: '11001',
+              poiName: '路客云演示门店',
+              price: roomPrice,
+              salePrice: roomPrice,
+              monthlyRent: stayType === 'long_rental' ? roomPrice : undefined,
               rooms: [
-                { roomId: '2061750967445708801', roomName: '101' },
-                { roomId: '2061750967449903105', roomName: '102' },
+                { roomId: '2061750967445708801', roomName: '101', price: roomPrice, salePrice: roomPrice, monthlyRent: stayType === 'long_rental' ? roomPrice : undefined },
+                { roomId: '2061750967449903105', roomName: '102', price: roomPrice, salePrice: roomPrice, monthlyRent: stayType === 'long_rental' ? roomPrice : undefined },
               ],
             },
           ],
@@ -170,6 +233,67 @@ async function mockOrderRoomSelectorApi(page: Page) {
               poiName: '路客云演示门店',
             },
           ],
+        },
+      }),
+    })
+  })
+}
+
+async function mockOrderRoomSelectorApiWithoutInlinePrices(page: Page) {
+  await page.route('**/api/roomStatuses/rooms/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          roomCategoryRooms: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '鐗逛环鍗曢棿',
+              poiId: '11001',
+              poiName: '璺浜戞紨绀洪棬搴?',
+              rooms: [
+                { roomId: '2061750967445708801', roomName: '101' },
+                { roomId: '2061750967449903105', roomName: '102' },
+              ],
+            },
+          ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/roomCategoryStatuses/roomCategory/get', async (route) => {
+    const body = route.request().postDataJSON() as Record<string, unknown>
+    const startDate = String(body.date ?? '2026-06-05')
+    const days = Math.max(Number(body.days ?? 1), 1)
+    const priceByStayType: Record<string, number> = {
+      daily_room: 26800,
+      hourly_room: 8800,
+      long_rental: 360000,
+    }
+    const stayType = String(body.stayType ?? 'daily_room')
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          roomStatusViews: [
+            {
+              roomCategoryId: '2061750967433125889',
+              roomCategoryName: '鐗逛环鍗曢棿',
+              statusViews: Array.from({ length: days }, (_, index) => ({
+                date: addDaysToIso(startDate, index),
+                price:
+                  stayType === 'daily_room'
+                    ? index === 0
+                      ? priceByStayType.daily_room
+                      : 31800
+                    : priceByStayType[stayType] ?? priceByStayType.daily_room,
+              })),
+            },
+          ],
+          pageX: { total: 1, current: 1, pageNum: 1, pageSize: 10, hasNextPage: false },
         },
       }),
     })
@@ -285,6 +409,8 @@ test('/order/house-order/list supports captured search and detail interactions',
 })
 
 test('/order/house-order/list opens the order entry drawer from the primary action', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-06-05T15:20:00+08:00'))
+  await mockOrderRoomSelectorApi(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
 
@@ -295,6 +421,82 @@ test('/order/house-order/list opens the order entry drawer from the primary acti
   await expect(entryDrawer).toContainText('全日房')
   await expect(entryDrawer).toContainText('钟点房')
   await expect(entryDrawer).toContainText('长租房')
+
+  await entryDrawer.getByRole('button', { name: '+ 添加房间' }).click()
+  let roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.getByRole('checkbox', { name: '101' }).check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+  await expect(entryDrawer.locator('.order-entry-stay-room-price input')).toHaveValue('268')
+
+  await entryDrawer.getByRole('button', { name: '钟点房' }).click()
+  await entryDrawer.getByRole('button', { name: '+ 添加房间' }).click()
+  roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.getByRole('checkbox', { name: '101' }).check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+
+  await expect(entryDrawer.locator('.order-entry-stay-room-price input')).toHaveValue('88')
+  await expect(entryDrawer).toContainText('06-05 15:20-16:20')
+  await expect(entryDrawer).not.toContainText(/\d{2}-\d{2} \d{2}:\d{2}-\d{2}-\d{2} \d{2}:\d{2}/)
+
+  await entryDrawer.getByRole('button', { name: '长租房' }).click()
+  await entryDrawer.getByRole('button', { name: '请选择' }).click()
+  roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.getByRole('checkbox', { name: '101' }).check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+  await expect(entryDrawer.locator('.order-entry-long-table__input input').first()).toHaveValue('3600')
+})
+
+test('/order/house-order/list fills selected room price from room category status when room options omit prices', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-06-05T15:20:00+08:00'))
+  await mockOrderRoomSelectorApiWithoutInlinePrices(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
+
+  await page.locator('.order-filter-actions .order-primary-action').last().click()
+  const entryDrawer = page.locator('.order-entry-drawer')
+  await expect(entryDrawer).toBeVisible()
+
+  await entryDrawer.locator('.order-entry-link--add').click()
+  let roomSelector = page.locator('.order-entry-modal--room-selector')
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.locator('.order-entry-submit').click()
+  await expect(entryDrawer.locator('.order-entry-stay-room-price input')).toHaveValue('268')
+
+  await entryDrawer.locator('.order-entry-tabs button').nth(1).click()
+  await entryDrawer.locator('.order-entry-link--add').click()
+  roomSelector = page.locator('.order-entry-modal--room-selector')
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.locator('.order-entry-submit').click()
+  await expect(entryDrawer.locator('.order-entry-stay-room-price input')).toHaveValue('88')
+
+  await entryDrawer.locator('.order-entry-tabs button').nth(2).click()
+  await entryDrawer.locator('.order-entry-long-table__picker').click()
+  roomSelector = page.locator('.order-entry-modal--room-selector')
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.locator('.order-entry-submit').click()
+  await expect(entryDrawer.locator('.order-entry-long-table__input input').first()).toHaveValue('3600')
+})
+
+test('/order/house-order/list updates selected full-day room fee when stay nights change', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-06-05T15:20:00+08:00'))
+  await mockOrderRoomSelectorApiWithoutInlinePrices(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list?houseOrderProvider=mock'))
+
+  await page.locator('.order-filter-actions .order-primary-action').last().click()
+  const entryDrawer = page.locator('.order-entry-drawer')
+  await expect(entryDrawer).toBeVisible()
+
+  await entryDrawer.locator('.order-entry-link--add').click()
+  const roomSelector = page.locator('.order-entry-modal--room-selector')
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.locator('.order-entry-submit').click()
+
+  const priceInput = entryDrawer.locator('.order-entry-stay-room-price input')
+  await expect(priceInput).toHaveValue('268')
+  await entryDrawer.locator('.order-entry-stay-room-stepper input').first().fill('2')
+  await expect(priceInput).toHaveValue('536')
+  await expect(entryDrawer.locator('.order-entry-section-tip').first()).toContainText('536')
 })
 
 test('/order/house-order/list submits registered guests without frontend-only guest ids', async ({ page }) => {
@@ -394,7 +596,7 @@ test('/order/house-order/list submits selected real room category and room ids',
     })
   })
 
-  await page.route('**/api/rooms/get', async (route) => {
+  await page.route('**/api/roomStatuses/rooms/get', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
@@ -404,6 +606,8 @@ test('/order/house-order/list submits selected real room category and room ids',
             {
               roomCategoryId: '2061750967433125889',
               roomCategoryName: '特价单间',
+              poiId: '11001',
+              poiName: '路客云演示门店',
               rooms: [
                 { roomId: '2061750967445708801', roomName: '101' },
                 { roomId: '2061750967449903105', roomName: '102' },
@@ -434,6 +638,26 @@ test('/order/house-order/list submits selected real room category and room ids',
               poiName: '路客云演示门店',
             },
           ],
+        },
+      }),
+    })
+  })
+
+  await page.route('**/api/roomCategoryStatuses/roomCategory/get', async (route) => {
+    const body = route.request().postDataJSON() as Record<string, unknown>
+    const date = String(body.date ?? '2026-06-05')
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          roomStatusViews: [
+            {
+              roomCategoryId: '2061750967433125889',
+              statusViews: [{ date, price: 26800 }],
+            },
+          ],
+          pageX: { total: 1, current: 1, pageNum: 1, pageSize: 10, hasNextPage: false },
         },
       }),
     })
@@ -503,4 +727,144 @@ test('/order/house-order/list defaults to api provider with the local gateway re
   await page.getByRole('radio', { name: '今日预抵' }).click()
   await expect.poll(() => requests.length).toBeGreaterThan(initialRequestCount)
   expect(requests.at(-1)).toMatchObject({ campId: 'test-camp', orderType: '11' })
+})
+
+test('/order/house-order/list detail cancel action calls backend and marks order statuses cancelled', async ({ page }) => {
+  await mockHouseOrderApiProvider(page)
+  const cancelRequests = await mockHouseOrderCancelApi(page)
+
+  await page.goto(appUrl('/order/house-order/list?campId=10001'))
+  await page.getByRole('button', { name: '详情' }).nth(1).click()
+
+  const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await expect(drawer).toBeVisible()
+  await drawer.getByRole('button', { name: '取消房单' }).click()
+
+  const confirmDialog = page.getByRole('dialog', { name: '取消房单' })
+  await expect(confirmDialog).toContainText('确定取消此房单吗？')
+  await expect(confirmDialog).toContainText('取消后将释放房态，不可恢复，请谨慎操作')
+  await confirmDialog.getByRole('button', { name: '确定' }).click()
+
+  await expect.poll(() => cancelRequests.length).toBe(1)
+  expect(cancelRequests[0]).toMatchObject({
+    path: '/orders/2055103007337734146/cancel',
+    body: {
+      campId: '10001',
+      reason: '订单详情取消房单',
+    },
+  })
+  await expect(drawer).toContainText('订单取消成功')
+  await expect(drawer.getByText('已取消')).toHaveCount(2)
+})
+
+test('/order/house-order/list detail skip stock action releases inventory and cancels room arrangement', async ({ page }) => {
+  await mockHouseOrderApiProvider(page)
+  const skipStockRequests = await mockHouseOrderSkipStockApi(page)
+
+  await page.goto(appUrl('/order/house-order/list?campId=10001'))
+
+  const row = page.getByRole('row').filter({ hasText: '2055103007337734146' })
+  await row.getByRole('button', { name: '详情' }).click()
+
+  const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await drawer.getByRole('button', { name: '不占库存' }).click()
+
+  const confirmDialog = page.getByRole('dialog', { name: '不占库存' })
+  await expect(confirmDialog).toContainText('订单将释放库存会同时取消排房，是否确定此操作？')
+  await expect(confirmDialog).toContainText('添加标签')
+  await confirmDialog.getByRole('button', { name: '确定' }).click()
+
+  await expect.poll(() => skipStockRequests.length).toBe(1)
+  expect(skipStockRequests[0]).toMatchObject({
+    path: '/orders/2055103007337734146/skip-stock',
+    body: {
+      campId: '10001',
+      reason: '订单详情不占库存',
+    },
+  })
+  await expect(drawer).toContainText('订单已释放库存并取消排房')
+  await expect(drawer).toContainText('未排房')
+})
+
+test('/order/house-order/list renders checked-in order state as running and living', async ({ page }) => {
+  await mockHouseOrderApiProvider(page, {
+    success: true,
+    data: {
+      total: 2,
+      pageNum: 1,
+      pageSize: 20,
+      pages: 1,
+      hasNextPage: false,
+      list: [
+        {
+          orderId: 'CHECKIN-ORDER-001',
+          outOrderId: 'CHECKIN-OUT-001',
+          channelName: '路客云',
+          guestName: '入住中客人',
+          guestMobile: '13900000001',
+          orderState: 3,
+          refundDisplayState: 0,
+          includeCommissionRoomPrice: 268,
+          totalRoomPrice: 268,
+          otherPrice: 0,
+          orderTotalIncomePrice: 268,
+          debtPrice: 0,
+          bookedTime: 1778910741000,
+          orderDetailViews: [
+            {
+              poiName: '路客云演示门店',
+              roomCategoryName: '特价单间',
+              roomCategoryProductName: '全日房',
+              roomName: '101',
+              checkInDate: 1778943600000,
+              checkOutDate: 1779019200000,
+              orderDetailDisplayState: 2,
+              isArrangeRoom: 1,
+              isOccupation: 1,
+              isStatistics: 1,
+            },
+          ],
+        },
+        {
+          orderId: 'CHECKOUT-ORDER-001',
+          outOrderId: 'CHECKOUT-OUT-001',
+          channelName: '路客云',
+          guestName: '已退房客人',
+          guestMobile: '13900000002',
+          orderState: 4,
+          refundDisplayState: 0,
+          includeCommissionRoomPrice: 268,
+          totalRoomPrice: 268,
+          otherPrice: 0,
+          orderTotalIncomePrice: 268,
+          debtPrice: 0,
+          bookedTime: 1778910741000,
+          orderDetailViews: [
+            {
+              poiName: '路客云演示门店',
+              roomCategoryName: '特价单间',
+              roomCategoryProductName: '全日房',
+              roomName: '102',
+              checkInDate: 1778943600000,
+              checkOutDate: 1779019200000,
+              orderDetailDisplayState: 3,
+              isArrangeRoom: 1,
+              isOccupation: 1,
+              isStatistics: 1,
+            },
+          ],
+        },
+      ],
+    },
+  })
+
+  await page.goto(appUrl('/order/house-order/list?campId=10001'))
+
+  const row = page.getByRole('row').filter({ hasText: 'CHECKIN-ORDER-001' })
+  await expect(row.locator('.order-status').nth(0)).toHaveText('进行中')
+  await expect(row.locator('.order-status').nth(1)).toHaveText('入住中')
+
+  const checkedOutRow = page.getByRole('row').filter({ hasText: 'CHECKOUT-ORDER-001' })
+  await expect(checkedOutRow.locator('.order-status').nth(0)).toHaveText('已完成')
+  await expect(checkedOutRow.locator('.order-status').nth(1)).toHaveText('已退房')
 })

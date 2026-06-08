@@ -5,22 +5,52 @@ import type { Page } from '@playwright/test'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appBaseURL = process.env.PMS_TEST_BASE_URL
+const PRESALE_TEST_CAMP_ID = '1796067693589061634'
 
 function appUrl(routePath: string) {
   return appBaseURL ? `${appBaseURL}${routePath}` : routePath
 }
 
+function presaleOrderUrl() {
+  return appUrl('/#/mallManagement/orderManagement')
+}
+
+async function installPresaleTestSession(
+  page: Page,
+  options: { provider?: 'real' | 'mock'; mockState?: 'success' | 'empty' | 'error' } = {},
+) {
+  await page.addInitScript(
+    ({ campId, provider, mockState }) => {
+      window.localStorage.setItem('pms_token', 'presale-order-test-token')
+      window.localStorage.setItem('pmsCampId', campId)
+      window.localStorage.setItem(
+        'pms_user',
+        JSON.stringify({
+          id: 'presale-order-test-user',
+          name: '预售券测试账号',
+          mobile: '13800000001',
+          roleName: '平台管理员',
+          campName: '预售券测试门店',
+        }),
+      )
+      if (provider) window.localStorage.setItem('pmsPresaleOrderProvider', provider)
+      if (mockState) window.localStorage.setItem('pmsPresaleOrderMockState', mockState)
+    },
+    { campId: PRESALE_TEST_CAMP_ID, provider: options.provider, mockState: options.mockState },
+  )
+}
+
 async function mockPresaleSupportApis(page: Page) {
-  await page.route('https://hudson-prod.localhome.cn/camps/get', async (route) => {
+  await page.route('**/api/camps/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
-        data: { camps: [{ campId: '1796067693589061634', name: '测试门店' }] },
+        data: { camps: [{ campId: PRESALE_TEST_CAMP_ID, name: '测试门店' }] },
       },
     })
   })
 
-  await page.route('https://hudson-prod.localhome.cn/channels/get', async (route) => {
+  await page.route('**/api/channels/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -34,7 +64,7 @@ async function mockPresaleSupportApis(page: Page) {
     })
   })
 
-  await page.route('https://hudson-prod.localhome.cn/categories/get', async (route) => {
+  await page.route('**/api/categories/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -47,7 +77,7 @@ async function mockPresaleSupportApis(page: Page) {
     })
   })
 
-  await page.route('https://hudson-prod.localhome.cn/paymentTypes/get/v2', async (route) => {
+  await page.route('**/api/paymentTypes/get/v2', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -66,14 +96,12 @@ async function mockPresaleSupportApis(page: Page) {
 }
 
 test('/mallManagement/orderManagement uses captured real request contract and exposes interactions', async ({ page }) => {
-  await page.addInitScript(() => {
-    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
-  })
+  await installPresaleTestSession(page, { provider: 'real' })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
 
   const requestBodies: Record<string, unknown>[] = []
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     requestBodies.push(route.request().postDataJSON() as Record<string, unknown>)
     await route.fulfill({
       json: {
@@ -111,7 +139,7 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
     })
   })
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   await expect(page.getByRole('heading', { name: '预售券订单', level: 1 })).toBeVisible()
   await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'real')
@@ -163,10 +191,11 @@ test('/mallManagement/orderManagement uses captured real request contract and ex
 })
 
 test('/mallManagement/orderManagement keeps action and pagination buttons beneath the chat dock overlay', async ({ page }) => {
+  await installPresaleTestSession(page, { provider: 'mock' })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
 
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -243,7 +272,7 @@ test('/mallManagement/orderManagement keeps action and pagination buttons beneat
     })
   })
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   const chatDock = page.locator('.chat-dock')
   const detailButtons = page.locator('.presale-order-row button')
@@ -281,10 +310,11 @@ test('/mallManagement/orderManagement keeps action and pagination buttons beneat
 })
 
 test('/mallManagement/orderManagement keeps toolbar quick links beneath the chat dock overlay', async ({ page }) => {
+  await installPresaleTestSession(page, { provider: 'mock' })
   await page.setViewportSize({ width: 1440, height: 520 })
   await mockPresaleSupportApis(page)
 
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -361,7 +391,7 @@ test('/mallManagement/orderManagement keeps toolbar quick links beneath the chat
     })
   })
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   const chatDock = page.locator('.chat-dock')
   const quickLinkButton = page.getByRole('button', { name: '卡券核销' })
@@ -393,19 +423,17 @@ test('/mallManagement/orderManagement keeps toolbar quick links beneath the chat
 })
 
 test('/mallManagement/orderManagement exposes request failures without fake success', async ({ page }) => {
-  await page.addInitScript(() => {
-    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
-  })
+  await installPresaleTestSession(page, { provider: 'real' })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     await route.fulfill({
       status: 403,
       json: { success: false, errorMsg: '无权限访问预售券订单' },
     })
   })
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   await expect(page.getByRole('alert')).toContainText('无权限访问预售券订单')
   await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无符合条件的订单')
@@ -413,12 +441,10 @@ test('/mallManagement/orderManagement exposes request failures without fake succ
 })
 
 test('/mallManagement/orderManagement renders explicit empty state for real empty list', async ({ page }) => {
-  await page.addInitScript(() => {
-    window.localStorage.setItem('pmsPresaleOrderProvider', 'real')
-  })
+  await installPresaleTestSession(page, { provider: 'real' })
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockPresaleSupportApis(page)
-  await page.route('https://hudson-prod.localhome.cn/orders/page/get', async (route) => {
+  await page.route('**/api/orders/page/get', async (route) => {
     await route.fulfill({
       json: {
         success: true,
@@ -427,21 +453,30 @@ test('/mallManagement/orderManagement renders explicit empty state for real empt
     })
   })
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无数据')
   await expect(page.getByLabel('预售券订单分页')).toContainText('共 0 条')
 })
 
 test('/mallManagement/orderManagement uses explicit mock provider response packages by default', async ({ page }) => {
+  await installPresaleTestSession(page, { provider: 'mock' })
   await page.setViewportSize({ width: 1440, height: 900 })
   const hudsonRequests: string[] = []
-  await page.route('https://hudson-prod.localhome.cn/**', async (route) => {
-    hudsonRequests.push(route.request().url())
-    await route.fulfill({ status: 500, json: { success: false, errorMsg: 'default mock should not call hudson' } })
-  })
+  for (const endpoint of [
+    '**/api/orders/page/get',
+    '**/api/camps/get',
+    '**/api/channels/get',
+    '**/api/categories/get',
+    '**/api/paymentTypes/get/v2',
+  ]) {
+    await page.route(endpoint, async (route) => {
+      hudsonRequests.push(route.request().url())
+      await route.fulfill({ status: 500, json: { success: false, errorMsg: 'default mock should not call hudson' } })
+    })
+  }
 
-  await page.goto(appUrl('/mallManagement/orderManagement'))
+  await page.goto(presaleOrderUrl())
 
   await expect(page.getByRole('heading', { name: '预售券订单', level: 1 })).toBeVisible()
   await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'mock')
@@ -456,14 +491,16 @@ test('/mallManagement/orderManagement uses explicit mock provider response packa
 })
 
 test('/mallManagement/orderManagement supports mock empty and error states with business copy', async ({ page }) => {
+  await installPresaleTestSession(page, { provider: 'mock', mockState: 'empty' })
   await page.setViewportSize({ width: 1440, height: 900 })
 
-  await page.goto(appUrl('/mallManagement/orderManagement?mockState=empty'))
+  await page.goto(presaleOrderUrl())
   await expect(page.getByTestId('presale-order-service-contract')).toHaveAttribute('data-provider', 'mock')
   await expect(page.getByRole('status', { name: '预售券订单空态' })).toContainText('暂无数据')
   await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)
 
-  await page.goto(appUrl('/mallManagement/orderManagement?mockState=error'))
+  await page.evaluate(() => window.localStorage.setItem('pmsPresaleOrderMockState', 'error'))
+  await page.getByRole('button', { name: '刷 新' }).click()
   await expect(page.getByRole('alert')).toContainText('预售券订单加载失败')
   await expect(page.getByRole('button', { name: '刷 新' })).toBeVisible()
   await expect(page.locator('.presale-order-page')).not.toContainText(/mock|provider|traceId|未接入|阻塞|后端/i)

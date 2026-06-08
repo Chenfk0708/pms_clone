@@ -8,6 +8,8 @@ import {
   type StatementOrderRow,
   type StatementOrderStoreScope,
 } from '../services/statementOrder'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './StatementOrderPage.css'
 
 const columns = [
@@ -31,7 +33,9 @@ const columns = [
 type RequestReason = 'initial' | 'query' | 'reset' | 'retry'
 
 export function StatementOrderPage() {
-  const stores = getStatementOrderStoreOptions()
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: getStatementOrderStoreOptions().map((store) => ({ id: store.id, label: store.label })),
+  })
   const [selectedScope, setSelectedScope] = useState<StatementOrderStoreScope>('all')
   const [submittedScope, setSubmittedScope] = useState<StatementOrderStoreScope>('all')
   const [reloadToken, setReloadToken] = useState(0)
@@ -115,19 +119,14 @@ export function StatementOrderPage() {
       </div>
 
       <section className="statement-order-toolbar" aria-label="品牌小程序订单筛选">
-        <div className="statement-order-store" role="group" aria-label="门店">
-          {stores.map((store) => (
-            <button
-              key={store.id}
-              type="button"
-              aria-pressed={selectedScope === store.id}
-              className={selectedScope === store.id ? 'is-active' : ''}
-              onClick={() => setSelectedScope(store.id)}
-            >
-              {store.label}
-            </button>
-          ))}
-        </div>
+        <StoreSelectControl
+          className="statement-order-store"
+          label="门店"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={selectedScope}
+          disabled={storeLoading}
+          onChange={(storeId) => setSelectedScope(storeId)}
+        />
 
         <div className="statement-order-actions">
           <button type="button" className="is-outline" disabled={isLoading || isExporting} onClick={resetFilters}>
@@ -245,12 +244,12 @@ function formatAmount(value: number) {
 }
 
 function formatScopeText(scope: StatementOrderStoreScope) {
-  return scope === 'current' ? '当前门店' : '全部门店'
+  return scope === 'all' ? '全部门店' : '所选门店'
 }
 
 function resolveSuccessNotice(reason: RequestReason, scope: StatementOrderStoreScope) {
   if (reason === 'initial') return ''
   if (reason === 'reset') return '已恢复默认筛选条件'
   if (reason === 'retry') return '已重新加载品牌小程序订单'
-  return scope === 'current' ? '已按当前门店刷新品牌小程序订单' : '已按全部门店刷新品牌小程序订单'
+  return scope === 'all' ? '已按全部门店刷新品牌小程序订单' : '已按所选门店刷新品牌小程序订单'
 }

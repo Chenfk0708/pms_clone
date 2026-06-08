@@ -8,10 +8,12 @@ import {
   type CalendarRoomRow,
   type CalendarRoomViewModel,
 } from '../services/calendarRoom'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CalendarRoomPage.css'
 
 type FilterKey = 'channel' | 'status'
-type OpenMenuKey = FilterKey | 'store'
+type OpenMenuKey = FilterKey
 type DialogState =
   | { type: 'detail'; product: CalendarRoomProduct }
   | { type: 'price'; product: CalendarRoomProduct }
@@ -19,6 +21,7 @@ type DialogState =
   | null
 
 const DEFAULT_QUERY: CalendarRoomQuery = {
+  storeId: 'all',
   keyword: '',
   channel: '',
   status: '全部',
@@ -91,11 +94,12 @@ function CalendarRoomListPage() {
     return () => controller.abort()
   }, [query, locationQuery])
 
-  const storeOptions = viewModel?.storeOptions ?? []
-  const realStoreOptions = storeOptions.filter((store) => store.id !== 'all')
-  const defaultStore = storeOptions.find((store) => store.id !== 'all') ?? storeOptions[0]
-  const selectedStore = storeOptions.find((store) => store.id === selectedStoreId) ?? defaultStore
-  const canSwitchStore = realStoreOptions.length > 1
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (viewModel?.storeOptions ?? [{ id: 'all', name: '全部门店' }]).map((store) => ({
+      id: store.id,
+      label: store.name,
+    })),
+  })
 
   function applyFilter(key: FilterKey, value: string) {
     setIsLoading(true)
@@ -106,6 +110,9 @@ function CalendarRoomListPage() {
 
   function applyStore(storeId: string) {
     setSelectedStoreId(storeId)
+    setIsLoading(true)
+    setErrorMessage('')
+    setQuery((current) => ({ ...current, storeId, page: 1 }))
     setOpenFilter(null)
   }
 
@@ -121,6 +128,7 @@ function CalendarRoomListPage() {
     setIsLoading(true)
     setErrorMessage('')
     setQuery({ ...DEFAULT_QUERY, ...locationQuery })
+    setSelectedStoreId('all')
     setOpenFilter(null)
     setNotice('筛选条件已重置')
   }
@@ -170,55 +178,16 @@ function CalendarRoomListPage() {
 
       <section className="calendar-room-query" aria-label="日历房筛选">
         <div className="calendar-room-query__top">
-          <div className="calendar-room-storebar" aria-label="门店切换">
-            <button
-              type="button"
-              className={`calendar-room-storebar__tab${selectedStoreId === 'all' ? ' is-active' : ''}`}
-              onClick={() => applyStore('all')}
-            >
-              全部门店
-            </button>
-            <div className="calendar-room-storebar__current">
-              <button
-                type="button"
-                className={`calendar-room-storebar__tab${selectedStoreId !== 'all' ? ' is-active' : ''}`}
-                aria-haspopup={canSwitchStore ? 'listbox' : undefined}
-                aria-expanded={canSwitchStore ? openFilter === 'store' : undefined}
-                onClick={() => {
-                  if (!canSwitchStore) {
-                    if (defaultStore?.id) applyStore(defaultStore.id)
-                    return
-                  }
-                  setOpenFilter(openFilter === 'store' ? null : 'store')
-                }}
-              >
-                {defaultStore?.name ?? '加载门店中'}
-              </button>
-              {canSwitchStore && openFilter === 'store' ? (
-                <div className="calendar-room-storebar__options" role="listbox" aria-label="门店列表">
-                  {realStoreOptions.map((store) => (
-                    <button
-                      key={store.id}
-                      type="button"
-                      role="option"
-                      aria-selected={selectedStoreId === store.id}
-                      onClick={() => applyStore(store.id)}
-                    >
-                      {store.name}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-            <button
-              type="button"
-              className="calendar-room-storebar__setting"
-              aria-label="门店设置"
-              onClick={() => navigate('/InformationMaintenance/campInfo')}
-            >
-              ⚙
-            </button>
-          </div>
+          <StoreSelectControl
+            className="calendar-room-storebar"
+            label="门店切换"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={selectedStoreId}
+            disabled={storeLoading}
+            onChange={applyStore}
+            settingsLabel="门店设置"
+            onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+          />
           <div className="calendar-room-query__actions">
             <button type="button" onClick={() => navigate(viewModel?.routeTargets.roomTypeList ?? '/setting/roomTypeInfo')}>
               房型管理

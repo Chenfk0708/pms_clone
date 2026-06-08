@@ -1,4 +1,15 @@
-export type CellTone = 'free' | 'blank' | 'sold' | 'disabled' | 'booking-blue' | 'booking-gold' | 'booking-teal'
+export type CellTone =
+  | 'free'
+  | 'blank'
+  | 'sold'
+  | 'disabled'
+  | 'booking-blue'
+  | 'booking-gold'
+  | 'booking-teal'
+  | 'booking-pending'
+  | 'booking-live'
+  | 'booking-checkout'
+  | 'booking-duplicate'
 
 export interface MonthDateColumn {
   fullDate: string
@@ -16,11 +27,18 @@ export interface MonthCell {
   stayRange?: string
   totalIncome?: string
   liveStatus?: string
+  createdAt?: string
+  bookingAt?: string
+  checkInAt?: string
+  checkOutAt?: string
+  guestRegisteredAt?: string
+  checkedOutAt?: string
   phone?: string
   remark?: string
   orderId?: string
   badge?: string
   tone: CellTone
+  channelTone?: CellTone
 }
 
 export interface MonthRoomGroup {
@@ -31,6 +49,8 @@ export interface MonthRoomGroup {
   roomLabel: string
   roomCategoryId?: string
   roomId: string
+  price?: string
+  monthlyRent?: string
   typeCells: MonthCell[]
   roomCells: MonthCell[]
 }
@@ -50,6 +70,65 @@ export interface HouseMonthsFilters {
   days: number
   queryCode?: string
   roomCategoryId?: string
+  provider?: HouseMonthsProviderName
+}
+
+export interface HouseMonthsCloseRoomRequest {
+  campId: string
+  roomCategoryId: string
+  roomId: string
+  date: string
+  reason?: string
+}
+
+export interface HouseMonthsCloseRoomResponse {
+  roomCategoryId: string
+  roomId: string
+  date: string
+  reason?: string
+  message?: string
+}
+
+export type HouseMonthsOpenRoomRequest = HouseMonthsCloseRoomRequest
+export type HouseMonthsOpenRoomResponse = HouseMonthsCloseRoomResponse
+
+export interface HouseMonthOrderGuestSaveItem {
+  guestName: string
+  guestMobile?: string
+  guestIdCardType: string
+  guestIdCard?: string
+  guestType?: string
+}
+
+export interface HouseMonthOrderActionResponse {
+  orderId: string
+  status?: string
+  guestCount?: number
+  roomId?: string
+  roomName?: string
+  roomCategoryId?: string
+  roomCategoryName?: string
+  guestRegisteredAt?: string
+  checkedOutAt?: string
+  message?: string
+}
+
+export interface HouseMonthChangeRoomOption {
+  roomId: string
+  roomName: string
+  roomCategoryId?: string
+  roomCategoryName?: string
+  poiId?: string
+  poiName?: string
+}
+
+export interface HouseMonthChangeRoomOptionsResponse {
+  orderId: string
+  roomId?: string
+  roomName?: string
+  roomCategoryId?: string
+  roomCategoryName?: string
+  rooms: HouseMonthChangeRoomOption[]
 }
 
 const HUDSON_API_BASE = '/api'
@@ -67,7 +146,8 @@ const REQUEST_PATHS = [
 ] as const
 
 export async function fetchHouseMonthsSnapshot(filters: HouseMonthsFilters, columns: MonthDateColumn[]): Promise<HouseMonthsSnapshot> {
-  if (resolveHouseMonthsProviderName() === 'mock') {
+  const providerName = filters.provider ?? resolveHouseMonthsProviderName()
+  if (providerName === 'mock') {
     return fetchMockHouseMonthsSnapshot(filters, columns)
   }
 
@@ -76,9 +156,11 @@ export async function fetchHouseMonthsSnapshot(filters: HouseMonthsFilters, colu
     REQUEST_PATHS.map((requestPath) => postHudsonJson(requestPath, payload)),
   )
 
+  const rows = adaptHouseMonthsRows({ rooms, occ, inv, block, dailyMonitor, redDot, orderDetails }, columns)
+
   return {
-    rows: adaptHouseMonthsRows({ rooms, occ, inv, block, dailyMonitor, redDot, orderDetails }, columns),
-    columns: adaptHouseMonthsColumns(dailyMonitor, columns),
+    rows,
+    columns: adaptHouseMonthsColumns(dailyMonitor, columns, rows),
     requestPaths: [...REQUEST_PATHS],
   }
 }
@@ -98,6 +180,155 @@ export async function fetchHouseMonthsDefaultCampId() {
     throw new Error('/camps/get 缺少可用 campId')
   }
   return campId
+}
+
+export async function closeHouseMonthRoom(request: HouseMonthsCloseRoomRequest): Promise<HouseMonthsCloseRoomResponse> {
+  const data = await postHudsonJson('/roomStatuses/close/save', {
+    campId: request.campId,
+    roomCategoryId: request.roomCategoryId,
+    roomId: request.roomId,
+    date: request.date,
+    reason: request.reason,
+  })
+  if (!isRecord(data)) {
+    throw new Error('/roomStatuses/close/save 响应缺少 data')
+  }
+  return {
+    roomCategoryId: pickString(data, ['roomCategoryId']) || request.roomCategoryId,
+    roomId: pickString(data, ['roomId']) || request.roomId,
+    date: pickString(data, ['date']) || request.date,
+    reason: pickString(data, ['reason']) || request.reason,
+    message: pickString(data, ['message']) || '关房成功',
+  }
+}
+
+export async function openHouseMonthRoom(request: HouseMonthsOpenRoomRequest): Promise<HouseMonthsOpenRoomResponse> {
+  const data = await postHudsonJson('/roomStatuses/open/save', {
+    campId: request.campId,
+    roomCategoryId: request.roomCategoryId,
+    roomId: request.roomId,
+    date: request.date,
+    reason: request.reason,
+  })
+  if (!isRecord(data)) {
+    throw new Error('/roomStatuses/open/save 响应缺少 data')
+  }
+  return {
+    roomCategoryId: pickString(data, ['roomCategoryId']) || request.roomCategoryId,
+    roomId: pickString(data, ['roomId']) || request.roomId,
+    date: pickString(data, ['date']) || request.date,
+    reason: pickString(data, ['reason']) || request.reason,
+    message: pickString(data, ['message']) || '开房成功',
+  }
+}
+
+export async function saveHouseMonthOrderGuests(request: {
+  campId: string
+  orderId: string
+  guests: HouseMonthOrderGuestSaveItem[]
+}): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/guests/save`, {
+    campId: request.campId,
+    guests: request.guests,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '入住人保存成功')
+}
+
+export async function checkInHouseMonthOrder(request: { campId: string; orderId: string }): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/check-in`, {
+    campId: request.campId,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '办理入住成功')
+}
+
+export async function checkOutHouseMonthOrder(request: { campId: string; orderId: string }): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/check-out`, {
+    campId: request.campId,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '办理退房成功')
+}
+
+export async function cancelHouseMonthOrder(request: {
+  campId: string
+  orderId: string
+  reason?: string
+}): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/cancel`, {
+    campId: request.campId,
+    reason: request.reason,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '订单取消成功')
+}
+
+export async function skipStockHouseMonthOrder(request: {
+  campId: string
+  orderId: string
+  reason?: string
+}): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/skip-stock`, {
+    campId: request.campId,
+    reason: request.reason,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '订单已释放库存并取消排房')
+}
+
+export async function fetchHouseMonthChangeRoomOptions(request: {
+  campId: string
+  orderId: string
+}): Promise<HouseMonthChangeRoomOptionsResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/change-room/options`, {
+    campId: request.campId,
+  })
+  if (!isRecord(data)) {
+    throw new Error('换房房间响应缺少 data')
+  }
+  return {
+    orderId: pickString(data, ['orderId', 'id']) || request.orderId,
+    roomId: pickString(data, ['roomId']),
+    roomName: pickString(data, ['roomName']),
+    roomCategoryId: pickString(data, ['roomCategoryId']),
+    roomCategoryName: pickString(data, ['roomCategoryName']),
+    rooms: toArray(data.rooms).map((room) => ({
+      roomId: pickString(room, ['roomId', 'id']) || '',
+      roomName: pickString(room, ['roomName', 'name']) || '',
+      roomCategoryId: pickString(room, ['roomCategoryId']),
+      roomCategoryName: pickString(room, ['roomCategoryName']),
+      poiId: pickString(room, ['poiId', 'storeId']),
+      poiName: pickString(room, ['poiName', 'storeName']),
+    })).filter((room) => room.roomId && room.roomName),
+  }
+}
+
+export async function changeHouseMonthOrderRoom(request: {
+  campId: string
+  orderId: string
+  roomId: string
+  reason?: string
+}): Promise<HouseMonthOrderActionResponse> {
+  const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/change-room`, {
+    campId: request.campId,
+    roomId: request.roomId,
+    reason: request.reason,
+  })
+  return adaptHouseMonthOrderActionResponse(data, request.orderId, '换房成功')
+}
+
+function adaptHouseMonthOrderActionResponse(data: unknown, fallbackOrderId: string, fallbackMessage: string): HouseMonthOrderActionResponse {
+  if (!isRecord(data)) {
+    throw new Error('订单操作响应缺少 data')
+  }
+  return {
+    orderId: pickString(data, ['orderId', 'id']) || fallbackOrderId,
+    status: pickString(data, ['status', 'orderStatus', 'liveStatus']),
+    guestCount: pickNumber(data, ['guestCount']),
+    roomId: pickString(data, ['roomId']),
+    roomName: pickString(data, ['roomName']),
+    roomCategoryId: pickString(data, ['roomCategoryId']),
+    roomCategoryName: pickString(data, ['roomCategoryName']),
+    guestRegisteredAt: pickString(data, ['guestRegisteredAt', 'guest_registered_at']),
+    checkedOutAt: pickString(data, ['checkedOutAt', 'checked_out_at']),
+    message: pickString(data, ['message']) || fallbackMessage,
+  }
 }
 
 function buildPayload(filters: HouseMonthsFilters) {
@@ -153,20 +384,23 @@ async function fetchMockHouseMonthsSnapshot(filters: HouseMonthsFilters, columns
       ? mockEmptyHouseMonthsBundle()
       : mockSuccessHouseMonthsBundle(payload, columns)
 
+  const dailyMonitor = unwrapHouseMonthsEnvelope(bundle.dailyMonitor)
+  const rows = adaptHouseMonthsRows(
+    {
+      rooms: unwrapHouseMonthsEnvelope(bundle.rooms),
+      occ: unwrapHouseMonthsEnvelope(bundle.occ),
+      inv: unwrapHouseMonthsEnvelope(bundle.inv),
+      block: unwrapHouseMonthsEnvelope(bundle.block),
+      dailyMonitor,
+      redDot: unwrapHouseMonthsEnvelope(bundle.redDot),
+      orderDetails: unwrapHouseMonthsEnvelope(bundle.orderDetails),
+    },
+    columns,
+  )
+
   return {
-    rows: adaptHouseMonthsRows(
-      {
-        rooms: unwrapHouseMonthsEnvelope(bundle.rooms),
-        occ: unwrapHouseMonthsEnvelope(bundle.occ),
-        inv: unwrapHouseMonthsEnvelope(bundle.inv),
-        block: unwrapHouseMonthsEnvelope(bundle.block),
-        dailyMonitor: unwrapHouseMonthsEnvelope(bundle.dailyMonitor),
-        redDot: unwrapHouseMonthsEnvelope(bundle.redDot),
-        orderDetails: unwrapHouseMonthsEnvelope(bundle.orderDetails),
-      },
-      columns,
-    ),
-    columns: adaptHouseMonthsColumns(unwrapHouseMonthsEnvelope(bundle.dailyMonitor), columns),
+    rows,
+    columns: adaptHouseMonthsColumns(dailyMonitor, columns, rows),
     requestPaths: ['统一响应包', ...REQUEST_PATHS],
   }
 }
@@ -226,6 +460,8 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
       roomCategoryName: '豪华大床房',
       roomId: 'room-801',
       roomName: '801',
+      price: 288,
+      monthlyRent: 6800,
     },
     {
       storeId: DEFAULT_MONTH_STORE_ID,
@@ -234,6 +470,8 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
       roomCategoryName: '总裁套间（桑拿浴缸露台电竞麻将）',
       roomId: 'room-902',
       roomName: '902',
+      price: 668,
+      monthlyRent: 12800,
     },
     {
       storeId: 'poi-other-demo-store',
@@ -242,6 +480,8 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
       roomCategoryName: '天落大床电竞套间',
       roomId: 'room-1206',
       roomName: '1206',
+      price: 398,
+      monthlyRent: 9800,
     },
     {
       storeId: 'poi-other-demo-store',
@@ -250,6 +490,8 @@ function mockSuccessHouseMonthsBundle(payload: ReturnType<typeof buildPayload>, 
       roomCategoryName: '观影大床房',
       roomId: 'room-706',
       roomName: '706',
+      price: 218,
+      monthlyRent: 5800,
     },
   ]
   const orderDate = (index: number) => columns[index]?.isoDate ?? payload.startDate
@@ -468,7 +710,7 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
     pickString(roomCategories[0], ['storeName', 'campName', 'poiName']) ||
     DEFAULT_MONTH_STORE_NAME
 
-  return roomCategories.flatMap((category, categoryIndex) => {
+  const rows = roomCategories.flatMap((category, categoryIndex) => {
     const categoryId = pickString(category, ['roomCategoryId', 'categoryId', 'id', 'rcId', 'i']) || `category-${categoryIndex}`
     const storeId = pickString(category, ['storeId', 'campId', 'poiId']) || fallbackStoreId
     const storeName = pickString(category, ['storeName', 'campName', 'poiName']) || fallbackStoreName
@@ -479,6 +721,10 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
     return normalizedRooms.map((room, roomIndex) => {
       const roomId = pickString(room, ['roomId', 'id', 'roomInfoId', 'i']) || `${categoryId}-room-${roomIndex}`
       const roomLabel = pickString(room, ['roomName', 'name', 'label', 'title', 'n']) || `房间${roomIndex + 1}`
+      const price = pickMoney(room, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], []) ??
+        pickMoney(category, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], [])
+      const monthlyRent = pickMoney(room, ['monthlyRent', 'monthRent', 'rent'], []) ??
+        pickMoney(category, ['monthlyRent', 'monthRent', 'rent'], [])
 
         return {
           id: `${categoryId}-${roomId}`,
@@ -488,19 +734,37 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
           roomCategoryId: categoryId,
           roomLabel,
           roomId,
-          typeCells: columns.map((column, columnIndex) => buildTypeCell(categoryId, column.isoDate, columnIndex, inventoryRecords)),
-        roomCells: columns.map((column) =>
-          buildRoomCell(categoryId, roomId, column.isoDate, orderRecords, orderArrangementRecords, blockRecords),
-        ),
+          price: typeof price === 'number' ? formatPlainMoney(price) : undefined,
+          monthlyRent: typeof monthlyRent === 'number' ? formatPlainMoney(monthlyRent) : undefined,
+          typeCells: [],
+          roomCells: columns.map((column) =>
+            buildRoomCell(categoryId, roomId, column.isoDate, orderRecords, orderArrangementRecords, blockRecords),
+          ),
       }
     })
   })
+
+  return rows.map((row) => ({
+    ...row,
+    typeCells: columns.map((column, columnIndex) =>
+      buildTypeCell(
+        row.roomCategoryId ?? row.id,
+        column.isoDate,
+        columnIndex,
+        inventoryRecords,
+        deriveAvailableRoomCount(rows, columnIndex, row.roomCategoryId),
+      ),
+    ),
+  }))
 }
 
-export function adaptHouseMonthsColumns(dailyMonitor: unknown, columns: MonthDateColumn[]): MonthDateColumn[] {
+export function adaptHouseMonthsColumns(dailyMonitor: unknown, columns: MonthDateColumn[], rows: MonthRoomGroup[] = []): MonthDateColumn[] {
   const monitorRecords = toArray(readPath(dailyMonitor, ['list']))
 
-  return columns.map((column) => {
+  return columns.map((column, columnIndex) => {
+    const derivedRemain = deriveAvailableRoomCount(rows, columnIndex)
+    if (typeof derivedRemain === 'number') return { ...column, remain: `余${derivedRemain}间` }
+
     const record = monitorRecords.find((item) => normalizeDate(firstExisting(item, ['date', 'day', 'bizDate', 'd'])) === column.isoDate)
     const remainText = pickString(record, ['remain', 'remainText', 'remainDesc'])
     const remainNumber = pickNumber(record, ['remainNum', 'remainRoomNum', 'availableNum', 'num'])
@@ -511,15 +775,31 @@ export function adaptHouseMonthsColumns(dailyMonitor: unknown, columns: MonthDat
   })
 }
 
-function buildTypeCell(categoryId: string, isoDate: string, columnIndex: number, inventoryRecords: unknown[]): MonthCell {
+function buildTypeCell(
+  categoryId: string,
+  isoDate: string,
+  columnIndex: number,
+  inventoryRecords: unknown[],
+  derivedInventory?: number,
+): MonthCell {
   const record = findDatedRecord(inventoryRecords, categoryId, undefined, isoDate)
   const compactRecord = inventoryRecords.find((item) => pickString(item, ['rci']) === categoryId)
   const compactInventory = pickIndexedNumber(firstExisting(compactRecord, ['ivs']), columnIndex)
-  const inventory = compactInventory ?? pickNumber(record, ['inventory', 'inv', 'remain', 'remainNum', 'availableNum', 'num'])
+  const inventory = derivedInventory ?? compactInventory ?? pickNumber(record, ['inventory', 'inv', 'remain', 'remainNum', 'availableNum', 'num'])
 
   if (inventory === 0) return { title: '售罄', tone: 'sold' }
   if (typeof inventory === 'number') return { title: `余${inventory}`, tone: 'free' }
   return { title: '售罄', tone: 'sold' }
+}
+
+function deriveAvailableRoomCount(rows: MonthRoomGroup[], columnIndex: number, categoryId?: string) {
+  const scopedRows = categoryId ? rows.filter((row) => row.roomCategoryId === categoryId) : rows
+  if (!scopedRows.length) return undefined
+
+  return scopedRows.reduce((total, row) => {
+    const cell = row.roomCells[columnIndex]
+    return cell?.tone === 'blank' ? total + 1 : total
+  }, 0)
 }
 
 function buildRoomCell(
@@ -533,35 +813,165 @@ function buildRoomCell(
   const block = findDatedRecord(blockRecords, categoryId, roomId, isoDate)
   if (block) return { title: '停用', tone: 'disabled' }
 
-  const arrangement = findDatedRecord(orderArrangementRecords, categoryId, roomId, isoDate)
-  const order = findOrderForArrangement(orderRecords, arrangement) ?? findDatedRecord(orderRecords, categoryId, roomId, isoDate)
+  const orders = findOrdersForRoomDate(orderRecords, orderArrangementRecords, categoryId, roomId, isoDate)
+  const order = orders[0]
   if (!order) return { title: '', tone: 'blank' }
 
   const guest = pickString(order, ['guestName', 'customerName', 'reserveName', 'name', 'orderName', 'contactName', 'gn']) || '未命名订单'
-  const channel = pickString(order, ['channelName', 'otaName', 'sourceName', 'channel', 'source', 'ocn']) || undefined
+  const channel =
+    pickString(order, [
+      'channelName',
+      'orderChannelName',
+      'shortChannelName',
+      'sourceLabelSnapshot',
+      'source_label_snapshot',
+      'otaName',
+      'sourceName',
+      'orderSourceName',
+      'sourceTypeName',
+      'channel',
+      'source',
+      'ocn',
+    ]) || undefined
   const amount = pickMoney(order, ['roomFee', 'roomPrice', 'price', 'amount', 'totalRoomFee'], ['rp'])
   const totalIncome = pickMoney(order, ['totalIncome', 'orderTotalIncome', 'totalAmount', 'income'], ['oep', 'otp'])
+  const stayRange = formatStayRangeForDisplay(order)
+  const liveStatus = normalizeMonthLiveStatus(
+    pickString(order, ['liveStatusName', 'statusName', 'roomStatusName', 'liveName', 'lsn']) ??
+      inferLiveStatus(order) ??
+      pickString(order, ['liveStatus']),
+  )
+  const duplicate = orders.length > 1
 
   return {
       title: guest,
       subtitle: channel,
       amount: typeof amount === 'number' ? formatMoney(amount) : undefined,
       totalIncome: typeof totalIncome === 'number' ? formatMoney(totalIncome) : undefined,
-      liveStatus:
-        pickString(order, ['liveStatusName', 'statusName', 'roomStatusName', 'liveName', 'lsn']) ??
-        inferLiveStatus(order) ??
-        pickString(order, ['liveStatus']),
-      stayRange: pickString(order, ['stayRange', 'dateRange', 'checkInOutDate']) ?? formatStayRange(order),
+      liveStatus,
+      stayRange,
+    createdAt: pickString(order, ['createdAt', 'created_at', 'createTime', 'createdTime', 'gmtCreate', 'orderCreateTime', 'orderCreatedAt']),
+    bookingAt: pickString(order, ['bookingAt', 'booking_at', 'createdAt', 'created_at', 'createTime', 'createdTime', 'gmtCreate', 'orderCreateTime', 'orderCreatedAt', 'reserveAt', 'orderTime']),
+    checkInAt: pickString(order, ['checkInAt', 'check_in_at', 'actualCheckInAt', 'actualCheckinAt', 'actualCheckInTime', 'startAt', 'start_at']),
+    checkOutAt: pickString(order, ['checkOutAt', 'check_out_at', 'actualCheckOutAt', 'actualCheckoutAt', 'actualCheckOutTime', 'endAt', 'end_at']),
+    guestRegisteredAt: pickString(order, ['guestRegisteredAt', 'guest_registered_at']),
+    checkedOutAt: pickString(order, ['checkedOutAt', 'checked_out_at']),
     phone: pickString(order, ['phone', 'mobile', 'contactPhone', 'gm']),
     remark: pickString(order, ['remark', 'orderRemark', 'rmk']),
     orderId: pickString(order, ['orderId', 'id', 'orderNo', 'oi', 'odi']),
     badge: pickBooleanLike(order, ['hasRemark', 'remarkFlag', 'isRemark', 'rmk']) ? '备' : undefined,
-    tone: toneForChannel(channel),
+    tone: toneForMonthLiveStatus(liveStatus, duplicate),
+    channelTone: toneForChannel(channel),
   }
 }
 
+function findOrdersForRoomDate(
+  orderRecords: unknown[],
+  orderArrangementRecords: unknown[],
+  categoryId: string,
+  roomId: string,
+  isoDate: string,
+) {
+  const arrangedOrderIds = findDatedRecords(orderArrangementRecords, categoryId, roomId, isoDate).flatMap(resolveArrangementOrderIds)
+  const arrangedIdSet = new Set(arrangedOrderIds)
+  const arrangedOrders = arrangedIdSet.size > 0
+    ? orderRecords.filter((record) => isOrderInArrangement(record, arrangedIdSet))
+    : []
+  const datedOrders = orderRecords.filter((record) => isOrderForRoomDate(record, categoryId, roomId, isoDate))
+  const orders = [...arrangedOrders, ...datedOrders]
+
+  return uniqueOrders(orders)
+}
+
+function isOrderForRoomDate(record: unknown, categoryId: string, roomId: string, isoDate: string) {
+    const recordCategoryId = pickString(record, ['roomCategoryId', 'categoryId', 'rcId', 'rci'])
+    const recordRoomId = pickString(record, ['roomId', 'roomInfoId', 'ri'])
+    const recordDate = normalizeDate(firstExisting(record, ['date', 'day', 'bizDate', 'roomDate', 'startDate', 'd']))
+
+    if (recordCategoryId && recordCategoryId !== categoryId) return false
+    if (recordRoomId && recordRoomId !== roomId) return false
+    return recordDate === isoDate || isDateInsideOrderRange(record, isoDate)
+}
+
+function resolveArrangementOrderIds(arrangement: unknown) {
+  return [
+    ...toArray(firstExisting(arrangement, ['odis'])),
+    ...toArray(firstExisting(arrangement, ['ecodis'])),
+  ].map((item) => String(item))
+}
+
+function isOrderInArrangement(order: unknown, orderIds: Set<string>) {
+  const detailId = pickString(order, ['orderDetailId', 'odi', 'id'])
+  const orderId = pickString(order, ['orderId', 'oi'])
+  return Boolean((detailId && orderIds.has(detailId)) || (orderId && orderIds.has(orderId)))
+}
+
+function uniqueOrders(orders: unknown[]) {
+  const seen = new Set<string>()
+  return orders.filter((order, index) => {
+    const id = pickString(order, ['orderDetailId', 'odi', 'orderId', 'oi', 'id', 'orderNo'])
+    const key = id || `index-${index}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
+function isDateInsideOrderRange(order: unknown, isoDate: string) {
+  const range = resolveOrderDateRange(order)
+  if (!range) return false
+  return isoDate >= range.start && isoDate < range.end
+}
+
+function resolveOrderDateRange(order: unknown) {
+  const textRange = pickString(order, ['stayRange', 'dateRange', 'checkInOutDate'])
+  const parsedRange = parseStayRangeText(textRange)
+  const start =
+    normalizeDate(firstExisting(order, ['checkInDate', 'cid', 'ecit', 'startAt', 'start_at', 'startDate', 'date', 'day', 'bizDate', 'roomDate', 'd'])) ??
+    parsedRange?.start
+  const end =
+    normalizeDate(firstExisting(order, ['checkOutDate', 'cod', 'ecot', 'endAt', 'end_at', 'endDate'])) ??
+    parsedRange?.end
+
+  if (!start) return undefined
+  const normalizedEnd = end && end > start ? end : formatDateInShanghai(new Date(parseIsoDateValue(start).getTime() + 24 * 60 * 60 * 1000))
+  return { start, end: normalizedEnd }
+}
+
+function parseStayRangeText(value: string | undefined) {
+  if (!value) return undefined
+  const match = value.match(/(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})\s*(?:-|~|至|到)\s*(?:(\d{4})[.\-/])?(\d{1,2})[.\-/](\d{1,2})/)
+  if (!match) return undefined
+
+  const startYear = Number(match[1])
+  const startMonth = Number(match[2])
+  const startDay = Number(match[3])
+  const endMonth = Number(match[5])
+  const endDay = Number(match[6])
+  const endYear = match[4] ? Number(match[4]) : endMonth < startMonth ? startYear + 1 : startYear
+  if (![startYear, startMonth, startDay, endYear, endMonth, endDay].every(Number.isFinite)) return undefined
+
+  return {
+    start: formatIsoDateParts(startYear, startMonth, startDay),
+    end: formatIsoDateParts(endYear, endMonth, endDay),
+  }
+}
+
+function parseIsoDateValue(isoDate: string) {
+  const [year, month, day] = isoDate.split('-').map(Number)
+  return new Date(year, (month || 1) - 1, day || 1)
+}
+
+function formatIsoDateParts(year: number, month: number, day: number) {
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+}
+
 function findDatedRecord(records: unknown[], categoryId: string, roomId: string | undefined, isoDate: string) {
-  return records.find((record) => {
+  return findDatedRecords(records, categoryId, roomId, isoDate)[0]
+}
+
+function findDatedRecords(records: unknown[], categoryId: string, roomId: string | undefined, isoDate: string) {
+  return records.filter((record) => {
     const recordCategoryId = pickString(record, ['roomCategoryId', 'categoryId', 'rcId', 'rci'])
     const recordRoomId = pickString(record, ['roomId', 'roomInfoId', 'ri'])
     const recordDate = normalizeDate(firstExisting(record, ['date', 'day', 'bizDate', 'roomDate', 'startDate', 'd']))
@@ -569,20 +979,6 @@ function findDatedRecord(records: unknown[], categoryId: string, roomId: string 
     if (recordCategoryId && recordCategoryId !== categoryId) return false
     if (roomId && recordRoomId && recordRoomId !== roomId) return false
     return recordDate === isoDate
-  })
-}
-
-function findOrderForArrangement(orderRecords: unknown[], arrangement: unknown) {
-  const orderIds = [
-    ...toArray(firstExisting(arrangement, ['odis'])),
-    ...toArray(firstExisting(arrangement, ['ecodis'])),
-  ].map((item) => String(item))
-
-  if (!orderIds.length) return undefined
-  return orderRecords.find((order) => {
-    const detailId = pickString(order, ['orderDetailId', 'odi', 'id'])
-    const orderId = pickString(order, ['orderId', 'oi'])
-    return Boolean((detailId && orderIds.includes(detailId)) || (orderId && orderIds.includes(orderId)))
   })
 }
 
@@ -687,19 +1083,140 @@ function formatStayRange(order: unknown) {
   return `${checkIn}-${checkOut.slice(5)}`
 }
 
+function formatStayRangeForDisplay(order: unknown) {
+  return formatHourlyStayRange(order) ?? pickString(order, ['stayRange', 'dateRange', 'checkInOutDate']) ?? formatStayRange(order)
+}
+
+function formatHourlyStayRange(order: unknown) {
+  if (!isHourlyOrder(order)) return undefined
+
+  const checkInDateTime = readDateTimeParts(firstExisting(order, ['startAt', 'start_at', 'checkInAt', 'checkInTime', 'checkInDateTime']))
+  const checkOutDateTime = readDateTimeParts(firstExisting(order, ['endAt', 'end_at', 'checkOutAt', 'checkOutTime', 'checkOutDateTime']))
+  const checkInDate = checkInDateTime?.date ?? normalizeDate(firstExisting(order, ['checkInDate', 'cid', 'ecit']))
+  const checkInTime = checkInDateTime?.time ?? normalizeTime(firstExisting(order, ['startTime', 'start_time', 'checkInHour', 'checkInTimeText']))
+  const checkOutTime = checkOutDateTime?.time ?? normalizeTime(firstExisting(order, ['endTime', 'end_time', 'checkOutHour', 'checkOutTimeText']))
+
+  if (!checkInDate || !checkInTime || !checkOutTime) return undefined
+  return `${checkInDate} ${checkInTime}-${checkOutTime}`
+}
+
+function isHourlyOrder(order: unknown) {
+  const typeText = [
+    pickString(order, ['orderType', 'order_type', 'stayType', 'roomType', 'saleType', 'productType', 'goodsTypeName']),
+    pickString(order, ['orderTypeName', 'order_type_name', 'roomTypeName', 'productTypeName']),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+  const goodsType = pickNumber(order, ['goodsType', 'goods_type'])
+  const isHourFlag = pickBooleanLike(order, ['isHourRoomOrder', 'isHourlyOrder', 'hourRoomOrder', 'hourlyOrder'])
+
+  return isHourFlag || goodsType === 7 || typeText.includes('hour') || typeText.includes('钟点') || typeText.includes('閽熺偣')
+}
+
+function readDateTimeParts(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return splitDateTime(formatDateTimeInShanghai(new Date(value)))
+  }
+  if (value instanceof Date) return splitDateTime(formatDateTimeInShanghai(value))
+  if (typeof value !== 'string') return undefined
+  return splitDateTime(value)
+}
+
+function splitDateTime(value: string) {
+  const match = value.trim().match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:[T\s]+(\d{1,2}):(\d{2}))?/)
+  if (!match) return undefined
+  return {
+    date: formatIsoDateParts(Number(match[1]), Number(match[2]), Number(match[3])),
+    time: match[4] && match[5] ? `${match[4].padStart(2, '0')}:${match[5]}` : undefined,
+  }
+}
+
+function normalizeTime(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) return `${String(value).padStart(2, '0')}:00`
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  const match = trimmed.match(/^(\d{1,2})(?::(\d{1,2}))?/)
+  if (!match) return undefined
+  const hour = Number(match[1])
+  const minute = match[2] === undefined ? 0 : Number(match[2])
+  if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return undefined
+  return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+}
+
+function formatDateTimeInShanghai(date: Date) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  })
+    .formatToParts(date)
+    .reduce<Record<string, string>>((acc, part) => {
+      acc[part.type] = part.value
+      return acc
+    }, {})
+
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`
+}
+
 function formatMoney(value: number) {
   return `¥${Number.isInteger(value) ? value : Number(value.toFixed(2))}`
+}
+
+function formatPlainMoney(value: number) {
+  return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(2)))
 }
 
 function inferLiveStatus(order: unknown) {
   const statusText = pickString(order, ['liveStatusText', 'statusText', 'statusDesc', 'orderStatusText', 'oss'])
   if (statusText) return statusText
 
-  const statusCode = pickNumber(order, ['liveStatus', 'status', 'orderStatus', 'checkStatus', 'ls'])
-  if (statusCode === 2) return '入住中'
-  if (statusCode === 3 || statusCode === 4) return '已退房'
-  if (statusCode === 1) return '待入住'
+  const orderStateCode = pickNumber(order, ['orderState'])
+  if (orderStateCode === 3) return '入住中'
+  if (orderStateCode === 4) return '已退房'
+  if (orderStateCode === 1 || orderStateCode === 2) return '待入住'
+
+  const detailStateCode = pickNumber(order, ['orderDetailDisplayState', 'liveStatus', 'checkStatus', 'ls'])
+  if (detailStateCode === 2) return '入住中'
+  if (detailStateCode === 3 || detailStateCode === 4) return '已退房'
+  if (detailStateCode === 1) return '待入住'
+
+  const orderStatusCode = pickNumber(order, ['status', 'orderStatus'])
+  if (orderStatusCode === 3) return '入住中'
+  if (orderStatusCode === 4) return '已退房'
+  if (orderStatusCode === 1 || orderStatusCode === 2) return '待入住'
   return undefined
+}
+
+function normalizeMonthLiveStatus(value: string | undefined) {
+  const normalized = value?.trim().toLowerCase() ?? ''
+  if (
+    normalized === 'checked_in' ||
+    normalized === 'checked-in' ||
+    normalized === 'living' ||
+    normalized.includes('入住中') ||
+    normalized.includes('进行中') ||
+    normalized.includes('在住')
+  ) return '入住中'
+  if (
+    normalized === 'completed' ||
+    normalized === 'checked_out' ||
+    normalized === 'checked-out' ||
+    normalized.includes('已退房') ||
+    normalized.includes('已完成')
+  ) return '已退房'
+  return '待入住'
+}
+
+function toneForMonthLiveStatus(liveStatus: string, duplicate: boolean): CellTone {
+  if (duplicate) return 'booking-duplicate'
+  if (liveStatus.includes('入住中')) return 'booking-live'
+  if (liveStatus.includes('已退房')) return 'booking-checkout'
+  return 'booking-pending'
 }
 
 function toneForChannel(channel: string | undefined): CellTone {

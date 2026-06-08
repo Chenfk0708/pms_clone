@@ -1,5 +1,5 @@
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   fetchHouseDays,
@@ -7,6 +7,8 @@ import {
   type HouseDaysRoomCard,
   type HouseDaysViewModel,
 } from '../services/houseDays'
+import { StoreSelectControl, type StoreSelectOption } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   BatchOperationDialog,
   type BatchMode,
@@ -294,7 +296,7 @@ function RoomTypeView({
 
 export function HouseDaysPage() {
   const navigate = useNavigate()
-  const [viewMode, setViewMode] = useState(ROOM_NUMBER_VIEW)
+  const [viewMode, setViewMode] = useState(ROOM_TYPE_VIEW)
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [selectedChannel, setSelectedChannel] = useState('')
   const [selectedRoomType, setSelectedRoomType] = useState('')
@@ -447,10 +449,11 @@ export function HouseDaysPage() {
   const statusGroups = data?.statusGroups ?? []
   const roomCards = data?.rooms ?? []
   const roomTypeSummaries = buildRoomTypeSummaryCards(roomCards)
-  const storeOptions = data?.storeOptions ?? [
-    { id: 'all', name: '全部门店' },
-    { id: 'poi-1796067693589061634', name: '天落会宿公寓(前海壹方城宝安中心店)' },
-  ]
+  const { storeOptions: backendStoreOptions } = useStoreOptions()
+  const storeOptions = useMemo<StoreSelectOption[]>(
+    () => backendStoreOptions.map((store) => ({ id: store.id, name: store.label })),
+    [backendStoreOptions],
+  )
   const routeTargets = data?.routeTargets ?? {
     months: '/houseManage/months',
     price: '/houseManage/houseCale',
@@ -459,6 +462,12 @@ export function HouseDaysPage() {
   const isRoomTypeView = viewMode === ROOM_TYPE_VIEW
   const isRoomNumberView = viewMode === ROOM_NUMBER_VIEW
   const isFloorView = viewMode === FLOOR_VIEW
+
+  const handleStoreSelect = (storeId: string) => {
+    const nextStore = storeOptions.find((store) => store.id === storeId)
+    setActiveStoreChip(storeId)
+    setFeedback(storeId === 'all' ? '已切换到全部门店。' : `已切换到${nextStore?.name ?? '当前门店'}。`)
+  }
 
   return (
     <div className="page-stack day-status-page">
@@ -545,32 +554,14 @@ export function HouseDaysPage() {
           </div>
         </div>
         <div className="month-toolbar__filters">
-          <div className="month-store-control">
-            <div className="month-store-switch" aria-label="门店切换">
-              {storeOptions.map((store, index) => (
-                <button
-                  key={store.id}
-                  type="button"
-                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeStoreChip === store.id ? ' is-active' : ''}`}
-                  aria-pressed={activeStoreChip === store.id}
-                  onClick={() => {
-                    setActiveStoreChip(store.id)
-                    setFeedback(store.id === 'all' ? '已切换到全部门店。' : `已切换到${store.name}。`)
-                  }}
-                >
-                  {store.name}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              className="month-store-settings"
-              aria-label="门店设置"
-              onClick={() => navigate(routeTargets.storeSettings)}
-            >
-              ⚙
-            </button>
-          </div>
+          <StoreSelectControl
+            label="门店切换"
+            options={storeOptions}
+            value={activeStoreChip}
+            onChange={(storeId) => handleStoreSelect(storeId)}
+            settingsLabel="门店设置"
+            onSettingsClick={() => navigate(routeTargets.storeSettings)}
+          />
           <div className="toolbar-actions">
             <div className="day-action-popover month-batch-action month-batch-action--first">
               <button

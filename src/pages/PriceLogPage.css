@@ -26,7 +26,7 @@
 
 .price-log-query {
   display: grid;
-  grid-template-columns: repeat(3, 297px) 1fr;
+  grid-template-columns: 270px repeat(3, 297px) 1fr;
   align-items: center;
   column-gap: 16px;
   row-gap: 8px;
@@ -53,6 +53,16 @@
 .price-log-field--keyword > span,
 .price-log-field--operator > span {
   width: 95px;
+}
+
+.price-log-field--store > span {
+  width: 41px;
+}
+
+.price-log-field--store .month-store-select__trigger {
+  width: 220px;
+  max-width: 220px;
+  border-radius: 4px;
 }
 
 .price-log-field--adjustment > span {
@@ -82,7 +92,7 @@
 }
 
 .price-log-field--adjust-time {
-  grid-column: 4;
+  grid-column: 5;
   grid-row: 1;
 }
 
@@ -168,7 +178,7 @@
 }
 
 .price-log-query__actions {
-  grid-column: 4;
+  grid-column: 5;
   grid-row: 1;
   justify-self: end;
   display: inline-flex;

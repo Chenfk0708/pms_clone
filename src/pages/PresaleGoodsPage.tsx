@@ -11,6 +11,8 @@ import {
   type PresaleGoodsScenario,
   type SelectOption,
 } from '../services/presaleGoods'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './PresaleGoodsPage.css'
 
 type FilterKey = 'channelId' | 'ticketType' | 'categoryId' | 'shelfStatus'
@@ -163,10 +165,12 @@ function PresaleGoodsListPage() {
   const currentStoreLabel = selectedStore?.label ?? defaultStore?.label ?? '加载门店中'
   const realStoreOptions = data?.options.stores ?? []
   const canSwitchStore = realStoreOptions.length > 1
-  const storeOptions = useMemo(
-    () => [{ value: '', label: '全部门店' }, ...(data?.options.stores ?? [])],
-    [data?.options.stores],
-  )
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: [{ id: 'all', label: '全部门店' }, ...(data?.options.stores ?? []).map((store) => ({
+      id: store.value,
+      label: store.label,
+    }))],
+  })
   const statusTabs = data?.options.shelfStatuses ?? topShelfStatusOptions
   const rows = data?.rows ?? []
 
@@ -236,57 +240,16 @@ function PresaleGoodsListPage() {
       <h1 className="sr-only-heading">预售券</h1>
 
       <section className="presale-goods-query" aria-label="预售券商品筛选">
-        <div className="presale-goods-storebar" aria-label="门店切换">
-          <button
-            type="button"
-            className={`presale-goods-storebar__tab${filters.poiId ? '' : ' is-active'}`}
-            aria-label="全部门店"
-            onClick={() => chooseStore('')}
-          >
-            全部门店
-          </button>
-          <div className="presale-goods-storebar__current">
-            <button
-              type="button"
-              className={`presale-goods-storebar__tab${filters.poiId ? ' is-active' : ''}`}
-              aria-haspopup={canSwitchStore ? 'listbox' : undefined}
-              aria-expanded={canSwitchStore ? openFilter === 'store' : undefined}
-              aria-label={`当前门店 ${currentStoreLabel}`}
-              onClick={() => {
-                if (!canSwitchStore) {
-                  if (defaultStore?.value !== undefined) chooseStore(defaultStore.value)
-                  return
-                }
-                setOpenFilter(openFilter === 'store' ? null : 'store')
-              }}
-            >
-              {currentStoreLabel}
-            </button>
-            {canSwitchStore && openFilter === 'store' ? (
-              <div className="presale-goods-storebar__options" role="listbox" aria-label="门店列表">
-                {storeOptions.map((option) => (
-                  <button
-                    key={option.value || option.label}
-                    type="button"
-                    role="option"
-                    aria-selected={filters.poiId === option.value}
-                    onClick={() => chooseStore(option.value)}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-          </div>
-          <button
-            type="button"
-            className="presale-goods-storebar__setting"
-            aria-label="门店设置"
-            onClick={() => navigate('/InformationMaintenance/campInfo')}
-          >
-            *
-          </button>
-        </div>
+        <StoreSelectControl
+          className="presale-goods-storebar"
+          label="门店切换"
+          options={storeOptions.map((option) => ({ id: option.id, name: option.label }))}
+          value={filters.poiId || 'all'}
+          disabled={storeLoading}
+          onChange={(storeId) => chooseStore(storeId === 'all' ? '' : storeId)}
+          settingsLabel="门店设置"
+          onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+        />
         <div className="presale-goods-query__grid">
           {filterMeta.map((filter) => (
             <FilterSelect

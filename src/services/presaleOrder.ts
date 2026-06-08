@@ -19,6 +19,7 @@ export type PresaleOrderMockState = 'success' | 'empty' | 'error'
 
 export type PresaleOrderFilters = {
   campId?: string
+  poiIds?: string[]
   orderState: string
   productType: string
   source: string
@@ -269,6 +270,7 @@ export function createPresaleOrderRequestBody(
   }
 
   if (filters.afterSale) body.refundDisplayState = Number(filters.afterSale)
+  if (filters.poiIds?.length) body.poiIds = filters.poiIds
   return body
 }
 

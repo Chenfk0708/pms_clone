@@ -39,6 +39,34 @@ export async function fetchHouseOrders(filters, signal) {
     }
     return fetchApiHouseOrders(filters, signal);
 }
+export async function cancelHouseOrder(request) {
+    const data = await postHudson(`/orders/${encodeURIComponent(request.orderId)}/cancel`, {
+        campId: request.campId,
+        reason: request.reason,
+    });
+    if (!isRecord(data)) {
+        throw new HouseOrderRequestError('取消订单响应缺少 data 字段');
+    }
+    return {
+        orderId: readString(readPath(data, ['orderId'])) || readString(readPath(data, ['id'])) || request.orderId,
+        status: readString(readPath(data, ['status'])) || readString(readPath(data, ['orderStatus'])) || readString(readPath(data, ['liveStatus'])),
+        message: readString(readPath(data, ['message'])) || '订单取消成功',
+    };
+}
+export async function skipStockHouseOrder(request) {
+    const data = await postHudson(`/orders/${encodeURIComponent(request.orderId)}/skip-stock`, {
+        campId: request.campId,
+        reason: request.reason,
+    });
+    if (!isRecord(data)) {
+        throw new HouseOrderRequestError('不占库存响应缺少 data 字段');
+    }
+    return {
+        orderId: readString(readPath(data, ['orderId'])) || readString(readPath(data, ['id'])) || request.orderId,
+        status: readString(readPath(data, ['status'])) || readString(readPath(data, ['orderStatus'])) || readString(readPath(data, ['liveStatus'])),
+        message: readString(readPath(data, ['message'])) || '订单已释放库存并取消排房',
+    };
+}
 function resolveHouseOrderMockState() {
     const params = readHouseOrderSearchParams();
     const state = params.get('houseOrderMockState') || window.localStorage.getItem('pms.houseOrderMockState') || 'success';
@@ -291,23 +319,47 @@ function emptyReport() {
     };
 }
 function orderStatus(value) {
-    const numeric = Number(value);
-    if (numeric === 2 || numeric === 5)
-        return '已完成';
-    if (numeric === 3 || numeric === 9)
-        return '已取消';
-    if (numeric === 4)
+    const text = String(value ?? '').trim().toLowerCase();
+    if (text === 'checked_in' || text === 'checked-in' || text === 'living' || text === '进行中' || text === '入住中')
         return '进行中';
+    if (text === 'completed' || text === 'checked_out' || text === 'checked-out' || text === '已完成' || text === '已退房')
+        return '已完成';
+    if (text === 'cancelled' || text === 'canceled' || text === 'refunded' || text === '已取消')
+        return '已取消';
+    if (text === 'pending' || text === 'booked' || text === '已预订' || text === '待入住')
+        return '已预订';
+    const numeric = Number(value);
+    if (numeric === 3)
+        return '进行中';
+    if (numeric === 4)
+        return '已完成';
+    if (numeric === 5 || numeric === 7 || numeric === 8 || numeric === 9 || numeric === 10)
+        return '已取消';
     return '已预订';
 }
 function liveStatusFor(value, fallback) {
-    const numeric = Number(value);
-    if (numeric === 2 || fallback === '已完成')
-        return '已退房';
-    if (numeric === 3 || fallback === '已取消')
-        return '已取消';
-    if (numeric === 4 || fallback === '进行中')
+    const text = String(value ?? '').trim().toLowerCase();
+    if (text === 'checked_in' || text === 'checked-in' || text === 'living' || text === '入住中')
         return '入住中';
+    if (text === 'completed' || text === 'checked_out' || text === 'checked-out' || text === '已退房')
+        return '已退房';
+    if (text === 'cancelled' || text === 'canceled' || text === 'refunded' || text === '已取消')
+        return '已取消';
+    if (text === 'pending' || text === 'booked' || text === '待入住')
+        return '待入住';
+    const numeric = Number(value);
+    if (numeric === 2)
+        return '入住中';
+    if (numeric === 3)
+        return '已退房';
+    if (numeric === 4)
+        return '已取消';
+    if (fallback === '进行中')
+        return '入住中';
+    if (fallback === '已完成')
+        return '已退房';
+    if (fallback === '已取消')
+        return '已取消';
     return '待入住';
 }
 function afterSaleStatus(value) {

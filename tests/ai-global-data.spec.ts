@@ -17,10 +17,13 @@ async function collapseChatDock(page: Page) {
 async function openAiGlobalData(page: Page, mode: 'success' | 'empty' | 'error' = 'success') {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript((mockMode) => {
+    window.localStorage.setItem('pms_token', 'ai-global-data-mock-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
     window.localStorage.setItem('pms.aiGlobalDataProvider', 'mock')
     window.localStorage.setItem('pms.aiGlobalDataMockState', mockMode)
+    window.localStorage.setItem('pms.applicationPaymentProvider', 'mock')
   }, mode)
-  await page.goto(appUrl('/channels/globalRadar/globalData'))
+  await page.goto(appUrl('/#/channels/globalRadar/globalData'))
   await collapseChatDock(page)
 }
 
@@ -29,16 +32,24 @@ function feedbackBar(page: Page) {
 }
 
 function topNavGlobalRadar(page: Page) {
-  return page.locator('a.topnav-link[href="/channels/globalRadar/globalData"]')
+  return page.locator('a.topnav-link[href$="/channels/globalRadar/globalData"]')
 }
 
 function sideNavGlobalData(page: Page) {
-  return page.locator('a.sidebar-link[href="/channels/globalRadar/globalData"]')
+  return page.locator('a.sidebar-link[href$="/channels/globalRadar/globalData"]')
 }
 
 function sideNavGlobalSetting(page: Page) {
-  return page.locator('a.sidebar-link[href="/channels/globalRadar/globalSetting"]')
+  return page.locator('a.sidebar-link[href$="/channels/globalRadar/globalSetting"]')
 }
+
+async function fulfillHudson(route: import('@playwright/test').Route, data: unknown) {
+  await route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({ code: 0, success: true, message: 'success', data, traceId: 'ai-global-real-test-trace' }),
+  })
+}
+
 
 function filterCamp(page: Page) {
   return page.locator('#ai-global-data-filter-camp')
@@ -136,7 +147,131 @@ test('/channels/globalRadar/globalData preserves the subscription route', async 
   await page.getByTestId('ai-global-data-open-subscription').click()
 
   await expect(page).toHaveURL(/\/version\/applicationPayment\/detail\?app=globalRadar$/)
-  await expect(page.locator('h2')).toContainText('全域雷达')
+  await expect(page.getByRole('heading', { name: '全域雷达', level: 1 })).toBeVisible()
   await expect(page.getByText('商品详情')).toBeVisible()
   await expect(page.locator('button').filter({ hasText: '立即购买' })).toBeVisible()
+})
+
+
+test('/channels/globalRadar/globalData api provider posts export and reminder actions to real backend contracts', async ({ page }) => {
+  const exportRequests: Array<Record<string, unknown>> = []
+  const postponeRequests: Array<Record<string, unknown>> = []
+  const resolveRequests: Array<Record<string, unknown>> = []
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'ai-global-api-action-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.aiGlobalDataProvider', 'api')
+  })
+
+  await page.route('**/api/order/report/get', async (route) =>
+    fulfillHudson(route, {
+      todayNewOrder: 2,
+      todayCheckIn: 1,
+      todayCheckOut: 1,
+      staying: 3,
+      pending: 1,
+      exception: 0,
+      refunding: 0,
+      tomorrowCheckIn: 1,
+      tomorrowCheckOut: 1,
+    }),
+  )
+  await page.route('**/api/orders/strongReminder/page/get', async (route) =>
+    fulfillHudson(route, {
+      list: [
+        {
+          id: '88001',
+          campId: '10001',
+          level: 'high',
+          title: '?????',
+          guestName: '????',
+          roomName: '????',
+          orderNo: 'OUT-AI-88001',
+          dueAt: '18:30',
+          channel: 'ctrip',
+          status: 'pending',
+          primaryAction: 'order',
+          summary: '??????',
+        },
+      ],
+      pagination: { pageNum: 1, pageSize: 10, total: 1 },
+    }),
+  )
+  await page.route('**/api/select/poi/page/get', async (route) =>
+    fulfillHudson(route, { list: [{ poiId: '10001', poiName: '????' }], pagination: { total: 1 } }),
+  )
+  await page.route('**/api/roomCategories/page/get', async (route) =>
+    fulfillHudson(route, { list: [], pagination: { pageNum: 1, pageSize: 999, total: 0 } }),
+  )
+  await page.route('**/api/radarConfig/shop/get', async (route) =>
+    fulfillHudson(route, [
+      {
+        id: '10001',
+        campId: '10001',
+        name: '????',
+        connectorStatus: 'online',
+        radarStatus: 'running',
+        authorizedChannels: ['????'],
+        updatedAt: '2026-06-04 02:20',
+      },
+    ]),
+  )
+  await page.route('**/api/edition/resource/get', async (route) =>
+    fulfillHudson(route, {
+      editionName: '????',
+      resourceName: '?????????',
+      priceText: '?1,908.48 / ?',
+      connectorProgress: '1 / 1 ????????',
+    }),
+  )
+  await page.route('**/api/paymentTypes/get/v2', async (route) =>
+    fulfillHudson(route, { paymentGroups: [{ name: '??', paymentTypes: [{ name: '????' }] }] }),
+  )
+  await page.route('**/api/globalRadar/export/create', async (route) => {
+    exportRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await fulfillHudson(route, {
+      taskId: 'AI-GLOBAL-EXPORT-REAL-001',
+      fileName: 'ai-global.csv',
+      contentType: 'text/csv;charset=UTF-8',
+      downloadUrl: '/api/globalRadar/export/download?campId=10001',
+      total: 1,
+    })
+  })
+  await page.route('**/api/globalRadar/strongReminder/postpone', async (route) => {
+    postponeRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await fulfillHudson(route, {
+      reminderId: '88001',
+      orderNo: 'OUT-AI-88001',
+      status: 'postponed',
+      message: 'strong reminder postponed',
+    })
+  })
+  await page.route('**/api/globalRadar/strongReminder/resolve', async (route) => {
+    resolveRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await fulfillHudson(route, {
+      reminderId: '88001',
+      orderNo: 'OUT-AI-88001',
+      status: 'resolved',
+      message: 'strong reminder resolved',
+    })
+  })
+
+  await page.goto(appUrl('/#/channels/globalRadar/globalData?aiGlobalDataProvider=api'))
+  await expect(page.locator('.ai-global-data-page')).toHaveAttribute('data-provider', 'api', { timeout: 15_000 })
+  await expect(page.locator('.ai-global-data-reminder')).toContainText('OUT-AI-88001')
+
+  await page.getByTestId('ai-global-data-export').click()
+  await expect.poll(() => exportRequests.length).toBe(1)
+  expect(exportRequests[0]).toMatchObject({ campId: '1796067693589061634', channel: 'all', attention: 'all' })
+  await expect(feedbackBar(page)).toContainText('AI-GLOBAL-EXPORT-REAL-001')
+
+  const reminderButtons = page.locator('.ai-global-data-reminder').first().locator('.ai-global-data-reminder__actions button')
+  await reminderButtons.nth(1).click()
+  await expect.poll(() => postponeRequests.length).toBe(1)
+  expect(postponeRequests[0]).toMatchObject({ campId: '1796067693589061634', reminderId: '88001', orderNo: 'OUT-AI-88001' })
+
+  await reminderButtons.nth(2).click()
+  await expect.poll(() => resolveRequests.length).toBe(1)
+  expect(resolveRequests[0]).toMatchObject({ campId: '1796067693589061634', reminderId: '88001', orderNo: 'OUT-AI-88001' })
 })

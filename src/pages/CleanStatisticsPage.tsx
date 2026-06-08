@@ -11,6 +11,8 @@ import {
   type CleanStatisticsDashboard,
   type CleanStatisticsExportTask,
 } from '../services/cleanStatistics'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CleanStatisticsPage.css'
 
 type CleanTab = 'summary' | 'detail'
@@ -93,7 +95,9 @@ export function CleanStatisticsPage() {
   const detailRows = dashboard?.statistics.detailRows ?? []
   const metrics = dashboard?.statistics.metrics ?? []
   const todos = dashboard?.statistics.todos ?? []
-  const stores = dashboard?.stores ?? [{ id: 'all', label: '全部门店' }]
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: dashboard?.stores ?? [{ id: 'all', label: '全部门店' }],
+  })
   const roomOptions = dashboard?.rooms ?? []
   const cleanerOptions = dashboard?.cleaners ?? []
 
@@ -187,24 +191,19 @@ export function CleanStatisticsPage() {
 
         <section className="clean-stat-toolbar" aria-label="保洁统计筛选">
           <div className="clean-stat-row">
-            <div className="clean-stat-store" role="group" aria-label="门店筛选">
-              {stores.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={storeId === item.id ? 'is-active' : ''}
-                  onClick={() => {
-                    setStoreId(item.id)
-                    setStatus(`已切换门店：${item.label}`)
-                  }}
-                >
-                  {item.id === 'qianhai' ? '天落会宿…' : item.label}
-                </button>
-              ))}
-              <button type="button" className="clean-stat-gear" aria-label="门店设置" onClick={() => navigate('/cleanManage/cleanSetting')}>
-                ⚙
-              </button>
-            </div>
+            <StoreSelectControl
+              className="clean-stat-store"
+              label="门店筛选"
+              options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
+              value={storeId}
+              disabled={storeLoading}
+              onChange={(nextStoreId, option) => {
+                setStoreId(nextStoreId)
+                setStatus(`已切换门店：${option.name}`)
+              }}
+              settingsLabel="门店设置"
+              onSettingsClick={() => navigate('/cleanManage/cleanSetting')}
+            />
             <label className="clean-stat-date">
               <span>日期：</span>
               <button

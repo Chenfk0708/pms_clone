@@ -10,9 +10,17 @@ const DEFAULT_QUERY = { keyword: '', page: 1, pageSize: 20 };
 const CAMP_INFO_PROVIDER_KEY = 'pms.campInfoProvider';
 const CAMP_INFO_MOCK_MODE_KEY = 'pms.campInfoMockMode';
 const CAMP_INFO_MOCK_LATENCY_KEY = 'pms.campInfoMockLatencyMs';
+const CAMP_INFO_MOCK_EDITED_STORES_KEY = 'pms.campInfoEditedStores';
+const CAMP_INFO_POI_ENDPOINT = '/select/poi/page/get';
+const CAMP_INFO_ROOM_CATEGORY_ENDPOINT = '/roomCategories/page/get';
+const CAMP_INFO_ROOMS_ENDPOINT = '/rooms/get';
+const NEW_STORE_ID_PREFIX = 'new-camp-info-store-';
 export const campInfoObservedEndpoints = [
     '/camps/get',
+    CAMP_INFO_POI_ENDPOINT,
     '/camp/get',
+    CAMP_INFO_ROOM_CATEGORY_ENDPOINT,
+    CAMP_INFO_ROOMS_ENDPOINT,
     '/channels/get',
     '/edition/resource/get',
     '/order/report/get',
@@ -83,9 +91,10 @@ export async function fetchCampInfoDetail(storeId, signal) {
     if (provider === 'api') {
         return fetchApiDetail(storeId, signal);
     }
-    const store = cloneStore(storeSeed);
-    if (store.id !== storeId)
+    const store = resolveMockStore(storeId);
+    if (!store)
         throw new CampInfoRequestError('未找到门店详情');
+    const override = readMockStoreOverride(store.id);
     return {
         provider: 'mock',
         endpoint: 'camp-info-detail-mock-provider',
@@ -93,18 +102,21 @@ export async function fetchCampInfoDetail(storeId, signal) {
         timestamp: MOCK_TIMESTAMP,
         store,
         albumImageCount: 9,
-        cityPath: store.cityLabel,
-        streetAddress: '深圳宝安区新安街道海裕社区N15幸福海岸花园',
-        communityName: '幸福海岸花园',
-        unitNo: '10栋30楼',
-        fullAddress: store.address,
+        cityPath: override?.cityLabel ?? store.cityLabel,
+        streetAddress: override?.streetAddress ?? '深圳宝安区新安街道海裕社区N15幸福海岸花园',
+        communityName: override?.communityName ?? '幸福海岸花园',
+        unitNo: override?.unitNo ?? '10栋30楼',
+        fullAddress: override?.fullAddress ?? store.address,
+        plainIntro: override?.plainIntro ?? '',
+        richIntro: override?.richIntro ?? '',
         mapCopyright: '© 2026 AutoNavi - GS(2023)4677号',
     };
 }
 export async function fetchCampInfoSortData(activeTab, signal) {
     const provider = resolveProvider();
+    let apiOverview = null;
     if (provider === 'api') {
-        await fetchCampInfoOverview(DEFAULT_QUERY, signal);
+        apiOverview = await fetchCampInfoOverview(DEFAULT_QUERY, signal);
     }
     else {
         await waitForMockLatency();
@@ -114,7 +126,7 @@ export async function fetchCampInfoSortData(activeTab, signal) {
     }
     return {
         provider,
-        endpoint: provider === 'mock' ? 'camp-info-sort-mock-provider' : `${HUDSON_BASE_URL}/camp/get`,
+        endpoint: provider === 'mock' ? 'camp-info-sort-mock-provider' : `${HUDSON_BASE_URL}${CAMP_INFO_POI_ENDPOINT}`,
         traceId: `mock-shezhi--xinxi-weihu--mendian-xinxi-sort-${activeTab}-001`,
         timestamp: MOCK_TIMESTAMP,
         activeTab,
@@ -124,9 +136,13 @@ export async function fetchCampInfoSortData(activeTab, signal) {
             { key: 'goods', label: '商品排序' },
         ],
         items: activeTab === 'store'
-            ? [{ id: storeSeed.id, label: storeSeed.name }]
+            ? provider === 'api'
+                ? (apiOverview?.stores ?? []).map((item) => ({ id: item.id, label: item.name }))
+                : readMockStores().map((item) => ({ id: item.id, label: item.name }))
             : activeTab === 'roomType'
-                ? storeSeed.roomTypes.map((item) => ({ id: item.id, label: item.name }))
+                ? provider === 'api'
+                    ? (apiOverview?.stores[0]?.roomTypes ?? []).map((item) => ({ id: item.id, label: item.name }))
+                    : storeSeed.roomTypes.map((item) => ({ id: item.id, label: item.name }))
                 : goodsSortItems.map((item) => ({ ...item })),
     };
 }
@@ -151,6 +167,42 @@ export async function saveCampInfoSort(activeTab, itemIds) {
         traceId: `mock-shezhi--xinxi-weihu--mendian-xinxi-save-sort-${activeTab}-001`,
     };
 }
+export async function saveCampInfoDetail(input, signal) {
+    if (resolveProvider() === 'api') {
+        const campId = await resolveApiCampId(input.campId, input.storeId, signal);
+        const payload = await postHudson('/camp/save', buildSavePayload({ ...input, campId }), signal);
+        const rawStore = payload?.data ?? payload;
+        const source = readApiStoreSource(rawStore);
+        const savedCampId = readString(source?.campId) ?? campId;
+        const savedStoreId = readString(source?.poiId) ?? readString(source?.id) ?? input.storeId;
+        const roomTypes = await fetchApiRoomTypes(savedCampId, savedStoreId, signal);
+        const store = adaptApiStore({ ...readRecord(rawStore), campId: savedCampId }, DEFAULT_QUERY, roomTypes);
+        if (!store)
+            throw new CampInfoRequestError('/camp/save 未返回门店详情');
+        return buildApiDetail(payload, rawStore, store, `${HUDSON_BASE_URL}/camp/save`, `api-shezhi--xinxi-weihu--mendian-xinxi-save-${input.storeId}`);
+    }
+    await waitForMockLatency();
+    if (resolveMockMode() === 'error') {
+        throw new CampInfoRequestError('门店信息保存失败');
+    }
+    const store = saveMockStoreOverride(input);
+    return {
+        provider: 'mock',
+        endpoint: 'camp-info-save-mock-provider',
+        traceId: `mock-shezhi--xinxi-weihu--mendian-xinxi-save-${input.storeId}`,
+        timestamp: new Date().toISOString(),
+        store,
+        albumImageCount: input.photoCount ?? 0,
+        cityPath: input.cityPath ?? input.cityName ?? store.cityLabel,
+        streetAddress: input.streetAddress ?? store.address,
+        communityName: input.communityName ?? '',
+        unitNo: input.unitNo ?? '',
+        fullAddress: input.fullAddress ?? input.address ?? store.address,
+        plainIntro: input.plainIntro ?? '',
+        richIntro: input.richIntro ?? '',
+        mapCopyright: '© 2026 AutoNavi - GS(2023)4677号',
+    };
+}
 function normalizeQuery(query) {
     return {
         keyword: String(query.keyword ?? DEFAULT_QUERY.keyword).trim(),
@@ -164,7 +216,8 @@ async function fetchMockOverview(query) {
     if (mode === 'error') {
         throw new CampInfoRequestError('门店信息加载失败');
     }
-    const stores = mode === 'empty' ? [] : filterStores([cloneStore(storeSeed)], query);
+    const allStores = mode === 'empty' ? [] : readMockStores();
+    const stores = filterStores(allStores, query);
     const emptyMessage = mode === 'empty'
         ? '暂无已创建的门店'
         : stores.length === 0
@@ -178,9 +231,9 @@ async function fetchMockOverview(query) {
             total: stores.length,
         },
         summary: {
-            activeStoreText: mode === 'empty' ? '0/1' : '1/1',
+            activeStoreText: `${allStores.length}/1`,
             effectivePeriod: '2025.09.28 至 2027.09.28',
-            total: stores.length,
+            total: allStores.length,
             limit: 1,
         },
         importOptions,
@@ -190,61 +243,61 @@ async function fetchMockOverview(query) {
 async function fetchApiOverview(query, signal) {
     const campPayload = await postHudson('/camps/get', {}, signal);
     const campId = readCampId(campPayload?.data ?? campPayload);
-    const [campPayloadDetail, resourcePayload] = await Promise.all([
-        postHudson('/camp/get', { campId }, signal),
+    const [poiPayload, resourcePayload] = await Promise.all([
+        postHudson(CAMP_INFO_POI_ENDPOINT, { campId, pageSize: query.pageSize, pageNum: query.page, isAvailability: '1' }, signal),
         postHudson('/edition/resource/get', { campId }, signal),
     ]);
-    const store = adaptApiStore(campPayloadDetail?.data ?? campPayloadDetail, query);
+    const poiData = poiPayload?.data ?? poiPayload;
+    const poiItems = readApiPoiItems(poiData);
+    const stores = (await Promise.all(poiItems.map(async (item) => {
+        const poiId = readApiPoiId(item);
+        const roomTypes = await fetchApiRoomTypes(campId, poiId, signal);
+        return adaptApiStore({ campId, ...item }, query, roomTypes);
+    }))).filter((item) => Boolean(item));
+    const total = readApiTotal(poiData, poiItems.length);
+    const page = readApiPage(poiData) ?? query.page;
+    const pageSize = readApiPageSize(poiData) ?? query.pageSize;
     return {
         provider: 'api',
-        state: store ? 'success' : 'empty',
-        endpoint: `${HUDSON_BASE_URL}/camp/get`,
-        traceId: readString(campPayloadDetail?.traceId) ?? `api-shezhi--xinxi-weihu--mendian-xinxi-${campId}`,
-        timestamp: readString(campPayloadDetail?.timestamp) ?? new Date().toISOString(),
+        state: stores.length > 0 ? 'success' : 'empty',
+        endpoint: `${HUDSON_BASE_URL}${CAMP_INFO_POI_ENDPOINT}`,
+        traceId: readString(poiPayload?.traceId) ?? `api-shezhi--xinxi-weihu--mendian-xinxi-${campId}`,
+        timestamp: readString(poiPayload?.timestamp) ?? new Date().toISOString(),
         request: query,
         observedEndpoints: [...campInfoObservedEndpoints],
         summary: {
-            activeStoreText: store ? '1/1' : '0/1',
+            activeStoreText: `${total}/${Math.max(total, 1)}`,
             effectivePeriod: readString(resourcePayload?.data?.expireDateRange) ?? '待接口补齐',
-            total: store ? 1 : 0,
-            limit: 1,
+            total,
+            limit: Math.max(total, 1),
         },
-        stores: store ? [store] : [],
+        stores,
         importOptions,
         pagination: {
-            page: query.page,
-            pageSize: query.pageSize,
-            total: store ? 1 : 0,
+            page,
+            pageSize,
+            total,
         },
-        emptyMessage: store ? '暂无符合条件的门店' : '暂无已创建的门店',
+        emptyMessage: poiItems.length > 0 ? '暂无符合条件的门店' : '暂无已创建的门店',
     };
 }
 async function fetchApiDetail(storeId, signal) {
-    const payload = await postHudson('/camp/get', { campId: storeId }, signal);
-    const store = adaptApiStore(payload?.data ?? payload, DEFAULT_QUERY);
+    const campId = await fetchApiCampId(signal);
+    const payload = await postHudson('/camp/get', { campId, storeId, poiId: storeId }, signal);
+    const rawStore = payload?.data ?? payload;
+    const source = readApiStoreSource(rawStore);
+    const roomTypes = await fetchApiRoomTypes(readString(source?.campId) ?? campId, readString(source?.poiId) ?? storeId, signal);
+    const store = adaptApiStore({ ...readRecord(rawStore), campId }, DEFAULT_QUERY, roomTypes);
     if (!store)
         throw new CampInfoRequestError('/camp/get 未返回门店详情');
-    return {
-        provider: 'api',
-        endpoint: `${HUDSON_BASE_URL}/camp/get`,
-        traceId: readString(payload?.traceId) ?? `api-shezhi--xinxi-weihu--mendian-xinxi-detail-${storeId}`,
-        timestamp: readString(payload?.timestamp) ?? new Date().toISOString(),
-        store,
-        albumImageCount: 9,
-        cityPath: store.cityLabel,
-        streetAddress: store.address,
-        communityName: '',
-        unitNo: '',
-        fullAddress: store.address,
-        mapCopyright: '© 2026 AutoNavi - GS(2023)4677号',
-    };
+    return buildApiDetail(payload, rawStore, store, `${HUDSON_BASE_URL}/camp/get`, `api-shezhi--xinxi-weihu--mendian-xinxi-detail-${storeId}`);
 }
 function adaptOverview(envelope, request, provider, emptyMessage) {
     const data = unwrapEnvelope(envelope);
     return {
         provider,
         state: data.list.length === 0 ? 'empty' : 'success',
-        endpoint: provider === 'mock' ? 'camp-info-mock-provider' : `${HUDSON_BASE_URL}/camp/get`,
+        endpoint: provider === 'mock' ? 'camp-info-mock-provider' : `${HUDSON_BASE_URL}${CAMP_INFO_POI_ENDPOINT}`,
         traceId: envelope.traceId,
         timestamp: envelope.timestamp,
         request,
@@ -261,35 +314,155 @@ function filterStores(stores, query) {
         return stores;
     return stores.filter((item) => `${item.name}${item.address}${item.tagLine}`.includes(query.keyword));
 }
-function adaptApiStore(value, query) {
+async function fetchApiRoomTypes(campId, poiId, signal) {
+    const roomCategoryPayload = await postHudson(CAMP_INFO_ROOM_CATEGORY_ENDPOINT, {
+        campId,
+        ...(poiId ? { poiId } : {}),
+        pageSize: 999,
+        pageNum: 1,
+        roomCategoryName: '',
+        keyword: '',
+        cityIds: [],
+        channelId: '',
+    }, signal);
+    const roomTypes = readApiRoomCategoryItems(roomCategoryPayload?.data ?? roomCategoryPayload)
+        .map(adaptApiRoomTypeDraft)
+        .filter((item) => Boolean(item));
+    const roomCategoryIds = roomTypes.map((item) => item.id);
+    if (roomCategoryIds.length === 0)
+        return [];
+    const roomsPayload = await postHudson(CAMP_INFO_ROOMS_ENDPOINT, { campId, roomCategoryIds }, signal);
+    const roomsByCategory = readApiRoomsByCategory(roomsPayload?.data ?? roomsPayload);
+    return roomTypes.map(({ inlineRoomNames, ...roomType }) => {
+        const roomNames = roomsByCategory.get(roomType.id) ?? inlineRoomNames;
+        return {
+            ...roomType,
+            roomCount: roomNames.length > 0 ? roomNames.length : roomType.roomCount,
+            roomLabel: buildRoomLabel(roomNames, roomType.roomLabel),
+        };
+    });
+}
+function readApiRoomCategoryItems(value) {
+    if (Array.isArray(value))
+        return value.map(readRecord).filter((item) => Boolean(item));
     const record = readRecord(value);
-    const rawName = readString(record?.name) ||
-        readString(record?.campName) ||
-        readString(record?.poiName) ||
-        readString(record?.title);
+    const nestedData = readRecord(record?.data);
+    const list = Array.isArray(record?.list) ? record.list : Array.isArray(nestedData?.list) ? nestedData.list : [];
+    return list.map(readRecord).filter((item) => Boolean(item));
+}
+function adaptApiRoomTypeDraft(value, index) {
+    const id = readString(value.roomCategoryId) ?? readString(value.id);
+    const name = readString(value.roomCategoryName) ?? readString(value.name) ?? readString(value.displayName);
+    if (!id || !name)
+        return null;
+    const inlineRoomNames = readRoomNames(value);
+    const fallbackRoomLabel = readString(value.roomNames) ?? readString(value.roomLabel) ?? '';
+    return {
+        id,
+        name,
+        imageKey: `api-${index % 4}`,
+        imageUrl: readString(value.mainPhotoMediaUrl) ??
+            readString(value.mainPhotoUrl) ??
+            readString(value.mainPhoto) ??
+            undefined,
+        roomCount: readNumber(value.roomNum) ?? readNumber(value.roomCount) ?? inlineRoomNames.length,
+        roomLabel: buildRoomLabel(inlineRoomNames, fallbackRoomLabel),
+        inlineRoomNames,
+    };
+}
+function readApiRoomsByCategory(value) {
+    const record = readRecord(value);
+    const nestedData = readRecord(record?.data);
+    const groups = Array.isArray(record?.roomCategoryRooms)
+        ? record.roomCategoryRooms
+        : Array.isArray(nestedData?.roomCategoryRooms)
+            ? nestedData.roomCategoryRooms
+            : Array.isArray(value)
+                ? value
+                : [];
+    const roomsByCategory = new Map();
+    for (const group of groups) {
+        const groupRecord = readRecord(group);
+        if (!groupRecord)
+            continue;
+        const categoryId = readString(groupRecord.roomCategoryId) ?? readString(groupRecord.id);
+        if (!categoryId)
+            continue;
+        roomsByCategory.set(categoryId, readRoomNames(groupRecord));
+    }
+    return roomsByCategory;
+}
+function readRoomNames(value) {
+    const explicitNames = parseDelimitedNames(readString(value.roomNames));
+    const roomRows = Array.isArray(value.rooms) ? value.rooms : Array.isArray(value.roomViews) ? value.roomViews : [];
+    const rowNames = roomRows
+        .map(readRecord)
+        .map((item) => item
+        ? readString(item.roomName) ??
+            readString(item.name) ??
+            readString(item.roomNo) ??
+            readString(item.roomNumber) ??
+            readString(item.roomId)
+        : null)
+        .filter((item) => Boolean(item));
+    return uniqueStrings([...explicitNames, ...rowNames]);
+}
+function parseDelimitedNames(value) {
+    if (!value)
+        return [];
+    return uniqueStrings(value.split(/[,，、/]+/).map((item) => item.trim()));
+}
+function buildRoomLabel(roomNames, fallback) {
+    const names = uniqueStrings(roomNames);
+    if (names.length > 0)
+        return names.join(', ');
+    return fallback.trim() || '暂无房间';
+}
+function uniqueStrings(values) {
+    return values.map((item) => item.trim()).filter(Boolean).filter((item, index, list) => list.indexOf(item) === index);
+}
+function adaptApiStore(value, query, roomTypes) {
+    const source = readApiStoreSource(value);
+    const rawName = readString(source?.poiName) ||
+        readString(source?.name) ||
+        readString(source?.campName) ||
+        readString(source?.title);
     if (!rawName)
         return null;
+    const tagLine = buildTagLine(source?.tags) || buildTagLine(source?.tagsJson) || readString(source?.tagLine) || '';
+    const hasRealRoomTypes = Array.isArray(roomTypes);
     const store = {
-        id: readString(record?.campId) ?? readString(record?.poiId) ?? storeSeed.id,
-        campId: readString(record?.campId) ?? storeSeed.campId,
+        id: readString(source?.poiId) ?? readString(source?.id) ?? readString(source?.value) ?? readString(source?.campId) ?? storeSeed.id,
+        campId: readString(source?.campId) ?? storeSeed.campId,
         name: rawName,
-        typeLabel: readString(record?.typeName) ?? readString(record?.campTypeName) ?? storeSeed.typeLabel,
+        typeLabel: readString(source?.typeName) ?? readString(source?.campTypeName) ?? readString(source?.poiType) ?? '',
         coverLabel: '门店图片预览',
-        address: readString(record?.address) ?? readString(record?.fullAddress) ?? storeSeed.address,
-        cityLabel: readString(record?.cityName) ?? storeSeed.cityLabel,
-        phone: readString(record?.phone) ?? readString(record?.mobile) ?? storeSeed.phone,
-        tagLine: readString(record?.tags) ?? storeSeed.tagLine,
-        listedRoomTypeCount: readNumber(record?.roomTypeCount) ?? storeSeed.listedRoomTypeCount,
-        roomTypes: storeSeed.roomTypes.map((item) => ({ ...item })),
+        coverImageDataUrl: readString(source?.coverImageDataUrl) ?? undefined,
+        address: readString(source?.fullAddress) ?? readString(source?.address) ?? readString(source?.streetAddress) ?? '',
+        cityLabel: readString(source?.cityPath) ?? readString(source?.cityName) ?? '',
+        phone: readString(source?.contactNumber) ??
+            readString(source?.phone) ??
+            readString(source?.mobile) ??
+            '',
+        tagLine,
+        listedRoomTypeCount: hasRealRoomTypes
+            ? roomTypes.length
+            : readNumber(source?.roomTypeCount) ?? readNumber(source?.listedRoomTypeCount) ?? 0,
+        roomTypes: hasRealRoomTypes ? roomTypes.map((item) => ({ ...item })) : [],
     };
     if (!filterStores([store], query).length)
         return null;
     return store;
 }
 async function postHudson(endpoint, body, signal) {
+    const headers = { 'content-type': 'application/json' };
+    const token = readRuntimeConfig('pms_token');
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
     const response = await fetch(`${HUDSON_BASE_URL}${endpoint}`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers,
         credentials: 'include',
         body: JSON.stringify(body),
         signal,
@@ -343,6 +516,263 @@ function readCampId(value) {
     if (!campId)
         throw new CampInfoRequestError('/camps/get 未返回可用 campId');
     return campId;
+}
+async function fetchApiCampId(signal) {
+    const campPayload = await postHudson('/camps/get', {}, signal);
+    return readCampId(campPayload?.data ?? campPayload);
+}
+async function resolveApiCampId(campId, storeId, signal) {
+    const normalizedCampId = campId?.trim();
+    if (normalizedCampId && normalizedCampId !== storeId && !normalizedCampId.startsWith(NEW_STORE_ID_PREFIX)) {
+        return normalizedCampId;
+    }
+    return fetchApiCampId(signal);
+}
+function readApiStoreSource(value) {
+    const record = readRecord(value) ?? {};
+    const dataRecord = readRecord(record.data);
+    const sourceRecord = dataRecord ?? record;
+    const campRecord = readRecord(sourceRecord.camp);
+    return campRecord ? { ...campRecord, ...sourceRecord } : sourceRecord;
+}
+function buildApiDetail(payload, rawStore, store, endpoint, fallbackTraceId) {
+    const source = readApiStoreSource(rawStore);
+    const photoCount = readNumber(source.photoCount) ?? (store.coverImageDataUrl ? 1 : 0);
+    return {
+        provider: 'api',
+        endpoint,
+        traceId: readString(payload?.traceId) ?? fallbackTraceId,
+        timestamp: readString(payload?.timestamp) ?? new Date().toISOString(),
+        store,
+        albumImageCount: photoCount,
+        cityPath: readString(source.cityPath) ?? readString(source.cityName) ?? store.cityLabel,
+        streetAddress: readString(source.streetAddress) ?? store.address,
+        communityName: readString(source.communityName) ?? '',
+        unitNo: readString(source.unitNo) ?? '',
+        fullAddress: readString(source.fullAddress) ?? readString(source.address) ?? store.address,
+        plainIntro: readString(source.plainIntro) ?? '',
+        richIntro: readString(source.richIntro) ?? '',
+        mapCopyright: '© 2026 AutoNavi - GS(2023)4677号',
+    };
+}
+function readApiPoiItems(value) {
+    if (Array.isArray(value))
+        return value.map(readRecord).filter((item) => Boolean(item));
+    const record = readRecord(value);
+    const nestedData = readRecord(record?.data);
+    const list = Array.isArray(record?.list) ? record.list : Array.isArray(nestedData?.list) ? nestedData.list : [];
+    return list.map(readRecord).filter((item) => Boolean(item));
+}
+function readApiPoiId(value) {
+    return readString(value.poiId) ?? readString(value.id) ?? readString(value.value) ?? undefined;
+}
+function readApiTotal(value, fallback) {
+    const record = readRecord(value);
+    const nestedData = readRecord(record?.data);
+    return readNumber(record?.total) ?? readNumber(nestedData?.total) ?? fallback;
+}
+function readApiPage(value) {
+    const record = readRecord(value);
+    const nestedData = readRecord(record?.data);
+    return readNumber(record?.pageNum) ?? readNumber(record?.current) ?? readNumber(nestedData?.pageNum) ?? readNumber(nestedData?.current);
+}
+function readApiPageSize(value) {
+    const record = readRecord(value);
+    const nestedData = readRecord(record?.data);
+    return readNumber(record?.pageSize) ?? readNumber(record?.size) ?? readNumber(nestedData?.pageSize) ?? readNumber(nestedData?.size);
+}
+function buildSavePayload(input) {
+    const campId = input.campId ?? input.storeId;
+    const name = input.name ?? input.campName;
+    const phone = input.phone ?? input.contactNumber ?? '';
+    const cityName = input.cityName ?? input.cityPath ?? '';
+    const address = input.address ?? input.fullAddress ?? input.streetAddress ?? '';
+    const fullAddress = input.fullAddress ?? input.address ?? input.streetAddress ?? '';
+    return {
+        campId,
+        storeId: input.storeId,
+        poiId: input.poiId,
+        campName: input.campName,
+        name,
+        typeName: input.typeName ?? input.campTypeName ?? '',
+        campTypeName: input.campTypeName ?? input.typeName ?? '',
+        phone,
+        contactNumber: input.contactNumber ?? phone,
+        cityName,
+        cityPath: input.cityPath ?? cityName,
+        address,
+        streetAddress: input.streetAddress ?? address,
+        communityName: input.communityName ?? '',
+        unitNo: input.unitNo ?? '',
+        fullAddress,
+        tags: normalizeTagList(input.tags),
+        plainIntro: input.plainIntro ?? '',
+        richIntro: input.richIntro ?? '',
+        coverImageDataUrl: input.coverImageDataUrl ?? '',
+        photoCount: input.photoCount ?? 0,
+    };
+}
+function resolveMockStore(storeId) {
+    return readMockStores().find((item) => item.id === storeId || item.campId === storeId) ?? null;
+}
+function readMockStores() {
+    const overrides = readMockStoreOverrides();
+    const stores = new Map();
+    stores.set(storeSeed.id, mergeMockStoreOverride(cloneStore(storeSeed), findSeedStoreOverride(overrides)));
+    for (const [key, override] of Object.entries(overrides)) {
+        if (isSeedStoreOverride(key, override))
+            continue;
+        const store = createMockStoreFromOverride(key, override);
+        stores.set(store.id, store);
+    }
+    return Array.from(stores.values());
+}
+function saveMockStoreOverride(input) {
+    const currentStore = resolveMockStore(input.storeId) ?? createMockStoreFromInput(input);
+    const override = {
+        id: currentStore.id,
+        campId: input.campId ?? currentStore.campId,
+        name: input.name ?? input.campName,
+        typeLabel: input.typeName ?? input.campTypeName ?? currentStore.typeLabel,
+        address: input.fullAddress ?? input.address ?? input.streetAddress ?? currentStore.address,
+        cityLabel: input.cityPath ?? input.cityName ?? currentStore.cityLabel,
+        phone: input.phone ?? input.contactNumber ?? currentStore.phone,
+        tagLine: buildTagLine(input.tags) || currentStore.tagLine,
+        streetAddress: input.streetAddress,
+        communityName: input.communityName,
+        unitNo: input.unitNo,
+        fullAddress: input.fullAddress ?? input.address,
+        plainIntro: input.plainIntro,
+        richIntro: input.richIntro,
+        coverImageDataUrl: input.coverImageDataUrl,
+        photoCount: input.photoCount,
+    };
+    writeMockStoreOverride(currentStore.id, override);
+    return mergeMockStoreOverride(currentStore, override);
+}
+function findSeedStoreOverride(overrides) {
+    return Object.entries(overrides).find(([key, override]) => isSeedStoreOverride(key, override))?.[1];
+}
+function isSeedStoreOverride(key, override) {
+    return key === storeSeed.id || key === storeSeed.campId || override.id === storeSeed.id || override.campId === storeSeed.campId;
+}
+function createMockStoreFromInput(input) {
+    return {
+        id: input.storeId,
+        campId: input.campId ?? input.storeId,
+        name: input.name ?? input.campName,
+        typeLabel: input.typeName ?? input.campTypeName ?? '',
+        coverLabel: '门店图片预览',
+        address: input.fullAddress ?? input.address ?? input.streetAddress ?? '',
+        cityLabel: input.cityPath ?? input.cityName ?? '',
+        phone: input.phone ?? input.contactNumber ?? '',
+        tagLine: buildTagLine(input.tags),
+        listedRoomTypeCount: 0,
+        roomTypes: [],
+    };
+}
+function createMockStoreFromOverride(key, override) {
+    const id = override.id ?? key;
+    return mergeMockStoreOverride({
+        id,
+        campId: override.campId ?? id,
+        name: override.name ?? '',
+        typeLabel: override.typeLabel ?? '',
+        coverLabel: '门店图片预览',
+        address: override.address ?? override.fullAddress ?? '',
+        cityLabel: override.cityLabel ?? '',
+        phone: override.phone ?? '',
+        tagLine: override.tagLine ?? '',
+        listedRoomTypeCount: override.listedRoomTypeCount ?? 0,
+        roomTypes: [],
+    }, override);
+}
+function readMockStoreOverride(storeId) {
+    const override = readMockStoreOverrides()[storeId];
+    return override ? { ...override } : null;
+}
+function readMockStoreOverrides() {
+    if (typeof window === 'undefined')
+        return {};
+    const rawValue = window.localStorage.getItem(CAMP_INFO_MOCK_EDITED_STORES_KEY);
+    if (!rawValue)
+        return {};
+    try {
+        const parsedValue = JSON.parse(rawValue);
+        if (!parsedValue || typeof parsedValue !== 'object' || Array.isArray(parsedValue))
+            return {};
+        return Object.fromEntries(Object.entries(parsedValue)
+            .map(([key, value]) => [key, normalizeMockStoreOverride(value)])
+            .filter((entry) => Boolean(entry[1])));
+    }
+    catch {
+        return {};
+    }
+}
+function writeMockStoreOverride(storeId, override) {
+    if (typeof window === 'undefined')
+        return;
+    window.localStorage.setItem(CAMP_INFO_MOCK_EDITED_STORES_KEY, JSON.stringify({
+        ...readMockStoreOverrides(),
+        [storeId]: override,
+    }));
+}
+function normalizeMockStoreOverride(value) {
+    const record = readRecord(value);
+    if (!record)
+        return null;
+    return {
+        id: readString(record.id) ?? undefined,
+        campId: readString(record.campId) ?? undefined,
+        name: readString(record.name) ?? undefined,
+        typeLabel: readString(record.typeLabel) ?? undefined,
+        address: readString(record.address) ?? undefined,
+        cityLabel: readString(record.cityLabel) ?? undefined,
+        phone: readString(record.phone) ?? undefined,
+        tagLine: readString(record.tagLine) ?? undefined,
+        listedRoomTypeCount: readNumber(record.listedRoomTypeCount) ?? undefined,
+        streetAddress: readString(record.streetAddress) ?? undefined,
+        communityName: readString(record.communityName) ?? undefined,
+        unitNo: readString(record.unitNo) ?? undefined,
+        fullAddress: readString(record.fullAddress) ?? undefined,
+        plainIntro: readString(record.plainIntro) ?? undefined,
+        richIntro: readString(record.richIntro) ?? undefined,
+        coverImageDataUrl: readString(record.coverImageDataUrl) ?? undefined,
+        photoCount: readNumber(record.photoCount) ?? undefined,
+    };
+}
+function mergeMockStoreOverride(store, override) {
+    if (!override)
+        return store;
+    return {
+        ...store,
+        ...override,
+        id: override.id ?? store.id,
+        campId: override.campId ?? store.campId,
+        coverLabel: store.coverLabel,
+        listedRoomTypeCount: override.listedRoomTypeCount ?? store.listedRoomTypeCount,
+        roomTypes: store.roomTypes.map((item) => ({ ...item })),
+    };
+}
+function buildTagLine(value) {
+    return normalizeTagList(value).join(' / ');
+}
+function normalizeTagList(value) {
+    const rawTags = Array.isArray(value) ? value : parseTagString(readString(value));
+    return rawTags.map((item) => String(item).trim()).filter(Boolean).filter((item, index, list) => list.indexOf(item) === index);
+}
+function parseTagString(value) {
+    if (!value)
+        return [];
+    try {
+        const parsedValue = JSON.parse(value);
+        if (Array.isArray(parsedValue))
+            return parsedValue.map(String);
+    }
+    catch {
+        // Non-JSON tag strings are split below.
+    }
+    return value.split(/[\/,，、]/);
 }
 function resolveProvider() {
     const configured = readRuntimeConfig(CAMP_INFO_PROVIDER_KEY) || import.meta.env.VITE_CAMP_INFO_PROVIDER;

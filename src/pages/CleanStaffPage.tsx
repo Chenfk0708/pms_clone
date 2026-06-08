@@ -16,6 +16,8 @@ import type {
   CleanStaffScenario,
   CleanStaffStatus,
 } from '../services/cleanStaff'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CleanStaffPage.css'
 
 const defaultQuery = createDefaultCleanStaffQuery()
@@ -98,7 +100,12 @@ export function CleanStaffPage() {
     ].join(';')
   }, [dashboard, query])
 
-  const stores = dashboard?.stores ?? [{ id: 'all', name: '全部门店' }]
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? [{ id: 'all', name: '全部门店' }]).map((store) => ({
+      id: store.id,
+      label: store.name,
+    })),
+  })
   const list = dashboard?.list ?? []
   const summary = dashboard?.summary ?? {
     total: 0,
@@ -183,20 +190,14 @@ export function CleanStaffPage() {
       </header>
 
       <section className="clean-staff-panel" aria-label="保洁人员筛选">
-        <div className="clean-store-tabs" aria-label="门店筛选">
-          {stores.map((store) => (
-            <button
-              key={store.id}
-              type="button"
-              aria-pressed={query.poiId === store.id}
-              className={query.poiId === store.id ? 'is-active' : ''}
-              disabled={isLoading}
-              onClick={() => setQuery((current) => ({ ...current, poiId: store.id, pageNum: 1, scenario: 'success' }))}
-            >
-              {store.name}
-            </button>
-          ))}
-        </div>
+        <StoreSelectControl
+          className="clean-store-tabs"
+          label="门店筛选"
+          options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+          value={query.poiId}
+          disabled={isLoading || storeLoading}
+          onChange={(storeId) => setQuery((current) => ({ ...current, poiId: storeId, pageNum: 1, scenario: 'success' }))}
+        />
 
         <div className="clean-staff-filters">
           <label>

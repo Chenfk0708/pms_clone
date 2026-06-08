@@ -39,6 +39,16 @@
   border-bottom: 1px solid #edf1f7;
 }
 
+.presale-sales-store {
+  margin-left: auto;
+}
+
+.presale-sales-store .month-store-select__trigger {
+  width: 220px;
+  max-width: 220px;
+  border-radius: 4px;
+}
+
 .presale-sales-section__header h2,
 .presale-sales-chart-header h2 {
   margin: 0;
@@ -48,7 +58,7 @@
 }
 
 .presale-sales-link {
-  margin-left: auto;
+  margin-left: 0;
   padding: 0;
   border: 0;
   background: transparent;

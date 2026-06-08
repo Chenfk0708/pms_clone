@@ -140,7 +140,7 @@ export async function fetchDistributionDashboard(
 }
 
 export function buildDistributionRequests(filters: DistributionFilters) {
-  const poiId = filters.poiId === 'ALL' ? '' : filters.poiId
+  const poiId = isAllStore(filters.poiId) ? '' : filters.poiId
   return {
     campFlow: { campId: filters.campId },
     roomCategories: {
@@ -245,9 +245,13 @@ function adaptDistributionDashboard(
 function filterRooms(rooms: DistributionRoomCategory[], filters: DistributionFilters) {
   return rooms.filter((room) => {
     const keywordMatched = !filters.keyword || room.name.includes(filters.keyword)
-    const storeMatched = filters.poiId === 'ALL' || room.storeId === filters.poiId
+    const storeMatched = isAllStore(filters.poiId) || room.storeId === filters.poiId
     return keywordMatched && storeMatched
   })
+}
+
+function isAllStore(storeId: string) {
+  return !storeId || storeId === 'ALL' || storeId === 'all'
 }
 
 function createRoom(

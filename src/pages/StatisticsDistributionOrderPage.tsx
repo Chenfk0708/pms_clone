@@ -10,6 +10,8 @@ import {
   type StatisticsDistributionOrderQuery,
   type StatisticsDistributionOrderStoreScope,
 } from '../services/statisticsDistributionOrder'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './OrderLedgerPage.css'
 import './DistributionOrderPage.css'
 import './StatisticsDistributionOrderPage.css'
@@ -58,11 +60,20 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }: { de
   const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
   const [dateDraft, setDateDraft] = useState(() => ({ startDate: bookingStartDate, endDate: bookingEndDate }))
   const dateRangeRef = useRef<HTMLDivElement | null>(null)
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: data
+      ? [
+          { id: 'all', label: '全部门店' },
+          { id: data.campId, label: data.campName },
+        ]
+      : undefined,
+  })
 
   const query = useMemo<StatisticsDistributionOrderQuery>(
     () => ({
       ...initialQuery,
       storeScope: submittedStoreScope,
+      poiIds: submittedStoreScope === 'all' ? [] : [submittedStoreScope],
       bookingStartDate: submittedBookingStartDate,
       bookingEndDate: submittedBookingEndDate,
       keyword: submittedKeyword,
@@ -199,32 +210,25 @@ export function StatisticsDistributionOrderPage({ defaultExpanded = true }: { de
 
       <section className="order-ledger-filter statistics-distribution-filter" aria-label="聚合分销订单筛选">
         <div className="order-ledger-filter__top statistics-distribution-filter__top">
-          <div className="order-ledger-store-row statistics-distribution-store" aria-label="门店">
-            <button
-              type="button"
-              className={storeScope === 'all' ? 'is-active' : ''}
-              aria-pressed={storeScope === 'all'}
-              onClick={() => applyStoreScope('all', '已刷新全部门店口径的聚合分销订单')}
-            >
-              全部门店
-            </button>
-            <button
-              type="button"
-              className={storeScope === 'current' ? 'is-active' : ''}
-              aria-pressed={storeScope === 'current'}
-              onClick={() => applyStoreScope('current', '已刷新当前门店口径的聚合分销订单')}
-            >
-              {data?.campName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
-            </button>
-            <button
-              type="button"
-              className="order-ledger-gear"
-              aria-label="门店设置"
-              onClick={() => navigate('/InformationMaintenance/campInfo')}
-            >
-              ⚙
-            </button>
-          </div>
+          <StoreSelectControl
+            className="order-ledger-store-row statistics-distribution-store"
+            label="门店"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={storeScope}
+            disabled={storeLoading}
+            onChange={(storeId) => {
+              const nextScope = storeId === 'all' ? 'all' : storeId
+              const store = storeOptions.find((item) => item.id === storeId)
+              applyStoreScope(
+                nextScope,
+                nextScope === 'all'
+                  ? '已刷新全部门店口径的聚合分销订单'
+                  : `已刷新${store?.label ?? '所选门店'}口径的聚合分销订单`,
+              )
+            }}
+            settingsLabel="门店设置"
+            onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+          />
         </div>
 
         {expanded ? (

@@ -103,6 +103,7 @@
 }
 
 .price-page {
+  position: relative;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 6px;
@@ -126,6 +127,26 @@
   min-height: 0;
   padding: 0;
   overflow: hidden;
+}
+
+.price-action-feedback {
+  position: absolute;
+  z-index: 15;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(560px, calc(100% - 32px));
+  min-height: 32px;
+  padding: 7px 16px;
+  border: 1px solid #b9d3ff;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #27538c;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(39, 83, 140, 0.12);
 }
 
 .price-request-state {
@@ -358,6 +379,11 @@
 .price-page .toolbar-filters .chip.is-active {
   border-color: #4d65f6;
   background: #fff;
+}
+
+.price-toolbar-store-select .month-store-select__trigger {
+  height: 32px;
+  border-radius: 4px;
 }
 
 .price-filter-select {

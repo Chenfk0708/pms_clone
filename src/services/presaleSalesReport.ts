@@ -20,6 +20,7 @@ export type PresaleTrendMode = 'amount' | 'orders'
 
 export type PresaleSalesQuery = {
   campId: string
+  storeScope?: string
   startDate: string
   endDate: string
   state?: PresaleSalesState
@@ -125,6 +126,7 @@ export class PresaleSalesServiceError extends Error {
 export function createDefaultPresaleSalesQuery(): NormalizedPresaleSalesQuery {
   return {
     campId: DEFAULT_CAMP_ID,
+    storeScope: 'all',
     startDate: DEFAULT_START_DATE,
     endDate: DEFAULT_END_DATE,
     state: 'success',
@@ -138,6 +140,7 @@ export function createInitialPresaleSalesQuery(): PresaleSalesQuery {
   const params = new URLSearchParams(window.location.search)
   return {
     campId: params.get('campId') || defaults.campId,
+    storeScope: params.get('storeScope') || params.get('poiId') || defaults.storeScope,
     startDate: params.get('startDate') || defaults.startDate,
     endDate: params.get('endDate') || defaults.endDate,
     state: resolvePresaleSalesState(params.get('mockState') || window.localStorage.getItem('pms.presaleSales.state')),
@@ -145,7 +148,7 @@ export function createInitialPresaleSalesQuery(): PresaleSalesQuery {
 }
 
 export function createPresaleSalesRequestBodies(query: PresaleSalesQuery): PresaleSalesRequest[] {
-  return [
+  return applyPresaleSalesStoreScope(query, [
     {
       label: '经营概览',
       path: PRESALE_SALES_OVERVIEW_ENDPOINT,
@@ -216,7 +219,26 @@ export function createPresaleSalesRequestBodies(query: PresaleSalesQuery): Presa
         isEnable: 1,
       },
     },
-  ]
+  ])
+}
+
+function applyPresaleSalesStoreScope(
+  query: PresaleSalesQuery,
+  requests: PresaleSalesRequest[],
+): PresaleSalesRequest[] {
+  if (!query.storeScope || query.storeScope === 'all') return requests
+
+  return requests.map((request) =>
+    request.path === PRESALE_SALES_STORE_ENDPOINT
+      ? request
+      : {
+          ...request,
+          body: {
+            ...request.body,
+            poiIds: [query.storeScope],
+          },
+        },
+  )
 }
 
 export function resolvePresaleSalesProvider(): PresaleSalesProvider {
@@ -387,6 +409,7 @@ function normalizePresaleSalesQuery(input: PresaleSalesQuery): NormalizedPresale
   const defaults = createDefaultPresaleSalesQuery()
   return {
     campId: input.campId || defaults.campId,
+    storeScope: input.storeScope || defaults.storeScope,
     startDate: input.startDate || defaults.startDate,
     endDate: input.endDate || defaults.endDate,
     state: input.state || defaults.state,

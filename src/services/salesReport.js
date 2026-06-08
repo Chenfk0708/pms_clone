@@ -333,6 +333,9 @@ export function createSalesReportRequestBody(query) {
         requestBody.roomCategoryGroupIds = [...query.roomCategoryGroupIds];
     if (query.activeTab === 'room')
         requestBody.roomIds = [...query.roomIds];
+    const poiIds = resolveSalesReportPoiIds(query.storeScope);
+    if (poiIds.length > 0)
+        requestBody.poiIds = poiIds;
     return requestBody;
 }
 export function createSalesReportExportRequestBody(query) {
@@ -565,7 +568,16 @@ function normalizeQuery(input) {
         channelIds: [...input.channelIds],
         roomCategoryGroupIds: [...input.roomCategoryGroupIds],
         roomIds: [...input.roomIds],
+        storeScope: input.storeScope || defaults.storeScope,
     };
+}
+function resolveSalesReportPoiIds(storeScope) {
+    if (!storeScope || storeScope === 'all')
+        return [];
+    const knownStore = storeOptions.find((store) => store.id === storeScope);
+    if (knownStore)
+        return [...knownStore.poiIds];
+    return [storeScope];
 }
 function resolveQueryType(tab) {
     const queryTypeMap = {

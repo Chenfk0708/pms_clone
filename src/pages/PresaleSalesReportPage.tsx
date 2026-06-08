@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   createInitialPresaleSalesQuery,
   createPresaleSalesRequestBodies,
@@ -19,6 +21,7 @@ export function PresaleSalesReportPage() {
   const [trendMode, setTrendMode] = useState<PresaleTrendMode>('amount')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { storeOptions, storeLoading } = useStoreOptions()
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -62,6 +65,13 @@ export function PresaleSalesReportPage() {
     setTrendMode(nextMode)
   }
 
+  function switchStore(storeId: string) {
+    setQuery((current) => ({
+      ...current,
+      storeScope: storeId,
+    }))
+  }
+
   return (
     <div className="presale-sales-report-page" aria-label="预售券销售统计">
       <h1 className="sr-only-heading">预售券销售统计</h1>
@@ -78,6 +88,14 @@ export function PresaleSalesReportPage() {
       <section className="presale-sales-section presale-sales-kpi-section">
         <header className="presale-sales-section__header">
           <h2>经营指标</h2>
+          <StoreSelectControl
+            className="presale-sales-store"
+            label="闂ㄥ簵鑼冨洿"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={query.storeScope ?? 'all'}
+            disabled={storeLoading || loading}
+            onChange={(storeId) => switchStore(storeId)}
+          />
           <button type="button" className="presale-sales-link" disabled={controlsDisabled} onClick={() => navigate(detailRoute)}>
             查看明细数据&gt;
           </button>

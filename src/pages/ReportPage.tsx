@@ -11,11 +11,12 @@ import {
   type StatisticsReportQuery,
   type StatisticsReportTrendKey,
 } from '../services/statisticsReport'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './ReportPage.css'
 
 type ReportMode = 'overview' | 'future'
 type FilterKey = 'roomType' | 'channel' | 'tag' | null
-type StoreScope = 'all' | 'current'
 type DatePickTarget = 'start' | 'end'
 type DatePanelPosition = { top: number; left: number }
 export function ReportPage() {
@@ -31,7 +32,6 @@ export function ReportPage() {
   const [openFilter, setOpenFilter] = useState<FilterKey>(null)
   const [activeTrendKey, setActiveTrendKey] = useState<StatisticsReportTrendKey>('businessIncome')
   const [isDatePanelOpen, setIsDatePanelOpen] = useState(false)
-  const [storeScope, setStoreScope] = useState<StoreScope>('current')
   const [calendarMonth, setCalendarMonth] = useState(() => query.startDate.slice(0, 7))
   const [datePickTarget, setDatePickTarget] = useState<DatePickTarget>('start')
   const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
@@ -65,6 +65,8 @@ export function ReportPage() {
   )
   const channelLabel = selectedLabel(dashboard?.channelOptions ?? [], query.channelIds[0], '全部渠道')
   const roomTagLabel = dashboard && dashboard.roomTagOptions.length > 0 ? '全部房型标签' : '暂无房型标签'
+  const { storeOptions, storeLoading } = useStoreOptions({ fallbackOptions: dashboard?.storeOptions })
+  const selectedStoreId = query.poiIds[0] ?? 'all'
   const contractText = useMemo(
     () =>
       JSON.stringify(
@@ -96,6 +98,7 @@ export function ReportPage() {
         roomCategoryIds: current.roomCategoryIds,
         channelIds: current.channelIds,
         roomCategoryGroupIds: current.roomCategoryGroupIds,
+        poiIds: current.poiIds,
         state: current.state,
       }
     })
@@ -153,7 +156,6 @@ export function ReportPage() {
     setOpenFilter(null)
     setIsDatePanelOpen(false)
     setQuery(createInitialQuery())
-    setStoreScope('current')
     setMode('overview')
     setActiveTrendKey('businessIncome')
     setNotice('已恢复默认筛选')
@@ -172,9 +174,17 @@ export function ReportPage() {
     setNotice('统计概览导出任务已创建')
   }
 
-  function switchStoreScope(nextScope: StoreScope) {
-    setStoreScope(nextScope)
-    setNotice(nextScope === 'all' ? '已切换到全部门店视角' : '已切换到当前门店视角')
+  function switchStore(storeId: string) {
+    setLoading(true)
+    setError('')
+    setOpenFilter(null)
+    setIsDatePanelOpen(false)
+    setQuery((current) => ({
+      ...current,
+      poiIds: storeId === 'all' ? [] : [storeId],
+    }))
+    const store = storeOptions.find((item) => item.id === storeId)
+    setNotice(storeId === 'all' ? '已切换到全部门店视角' : `已切换到${store?.label ?? '所选门店'}视角`)
   }
 
   function openTagSelect() {
@@ -238,32 +248,16 @@ export function ReportPage() {
               ))}
             </div>
 
-            <div className="statistics-report-store">
-              <button
-                type="button"
-                className={`store-scope${storeScope === 'all' ? ' is-active' : ''}`}
-                aria-pressed={storeScope === 'all'}
-                onClick={() => switchStoreScope('all')}
-              >
-                全部门店
-              </button>
-              <button
-                type="button"
-                className={`store-current${storeScope === 'current' ? ' is-active' : ''}`}
-                aria-pressed={storeScope === 'current'}
-                onClick={() => switchStoreScope('current')}
-              >
-                {dashboard?.currentStoreName ?? '天落会宿公寓(前海壹方城宝安中心店)'}
-              </button>
-              <button
-                type="button"
-                className="store-settings-button"
-                aria-label="打开门店信息设置"
-                onClick={() => navigate('/InformationMaintenance/campInfo')}
-              >
-                <span aria-hidden="true" />
-              </button>
-            </div>
+            <StoreSelectControl
+              className="statistics-report-store"
+              label="门店范围"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={selectedStoreId}
+              disabled={storeLoading}
+              onChange={(storeId) => switchStore(storeId)}
+              settingsLabel="打开门店信息设置"
+              onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+            />
 
             {expanded ? (
               <div className="statistics-report-filters">

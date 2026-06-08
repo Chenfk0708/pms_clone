@@ -1,5 +1,33 @@
 import { expect, test } from '@playwright/test'
 import { appUrl, installRealSession, loginViaGateway } from './helpers/real-auth'
+import { runMysql, selectActiveRooms } from './helpers/real-db'
+
+
+function seedOtaRealSmokeData() {
+  const [firstRoom, secondRoom] = selectActiveRooms(2)
+  runMysql(`
+    SET NAMES utf8mb4;
+    INSERT INTO channel_room_category_rel (
+      id,
+      camp_id,
+      account_id,
+      room_category_id,
+      out_room_category_id,
+      project_type,
+      shelf_status,
+      audit_status,
+      created_at,
+      updated_at
+    ) VALUES
+      (66201, 10001, 25302, ${firstRoom.roomCategoryId}, 'CTRIP-RC-REAL', 'calendar_room', 'on_shelf', 'approved', '2026-06-01 10:00:00', '2026-06-01 10:00:00'),
+      (66202, 10001, 25301, ${secondRoom.roomCategoryId}, 'MT-RC-REAL', 'calendar_room', 'on_shelf', 'approved', '2026-06-01 10:05:00', '2026-06-01 10:05:00')
+    ON DUPLICATE KEY UPDATE
+      out_room_category_id = VALUES(out_room_category_id),
+      shelf_status = VALUES(shelf_status),
+      audit_status = VALUES(audit_status),
+      updated_at = VALUES(updated_at);
+  `)
+}
 
 test('OTA api provider adapts platform OTA dashboard contract directly', async ({ page }) => {
   const apiCalls: string[] = []
@@ -110,6 +138,7 @@ test('OTA api provider adapts platform OTA dashboard contract directly', async (
 })
 
 test('OTA dashboard and detail pages use real gateway APIs', async ({ page, request }) => {
+  seedOtaRealSmokeData()
   const token = await loginViaGateway(request)
   const apiCalls: string[] = []
   const dashboardResponses: unknown[] = []

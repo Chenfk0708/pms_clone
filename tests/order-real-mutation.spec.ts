@@ -3,9 +3,6 @@ import { loginViaGateway, REAL_AUTH_DEFAULT_BASE_URL } from './helpers/real-auth
 
 const baseURL = REAL_AUTH_DEFAULT_BASE_URL
 const campId = '10001'
-const poiId = '11001'
-const roomCategoryId = '22001'
-const roomId = '23001'
 
 type ApiPayload<T> = {
   code: number
@@ -26,6 +23,49 @@ async function postGateway<T>(request: APIRequestContext, token: string, path: s
   return payload.data
 }
 
+type AvailableRoomGroup = {
+  poiId?: string
+  poiName?: string
+  storeId?: string
+  storeName?: string
+  roomCategoryId?: string
+  roomCategoryName?: string
+  rooms?: Array<{ roomId?: string; roomName?: string }>
+}
+
+async function selectAvailableRoom(
+  request: APIRequestContext,
+  token: string,
+  checkInDate: string,
+  checkOutDate: string,
+) {
+  const days = Math.max(
+    1,
+    Math.round((Date.parse(`${checkOutDate}T00:00:00Z`) - Date.parse(`${checkInDate}T00:00:00Z`)) / 86_400_000),
+  )
+  const payload = await postGateway<{ list?: AvailableRoomGroup[] }>(request, token, '/roomStatuses/rooms/get', {
+    campId,
+    startDate: checkInDate,
+    days,
+    page: 1,
+    pageSize: 999,
+  })
+
+  const group = payload.list?.find((item) => item.roomCategoryId && item.rooms?.some((room) => room.roomId))
+  const room = group?.rooms?.find((item) => item.roomId)
+  expect(group, '/roomStatuses/rooms/get should return at least one available room category').toBeTruthy()
+  expect(room, '/roomStatuses/rooms/get should return at least one available room').toBeTruthy()
+
+  return {
+    poiId: String(group!.poiId ?? group!.storeId ?? ''),
+    poiName: group!.poiName ? String(group!.poiName) : group!.storeName ? String(group!.storeName) : undefined,
+    roomCategoryId: String(group!.roomCategoryId),
+    roomCategoryName: group!.roomCategoryName ? String(group!.roomCategoryName) : undefined,
+    roomId: String(room!.roomId),
+    roomName: room!.roomName ? String(room!.roomName) : undefined,
+  }
+}
+
 test('order mutations create, save guests, check in and check out through real gateway APIs', async ({ request }) => {
   const token = await loginViaGateway(request)
   const suffix = `${Date.now()}`
@@ -37,6 +77,9 @@ test('order mutations create, save guests, check in and check out through real g
   const checkOutDate = new Date(today)
   checkOutDate.setDate(today.getDate() + 2)
   const toDateText = (value: Date) => value.toISOString().slice(0, 10)
+  const checkInDateText = toDateText(checkInDate)
+  const checkOutDateText = toDateText(checkOutDate)
+  const selectedRoom = await selectAvailableRoom(request, token, checkInDateText, checkOutDateText)
 
   const createResult = await postGateway<{ orderId: string; status: string; guestCount: number; message: string }>(
     request,
@@ -45,13 +88,16 @@ test('order mutations create, save guests, check in and check out through real g
     {
       orderId,
       campId,
-      poiId,
-      roomCategoryId,
-      roomId,
+      poiId: selectedRoom.poiId,
+      roomCategoryId: selectedRoom.roomCategoryId,
+      roomId: selectedRoom.roomId,
+      poiName: selectedRoom.poiName,
+      roomCategoryName: selectedRoom.roomCategoryName,
+      roomName: selectedRoom.roomName,
       guestName,
       guestMobile: '13990000001',
-      checkInDate: toDateText(checkInDate),
-      checkOutDate: toDateText(checkOutDate),
+      checkInDate: checkInDateText,
+      checkOutDate: checkOutDateText,
       totalPrice: 28800,
       totalPayPrice: 0,
       paymentStatus: 'unpaid',
@@ -84,8 +130,8 @@ test('order mutations create, save guests, check in and check out through real g
   expect(detailAfterCreate.orderId).toBe(orderId)
   expect(detailAfterCreate.status).toBe('booked')
   expect(detailAfterCreate.guestName).toBe(guestName)
-  expect(detailAfterCreate.roomCategoryId).toBe(roomCategoryId)
-  expect(detailAfterCreate.roomId).toBe(roomId)
+  expect(detailAfterCreate.roomCategoryId).toBe(selectedRoom.roomCategoryId)
+  expect(detailAfterCreate.roomId).toBe(selectedRoom.roomId)
   expect(detailAfterCreate.totalPrice).toBe(28800)
   expect(detailAfterCreate.totalPayPrice).toBe(0)
   expect(detailAfterCreate.guests).toHaveLength(1)

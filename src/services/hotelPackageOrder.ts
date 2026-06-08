@@ -5,6 +5,7 @@ export type HotelPackageOrderMockState = 'success' | 'empty' | 'error'
 export const HOTEL_PACKAGE_ORDER_DEFAULT_PAGE_SIZE = 20
 
 export type HotelPackageOrderFilters = {
+  poiIds?: string[]
   orderState: string
   source: string
   afterSale: string
@@ -178,7 +179,7 @@ export function getHotelPackageOrderMockState(): HotelPackageOrderMockState {
 }
 
 export function createHotelPackageOrderRequestBody(filters: HotelPackageOrderFilters): Record<string, unknown> {
-  return {
+  const body: Record<string, unknown> = {
     campId: MOCK_CAMP_ID,
     pageNum: String(filters.pageNum || 1),
     pageSize: String(filters.pageSize || 20),
@@ -192,6 +193,8 @@ export function createHotelPackageOrderRequestBody(filters: HotelPackageOrderFil
     bookedEndDate: toNextDayStart(filters.endDate),
     keyword: filters.keyword.trim(),
   }
+  if (filters.poiIds?.length) body.poiIds = filters.poiIds
+  return body
 }
 
 export async function loadHotelPackageOrderData(

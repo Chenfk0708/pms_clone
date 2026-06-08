@@ -40,6 +40,8 @@ test('version subscription uses real gateway APIs', async ({ page, request }) =>
 })
 
 function seedVersionSubscriptionCatalogData() {
+  const roomCategoryId = selectActiveRoomCategoryId()
+
   runMysql(`
     SET NAMES utf8mb4;
 
@@ -99,16 +101,34 @@ function seedVersionSubscriptionCatalogData() {
 
     INSERT INTO goods_room_category_rel (id, goods_id, room_category_id)
     VALUES
-      (9863122001, 98631, 22001),
-      (9863222001, 98632, 22001)
+      (9863122001, 98631, ${roomCategoryId}),
+      (9863222001, 98632, ${roomCategoryId})
     ON DUPLICATE KEY UPDATE
       goods_id = VALUES(goods_id), room_category_id = VALUES(room_category_id);
   `)
 }
 
+function selectActiveRoomCategoryId() {
+  const output = runMysql(`
+    SET NAMES utf8mb4;
+    SELECT CAST(room_category_id AS CHAR) AS room_category_id
+    FROM room_category
+    WHERE camp_id = 10001
+      AND status = 1
+      AND is_deleted = 0
+    ORDER BY sort_no ASC, room_category_id ASC
+    LIMIT 1;
+  `)
+  const value = output.trim().split(/\r?\n/).filter(Boolean).slice(1)[0]
+  if (!value || !/^\d+$/.test(value)) {
+    throw new Error(`version subscription real smoke requires an active room_category in camp 10001, got ${value ?? '<empty>'}`)
+  }
+  return value
+}
+
 function runMysql(sql: string) {
   const mysqlPath = process.env.PMS_MYSQL_PATH ?? 'C:/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe'
-  execFileSync(
+  return execFileSync(
     mysqlPath,
     [
       `--host=${process.env.PMS_DB_HOST ?? '127.0.0.1'}`,

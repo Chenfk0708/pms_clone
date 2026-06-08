@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import { fetchHouseStatusLogs } from '../services/houseStatusLogs'
 import type { HouseStatusLogQuery, HouseStatusLogRecord } from '../services/houseStatusLogs'
 import './HouseStatusLogsPage.css'
@@ -48,6 +50,7 @@ export function HouseStatusLogsPage() {
   const [operationDateEnd, setOperationDateEnd] = useState('')
   const [operator, setOperator] = useState('')
   const [logs, setLogs] = useState<HouseStatusLogRecord[]>([])
+  const [selectedStoreId, setSelectedStoreId] = useState('all')
   const [total, setTotal] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('请设置筛选条件后查询房态日志')
@@ -56,6 +59,7 @@ export function HouseStatusLogsPage() {
 
   const campId = useMemo(() => resolveCampId(), [])
   const mockScenario = useMemo(() => resolveMockScenario(), [])
+  const { storeOptions, storeLoading } = useStoreOptions()
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -71,6 +75,7 @@ export function HouseStatusLogsPage() {
     setOperationDateStart('')
     setOperationDateEnd('')
     setOperator('')
+    setSelectedStoreId('all')
     setLogs([])
     setTotal(null)
     setError('')
@@ -115,6 +120,7 @@ export function HouseStatusLogsPage() {
     }
 
     if (campId) query.campId = campId
+    if (selectedStoreId !== 'all') query.poiIds = [selectedStoreId]
     if (mockScenario) query.mockScenario = mockScenario
     if (keyword.trim()) query.keyword = keyword.trim()
     if (selectedAdjustment) query.adjustType = selectedAdjustment.apiValue
@@ -132,6 +138,18 @@ export function HouseStatusLogsPage() {
     <div className="page-stack status-log-page">
       <section className="status-log-panel">
         <form className="status-log-query" aria-label="房态日志筛选" onSubmit={handleSubmit}>
+          <div className="status-log-field status-log-store-field">
+            <span>闂ㄥ簵</span>
+            <StoreSelectControl
+              className="house-status-log-store"
+              label="闂ㄥ簵鑼冨洿"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={selectedStoreId}
+              disabled={storeLoading || isLoading}
+              onChange={(storeId) => setSelectedStoreId(storeId)}
+            />
+          </div>
+
           <label className="status-log-field">
             <span>日志关键词</span>
             <input

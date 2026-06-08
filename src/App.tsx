@@ -221,6 +221,7 @@ const pageTitles: Record<string, string> = {
   '/InformationMaintenance/campInfo': '门店信息',
   '/InformationMaintenance/campInfo/detail': '门店信息',
   '/InformationMaintenance/campInfo/edit': '门店信息',
+  '/InformationMaintenance/campInfo/new': '门店信息',
   '/InformationMaintenance/campInfo/sort': '门店信息',
   '/InformationMaintenance/qualification': '企业资质',
   '/CompanySetting/Apikeys': 'API keys',
@@ -389,6 +390,7 @@ function RoutedApp() {
         <Route path="/InformationMaintenance/campInfo" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/campInfo/detail" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/campInfo/edit" element={<CampInfoPage />} />
+        <Route path="/InformationMaintenance/campInfo/new" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/campInfo/sort" element={<CampInfoPage />} />
         <Route path="/InformationMaintenance/companyInfo" element={<Navigate to="/CompanySetting/CompanyInfo" replace />} />
         <Route path="/InformationMaintenance/qualification" element={<CompanyQualificationPage />} />

@@ -1,5 +1,6 @@
 import {
   fetchHouseMonthsSnapshot,
+  type HouseMonthsProviderName,
   type MonthCell,
   type MonthDateColumn,
   type MonthRoomGroup,
@@ -18,9 +19,12 @@ export interface DayOrderBooking {
 
 export interface DayOrderCard {
   id: string
+  storeId: string
+  storeName: string
   roomType: string
   roomName: string
   roomCategoryId?: string
+  roomId: string
   status: 'cleanVacant' | 'dirtyVacant' | 'occupiedClean' | 'occupiedDirty' | 'closed'
   hasTag?: boolean
   filterLabels: string[]
@@ -44,14 +48,20 @@ export function createHouseMonthDateColumns(today: Date = new Date()) {
   })
 }
 
-export async function fetchDayOrderCardsFromMonthSource(queryCode: string) {
+type FetchDayOrderCardsOptions = {
+  campId?: string
+  provider?: HouseMonthsProviderName
+}
+
+export async function fetchDayOrderCardsFromMonthSource(queryCode: string, options: FetchDayOrderCardsOptions = {}) {
   const columns = createHouseMonthDateColumns()
   const snapshot = await fetchHouseMonthsSnapshot(
     {
-      campId: 'camp-001',
+      campId: options.campId ?? 'camp-001',
       startDate: columns[0]!.isoDate,
       days: MONTH_WINDOW_DAYS,
       queryCode,
+      provider: options.provider,
     },
     columns,
   )
@@ -81,9 +91,12 @@ export function adaptDayOrderCards(rows: MonthRoomGroup[], todayIsoDate: string,
       const filterLabels = buildFilterLabels(roomCell, booking)
       const card: DayOrderCard = {
         id: row.id,
+        storeId: row.storeId,
+        storeName: row.storeName,
         roomType: row.label,
         roomName: row.roomLabel,
         roomCategoryId: row.roomCategoryId,
+        roomId: row.roomId,
         status,
         hasTag: Boolean(roomCell?.badge),
         filterLabels,
@@ -118,8 +131,11 @@ function buildFilterLabels(cell: MonthCell | undefined, booking: DayOrderBooking
   if (liveStatus.includes('入住中')) labels.add('在住')
   if (booking.cell.remark) labels.add('备注')
 
-  if (booking.cell.tone === 'booking-blue') labels.add('住净')
-  if (booking.cell.tone === 'booking-gold' || booking.cell.tone === 'booking-teal') labels.add('住脏')
+  if (booking.cell.tone === 'booking-duplicate') labels.add('重单')
+
+  const channelTone = booking.cell.channelTone ?? booking.cell.tone
+  if (channelTone === 'booking-blue') labels.add('住净')
+  if (channelTone === 'booking-gold' || channelTone === 'booking-teal') labels.add('住脏')
 
   const stayRange = cell?.stayRange ?? ''
   if (stayRange.includes('-')) labels.add('预离')

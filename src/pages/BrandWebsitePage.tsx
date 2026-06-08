@@ -7,6 +7,8 @@ import {
   type BrandWebsiteTemplate,
   type BrandWebsiteViewModel,
 } from '../services/brandWebsite'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './BrandWebsitePage.css'
 
 type BrandSection = 'templates' | 'store' | 'profile' | 'coupon' | 'navigation' | 'float' | 'popup' | 'style'
@@ -119,6 +121,9 @@ export function BrandWebsitePage({ variant = 'website' }: { variant?: BrandDecor
   const [appliedTemplateId, setAppliedTemplateId] = useState<string | null>(null)
 
   const data = state.kind === 'ready' ? state.data : null
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: data?.stores.map((store) => ({ id: store.id, label: store.name })),
+  })
 
   function loadWithFeedback(nextQuery = query, message = copy.refreshedNotice) {
     setIsLoading(true)
@@ -178,18 +183,14 @@ export function BrandWebsitePage({ variant = 'website' }: { variant?: BrandDecor
           </div>
           <label>
             <span>门店</span>
-            <select
-              aria-label="门店"
+            <StoreSelectControl
+              className="brand-toolbar-store"
+              label="门店"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
               value={query.campId}
-              onChange={(event) => setQuery((current) => ({ ...current, campId: event.target.value }))}
-              disabled={isLoading}
-            >
-              {data.stores.map((store) => (
-                <option key={store.id} value={store.id}>
-                  {store.name}
-                </option>
-              ))}
-            </select>
+              disabled={isLoading || storeLoading}
+              onChange={(campId) => setQuery((current) => ({ ...current, campId }))}
+            />
           </label>
           <label>
             <span>运营日期</span>
@@ -530,7 +531,7 @@ function PhonePreview({ data }: { data: BrandWebsiteViewModel }) {
     <div className="brand-phone brand-phone--home">
       <MiniTop title="首页" />
       <div className="brand-hero">
-        <img className="brand-hero__logo" src="/brand-yinsu.png" alt="银宿" />
+        <img className="brand-hero__logo" src="/brand-yinsu.png" alt="宿银" />
         <div className="brand-hero__cn">{data.pageConfig.heroTitle}</div>
       </div>
       <div className="brand-search-card">

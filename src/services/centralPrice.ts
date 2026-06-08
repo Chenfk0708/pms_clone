@@ -1,4 +1,5 @@
 export const centralPriceEndpoint = '/api/roomCategoryStatuses/central/get'
+export const centralSaleStatusEndpoint = '/api/roomCategoryStatuses/central/saleStatus/save'
 export const centralPriceBusinessSourceLabel = '中央价格服务'
 
 export type CentralPriceProviderName = 'mock' | 'real'
@@ -11,9 +12,9 @@ type MockCentralChannel = {
 }
 
 export type CentralPriceFilters = {
-  selectedStore: string
+  selectedStoreId: string
   selectedChannel: string
-  selectedRoom: string
+  selectedRoomCategoryIds: string[]
   selectedTag: string
   date: string
   pageNum: number
@@ -41,7 +42,7 @@ export type CentralPriceRoom = {
   name: string
   stock: string
   basePrice: string
-  prices: Array<{ price: string; stock: string }>
+  prices: Array<{ price: string; stock: string; saleEnabled: boolean }>
   channelRows: CentralPriceRow[]
 }
 
@@ -64,7 +65,21 @@ export type CentralPriceLoadResult =
   | { ok: true; data: CentralPriceData }
   | { ok: false; message: string; status?: number; requestBody: Record<string, unknown>; endpoint: string }
 
+export type CentralSaleStatusSaveInput = {
+  campId?: string | null
+  roomCategoryId: string
+  date: string
+  saleEnabled: boolean
+}
+
+export type CentralSaleStatusSaveResponse = {
+  roomCategoryId: string
+  date: string
+  saleEnabled: boolean
+}
+
 const channelIdByName: Record<string, string> = {
+  宿银平台: '100',
   途家: '2',
   小猪: '3',
   携程: '4',
@@ -94,10 +109,10 @@ export function createCentralPriceRequestBody(filters: CentralPriceFilters): Rec
     channelIds: resolveChannelIds(filters.selectedChannel),
     roomCategoryGroupIds: null,
     roomCategoryProductSaleType: null,
-    roomCategoryIds: null,
+    roomCategoryIds: filters.selectedRoomCategoryIds.length ? filters.selectedRoomCategoryIds : null,
     date: filters.date,
     days: 30,
-    poiIds: null,
+    poiIds: filters.selectedStoreId === 'all' ? null : [filters.selectedStoreId],
     pageNum: filters.pageNum,
     pageSize: filters.pageSize,
   }
@@ -165,13 +180,52 @@ export async function fetchCentralPrices(filters: CentralPriceFilters, signal?: 
   }
 }
 
+export async function saveCentralSaleStatus(
+  input: CentralSaleStatusSaveInput,
+  signal?: AbortSignal,
+): Promise<CentralSaleStatusSaveResponse> {
+  const requestBody = {
+    campId: input.campId ?? null,
+    roomCategoryId: input.roomCategoryId,
+    date: input.date,
+    saleEnabled: input.saleEnabled,
+  }
+  const response = await fetch(centralSaleStatusEndpoint, {
+    method: 'POST',
+    credentials: 'include',
+    signal,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+  const payload = await readJson(response)
+
+  if (!response.ok) {
+    throw new Error(extractErrorMessage(payload) || `中央价售卖状态保存失败，HTTP ${response.status}`)
+  }
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('中央价售卖状态保存响应不是 JSON 对象')
+  }
+  if (isFailureEnvelope(payload)) {
+    throw new Error(extractErrorMessage(payload) || '中央价售卖状态保存失败')
+  }
+
+  const data = asRecord(asRecord(payload).data)
+  return {
+    roomCategoryId: String(data.roomCategoryId ?? input.roomCategoryId),
+    date: String(data.date ?? input.date),
+    saleEnabled: data.saleEnabled === undefined ? input.saleEnabled : data.saleEnabled !== false,
+  }
+}
+
 export function getCentralPriceSourceLabel() {
   return centralPriceBusinessSourceLabel
 }
 
 function resolveCentralPriceProviderName(): CentralPriceProviderName {
   const configured = readRuntimeConfig('pms.centralPriceProvider') || import.meta.env.VITE_CENTRAL_PRICE_PROVIDER
-  return configured === 'real' ? 'real' : 'mock'
+  return configured === 'mock' ? 'mock' : 'real'
 }
 
 function resolveCentralPriceMockMode(): CentralPriceMockMode {
@@ -257,13 +311,7 @@ function mockCentralPriceSuccessEnvelope(requestBody: Record<string, unknown>) {
   const startDate = String(requestBody.date ?? getCentralPriceRequestDate())
   const dates = Array.from({ length: 30 }, (_, index) => addDays(startDate, index))
   const commonChannels: MockCentralChannel[] = [
-    { channelId: '2', channelName: '途家', expressValue: '0.95', priceDelta: 0 },
-    { channelId: '3', channelName: '小猪', expressValue: '1.00', priceDelta: 0 },
-    { channelId: '4', channelName: '携程', expressValue: '1.00', priceDelta: -3000 },
-    { channelId: '5', channelName: '美团酒店', expressValue: '1.00', priceDelta: -2000 },
-    { channelId: '6', channelName: '飞猪淘酒店', expressValue: '1.00', priceDelta: 1000 },
-    { channelId: '7', channelName: '路客云聚合', expressValue: '1.00', priceDelta: 0 },
-    { channelId: '8', channelName: '木鸟', expressValue: '0.90', priceDelta: 5000 },
+    { channelId: '100', channelName: '宿银平台', expressValue: '1.00', priceDelta: 0 },
   ]
 
   return successEnvelope('mock-fangtai--fangjia-guanli--zhongyang-jiage-list-001', {
@@ -323,6 +371,7 @@ function buildMockRoom({
     date,
     totalStock: Math.max(totalStock - (index % 3 === 2 ? 1 : 0), 0),
     price: normalActualSalePrice + (index % 7 >= 5 ? 20000 : 0),
+    saleEnabled: true,
   }))
 
   return {
@@ -393,6 +442,7 @@ function adaptRoom(room: Record<string, unknown>, dates: CentralPriceDate[], ind
       return {
         price: formatMoney(status.price ?? status.salePrice ?? status.basePrice),
         stock: formatStock(status.totalStock),
+        saleEnabled: status.saleEnabled !== false,
       }
     }),
     channelRows,
@@ -471,7 +521,15 @@ async function readJson(response: Response) {
 
 function extractErrorMessage(payload: unknown) {
   const record = asRecord(payload)
-  return String(record.errorMsg ?? record.message ?? record.errorDetail ?? '').trim()
+  const message = String(record.errorMsg ?? record.message ?? record.errorDetail ?? '').trim()
+  return message === 'null' || message === 'undefined' ? '' : message
+}
+
+function isFailureEnvelope(payload: unknown) {
+  const record = asRecord(payload)
+  if ('success' in record) return record.success !== true
+  if ('code' in record) return Number(record.code) !== 0
+  return false
 }
 
 function toNumber(value: unknown, fallback: number) {

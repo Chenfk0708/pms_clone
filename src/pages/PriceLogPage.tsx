@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   createPriceLogExportRequest,
   fetchPriceLogs,
@@ -29,6 +31,7 @@ export function PriceLogPage() {
   const [operationEnd, setOperationEnd] = useState('')
   const [operator, setOperator] = useState('')
   const [submittedOperator, setSubmittedOperator] = useState('')
+  const [selectedStoreId, setSelectedStoreId] = useState('all')
   const [refreshTick, setRefreshTick] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('调价日志已加载')
@@ -38,6 +41,7 @@ export function PriceLogPage() {
 
   const campId = useMemo(() => resolveCampId(), [])
   const locationQuery = useMemo(() => resolvePriceLogQueryFromLocation(window.location), [])
+  const { storeOptions, storeLoading } = useStoreOptions()
   const channelOptions = data?.channelOptions ?? getDefaultPriceLogChannelOptions()
   const adjustmentOptions = data?.adjustmentOptions ?? getDefaultPriceLogAdjustmentOptions()
 
@@ -46,6 +50,7 @@ export function PriceLogPage() {
       provider: locationQuery.provider,
       mockState: locationQuery.mockState,
       campId: campId || '1796067693589061634',
+      poiIds: selectedStoreId === 'all' ? [] : [selectedStoreId],
       keyword: submittedKeyword,
       adjustmentMode,
       channelId: channel,
@@ -67,6 +72,7 @@ export function PriceLogPage() {
       locationQuery.provider,
       operationEnd,
       operationStart,
+      selectedStoreId,
       submittedKeyword,
       submittedOperator,
     ],
@@ -115,6 +121,7 @@ export function PriceLogPage() {
     setOperationEnd('')
     setOperator('')
     setSubmittedOperator('')
+    setSelectedStoreId('all')
     setOpenSelect(null)
     setSelectedLog(null)
     setError('')
@@ -138,6 +145,18 @@ export function PriceLogPage() {
     <div className="price-log-page">
       <section className="price-log-panel">
         <form className={`price-log-query${expanded ? ' is-expanded' : ''}`} aria-label="调价日志筛选" onSubmit={handleSubmit}>
+          <div className="price-log-field price-log-field--store">
+            <span>闂ㄥ簵</span>
+            <StoreSelectControl
+              className="price-log-store"
+              label="闂ㄥ簵鑼冨洿"
+              options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+              value={selectedStoreId}
+              disabled={storeLoading || isLoading}
+              onChange={(storeId) => setSelectedStoreId(storeId)}
+            />
+          </div>
+
           <label className="price-log-field price-log-field--keyword">
             <span>日志关键词</span>
             <input

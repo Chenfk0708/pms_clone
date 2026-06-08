@@ -147,6 +147,18 @@
   text-align: left;
 }
 
+.customer-add-batch-store-select {
+  width: 100%;
+}
+
+.customer-add-batch-store-select .month-store-select {
+  width: 100%;
+}
+
+.customer-add-batch-store-select .month-store-select__trigger {
+  width: 100%;
+}
+
 .customer-add-batch-query__actions {
   display: flex;
   align-items: end;

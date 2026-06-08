@@ -28,7 +28,7 @@
 .status-log-query {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   column-gap: 16px;
   row-gap: 8px;
   align-items: center;
@@ -52,6 +52,16 @@
 .status-log-field > span {
   flex: 0 0 88px;
   text-align: right;
+}
+
+.status-log-store-field > span {
+  flex-basis: 48px;
+}
+
+.status-log-store-field .month-store-select__trigger {
+  width: 220px;
+  max-width: 220px;
+  border-radius: 4px;
 }
 
 .status-log-query input,
@@ -118,7 +128,7 @@
 }
 
 .status-log-query__actions {
-  grid-column: 4;
+  grid-column: 5;
   margin-left: 0;
   display: inline-flex;
   align-items: center;

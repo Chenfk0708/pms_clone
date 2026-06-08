@@ -1,7 +1,7 @@
 import { fetchDayOrderCardsFromMonthSource, type DayOrderBooking, type DayOrderCard } from './houseDaysShared'
 
 const MOCK_ENDPOINT = '/houseManage/days/overview'
-const REAL_ENDPOINT = '/api/roomStatusesToday/get'
+const REAL_ENDPOINT = '/api/roomStatuses/*'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
 const TASK_ID = 'fangtai--fangtai-guanli--rifangtai'
 
@@ -30,7 +30,7 @@ export type HouseDaysRoomBooking = {
   guest: string
   channel: string
   price: string
-  tone: 'blue' | 'orange'
+  tone: 'pending' | 'live' | 'checkout' | 'duplicate'
   monthOrder?: DayOrderBooking
 }
 
@@ -74,6 +74,8 @@ export type HouseDaysViewModel = {
   sourceNotes: string[]
 }
 
+const DIRECT_CHANNEL_LABELS = new Set(['直营渠道', '自来客'])
+
 type ApiEnvelope<T> = {
   code: number
   message: string
@@ -86,12 +88,6 @@ type HouseDaysBackendData = Omit<
   HouseDaysViewModel,
   'providerMode' | 'responseState' | 'endpoint' | 'traceId' | 'timestamp'
 >
-
-type RealRoomStatusPayload = {
-  basic?: Record<string, unknown>
-  roomCategories?: unknown[]
-  roomViews?: unknown[]
-}
 
 export async function fetchHouseDays(query: HouseDaysQuery, signal?: AbortSignal): Promise<HouseDaysViewModel> {
   const providerMode = query.provider ?? resolveHouseDaysProviderMode()
@@ -163,35 +159,26 @@ async function fetchRealHouseDays(
   signal?: AbortSignal,
 ): Promise<HouseDaysViewModel> {
   const campId = resolveRealHouseDaysCampId()
-  const envelope = await postRealHouseDays<RealRoomStatusPayload>(
-    REAL_ENDPOINT,
-    {
-      campId,
-      ...buildRequestParams(query),
-    },
-    signal,
-  )
-  const backendData = unwrapEnvelope(envelope, 'real provider')
-  const baseRooms = adaptRealHouseDaysRooms(backendData)
+  throwIfAborted(signal)
+  const sharedRooms = await fetchDayOrderCardsFromMonthSource(query.keyword, { campId, provider: 'real' })
+  throwIfAborted(signal)
+  const baseRooms = filterRooms(sharedRooms.map(adaptSharedCardToHouseDayRoom), query, false)
   const rooms = filterRooms(baseRooms, query, true)
 
   return {
     providerMode: 'real',
     responseState: 'success',
     endpoint: REAL_ENDPOINT,
-    traceId: envelope.traceId,
-    timestamp: envelope.timestamp,
+    traceId: `real-${TASK_ID}-month-today-column`,
+    timestamp: new Date().toISOString(),
     requestParams: {
       campId,
       ...buildRequestParams(query),
     },
-    statusGroups: buildStatusGroups(baseRooms, backendData.basic),
+    statusGroups: buildStatusGroups(baseRooms),
     rooms,
     viewModes: ['按房型', '按房间号', '按楼层'],
-    storeOptions: [
-      { id: 'all', name: '全部门店' },
-      { id: campId, name: '路客云演示门店' },
-    ],
+    storeOptions: buildStoreOptions(baseRooms),
     channelOptions: [
       { id: '', name: '渠道' },
       { id: 'direct', name: '直营渠道' },
@@ -216,8 +203,8 @@ async function fetchRealHouseDays(
       storeSettings: '/InformationMaintenance/campInfo',
     },
     sourceNotes: [
-      `real provider 已接入 ${REAL_ENDPOINT}`,
-      '日房态数据优先来自后端 roomCategories[].rooms[]，兼容 roomViews 平铺结构；前端只做字段适配和筛选。',
+      `real provider 复用月房态接口 ${REAL_ENDPOINT}`,
+      '日房态直接展示月房态日历表今天日期列，前端只做字段适配和筛选。',
     ],
   }
 }
@@ -278,6 +265,14 @@ function buildRequestParams(query: HouseDaysQuery) {
   }
 }
 
+function buildStoreOptions(rooms: HouseDaysRoomCard[]) {
+  const stores = new Map<string, string>()
+  for (const room of rooms) {
+    if (room.storeId && room.storeId !== 'all') stores.set(room.storeId, room.storeName || `门店 ${stores.size + 1}`)
+  }
+  return [{ id: 'all', name: '全部门店' }, ...Array.from(stores, ([id, name]) => ({ id, name }))]
+}
+
 function resolveRealHouseDaysCampId() {
   return (
     window.localStorage.getItem('pmsCampId')?.trim() ||
@@ -287,171 +282,21 @@ function resolveRealHouseDaysCampId() {
   )
 }
 
-async function postRealHouseDays<T>(
-  endpoint: string,
-  body: Record<string, unknown>,
-  signal?: AbortSignal,
-): Promise<ApiEnvelope<T>> {
-  let response: Response
-  try {
-    const headers = new Headers({ 'content-type': 'application/json' })
-    const token = window.localStorage.getItem('pms_token')?.trim()
-    if (token) headers.set('Authorization', `Bearer ${token}`)
-
-    response = await fetch(endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      headers,
-      body: JSON.stringify(body),
-      signal,
-    })
-  } catch (error) {
-    throw new Error(`real provider 请求失败：${endpoint}，${error instanceof Error ? error.message : String(error)}`)
-  }
-
-  if (!response.ok) {
-    throw new Error(`real provider 请求失败：${endpoint}，HTTP ${response.status}`)
-  }
-
-  const envelope = (await response.json().catch(() => null)) as ApiEnvelope<T> | null
-  if (!envelope || typeof envelope !== 'object') {
-    throw new Error(`real provider 响应不可解析：${endpoint}`)
-  }
-  return envelope
-}
-
-function adaptRealHouseDaysRooms(data: RealRoomStatusPayload): HouseDaysRoomCard[] {
-  const categories = readArray(data.roomCategories)
-  const sourceCategories = categories.length ? categories : groupRealRoomViewsByCategory(readArray(readPath(data, ['roomViews'])))
-
-  return sourceCategories.flatMap((category, categoryIndex) => {
-    const categoryId = readString(readPath(category, ['roomCategoryId'])) || `category-${categoryIndex}`
-    const roomType = readString(readPath(category, ['roomCategoryName'])) || `未命名房型${categoryIndex + 1}`
-    const rooms = readArray(readPath(category, ['rooms']))
-
-    return rooms.map((room, roomIndex) => {
-      const roomId = readString(readPath(room, ['roomId'])) || `${categoryId}-room-${roomIndex}`
-      const bookings = readArray(readPath(room, ['orders'])).flatMap((order) => {
-        const booking = buildRealRoomBooking(room, order, roomType)
-        return booking ? [booking] : []
-      })
-      const labels = buildRealRoomFilterLabels(room)
-      const status = resolveRealRoomStatus(room)
-
-      if (bookings.length === 0) {
-        const fallbackBooking = buildRealRoomBooking(room, undefined, roomType)
-        if (fallbackBooking) bookings.push(fallbackBooking)
-      }
-
-      return {
-        id: `${categoryId}-${roomId}`,
-        storeId: resolveRealHouseDaysCampId(),
-        storeName: '路客云演示门店',
-        roomType,
-        roomName: readString(readPath(room, ['roomName'])) || `房间${roomIndex + 1}`,
-        status,
-        hasTag: labels.includes('备注'),
-        filterLabels: labels,
-        bookings,
-        booking: bookings[0],
-      }
-    })
-  })
-}
-
-function groupRealRoomViewsByCategory(roomViews: unknown[]) {
-  const grouped = new Map<string, { roomCategoryId: string; roomCategoryName: string; rooms: unknown[] }>()
-
-  for (const room of roomViews) {
-    const categoryId = readString(readPath(room, ['roomCategoryId'])) || 'uncategorized'
-    const categoryName = readString(readPath(room, ['roomCategoryName'])) || '未命名房型'
-    const current = grouped.get(categoryId) ?? { roomCategoryId: categoryId, roomCategoryName: categoryName, rooms: [] }
-    current.rooms.push(room)
-    grouped.set(categoryId, current)
-  }
-
-  return Array.from(grouped.values())
-}
-
-function resolveRealRoomStatus(room: unknown): HouseDaysRoomCard['status'] {
-  const isDirty = readNumber(readPath(room, ['isDirty']), 0) === 1
-  const isIdle = readNumber(readPath(room, ['isIdle']), 0) === 1
-  const isOccupied = readNumber(readPath(room, ['isOcc']), 0) === 1 || readNumber(readPath(room, ['isLive']), 0) === 1
-  const isClosed = readNumber(readPath(room, ['isClosed']), 0) === 1 || readNumber(readPath(room, ['isBlock']), 0) === 1
-
-  if (isClosed) return 'closed'
-  if (isIdle && isDirty) return 'dirtyVacant'
-  if (isIdle) return 'cleanVacant'
-  if (isOccupied && isDirty) return 'occupiedDirty'
-  if (isOccupied) return 'occupiedClean'
-  return isDirty ? 'dirtyVacant' : 'cleanVacant'
-}
-
-function buildRealRoomFilterLabels(room: unknown) {
-  const labels: string[] = []
-  const status = resolveRealRoomStatus(room)
-
-  if (readNumber(readPath(room, ['isPreCome']), 0) === 1) labels.push('预抵')
-  if (readNumber(readPath(room, ['isPreLeave']), 0) === 1) labels.push('预离')
-  if (readNumber(readPath(room, ['isLive']), 0) === 1 || readNumber(readPath(room, ['isOcc']), 0) === 1) labels.push('在住')
-  if (status === 'cleanVacant') labels.push('空净')
-  if (status === 'dirtyVacant') labels.push('空脏')
-  if (status === 'occupiedClean') labels.push('住净')
-  if (status === 'occupiedDirty') labels.push('住脏')
-  if (status === 'closed') labels.push('关房')
-  if (readNumber(readPath(room, ['isHourRoomOrder']), 0) === 1) labels.push('钟点房')
-  if (readNumber(readPath(room, ['isLt']), 0) === 1) labels.push('长租房')
-  if (readNumber(readPath(room, ['isDebt']), 0) === 1) labels.push('欠费')
-  if (readNumber(readPath(room, ['isExtendStay']), 0) === 1) labels.push('续住')
-  if (readNumber(readPath(room, ['isOrderRemark']), 0) === 1) labels.push('备注')
-
-  return labels
-}
-
-function buildRealRoomBooking(room: unknown, order: unknown, roomType: string): HouseDaysRoomCard['booking'] {
-  const guest = readString(readPath(order, ['guestName'])) || readString(readPath(room, ['guestName']))
-  if (!guest) return undefined
-
-  const channel = readString(readPath(order, ['channelName'])) || '直营渠道'
-  const priceCent = readNumber(readPath(order, ['totalPriceCent']), NaN)
-  const orderId = readString(readPath(order, ['orderId']))
-
-  return {
-    guest,
-    channel,
-    price: Number.isFinite(priceCent) ? `¥${(priceCent / 100).toFixed(2)}` : '-',
-    tone: channel === '直营渠道' ? 'blue' : 'orange',
-    monthOrder: {
-      roomType,
-      roomLabel: readString(readPath(room, ['roomName'])) || '-',
-      cell: {
-        title: guest,
-        subtitle: channel,
-        amount: Number.isFinite(priceCent) ? `¥${(priceCent / 100).toFixed(2)}` : undefined,
-        tone: channel === '直营渠道' ? 'booking-blue' : 'booking-gold',
-        phone: readString(readPath(order, ['guestMobile'])),
-        remark: readString(readPath(order, ['remark'])),
-        orderId,
-      },
-    },
-  }
-}
-
 function adaptSharedCardToHouseDayRoom(card: DayOrderCard): HouseDaysRoomCard {
   const booking: HouseDaysRoomBooking | undefined = card.booking
     ? {
         guest: card.booking.cell.title,
         channel: card.booking.cell.subtitle ?? '-',
         price: card.booking.cell.amount ?? '-',
-        tone: card.booking.cell.tone === 'booking-blue' ? 'blue' : 'orange',
+        tone: resolveDayBookingTone(card.booking.cell.tone),
         monthOrder: card.booking,
       }
     : undefined
 
   return {
     id: card.id,
-    storeId: resolveMockStoreId(card),
-    storeName: resolveMockStoreName(card),
+    storeId: card.storeId,
+    storeName: card.storeName,
     roomType: card.roomType,
     roomName: card.roomName,
     status: card.status,
@@ -460,6 +305,13 @@ function adaptSharedCardToHouseDayRoom(card: DayOrderCard): HouseDaysRoomCard {
     bookings: booking ? [booking] : undefined,
     booking,
   }
+}
+
+function resolveDayBookingTone(tone: DayOrderBooking['cell']['tone']): HouseDaysRoomBooking['tone'] {
+  if (tone === 'booking-duplicate') return 'duplicate'
+  if (tone === 'booking-live') return 'live'
+  if (tone === 'booking-checkout') return 'checkout'
+  return 'pending'
 }
 
 function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery, includeStatusFilters: boolean) {
@@ -476,7 +328,11 @@ function filterRooms(rooms: HouseDaysRoomCard[], query: HouseDaysQuery, includeS
           .filter(Boolean)
           .some((value) => value?.includes(keyword)),
       )
-    const matchesChannel = !query.channel || query.channel === 'ota' || room.booking?.channel === '直营渠道'
+    const matchesChannel =
+      !query.channel ||
+      (query.channel === 'direct'
+        ? bookings.some((booking) => DIRECT_CHANNEL_LABELS.has(booking.channel))
+        : bookings.some((booking) => !DIRECT_CHANNEL_LABELS.has(booking.channel) && booking.channel !== '-'))
     const matchesRoomType = !query.roomType || room.roomType === query.roomType
     const matchesTag = !query.tag || room.hasTag
     const matchesStatus =
@@ -493,23 +349,14 @@ function getRoomBookings(room: HouseDaysRoomCard): HouseDaysRoomBooking[] {
   return room.booking ? [room.booking] : []
 }
 
-function resolveMockStoreId(card: DayOrderCard) {
-  return card.roomName === '1206' || card.roomName === '706'
-    ? 'poi-1796067693589061634'
-    : 'poi-1796067693589061635'
-}
-
-function resolveMockStoreName(card: DayOrderCard) {
-  return resolveMockStoreId(card) === 'poi-1796067693589061634'
-    ? '天落会宿公寓(前海壹方城宝安中心店)'
-    : '天落会宿公寓(深圳湾科技园店)'
-}
-
 function buildStatusGroups(rooms: HouseDaysRoomCard[], basic?: Record<string, unknown>): HouseDaysStatusGroup[] {
   const countByLabel = (label: string) => rooms.filter((room) => room.filterLabels?.includes(label)).length
+  const countByTone = (tone: HouseDaysRoomBooking['tone']) =>
+    rooms.filter((room) => getRoomBookings(room).some((booking) => booking.tone === tone)).length
   const occupied = countByLabel('在住')
   const vacant = countByLabel('空净') + countByLabel('空脏')
   const remark = countByLabel('备注')
+  const duplicate = countByTone('duplicate')
   const count = (key: string, fallback: number) => readNumber(basic?.[key], fallback)
 
   return [
@@ -519,7 +366,7 @@ function buildStatusGroups(rooms: HouseDaysRoomCard[], basic?: Record<string, un
         { label: '预抵', value: count('preComeNum', countByLabel('预抵')), color: '#5c8df6' },
         { label: '预离', value: count('preLeaveNum', countByLabel('预离')), color: '#ff9d2e' },
         { label: '在住', value: count('liveNum', occupied), color: '#48bf62' },
-        { label: '重单', value: 0, color: '#f06363' },
+        { label: '重单', value: count('repeatOrderNum', duplicate), color: '#f95a54' },
       ],
     },
     {
@@ -552,24 +399,6 @@ function buildStatusGroups(rooms: HouseDaysRoomCard[], basic?: Record<string, un
       ],
     },
   ]
-}
-
-function readPath(value: unknown, path: string[]) {
-  let current = value
-  for (const segment of path) {
-    if (!isRecord(current)) return undefined
-    current = current[segment]
-  }
-  return current
-}
-
-function readArray(value: unknown) {
-  return Array.isArray(value) ? value : []
-}
-
-function readString(value: unknown) {
-  if (value === null || value === undefined || value === '') return undefined
-  return String(value)
 }
 
 function readNumber(value: unknown, fallback: number) {
@@ -605,6 +434,12 @@ function delay(ms: number, signal?: AbortSignal) {
       { once: true },
     )
   })
+}
+
+function throwIfAborted(signal?: AbortSignal) {
+  if (signal?.aborted) {
+    throw new DOMException('日房态请求已取消', 'AbortError')
+  }
 }
 
 function formatDateInShanghai(date: Date) {
@@ -656,7 +491,7 @@ const mockRooms: HouseDaysRoomCard[] = [
       guest: '张祯',
       channel: '携程',
       price: '¥136.62',
-      tone: 'blue',
+      tone: 'live',
     },
   },
   {
@@ -672,7 +507,7 @@ const mockRooms: HouseDaysRoomCard[] = [
       guest: '胡志深',
       channel: '美团酒店',
       price: '¥112.9',
-      tone: 'orange',
+      tone: 'live',
     },
   },
 ]

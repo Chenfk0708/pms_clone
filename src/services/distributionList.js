@@ -57,7 +57,7 @@ export async function fetchDistributionDashboard(filters, provider = getDistribu
     return adaptDistributionDashboard(envelope, filters, provider);
 }
 export function buildDistributionRequests(filters) {
-    const poiId = filters.poiId === 'ALL' ? '' : filters.poiId;
+    const poiId = isAllStore(filters.poiId) ? '' : filters.poiId;
     return {
         campFlow: { campId: filters.campId },
         roomCategories: {
@@ -150,9 +150,12 @@ function adaptDistributionDashboard(envelope, filters, provider) {
 function filterRooms(rooms, filters) {
     return rooms.filter((room) => {
         const keywordMatched = !filters.keyword || room.name.includes(filters.keyword);
-        const storeMatched = filters.poiId === 'ALL' || room.storeId === filters.poiId;
+        const storeMatched = isAllStore(filters.poiId) || room.storeId === filters.poiId;
         return keywordMatched && storeMatched;
     });
+}
+function isAllStore(storeId) {
+    return !storeId || storeId === 'ALL' || storeId === 'all';
 }
 function createRoom(id, name, storeId, progress, channelIds) {
     const storeName = stores.find((store) => store.id === storeId)?.label ?? stores[1].label;

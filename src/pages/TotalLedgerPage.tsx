@@ -10,6 +10,8 @@ import {
   type TotalLedgerQuery,
   type TotalLedgerRangeKey,
 } from '../services/totalLedger'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './TotalLedgerPage.css'
 
 type DatePickTarget = 'start' | 'end'
@@ -36,6 +38,7 @@ export function TotalLedgerPage() {
   const [datePanelPosition, setDatePanelPosition] = useState<DatePanelPosition>({ top: 0, left: 0 })
   const [isExporting, setIsExporting] = useState(false)
   const dateRangeRef = useRef<HTMLDivElement | null>(null)
+  const { storeOptions, storeLoading } = useStoreOptions({ fallbackOptions: data?.stores })
 
   const fetchData = useCallback(
     async (signal?: AbortSignal) => {
@@ -68,12 +71,8 @@ export function TotalLedgerPage() {
   const contractProvider = data?.provider ?? getTotalLedgerProviderName()
   const contractMockState = data?.mockState ?? readCurrentMockState()
   const requestBody = data?.requestBody ?? query
-  const stores =
-    data?.stores ?? [
-      { id: 'all', label: '全部门店' },
-      { id: defaultQuery.campId, label: '天落会宿公寓(前海壹方城宝安中心店)' },
-    ]
-  const activeStoreLabel = stores.find((item) => item.id === activeStoreId)?.label ?? '全部门店'
+  const stores = storeOptions
+  const activeStoreLabel = stores.find((store) => store.id === activeStoreId)?.label ?? '全部门店'
   const pageStart = data?.pagination.total ? 1 : 0
   const pageEnd = data?.pagination.total ? Math.min(data.pagination.total, data.pagination.pageSize) : 0
   const ratioCards = useMemo(
@@ -196,21 +195,14 @@ export function TotalLedgerPage() {
 
       <section className="total-ledger-filter" aria-label="收支汇总筛选">
         <div className="total-ledger-store-head">
-          <div className="total-ledger-store-row" role="radiogroup" aria-label="门店">
-            {stores.map((store) => (
-              <button
-                key={store.id}
-                type="button"
-                role="radio"
-                aria-checked={activeStoreId === store.id}
-                className={activeStoreId === store.id ? 'is-active' : ''}
-                onClick={() => applyStore(store.id)}
-                disabled={isLoading || isExporting}
-              >
-                {store.label}
-              </button>
-            ))}
-          </div>
+          <StoreSelectControl
+            className="total-ledger-store-row"
+            label="门店"
+            options={stores.map((store) => ({ id: store.id, name: store.label }))}
+            value={activeStoreId}
+            onChange={(storeId) => applyStore(storeId)}
+            disabled={isLoading || isExporting || storeLoading}
+          />
         </div>
 
         <div className="total-ledger-query-row">

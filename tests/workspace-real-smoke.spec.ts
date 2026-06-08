@@ -98,6 +98,8 @@ async function expectMetricNumberAtLeast(locator: Locator, minimum: number) {
 }
 
 function seedWorkspaceTodayData() {
+  const [departingRoom, stayingRoom, arrivalRoom, secondArrivalRoom] = selectWorkspaceSeedRooms()
+
   runMysql(`
     SET NAMES utf8mb4;
     SET @today = CURDATE();
@@ -113,22 +115,26 @@ function seedWorkspaceTodayData() {
       distribution_commission_cent, settlement_amount_cent, payment_status, payment_type_id,
       payment_way_id, source_type, remark, created_by, updated_by, is_deleted, version_no
     ) VALUES
-      (28531, 10001, 11001, 22001, 23001, NULL, NULL,
+      (28531, 10001, ${departingRoom.poiId}, ${departingRoom.roomCategoryId}, ${departingRoom.roomId}, NULL, NULL,
        'REALSMOKEDAILY0001', NULL, 'daily_room', 'checked_in', 'Real Guest A', '13900003101',
        TIMESTAMP(@yesterday, '14:00:00'), TIMESTAMP(@today, '12:00:00'), 1, 31800, 0, 31800,
        0, 0, 0, 0, 0, 31800, 'paid', 17101, 17201, 'frontdesk', 'real smoke departing order', 14001, 14001, 0, 0),
-      (28532, 10001, 11001, 22003, 23007, 25301, NULL,
+      (28532, 10001, ${stayingRoom.poiId}, ${stayingRoom.roomCategoryId}, ${stayingRoom.roomId}, NULL, NULL,
        'REALSMOKEDAILY0002', 'MT-REALSMOKE-DAILY-002', 'daily_room', 'checked_in', 'Real Guest B', '13900003102',
        TIMESTAMP(@yesterday, '15:00:00'), TIMESTAMP(@tomorrow, '12:00:00'), 2, 99600, 0, 99600,
        0, 0, 0, 0, 0, 99600, 'paid', 17101, 17202, 'channel', 'real smoke staying order', 14001, 14001, 0, 0),
-      (28533, 10001, 11001, 22002, 23004, 25302, NULL,
+      (28533, 10001, ${arrivalRoom.poiId}, ${arrivalRoom.roomCategoryId}, ${arrivalRoom.roomId}, NULL, NULL,
        'REALSMOKEDAILY0003', 'CTRIP-REALSMOKE-DAILY-003', 'daily_room', 'booked', 'Real Guest C', '13900003103',
        TIMESTAMP(@today, '14:00:00'), TIMESTAMP(@tomorrow, '12:00:00'), 1, 37800, 0, 37800,
        0, 0, 0, 0, 0, 37800, 'paid', 17101, 17206, 'channel', 'real smoke arrival order', 14001, 14001, 0, 0),
-      (28534, 10001, 11001, 22001, 23002, NULL, NULL,
+      (28534, 10001, ${secondArrivalRoom.poiId}, ${secondArrivalRoom.roomCategoryId}, ${secondArrivalRoom.roomId}, NULL, NULL,
        'REALSMOKEDAILY0004', NULL, 'daily_room', 'booked', 'Real Guest D', '13900003104',
        TIMESTAMP(@today, '16:00:00'), TIMESTAMP(@after_tomorrow, '12:00:00'), 2, 59600, 0, 59600,
-       0, 0, 0, 0, 0, 59600, 'paid', 17101, 17201, 'frontdesk', 'real smoke second arrival order', 14001, 14001, 0, 0)
+       0, 0, 0, 0, 0, 59600, 'paid', 17101, 17201, 'frontdesk', 'real smoke second arrival order', 14001, 14001, 0, 0),
+      (28535, 10001, ${departingRoom.poiId}, NULL, NULL, NULL, NULL,
+       'REALSMOKEEXCEPTION0005', NULL, 'daily_room', 'refunding', 'Real Guest Exception', '13900003105',
+       TIMESTAMP(@today, '18:00:00'), TIMESTAMP(@tomorrow, '12:00:00'), 1, 29800, 0, 29800,
+       9800, 0, 0, 0, 0, 20000, 'paid', 17101, 17201, 'frontdesk', 'real smoke exception backlog order', 14001, 14001, 0, 0)
     ON DUPLICATE KEY UPDATE
       poi_id = VALUES(poi_id), room_category_id = VALUES(room_category_id), room_id = VALUES(room_id), channel_id = VALUES(channel_id),
       order_no = VALUES(order_no), out_order_no = VALUES(out_order_no), order_type = VALUES(order_type), status = VALUES(status),
@@ -151,9 +157,54 @@ function seedWorkspaceTodayData() {
   `)
 }
 
+type WorkspaceSeedRoom = {
+  poiId: string
+  roomCategoryId: string
+  roomId: string
+}
+
+function selectWorkspaceSeedRooms(): WorkspaceSeedRoom[] {
+  const output = runMysql(`
+    SET NAMES utf8mb4;
+    SELECT
+      CAST(poi_id AS CHAR) AS poi_id,
+      CAST(room_category_id AS CHAR) AS room_category_id,
+      CAST(room_id AS CHAR) AS room_id
+    FROM room
+    WHERE camp_id = 10001
+      AND is_deleted = 0
+      AND status = 1
+    ORDER BY room_category_id, room_id
+    LIMIT 4;
+  `)
+
+  const lines = output.trim().split(/\r?\n/).filter(Boolean)
+  const rows = lines.slice(1).map((line) => {
+    const [poiId, roomCategoryId, roomId] = line.split('\t')
+    return {
+      poiId: assertSqlInteger(poiId, 'poi_id'),
+      roomCategoryId: assertSqlInteger(roomCategoryId, 'room_category_id'),
+      roomId: assertSqlInteger(roomId, 'room_id'),
+    }
+  })
+
+  if (rows.length < 4) {
+    throw new Error(`workspace real smoke requires at least 4 active rooms in camp 10001, got ${rows.length}`)
+  }
+
+  return rows
+}
+
+function assertSqlInteger(value: string | undefined, column: string): string {
+  if (!value || !/^\d+$/.test(value)) {
+    throw new Error(`invalid ${column} from workspace seed room query: ${value ?? '<empty>'}`)
+  }
+  return value
+}
+
 function runMysql(sql: string) {
   const mysqlPath = process.env.PMS_MYSQL_PATH ?? 'C:/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe'
-  execFileSync(
+  return execFileSync(
     mysqlPath,
     [
       `--host=${process.env.PMS_DB_HOST ?? '127.0.0.1'}`,

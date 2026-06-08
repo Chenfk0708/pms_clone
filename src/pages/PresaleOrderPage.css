@@ -54,6 +54,12 @@
   white-space: nowrap;
 }
 
+.presale-order-store-field .month-store-select__trigger {
+  width: 100%;
+  max-width: none;
+  border-radius: 4px;
+}
+
 .presale-order-select-wrap {
   position: relative;
   min-width: 0;

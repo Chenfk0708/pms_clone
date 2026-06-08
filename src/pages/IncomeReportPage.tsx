@@ -10,6 +10,8 @@ import {
   type IncomeReportQuery,
   type IncomeReportRow,
 } from '../services/incomeReport'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './IncomeReportPage.css'
 
 type SelectKey = 'roomType' | 'channel' | 'roomGroup' | null
@@ -66,6 +68,9 @@ export function IncomeReportPage() {
 
   const dimensions = dashboard?.dimensions ?? []
   const stores = dashboard?.stores ?? []
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: stores.map((item) => ({ id: item.id, label: item.label })),
+  })
   const roomTypes = dashboard?.roomTypes ?? []
   const channels = dashboard?.channels ?? []
   const roomGroups = dashboard?.roomGroups ?? []
@@ -187,19 +192,14 @@ export function IncomeReportPage() {
         </div>
 
         <div className="income-report-form">
-          <div className="income-report-store-row" aria-label="门店">
-            {stores.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                aria-pressed={draft.storeId === item.id}
-                className={draft.storeId === item.id ? 'is-active' : ''}
-                onClick={() => patchDraft({ storeId: item.id, storeName: item.label })}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+          <StoreSelectControl
+            className="income-report-store-row"
+            label="门店"
+            options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
+            value={draft.storeId}
+            disabled={storeLoading}
+            onChange={(storeId, option) => patchDraft({ storeId, storeName: option.name })}
+          />
 
           {expanded ? (
             <div className="income-report-filter-row">

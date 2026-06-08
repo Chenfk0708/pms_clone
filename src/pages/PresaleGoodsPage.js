@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PresaleGoodsServiceError, defaultPresaleGoodsFilters, loadPresaleGoodsData, } from '../services/presaleGoods';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './PresaleGoodsPage.css';
 const filterMeta = [
     { key: 'channelId', label: '渠道', placeholder: '请选择渠道', optionKey: 'channels' },
@@ -125,7 +127,12 @@ function PresaleGoodsListPage() {
     const currentStoreLabel = selectedStore?.label ?? defaultStore?.label ?? '加载门店中';
     const realStoreOptions = data?.options.stores ?? [];
     const canSwitchStore = realStoreOptions.length > 1;
-    const storeOptions = useMemo(() => [{ value: '', label: '全部门店' }, ...(data?.options.stores ?? [])], [data?.options.stores]);
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: [{ id: 'all', label: '全部门店' }, ...(data?.options.stores ?? []).map((store) => ({
+                id: store.value,
+                label: store.label,
+            }))],
+    });
     const statusTabs = data?.options.shelfStatuses ?? topShelfStatusOptions;
     const rows = data?.rows ?? [];
     function resolveFilterOptions(filter) {
@@ -183,14 +190,7 @@ function PresaleGoodsListPage() {
     function toggleShelf(row) {
         setNotice(row.status === 'warehouse' ? `${row.name} 已上架` : `${row.name} 已下架`);
     }
-    return (_jsxs("div", { className: "presale-goods-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u9884\u552E\u5238" }), _jsxs("section", { className: "presale-goods-query", "aria-label": "\u9884\u552E\u5238\u5546\u54C1\u7B5B\u9009", children: [_jsxs("div", { className: "presale-goods-storebar", "aria-label": "\u95E8\u5E97\u5207\u6362", children: [_jsx("button", { type: "button", className: `presale-goods-storebar__tab${filters.poiId ? '' : ' is-active'}`, "aria-label": "\u5168\u90E8\u95E8\u5E97", onClick: () => chooseStore(''), children: "\u5168\u90E8\u95E8\u5E97" }), _jsxs("div", { className: "presale-goods-storebar__current", children: [_jsx("button", { type: "button", className: `presale-goods-storebar__tab${filters.poiId ? ' is-active' : ''}`, "aria-haspopup": canSwitchStore ? 'listbox' : undefined, "aria-expanded": canSwitchStore ? openFilter === 'store' : undefined, "aria-label": `当前门店 ${currentStoreLabel}`, onClick: () => {
-                                            if (!canSwitchStore) {
-                                                if (defaultStore?.value !== undefined)
-                                                    chooseStore(defaultStore.value);
-                                                return;
-                                            }
-                                            setOpenFilter(openFilter === 'store' ? null : 'store');
-                                        }, children: currentStoreLabel }), canSwitchStore && openFilter === 'store' ? (_jsx("div", { className: "presale-goods-storebar__options", role: "listbox", "aria-label": "\u95E8\u5E97\u5217\u8868", children: storeOptions.map((option) => (_jsx("button", { type: "button", role: "option", "aria-selected": filters.poiId === option.value, onClick: () => chooseStore(option.value), children: option.label }, option.value || option.label))) })) : null] }), _jsx("button", { type: "button", className: "presale-goods-storebar__setting", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: "*" })] }), _jsxs("div", { className: "presale-goods-query__grid", children: [filterMeta.map((filter) => (_jsx(FilterSelect, { filter: filter, options: resolveFilterOptions(filter), value: filters[filter.key], isOpen: openFilter === filter.key, onToggle: () => setOpenFilter(openFilter === filter.key ? null : filter.key), onChoose: (nextValue) => chooseFilter(nextValue) }, filter.key))), _jsxs("label", { className: "presale-goods-field presale-goods-keyword", children: [_jsx("span", { children: "\u641C\u7D22" }), _jsx("input", { value: draftKeyword, placeholder: "\u8BF7\u8F93\u5165\u5546\u54C1\u7F16\u53F7/\u5546\u54C1\u540D\u79F0", onChange: (event) => setDraftKeyword(event.target.value) })] })] }), _jsxs("div", { className: "presale-goods-actions", children: [_jsx("button", { type: "button", onClick: resetFilters, disabled: isLoading, children: "\u91CD\u7F6E" }), _jsx("button", { type: "button", className: "is-primary", onClick: applySearch, disabled: isLoading, children: "\u641C\u7D22" })] })] }), _jsxs("section", { className: "presale-goods-main", "aria-label": "\u9884\u552E\u5238\u5546\u54C1\u5217\u8868", children: [_jsxs("div", { className: "presale-goods-toolbar", children: [_jsx("div", { className: "presale-goods-tabs", role: "tablist", "aria-label": "\u4E0A\u67B6\u72B6\u6001", children: statusTabs.map((tab) => (_jsx("button", { type: "button", role: "tab", "aria-selected": filters.shelfStatus === tab.value, className: filters.shelfStatus === tab.value ? 'is-active' : '', onClick: () => {
+    return (_jsxs("div", { className: "presale-goods-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u9884\u552E\u5238" }), _jsxs("section", { className: "presale-goods-query", "aria-label": "\u9884\u552E\u5238\u5546\u54C1\u7B5B\u9009", children: [_jsx(StoreSelectControl, { className: "presale-goods-storebar", label: "\u95E8\u5E97\u5207\u6362", options: storeOptions.map((option) => ({ id: option.id, name: option.label })), value: filters.poiId || 'all', disabled: storeLoading, onChange: (storeId) => chooseStore(storeId === 'all' ? '' : storeId), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsxs("div", { className: "presale-goods-query__grid", children: [filterMeta.map((filter) => (_jsx(FilterSelect, { filter: filter, options: resolveFilterOptions(filter), value: filters[filter.key], isOpen: openFilter === filter.key, onToggle: () => setOpenFilter(openFilter === filter.key ? null : filter.key), onChoose: (nextValue) => chooseFilter(nextValue) }, filter.key))), _jsxs("label", { className: "presale-goods-field presale-goods-keyword", children: [_jsx("span", { children: "\u641C\u7D22" }), _jsx("input", { value: draftKeyword, placeholder: "\u8BF7\u8F93\u5165\u5546\u54C1\u7F16\u53F7/\u5546\u54C1\u540D\u79F0", onChange: (event) => setDraftKeyword(event.target.value) })] })] }), _jsxs("div", { className: "presale-goods-actions", children: [_jsx("button", { type: "button", onClick: resetFilters, disabled: isLoading, children: "\u91CD\u7F6E" }), _jsx("button", { type: "button", className: "is-primary", onClick: applySearch, disabled: isLoading, children: "\u641C\u7D22" })] })] }), _jsxs("section", { className: "presale-goods-main", "aria-label": "\u9884\u552E\u5238\u5546\u54C1\u5217\u8868", children: [_jsxs("div", { className: "presale-goods-toolbar", children: [_jsx("div", { className: "presale-goods-tabs", role: "tablist", "aria-label": "\u4E0A\u67B6\u72B6\u6001", children: statusTabs.map((tab) => (_jsx("button", { type: "button", role: "tab", "aria-selected": filters.shelfStatus === tab.value, className: filters.shelfStatus === tab.value ? 'is-active' : '', onClick: () => {
                                         setIsLoading(true);
                                         setError('');
                                         setFilters((current) => ({ ...current, shelfStatus: tab.value, page: 1 }));

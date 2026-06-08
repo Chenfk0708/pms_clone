@@ -14,6 +14,8 @@ import {
   type CleanTaskStatus,
   type CleanTaskType,
 } from '../services/cleanTask'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './CleanTaskPage.css'
 
 type CleanFilter = 'room' | 'type' | 'status' | 'cleaner' | null
@@ -49,6 +51,12 @@ export function CleanTaskPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [feedback, setFeedback] = useState('')
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: (dashboard?.stores ?? [{ id: 'ALL', label: '全部门店' }]).map((store) => ({
+      id: store.id === 'ALL' ? 'all' : store.id,
+      label: store.label,
+    })),
+  })
 
   useEffect(() => {
     void loadData(filters)
@@ -138,22 +146,17 @@ export function CleanTaskPage() {
 
       <section className="clean-task-toolbar" aria-label="保洁任务筛选">
         <div className="clean-task-toolbar__top">
-          <div className="clean-store-tabs" aria-label="门店筛选">
-            {(dashboard?.stores ?? [{ id: 'ALL', label: '全部门店' }]).map((store) => (
-              <button
-                key={store.id}
-                type="button"
-                className={filters.poiId === store.id ? 'is-active' : ''}
-                aria-pressed={filters.poiId === store.id}
-                onClick={() => {
-                  const nextFilters = { ...filters, poiId: store.id, scenario: 'success' as const }
-                  void loadData(nextFilters, { successMessage: `已切换门店：${store.label}` })
-                }}
-              >
-                {store.label}
-              </button>
-            ))}
-          </div>
+          <StoreSelectControl
+            className="clean-store-tabs"
+            label="门店筛选"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={filters.poiId === 'ALL' ? 'all' : filters.poiId}
+            disabled={storeLoading}
+            onChange={(storeId, option) => {
+              const nextFilters = { ...filters, poiId: storeId === 'all' ? 'ALL' : storeId, scenario: 'success' as const }
+              void loadData(nextFilters, { successMessage: `已切换门店：${option.name}` })
+            }}
+          />
 
           <label className="clean-date">
             <span>保洁日期：</span>

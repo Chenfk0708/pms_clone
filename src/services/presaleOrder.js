@@ -145,6 +145,8 @@ export function createPresaleOrderRequestBody(filters, campId) {
     };
     if (filters.afterSale)
         body.refundDisplayState = Number(filters.afterSale);
+    if (filters.poiIds?.length)
+        body.poiIds = filters.poiIds;
     return body;
 }
 export function getPresaleOrderProviderName() {

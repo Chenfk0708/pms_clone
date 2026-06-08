@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createDefaultDistributionFilters, distributionListEndpoints, fetchDistributionDashboard, } from '../services/distributionList';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './DistributionListPage.css';
 const actionButtons = [
     { label: '提现教程', route: '/statistics/distributionOrder' },
@@ -25,7 +27,12 @@ export function DistributionListPage() {
     const [roomProgressMap, setRoomProgressMap] = useState({});
     const [importMenuOpen, setImportMenuOpen] = useState(false);
     const [importDialogMode, setImportDialogMode] = useState(null);
-    const [undistributedStoreMode, setUndistributedStoreMode] = useState('all');
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: dashboard?.stores.map((store) => ({
+            id: store.id,
+            label: store.label,
+        })),
+    });
     const updateFilters = (nextFilters) => {
         setNotice('');
         setLoading(true);
@@ -69,22 +76,15 @@ export function DistributionListPage() {
         const timer = window.setTimeout(() => setNotice(''), 2200);
         return () => window.clearTimeout(timer);
     }, [notice]);
-    const currentStoreLabel = useMemo(() => {
-        const matched = dashboard?.stores.find((store) => store.id === filters.poiId);
-        return matched?.label ?? dashboard?.stores[1]?.label ?? '当前门店';
-    }, [dashboard, filters.poiId]);
     const visibleRows = useMemo(() => {
         if (!dashboard)
             return [];
         const list = filters.tab === 'distributed' ? dashboard.distributedRooms : dashboard.undistributedRooms;
-        const filteredByStore = filters.tab === 'undistributed' && undistributedStoreMode === 'current'
-            ? list.filter((room) => room.storeId === filters.poiId || filters.poiId === 'ALL')
-            : list;
-        return filteredByStore.map((room) => ({
+        return list.map((room) => ({
             ...room,
             progress: roomProgressMap[room.id] ?? room.progress,
         }));
-    }, [dashboard, filters.poiId, filters.tab, roomProgressMap, undistributedStoreMode]);
+    }, [dashboard, filters.tab, roomProgressMap]);
     const selectedRoom = useMemo(() => visibleRows.find((room) => room.id === drawerRoomId) ?? null, [drawerRoomId, visibleRows]);
     const requestSnapshot = dashboard ? JSON.stringify(dashboard.request) : JSON.stringify({ filters });
     const reload = (message = '分销列表已刷新') => {
@@ -108,16 +108,11 @@ export function DistributionListPage() {
                 setOpenMenuId(null);
             if (importMenuOpen)
                 setImportMenuOpen(false);
-        }, children: [_jsxs("section", { className: "distribution-page-main", children: [_jsxs("div", { className: "distribution-page-main__header", children: [_jsxs("div", { className: "distribution-list-tabs", role: "group", "aria-label": "\u5206\u9500\u72B6\u6001", children: [_jsx("button", { type: "button", className: filters.tab === 'distributed' ? 'is-active' : '', onClick: () => selectTab('distributed'), children: "\u5DF2\u5206\u9500" }), _jsx("button", { type: "button", className: filters.tab === 'undistributed' ? 'is-active' : '', onClick: () => selectTab('undistributed'), children: "\u672A\u5206\u9500" })] }), filters.tab === 'distributed' ? (_jsxs("div", { className: "distribution-panel__actions", children: [actionButtons.map((action, index) => (_jsx("button", { type: "button", className: index === 0 ? 'is-outline' : 'is-primary', onClick: () => navigate(action.route), children: action.label }, action.label))), _jsx("button", { type: "button", className: "is-light", onClick: () => reload(), children: "\u5237\u65B0" })] })) : null] }), filters.tab === 'undistributed' ? (_jsxs("div", { className: "distribution-undistributed-toolbar", children: [_jsxs("div", { className: "distribution-store-switch", "aria-label": "\u672A\u5206\u9500\u95E8\u5E97\u5207\u6362", children: [_jsx("button", { type: "button", className: undistributedStoreMode === 'all' ? 'is-active' : '', onClick: (event) => {
-                                            event.stopPropagation();
-                                            setUndistributedStoreMode('all');
-                                        }, children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: `is-store${undistributedStoreMode === 'current' ? ' is-active' : ''}`, title: currentStoreLabel, onClick: (event) => {
-                                            event.stopPropagation();
-                                            setUndistributedStoreMode('current');
-                                        }, children: currentStoreLabel }), _jsx("button", { type: "button", className: "is-setting", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: (event) => {
-                                            event.stopPropagation();
-                                            navigate('/InformationMaintenance/campInfo');
-                                        }, children: "\u2699" })] }), _jsxs("div", { className: "distribution-panel__actions", children: [_jsx("button", { type: "button", className: "is-disabled", disabled: true, children: "\u4E00\u952E\u4E0A\u67B6" }), _jsxs("div", { className: "distribution-import-menu", children: [_jsx("button", { type: "button", className: "is-primary", "aria-expanded": importMenuOpen, onClick: (event) => {
+        }, children: [_jsxs("section", { className: "distribution-page-main", children: [_jsxs("div", { className: "distribution-page-main__header", children: [_jsxs("div", { className: "distribution-list-tabs", role: "group", "aria-label": "\u5206\u9500\u72B6\u6001", children: [_jsx("button", { type: "button", className: filters.tab === 'distributed' ? 'is-active' : '', onClick: () => selectTab('distributed'), children: "\u5DF2\u5206\u9500" }), _jsx("button", { type: "button", className: filters.tab === 'undistributed' ? 'is-active' : '', onClick: () => selectTab('undistributed'), children: "\u672A\u5206\u9500" })] }), filters.tab === 'distributed' ? (_jsxs("div", { className: "distribution-panel__actions", children: [actionButtons.map((action, index) => (_jsx("button", { type: "button", className: index === 0 ? 'is-outline' : 'is-primary', onClick: () => navigate(action.route), children: action.label }, action.label))), _jsx("button", { type: "button", className: "is-light", onClick: () => reload(), children: "\u5237\u65B0" })] })) : null] }), filters.tab === 'undistributed' ? (_jsxs("div", { className: "distribution-undistributed-toolbar", children: [_jsx(StoreSelectControl, { className: "distribution-store-switch", label: "\u672A\u5206\u9500\u95E8\u5E97\u5207\u6362", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: filters.poiId, disabled: storeLoading, onChange: (storeId) => updateFilters((current) => ({
+                                    ...current,
+                                    poiId: storeId,
+                                    page: 1,
+                                })), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsxs("div", { className: "distribution-panel__actions", children: [_jsx("button", { type: "button", className: "is-disabled", disabled: true, children: "\u4E00\u952E\u4E0A\u67B6" }), _jsxs("div", { className: "distribution-import-menu", children: [_jsx("button", { type: "button", className: "is-primary", "aria-expanded": importMenuOpen, onClick: (event) => {
                                                     event.stopPropagation();
                                                     setImportMenuOpen((current) => !current);
                                                 }, children: "\u6E20\u9053\u5BFC\u5165\u5B8C\u5584" }), importMenuOpen ? (_jsxs("div", { className: "distribution-import-menu__panel", role: "menu", onClick: (event) => event.stopPropagation(), children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => {

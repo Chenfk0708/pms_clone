@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createLedgerEntryExportTask, defaultLedgerEntryQuery, fetchLedgerEntryDashboard, LedgerEntryServiceError, } from '../services/ledgerEntry';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './OrderLedgerPage.css';
 import './LedgerEntryPage.css';
 const presetRanges = [
@@ -71,6 +73,12 @@ export function LedgerEntryPage() {
     const allStore = stores[0];
     const roomCategoryName = dashboard?.roomCategories.find((item) => item.id === query.roomCategoryId)?.name ?? '请选择房型';
     const rows = dashboard?.rows ?? [];
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: stores.map((store) => ({
+            id: store.id === allStore.id ? 'all' : store.id,
+            label: store.name || '全部门店',
+        })),
+    });
     function patchQuery(next, nextNotice = '') {
         setOpenSelect(null);
         setNotice(nextNotice);
@@ -132,10 +140,10 @@ export function LedgerEntryPage() {
     function changePage(page) {
         patchQuery({ page }, `已切换到第 ${page} 页`);
     }
-    return (_jsxs("div", { className: "ledger-entry-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u8BB0\u4E00\u7B14\u660E\u7EC6" }), _jsx("output", { id: "ledger-entry-diagnostics", hidden: true, "data-provider": diagnosticsProvider, "data-state": diagnosticsState, "data-request": JSON.stringify(diagnosticsRequest) }), _jsxs("section", { className: "order-ledger-filter", "aria-label": "\u8BB0\u4E00\u7B14\u660E\u7EC6\u7B5B\u9009", children: [_jsxs("div", { className: "order-ledger-filter__top", children: [_jsxs("div", { className: "order-ledger-store-row", "aria-label": "\u95E8\u5E97", children: [_jsx("button", { type: "button", className: query.storeId === allStore.id ? 'is-active' : '', "aria-pressed": query.storeId === allStore.id, onClick: () => patchQuery({ storeId: allStore.id, storeName: allStore.name }, `已切换到${allStore.name}`), children: "\u5168\u90E8\u95E8\u5E97" }), stores.slice(1).map((store) => {
-                                        const selected = query.storeId === store.id;
-                                        return (_jsx("button", { type: "button", className: selected ? 'is-active' : '', "aria-pressed": selected, onClick: () => patchQuery({ storeId: store.id, storeName: store.name }, `已切换到${store.name}`), children: store.name }, store.id));
-                                    }), _jsx("button", { type: "button", className: "order-ledger-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => setIsStoreDialogOpen(true), children: "\u2699" })] }), _jsx("div", { className: "order-ledger-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: presetRanges.map((preset) => (_jsx("button", { type: "button", className: activePreset === preset.key ? 'is-active' : '', onClick: () => patchQuery({ startDate: preset.start, endDate: preset.end }, `已切换到${preset.label}`), children: preset.label }, preset.key))) }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u8D26\u672C\u65E5\u671F", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
+    return (_jsxs("div", { className: "ledger-entry-page", children: [_jsx("h1", { className: "sr-only-heading", children: "\u8BB0\u4E00\u7B14\u660E\u7EC6" }), _jsx("output", { id: "ledger-entry-diagnostics", hidden: true, "data-provider": diagnosticsProvider, "data-state": diagnosticsState, "data-request": JSON.stringify(diagnosticsRequest) }), _jsxs("section", { className: "order-ledger-filter", "aria-label": "\u8BB0\u4E00\u7B14\u660E\u7EC6\u7B5B\u9009", children: [_jsxs("div", { className: "order-ledger-filter__top", children: [_jsx(StoreSelectControl, { className: "order-ledger-store-row", label: "\u95E8\u5E97", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: query.storeId === allStore.id ? 'all' : query.storeId, disabled: storeLoading, onChange: (storeId, option) => {
+                                    const nextStoreId = storeId === 'all' ? allStore.id : storeId;
+                                    patchQuery({ storeId: nextStoreId, storeName: option.name }, `已切换到${option.name}`);
+                                }, settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => setIsStoreDialogOpen(true) }), _jsx("div", { className: "order-ledger-presets", role: "group", "aria-label": "\u65E5\u671F\u5FEB\u6377\u7B5B\u9009", children: presetRanges.map((preset) => (_jsx("button", { type: "button", className: activePreset === preset.key ? 'is-active' : '', onClick: () => patchQuery({ startDate: preset.start, endDate: preset.end }, `已切换到${preset.label}`), children: preset.label }, preset.key))) }), _jsxs("div", { ref: dateRangeRef, className: "order-ledger-date-range", "aria-label": "\u8D26\u672C\u65E5\u671F", role: "button", tabIndex: 0, onClick: () => openDatePanel('start'), onKeyDown: (event) => {
                                     if (event.key === 'Enter' || event.key === ' ') {
                                         event.preventDefault();
                                         openDatePanel('start');

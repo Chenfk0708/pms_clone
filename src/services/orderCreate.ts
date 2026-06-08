@@ -4,6 +4,8 @@ export type OrderCreateKeyValueItem = {
 }
 
 export type OrderCreateRoomItem = {
+  roomCategoryId?: string
+  roomId?: string
   roomType?: string
   roomName?: string
   dateRange?: string

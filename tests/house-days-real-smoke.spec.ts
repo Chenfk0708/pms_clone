@@ -10,6 +10,6 @@ test('house days renders today orders from real roomStatusesToday data', async (
 
   await expect(page.getByRole('alert')).toHaveCount(0, { timeout: 15_000 })
   await expect(page.locator('.day-room-area')).toContainText('Real Guest C', { timeout: 15_000 })
-  await expect(page.locator('.day-room-area')).toContainText('刘敏', { timeout: 15_000 })
+  await expect(page.locator('.day-room-area')).toContainText('Real Guest D', { timeout: 15_000 })
   await expect(page.locator('.day-filter-panel')).toContainText('预抵')
 })

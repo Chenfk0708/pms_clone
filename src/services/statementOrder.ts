@@ -1,9 +1,9 @@
 export type StatementOrderProviderName = 'mock' | 'api'
 type StatementOrderMockMode = 'success' | 'empty' | 'error'
-export type StatementOrderStoreScope = 'all' | 'current'
+export type StatementOrderStoreScope = string
 
 export type StatementOrderStoreOption = {
-  id: StatementOrderStoreScope
+  id: string
   label: string
   poiIds: string[]
 }
@@ -205,10 +205,10 @@ export async function exportStatementOrderData(
 }
 
 export function createStatementOrderQuery(scope: StatementOrderStoreScope): StatementOrderQuery {
-  const store = stores.find((item) => item.id === scope) ?? stores[0]
+  const poiIds = resolveStatementOrderPoiIds(scope)
   return {
     campId: resolveCampId(),
-    poiIds: store.poiIds,
+    poiIds,
     bookingStartDate: defaultBookingStartDate,
     bookingEndDate: defaultBookingEndDate,
     current: 1,
@@ -286,7 +286,7 @@ function buildMockStatementEnvelope(
     }
   }
 
-  const rows = mode === 'empty' ? [] : scope === 'current' ? currentStoreRows : allStoreRows
+  const rows = mode === 'empty' ? [] : query.poiIds.length > 0 ? currentStoreRows : allStoreRows
   return {
     code: 0,
     message: 'success',
@@ -314,7 +314,7 @@ function buildMockExportEnvelope(
   scope: StatementOrderStoreScope,
   query: StatementOrderQuery,
 ): ApiEnvelope<{ downloadUrl: string }> {
-  const scopeKey = scope === 'current' ? currentStorePoiId : 'all'
+  const scopeKey = query.poiIds[0] ?? (scope === 'current' ? currentStorePoiId : 'all')
   return {
     code: 0,
     message: 'success',
@@ -424,6 +424,13 @@ function buildStatementRequestBody(query: StatementOrderQuery) {
     bookingEndDate: query.bookingEndDate,
     breakTemp: query.breakTemp,
   }
+}
+
+function resolveStatementOrderPoiIds(scope: StatementOrderStoreScope) {
+  if (!scope || scope === 'all') return []
+  const store = stores.find((item) => item.id === scope)
+  if (store) return [...store.poiIds]
+  return [scope]
 }
 
 async function postHudson<T>(endpoint: string, body: Record<string, unknown>, signal?: AbortSignal): Promise<T> {

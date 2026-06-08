@@ -84,7 +84,7 @@ export function getHotelPackageOrderMockState() {
     return 'success';
 }
 export function createHotelPackageOrderRequestBody(filters) {
-    return {
+    const body = {
         campId: MOCK_CAMP_ID,
         pageNum: String(filters.pageNum || 1),
         pageSize: String(filters.pageSize || 20),
@@ -98,6 +98,9 @@ export function createHotelPackageOrderRequestBody(filters) {
         bookedEndDate: toNextDayStart(filters.endDate),
         keyword: filters.keyword.trim(),
     };
+    if (filters.poiIds?.length)
+        body.poiIds = filters.poiIds;
+    return body;
 }
 export async function loadHotelPackageOrderData(filters, options) {
     const provider = getHotelPackageOrderProvider();

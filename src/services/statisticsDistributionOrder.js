@@ -156,8 +156,14 @@ function summarizeRows(rows) {
     });
 }
 function createRequestBody(query) {
+    const poiIds = Array.isArray(query.poiIds) && query.poiIds.length > 0
+        ? query.poiIds
+        : query.storeScope && query.storeScope !== 'all'
+            ? [query.storeScope]
+            : [];
     return {
         campId: query.campId || defaultStatisticsDistributionOrderCampId,
+        ...(poiIds.length > 0 ? { poiIds } : {}),
         pageNum: query.pageNum ?? 1,
         pageSize: query.pageSize ?? 20,
         current: query.current ?? 1,

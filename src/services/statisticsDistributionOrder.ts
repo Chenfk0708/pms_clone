@@ -1,11 +1,12 @@
 export type StatisticsDistributionOrderProviderName = 'mock' | 'api'
 export type StatisticsDistributionOrderMockState = 'success' | 'empty' | 'error'
 export type StatisticsDistributionOrderFilter = '' | '全部' | '非置换订单' | '置换订单'
-export type StatisticsDistributionOrderStoreScope = 'all' | 'current'
+export type StatisticsDistributionOrderStoreScope = string
 
 export type StatisticsDistributionOrderQuery = {
   campId?: string
   storeScope?: StatisticsDistributionOrderStoreScope
+  poiIds?: string[]
   bookingStartDate: string
   bookingEndDate: string
   keyword?: string
@@ -289,8 +290,15 @@ function summarizeRows(rows: StatisticsDistributionOrderRow[]): StatisticsDistri
 }
 
 function createRequestBody(query: StatisticsDistributionOrderQuery) {
+  const poiIds =
+    Array.isArray(query.poiIds) && query.poiIds.length > 0
+      ? query.poiIds
+      : query.storeScope && query.storeScope !== 'all'
+        ? [query.storeScope]
+        : []
   return {
     campId: query.campId || defaultStatisticsDistributionOrderCampId,
+    ...(poiIds.length > 0 ? { poiIds } : {}),
     pageNum: query.pageNum ?? 1,
     pageSize: query.pageSize ?? 20,
     current: query.current ?? 1,

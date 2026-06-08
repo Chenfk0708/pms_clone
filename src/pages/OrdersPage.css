@@ -254,6 +254,17 @@
   position: relative;
 }
 
+.order-select-field--store .month-store-control,
+.order-select-field--store .month-store-select,
+.order-select-field--store .month-store-select__trigger {
+  width: 210px;
+}
+
+.order-select-field--store .month-store-select__trigger {
+  height: 30px;
+  border-radius: 4px;
+}
+
 .order-select-menu {
   position: absolute;
   top: calc(100% + 4px);
@@ -796,11 +807,39 @@
   justify-content: space-between;
 }
 
+.order-room-card__status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: #66748d;
+  font-size: 13px;
+}
+
+.order-room-card__status-row strong {
+  font-weight: 500;
+}
+
 .order-room-card__total {
   display: block;
   margin-top: 8px;
   color: #1f2a44;
   font-size: 24px;
+}
+
+.order-detail-operation-message {
+  border: 1px solid #d6e4ff;
+  border-radius: 8px;
+  background: #f0f5ff;
+  color: #2f54eb;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.order-detail-operation-message.is-error {
+  border-color: #ffccc7;
+  background: #fff2f0;
+  color: #cf1322;
 }
 
 .order-detail-section h3,
@@ -878,6 +917,13 @@
   color: #4d65f6;
 }
 
+.order-detail-actions button:disabled {
+  border-color: #d9d9d9;
+  background: #f5f5f5;
+  color: #bfbfbf;
+  cursor: not-allowed;
+}
+
 .order-detail-footer {
   display: flex;
   align-items: center;
@@ -909,6 +955,146 @@
   border-color: #4d65f6;
   background: #4d65f6;
   color: #fff;
+}
+
+.order-confirm-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: rgba(17, 24, 39, 0.2);
+  padding: 24px;
+}
+
+.order-confirm-dialog {
+  width: min(100%, 520px);
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 20px 50px rgba(20, 29, 48, 0.22);
+}
+
+.order-confirm-dialog header,
+.order-confirm-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.order-confirm-dialog header {
+  min-height: 52px;
+  padding: 0 18px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.order-confirm-dialog header strong {
+  color: #17213a;
+  font-size: 16px;
+}
+
+.order-confirm-dialog header button {
+  width: 30px;
+  border-color: transparent;
+  color: #6b7485;
+  font-size: 20px;
+}
+
+.order-confirm-dialog footer {
+  justify-content: flex-end;
+  padding: 14px 18px 18px;
+  border-top: 1px solid #edf0f6;
+}
+
+.order-confirm-dialog footer button.is-primary {
+  border-color: #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.order-confirm-dialog footer button:disabled {
+  border-color: #d9d9d9;
+  background: #f5f5f5;
+  color: #bfbfbf;
+  cursor: not-allowed;
+}
+
+.order-cancel-confirm {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding: 18px;
+}
+
+.order-cancel-confirm__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff7e6;
+  color: #fa8c16;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.order-cancel-confirm strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #17213a;
+  font-size: 16px;
+}
+
+.order-cancel-confirm p {
+  margin: 0 0 14px;
+  color: #66748d;
+  font-size: 13px;
+}
+
+.order-cancel-confirm dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f5f7fb;
+}
+
+.order-cancel-confirm dl div {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  color: #1f2a44;
+  font-size: 13px;
+}
+
+.order-cancel-confirm dt {
+  color: #66748d;
+}
+
+.order-cancel-confirm dd {
+  margin: 0;
+}
+
+.order-skip-stock-confirm__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  margin: 0 0 14px;
+  border: 0;
+  background: transparent;
+  color: #66748d;
+  padding: 0;
+}
+
+.order-skip-stock-confirm__tag strong {
+  margin: 0;
+  color: #4d65f6;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .order-entry-drawer {
@@ -1242,7 +1428,7 @@
 
 .order-entry-stay-room-trigger {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 142px;
+  grid-template-columns: minmax(0, 1fr) 150px;
   align-items: center;
   gap: 10px;
   width: 100%;
@@ -1267,6 +1453,11 @@
 .order-entry-stay-room-trigger strong {
   font-size: 13px;
   font-weight: 600;
+}
+
+.order-entry-stay-room-trigger span {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .order-entry-stay-room-bar__main,

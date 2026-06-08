@@ -2,6 +2,8 @@ import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import { useCallback, useEffect, useMemo, useSyncExternalStore, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createCleanStatisticsExportTask, fetchCleanStatisticsDashboard, getCurrentMonthRange, getDefaultCleanStatisticsFilters, } from '../services/cleanStatistics';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import './CleanStatisticsPage.css';
 const defaultFilters = getDefaultCleanStatisticsFilters();
 const initialRange = { start: defaultFilters.startDate, end: defaultFilters.endDate };
@@ -31,7 +33,9 @@ export function CleanStatisticsPage() {
     const detailRows = dashboard?.statistics.detailRows ?? [];
     const metrics = dashboard?.statistics.metrics ?? [];
     const todos = dashboard?.statistics.todos ?? [];
-    const stores = dashboard?.stores ?? [{ id: 'all', label: '全部门店' }];
+    const { storeOptions, storeLoading } = useStoreOptions({
+        fallbackOptions: dashboard?.stores ?? [{ id: 'all', label: '全部门店' }],
+    });
     const roomOptions = dashboard?.rooms ?? [];
     const cleanerOptions = dashboard?.cleaners ?? [];
     const buildFilters = useCallback((nextRange = range) => ({
@@ -93,10 +97,10 @@ export function CleanStatisticsPage() {
         setExportTask(task);
         setStatus(`导出任务已创建：${task.taskId}`);
     }
-    return (_jsxs("div", { className: "clean-stat-page", "data-clean-request": JSON.stringify(lastRequestBody), "data-clean-export": exportTask ? JSON.stringify(exportTask) : '', children: [_jsx("div", { className: "clean-stat-title", children: "\u4FDD\u6D01\u7EDF\u8BA1" }), _jsxs("section", { className: "clean-stat-shell", children: [_jsxs("div", { className: "clean-stat-tabs", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u89C6\u56FE", children: [_jsx("button", { type: "button", className: tab === 'summary' ? 'is-active' : '', onClick: () => setTab('summary'), children: "\u7EDF\u8BA1\u6C47\u603B" }), _jsx("button", { type: "button", className: tab === 'detail' ? 'is-active' : '', onClick: () => setTab('detail'), children: "\u7EDF\u8BA1\u660E\u7EC6" }), _jsx("button", { type: "button", className: "clean-stat-help", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u8BF4\u660E", onClick: () => setDialog({ type: 'help' }), children: "?" })] }), _jsxs("section", { className: "clean-stat-toolbar", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u7B5B\u9009", children: [_jsxs("div", { className: "clean-stat-row", children: [_jsxs("div", { className: "clean-stat-store", role: "group", "aria-label": "\u95E8\u5E97\u7B5B\u9009", children: [stores.map((item) => (_jsx("button", { type: "button", className: storeId === item.id ? 'is-active' : '', onClick: () => {
-                                                    setStoreId(item.id);
-                                                    setStatus(`已切换门店：${item.label}`);
-                                                }, children: item.id === 'qianhai' ? '天落会宿…' : item.label }, item.id))), _jsx("button", { type: "button", className: "clean-stat-gear", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/cleanManage/cleanSetting'), children: "\u2699" })] }), _jsxs("label", { className: "clean-stat-date", children: [_jsx("span", { children: "\u65E5\u671F\uFF1A" }), _jsx("button", { type: "button", className: "clean-stat-month is-active", onClick: () => {
+    return (_jsxs("div", { className: "clean-stat-page", "data-clean-request": JSON.stringify(lastRequestBody), "data-clean-export": exportTask ? JSON.stringify(exportTask) : '', children: [_jsx("div", { className: "clean-stat-title", children: "\u4FDD\u6D01\u7EDF\u8BA1" }), _jsxs("section", { className: "clean-stat-shell", children: [_jsxs("div", { className: "clean-stat-tabs", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u89C6\u56FE", children: [_jsx("button", { type: "button", className: tab === 'summary' ? 'is-active' : '', onClick: () => setTab('summary'), children: "\u7EDF\u8BA1\u6C47\u603B" }), _jsx("button", { type: "button", className: tab === 'detail' ? 'is-active' : '', onClick: () => setTab('detail'), children: "\u7EDF\u8BA1\u660E\u7EC6" }), _jsx("button", { type: "button", className: "clean-stat-help", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u8BF4\u660E", onClick: () => setDialog({ type: 'help' }), children: "?" })] }), _jsxs("section", { className: "clean-stat-toolbar", "aria-label": "\u4FDD\u6D01\u7EDF\u8BA1\u7B5B\u9009", children: [_jsxs("div", { className: "clean-stat-row", children: [_jsx(StoreSelectControl, { className: "clean-stat-store", label: "\u95E8\u5E97\u7B5B\u9009", options: storeOptions.map((item) => ({ id: item.id, name: item.label })), value: storeId, disabled: storeLoading, onChange: (nextStoreId, option) => {
+                                            setStoreId(nextStoreId);
+                                            setStatus(`已切换门店：${option.name}`);
+                                        }, settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/cleanManage/cleanSetting') }), _jsxs("label", { className: "clean-stat-date", children: [_jsx("span", { children: "\u65E5\u671F\uFF1A" }), _jsx("button", { type: "button", className: "clean-stat-month is-active", onClick: () => {
                                                     const nextRange = getCurrentMonthRange();
                                                     setRange(nextRange);
                                                     setStatus('已切换为本月');

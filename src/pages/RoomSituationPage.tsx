@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StoreSelectControl, type StoreSelectOption } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
   dailyRoomSituationEndpoint,
   fetchDailyRoomSituation,
@@ -36,6 +38,7 @@ const dayColumns: Array<{ key: keyof Omit<DailyRoomSituationRow, 'id' | 'name'>;
 
 const metricDescriptions = [
   { label: '总房间数', text: '企业的房间总数；' },
+  { label: '已售房间数', text: '已售房间数=在住-预离+预抵；' },
   { label: '剩余可售', text: '当天剩余的可售房间数量；' },
   { label: '占用', text: '订单占用、停用房占用、维修房占用、保留房占用的占用房间总数；' },
 ] as const
@@ -43,6 +46,7 @@ const metricDescriptions = [
 const dayMs = 24 * 60 * 60 * 1000
 const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 const forwardWindowDays = 30
+const summaryRowId = '__room_situation_summary__'
 
 export function RoomSituationPage() {
   const navigate = useNavigate()
@@ -144,10 +148,31 @@ export function RoomSituationPage() {
     () => buildFutureDates(forwardStartDate, Math.max(1, maxForwardDays(forwardRows))),
     [forwardRows, forwardStartDate],
   )
-  const storeOptions = useMemo(
-    () => [{ poiId: 'all', poiName: '全部门店' }, ...stores.filter((store) => store.poiId && store.poiId !== 'all')],
+  const storeOptions = useMemo<StoreSelectOption[]>(
+    () => [
+      { id: 'all', name: '全部门店' },
+      ...stores
+        .filter((store) => store.poiId && store.poiId !== 'all')
+        .map((store) => ({ id: store.poiId, name: store.poiName })),
+    ],
     [stores],
   )
+  const { storeOptions: backendStoreOptions } = useStoreOptions({
+    fallbackOptions: storeOptions.map((store) => ({
+      id: store.id,
+      label: store.name,
+    })),
+    enabled: providerName === 'real',
+  })
+  const sharedStoreOptions = useMemo<StoreSelectOption[]>(
+    () => backendStoreOptions.map((store) => ({ id: store.id, name: store.label })),
+    [backendStoreOptions],
+  )
+  useEffect(() => {
+    if (activeStoreId === 'all') return
+    if (sharedStoreOptions.some((store) => store.id === activeStoreId)) return
+    setActiveStoreId('all')
+  }, [activeStoreId, sharedStoreOptions])
   const forwardDateLabel = `${formatDateFromValue(forwardStartDate)} ${weekdays[forwardStartDate.getDay()]}`
   const forwardCalendarCells = useMemo(
     () => buildCalendarCells(forwardPickerMonth, forwardStartDate),
@@ -172,25 +197,15 @@ export function RoomSituationPage() {
         </div>
 
         <div className="room-situation-filters">
-          <div className="month-store-control room-situation-store-control">
-            <div className="month-store-switch" aria-label="门店范围">
-              {storeOptions.map((store, index) => (
-                <button
-                  key={store.poiId}
-                  type="button"
-                  className={`chip${index === 0 ? ' month-store-chip' : ''}${activeStoreId === store.poiId ? ' is-active' : ''}`}
-                  aria-pressed={activeStoreId === store.poiId}
-                  title={store.poiName}
-                  onClick={() => setActiveStoreId(store.poiId)}
-                >
-                  {store.poiName}
-                </button>
-              ))}
-            </div>
-            <button type="button" className="month-store-settings" aria-label="门店设置" onClick={() => navigate('/InformationMaintenance/campInfo')}>
-              <span aria-hidden="true">⚙</span>
-            </button>
-          </div>
+          <StoreSelectControl
+            className="room-situation-store-control"
+            label="门店范围"
+            options={sharedStoreOptions}
+            value={activeStoreId}
+            onChange={(storeId) => setActiveStoreId(storeId)}
+            settingsLabel="门店设置"
+            onSettingsClick={() => navigate('/InformationMaintenance/campInfo')}
+          />
           <button type="button" className="room-metric-help" onClick={() => setShowMetricHelp(true)}>
             指标说明
           </button>
@@ -373,6 +388,8 @@ export function RoomSituationPage() {
 }
 
 function DaySituationTable({ rows }: { rows: DailyRoomSituationRow[] }) {
+  const displayRows = withDailySummaryRow(rows)
+
   return (
     <div className="room-situation-table-scroll" data-testid="room-situation-table-scroll">
       <table className="room-situation-table">
@@ -385,8 +402,8 @@ function DaySituationTable({ rows }: { rows: DailyRoomSituationRow[] }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row.id}>
+          {displayRows.map((row) => (
+            <tr key={row.id} className={isSummaryRow(row) ? 'is-summary' : undefined}>
               <th className="room-type-column">
                 <span className="room-row-summary">{formatDailyRowSummary(row)}</span>
                 <span>{row.name}</span>
@@ -403,6 +420,7 @@ function DaySituationTable({ rows }: { rows: DailyRoomSituationRow[] }) {
 }
 
 function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]; dates: string[] }) {
+  const displayRows = withForwardSummaryRow(rows)
   const tableMinWidth = Math.max(1400, 220 + dates.length * 112)
 
   return (
@@ -429,8 +447,8 @@ function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.id}>
+            {displayRows.map((row) => (
+              <tr key={row.id} className={isSummaryRow(row) ? 'is-summary' : undefined}>
                 <th className="room-type-column">
                   <span className="room-row-summary">{formatForwardRowSummary(row)}</span>
                   <span>{row.name}</span>
@@ -447,6 +465,63 @@ function FutureSituationTable({ rows, dates }: { rows: ForwardRoomSituationRow[]
       </div>
     </div>
   )
+}
+
+function withDailySummaryRow(rows: DailyRoomSituationRow[]) {
+  const detailRows = rows.filter((row) => !isSummaryRow(row))
+  if (detailRows.length === 0) return rows
+
+  const summary = createEmptyDailySummaryRow()
+  for (const row of detailRows) {
+    for (const column of dayColumns) {
+      summary[column.key] += row[column.key]
+    }
+  }
+
+  return [summary, ...detailRows]
+}
+
+function withForwardSummaryRow(rows: ForwardRoomSituationRow[]) {
+  const detailRows = rows.filter((row) => !isSummaryRow(row))
+  if (detailRows.length === 0) return rows
+
+  const dayCount = maxForwardDays(detailRows)
+  const summary: ForwardRoomSituationRow = {
+    id: summaryRowId,
+    name: '合计',
+    total: detailRows.reduce((sum, row) => sum + row.total, 0),
+    days: Array.from({ length: dayCount }, (_, index) => ({
+      available: detailRows.reduce((sum, row) => sum + (row.days[index]?.available ?? 0), 0),
+      occupied: detailRows.reduce((sum, row) => sum + (row.days[index]?.occupied ?? 0), 0),
+    })),
+  }
+
+  return [summary, ...detailRows]
+}
+
+function createEmptyDailySummaryRow(): DailyRoomSituationRow {
+  return {
+    id: summaryRowId,
+    name: '合计',
+    total: 0,
+    sold: 0,
+    available: 0,
+    closed: 0,
+    disabled: 0,
+    reserved: 0,
+    repair: 0,
+    linkedClosed: 0,
+    usable: 0,
+    arriving: 0,
+    occupied: 0,
+    leaving: 0,
+    clean: 0,
+    dirty: 0,
+  }
+}
+
+function isSummaryRow(row: { id: string; name: string }) {
+  return row.id === summaryRowId || row.name.trim() === '合计'
 }
 
 function formatDate(offset = 0) {

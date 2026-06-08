@@ -62,6 +62,11 @@
   position: relative;
 }
 
+.settings-store-select-wrap .month-store-select__trigger {
+  width: 244px;
+  height: 28px;
+}
+
 .settings-store-select__text {
   overflow: hidden;
   white-space: nowrap;

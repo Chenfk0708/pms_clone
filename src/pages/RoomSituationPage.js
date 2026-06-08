@@ -1,6 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import { dailyRoomSituationEndpoint, fetchDailyRoomSituation, fetchForwardRoomSituation, fetchRoomSituationStores, formatRoomSituationDataSource, formatRoomSituationFeedback, forwardRoomSituationEndpoint, resolveRoomSituationCampId, resolveRoomSituationProvider, } from '../services/roomSituation';
 const dayColumns = [
     { key: 'total', label: '总房间数' },
@@ -20,12 +22,14 @@ const dayColumns = [
 ];
 const metricDescriptions = [
     { label: '总房间数', text: '企业的房间总数；' },
+    { label: '已售房间数', text: '已售房间数=在住-预离+预抵；' },
     { label: '剩余可售', text: '当天剩余的可售房间数量；' },
     { label: '占用', text: '订单占用、停用房占用、维修房占用、保留房占用的占用房间总数；' },
 ];
 const dayMs = 24 * 60 * 60 * 1000;
 const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 const forwardWindowDays = 30;
+const summaryRowId = '__room_situation_summary__';
 export function RoomSituationPage() {
     const navigate = useNavigate();
     const today = useMemo(() => startOfDay(new Date()), []);
@@ -113,14 +117,34 @@ export function RoomSituationPage() {
     }, [activeStoreId, forwardStartDate, mode, pageSize, reloadKey]);
     const rowsInView = mode === 'day' ? dailyRows.length : forwardRows.length;
     const futureDates = useMemo(() => buildFutureDates(forwardStartDate, Math.max(1, maxForwardDays(forwardRows))), [forwardRows, forwardStartDate]);
-    const storeOptions = useMemo(() => [{ poiId: 'all', poiName: '全部门店' }, ...stores.filter((store) => store.poiId && store.poiId !== 'all')], [stores]);
+    const storeOptions = useMemo(() => [
+        { id: 'all', name: '全部门店' },
+        ...stores
+            .filter((store) => store.poiId && store.poiId !== 'all')
+            .map((store) => ({ id: store.poiId, name: store.poiName })),
+    ], [stores]);
+    const { storeOptions: backendStoreOptions } = useStoreOptions({
+        fallbackOptions: storeOptions.map((store) => ({
+            id: store.id,
+            label: store.name,
+        })),
+        enabled: providerName === 'real',
+    });
+    const sharedStoreOptions = useMemo(() => backendStoreOptions.map((store) => ({ id: store.id, name: store.label })), [backendStoreOptions]);
+    useEffect(() => {
+        if (activeStoreId === 'all')
+            return;
+        if (sharedStoreOptions.some((store) => store.id === activeStoreId))
+            return;
+        setActiveStoreId('all');
+    }, [activeStoreId, sharedStoreOptions]);
     const forwardDateLabel = `${formatDateFromValue(forwardStartDate)} ${weekdays[forwardStartDate.getDay()]}`;
     const forwardCalendarCells = useMemo(() => buildCalendarCells(forwardPickerMonth, forwardStartDate), [forwardPickerMonth, forwardStartDate]);
     const forwardPickerLabel = `${forwardPickerMonth.getFullYear()}年 ${forwardPickerMonth.getMonth() + 1}月`;
     function retry() {
         setReloadKey((value) => value + 1);
     }
-    return (_jsxs("div", { className: "page-stack room-situation-page", children: [_jsxs("section", { className: "room-situation-toolbar", "aria-label": "\u623F\u60C5\u8868\u7B5B\u9009", children: [_jsxs("div", { className: "room-situation-tabs", children: [_jsx("button", { type: "button", className: mode === 'day' ? 'is-active' : '', onClick: () => setMode('day'), children: "\u5355\u65E5\u623F\u60C5\u8868" }), _jsx("button", { type: "button", className: mode === 'future' ? 'is-active' : '', onClick: () => setMode('future'), children: "\u8FDC\u671F\u623F\u60C5\u8868" })] }), _jsxs("div", { className: "room-situation-filters", children: [_jsxs("div", { className: "month-store-control room-situation-store-control", children: [_jsx("div", { className: "month-store-switch", "aria-label": "\u95E8\u5E97\u8303\u56F4", children: storeOptions.map((store, index) => (_jsx("button", { type: "button", className: `chip${index === 0 ? ' month-store-chip' : ''}${activeStoreId === store.poiId ? ' is-active' : ''}`, "aria-pressed": activeStoreId === store.poiId, title: store.poiName, onClick: () => setActiveStoreId(store.poiId), children: store.poiName }, store.poiId))) }), _jsx("button", { type: "button", className: "month-store-settings", "aria-label": "\u95E8\u5E97\u8BBE\u7F6E", onClick: () => navigate('/InformationMaintenance/campInfo'), children: _jsx("span", { "aria-hidden": "true", children: "\u2699" }) })] }), _jsx("button", { type: "button", className: "room-metric-help", onClick: () => setShowMetricHelp(true), children: "\u6307\u6807\u8BF4\u660E" })] }), mode === 'future' ? (_jsxs("div", { className: "room-forward-toolbar", children: [_jsxs("div", { className: "room-forward-date-nav", "aria-label": "\u8FDC\u671F\u5F00\u59CB\u65E5\u671F", children: [_jsx("button", { type: "button", className: "room-forward-date-nav__arrow", "aria-label": "\u4E0A\u4E00\u5929", onClick: () => setForwardStartDate((current) => shiftDate(current, -1)), children: "\u2039" }), _jsxs("button", { type: "button", className: "room-forward-date-display", "aria-expanded": forwardCalendarOpen, onClick: () => {
+    return (_jsxs("div", { className: "page-stack room-situation-page", children: [_jsxs("section", { className: "room-situation-toolbar", "aria-label": "\u623F\u60C5\u8868\u7B5B\u9009", children: [_jsxs("div", { className: "room-situation-tabs", children: [_jsx("button", { type: "button", className: mode === 'day' ? 'is-active' : '', onClick: () => setMode('day'), children: "\u5355\u65E5\u623F\u60C5\u8868" }), _jsx("button", { type: "button", className: mode === 'future' ? 'is-active' : '', onClick: () => setMode('future'), children: "\u8FDC\u671F\u623F\u60C5\u8868" })] }), _jsxs("div", { className: "room-situation-filters", children: [_jsx(StoreSelectControl, { className: "room-situation-store-control", label: "\u95E8\u5E97\u8303\u56F4", options: sharedStoreOptions, value: activeStoreId, onChange: (storeId) => setActiveStoreId(storeId), settingsLabel: "\u95E8\u5E97\u8BBE\u7F6E", onSettingsClick: () => navigate('/InformationMaintenance/campInfo') }), _jsx("button", { type: "button", className: "room-metric-help", onClick: () => setShowMetricHelp(true), children: "\u6307\u6807\u8BF4\u660E" })] }), mode === 'future' ? (_jsxs("div", { className: "room-forward-toolbar", children: [_jsxs("div", { className: "room-forward-date-nav", "aria-label": "\u8FDC\u671F\u5F00\u59CB\u65E5\u671F", children: [_jsx("button", { type: "button", className: "room-forward-date-nav__arrow", "aria-label": "\u4E0A\u4E00\u5929", onClick: () => setForwardStartDate((current) => shiftDate(current, -1)), children: "\u2039" }), _jsxs("button", { type: "button", className: "room-forward-date-display", "aria-expanded": forwardCalendarOpen, onClick: () => {
                                             setForwardPickerMonth(new Date(forwardStartDate.getFullYear(), forwardStartDate.getMonth(), 1));
                                             setForwardCalendarOpen((current) => !current);
                                         }, children: [_jsx("strong", { children: forwardDateLabel }), _jsx("span", { "aria-hidden": "true", children: "\uD83D\uDCC5" })] }), _jsx("button", { type: "button", className: "room-forward-date-nav__arrow", "aria-label": "\u4E0B\u4E00\u5929", onClick: () => setForwardStartDate((current) => shiftDate(current, 1)), children: "\u203A" }), forwardCalendarOpen ? (_jsxs("div", { className: "room-forward-calendar", role: "dialog", "aria-label": "\u9009\u62E9\u8FDC\u671F\u5F00\u59CB\u65E5\u671F", children: [_jsxs("div", { className: "room-forward-calendar__header", children: [_jsxs("div", { className: "room-forward-calendar__nav", children: [_jsx("button", { type: "button", "aria-label": "\u4E0A\u4E00\u5E74", onClick: () => setForwardPickerMonth((current) => new Date(current.getFullYear() - 1, current.getMonth(), 1)), children: "\u00AB" }), _jsx("button", { type: "button", "aria-label": "\u4E0A\u4E00\u6708", onClick: () => setForwardPickerMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1)), children: "\u2039" })] }), _jsx("strong", { children: forwardPickerLabel }), _jsxs("div", { className: "room-forward-calendar__nav", children: [_jsx("button", { type: "button", "aria-label": "\u4E0B\u4E00\u6708", onClick: () => setForwardPickerMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1)), children: "\u203A" }), _jsx("button", { type: "button", "aria-label": "\u4E0B\u4E00\u5E74", onClick: () => setForwardPickerMonth((current) => new Date(current.getFullYear() + 1, current.getMonth(), 1)), children: "\u00BB" })] })] }), _jsx("div", { className: "room-forward-calendar__weekdays", children: ['一', '二', '三', '四', '五', '六', '日'].map((weekday) => (_jsx("span", { children: weekday }, weekday))) }), _jsx("div", { className: "room-forward-calendar__grid", children: forwardCalendarCells.map((cell) => (_jsx("button", { type: "button", className: `room-forward-calendar__cell${cell.inViewMonth ? ' is-in-month' : ''}${cell.isSelected ? ' is-selected' : ''}`, onClick: () => {
@@ -136,17 +160,70 @@ export function RoomSituationPage() {
                                             }, children: [size, " \u6761/\u9875"] }, size))) })) : null] })] })] }), showMetricHelp ? (_jsx("div", { className: "room-metric-drawer-backdrop", onClick: () => setShowMetricHelp(false), children: _jsxs("section", { className: "room-metric-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u6307\u6807\u8BF4\u660E", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsx("h2", { children: "\u6307\u6807\u8BF4\u660E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6307\u6807\u8BF4\u660E", onClick: () => setShowMetricHelp(false), children: "\u00D7" })] }), _jsx("div", { className: "room-metric-drawer__body", children: metricDescriptions.map((item) => (_jsxs("p", { children: [_jsxs("strong", { children: [item.label, "\uFF1A"] }), item.text] }, item.label))) })] }) })) : null] }));
 }
 function DaySituationTable({ rows }) {
-    return (_jsx("div", { className: "room-situation-table-scroll", "data-testid": "room-situation-table-scroll", children: _jsxs("table", { className: "room-situation-table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { className: "room-type-column", children: "\u623F\u578B\u540D\u79F0" }), dayColumns.map((column) => (_jsx("th", { children: column.label }, column.key)))] }) }), _jsx("tbody", { children: rows.map((row) => (_jsxs("tr", { children: [_jsxs("th", { className: "room-type-column", children: [_jsx("span", { className: "room-row-summary", children: formatDailyRowSummary(row) }), _jsx("span", { children: row.name })] }), dayColumns.map((column) => (_jsxs("td", { children: [" ", row[column.key]] }, column.key)))] }, row.id))) })] }) }));
+    const displayRows = withDailySummaryRow(rows);
+    return (_jsx("div", { className: "room-situation-table-scroll", "data-testid": "room-situation-table-scroll", children: _jsxs("table", { className: "room-situation-table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { className: "room-type-column", children: "\u623F\u578B\u540D\u79F0" }), dayColumns.map((column) => (_jsx("th", { children: column.label }, column.key)))] }) }), _jsx("tbody", { children: displayRows.map((row) => (_jsxs("tr", { className: isSummaryRow(row) ? 'is-summary' : undefined, children: [_jsxs("th", { className: "room-type-column", children: [_jsx("span", { className: "room-row-summary", children: formatDailyRowSummary(row) }), _jsx("span", { children: row.name })] }), dayColumns.map((column) => (_jsxs("td", { children: [" ", row[column.key]] }, column.key)))] }, row.id))) })] }) }));
 }
 function FutureSituationTable({ rows, dates }) {
+    const displayRows = withForwardSummaryRow(rows);
     const tableMinWidth = Math.max(1400, 220 + dates.length * 112);
     return (_jsx("div", { className: "room-situation-future-wrap", children: _jsx("div", { className: "room-situation-table-scroll", "data-testid": "room-situation-table-scroll", children: _jsxs("table", { className: "room-situation-table room-situation-table--future", style: { minWidth: `${tableMinWidth}px` }, children: [_jsxs("thead", { children: [_jsxs("tr", { children: [_jsx("th", { className: "room-type-column", rowSpan: 2, children: "\u623F\u578B" }), _jsx("th", { rowSpan: 2, children: "\u603B\u623F\u95F4\u6570" }), dates.map((date) => (_jsx("th", { colSpan: 2, children: date }, date)))] }), _jsx("tr", { children: dates.flatMap((date) => [
                                     _jsx("th", { children: "\u5269\u4F59\u53EF\u552E" }, `${date}-available`),
                                     _jsx("th", { children: "\u5360\u7528" }, `${date}-occupied`),
-                                ]) })] }), _jsx("tbody", { children: rows.map((row) => (_jsxs("tr", { children: [_jsxs("th", { className: "room-type-column", children: [_jsx("span", { className: "room-row-summary", children: formatForwardRowSummary(row) }), _jsx("span", { children: row.name })] }), _jsxs("td", { children: [" ", row.total] }), row.days.flatMap((day, index) => [
+                                ]) })] }), _jsx("tbody", { children: displayRows.map((row) => (_jsxs("tr", { className: isSummaryRow(row) ? 'is-summary' : undefined, children: [_jsxs("th", { className: "room-type-column", children: [_jsx("span", { className: "room-row-summary", children: formatForwardRowSummary(row) }), _jsx("span", { children: row.name })] }), _jsxs("td", { children: [" ", row.total] }), row.days.flatMap((day, index) => [
                                     _jsxs("td", { children: [" ", day.available] }, `${row.id}-${dates[index] ?? index}-available`),
                                     _jsxs("td", { children: [" ", day.occupied] }, `${row.id}-${dates[index] ?? index}-occupied`),
                                 ])] }, row.id))) })] }) }) }));
+}
+function withDailySummaryRow(rows) {
+    const detailRows = rows.filter((row) => !isSummaryRow(row));
+    if (detailRows.length === 0)
+        return rows;
+    const summary = createEmptyDailySummaryRow();
+    for (const row of detailRows) {
+        for (const column of dayColumns) {
+            summary[column.key] += row[column.key];
+        }
+    }
+    return [summary, ...detailRows];
+}
+function withForwardSummaryRow(rows) {
+    const detailRows = rows.filter((row) => !isSummaryRow(row));
+    if (detailRows.length === 0)
+        return rows;
+    const dayCount = maxForwardDays(detailRows);
+    const summary = {
+        id: summaryRowId,
+        name: '合计',
+        total: detailRows.reduce((sum, row) => sum + row.total, 0),
+        days: Array.from({ length: dayCount }, (_, index) => ({
+            available: detailRows.reduce((sum, row) => sum + (row.days[index]?.available ?? 0), 0),
+            occupied: detailRows.reduce((sum, row) => sum + (row.days[index]?.occupied ?? 0), 0),
+        })),
+    };
+    return [summary, ...detailRows];
+}
+function createEmptyDailySummaryRow() {
+    return {
+        id: summaryRowId,
+        name: '合计',
+        total: 0,
+        sold: 0,
+        available: 0,
+        closed: 0,
+        disabled: 0,
+        reserved: 0,
+        repair: 0,
+        linkedClosed: 0,
+        usable: 0,
+        arriving: 0,
+        occupied: 0,
+        leaving: 0,
+        clean: 0,
+        dirty: 0,
+    };
+}
+function isSummaryRow(row) {
+    return row.id === summaryRowId || row.name.trim() === '合计';
 }
 function formatDate(offset = 0) {
     const date = new Date();

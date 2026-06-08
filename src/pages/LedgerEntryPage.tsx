@@ -10,6 +10,8 @@ import {
   type LedgerEntryRow,
   type LedgerEntryType,
 } from '../services/ledgerEntry'
+import { StoreSelectControl } from '../components/StoreSelect'
+import { useStoreOptions } from '../hooks/useStoreOptions'
 import './OrderLedgerPage.css'
 import './LedgerEntryPage.css'
 
@@ -90,6 +92,12 @@ export function LedgerEntryPage() {
   const roomCategoryName =
     dashboard?.roomCategories.find((item) => item.id === query.roomCategoryId)?.name ?? '请选择房型'
   const rows = dashboard?.rows ?? []
+  const { storeOptions, storeLoading } = useStoreOptions({
+    fallbackOptions: stores.map((store) => ({
+      id: store.id === allStore.id ? 'all' : store.id,
+      label: store.name || '全部门店',
+    })),
+  })
 
   function patchQuery(next: Partial<LedgerEntryQuery>, nextNotice = '') {
     setOpenSelect(null)
@@ -172,38 +180,19 @@ export function LedgerEntryPage() {
 
       <section className="order-ledger-filter" aria-label="记一笔明细筛选">
         <div className="order-ledger-filter__top">
-          <div className="order-ledger-store-row" aria-label="门店">
-            <button
-              type="button"
-              className={query.storeId === allStore.id ? 'is-active' : ''}
-              aria-pressed={query.storeId === allStore.id}
-              onClick={() => patchQuery({ storeId: allStore.id, storeName: allStore.name }, `已切换到${allStore.name}`)}
-            >
-              全部门店
-            </button>
-            {stores.slice(1).map((store) => {
-              const selected = query.storeId === store.id
-              return (
-                <button
-                  key={store.id}
-                  type="button"
-                  className={selected ? 'is-active' : ''}
-                  aria-pressed={selected}
-                  onClick={() => patchQuery({ storeId: store.id, storeName: store.name }, `已切换到${store.name}`)}
-                >
-                  {store.name}
-                </button>
-              )
-            })}
-            <button
-              type="button"
-              className="order-ledger-gear"
-              aria-label="门店设置"
-              onClick={() => setIsStoreDialogOpen(true)}
-            >
-              ⚙
-            </button>
-          </div>
+          <StoreSelectControl
+            className="order-ledger-store-row"
+            label="门店"
+            options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
+            value={query.storeId === allStore.id ? 'all' : query.storeId}
+            disabled={storeLoading}
+            onChange={(storeId, option) => {
+              const nextStoreId = storeId === 'all' ? allStore.id : storeId
+              patchQuery({ storeId: nextStoreId, storeName: option.name }, `已切换到${option.name}`)
+            }}
+            settingsLabel="门店设置"
+            onSettingsClick={() => setIsStoreDialogOpen(true)}
+          />
 
           <div className="order-ledger-presets" role="group" aria-label="日期快捷筛选">
             {presetRanges.map((preset) => (

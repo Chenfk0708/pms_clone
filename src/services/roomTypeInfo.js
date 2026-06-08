@@ -13,16 +13,25 @@ const mockTimestamp = '2026-05-19T19:45:00+08:00';
 const mockLatencyMs = 120;
 const defaultCampId = '1796067693589061634';
 const defaultStoreId = '1796425098638573570';
+const allStoreOption = { id: 'all', label: '全部门店' };
 const storeOptions = [
+    allStoreOption,
     { id: defaultStoreId, label: '天落会宿公寓(前海壹方城宝安中心店)' },
 ];
 const groupOptions = [
     { id: 'group-main', label: '天落会宿公寓(前海壹方城宝安中心店)' },
 ];
+const mockRoomPhotoUrls = [
+    createMockRoomPhotoUrl('#d7c4a9', '#7b5f45', '#f2dfc3'),
+    createMockRoomPhotoUrl('#c9d4dd', '#526879', '#eef3f6'),
+    createMockRoomPhotoUrl('#d9c8bb', '#604d43', '#f5e7dc'),
+    createMockRoomPhotoUrl('#c7d8cf', '#506d5d', '#eef6f1'),
+];
 const mockRows = [
     {
         id: 'room-type-001',
         name: '顶层套房（浴缸巨幕电竞麻将）',
+        coverImageUrl: mockRoomPhotoUrls[0],
         storeId: defaultStoreId,
         storeName: storeOptions[0].label,
         roomCount: 1,
@@ -35,6 +44,7 @@ const mockRows = [
     {
         id: 'room-type-002',
         name: '总裁套间（桑拿浴缸露台电竞麻将）',
+        coverImageUrl: mockRoomPhotoUrls[1],
         storeId: defaultStoreId,
         storeName: storeOptions[0].label,
         roomCount: 1,
@@ -47,6 +57,7 @@ const mockRows = [
     {
         id: 'room-type-003',
         name: '天落大床电竞套间',
+        coverImageUrl: mockRoomPhotoUrls[2],
         storeId: defaultStoreId,
         storeName: storeOptions[0].label,
         roomCount: 1,
@@ -59,6 +70,7 @@ const mockRows = [
     {
         id: 'room-type-004',
         name: '观影大床房',
+        coverImageUrl: mockRoomPhotoUrls[3],
         storeId: defaultStoreId,
         storeName: storeOptions[0].label,
         roomCount: 1,
@@ -202,6 +214,7 @@ export async function loadRoomTypeInfoDraft(mode, roomTypeId, signal) {
             storeId: row?.storeId ?? defaultStoreId,
             groupId: row?.groupId ?? groupOptions[0].id,
             roomCount: String(row?.roomCount ?? 1),
+            roomIds: row?.roomNames.map((_, index) => `${row.id}-room-${index + 1}`) ?? [],
             roomNos: row?.roomNames.length ? [...row.roomNames] : ['房间1'],
             weekdayPrice: row ? '388' : '',
             weekendPrice: row ? '468' : '',
@@ -404,9 +417,10 @@ async function waitForMockLatency(signal) {
     });
 }
 function createRequestBody(query) {
+    const storeId = query.storeId?.trim();
     return {
         campId: resolveCampId(),
-        poiId: query.storeId || '',
+        poiId: storeId && storeId !== allStoreOption.id ? storeId : '',
         roomCategoryGroupId: query.groupId || '',
         roomCategoryName: query.keyword?.trim() || '',
         pageNum: query.pageNum ?? 1,
@@ -671,16 +685,26 @@ function readHudsonErrorMessage(payload) {
 }
 function adaptStoreOptions(response) {
     const payload = unwrapHudsonEnvelope(response);
-    if (!Array.isArray(payload))
+    const list = Array.isArray(payload) ? payload : asArray(asRecord(payload).list);
+    if (!list.length)
         return storeOptions;
-    const stores = payload.map((item) => {
+    const stores = list.map((item) => {
         const record = asRecord(item);
         return {
-            id: readString(record.id, ''),
-            label: readString(record.name, ''),
+            id: readString(record.poiId ?? record.id ?? record.value ?? record.storeId, ''),
+            label: readString(record.poiName ?? record.name ?? record.label ?? record.storeName, ''),
         };
     });
-    return stores.filter((item) => item.id && item.label);
+    return [allStoreOption, ...dedupeOptions(stores.filter((item) => item.id && item.label))];
+}
+function dedupeOptions(options) {
+    const seen = new Set();
+    return options.filter((option) => {
+        if (seen.has(option.id))
+            return false;
+        seen.add(option.id);
+        return true;
+    });
 }
 function adaptGroupOptions(response) {
     const payload = unwrapHudsonEnvelope(response);
@@ -711,7 +735,8 @@ function adaptRoomTypeRows(input) {
             : splitRoomNames(record.linkRoomCategoryNames ?? record.linkedRoomTypeNames);
         return {
             id: readString(record.id, `room-type-api-${index + 1}`),
-            name: readString(record.name ?? record.roomCategoryName, `房型${index + 1}`),
+            name: readString(record.roomCategoryName ?? record.roomTypeName ?? record.internalName ?? record.name, `房型${index + 1}`),
+            coverImageUrl: readRoomTypeCoverImageUrl(record),
             storeId: readString(record.poiId, defaultStoreId),
             storeName: readString(record.poiName, storeOptions[0].label),
             roomCount: readNumber(record.roomNum ?? record.roomCount, 0),
@@ -723,6 +748,18 @@ function adaptRoomTypeRows(input) {
         };
     });
 }
+function readRoomTypeCoverImageUrl(record) {
+    const directUrl = readString(record.mainPhoto ??
+        record.mainPhotoMediaUrl ??
+        record.photoMediaUrl ??
+        record.imageUrl ??
+        record.coverImageUrl ??
+        record.thumbnailUrl, '');
+    if (directUrl)
+        return directUrl;
+    const photos = readRoomTypePhotos(record.photos ?? record.photoList ?? record.roomCategoryPhotos ?? record.images);
+    return (photos.find((photo) => photo.sectionKey === 'cover') ?? photos[0])?.url ?? '';
+}
 function adaptRoomTypeDraft(input, fallbackMode, traceId, timestamp) {
     const record = asRecord(input);
     const form = asRecord(record.form || record);
@@ -731,6 +768,7 @@ function adaptRoomTypeDraft(input, fallbackMode, traceId, timestamp) {
     const roomNos = Array.isArray(roomNosInput)
         ? roomNosInput.map((item) => readString(item, '')).filter(Boolean)
         : splitRoomNames(roomNosInput);
+    const roomIds = readStringList(form.roomIds ?? form.roomIdList ?? form.roomViewIds);
     const stepsInput = record.steps;
     const steps = Array.isArray(stepsInput) ? stepsInput.map((item) => readString(item, '')).filter(Boolean) : roomTypeSteps;
     const photos = readRoomTypePhotos(form.photos ?? form.photoList ?? form.roomCategoryPhotos ?? form.images);
@@ -749,6 +787,7 @@ function adaptRoomTypeDraft(input, fallbackMode, traceId, timestamp) {
             storeId: readString(form.storeId ?? form.poiId, defaultStoreId),
             groupId: readString(form.groupId ?? form.roomCategoryGroupId, groupOptions[0].id),
             roomCount: readString(form.roomCount ?? form.roomNum, String(roomNos.length || 1)),
+            roomIds,
             roomNos: roomNos.length ? roomNos : ['房间1'],
             weekdayPrice: readString(form.weekdayPrice ?? form.basePrice ?? form.weekdayPriceCent, ''),
             weekendPrice: readString(form.weekendPrice ?? form.weekendPriceCent, ''),
@@ -818,7 +857,7 @@ function readResponseMessage(payload, envelopeMessage, fallback) {
 }
 function buildRequestSummary(query, rowCount) {
     return [
-        `门店：${query.storeId || '全部'}`,
+        `门店：${!query.storeId || query.storeId === allStoreOption.id ? '全部' : query.storeId}`,
         `分组：${query.groupId || '全部'}`,
         `房型名称：${query.keyword?.trim() || '全部'}`,
         `结果：${rowCount} 条`,
@@ -827,7 +866,7 @@ function buildRequestSummary(query, rowCount) {
 function filterMockRows(query) {
     const keyword = query.keyword?.trim();
     return mockRows.filter((row) => {
-        if (query.storeId && row.storeId !== query.storeId)
+        if (query.storeId && query.storeId !== allStoreOption.id && row.storeId !== query.storeId)
             return false;
         if (query.groupId && row.groupId !== query.groupId)
             return false;
@@ -841,6 +880,10 @@ function findRowOrThrow(roomTypeId) {
     if (!row)
         throw new Error('未找到对应房型');
     return row;
+}
+function createMockRoomPhotoUrl(wallColor, furnitureColor, linenColor) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 54"><rect width="96" height="54" fill="${wallColor}"/><rect x="0" y="35" width="96" height="19" fill="${furnitureColor}"/><rect x="9" y="24" width="38" height="20" rx="2" fill="${linenColor}"/><rect x="15" y="20" width="16" height="9" rx="2" fill="#f7efe5"/><rect x="55" y="16" width="24" height="25" rx="2" fill="#3d4650"/><circle cx="82" cy="12" r="5" fill="#f0c16f"/></svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 function splitRoomNames(input) {
     const text = readString(input, '');
@@ -865,6 +908,9 @@ function readStringList(value) {
             .filter(Boolean);
     }
     return [];
+}
+function asArray(value) {
+    return Array.isArray(value) ? value : [];
 }
 function readNumber(value, fallback) {
     return typeof value === 'number' && Number.isFinite(value) ? value : fallback;

@@ -1,6 +1,7 @@
 export type ChannelPriceFilters = {
   campId: string
   channel: string
+  roomCategoryIds?: string[]
   date: string
   provider?: ChannelPriceProviderName
 }
@@ -77,7 +78,7 @@ export function createChannelPriceRequestBody(filters: ChannelPriceFilters): Rec
     channelIds: filters.channel && filters.channel !== '渠道' && filters.channel !== '全部渠道' ? [filters.channel] : null,
     roomCategoryGroupIds: null,
     roomCategoryProductSaleType: null,
-    roomCategoryIds: null,
+    roomCategoryIds: filters.roomCategoryIds?.length ? filters.roomCategoryIds : null,
     date: filters.date,
     days: 30,
     poiIds: null,
@@ -229,7 +230,7 @@ function resolveChannelPriceProviderName(explicitProvider?: ChannelPriceProvider
     explicitProvider ||
     readRuntimeConfig('pms.channelPriceProvider') ||
     (import.meta.env.VITE_CHANNEL_PRICE_PROVIDER as string | undefined)
-  return configured === 'real' ? 'real' : 'mock'
+  return configured === 'mock' ? 'mock' : 'real'
 }
 
 function resolveChannelPriceMockMode(): ChannelPriceMockMode {

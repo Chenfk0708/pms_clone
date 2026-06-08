@@ -1,5 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from 'react';
+import { StoreSelectControl } from '../components/StoreSelect';
+import { useStoreOptions } from '../hooks/useStoreOptions';
 import { createPriceLogExportRequest, fetchPriceLogs, getDefaultPriceLogAdjustmentOptions, getDefaultPriceLogChannelOptions, resolvePriceLogQueryFromLocation, } from '../services/priceLogs';
 import './PriceLogPage.css';
 const columns = ['房型', '价格日期', '操作内容', '调整方式', '同步渠道', '渠道价格', '操作人', '操作时间', '操作'];
@@ -17,6 +19,7 @@ export function PriceLogPage() {
     const [operationEnd, setOperationEnd] = useState('');
     const [operator, setOperator] = useState('');
     const [submittedOperator, setSubmittedOperator] = useState('');
+    const [selectedStoreId, setSelectedStoreId] = useState('all');
     const [refreshTick, setRefreshTick] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('调价日志已加载');
@@ -25,12 +28,14 @@ export function PriceLogPage() {
     const [selectedLog, setSelectedLog] = useState(null);
     const campId = useMemo(() => resolveCampId(), []);
     const locationQuery = useMemo(() => resolvePriceLogQueryFromLocation(window.location), []);
+    const { storeOptions, storeLoading } = useStoreOptions();
     const channelOptions = data?.channelOptions ?? getDefaultPriceLogChannelOptions();
     const adjustmentOptions = data?.adjustmentOptions ?? getDefaultPriceLogAdjustmentOptions();
     const currentQuery = useMemo(() => ({
         provider: locationQuery.provider,
         mockState: locationQuery.mockState,
         campId: campId || '1796067693589061634',
+        poiIds: selectedStoreId === 'all' ? [] : [selectedStoreId],
         keyword: submittedKeyword,
         adjustmentMode,
         channelId: channel,
@@ -51,6 +56,7 @@ export function PriceLogPage() {
         locationQuery.provider,
         operationEnd,
         operationStart,
+        selectedStoreId,
         submittedKeyword,
         submittedOperator,
     ]);
@@ -96,6 +102,7 @@ export function PriceLogPage() {
         setOperationEnd('');
         setOperator('');
         setSubmittedOperator('');
+        setSelectedStoreId('all');
         setOpenSelect(null);
         setSelectedLog(null);
         setError('');
@@ -112,7 +119,7 @@ export function PriceLogPage() {
         window.localStorage.setItem('pms.priceLog.lastExportRequest', JSON.stringify(exportRequest));
         setMessage('导出任务已创建');
     }
-    return (_jsxs("div", { className: "price-log-page", children: [_jsxs("section", { className: "price-log-panel", children: [_jsxs("form", { className: `price-log-query${expanded ? ' is-expanded' : ''}`, "aria-label": "\u8C03\u4EF7\u65E5\u5FD7\u7B5B\u9009", onSubmit: handleSubmit, children: [_jsxs("label", { className: "price-log-field price-log-field--keyword", children: [_jsx("span", { children: "\u65E5\u5FD7\u5173\u952E\u8BCD" }), _jsx("input", { type: "text", "aria-label": "\u65E5\u5FD7\u5173\u952E\u8BCD", placeholder: "\u641C\u7D22\u623F\u578B\u540D\u79F0/\u623F\u95F4\u53F7/\u6E20\u9053\u623F\u6E90\u540D\u79F0", value: keyword, onChange: (event) => setKeyword(event.target.value), disabled: isLoading })] }), _jsxs("div", { className: "price-log-field price-log-field--adjustment", children: [_jsx("span", { children: "\u8C03\u6574\u65B9\u5F0F" }), _jsx(PriceLogSelect, { ariaLabel: `调整方式 ${adjustmentMode}`, listLabel: "\u8C03\u6574\u65B9\u5F0F", valueLabel: adjustmentMode, options: adjustmentOptions, open: openSelect === 'adjustment', disabled: isLoading, onToggle: () => setOpenSelect(openSelect === 'adjustment' ? null : 'adjustment'), onSelect: (option) => {
+    return (_jsxs("div", { className: "price-log-page", children: [_jsxs("section", { className: "price-log-panel", children: [_jsxs("form", { className: `price-log-query${expanded ? ' is-expanded' : ''}`, "aria-label": "\u8C03\u4EF7\u65E5\u5FD7\u7B5B\u9009", onSubmit: handleSubmit, children: [_jsxs("div", { className: "price-log-field price-log-field--store", children: [_jsx("span", { children: "\u95C2\u3125\u7C35" }), _jsx(StoreSelectControl, { className: "price-log-store", label: "\u95C2\u3125\u7C35\u947C\u51A8\u6D3F", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading || isLoading, onChange: (storeId) => setSelectedStoreId(storeId) })] }), _jsxs("label", { className: "price-log-field price-log-field--keyword", children: [_jsx("span", { children: "\u65E5\u5FD7\u5173\u952E\u8BCD" }), _jsx("input", { type: "text", "aria-label": "\u65E5\u5FD7\u5173\u952E\u8BCD", placeholder: "\u641C\u7D22\u623F\u578B\u540D\u79F0/\u623F\u95F4\u53F7/\u6E20\u9053\u623F\u6E90\u540D\u79F0", value: keyword, onChange: (event) => setKeyword(event.target.value), disabled: isLoading })] }), _jsxs("div", { className: "price-log-field price-log-field--adjustment", children: [_jsx("span", { children: "\u8C03\u6574\u65B9\u5F0F" }), _jsx(PriceLogSelect, { ariaLabel: `调整方式 ${adjustmentMode}`, listLabel: "\u8C03\u6574\u65B9\u5F0F", valueLabel: adjustmentMode, options: adjustmentOptions, open: openSelect === 'adjustment', disabled: isLoading, onToggle: () => setOpenSelect(openSelect === 'adjustment' ? null : 'adjustment'), onSelect: (option) => {
                                             setAdjustmentMode(option.label);
                                             setOpenSelect(null);
                                         } })] }), _jsxs("div", { className: "price-log-field price-log-field--channel", children: [_jsx("span", { children: "\u6E20\u9053" }), _jsx(PriceLogSelect, { ariaLabel: `渠道 ${channelOptions.find((option) => option.value === channel)?.label ?? '请选择'}`, listLabel: "\u6E20\u9053", valueLabel: channelOptions.find((option) => option.value === channel)?.label ?? '请选择', options: channelOptions, open: openSelect === 'channel', disabled: isLoading, optionClassName: "price-log-options--channel", onToggle: () => setOpenSelect(openSelect === 'channel' ? null : 'channel'), onSelect: (option) => {

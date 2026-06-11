@@ -541,6 +541,7 @@ test('/order/house-order/list submits registered guests without frontend-only gu
 
   await entryDrawer.getByRole('button', { name: '登记' }).click()
   await entryDrawer.getByPlaceholder('客户姓名').fill('入住人甲')
+  await entryDrawer.locator('.order-entry-stay-guest-row select').first().selectOption('Passport')
   await entryDrawer.getByPlaceholder('请输入证件号码').fill('P40001009')
   await entryDrawer.getByRole('button', { name: '提交' }).click()
 
@@ -549,11 +550,59 @@ test('/order/house-order/list submits registered guests without frontend-only gu
   expect(guests).toHaveLength(1)
   expect(guests[0]).toMatchObject({
     guestName: '入住人甲',
-    guestIdCardType: '居民身份证',
+    guestIdCardType: 'Passport',
     guestIdCard: 'P40001009',
     guestType: 'adult',
   })
   expect(guests[0]).not.toHaveProperty('guestId')
+})
+
+test('/order/house-order/list shows field errors below invalid order entry inputs', async ({ page }) => {
+  const createRequests: Array<Record<string, unknown>> = []
+
+  await mockOrderRoomSelectorApi(page)
+  await page.route('/api/orders/create', async (route) => {
+    createRequests.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({ success: true, data: { orderId: '9000000000003', message: '订单创建成功' } }),
+    })
+  })
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'order-entry-validation-test-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.houseOrderProvider', 'mock')
+    window.localStorage.setItem('pms.houseOrderMockState', 'success')
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/order/house-order/list'))
+
+  await page.getByRole('button', { name: '录入订单' }).click()
+  const entryDrawer = page.getByRole('dialog', { name: '录入订单' })
+  await entryDrawer.getByPlaceholder('姓名').fill('1234')
+  await entryDrawer.getByPlaceholder('手机号').fill('12345')
+  await entryDrawer.getByRole('button', { name: '+ 添加房间' }).click()
+
+  const roomSelector = page.getByRole('dialog', { name: '选择日期房间' })
+  await roomSelector.locator('.room-selector-tree__children input[type="checkbox"]').first().check()
+  await roomSelector.getByRole('button', { name: '确定' }).click()
+
+  await entryDrawer.getByRole('button', { name: '登记' }).click()
+  await entryDrawer.getByPlaceholder('客户姓名').fill('入住人甲')
+  await entryDrawer.getByPlaceholder('手机号').nth(1).fill('13940001009')
+  await entryDrawer.getByPlaceholder('请输入证件号码').fill('P40001009')
+  await entryDrawer.getByRole('button', { name: '提交' }).click()
+
+  const nameField = entryDrawer.getByPlaceholder('姓名').locator('xpath=ancestor::label[contains(@class, "order-entry-inline-field")]')
+  const phoneField = entryDrawer.getByPlaceholder('手机号').first().locator('xpath=ancestor::label[contains(@class, "order-entry-inline-field")]')
+  const credentialField = entryDrawer
+    .getByPlaceholder('请输入证件号码')
+    .locator('xpath=ancestor::label[contains(@class, "order-entry-stay-guest-field")]')
+  await expect(nameField).toContainText('姓名格式不正确，请输入 2-30 个中文或英文字母')
+  await expect(phoneField).toContainText('手机号格式不正确')
+  await expect(credentialField).toContainText('居民身份证号格式不正确')
+  expect(createRequests).toHaveLength(0)
 })
 
 test('/order/house-order/list submits selected real room category and room ids', async ({ page }) => {

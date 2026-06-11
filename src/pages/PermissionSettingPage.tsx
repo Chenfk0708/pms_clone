@@ -1,14 +1,17 @@
 import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   createPermissionSettingRole,
-  defaultPermissionSettingCampId,
   deletePermissionSettingRole,
   getPermissionSettingProviderName,
   loadPermissionSettingRoleDetail,
   loadPermissionSettingRoleList,
   permissionRoleDetailEndpoint,
   permissionRoleListEndpoint,
+  resolvePermissionSettingCampId,
   renamePermissionSettingRole,
+  savePermissionSettingRolePermissions,
+  type PermissionSettingPermissionRow,
   type PermissionSettingRoleDetailData,
   type PermissionSettingRoleListData,
 } from '../services/permissionSetting'
@@ -16,14 +19,9 @@ import './PermissionSettingPage.css'
 
 type RoleDialogMode = 'create' | 'edit' | null
 
-const initialListQuery = {
-  campId: defaultPermissionSettingCampId,
-  keyword: '',
-  pageNum: 1,
-  pageSize: 50,
-}
-
 export function PermissionSettingPage() {
+  const location = useLocation()
+  const campId = useMemo(() => resolvePermissionSettingCampId(), [location.search])
   const [keyword, setKeyword] = useState('')
   const deferredKeyword = useDeferredValue(keyword.trim())
   const [rolesData, setRolesData] = useState<PermissionSettingRoleListData | null>(null)
@@ -40,15 +38,18 @@ export function PermissionSettingPage() {
   const [formDescription, setFormDescription] = useState('')
   const [formError, setFormError] = useState('')
   const [isMutating, setIsMutating] = useState(false)
+  const [savingPermissionKey, setSavingPermissionKey] = useState('')
   const [listReloadToken, setListReloadToken] = useState(0)
   const [detailReloadToken, setDetailReloadToken] = useState(0)
 
   const listQuery = useMemo(
     () => ({
-      ...initialListQuery,
+      campId,
       keyword: deferredKeyword,
+      pageNum: 1,
+      pageSize: 50,
     }),
-    [deferredKeyword],
+    [campId, deferredKeyword],
   )
 
   useEffect(() => {
@@ -61,13 +62,20 @@ export function PermissionSettingPage() {
         const result = await loadPermissionSettingRoleList(listQuery, controller.signal)
         setRolesData(result)
         setSelectedRoleId((currentRoleId) => {
-          if (!currentRoleId) return null
-          return result.roles.some((role) => role.roleId === currentRoleId) ? currentRoleId : null
+          if (currentRoleId && result.roles.some((role) => role.roleId === currentRoleId)) {
+            return currentRoleId
+          }
+          if (currentRoleId && !result.roles.some((role) => role.roleId === currentRoleId)) {
+            return null
+          }
+          return result.roles.find((role) => role.roleName === '管理员')?.roleId ?? result.roles[0]?.roleId ?? null
         })
       } catch (loadError) {
         if (loadError instanceof DOMException && loadError.name === 'AbortError') return
         setRolesError(loadError instanceof Error ? loadError.message : '角色列表暂时无法获取，请稍后重试')
         setRolesData(null)
+        setSelectedRoleId(null)
+        setDetailData(null)
       } finally {
         setRolesLoading(false)
       }
@@ -75,7 +83,7 @@ export function PermissionSettingPage() {
 
     void run()
     return () => controller.abort()
-  }, [listQuery, listReloadToken])
+  }, [listQuery, listReloadToken, location.search])
 
   useEffect(() => {
     if (selectedRoleId === null) return
@@ -89,7 +97,7 @@ export function PermissionSettingPage() {
       try {
         const result = await loadPermissionSettingRoleDetail(
           {
-            campId: defaultPermissionSettingCampId,
+            campId,
             roleId,
           },
           controller.signal,
@@ -106,7 +114,7 @@ export function PermissionSettingPage() {
 
     void run()
     return () => controller.abort()
-  }, [detailReloadToken, selectedRoleId])
+  }, [campId, detailReloadToken, location.search, selectedRoleId])
 
   const selectedRoleSummary = useMemo(() => {
     const fromList = rolesData?.roles.find((role) => role.roleId === selectedRoleId) ?? null
@@ -121,7 +129,7 @@ export function PermissionSettingPage() {
         'mockState=success',
         'traceId=pending-role-list',
         `path=${permissionRoleListEndpoint}`,
-        `campId=${defaultPermissionSettingCampId}`,
+        `campId=${campId}`,
         `keyword=${listQuery.keyword}`,
         'pageNum=1',
         'pageSize=50',
@@ -133,12 +141,12 @@ export function PermissionSettingPage() {
         'mockState=success',
         'traceId=pending-role-detail',
         `path=${permissionRoleDetailEndpoint}`,
-        `campId=${defaultPermissionSettingCampId}`,
+        `campId=${campId}`,
         `roleId=${selectedRoleId ?? ''}`,
       ]
 
     return [...listSummary, '|', ...detailSummary].join(';')
-  }, [detailData, listQuery.keyword, rolesData, selectedRoleId])
+  }, [campId, detailData, listQuery.keyword, rolesData, selectedRoleId])
 
   function openCreateDialog() {
     setFormName('')
@@ -172,7 +180,7 @@ export function PermissionSettingPage() {
     try {
       if (roleDialogMode === 'create') {
         const result = await createPermissionSettingRole({
-          campId: defaultPermissionSettingCampId,
+          campId,
           roleName: formName,
           description: formDescription,
         })
@@ -184,7 +192,7 @@ export function PermissionSettingPage() {
 
       if (roleDialogMode === 'edit' && selectedRoleSummary) {
         const result = await renamePermissionSettingRole({
-          campId: defaultPermissionSettingCampId,
+          campId,
           roleId: selectedRoleSummary.roleId,
           roleName: formName,
           description: formDescription,
@@ -209,7 +217,7 @@ export function PermissionSettingPage() {
     setIsMutating(true)
     try {
       const result = await deletePermissionSettingRole({
-        campId: defaultPermissionSettingCampId,
+        campId,
         roleId: selectedRoleSummary.roleId,
       })
       setDeleteConfirmOpen(false)
@@ -223,6 +231,41 @@ export function PermissionSettingPage() {
       setDetailError(deleteError instanceof Error ? deleteError.message : '角色删除失败，请稍后重试')
     } finally {
       setIsMutating(false)
+    }
+  }
+
+  async function togglePermission(row: PermissionSettingPermissionRow, permission: string) {
+    if (!detailData || savingPermissionKey) return
+
+    const previousDetailData = detailData
+    const permissionKey = `${row.moduleId}:${permission}`
+    const nextRows = togglePermissionRows(detailData.detail.permissionRows, row.moduleId, permission)
+
+    setSavingPermissionKey(permissionKey)
+    setNotice('')
+    setDetailError('')
+    setDetailData({
+      ...detailData,
+      detail: {
+        ...detailData.detail,
+        permissionRows: nextRows,
+      },
+    })
+
+    try {
+      const result = await savePermissionSettingRolePermissions({
+        campId,
+        roleId: detailData.detail.role.roleId,
+        permissionRows: nextRows,
+      })
+      setDetailData(result)
+      setNotice('权限已保存')
+      setListReloadToken((value) => value + 1)
+    } catch (saveError) {
+      setDetailData(previousDetailData)
+      setDetailError(saveError instanceof Error ? saveError.message : '权限保存失败，请稍后重试')
+    } finally {
+      setSavingPermissionKey('')
     }
   }
 
@@ -305,9 +348,9 @@ export function PermissionSettingPage() {
 
           {!selectedRoleId ? (
             <EmptyPermissionDetail hasRoles={!rolesError && roles.length > 0} />
-          ) : detailLoading ? (
+          ) : detailLoading && !detailData ? (
             <div className="permission-state-card">正在加载角色权限...</div>
-          ) : detailError ? (
+          ) : detailError && !detailData ? (
             <div className="permission-panel-alert permission-panel-alert--detail" role="alert">
               <strong>{detailError}</strong>
               <button type="button" onClick={() => setDetailReloadToken((value) => value + 1)}>
@@ -316,6 +359,15 @@ export function PermissionSettingPage() {
             </div>
           ) : detailData ? (
             <section className="permission-detail" aria-label={`${detailData.detail.role.roleName}权限详情`}>
+              {detailError ? (
+                <div className="permission-inline-alert" role="alert">
+                  <strong>{detailError}</strong>
+                  <button type="button" onClick={() => setDetailReloadToken((value) => value + 1)}>
+                    重新加载
+                  </button>
+                </div>
+              ) : null}
+
               <div className="permission-detail__heading">
                 <div>
                   <h2>{detailData.detail.role.roleName}</h2>
@@ -339,9 +391,7 @@ export function PermissionSettingPage() {
                 </div>
               </div>
 
-              <div className="permission-role-description">{detailData.detail.role.description}</div>
-
-              <table className="permission-table" aria-label="角色权限表">
+              <table className="permission-table" aria-label={`${detailData.detail.role.roleName}角色权限表`}>
                 <thead>
                   <tr>
                     <th>模块/页面</th>
@@ -351,12 +401,28 @@ export function PermissionSettingPage() {
                 <tbody>
                   {detailData.detail.permissionRows.map((row) => (
                     <tr key={row.moduleId}>
-                      <td>{row.moduleName}</td>
                       <td>
-                        <div className="permission-tags">
-                          {row.permissions.map((permission) => (
-                            <span key={`${row.moduleId}-${permission}`}>{permission}</span>
-                          ))}
+                        <ModuleName value={row.moduleName} />
+                      </td>
+                      <td>
+                        <div className="permission-checks">
+                          {(row.availablePermissions?.length ? row.availablePermissions : row.permissions).map((permission) => {
+                            const isSelected = row.permissions.includes(permission)
+                            const permissionKey = `${row.moduleId}:${permission}`
+                            return (
+                            <button
+                              key={`${row.moduleId}-${permission}`}
+                              type="button"
+                              className={isSelected ? 'is-selected' : ''}
+                              aria-pressed={isSelected}
+                              disabled={Boolean(savingPermissionKey)}
+                              onClick={() => void togglePermission(row, permission)}
+                            >
+                              <i aria-hidden="true" />
+                              {permission}
+                            </button>
+                            )
+                          })}
                         </div>
                       </td>
                     </tr>
@@ -396,6 +462,38 @@ export function PermissionSettingPage() {
         />
       ) : null}
     </div>
+  )
+}
+
+function togglePermissionRows(rows: PermissionSettingPermissionRow[], moduleId: string, permission: string) {
+  return rows.map((row) => {
+    if (row.moduleId !== moduleId) return row
+
+    const availablePermissions = row.availablePermissions?.length ? row.availablePermissions : row.permissions
+    const selectedPermissions = new Set(row.permissions)
+    if (selectedPermissions.has(permission)) {
+      selectedPermissions.delete(permission)
+    } else {
+      selectedPermissions.add(permission)
+    }
+
+    return {
+      ...row,
+      permissions: availablePermissions.filter((item) => selectedPermissions.has(item)),
+      availablePermissions,
+    }
+  })
+}
+
+function ModuleName({ value }: { value: string }) {
+  const isSensitive = value.endsWith('敏感')
+  const label = isSensitive ? value.replace(/敏感$/, '') : value
+
+  return (
+    <span className="permission-module-name">
+      {label}
+      {isSensitive ? <em>敏感</em> : null}
+    </span>
   )
 }
 

@@ -25,6 +25,8 @@ export interface DayOrderCard {
   roomName: string
   roomCategoryId?: string
   roomId: string
+  price?: string
+  monthlyRent?: string
   status: 'cleanVacant' | 'dirtyVacant' | 'occupiedClean' | 'occupiedDirty' | 'closed'
   hasTag?: boolean
   filterLabels: string[]
@@ -97,6 +99,8 @@ export function adaptDayOrderCards(rows: MonthRoomGroup[], todayIsoDate: string,
         roomName: row.roomLabel,
         roomCategoryId: row.roomCategoryId,
         roomId: row.roomId,
+        price: row.price,
+        monthlyRent: row.monthlyRent,
         status,
         hasTag: Boolean(roomCell?.badge),
         filterLabels,

@@ -3,8 +3,32 @@ import { expect, test } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const normalized = routePath.startsWith('/#/') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL}${normalized}` : normalized
 }
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'house-status-logs-test-token')
+  })
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        data: {
+          list: [
+            {
+              poiId: '1796067693589061634',
+              poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+            },
+          ],
+        },
+      }),
+    })
+  })
+})
 
 test('/houseManage/logs/status sends captured real endpoint params and renders rows', async ({ page }) => {
   let requestBody: Record<string, unknown> | undefined
@@ -92,6 +116,15 @@ test('/houseManage/logs/status uses explicit mock provider by default', async ({
   await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('总裁套间')
   await expect(page.getByRole('table', { name: '房态日志列表' })).toContainText('途家直连')
   expect(realRequestCount).toBe(0)
+})
+
+test('/houseManage/logs/status renders store selector labels without mojibake', async ({ page }) => {
+  await page.goto(appUrl('/houseManage/logs/status'))
+
+  const queryForm = page.locator('form[aria-label="房态日志筛选"]')
+  await expect(queryForm.locator('.status-log-store-field')).toContainText('门店')
+  await expect(queryForm.locator('.house-status-log-store')).toHaveAttribute('class', /house-status-log-store/)
+  await expect(queryForm).not.toContainText('闂')
 })
 
 test('/houseManage/logs/status exposes operation date as date inputs when expanded', async ({ page }) => {

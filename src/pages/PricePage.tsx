@@ -11,6 +11,7 @@ import localsIcon from '../assets/channel-icons/locals.png'
 import { priceDates, priceRows } from '../data/mock'
 import { fetchChannelPriceRows, type ChannelPriceProviderName, type ChannelPriceRow } from '../services/channelPrice'
 import {
+  DEFAULT_LOCAL_CHANNEL_NAME,
   type CentralPriceData,
   type CentralPriceFilters,
   type CentralPriceRoom,
@@ -138,7 +139,7 @@ type PriceComparisonRequestState =
 const weekdays = ['日', '一', '二', '三', '四', '五', '六']
 const actionFeedbackHideDelayMs = 3000
 
-const channelOptions = ['全部渠道', '携程', '美团', '同程', '途家']
+const channelOptions = [DEFAULT_LOCAL_CHANNEL_NAME]
 const retailWeekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 const channelRpRows = [
   {
@@ -1063,7 +1064,7 @@ function SharedToolbar({
   onActionBlocked?: (message: string) => void
 }) {
   const navigate = useNavigate()
-  const [localSelectedChannel, setLocalSelectedChannel] = useState('渠道')
+  const [localSelectedChannel, setLocalSelectedChannel] = useState(DEFAULT_LOCAL_CHANNEL_NAME)
   const [toast, setToast] = useState('')
   const [batchOpen, setBatchOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -1194,7 +1195,7 @@ function SharedToolbar({
                 role="option"
                 aria-selected={selectedChannel === item}
                 onClick={() => {
-                  updateSelectedChannel(item === '全部渠道' ? '渠道' : item)
+                  updateSelectedChannel(item === '全部渠道' ? DEFAULT_LOCAL_CHANNEL_NAME : item)
                   setOpenFilter('')
                 }}
               >
@@ -1275,7 +1276,7 @@ function SharedToolbar({
                   role="option"
                   aria-selected={selectedChannel === item}
                   onClick={() => {
-                    updateSelectedChannel(item === '全部渠道' ? '渠道' : item)
+                    updateSelectedChannel(item === '全部渠道' ? DEFAULT_LOCAL_CHANNEL_NAME : item)
                     setOpenFilter('')
                   }}
                 >
@@ -2961,7 +2962,7 @@ function RegularPricePage({ active }: { active: string }) {
   const [selectedStoreId, setSelectedStoreId] = useState('all')
   const [storeOptions, setStoreOptions] = useState<StoreOption[]>([{ id: 'all', label: '全部门店' }])
   const [storeLoading, setStoreLoading] = useState(false)
-  const [selectedChannel, setSelectedChannel] = useState('渠道')
+  const [selectedChannel, setSelectedChannel] = useState(DEFAULT_LOCAL_CHANNEL_NAME)
   const [selectedRoom, setSelectedRoom] = useState('全部房型')
   const [selectedRoomCategoryIds, setSelectedRoomCategoryIds] = useState<string[]>([])
   const [roomFilterOptions, setRoomFilterOptions] = useState<PriceRoomFilterOption[]>([])
@@ -3103,8 +3104,8 @@ function RegularPricePage({ active }: { active: string }) {
 
   useEffect(() => {
     if (!isCentral) return
-    if (selectedChannel !== '渠道' && !centralChannelOptions.includes(selectedChannel)) {
-      setSelectedChannel('渠道')
+    if (selectedChannel !== DEFAULT_LOCAL_CHANNEL_NAME && !centralChannelOptions.includes(selectedChannel)) {
+      setSelectedChannel(DEFAULT_LOCAL_CHANNEL_NAME)
     }
   }, [centralChannelOptions, isCentral, selectedChannel])
 

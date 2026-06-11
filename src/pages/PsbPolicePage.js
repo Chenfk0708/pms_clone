@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createDefaultPsbPoliceFilters, fetchPsbPolicePageData, PSB_SYSTEM_NAME, submitPsbPoliceRegistration, } from '../services/psbPolice';
+import { validateCredentialNumber, validatePersonName } from '../utils/inputValidation';
 import './PsbPolicePage.css';
 const tableColumns = [
     '登记系统/机构',
@@ -171,6 +172,16 @@ function AddPsbDialog({ stores, roomCount, filters, onClose, onSubmitSuccess, })
             nextErrors.registrantName = '登记人姓名不能为空';
         if (!formState.registrantIdNumber.trim())
             nextErrors.registrantIdNumber = '登记人证件号码不能为空';
+        if (formState.registrantName.trim()) {
+            const nameError = validatePersonName(formState.registrantName);
+            if (nameError)
+                nextErrors.registrantName = nameError;
+        }
+        if (formState.registrantIdNumber.trim()) {
+            const credentialError = validateCredentialNumber('居民身份证', formState.registrantIdNumber);
+            if (credentialError)
+                nextErrors.registrantIdNumber = credentialError;
+        }
         setFieldErrors(nextErrors);
         return Object.keys(nextErrors).length === 0;
     }

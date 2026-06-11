@@ -583,11 +583,12 @@
 .customer-list-dialog-field {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: 8px;
 }
 
 .customer-list-dialog-field span {
+  padding-top: 4px;
   text-align: right;
 }
 
@@ -602,6 +603,17 @@
   width: 100%;
   border-radius: 4px;
   padding: 0 11px;
+}
+
+.customer-list-dialog-control {
+  display: grid;
+  gap: 4px;
+}
+
+.customer-list-field-error {
+  color: #d14343;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .customer-list-modal footer {

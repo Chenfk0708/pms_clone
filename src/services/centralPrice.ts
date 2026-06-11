@@ -1,6 +1,8 @@
 export const centralPriceEndpoint = '/api/roomCategoryStatuses/central/get'
 export const centralSaleStatusEndpoint = '/api/roomCategoryStatuses/central/saleStatus/save'
 export const centralPriceBusinessSourceLabel = '中央价格服务'
+export const DEFAULT_LOCAL_CHANNEL_ID = '100'
+export const DEFAULT_LOCAL_CHANNEL_NAME = '宿银平台'
 
 export type CentralPriceProviderName = 'mock' | 'real'
 type CentralPriceMockMode = 'success' | 'empty' | 'error'
@@ -79,7 +81,7 @@ export type CentralSaleStatusSaveResponse = {
 }
 
 const channelIdByName: Record<string, string> = {
-  宿银平台: '100',
+  [DEFAULT_LOCAL_CHANNEL_NAME]: DEFAULT_LOCAL_CHANNEL_ID,
   途家: '2',
   小猪: '3',
   携程: '4',
@@ -491,8 +493,13 @@ function addDays(date: string, offset: number) {
 }
 
 function resolveChannelIds(channel: string) {
-  const id = channelIdByName[channel]
-  return id ? [id] : null
+  const normalized = channel.trim()
+  if (!normalized || normalized === '渠道' || normalized === '全部渠道') {
+    return [DEFAULT_LOCAL_CHANNEL_ID]
+  }
+  const id = channelIdByName[normalized]
+  if (id) return [id]
+  return /^\d+$/.test(normalized) ? [normalized] : [DEFAULT_LOCAL_CHANNEL_ID]
 }
 
 function formatStock(value: unknown) {

@@ -5,6 +5,8 @@ import {
   createDefaultMemberSettingQuery,
   createEditorDraft,
   loadMemberSettingViewModel,
+  MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
+  MEMBER_SETTING_ENDPOINT,
   MemberSettingServiceError,
   resolveMemberSettingRuntimeConfig,
   saveMemberSettingMember,
@@ -15,7 +17,10 @@ import {
   type MemberSettingRoomCategory,
   type MemberSettingViewModel,
 } from '../services/memberSetting'
+import { validatePersonName, validateRequiredMainlandMobile } from '../utils/inputValidation'
 import './MemberSettingPage.css'
+
+type MemberFormErrors = Partial<Record<'name' | 'phone', string>>
 
 type ContractState = {
   provider: string
@@ -33,9 +38,9 @@ type LoadState =
   | { kind: 'error'; message: string; contract: ContractState }
 
 const defaultContract: ContractState = {
-  provider: 'mock',
+  provider: 'api',
   responseState: 'loading',
-  endpoint: '/setting/member/bootstrap',
+  endpoint: MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
   traceId: '',
   timestamp: '',
   routeMode: 'list',
@@ -74,7 +79,7 @@ function MemberSettingSurface({
     kind: 'loading',
     contract: {
       ...defaultContract,
-      provider: query.provider ?? 'mock',
+      provider: query.provider ?? 'api',
       routeMode: query.routeMode,
     },
   })
@@ -86,6 +91,7 @@ function MemberSettingSurface({
   const [draft, setDraft] = useState<MemberSettingDraft>(createEditorDraft(query))
   const [roomSearch, setRoomSearch] = useState('')
   const [formError, setFormError] = useState('')
+  const [formErrors, setFormErrors] = useState<MemberFormErrors>({})
 
   useEffect(() => {
     const abort = new AbortController()
@@ -105,7 +111,7 @@ function MemberSettingSurface({
         kind: 'loading',
         contract: {
           ...current.contract,
-          provider: requestQuery.provider ?? 'mock',
+          provider: requestQuery.provider ?? 'api',
           responseState: 'loading',
           routeMode: requestQuery.routeMode,
           request: requestQuery,
@@ -160,6 +166,12 @@ function MemberSettingSurface({
 
   function updateDraft(nextPatch: Partial<MemberSettingDraft>) {
     setDraft((current) => ({ ...current, ...nextPatch }))
+    setFormErrors((current) => {
+      const nextErrors = { ...current }
+      if ('name' in nextPatch) delete nextErrors.name
+      if ('phone' in nextPatch) delete nextErrors.phone
+      return nextErrors
+    })
     setFormError('')
   }
 
@@ -184,12 +196,25 @@ function MemberSettingSurface({
   }
 
   async function handleSubmit() {
-    setIsSubmitting(true)
     setFormError('')
+    const nextErrors: MemberFormErrors = {
+      name: validatePersonName(draft.name),
+      phone: validateRequiredMainlandMobile(draft.phone),
+    }
+    Object.keys(nextErrors).forEach((key) => {
+      if (!nextErrors[key as keyof MemberFormErrors]) delete nextErrors[key as keyof MemberFormErrors]
+    })
+    setFormErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) {
+      setFeedback('请先修正成员信息格式')
+      return
+    }
+
+    setIsSubmitting(true)
 
     try {
       await saveMemberSettingMember(query, draft)
-      navigate('/setting/member', {
+      navigate(buildMemberSettingPath('/setting/member', query), {
         state: {
           memberSettingFlashMessage: '成员保存成功',
         },
@@ -291,7 +316,7 @@ function MemberSettingSurface({
                   type="button"
                   className="member-primary-button"
                   disabled={state.kind !== 'ready'}
-                  onClick={() => navigate('/setting/member/actions')}
+                  onClick={() => navigate(buildMemberSettingPath('/setting/member/actions', query))}
                 >
                   添加成员
                 </button>
@@ -356,7 +381,7 @@ function MemberSettingSurface({
             </div>
 
             <div className="member-breadcrumb">
-              <button type="button" onClick={() => navigate('/setting/member')}>
+              <button type="button" onClick={() => navigate(buildMemberSettingPath('/setting/member', query))}>
                 成员设置
               </button>
               <span>/</span>
@@ -393,6 +418,7 @@ function MemberSettingSurface({
                 feedback={feedback}
                 filteredRoomOptions={filteredRoomOptions}
                 formError={formError}
+                formErrors={formErrors}
                 formRoleDropdownOpen={formRoleDropdownOpen}
                 isSubmitting={isSubmitting}
                 navigate={navigate}
@@ -419,6 +445,7 @@ function MemberActionForm({
   draft,
   filteredRoomOptions,
   formError,
+  formErrors,
   formRoleDropdownOpen,
   isSubmitting,
   navigate,
@@ -437,6 +464,7 @@ function MemberActionForm({
   feedback: string
   filteredRoomOptions: MemberSettingRoomCategory[]
   formError: string
+  formErrors: MemberFormErrors
   formRoleDropdownOpen: boolean
   isSubmitting: boolean
   navigate: ReturnType<typeof useNavigate>
@@ -457,22 +485,28 @@ function MemberActionForm({
       <div className="member-action-form">
         <label className="member-action-field">
           <span>* 成员姓名：</span>
-          <input
-            aria-label="成员姓名"
-            placeholder="请输入成员姓名"
-            value={draft.name}
-            onChange={(event) => updateDraft({ name: event.target.value })}
-          />
+          <div className="member-action-field-control">
+            <input
+              aria-label="成员姓名"
+              placeholder="请输入成员姓名"
+              value={draft.name}
+              onChange={(event) => updateDraft({ name: event.target.value })}
+            />
+            {formErrors.name ? <small className="member-field-error">{formErrors.name}</small> : null}
+          </div>
         </label>
 
         <label className="member-action-field">
           <span>* 手机号：</span>
-          <input
-            aria-label="手机号"
-            placeholder="请输入手机号"
-            value={draft.phone}
-            onChange={(event) => updateDraft({ phone: event.target.value })}
-          />
+          <div className="member-action-field-control">
+            <input
+              aria-label="手机号"
+              placeholder="请输入手机号"
+              value={draft.phone}
+              onChange={(event) => updateDraft({ phone: event.target.value })}
+            />
+            {formErrors.phone ? <small className="member-field-error">{formErrors.phone}</small> : null}
+          </div>
         </label>
 
         <div className="member-action-field">
@@ -542,7 +576,7 @@ function MemberActionForm({
         {formError ? <div className="member-form-error">{formError}</div> : null}
 
         <div className="member-form-actions">
-          <button type="button" className="member-secondary-button" onClick={() => navigate('/setting/member')}>
+          <button type="button" className="member-secondary-button" onClick={() => navigate(buildMemberSettingPath('/setting/member', viewModel))}>
             取消
           </button>
           <button type="button" className="member-primary-button" disabled={isSubmitting} onClick={onSubmit}>
@@ -594,7 +628,14 @@ function renderMemberList(
                 <button
                   type="button"
                   className="member-link-button"
-                  onClick={() => navigate(`/setting/member/actions?mode=edit&userId=${member.userId}`)}
+                  onClick={() =>
+                    navigate(
+                      buildMemberSettingPath('/setting/member/actions', viewModel, {
+                        mode: 'edit',
+                        userId: member.userId,
+                      }),
+                    )
+                  }
                 >
                   编辑
                 </button>
@@ -667,7 +708,7 @@ function toErrorContract(error: unknown, query: MemberSettingQuery): ContractSta
     return {
       provider: error.provider,
       responseState: 'error',
-      endpoint: '/setting/member/bootstrap',
+      endpoint: error.provider === 'api' ? MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT : MEMBER_SETTING_ENDPOINT,
       traceId: error.response.traceId,
       timestamp: error.response.timestamp,
       routeMode: query.routeMode,
@@ -676,14 +717,32 @@ function toErrorContract(error: unknown, query: MemberSettingQuery): ContractSta
   }
 
   return {
-    provider: query.provider ?? 'mock',
+    provider: query.provider ?? 'api',
     responseState: 'error',
-    endpoint: '/setting/member/bootstrap',
+    endpoint: query.provider === 'mock' ? MEMBER_SETTING_ENDPOINT : MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
     traceId: '',
     timestamp: '',
     routeMode: query.routeMode,
     request: query,
   }
+}
+
+function buildMemberSettingPath(
+  pathname: string,
+  source: Pick<MemberSettingQuery | MemberSettingViewModel, 'provider'>,
+  params: Record<string, string | null | undefined> = {},
+) {
+  const searchParams = new URLSearchParams()
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      searchParams.set(key, value)
+    }
+  })
+  if (source.provider === 'mock') {
+    searchParams.set('memberSettingProvider', 'mock')
+  }
+  const search = searchParams.toString()
+  return search ? `${pathname}?${search}` : pathname
 }
 
 function readLocationFlashMessage(state: unknown) {

@@ -75,6 +75,7 @@ function CalendarRoomListPage() {
             id: store.id,
             label: store.name,
         })),
+        enabled: false,
     });
     function applyFilter(key, value) {
         setIsLoading(true);

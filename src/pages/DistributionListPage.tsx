@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   createDefaultDistributionFilters,
   distributionListEndpoints,
   fetchDistributionDashboard,
+  localDistributionChannelId,
+  localDistributionStatusStorageKey,
   type DistributionChannel,
   type DistributionDashboard,
   type DistributionFilters,
@@ -24,16 +26,13 @@ const actionButtons = [
 
 type ImportDialogMode = 'store' | 'room' | null
 
-const importStoreOptions = [
-  '天洛会宿公寓(前海壹方城宝安中心店)',
-  '天洛会宿公寓(科技园店)',
-]
-
 export function DistributionListPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [filters, setFilters] = useState<DistributionFilters>(() =>
-    createDefaultDistributionFilters(new URLSearchParams(window.location.search)),
+    createDefaultDistributionFilters(new URLSearchParams(location.search)),
   )
+  const [keywordDraft, setKeywordDraft] = useState(filters.keyword)
   const [dashboard, setDashboard] = useState<DistributionDashboard | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -48,6 +47,7 @@ export function DistributionListPage() {
       id: store.id,
       label: store.label,
     })),
+    enabled: dashboard?.provider === 'api',
   })
 
   const updateFilters = (nextFilters: (current: DistributionFilters) => DistributionFilters) => {
@@ -58,6 +58,22 @@ export function DistributionListPage() {
     setImportMenuOpen(false)
     setFilters(nextFilters)
   }
+
+  useEffect(() => {
+    const nextFilters = createDefaultDistributionFilters(new URLSearchParams(location.search))
+    setFilters((current) => ({
+      ...current,
+      ...nextFilters,
+    }))
+    setLoading(true)
+    setError('')
+    setOpenMenuId(null)
+    setImportMenuOpen(false)
+  }, [location.search])
+
+  useEffect(() => {
+    setKeywordDraft(filters.keyword)
+  }, [filters.keyword])
 
   useEffect(() => {
     let active = true
@@ -98,21 +114,20 @@ export function DistributionListPage() {
     return () => window.clearTimeout(timer)
   }, [notice])
 
-  const visibleRows = useMemo(() => {
+  const allRows = useMemo(() => {
     if (!dashboard) return []
-
-    const list = filters.tab === 'distributed' ? dashboard.distributedRooms : dashboard.undistributedRooms
-
-    return list.map((room) => ({
+    return [...dashboard.distributedRooms, ...dashboard.undistributedRooms].map((room) => ({
       ...room,
       progress: roomProgressMap[room.id] ?? room.progress,
     }))
-  }, [dashboard, filters.tab, roomProgressMap])
+  }, [dashboard, roomProgressMap])
 
-  const selectedRoom = useMemo(
-    () => visibleRows.find((room) => room.id === drawerRoomId) ?? null,
-    [drawerRoomId, visibleRows],
-  )
+  const visibleRows = useMemo(() => {
+    const targetProgress: DistributionProgress = filters.tab === 'distributed' ? 'distributing' : 'closed'
+    return allRows.filter((room) => room.progress === targetProgress)
+  }, [allRows, filters.tab])
+
+  const selectedRoom = useMemo(() => allRows.find((room) => room.id === drawerRoomId) ?? null, [allRows, drawerRoomId])
 
   const requestSnapshot = dashboard ? JSON.stringify(dashboard.request) : JSON.stringify({ filters })
 
@@ -125,21 +140,52 @@ export function DistributionListPage() {
     updateFilters((current) => ({ ...current, tab: nextTab, page: 1 }))
   }
 
-  const toggleDistribution = (room: DistributionRoomCategory) => {
-    setRoomProgressMap((current) => {
-      const currentProgress = current[room.id] ?? room.progress
-      const nextProgress = currentProgress === 'closed' ? 'distributing' : 'closed'
-      window.setTimeout(() => setNotice(`${room.name} 已${nextProgress === 'closed' ? '关闭' : '打开'}分销`), 0)
-      return { ...current, [room.id]: nextProgress }
+  const applyKeywordSearch = () => {
+    updateFilters((current) => ({ ...current, keyword: keywordDraft.trim(), page: 1 }))
+  }
+
+  const applyRoomProgress = (room: DistributionRoomCategory, nextProgress: DistributionProgress, channelIds?: string[]) => {
+    const nextChannelIds = nextProgress === 'distributing' ? channelIds ?? room.channelIds : []
+    persistLocalDistributionStatus(room.id, nextProgress, channelIds)
+    setRoomProgressMap((current) => ({ ...current, [room.id]: nextProgress }))
+    setDashboard((current) => {
+      if (!current) return current
+      const roomById = new Map<string, DistributionRoomCategory>()
+      ;[...current.distributedRooms, ...current.undistributedRooms].forEach((item) => {
+        roomById.set(item.id, item)
+      })
+      const sourceRoom = roomById.get(room.id) ?? room
+      roomById.set(room.id, { ...sourceRoom, progress: nextProgress, channelIds: nextChannelIds })
+      const nextRooms = Array.from(roomById.values())
+      const distributedRooms = nextRooms.filter((item) => item.progress === 'distributing')
+      const undistributedRooms = nextRooms.filter((item) => item.progress === 'closed')
+      const activeRows = filters.tab === 'distributed' ? distributedRooms : undistributedRooms
+      return {
+        ...current,
+        distributedRooms,
+        undistributedRooms,
+        pagination: {
+          ...current.pagination,
+          total: activeRows.length,
+        },
+      }
     })
+    const actionText = nextProgress === 'closed' ? '关闭' : '开启'
+    const channelText = channelIds ? `关联 ${nextChannelIds.length} 个渠道` : '宿银平台分销'
+    setNotice(`${room.name} 已${actionText}${channelText}`)
     setOpenMenuId(null)
+  }
+
+  const toggleDistribution = (room: DistributionRoomCategory) => {
+    const currentProgress = roomProgressMap[room.id] ?? room.progress
+    applyRoomProgress(room, currentProgress === 'closed' ? 'distributing' : 'closed')
   }
 
   return (
     <div
       className={`distribution-list-page${loading ? ' is-loading' : ''}`}
       data-testid="distribution-list-contract"
-      data-provider={dashboard?.provider ?? 'mock'}
+      data-provider={dashboard?.provider ?? 'api'}
       data-endpoint-camp-flow={distributionListEndpoints.campFlow}
       data-endpoint-room-categories={distributionListEndpoints.roomCategories}
       data-endpoint-undistributed={distributionListEndpoints.undistributedRoomCategories}
@@ -247,6 +293,34 @@ export function DistributionListPage() {
           </div>
         ) : null}
 
+        <div className="distribution-filter-bar" role="search" aria-label="分销房型筛选">
+          <label>
+            <span>房型</span>
+            <input
+              type="search"
+              placeholder="搜索房型或原因"
+              value={keywordDraft}
+              onChange={(event) => setKeywordDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') applyKeywordSearch()
+              }}
+            />
+          </label>
+          <button type="button" className="is-primary" onClick={applyKeywordSearch}>
+            查询
+          </button>
+          <button
+            type="button"
+            className="is-light"
+            onClick={() => {
+              setKeywordDraft('')
+              updateFilters((current) => ({ ...current, keyword: '', page: 1 }))
+            }}
+          >
+            重置
+          </button>
+        </div>
+
         {error ? (
           <section className="distribution-state distribution-state--error" role="alert">
             <strong>分销列表加载失败</strong>
@@ -261,7 +335,8 @@ export function DistributionListPage() {
           <RoomTable
             label={filters.tab === 'distributed' ? '已分销房型表' : '未分销房型表'}
             rows={visibleRows}
-            emptyText={filters.tab === 'distributed' ? '当前条件暂无房型数据' : '暂无数据'}
+            channels={dashboard.channels}
+            emptyText={filters.tab === 'distributed' ? '当前条件暂无已分销房型' : '当前条件暂无未分销房型'}
             progressHeader={filters.tab === 'distributed' ? '分销进度' : '原因'}
             openMenuId={openMenuId}
             onToggleMenu={setOpenMenuId}
@@ -283,11 +358,20 @@ export function DistributionListPage() {
       ) : null}
 
       {selectedRoom && dashboard ? (
-        <DistributionConfigDrawer room={selectedRoom} channels={dashboard.channels} onClose={() => setDrawerRoomId(null)} />
+        <DistributionConfigDrawer
+          room={selectedRoom}
+          channels={dashboard.channels}
+          onClose={() => setDrawerRoomId(null)}
+          onProgressChange={applyRoomProgress}
+        />
       ) : null}
 
       {importDialogMode ? (
-        <ChannelImportDialog mode={importDialogMode} onClose={() => setImportDialogMode(null)} />
+        <ChannelImportDialog
+          mode={importDialogMode}
+          channels={dashboard?.channels ?? []}
+          onClose={() => setImportDialogMode(null)}
+        />
       ) : null}
     </div>
   )
@@ -296,6 +380,7 @@ export function DistributionListPage() {
 function RoomTable({
   label,
   rows,
+  channels,
   emptyText,
   progressHeader,
   openMenuId,
@@ -305,6 +390,7 @@ function RoomTable({
 }: {
   label: string
   rows: DistributionRoomCategory[]
+  channels: DistributionChannel[]
   emptyText: string
   progressHeader: string
   openMenuId: string | null
@@ -326,6 +412,7 @@ function RoomTable({
           {rows.length > 0 ? (
             rows.map((room) => {
               const currentProgress = room.progress
+              const progressText = formatDistributionProgress(currentProgress, room.channelIds, channels)
               return (
                 <tr key={room.id}>
                   <td>
@@ -338,7 +425,7 @@ function RoomTable({
                   </td>
                   <td>
                     <span className={`distribution-progress distribution-progress--${currentProgress}`} data-progress={currentProgress}>
-                      {currentProgress === 'distributing' ? '分销中' : '关闭'}
+                      {progressText}
                     </span>
                   </td>
                   <td>
@@ -357,7 +444,7 @@ function RoomTable({
                       {openMenuId === room.id ? (
                         <div className="distribution-more__menu" role="menu" onClick={(event) => event.stopPropagation()}>
                           <button type="button" role="menuitem" onClick={() => onToggleDistribution(room)}>
-                            {currentProgress === 'closed' ? '打开' : '关闭'}
+                            {currentProgress === 'closed' ? '开启分销' : '关闭分销'}
                           </button>
                           <button type="button" role="menuitem" onClick={() => onEditChannel(room)}>
                             渠道编辑
@@ -389,10 +476,12 @@ function DistributionConfigDrawer({
   room,
   channels,
   onClose,
+  onProgressChange,
 }: {
   room: DistributionRoomCategory
   channels: DistributionChannel[]
   onClose: () => void
+  onProgressChange: (room: DistributionRoomCategory, nextProgress: DistributionProgress, channelIds?: string[]) => void
 }) {
   const [enabled, setEnabled] = useState(room.progress === 'distributing')
   const [isEditing, setIsEditing] = useState(false)
@@ -411,6 +500,12 @@ function DistributionConfigDrawer({
     setDraftChannelIds((current) =>
       current.includes(channelId) ? current.filter((item) => item !== channelId) : [...current, channelId],
     )
+  }
+
+  const toggleEnabled = () => {
+    const nextEnabled = !enabled
+    setEnabled(nextEnabled)
+    onProgressChange(room, nextEnabled ? 'distributing' : 'closed', nextEnabled ? selectedChannelIds : [])
   }
 
   return (
@@ -432,22 +527,22 @@ function DistributionConfigDrawer({
         <header className="distribution-config-drawer__header">
           <h2>分销配置</h2>
           <button type="button" aria-label="关闭分销配置" onClick={onClose}>
-            ×
+            x
           </button>
         </header>
 
         <div className="distribution-config-drawer__body">
           <section className="distribution-config-switch">
             <div>
-              <strong>{enabled ? '聚合分销已开启' : '聚合分销已关闭'}</strong>
+              <strong>{enabled ? '宿银平台分销已开启' : '宿银平台分销已关闭'}</strong>
               <span>{room.name}</span>
             </div>
             <button
               type="button"
               className={`distribution-config-switch__toggle${enabled ? ' is-active' : ''}`}
               aria-pressed={enabled}
-              aria-label={enabled ? '聚合分销已开启' : '聚合分销已关闭'}
-              onClick={() => setEnabled((current) => !current)}
+              aria-label={enabled ? '宿银平台分销已开启' : '宿银平台分销已关闭'}
+              onClick={toggleEnabled}
             >
               <span />
             </button>
@@ -457,9 +552,7 @@ function DistributionConfigDrawer({
             <div className="distribution-config-card__top">
               <div>
                 <h3>聚合分销渠道</h3>
-                <p>
-                  当前分销情况: {selectedChannelIds.length}/{channels.length}
-                </p>
+                <p>当前分销情况: {selectedChannelIds.length}/{channels.length}</p>
               </div>
               {isEditing ? (
                 <div className="distribution-config-card__actions">
@@ -476,8 +569,11 @@ function DistributionConfigDrawer({
                     type="button"
                     className="is-strong"
                     onClick={() => {
+                      const nextProgress = draftChannelIds.length > 0 ? 'distributing' : 'closed'
                       setSelectedChannelIds(draftChannelIds)
+                      setEnabled(nextProgress === 'distributing')
                       setIsEditing(false)
+                      onProgressChange(room, nextProgress, draftChannelIds)
                     }}
                   >
                     保存
@@ -512,12 +608,7 @@ function DistributionConfigDrawer({
         </div>
 
         <footer className="distribution-config-drawer__footer">
-          开通聚合分销时，您已阅读并同意
-          <span>《路客云分销协议》</span>
-          ，如有疑问，您可
-          <a href="/" onClick={(event) => event.preventDefault()}>
-            联系客服
-          </a>
+          本期先联通本地渠道 <span>宿银平台</span>；携程、美团、途家等第三方渠道完成授权适配后，会在这里追加渠道卡片和同步状态。
         </footer>
       </aside>
     </div>
@@ -526,16 +617,16 @@ function DistributionConfigDrawer({
 
 function ChannelImportDialog({
   mode,
+  channels,
   onClose,
 }: {
   mode: Exclude<ImportDialogMode, null>
+  channels: DistributionChannel[]
   onClose: () => void
 }) {
   const layerRef = useRef<HTMLDivElement | null>(null)
-  const [roomType, setRoomType] = useState<'prepay' | 'cash'>('prepay')
-  const [connectEnabled, setConnectEnabled] = useState(true)
-  const [storeDropdownOpen, setStoreDropdownOpen] = useState(false)
-  const [selectedStore, setSelectedStore] = useState(importStoreOptions[0])
+  const title = mode === 'store' ? '完善门店信息' : '完善房型信息'
+  const visibleChannels = channels.length > 0 ? channels : [{ id: localDistributionChannelId, name: '宿银平台' }]
 
   return (
     <div
@@ -550,104 +641,64 @@ function ChannelImportDialog({
         className="distribution-import-dialog"
         role="dialog"
         aria-modal="true"
-        aria-label={mode === 'store' ? '完善门店信息' : '完善房型信息'}
+        aria-label={title}
         onMouseDown={(event) => event.stopPropagation()}
       >
         <button type="button" className="distribution-import-dialog__close" aria-label="关闭弹窗" onClick={onClose}>
-          ×
+          x
         </button>
 
-        <p className="distribution-import-dialog__intro">请选择您上线的渠道(单选)，酒店渠道能导入的信息能完善。</p>
-
+        <p className="distribution-import-dialog__intro">{title}</p>
         <div className="distribution-import-dialog__channels">
-          <button type="button" className="is-active">
-            携程酒店
-          </button>
-          {mode === 'room' ? <button type="button">美团民宿</button> : null}
+          {visibleChannels.map((channel, index) => (
+            <button key={channel.id} type="button" className={index === 0 ? 'is-active' : ''} disabled={index > 0}>
+              {channel.name}
+            </button>
+          ))}
         </div>
-
-        <p className="distribution-import-dialog__desc">请授权渠道，我们将会为您自动直连并完善门店信息。</p>
-
-        <div className="distribution-import-form">
-          <label className="distribution-import-form__row">
-            <span>当前门店:</span>
-            <div className="distribution-import-form__field-wrap">
-              <div className="distribution-import-form__select-wrap">
-                <button
-                  type="button"
-                  className="distribution-import-form__select"
-                  aria-expanded={storeDropdownOpen}
-                  onClick={() => setStoreDropdownOpen((current) => !current)}
-                >
-                  <span>{selectedStore}</span>
-                  <em>⌄</em>
-                </button>
-                {storeDropdownOpen ? (
-                  <div className="distribution-import-form__dropdown" role="listbox">
-                    {importStoreOptions.map((store) => (
-                      <button
-                        key={store}
-                        type="button"
-                        role="option"
-                        className={selectedStore === store ? 'is-selected' : ''}
-                        onClick={() => {
-                          setSelectedStore(store)
-                          setStoreDropdownOpen(false)
-                        }}
-                      >
-                        {store}
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-              <button type="button" className="distribution-import-form__link">
-                新增门店
-              </button>
-            </div>
-          </label>
-
-          <div className="distribution-import-form__row">
-            <span>子酒店类型</span>
-            <div className="distribution-import-form__radios">
-              <label>
-                <input type="radio" checked={roomType === 'prepay'} onChange={() => setRoomType('prepay')} />
-                <span>预付</span>
-              </label>
-              <label>
-                <input type="radio" checked={roomType === 'cash'} onChange={() => setRoomType('cash')} />
-                <span>现付</span>
-              </label>
-            </div>
-          </div>
-
-          <label className="distribution-import-form__row">
-            <span>子酒店ID:</span>
-            <div className="distribution-import-form__input-wrap">
-              <input type="text" placeholder="请输入子酒店ID" />
-              <button type="button" className="distribution-import-form__help" aria-label="查看帮助">
-                ?
-              </button>
-            </div>
-          </label>
-
-          <label className="distribution-import-form__row">
-            <span>酒店名称:</span>
-            <input type="text" placeholder="请确认输入与携程一致的酒店名称" />
-          </label>
-
-          <label className="distribution-import-form__checkbox">
-            <input type="checkbox" checked={connectEnabled} onChange={() => setConnectEnabled((current) => !current)} />
-            <span>同时完成携程直连</span>
-          </label>
-        </div>
+        <p className="distribution-import-dialog__desc">
+          当前系统还没有对接第三方平台，本地房型会先作为宿银平台分销数据展示。后续接入第三方后，这里再按渠道授权拉取门店和房型资料。
+        </p>
 
         <div className="distribution-import-dialog__footer">
           <button type="button" className="distribution-import-dialog__confirm" onClick={onClose}>
-            确认
+            知道了
           </button>
         </div>
       </section>
     </div>
   )
+}
+
+function formatDistributionProgress(
+  progress: DistributionProgress,
+  channelIds: string[],
+  channels: DistributionChannel[],
+) {
+  if (progress === 'closed') return '已关闭'
+  const activeChannels = resolveActiveChannels(channelIds, channels)
+  if (activeChannels.length === 0) return '未关联渠道'
+  if (activeChannels.length === 1) return `${activeChannels[0].name}分销中`
+  return `已关联 ${activeChannels.length} 个渠道`
+}
+
+function resolveActiveChannels(channelIds: string[], channels: DistributionChannel[]) {
+  const channelById = new Map(channels.map((channel) => [channel.id, channel]))
+  return channelIds.map((channelId) => channelById.get(channelId)).filter((channel): channel is DistributionChannel => Boolean(channel))
+}
+
+function persistLocalDistributionStatus(roomId: string, progress: DistributionProgress, channelIds?: string[]) {
+  if (typeof window === 'undefined') return
+  const nextState = channelIds
+    ? { progress, channelIds: progress === 'distributing' && channelIds.length > 0 ? channelIds : [] }
+    : progress
+  try {
+    const current = JSON.parse(window.localStorage.getItem(localDistributionStatusStorageKey) || '{}') as Record<
+      string,
+      DistributionProgress | { progress: DistributionProgress; channelIds: string[] }
+    >
+    window.localStorage.setItem(localDistributionStatusStorageKey, JSON.stringify({ ...current, [roomId]: nextState }))
+  } catch {
+    window.localStorage.setItem(localDistributionStatusStorageKey, JSON.stringify({ [roomId]: nextState }))
+  }
 }

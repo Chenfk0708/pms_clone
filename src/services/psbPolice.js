@@ -1,3 +1,4 @@
+import { validateCredentialNumber, validatePersonName } from '../utils/inputValidation';
 const PSB_POLICE_PROVIDER_KEY = 'pms.psbPoliceProvider';
 const DEFAULT_CAMP_ID = '1796067693589061634';
 const DEFAULT_TIMESTAMP = '2026-05-19T17:20:00+08:00';
@@ -50,6 +51,7 @@ export async function fetchPsbPolicePageData(filters, signal, providerName = get
 }
 export async function submitPsbPoliceRegistration(input, filters, signal, providerName = getPsbPoliceProviderName()) {
     validateFilters(filters);
+    validateSubmissionInput(input);
     if (providerName === 'api') {
         throw new Error('PSB公安对接资料提交失败，请稍后重试');
     }
@@ -123,6 +125,14 @@ function validateFilters(filters) {
     if (!filters.campId.trim()) {
         throw new Error('PSB公安对接门店参数不正确');
     }
+}
+function validateSubmissionInput(input) {
+    const nameError = validatePersonName(input.registrantName);
+    if (nameError)
+        throw new Error(nameError);
+    const credentialError = validateCredentialNumber('居民身份证', input.registrantIdNumber);
+    if (credentialError)
+        throw new Error(credentialError);
 }
 function toMockState(value) {
     return value === 'empty' || value === 'error' ? value : 'success';

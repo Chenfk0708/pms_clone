@@ -59,6 +59,14 @@ const seedCustomChannels = [
 ];
 let mockSystemChannels = createSystemChannels();
 let mockCustomChannels = seedCustomChannels.map((channel) => ({ ...channel }));
+const localPlatformChannel = {
+    id: '100',
+    name: '宿银平台',
+    shortName: '宿',
+    color: '#4d65f6',
+    enabled: true,
+    source: 'local',
+};
 export function createDefaultCustomChannelQuery(searchParams = new URLSearchParams()) {
     return {
         provider: toProvider(searchParams.get('provider')) ?? getCustomChannelProviderName(),
@@ -75,6 +83,29 @@ export async function fetchCustomChannelDashboard(query) {
         return adaptApiDashboard(data, query, 'list');
     }
     return adaptMockDashboard(await fetchMockDashboard(query), query, 'success-001');
+}
+export async function fetchEnabledChannelCatalog(query) {
+    const dashboard = await fetchCustomChannelDashboard({
+        provider: query?.provider ?? getCustomChannelProviderName(),
+        mockState: query?.mockState ?? 'success',
+    });
+    const systemChannels = dashboard.systemChannels.map((channel) => ({
+        id: channel.id,
+        name: channel.name,
+        shortName: createShortName(channel.name),
+        color: channel.color,
+        enabled: channel.enabled,
+        source: 'system',
+    }));
+    const customChannels = dashboard.customChannels.map((channel) => ({
+        id: channel.id,
+        name: channel.name,
+        shortName: createShortName(channel.name),
+        color: channel.color,
+        enabled: channel.enabled,
+        source: 'custom',
+    }));
+    return dedupeChannelCatalog([localPlatformChannel, ...systemChannels, ...customChannels]).filter((channel) => channel.enabled);
 }
 export async function saveSystemChannels(enabledMap, query) {
     writeDiagnostics({ action: 'save-system', provider: query.provider, updatePath: CUSTOM_CHANNEL_UPDATE_PATH, enabledMap });
@@ -192,6 +223,28 @@ function createSystemChannels() {
         color: systemChannelColors[index],
         enabled: true,
     }));
+}
+function dedupeChannelCatalog(channels) {
+    const seen = new Set();
+    return channels.filter((channel) => {
+        const key = normalizeChannelName(channel.name);
+        if (!key || seen.has(key))
+            return false;
+        seen.add(key);
+        return true;
+    });
+}
+function normalizeChannelName(value) {
+    return value.trim().toLowerCase();
+}
+function createShortName(name) {
+    const trimmed = name.trim();
+    if (!trimmed)
+        return '渠';
+    const chineseChars = Array.from(trimmed).filter((char) => /[\u4e00-\u9fff]/.test(char));
+    if (chineseChars.length > 0)
+        return chineseChars.slice(0, 2).join('');
+    return trimmed.slice(0, 2).toUpperCase();
 }
 function toMockState(value) {
     return value === 'empty' || value === 'error' ? value : 'success';

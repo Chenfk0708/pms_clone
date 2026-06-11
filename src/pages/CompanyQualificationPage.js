@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CompanyQualificationRequestError, createDraftCompanyQualificationImage, createEmptyCompanyQualificationDraft, defaultCompanyQualificationQuery, fetchCompanyQualification, resolveCompanyQualificationRuntimeConfig, saveCompanyQualificationProfile, uploadCompanyQualificationAsset, } from '../services/companyQualification';
+import { validateOptionalContactPhone } from '../utils/inputValidation';
 import './CompanyQualificationPage.css';
 const tabs = ['企业信息', '营业资质', '法人证件'];
 export function CompanyQualificationPage() {
@@ -95,8 +96,9 @@ export function CompanyQualificationPage() {
         const nextErrors = {};
         if (!draft.name.trim())
             nextErrors.name = '请输入企业名称';
-        if (draft.phone && !/^\d{11}$/.test(draft.phone.trim()))
-            nextErrors.phone = '联系电话需为 11 位手机号';
+        const phoneError = validateOptionalContactPhone(draft.phone);
+        if (phoneError)
+            nextErrors.phone = phoneError;
         if (!draft.city.trim())
             nextErrors.city = '请选择所在城市';
         if (!draft.address.trim())

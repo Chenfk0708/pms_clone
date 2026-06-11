@@ -1,3 +1,4 @@
+export const PMS_USER_CHANGED_EVENT = 'pms:user-changed';
 export function getToken() {
     return localStorage.getItem('pms_token');
 }
@@ -20,6 +21,13 @@ export function getUser() {
 }
 export function setUser(user) {
     localStorage.setItem('pms_user', JSON.stringify(user));
+    window.dispatchEvent(new CustomEvent(PMS_USER_CHANGED_EVENT, { detail: user }));
+}
+export function hasPermission(permissionCode, user = getUser()) {
+    const permissionCodes = user?.permissionCodes;
+    if (!permissionCodes)
+        return true;
+    return permissionCodes.includes(permissionCode);
 }
 export function setCurrentCampId(campId) {
     const normalizedCampId = campId === null || campId === undefined ? '' : String(campId).trim();

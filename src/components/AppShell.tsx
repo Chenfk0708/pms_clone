@@ -1,10 +1,11 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChatDock } from './ChatDock'
 import { channelSideNav, distributionSideNav, globalRadarSideNav, informationSideNav, scrmSideNav } from '../data/discovery'
-import type { TopNavItem } from '../types'
+import type { SideNavGroup, TopNavItem } from '../types'
 import { resolveSideNav } from '../data/mock'
 import { getCurrentSessionUser } from '../services/session'
+import { clearToken, getUser, PMS_USER_CHANGED_EVENT, type AuthUser } from '../utils/auth'
 
 interface AppShellProps {
   path: string
@@ -41,9 +42,38 @@ const topbarTools: Array<{ id: TopbarTool; label: string; icon: string }> = [
   { id: 'notice', label: '通知', icon: 'notice' },
 ]
 
+const pathPermissionRules: Array<{ prefix: string; permissionCode: string }> = [
+  { prefix: '/workspace', permissionCode: 'dashboard:view' },
+  { prefix: '/houseManage/', permissionCode: 'room:view' },
+  { prefix: '/cleanManage/', permissionCode: 'clean:view' },
+  { prefix: '/order/', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/orderManagement', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/verificationManagement', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/hotelPackageOrder', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/goodsManagement', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/hotelProduct', permissionCode: 'order:view' },
+  { prefix: '/mallManagement/couponMgt', permissionCode: 'crm:view' },
+  { prefix: '/mallManagement/distribution', permissionCode: 'crm:view' },
+  { prefix: '/channels/', permissionCode: 'channel:view' },
+  { prefix: '/scrm/', permissionCode: 'crm:view' },
+  { prefix: '/customer/', permissionCode: 'crm:view' },
+  { prefix: '/smartHotel/', permissionCode: 'smart:view' },
+  { prefix: '/psb/', permissionCode: 'smart:view' },
+  { prefix: '/statistics/roomSituation', permissionCode: 'room:view' },
+  { prefix: '/statistics/', permissionCode: 'report:view' },
+  { prefix: '/CompanySetting/', permissionCode: 'system:view' },
+  { prefix: '/InformationMaintenance/', permissionCode: 'system:view' },
+  { prefix: '/setting/localRoomTypeProductionSetting', permissionCode: 'room:view' },
+  { prefix: '/setting/roomTypeInfo', permissionCode: 'system:view' },
+  { prefix: '/setting/picturesAndVideos', permissionCode: 'system:view' },
+  { prefix: '/setting/notification', permissionCode: 'notify:view' },
+  { prefix: '/setting/finance', permissionCode: 'finance:view' },
+  { prefix: '/setting/', permissionCode: 'system:view' },
+]
+
 export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const navigate = useNavigate()
-  const sessionUser = getCurrentSessionUser()
+  const [sessionUser, setSessionUser] = useState(() => getCurrentSessionUser())
   const [openTopbarPanel, setOpenTopbarPanel] = useState<TopbarPanel | null>(null)
   const [collapsedSidebarGroups, setCollapsedSidebarGroups] = useState<Record<string, boolean>>({})
   const isRoomSituation = path === '/statistics/roomSituation'
@@ -82,7 +112,9 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
   const isOrderTopNav = path.startsWith('/order/') || isOrderMallPath
   const isScrmSidebarFullscreenPath = path === '/scrm/sidebarPreview' || path === '/scrm/sidebar/preview'
   const showChatDock = !isNotificationStandalonePath && !isScrmSidebarFullscreenPath
-  const sideGroups = isNotificationStandalonePath || isScrmSidebarFullscreenPath
+  const authUser = getUser()
+  const visibleTopNav = topNav.filter((item) => canAccessPath(item.path, authUser))
+  const rawSideGroups = isNotificationStandalonePath || isScrmSidebarFullscreenPath
     ? []
     : path.startsWith('/channels/globalRadar/')
     ? globalRadarSideNav
@@ -99,7 +131,21 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           : isPsbSmartHotelPath
             ? resolveSideNav('/smartHotel/smartHome')
             : resolveSideNav(path)
+  const sideGroups = filterSideGroups(rawSideGroups, authUser)
   const usesHouseManagementSidebar = path.startsWith('/houseManage/') || path.startsWith('/cleanManage/') || isRoomSituation
+  const effectiveSidebarPath = path === '/setting/account' ? '/setting/member' : path
+  const brandStoreName = sessionUser?.name ? `${sessionUser.name}的店铺` : '宿银'
+
+  useEffect(() => {
+    const refreshSessionUser = () => setSessionUser(getCurrentSessionUser())
+
+    window.addEventListener(PMS_USER_CHANGED_EVENT, refreshSessionUser)
+    window.addEventListener('storage', refreshSessionUser)
+    return () => {
+      window.removeEventListener(PMS_USER_CHANGED_EVENT, refreshSessionUser)
+      window.removeEventListener('storage', refreshSessionUser)
+    }
+  }, [])
 
   function handleTopbarTool(tool: TopbarTool) {
     setOpenTopbarPanel(null)
@@ -132,8 +178,18 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
     navigate('/setting/notification')
   }
 
+  function handleLogout() {
+    clearToken()
+    setOpenTopbarPanel(null)
+    navigate('/login', { replace: true })
+  }
+
   function isSidebarGroupActive(group: (typeof sideGroups)[number]) {
-    return group.items.some((item) => path === item.path || path.startsWith(`${item.path}/`) || (isRoomSituation && item.path === '/houseManage/houseStatus'))
+    return group.items.some((item) =>
+      effectiveSidebarPath === item.path ||
+      effectiveSidebarPath.startsWith(`${item.path}/`) ||
+      (isRoomSituation && item.path === '/houseManage/houseStatus'),
+    )
   }
 
   function getSidebarGroupKey(group: (typeof sideGroups)[number]) {
@@ -181,12 +237,19 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
         <div className="brand-block">
           <img className="brand-mark" src="/brand-yinsu.png" alt="宿银" />
           <div className="brand-store">
-            <strong>宿银</strong>
-            <span>畅享版</span>
+            <span className="brand-store-name-wrap">
+              <strong className="brand-store-name" aria-label={brandStoreName} tabIndex={0}>
+                {brandStoreName}
+              </strong>
+              <span className="brand-store-tooltip" role="tooltip">
+                {brandStoreName}
+              </span>
+            </span>
+            <span className="brand-plan">畅享版</span>
           </div>
         </div>
         <nav className="topnav" aria-label="顶部导航">
-          {topNav.map((item) => (
+          {visibleTopNav.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
@@ -235,7 +298,7 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
           ))}
           <button type="button" className="topbar-user-menu" aria-label="用户菜单" aria-expanded={openTopbarPanel === 'user'} onClick={() => setOpenTopbarPanel(openTopbarPanel === 'user' ? null : 'user')}>
             <span className="topbar-user-avatar" aria-hidden="true">
-              <TopbarIcon type="user" />
+              {sessionUser?.avatar ? <img src={sessionUser.avatar} alt="" /> : <TopbarIcon type="user" />}
             </span>
             <TopbarIcon type="chevron" />
           </button>
@@ -243,9 +306,8 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
             <div className="topbar-user-popover" role="dialog" aria-label="用户菜单面板">
               <strong>{sessionUser?.name ?? '宿银'}</strong>
               {sessionUser ? <span>{sessionUser.roleLabel}</span> : null}
-              <Link to="/InformationMaintenance/campInfo" onClick={() => setOpenTopbarPanel(null)}>门店信息</Link>
-              <Link to="/setting/member" onClick={() => setOpenTopbarPanel(null)}>成员设置</Link>
-              <Link to="/CompanySetting/Apikeys" onClick={() => setOpenTopbarPanel(null)}>API keys</Link>
+              <Link to="/setting/account" onClick={() => setOpenTopbarPanel(null)}>账号设置</Link>
+              <button type="button" className="topbar-user-popover__logout" onClick={handleLogout}>退出登录</button>
             </div>
           ) : null}
         </div>
@@ -297,7 +359,13 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
                           to={item.path}
                           aria-label={item.label}
                           className={({ isActive }) =>
-                            `sidebar-link${isActive || (isRoomSituation && item.path === '/houseManage/houseStatus') ? ' is-active' : ''}`
+                            `sidebar-link${
+                              isActive ||
+                              effectiveSidebarPath === item.path ||
+                              (isRoomSituation && item.path === '/houseManage/houseStatus')
+                                ? ' is-active'
+                                : ''
+                            }`
                           }
                         >
                           {item.label}
@@ -331,6 +399,30 @@ export function AppShell({ path, pageTitle, children }: AppShellProps) {
       {openTopbarPanel === 'service' ? <TopbarServicePanel onClose={() => setOpenTopbarPanel(null)} /> : null}
     </div>
   )
+}
+
+function filterSideGroups(groups: SideNavGroup[], user: AuthUser | null): SideNavGroup[] {
+  if (!Array.isArray(user?.permissionCodes)) return groups
+
+  return groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => canAccessPath(item.path, user)),
+    }))
+    .filter((group) => group.items.length > 0)
+}
+
+function canAccessPath(path: string, user: AuthUser | null): boolean {
+  const permissionCodes = user?.permissionCodes
+  if (!Array.isArray(permissionCodes)) return true
+
+  const requiredPermission = resolveRequiredPermission(path)
+  if (!requiredPermission) return true
+  return permissionCodes.includes(requiredPermission)
+}
+
+function resolveRequiredPermission(path: string): string | null {
+  return pathPermissionRules.find((rule) => path.startsWith(rule.prefix))?.permissionCode ?? null
 }
 
 function SidebarGroupIcon({ group }: { group: ReturnType<typeof resolveSideNav>[number] }) {

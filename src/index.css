@@ -209,6 +209,7 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .brand-mark {
@@ -220,19 +221,84 @@ button {
 }
 
 .brand-store {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  min-width: 0;
+  max-width: 146px;
   white-space: nowrap;
 }
 
-.brand-store strong {
+.brand-store-name-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.brand-store strong,
+.brand-store-name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
   font-size: 14px;
   font-weight: 600;
   color: #24324a;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.brand-store span {
+.brand-store-name:focus-visible {
+  outline: 2px solid rgba(70, 100, 244, 0.34);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.brand-store-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 120;
+  width: max-content;
+  max-width: 320px;
+  padding: 7px 10px;
+  border: 1px solid rgba(28, 39, 64, 0.08);
+  border-radius: 6px;
+  background: #1f2a44;
+  box-shadow: 0 10px 24px rgba(31, 42, 68, 0.18);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
+  visibility: hidden;
+  white-space: normal;
+}
+
+.brand-store-tooltip::before {
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  width: 9px;
+  height: 9px;
+  background: #1f2a44;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.brand-store-name-wrap:hover .brand-store-tooltip,
+.brand-store-name:focus-visible + .brand-store-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.brand-store .brand-plan {
+  flex: 0 0 auto;
   padding: 4px 10px;
   border-radius: 999px;
   background: #e8f1ff;
@@ -455,6 +521,14 @@ button {
   stroke-width: 1.55;
 }
 
+.topbar-user-avatar img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .topbar-user-menu > svg {
   width: 12px;
   height: 12px;
@@ -490,14 +564,19 @@ button {
   font-size: 12px;
 }
 
-.topbar-user-popover a {
+.topbar-user-popover a,
+.topbar-user-popover .topbar-user-popover__logout {
   padding: 7px 8px;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
   color: #26324a;
   font-size: 13px;
+  text-align: left;
 }
 
-.topbar-user-popover a:hover {
+.topbar-user-popover a:hover,
+.topbar-user-popover .topbar-user-popover__logout:hover {
   background: #f2f5fb;
   color: #315cf6;
 }

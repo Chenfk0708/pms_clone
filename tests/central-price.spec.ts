@@ -156,6 +156,7 @@ test('/houseManage/houseCale loads central prices through the real request contr
   })
   expect(requestPayload).toHaveProperty('channelIds')
   expect(requestPayload).toHaveProperty('roomCategoryIds')
+  expect(requestPayload).toMatchObject({ channelIds: ['100'] })
 
   await page.getByRole('button', { name: '全部房型', exact: true }).click()
   await page.getByLabel('房型筛选').getByRole('button', { name: '测试房型A', exact: true }).click()
@@ -170,8 +171,6 @@ test('/houseManage/houseCale loads central prices through the real request contr
   await expect(page.locator('.price-edit-drawer')).toHaveCount(0)
   await expect(page.getByRole('status', { name: '中央价操作反馈' })).toBeVisible()
 
-  await page.getByRole('button', { name: '渠道', exact: true }).click()
-  await page.getByRole('option', { name: '宿银平台' }).click()
   await expect(page.getByRole('button', { name: '宿银平台' })).toBeVisible()
   expect(requestPayload).toMatchObject({ channelIds: ['100'] })
 

@@ -13,6 +13,7 @@ import {
   type CampInfoSortData,
   type CampInfoSortTab,
 } from '../services/campInfo'
+import { validateOptionalContactPhone } from '../utils/inputValidation'
 import './CampInfoPage.css'
 
 type LoadIntent = 'initial' | 'query' | 'reset' | 'retry'
@@ -38,6 +39,7 @@ type CampInfoUploadedPhoto = {
   dataUrl: string
   uploadedAt: string
 }
+type CampInfoFormErrors = Partial<Record<'storeName' | 'phone', string>>
 
 const defaultQuery = { keyword: '', page: 1, pageSize: 20 }
 const CAMP_INFO_PHOTO_STORAGE_KEY = 'pms.campInfoUploadedPhotos'
@@ -733,6 +735,7 @@ function CampInfoEditPage() {
   const [mapZoom, setMapZoom] = useState(12)
   const [step, setStep] = useState<CampInfoEditStep>('basic')
   const [saving, setSaving] = useState(false)
+  const [formErrors, setFormErrors] = useState<CampInfoFormErrors>({})
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -746,6 +749,7 @@ function CampInfoEditPage() {
     setMapZoom(12)
     setStep('basic')
     setSaving(false)
+    setFormErrors({})
 
     if (isNewStore) {
       const nextDetail = createEmptyCampInfoDetail(storeId)
@@ -788,6 +792,24 @@ function CampInfoEditPage() {
 
   function updateForm<K extends keyof CampInfoEditFormState>(field: K, value: CampInfoEditFormState[K]) {
     setForm((current) => (current ? { ...current, [field]: value } : current))
+    setFormErrors((current) => {
+      if (field !== 'storeName' && field !== 'phone') return current
+      return { ...current, [field]: undefined }
+    })
+  }
+
+  function validateBasicInfo() {
+    if (!form) return false
+    const nextErrors: CampInfoFormErrors = {}
+    if (!form.storeName.trim()) nextErrors.storeName = '门店名称不能为空'
+    const phoneError = validateOptionalContactPhone(form.phone)
+    if (phoneError) nextErrors.phone = phoneError
+    setFormErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) {
+      setErrorMessage('')
+      return false
+    }
+    return true
   }
 
   function addTag() {
@@ -839,11 +861,11 @@ function CampInfoEditPage() {
 
   async function handleSaveAndExit() {
     if (!detail || !form) return
-    const storeName = form.storeName.trim()
-    if (!storeName) {
-      setErrorMessage('门店名称不能为空')
+    if (!validateBasicInfo()) {
+      setStep('basic')
       return
     }
+    const storeName = form.storeName.trim()
 
     setSaving(true)
     setErrorMessage('')
@@ -920,11 +942,14 @@ function CampInfoEditPage() {
               <div className="camp-info-edit-form">
                 <label className="camp-info-edit-row">
                   <span>* 门店名称:</span>
-                  <input
-                    aria-label="门店名称"
-                    value={form.storeName}
-                    onChange={(event) => updateForm('storeName', event.target.value)}
-                  />
+                  <div className="camp-info-edit-field">
+                    <input
+                      aria-label="门店名称"
+                      value={form.storeName}
+                      onChange={(event) => updateForm('storeName', event.target.value)}
+                    />
+                    {formErrors.storeName ? <small className="camp-info-field-error">{formErrors.storeName}</small> : null}
+                  </div>
                 </label>
                 <label className="camp-info-edit-row">
                   <span>* 门店类型:</span>
@@ -943,11 +968,14 @@ function CampInfoEditPage() {
                 </label>
                 <label className="camp-info-edit-row">
                   <span>* 联系电话:</span>
-                  <input
-                    aria-label="联系电话"
-                    value={form.phone}
-                    onChange={(event) => updateForm('phone', event.target.value)}
-                  />
+                  <div className="camp-info-edit-field">
+                    <input
+                      aria-label="联系电话"
+                      value={form.phone}
+                      onChange={(event) => updateForm('phone', event.target.value)}
+                    />
+                    {formErrors.phone ? <small className="camp-info-field-error">{formErrors.phone}</small> : null}
+                  </div>
                 </label>
                 <div className="camp-info-edit-row camp-info-edit-tag-row">
                   <span>门店标签:</span>
@@ -1131,7 +1159,7 @@ function CampInfoEditPage() {
               <button type="button" disabled={saving} onClick={() => navigate('/InformationMaintenance/campInfo')}>
                 取 消
               </button>
-              <button type="button" className="is-primary" disabled={saving} onClick={() => setStep('detail')}>
+              <button type="button" className="is-primary" disabled={saving} onClick={() => validateBasicInfo() && setStep('detail')}>
                 下一步
               </button>
             </>

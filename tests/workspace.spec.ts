@@ -422,7 +422,10 @@ test.describe('workspace page clone', () => {
 
     await workspaceToolbar.getByRole('button', { name: '用户菜单' }).click()
     await expect(page.getByRole('dialog', { name: '用户菜单面板' })).toBeVisible()
-    await expect(page.getByRole('dialog', { name: '用户菜单面板' }).getByRole('link', { name: '门店信息' })).toBeVisible()
+    await expect(page.getByRole('dialog', { name: '用户菜单面板' }).getByRole('link', { name: '账号设置' })).toBeVisible()
+    await expect(page.getByRole('dialog', { name: '用户菜单面板' }).getByRole('button', { name: '退出登录' })).toBeVisible()
+    await expect(page.getByRole('dialog', { name: '用户菜单面板' })).not.toContainText('成员设置')
+    await expect(page.getByRole('dialog', { name: '用户菜单面板' })).not.toContainText('API keys')
 
     await workspaceToolbar.getByRole('button', { name: '接待' }).click()
     await expect(page).toHaveURL(/\/statistics\/shift\/record$/)

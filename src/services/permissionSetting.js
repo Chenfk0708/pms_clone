@@ -1,6 +1,7 @@
 const realBaseUrl = '/api';
 export const permissionRoleListEndpoint = '/role/camp/get';
 export const permissionRoleDetailEndpoint = '/roleAuthority/camp/get';
+export const permissionRoleAuthorityUpdateEndpoint = '/roleAuthority/camp/update';
 export const permissionRoleCreateEndpoint = '/role/camp/create';
 export const permissionRoleRenameEndpoint = '/role/camp/update';
 export const permissionRoleDeleteEndpoint = '/role/camp/delete';
@@ -255,8 +256,56 @@ export async function deletePermissionSettingRole(input, signal) {
         role: adaptRoleSummary(currentRole),
     };
 }
+export async function savePermissionSettingRolePermissions(input, signal) {
+    const provider = resolveProvider();
+    if (provider === 'api') {
+        return saveRealRolePermissions(input, signal);
+    }
+    await waitForMockLatency(signal);
+    const detail = mockDetails[input.roleId];
+    if (!detail) {
+        throw new Error('当前角色不存在，请刷新后重试');
+    }
+    const selectedRows = normalizeSelectedPermissionRows(input.permissionRows);
+    mockDetails[input.roleId] = {
+        ...detail,
+        permissionRows: clonePermissionRows(selectedRows),
+    };
+    mockRoles = mockRoles.map((role) => role.id === input.roleId
+        ? {
+            ...role,
+            updatedAt: '2026-05-20 00:34:00',
+        }
+        : role);
+    const requestBody = createRoleAuthorityUpdateRequestBody(input);
+    const envelope = {
+        code: 0,
+        message: 'success',
+        data: {
+            roleId: detail.roleId,
+            roleName: detail.roleName,
+            description: detail.description,
+            permissionRows: clonePermissionRows(selectedRows),
+        },
+        traceId: 'mock-shezhi--qiye-shezhi--quanxian-shezhi-permission-update-001',
+        timestamp: mockTimestamp,
+    };
+    return adaptRoleDetailEnvelope(envelope, requestBody, 'mock', resolveDetailMockState());
+}
 export function getPermissionSettingProviderName() {
     return resolveProvider();
+}
+export function resolvePermissionSettingCampId() {
+    if (typeof window === 'undefined')
+        return defaultPermissionSettingCampId;
+    return (readHashOrSearchValue('campId') ||
+        readRuntimeConfig('pmsCampId') ||
+        readRuntimeConfig('pms.currentCampId') ||
+        readCampIdFromStoredObject('pms_user') ||
+        readCampIdFromStoredObject('pms.currentCamp') ||
+        readCampIdFromStoredObject('pms.camp') ||
+        import.meta.env.VITE_PMS_CAMP_ID ||
+        defaultPermissionSettingCampId);
 }
 function resolveProvider() {
     const configured = readRuntimeConfig('pms.permissionSettingProvider') || import.meta.env.VITE_PERMISSION_SETTING_PROVIDER;
@@ -280,11 +329,17 @@ function resolveDetailMockState() {
 function readUrlState(keys) {
     if (typeof window === 'undefined')
         return '';
-    const params = new URLSearchParams(window.location.search);
-    for (const key of keys) {
-        const value = params.get(key);
-        if (value === 'success' || value === 'empty' || value === 'error') {
-            return value;
+    const hashQueryStart = window.location.hash.indexOf('?');
+    const searchParams = [
+        new URLSearchParams(window.location.search),
+        new URLSearchParams(hashQueryStart >= 0 ? window.location.hash.slice(hashQueryStart + 1) : ''),
+    ];
+    for (const params of searchParams) {
+        for (const key of keys) {
+            const value = params.get(key);
+            if (value === 'success' || value === 'empty' || value === 'error') {
+                return value;
+            }
         }
     }
     return '';
@@ -293,6 +348,34 @@ function readRuntimeConfig(key) {
     if (typeof window === 'undefined')
         return '';
     return window.localStorage.getItem(key)?.trim() || '';
+}
+function readHashOrSearchValue(key) {
+    if (typeof window === 'undefined')
+        return '';
+    const hashQueryStart = window.location.hash.indexOf('?');
+    const searchParams = [
+        new URLSearchParams(window.location.search),
+        new URLSearchParams(hashQueryStart >= 0 ? window.location.hash.slice(hashQueryStart + 1) : ''),
+    ];
+    for (const params of searchParams) {
+        const value = params.get(key)?.trim();
+        if (value)
+            return value;
+    }
+    return '';
+}
+function readCampIdFromStoredObject(key) {
+    const rawValue = readRuntimeConfig(key);
+    if (!rawValue)
+        return '';
+    try {
+        const value = JSON.parse(rawValue);
+        const campId = value.campId ?? value.id;
+        return typeof campId === 'string' || typeof campId === 'number' ? String(campId).trim() : '';
+    }
+    catch {
+        return '';
+    }
 }
 async function loadRealRoleList(query, signal) {
     const requestBody = createRoleListRequestBody(query);
@@ -303,6 +386,11 @@ async function loadRealRoleDetail(query, signal) {
     const requestBody = createRoleDetailRequestBody(query);
     const payload = await postHudson(permissionRoleDetailEndpoint, requestBody, signal);
     return adaptRoleDetailPayload(payload, requestBody, 'api', 'success', 'api-shezhi--qiye-shezhi--quanxian-shezhi-role-detail', new Date().toISOString());
+}
+async function saveRealRolePermissions(input, signal) {
+    const requestBody = createRoleAuthorityUpdateRequestBody(input);
+    const payload = await postHudson(permissionRoleAuthorityUpdateEndpoint, requestBody, signal);
+    return adaptRoleDetailPayload(payload, requestBody, 'api', 'success', 'api-shezhi--qiye-shezhi--quanxian-shezhi-permission-update', new Date().toISOString());
 }
 async function postHudson(endpoint, body, signal) {
     const response = await fetch(`${realBaseUrl}${endpoint}`, {
@@ -351,6 +439,17 @@ function createRoleDetailRequestBody(query) {
     return {
         campId: query.campId || defaultPermissionSettingCampId,
         roleId: query.roleId,
+    };
+}
+function createRoleAuthorityUpdateRequestBody(input) {
+    return {
+        campId: input.campId || defaultPermissionSettingCampId,
+        roleId: input.roleId,
+        permissionRows: normalizeSelectedPermissionRows(input.permissionRows).map((row) => ({
+            moduleId: row.moduleId,
+            moduleName: row.moduleName,
+            permissions: row.permissions,
+        })),
     };
 }
 function buildMockRoleListEnvelope(query) {
@@ -495,7 +594,8 @@ function adaptRoleDetailPayload(payload, requestBody, provider, mockState, trace
             canDelete: true,
             updatedAt: '',
         };
-    const permissionRows = asArray(record.permissionRows ?? record.permissions ?? record.authorities).map(adaptPermissionRow);
+    const adaptedPermissionRows = asArray(record.permissionRows ?? record.permissions ?? record.authorities).map(adaptPermissionRow);
+    const permissionRows = provider === 'mock' ? mergePermissionRowsWithTemplate(adaptedPermissionRows) : normalizeAvailablePermissionRows(adaptedPermissionRows);
     return {
         provider,
         mockState,
@@ -536,10 +636,14 @@ function adaptPermissionRow(value) {
     const permissions = asArray(record.permissions ?? record.authorityList ?? record.actions)
         .map((item) => String(item).trim())
         .filter(Boolean);
+    const availablePermissions = asArray(record.availablePermissions ?? record.permissionOptions ?? record.allPermissions)
+        .map((item) => String(item).trim())
+        .filter(Boolean);
     return {
         moduleId: String(record.moduleId ?? record.id ?? record.moduleCode ?? record.moduleName ?? ''),
         moduleName: String(record.moduleName ?? record.name ?? record.pageName ?? ''),
         permissions,
+        availablePermissions: availablePermissions.length ? availablePermissions : undefined,
     };
 }
 function createInitialMockDetails(roles) {
@@ -591,6 +695,53 @@ function buildRolePermissionRows(roleId) {
     }
     return clonePermissionRows(basePermissionRows);
 }
+function normalizeSelectedPermissionRows(rows) {
+    return rows
+        .map((row) => {
+        const allowedPermissions = row.availablePermissions?.length ? row.availablePermissions : row.permissions;
+        const permissions = row.permissions
+            .map((permission) => permission.trim())
+            .filter((permission, index, items) => permission && items.indexOf(permission) === index)
+            .filter((permission) => allowedPermissions.includes(permission));
+        return {
+            moduleId: row.moduleId,
+            moduleName: row.moduleName,
+            permissions,
+            availablePermissions: allowedPermissions,
+        };
+    })
+        .filter((row) => row.permissions.length);
+}
+function mergePermissionRowsWithTemplate(rows) {
+    const incomingByModuleId = new Map(rows.map((row) => [row.moduleId, row]));
+    const mergedRows = basePermissionRows.map((templateRow) => {
+        const incomingRow = incomingByModuleId.get(templateRow.moduleId);
+        const selectedPermissions = incomingRow?.permissions ?? [];
+        const availablePermissions = incomingRow?.availablePermissions?.length
+            ? incomingRow.availablePermissions
+            : templateRow.permissions;
+        return {
+            moduleId: templateRow.moduleId,
+            moduleName: incomingRow?.moduleName || templateRow.moduleName,
+            permissions: selectedPermissions.filter((permission) => availablePermissions.includes(permission)),
+            availablePermissions,
+        };
+    });
+    const templateModuleIds = new Set(basePermissionRows.map((row) => row.moduleId));
+    const extraRows = rows
+        .filter((row) => row.moduleId && !templateModuleIds.has(row.moduleId))
+        .map((row) => ({
+        ...row,
+        availablePermissions: row.availablePermissions?.length ? row.availablePermissions : row.permissions,
+    }));
+    return [...mergedRows, ...extraRows];
+}
+function normalizeAvailablePermissionRows(rows) {
+    return rows.map((row) => ({
+        ...row,
+        availablePermissions: row.availablePermissions?.length ? row.availablePermissions : row.permissions,
+    }));
+}
 function adaptRoleSummary(role) {
     return {
         roleId: role.id,
@@ -605,7 +756,11 @@ function cloneRoles(roles) {
     return roles.map((role) => ({ ...role }));
 }
 function clonePermissionRows(rows) {
-    return rows.map((row) => ({ ...row, permissions: [...row.permissions] }));
+    return rows.map((row) => ({
+        ...row,
+        permissions: [...row.permissions],
+        availablePermissions: row.availablePermissions ? [...row.availablePermissions] : undefined,
+    }));
 }
 function readNumber(value, fallback) {
     const numeric = Number(value);

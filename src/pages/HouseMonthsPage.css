@@ -1624,24 +1624,28 @@
   top: 0;
   left: 0;
   z-index: 88;
+  display: inline-flex;
+  align-items: center;
   overflow: visible;
-  min-width: 118px;
-  border-radius: 14px;
-  background: #fff;
+  min-width: 138px;
+  height: 38px;
+  padding: 3px;
+  border-radius: 999px;
+  background: #ffffff;
   box-shadow:
-    0 14px 30px rgba(31, 42, 68, 0.12),
-    0 2px 8px rgba(31, 42, 68, 0.06);
+    0 14px 30px rgba(31, 42, 68, 0.16),
+    0 2px 8px rgba(31, 42, 68, 0.08);
 }
 
 .month-selection-actions::before {
   content: '';
   position: absolute;
-  top: -7px;
+  top: -5px;
   left: 50%;
   z-index: 2;
-  width: 14px;
-  height: 14px;
-  background: #fff;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
   transform: translateX(-50%) rotate(45deg);
 }
 
@@ -1655,11 +1659,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 38px;
-  border-bottom: 1px solid #edf1f7;
+  flex: 1 1 0;
+  min-width: 64px;
+  height: 32px;
+  border: 0;
+  border-radius: 999px;
   color: #4c5870;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 0;
   background: transparent;
@@ -1668,13 +1674,29 @@
     color 160ms ease;
 }
 
-.month-selection-actions button:last-child {
-  border-bottom: 0;
+.month-selection-actions button + button::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: -2px;
+  width: 1px;
+  background: #edf1f7;
 }
 
-.month-selection-actions button:hover {
-  background: #f6f8fc;
+.month-selection-actions button + button:hover::before {
+  opacity: 0;
+}
+
+.month-selection-actions button:hover,
+.month-selection-actions button:focus-visible {
+  background: #f3f6ff;
   color: #3f5de8;
+}
+
+.month-selection-actions button:focus-visible {
+  outline: 1px solid rgba(77, 101, 246, 0.42);
+  outline-offset: -2px;
 }
 
 .month-order-popover::after {
@@ -2120,6 +2142,18 @@
 .month-order-guest-editor__grid label {
   display: grid;
   gap: 8px;
+}
+
+.month-order-guest-field.has-error input,
+.month-order-guest-field.has-error select {
+  border-color: #ef5b52;
+}
+
+.month-order-guest-field em {
+  color: #ef5b52;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 18px;
 }
 
 .month-order-guest-editor__grid span {

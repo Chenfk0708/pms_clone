@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
+import { AccountSettingPage } from './pages/AccountSettingPage'
 import { AiRadarPage } from './pages/AiRadarPage'
 import { ApiKeysPage } from './pages/ApiKeysPage'
 import { ApplicationPaymentDetailPage } from './pages/ApplicationPaymentDetailPage'
@@ -210,6 +211,7 @@ const pageTitles: Record<string, string> = {
   '/setting/role': '权限设置',
   '/setting/member': '成员设置',
   '/setting/member/actions': '成员设置',
+  '/setting/account': '账号设置',
   '/version/myBenefit': '我的权益',
   '/version/displacementBenefit': '置换权益',
   '/version/subscriptionCenter': '版本订阅',
@@ -312,6 +314,7 @@ function RoutedApp() {
         <Route path="/setting/role" element={<PermissionSettingPage />} />
         <Route path="/setting/member" element={<MemberSettingPage />} />
         <Route path="/setting/member/actions" element={<MemberSettingPage />} />
+        <Route path="/setting/account" element={<AccountSettingPage />} />
 
         <Route path="/version/myBenefit" element={<MyBenefitPage />} />
         <Route path="/version/displacementBenefit" element={<SubscriptionDisplacementBenefitPage />} />

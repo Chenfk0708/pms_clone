@@ -1,10 +1,11 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChatDock } from './ChatDock';
 import { channelSideNav, distributionSideNav, globalRadarSideNav, informationSideNav, scrmSideNav } from '../data/discovery';
 import { resolveSideNav } from '../data/mock';
 import { getCurrentSessionUser } from '../services/session';
+import { clearToken, getUser, PMS_USER_CHANGED_EVENT } from '../utils/auth';
 const topNav = [
     { label: '首页', path: '/workspace' },
     { label: '房态', path: '/houseManage/months' },
@@ -29,9 +30,37 @@ const topbarTools = [
     { id: 'service', label: '客服', icon: 'service' },
     { id: 'notice', label: '通知', icon: 'notice' },
 ];
+const pathPermissionRules = [
+    { prefix: '/workspace', permissionCode: 'dashboard:view' },
+    { prefix: '/houseManage/', permissionCode: 'room:view' },
+    { prefix: '/cleanManage/', permissionCode: 'clean:view' },
+    { prefix: '/order/', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/orderManagement', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/verificationManagement', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/hotelPackageOrder', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/goodsManagement', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/hotelProduct', permissionCode: 'order:view' },
+    { prefix: '/mallManagement/couponMgt', permissionCode: 'crm:view' },
+    { prefix: '/mallManagement/distribution', permissionCode: 'crm:view' },
+    { prefix: '/channels/', permissionCode: 'channel:view' },
+    { prefix: '/scrm/', permissionCode: 'crm:view' },
+    { prefix: '/customer/', permissionCode: 'crm:view' },
+    { prefix: '/smartHotel/', permissionCode: 'smart:view' },
+    { prefix: '/psb/', permissionCode: 'smart:view' },
+    { prefix: '/statistics/roomSituation', permissionCode: 'room:view' },
+    { prefix: '/statistics/', permissionCode: 'report:view' },
+    { prefix: '/CompanySetting/', permissionCode: 'system:view' },
+    { prefix: '/InformationMaintenance/', permissionCode: 'system:view' },
+    { prefix: '/setting/localRoomTypeProductionSetting', permissionCode: 'room:view' },
+    { prefix: '/setting/roomTypeInfo', permissionCode: 'system:view' },
+    { prefix: '/setting/picturesAndVideos', permissionCode: 'system:view' },
+    { prefix: '/setting/notification', permissionCode: 'notify:view' },
+    { prefix: '/setting/finance', permissionCode: 'finance:view' },
+    { prefix: '/setting/', permissionCode: 'system:view' },
+];
 export function AppShell({ path, pageTitle, children }) {
     const navigate = useNavigate();
-    const sessionUser = getCurrentSessionUser();
+    const [sessionUser, setSessionUser] = useState(() => getCurrentSessionUser());
     const [openTopbarPanel, setOpenTopbarPanel] = useState(null);
     const [collapsedSidebarGroups, setCollapsedSidebarGroups] = useState({});
     const isRoomSituation = path === '/statistics/roomSituation';
@@ -67,7 +96,9 @@ export function AppShell({ path, pageTitle, children }) {
     const isOrderTopNav = path.startsWith('/order/') || isOrderMallPath;
     const isScrmSidebarFullscreenPath = path === '/scrm/sidebarPreview' || path === '/scrm/sidebar/preview';
     const showChatDock = !isNotificationStandalonePath && !isScrmSidebarFullscreenPath;
-    const sideGroups = isNotificationStandalonePath || isScrmSidebarFullscreenPath
+    const authUser = getUser();
+    const visibleTopNav = topNav.filter((item) => canAccessPath(item.path, authUser));
+    const rawSideGroups = isNotificationStandalonePath || isScrmSidebarFullscreenPath
         ? []
         : path.startsWith('/channels/globalRadar/')
             ? globalRadarSideNav
@@ -84,7 +115,19 @@ export function AppShell({ path, pageTitle, children }) {
                                 : isPsbSmartHotelPath
                                     ? resolveSideNav('/smartHotel/smartHome')
                                     : resolveSideNav(path);
+    const sideGroups = filterSideGroups(rawSideGroups, authUser);
     const usesHouseManagementSidebar = path.startsWith('/houseManage/') || path.startsWith('/cleanManage/') || isRoomSituation;
+    const effectiveSidebarPath = path === '/setting/account' ? '/setting/member' : path;
+    const brandStoreName = sessionUser?.name ? `${sessionUser.name}的店铺` : '宿银';
+    useEffect(() => {
+        const refreshSessionUser = () => setSessionUser(getCurrentSessionUser());
+        window.addEventListener(PMS_USER_CHANGED_EVENT, refreshSessionUser);
+        window.addEventListener('storage', refreshSessionUser);
+        return () => {
+            window.removeEventListener(PMS_USER_CHANGED_EVENT, refreshSessionUser);
+            window.removeEventListener('storage', refreshSessionUser);
+        };
+    }, []);
     function handleTopbarTool(tool) {
         setOpenTopbarPanel(null);
         if (tool === 'message') {
@@ -109,8 +152,15 @@ export function AppShell({ path, pageTitle, children }) {
         }
         navigate('/setting/notification');
     }
+    function handleLogout() {
+        clearToken();
+        setOpenTopbarPanel(null);
+        navigate('/login', { replace: true });
+    }
     function isSidebarGroupActive(group) {
-        return group.items.some((item) => path === item.path || path.startsWith(`${item.path}/`) || (isRoomSituation && item.path === '/houseManage/houseStatus'));
+        return group.items.some((item) => effectiveSidebarPath === item.path ||
+            effectiveSidebarPath.startsWith(`${item.path}/`) ||
+            (isRoomSituation && item.path === '/houseManage/houseStatus'));
     }
     function getSidebarGroupKey(group) {
         return group.title || group.items[0]?.path || pageTitle;
@@ -146,7 +196,7 @@ export function AppShell({ path, pageTitle, children }) {
     if (isScrmSidebarFullscreenPath) {
         return _jsx("div", { className: "app-shell app-shell--conversation-fullscreen", children: children });
     }
-    return (_jsxs("div", { className: "app-shell", children: [_jsxs("header", { className: "topbar", children: [_jsxs("div", { className: "brand-block", children: [_jsx("img", { className: "brand-mark", src: "/brand-yinsu.png", alt: "\u5BBF\u94F6" }), _jsxs("div", { className: "brand-store", children: [_jsx("strong", { children: "\u5BBF\u94F6" }), _jsx("span", { children: "\u7545\u4EAB\u7248" })] })] }), _jsx("nav", { className: "topnav", "aria-label": "\u9876\u90E8\u5BFC\u822A", children: topNav.map((item) => (_jsxs(NavLink, { to: item.path, "aria-label": item.label, className: ({ isActive }) => `topnav-link${isActive ||
+    return (_jsxs("div", { className: "app-shell", children: [_jsxs("header", { className: "topbar", children: [_jsxs("div", { className: "brand-block", children: [_jsx("img", { className: "brand-mark", src: "/brand-yinsu.png", alt: "\u5BBF\u94F6" }), _jsxs("div", { className: "brand-store", children: [_jsxs("span", { className: "brand-store-name-wrap", children: [_jsx("strong", { className: "brand-store-name", "aria-label": brandStoreName, tabIndex: 0, children: brandStoreName }), _jsx("span", { className: "brand-store-tooltip", role: "tooltip", children: brandStoreName })] }), _jsx("span", { className: "brand-plan", children: "\u7545\u4EAB\u7248" })] })] }), _jsx("nav", { className: "topnav", "aria-label": "\u9876\u90E8\u5BFC\u822A", children: visibleTopNav.map((item) => (_jsxs(NavLink, { to: item.path, "aria-label": item.label, className: ({ isActive }) => `topnav-link${isActive ||
                                 (isHouseTopNav && item.path === '/houseManage/months') ||
                                 (isOrderTopNav && item.path === '/order/house-order/list') ||
                                 (isSalesTopNav && item.path === '/setting/localRoomTypeProductionSetting') ||
@@ -157,14 +207,40 @@ export function AppShell({ path, pageTitle, children }) {
                                 (isReportTopNav && item.path === '/statistics/report') ||
                                 (isSmartHotelTopNav && item.path === '/smartHotel/smartHome')
                                 ? ' is-active'
-                                : ''}`, children: [item.label, item.badge ? _jsx("em", { children: item.badge }) : null] }, item.path))) }), _jsxs("div", { className: "topbar-actions", "aria-label": "\u9876\u90E8\u5DE5\u5177\u680F", children: [_jsxs(Link, { className: "topbar-app-entry", to: "/version/applicationPayment", "aria-label": "\u5E94\u7528\u8BA2\u9605", children: [_jsx("span", { className: "topbar-grid-icon", "aria-hidden": "true", children: _jsx("i", {}) }), _jsx("span", { children: "\u5E94\u7528\u8BA2\u9605" }), _jsx("em", { children: "\u9650\u65F6\u8BD5\u7528" })] }), topbarTools.map((tool) => (_jsx("button", { type: "button", className: `topbar-tool-button topbar-tool-button--${tool.icon}`, "aria-label": tool.label, "aria-expanded": (tool.id === 'payment' && openTopbarPanel === 'payment') || (tool.id === 'service' && openTopbarPanel === 'service'), onClick: () => handleTopbarTool(tool.id), children: _jsx(TopbarIcon, { type: tool.icon }) }, tool.id))), _jsxs("button", { type: "button", className: "topbar-user-menu", "aria-label": "\u7528\u6237\u83DC\u5355", "aria-expanded": openTopbarPanel === 'user', onClick: () => setOpenTopbarPanel(openTopbarPanel === 'user' ? null : 'user'), children: [_jsx("span", { className: "topbar-user-avatar", "aria-hidden": "true", children: _jsx(TopbarIcon, { type: "user" }) }), _jsx(TopbarIcon, { type: "chevron" })] }), openTopbarPanel === 'user' ? (_jsxs("div", { className: "topbar-user-popover", role: "dialog", "aria-label": "\u7528\u6237\u83DC\u5355\u9762\u677F", children: [_jsx("strong", { children: sessionUser?.name ?? '宿银' }), sessionUser ? _jsx("span", { children: sessionUser.roleLabel }) : null, _jsx(Link, { to: "/InformationMaintenance/campInfo", onClick: () => setOpenTopbarPanel(null), children: "\u95E8\u5E97\u4FE1\u606F" }), _jsx(Link, { to: "/setting/member", onClick: () => setOpenTopbarPanel(null), children: "\u6210\u5458\u8BBE\u7F6E" }), _jsx(Link, { to: "/CompanySetting/Apikeys", onClick: () => setOpenTopbarPanel(null), children: "API keys" })] })) : null] })] }), _jsxs("div", { className: "page-body", children: [sideGroups.length > 0 ? (_jsx("aside", { className: "sidebar", "aria-label": `${pageTitle}侧边导航`, children: sideGroups.map((group) => {
+                                : ''}`, children: [item.label, item.badge ? _jsx("em", { children: item.badge }) : null] }, item.path))) }), _jsxs("div", { className: "topbar-actions", "aria-label": "\u9876\u90E8\u5DE5\u5177\u680F", children: [_jsxs(Link, { className: "topbar-app-entry", to: "/version/applicationPayment", "aria-label": "\u5E94\u7528\u8BA2\u9605", children: [_jsx("span", { className: "topbar-grid-icon", "aria-hidden": "true", children: _jsx("i", {}) }), _jsx("span", { children: "\u5E94\u7528\u8BA2\u9605" }), _jsx("em", { children: "\u9650\u65F6\u8BD5\u7528" })] }), topbarTools.map((tool) => (_jsx("button", { type: "button", className: `topbar-tool-button topbar-tool-button--${tool.icon}`, "aria-label": tool.label, "aria-expanded": (tool.id === 'payment' && openTopbarPanel === 'payment') || (tool.id === 'service' && openTopbarPanel === 'service'), onClick: () => handleTopbarTool(tool.id), children: _jsx(TopbarIcon, { type: tool.icon }) }, tool.id))), _jsxs("button", { type: "button", className: "topbar-user-menu", "aria-label": "\u7528\u6237\u83DC\u5355", "aria-expanded": openTopbarPanel === 'user', onClick: () => setOpenTopbarPanel(openTopbarPanel === 'user' ? null : 'user'), children: [_jsx("span", { className: "topbar-user-avatar", "aria-hidden": "true", children: sessionUser?.avatar ? _jsx("img", { src: sessionUser.avatar, alt: "" }) : _jsx(TopbarIcon, { type: "user" }) }), _jsx(TopbarIcon, { type: "chevron" })] }), openTopbarPanel === 'user' ? (_jsxs("div", { className: "topbar-user-popover", role: "dialog", "aria-label": "\u7528\u6237\u83DC\u5355\u9762\u677F", children: [_jsx("strong", { children: sessionUser?.name ?? '宿银' }), sessionUser ? _jsx("span", { children: sessionUser.roleLabel }) : null, _jsx(Link, { to: "/setting/account", onClick: () => setOpenTopbarPanel(null), children: "\u8D26\u53F7\u8BBE\u7F6E" }), _jsx("button", { type: "button", className: "topbar-user-popover__logout", onClick: handleLogout, children: "\u9000\u51FA\u767B\u5F55" })] })) : null] })] }), _jsxs("div", { className: "page-body", children: [sideGroups.length > 0 ? (_jsx("aside", { className: "sidebar", "aria-label": `${pageTitle}侧边导航`, children: sideGroups.map((group) => {
                             const isExpanded = isSidebarGroupExpanded(group);
                             const isActiveGroup = isSidebarGroupActive(group);
                             const isLeafGroup = isLeafSidebarGroup(group);
                             const groupKey = getSidebarGroupKey(group);
                             const groupTitle = getSidebarGroupTitle(group);
-                            return (_jsxs("section", { className: `sidebar-group sidebar-group--module${isExpanded ? ' is-expanded' : ' is-collapsed'}${usesHouseManagementSidebar ? ' sidebar-group--house' : ''}${isActiveGroup ? ' is-active-group' : ''}${isLeafGroup ? ' sidebar-group--leaf' : ''}`, children: [isLeafGroup ? (_jsxs(NavLink, { to: group.items[0].path, "aria-label": groupTitle, className: ({ isActive }) => `sidebar-group-title sidebar-group-title--link sidebar-link${isActive || isActiveGroup ? ' is-active' : ''}`, children: [_jsx(SidebarGroupIcon, { group: group }), _jsx("span", { className: "sidebar-group-heading", role: "heading", "aria-level": 2, children: groupTitle })] })) : (_jsxs("button", { type: "button", className: `sidebar-group-title${isActiveGroup ? ' is-active' : ''}`, "aria-expanded": isExpanded, onClick: () => toggleSidebarGroup(groupKey, isExpanded), children: [_jsx(SidebarGroupIcon, { group: group }), _jsx("span", { className: "sidebar-group-heading", role: "heading", "aria-level": 2, children: groupTitle }), _jsx(TopbarIcon, { type: "chevron" })] })), isExpanded ? (_jsx("div", { className: "sidebar-items", children: group.items.map((item) => (_jsx(NavLink, { to: item.path, "aria-label": item.label, className: ({ isActive }) => `sidebar-link${isActive || (isRoomSituation && item.path === '/houseManage/houseStatus') ? ' is-active' : ''}`, children: item.label }, item.path))) })) : null] }, groupKey));
+                            return (_jsxs("section", { className: `sidebar-group sidebar-group--module${isExpanded ? ' is-expanded' : ' is-collapsed'}${usesHouseManagementSidebar ? ' sidebar-group--house' : ''}${isActiveGroup ? ' is-active-group' : ''}${isLeafGroup ? ' sidebar-group--leaf' : ''}`, children: [isLeafGroup ? (_jsxs(NavLink, { to: group.items[0].path, "aria-label": groupTitle, className: ({ isActive }) => `sidebar-group-title sidebar-group-title--link sidebar-link${isActive || isActiveGroup ? ' is-active' : ''}`, children: [_jsx(SidebarGroupIcon, { group: group }), _jsx("span", { className: "sidebar-group-heading", role: "heading", "aria-level": 2, children: groupTitle })] })) : (_jsxs("button", { type: "button", className: `sidebar-group-title${isActiveGroup ? ' is-active' : ''}`, "aria-expanded": isExpanded, onClick: () => toggleSidebarGroup(groupKey, isExpanded), children: [_jsx(SidebarGroupIcon, { group: group }), _jsx("span", { className: "sidebar-group-heading", role: "heading", "aria-level": 2, children: groupTitle }), _jsx(TopbarIcon, { type: "chevron" })] })), isExpanded ? (_jsx("div", { className: "sidebar-items", children: group.items.map((item) => (_jsx(NavLink, { to: item.path, "aria-label": item.label, className: ({ isActive }) => `sidebar-link${isActive ||
+                                                effectiveSidebarPath === item.path ||
+                                                (isRoomSituation && item.path === '/houseManage/houseStatus')
+                                                ? ' is-active'
+                                                : ''}`, children: item.label }, item.path))) })) : null] }, groupKey));
                         }) })) : null, _jsxs("main", { className: `page-content${usesFlushContent ? ' page-content--room-situation' : ''}`, children: [usesSrOnlyHeading ? (_jsx("h1", { className: "sr-only-heading", children: pageTitle })) : usesFlushContent || !showDefaultPageHeader ? null : (_jsxs("div", { className: "page-header", children: [_jsxs("div", { children: [_jsx("p", { className: "eyebrow", children: "PMS Clone Prototype" }), _jsx("h1", { children: pageTitle })] }), _jsx("div", { className: "page-meta", children: "\u91C7\u96C6\u57FA\u7EBF\uFF1AChrome 1440x900 / \u8D26\u53F7\u5DF2\u6388\u6743\u767B\u5F55" })] })), children] })] }), showChatDock ? _jsx(ChatDock, {}) : null, openTopbarPanel === 'payment' ? _jsx(TopbarPaymentDialog, { onClose: () => setOpenTopbarPanel(null) }) : null, openTopbarPanel === 'service' ? _jsx(TopbarServicePanel, { onClose: () => setOpenTopbarPanel(null) }) : null] }));
+}
+function filterSideGroups(groups, user) {
+    if (!Array.isArray(user?.permissionCodes))
+        return groups;
+    return groups
+        .map((group) => ({
+        ...group,
+        items: group.items.filter((item) => canAccessPath(item.path, user)),
+    }))
+        .filter((group) => group.items.length > 0);
+}
+function canAccessPath(path, user) {
+    const permissionCodes = user?.permissionCodes;
+    if (!Array.isArray(permissionCodes))
+        return true;
+    const requiredPermission = resolveRequiredPermission(path);
+    if (!requiredPermission)
+        return true;
+    return permissionCodes.includes(requiredPermission);
+}
+function resolveRequiredPermission(path) {
+    return pathPermissionRules.find((rule) => path.startsWith(rule.prefix))?.permissionCode ?? null;
 }
 function SidebarGroupIcon({ group }) {
     const firstPath = group.items[0]?.path ?? '';

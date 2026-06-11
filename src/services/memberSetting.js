@@ -10,6 +10,7 @@ export const MEMBER_SETTING_TARGET_URL = 'https://minsubao.localhome.cn/setting/
 const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_TIMESTAMP = '2026-05-20T00:35:00+08:00';
 const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PROVIDER = 'api';
 const ROLE_ALL_NAME = '全部';
 const TRACE_PREFIX = 'mock-shezhi--qiye-shezhi--chengyuan-shezhi';
 export class MemberSettingServiceError extends Error {
@@ -98,7 +99,7 @@ export function createDefaultMemberSettingQuery(config) {
     };
 }
 export async function loadMemberSettingViewModel(query, signal) {
-    const provider = query.provider ?? 'mock';
+    const provider = query.provider ?? DEFAULT_PROVIDER;
     const request = buildMemberSettingRequest(query);
     const requestedState = query.mockState ?? 'success';
     if (provider === 'api') {
@@ -115,7 +116,7 @@ export async function loadMemberSettingViewModel(query, signal) {
     return adaptMemberSettingEnvelope(provider, request, response, responseState, query.routeMode);
 }
 export async function bindMemberWecom(query, userId, signal) {
-    const provider = query.provider ?? 'mock';
+    const provider = query.provider ?? DEFAULT_PROVIDER;
     const request = { campId: query.campId, userId };
     if (provider === 'api') {
         const data = await apiPost(MEMBER_SETTING_API_WECOM_BIND_ENDPOINT, request, signal);
@@ -146,7 +147,7 @@ export async function saveMemberSettingMember(query, draft, signal) {
         draft,
     };
     validateDraft(draft);
-    const provider = query.provider ?? 'mock';
+    const provider = query.provider ?? DEFAULT_PROVIDER;
     if (provider === 'api') {
         const data = await apiPost(MEMBER_SETTING_API_SAVE_ENDPOINT, request, signal);
         return cloneMembers(data.members ?? []);
@@ -346,10 +347,10 @@ function normalizeMockState(value) {
 }
 function readProvider() {
     if (typeof window === 'undefined') {
-        return 'mock';
+        return DEFAULT_PROVIDER;
     }
     const provider = normalizeProvider(window.localStorage.getItem(MEMBER_SETTING_PROVIDER_KEY));
-    return provider ?? 'mock';
+    return provider ?? DEFAULT_PROVIDER;
 }
 function readMockState() {
     if (typeof window === 'undefined') {

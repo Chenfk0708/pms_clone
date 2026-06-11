@@ -4,7 +4,8 @@ const appBaseURL = process.env.PMS_TEST_BASE_URL
 const forbiddenDevelopmentCopy = /mock 数据|mock provider|provider=mock|未接入|待接入|阻塞|后端未就绪|后端接口未完成/i
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const hashPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}${hashPath}` : hashPath
 }
 
 async function openCompanyInfo(
@@ -15,6 +16,19 @@ async function openCompanyInfo(
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.addInitScript(
     ({ mockMode, mockLatencyMs }) => {
+      window.localStorage.setItem('pms_token', 'company-info-playwright-token')
+      window.localStorage.setItem('pmsCampId', '1796067693589061634')
+      window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
+      window.localStorage.setItem(
+        'pms_user',
+        JSON.stringify({
+          id: '1',
+          name: '演示管理员',
+          mobile: '13800000001',
+          roleName: '平台管理员',
+          campName: '1796067693589061634',
+        }),
+      )
       window.localStorage.setItem('pms.companyInfo.provider', 'mock')
       window.localStorage.setItem('pms.companyInfo.mockMode', mockMode)
       window.localStorage.setItem('pms.companyInfo.mockLatencyMs', String(mockLatencyMs))
@@ -85,6 +99,22 @@ test('/CompanySetting/CompanyInfo supports edit, upload and save feedback', asyn
   await expect(page.getByLabel('企业信息详情')).toContainText('深圳 / 福田')
   await expect(page.getByLabel('企业信息详情')).toContainText('福田区会展中心店 18 楼')
   await expect(page.getByLabel('企业信息图片列表')).toContainText('企业门头-01.png')
+})
+
+test('/CompanySetting/CompanyInfo validates contact phone before saving', async ({ page }) => {
+  await openCompanyInfo(page)
+
+  await page.getByRole('button', { name: '编 辑' }).click()
+  await page.getByLabel('企业名称').fill('路客云6TS5旗舰店')
+  await page.getByLabel('联系电话').fill('12000000000')
+  await page.getByLabel('所在城市').selectOption('深圳 / 福田')
+  await page.getByLabel('详细地址').fill('福田区会展中心店 18 楼')
+  await page.getByRole('button', { name: '保 存' }).click()
+
+  await expect(page.locator('.company-info-field small').filter({ hasText: '联系电话格式不正确' })).toBeVisible()
+  await expect(statusBar(page)).toContainText('请先补全必填信息')
+  await expect(page.getByRole('button', { name: '保 存' })).toBeVisible()
+  await expect(page.getByLabel('企业信息详情')).toHaveCount(0)
 })
 
 test('/CompanySetting/CompanyInfo cancels edits and keeps coordinated route entries', async ({ page }) => {

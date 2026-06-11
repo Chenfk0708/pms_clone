@@ -2,14 +2,35 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchHouseDays, resolveHouseDaysQueryFromLocation, } from '../services/houseDays';
+import { closeHouseMonthRoom, openHouseMonthRoom } from '../services/houseMonths';
+import { resolveHouseOrderCampId } from '../services/houseOrders';
 import { StoreSelectControl } from '../components/StoreSelect';
 import { useStoreOptions } from '../hooks/useStoreOptions';
 import { BatchOperationDialog, createHoveredBooking, DEFAULT_ROOM_STATUS_DISPLAY_SETTINGS, MonthOrderDrawer, MonthOrderPopover, RoomStatusDisplaySettingsDrawer, RoomStatusLegendDrawer, } from './HouseMonthsPage';
 import { OrderRefreshPopover } from './HouseStatusSharingPage';
+import { OrderEntryDrawerHost } from './OrdersPage';
 import './HouseDaysPage.css';
 const ROOM_TYPE_VIEW = '按房型';
 const ROOM_NUMBER_VIEW = '按房间号';
 const FLOOR_VIEW = '按楼层';
+function formatIsoDate(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+function shiftDate(date, days) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+}
+function createDayRoomDateRange() {
+    const start = new Date();
+    return {
+        startDate: formatIsoDate(start),
+        endDate: formatIsoDate(shiftDate(start, 1)),
+    };
+}
+function resolveDayRoomTone(room) {
+    if (room.booking?.tone)
+        return room.booking.tone;
+    return room.status === 'closed' ? 'closed' : 'empty';
+}
 function getRoomBookings(room) {
     if (room.bookings?.length)
         return room.bookings;
@@ -36,7 +57,7 @@ function FloorEmptyState({ onOpenSettings }) {
     return (_jsxs("div", { className: "day-floor-empty-state", "data-testid": "day-floor-empty-state", children: [_jsxs("div", { className: "day-floor-empty-state__illustration", "aria-hidden": "true", children: [_jsx("span", { className: "day-floor-empty-state__building" }), _jsx("span", { className: "day-floor-empty-state__bubble" })] }), _jsx("strong", { children: "\u8BF7\u5148\u8BBE\u7F6E\u697C\u5C42" }), _jsx("button", { type: "button", className: "primary-action", onClick: onOpenSettings, children: "\u524D\u5F80\u8BBE\u7F6E" })] }));
 }
 function RoomNumberView({ rooms, loading, error, setHoveredBooking, setSelectedBooking, setRoomActionAnchor, setFeedback, displaySettings, }) {
-    return (_jsxs(_Fragment, { children: [rooms.map((room) => (_jsxs("section", { className: "day-room-group", children: [_jsx("h3", { children: room.roomType }), _jsxs("article", { className: "day-room-card", "data-tone": room.booking?.tone ?? 'empty', "aria-label": `${room.roomType} ${room.roomName}`, tabIndex: 0, onMouseEnter: (event) => {
+    return (_jsxs(_Fragment, { children: [rooms.map((room) => (_jsxs("section", { className: "day-room-group", children: [_jsx("h3", { children: room.roomType }), _jsxs("article", { className: "day-room-card", "data-tone": resolveDayRoomTone(room), "aria-label": `${room.roomType} ${room.roomName}`, tabIndex: 0, onMouseEnter: (event) => {
                             if (!room.booking?.monthOrder)
                                 return;
                             const rect = event.currentTarget.getBoundingClientRect();
@@ -83,7 +104,7 @@ function RoomNumberView({ rooms, loading, error, setHoveredBooking, setSelectedB
                         }, children: [_jsx("strong", { children: room.roomName }), _jsx("span", { children: room.roomType }), renderRoomBookings(room, displaySettings), displaySettings.showOrderTags && room.hasTag ? _jsx("b", { "aria-label": "\u5907\u6CE8\u6807\u7B7E", children: "\u25CF" }) : null] })] }, room.id))), !loading && !error && rooms.length === 0 ? (_jsxs("div", { className: "day-empty-state", children: [_jsx("strong", { children: "\u6682\u65E0\u65E5\u623F\u6001\u6570\u636E" }), _jsx("span", { children: "\u5F53\u524D\u6761\u4EF6\u4E0B\u6CA1\u6709\u53EF\u5C55\u793A\u623F\u95F4\uFF0C\u8BF7\u8C03\u6574\u7B5B\u9009\u6761\u4EF6\u540E\u91CD\u8BD5\u3002" })] })) : null] }));
 }
 function RoomTypeView({ summaries, loading, error, setHoveredBooking, setSelectedBooking, setRoomActionAnchor, setFeedback, displaySettings, }) {
-    return (_jsxs("div", { className: "day-room-type-list", "data-testid": "day-room-type-grid", children: [summaries.map((summary) => (_jsxs("section", { className: "day-room-type-section", children: [_jsx("h3", { children: summary.roomType }), _jsx("div", { className: "day-room-type-section__rooms", children: summary.rooms.map((room) => (_jsxs("article", { className: "day-room-card", "data-tone": room.booking?.tone ?? 'empty', "aria-label": `${room.roomType} ${room.roomName}`, tabIndex: 0, onMouseEnter: (event) => {
+    return (_jsxs("div", { className: "day-room-type-list", "data-testid": "day-room-type-grid", children: [summaries.map((summary) => (_jsxs("section", { className: "day-room-type-section", children: [_jsx("h3", { children: summary.roomType }), _jsx("div", { className: "day-room-type-section__rooms", children: summary.rooms.map((room) => (_jsxs("article", { className: "day-room-card", "data-tone": resolveDayRoomTone(room), "aria-label": `${room.roomType} ${room.roomName}`, tabIndex: 0, onMouseEnter: (event) => {
                                 if (!room.booking?.monthOrder)
                                     return;
                                 const rect = event.currentTarget.getBoundingClientRect();
@@ -153,6 +174,7 @@ export function HouseDaysPage() {
     const [roomActionAnchor, setRoomActionAnchor] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [hoveredBooking, setHoveredBooking] = useState(null);
+    const [orderEntryInitialRoom, setOrderEntryInitialRoom] = useState(null);
     const [keyword, setKeyword] = useState('');
     const [activeStoreChip, setActiveStoreChip] = useState('all');
     const [feedback, setFeedback] = useState('');
@@ -207,6 +229,7 @@ export function HouseDaysPage() {
                 setSelectedBooking(null);
                 setBatchDialogMode(null);
                 setRoomActionAnchor(null);
+                setOrderEntryInitialRoom(null);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -220,10 +243,14 @@ export function HouseDaysPage() {
             if (!target.closest('.day-toolbar__refresh-group')) {
                 setRefreshPopoverOpen(false);
             }
-            if (!target.closest('.day-room-actions-popover') && !target.closest('.day-room-card[data-tone=\"empty\"]')) {
+            if (!target.closest('.day-room-actions-popover') &&
+                !target.closest('.day-room-card[data-tone="empty"]') &&
+                !target.closest('.day-room-card[data-tone="closed"]')) {
                 setRoomActionAnchor(null);
             }
-            if (!target.closest('.month-order-drawer') && !target.closest('.day-room-card[data-tone]')) {
+            if (!target.closest('.month-order-drawer') &&
+                !target.closest('.order-entry-drawer') &&
+                !target.closest('.day-room-card[data-tone]')) {
                 setSelectedBooking(null);
             }
         };
@@ -267,6 +294,80 @@ export function HouseDaysPage() {
             return;
         setQueryKeyword(keyword);
         setFeedback(`已按“${keyword || '全部房间'}”更新日房态。`);
+    };
+    const resolveDayRoomActionContext = (room) => {
+        const campId = resolveHouseOrderCampId().trim();
+        const roomCategoryId = room.roomCategoryId?.trim();
+        const roomId = room.roomId?.trim();
+        if (!campId) {
+            setFeedback('缺少当前门店，无法操作日房态。');
+            return null;
+        }
+        if (!roomCategoryId || !roomId) {
+            setFeedback('缺少房型或房间信息，无法操作日房态。');
+            return null;
+        }
+        return { campId, roomCategoryId, roomId };
+    };
+    const openDayRoomOrderEntry = (room) => {
+        const context = resolveDayRoomActionContext(room);
+        setRoomActionAnchor(null);
+        setOpenMenu(null);
+        if (!context)
+            return;
+        const { startDate, endDate } = createDayRoomDateRange();
+        setOrderEntryInitialRoom({
+            poiId: room.storeId,
+            poiName: room.storeName,
+            roomCategoryId: context.roomCategoryId,
+            roomCategoryName: room.roomType,
+            roomId: context.roomId,
+            roomName: room.roomName,
+            startDate,
+            endDate,
+            price: room.price,
+            unitPrice: room.price,
+            monthlyRent: room.monthlyRent,
+        });
+        setFeedback('录入订单面板已打开，可继续补充联系人和费用信息。');
+    };
+    const closeDayRoom = async (room) => {
+        const context = resolveDayRoomActionContext(room);
+        setRoomActionAnchor(null);
+        setOpenMenu(null);
+        if (!context)
+            return;
+        try {
+            const response = await closeHouseMonthRoom({
+                ...context,
+                date: createDayRoomDateRange().startDate,
+                reason: '日房态手动关房',
+            });
+            setRefreshTick((tick) => tick + 1);
+            setFeedback(response.message || '关房成功');
+        }
+        catch (requestError) {
+            setFeedback(`关房失败：${requestError instanceof Error ? requestError.message : String(requestError)}`);
+        }
+    };
+    const openDayRoom = async (room) => {
+        const context = resolveDayRoomActionContext(room);
+        setRoomActionAnchor(null);
+        setOpenMenu(null);
+        if (!context)
+            return;
+        try {
+            const response = await openHouseMonthRoom({
+                ...context,
+                date: createDayRoomDateRange().startDate,
+                reason: '日房态手动开房',
+            });
+            setRefreshTick((tick) => tick + 1);
+            setFeedback(response.message || '开房成功');
+        }
+        catch (requestError) {
+            setFeedback(`开房失败：${requestError instanceof Error ? requestError.message : String(requestError)}`);
+        }
     };
     const viewModes = data?.viewModes ?? [ROOM_TYPE_VIEW, ROOM_NUMBER_VIEW, FLOOR_VIEW];
     const statusGroups = data?.statusGroups ?? [];
@@ -322,15 +423,21 @@ export function HouseDaysPage() {
                             : batchDialogState.mode === 'close'
                                 ? '批量关房已处理。'
                                 : '批量开房已处理。');
-                } })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, onClose: () => setSelectedBooking(null), onAction: blockAction })) : null, roomActionAnchor ? (_jsx("aside", { className: "day-room-actions-popover", role: "menu", "aria-label": "\u623F\u95F4\u64CD\u4F5C", style: { left: roomActionAnchor.left, top: roomActionAnchor.top }, children: [
-                    ['录单', `已打开 ${roomActionAnchor.room.roomName} 的录单流程。`],
-                    ['关房', `已打开 ${roomActionAnchor.room.roomName} 的关房流程。`],
-                    ['设为脏房', `已将 ${roomActionAnchor.room.roomName} 设为脏房。`],
-                    ['查看房态日历', `已打开 ${roomActionAnchor.room.roomName} 的房态日历。`],
-                    ['房态日志', `已打开 ${roomActionAnchor.room.roomName} 的房态日志。`],
-                    ['保洁', `已打开 ${roomActionAnchor.room.roomName} 的保洁操作。`],
-                ].map(([label, message]) => (_jsx("button", { type: "button", role: "menuitem", onClick: () => {
-                        setRoomActionAnchor(null);
-                        blockAction(message);
-                    }, children: label }, label))) })) : null, statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onClose: () => setStatusDrawer(null), onChange: setDisplaySettings })) : null] }));
+                } })) : null, selectedBooking ? (_jsx(MonthOrderDrawer, { selectedBooking: selectedBooking, onClose: () => setSelectedBooking(null), onAction: blockAction })) : null, roomActionAnchor
+                ? (() => {
+                    const isClosedRoomAction = roomActionAnchor.room.status === 'closed';
+                    return (_jsxs("aside", { className: "day-room-actions-popover", role: "menu", "aria-label": "\u623F\u95F4\u64CD\u4F5C", style: { left: roomActionAnchor.left, top: roomActionAnchor.top }, children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => openDayRoomOrderEntry(roomActionAnchor.room), children: "\u5F55\u5355" }), _jsx("button", { type: "button", role: "menuitem", onClick: () => void (isClosedRoomAction ? openDayRoom(roomActionAnchor.room) : closeDayRoom(roomActionAnchor.room)), children: isClosedRoomAction ? '开房' : '关房' }), [
+                                ['设为脏房', `已将 ${roomActionAnchor.room.roomName} 设为脏房。`],
+                                ['查看房态日历', `已打开 ${roomActionAnchor.room.roomName} 的房态日历。`],
+                                ['房态日志', `已打开 ${roomActionAnchor.room.roomName} 的房态日志。`],
+                                ['保洁', `已打开 ${roomActionAnchor.room.roomName} 的保洁操作。`],
+                            ].map(([label, message]) => (_jsx("button", { type: "button", role: "menuitem", onClick: () => {
+                                    setRoomActionAnchor(null);
+                                    blockAction(message);
+                                }, children: label }, label)))] }));
+                })()
+                : null, _jsx(OrderEntryDrawerHost, { isOpen: Boolean(orderEntryInitialRoom), initialRoom: orderEntryInitialRoom, onClose: () => setOrderEntryInitialRoom(null), onCreated: () => {
+                    setOrderEntryInitialRoom(null);
+                    setRefreshTick((tick) => tick + 1);
+                }, onActionMessage: setFeedback }), statusDrawer === 'display' ? (_jsx(RoomStatusDisplaySettingsDrawer, { settings: displaySettings, onClose: () => setStatusDrawer(null), onChange: setDisplaySettings })) : null] }));
 }

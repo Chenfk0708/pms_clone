@@ -47,6 +47,18 @@ export class ChannelPriceRequestError extends Error {
 
 export const channelPriceEndpoint = '/api/roomCategoryStatuses/roomCategory/channel/get'
 export const channelPriceMockSourceLabel = '统一响应包 mock provider'
+const defaultLocalChannelId = '100'
+const defaultLocalChannelName = '宿银平台'
+const channelIdByName: Record<string, string> = {
+  [defaultLocalChannelName]: defaultLocalChannelId,
+  途家: '2',
+  小猪: '3',
+  携程: '4',
+  美团酒店: '5',
+  飞猪淘酒店: '6',
+  路客云聚合: '7',
+  木鸟: '8',
+}
 
 export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal?: AbortSignal): Promise<ChannelPriceData> {
   const body = createChannelPriceRequestBody(filters)
@@ -75,7 +87,7 @@ export async function fetchChannelPriceRows(filters: ChannelPriceFilters, signal
 export function createChannelPriceRequestBody(filters: ChannelPriceFilters): Record<string, unknown> {
   return {
     campId: filters.campId,
-    channelIds: filters.channel && filters.channel !== '渠道' && filters.channel !== '全部渠道' ? [filters.channel] : null,
+    channelIds: resolveChannelIds(filters.channel),
     roomCategoryGroupIds: null,
     roomCategoryProductSaleType: null,
     roomCategoryIds: filters.roomCategoryIds?.length ? filters.roomCategoryIds : null,
@@ -146,8 +158,19 @@ function readRows(value: unknown): ChannelPriceRow[] {
 function adaptRow(value: unknown): ChannelPriceRow | null {
   if (!value || typeof value !== 'object') return null
   const record = value as Record<string, unknown>
-  const channel = readString(record.roomCategoryName) ?? readString(record.channel) ?? readString(record.name)
-  const product = readString(record.product) ?? readString(record.roomCategoryProductName) ?? readString(record.title)
+  const channel =
+    readString(record.channelName) ??
+    readString(record.channel) ??
+    readString(record.platformName) ??
+    readString(record.platform) ??
+    readString(record.providerName) ??
+    readString(record.name)
+  const product =
+    readString(record.product) ??
+    readString(record.roomCategoryProductName) ??
+    readString(record.channelRoomCategoryName) ??
+    readString(record.title) ??
+    readString(record.roomCategoryName)
   if (!channel && !product) return null
 
   const prices = readStringArray(record.prices) ?? readPriceCells(record)
@@ -165,7 +188,7 @@ function adaptRow(value: unknown): ChannelPriceRow | null {
 }
 
 function readPriceCells(record: Record<string, unknown>) {
-  const candidates = [record.priceInfos, record.datePrices, record.roomCategoryStatusViews, record.channelStatusViews]
+  const candidates = [record.statusViews, record.priceInfos, record.datePrices, record.roomCategoryStatusViews, record.channelStatusViews]
   for (const candidate of candidates) {
     if (!Array.isArray(candidate)) continue
     const values = candidate
@@ -213,6 +236,7 @@ function matchBadgeId(value?: string | null) {
   if (!value) return undefined
   const text = value.toLowerCase()
 
+  if (value.includes(defaultLocalChannelName) || text.includes('suyin')) return 'locals'
   if (text.includes('tujia') || value.includes('途家')) return 'tujia'
   if (text.includes('ctrip') || value.includes('携程')) return 'ctrip'
   if (text.includes('feizhu') || text.includes('fliggy') || value.includes('飞猪')) return 'feizhu'
@@ -231,6 +255,16 @@ function resolveChannelPriceProviderName(explicitProvider?: ChannelPriceProvider
     readRuntimeConfig('pms.channelPriceProvider') ||
     (import.meta.env.VITE_CHANNEL_PRICE_PROVIDER as string | undefined)
   return configured === 'mock' ? 'mock' : 'real'
+}
+
+function resolveChannelIds(channel: string) {
+  const normalized = channel.trim()
+  if (!normalized || normalized === '渠道' || normalized === '全部渠道') {
+    return [defaultLocalChannelId]
+  }
+  const id = channelIdByName[normalized]
+  if (id) return [id]
+  return /^\d+$/.test(normalized) ? [normalized] : [defaultLocalChannelId]
 }
 
 function resolveChannelPriceMockMode(): ChannelPriceMockMode {

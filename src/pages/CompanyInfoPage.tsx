@@ -10,6 +10,7 @@ import {
   type CompanyInfoProfile,
   type CompanyInfoViewModel,
 } from '../services/companyInfo'
+import { validateOptionalContactPhone } from '../utils/inputValidation'
 
 type FormErrors = Partial<Record<'name' | 'phone' | 'city' | 'address', string>>
 
@@ -90,7 +91,8 @@ export function CompanyInfoPage() {
     const errors: FormErrors = {}
 
     if (!draft.name.trim()) errors.name = '请输入企业名称'
-    if (draft.phone && !/^\d{11}$/.test(draft.phone.trim())) errors.phone = '联系电话需为 11 位手机号'
+    const phoneError = validateOptionalContactPhone(draft.phone)
+    if (phoneError) errors.phone = phoneError
     if (!draft.city.trim()) errors.city = '请选择所在城市'
     if (!draft.address.trim()) errors.address = '请输入详细地址'
 

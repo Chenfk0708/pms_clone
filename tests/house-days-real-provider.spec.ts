@@ -155,6 +155,109 @@ async function mockMonthStatusApis(page: Page, requestedPaths: string[]) {
   })
 }
 
+async function mockDayOpenCloseApis(page: Page, requestedPaths: string[], submittedBodies: Record<string, unknown>[]) {
+  const today = formatIsoDate(monthWindowDate(3))
+  const categories = [
+    {
+      storeId: FRONT_STORE_ID,
+      storeName: FRONT_STORE_NAME,
+      roomCategoryId: 'cat-open-close',
+      roomCategoryName: '开关房测试房型',
+      rooms: [{ roomId: 'room-open-close-301', roomName: '301', price: 268 }],
+    },
+  ]
+  const closedBlocks: Array<{ roomCategoryId: string; roomId: string; date: string; reason?: string }> = []
+
+  await page.route('**/api/roomStatuses/**', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    requestedPaths.push(pathname)
+
+    if (pathname === '/roomStatuses/rooms/get') {
+      await route.fulfill({ json: { success: true, data: { isSingleInventory: 0, list: categories } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/orderDetails/get') {
+      await route.fulfill({ json: { success: true, data: { list: [], orderArrangementInfos: [] } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/inv/get') {
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            list: [{ roomCategoryId: 'cat-open-close', date: today, inventory: 1 }],
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/block/get') {
+      await route.fulfill({ json: { success: true, data: { list: closedBlocks } } })
+      return
+    }
+
+    if (pathname === '/roomStatuses/close/save') {
+      const body = request.postDataJSON() as Record<string, unknown>
+      submittedBodies.push(body)
+      closedBlocks.push({
+        roomCategoryId: String(body.roomCategoryId),
+        roomId: String(body.roomId),
+        date: String(body.date),
+        reason: String(body.reason || ''),
+      })
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            roomCategoryId: body.roomCategoryId,
+            roomId: body.roomId,
+            date: body.date,
+            reason: body.reason,
+            message: '关房成功',
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/open/save') {
+      const body = request.postDataJSON() as Record<string, unknown>
+      submittedBodies.push(body)
+      const blockIndex = closedBlocks.findIndex(
+        (block) =>
+          block.roomCategoryId === body.roomCategoryId &&
+          block.roomId === body.roomId &&
+          block.date === body.date,
+      )
+      if (blockIndex >= 0) closedBlocks.splice(blockIndex, 1)
+      await route.fulfill({
+        json: {
+          success: true,
+          data: {
+            roomCategoryId: body.roomCategoryId,
+            roomId: body.roomId,
+            date: body.date,
+            reason: body.reason,
+            message: '开房成功',
+          },
+        },
+      })
+      return
+    }
+
+    if (pathname === '/roomStatuses/dailyMonitor/get') {
+      await route.fulfill({ json: { success: true, data: { list: [{ date: today, remain: '余1间' }] } } })
+      return
+    }
+
+    await route.fulfill({ json: { success: true, data: { list: [] } } })
+  })
+}
+
 test.beforeEach(async ({ page }) => {
   await installSession(page)
 })
@@ -224,4 +327,47 @@ test('/houseManage/days real provider keeps month-row store and channel filterin
 
   await channelSelect.selectOption('direct')
   await expect(page.locator('.day-empty-state')).toContainText('暂无日房态数据')
+})
+
+test('/houseManage/days closed room action menu switches to open room', async ({ page }) => {
+  const requestedPaths: string[] = []
+  const submittedBodies: Record<string, unknown>[] = []
+  await mockDayOpenCloseApis(page, requestedPaths, submittedBodies)
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  const roomCard = page.locator('.day-room-card', { hasText: '301' }).first()
+  await expect(roomCard).toHaveAttribute('data-tone', 'empty')
+
+  await roomCard.click()
+  const actionMenu = page.getByRole('menu', { name: '房间操作' })
+  await expect(actionMenu.getByRole('menuitem', { name: '关房' })).toBeVisible()
+  await actionMenu.getByRole('menuitem', { name: '关房' }).click()
+
+  await expect(roomCard).toHaveAttribute('data-tone', 'closed')
+  await roomCard.click()
+  await expect(actionMenu.getByRole('menuitem', { name: '开房' })).toBeVisible()
+  await expect(actionMenu.getByRole('menuitem', { name: '关房' })).toHaveCount(0)
+  await actionMenu.getByRole('menuitem', { name: '开房' }).click()
+
+  await expect(roomCard).toHaveAttribute('data-tone', 'empty')
+  expect(requestedPaths).toContain('/roomStatuses/close/save')
+  expect(requestedPaths).toContain('/roomStatuses/open/save')
+  expect(submittedBodies).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        campId: 'camp-interface',
+        roomCategoryId: 'cat-open-close',
+        roomId: 'room-open-close-301',
+        reason: '日房态手动关房',
+      }),
+      expect.objectContaining({
+        campId: 'camp-interface',
+        roomCategoryId: 'cat-open-close',
+        roomId: 'room-open-close-301',
+        reason: '日房态手动开房',
+      }),
+    ]),
+  )
 })

@@ -18,6 +18,14 @@ export type OrderCreateRoomItem = {
   deposit?: number
 }
 
+export type OrderCreateGuestItem = {
+  guestName: string
+  guestMobile?: string
+  guestIdCardType: string
+  guestIdCard?: string
+  guestType?: string
+}
+
 export type OrderCreatePayload = {
   campId: string
   poiId?: string
@@ -59,6 +67,7 @@ export type OrderCreatePayload = {
   nextPaymentAmount?: number
   extraFee?: number
   rooms?: OrderCreateRoomItem[]
+  guests?: OrderCreateGuestItem[]
   tags?: OrderCreateKeyValueItem[]
   reminders?: OrderCreateKeyValueItem[]
   extraFeeItems?: OrderCreateKeyValueItem[]

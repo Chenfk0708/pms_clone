@@ -789,6 +789,21 @@ test('month room status empty cell opens reusable order entry drawer with select
   await firstBlankCell.click()
   const actionMenu = page.getByRole('menu', { name: '房态操作菜单' })
   await expect(actionMenu).toBeVisible()
+  const actionMenuStyle = await actionMenu.evaluate((element) => {
+    const style = window.getComputedStyle(element)
+    const arrowStyle = window.getComputedStyle(element, '::before')
+
+    return {
+      arrowBackground: arrowStyle.backgroundColor,
+      background: style.backgroundColor,
+      borderRadius: style.borderRadius,
+      display: style.display,
+    }
+  })
+  expect(actionMenuStyle.display).toContain('flex')
+  expect(actionMenuStyle.background).toBe('rgb(255, 255, 255)')
+  expect(actionMenuStyle.arrowBackground).toBe('rgb(255, 255, 255)')
+  expect(Number.parseFloat(actionMenuStyle.borderRadius)).toBeGreaterThan(18)
   await actionMenu.getByRole('menuitem', { name: '录单' }).click()
 
   const drawer = page.getByRole('dialog', { name: '录入订单' })
@@ -937,6 +952,77 @@ test('month room status merges same multi-night order into a continuous cell', a
   await expect(presidentGroup.locator('[data-row-kind="room"] .month-cell', { hasText: '陈家辉' })).toHaveCount(1)
 })
 
+test('month room status order drawer blocks check-in before registering guest', async ({ page }) => {
+  const orderRequests: Array<{ path: string; body: Record<string, unknown> }> = []
+  await page.route('**/api/orders/**', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    const body = request.postDataJSON() as Record<string, unknown>
+    orderRequests.push({ path: pathname, body })
+
+    await route.fulfill(jsonResponse({ success: true, data: {} }))
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months?campId=camp-interface'))
+
+  const presidentGroup = page.locator('.month-room-group', { hasText: '总裁套间（桑拿浴缸露台电竞麻将）' }).first()
+  await presidentGroup.locator('[data-row-kind="room"] .month-cell', { hasText: '陈家辉' }).first().click()
+
+  const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await expect(drawer).toBeVisible()
+  await drawer.getByTestId('month-order-footer-checkin').click()
+
+  const blockedDialog = page.getByTestId('month-order-dialog-checkin-blocked')
+  await expect(blockedDialog).toBeVisible()
+  await expect(blockedDialog).toContainText('请先登记入住人')
+  expect(orderRequests.some((request) => request.path === '/orders/target-order/check-in')).toBe(false)
+})
+
+test('month room status order drawer shows field errors below invalid guest registration inputs', async ({ page }) => {
+  const orderRequests: Array<{ path: string; body: Record<string, unknown> }> = []
+  await page.route('**/api/orders/**', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    const body = request.postDataJSON() as Record<string, unknown>
+    orderRequests.push({ path: pathname, body })
+    await route.fulfill(jsonResponse({ success: true, data: { orderId: 'target-order', message: '入住人保存成功' } }))
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months?campId=camp-interface'))
+
+  const presidentGroup = page.locator('.month-room-group', { hasText: '总裁套间（桑拿浴缸露台电竞麻将）' }).first()
+  await presidentGroup.locator('[data-row-kind="room"] .month-cell', { hasText: '陈家辉' }).first().click()
+
+  const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await expect(drawer).toBeVisible()
+  await drawer.getByTestId('month-order-register-guest').click()
+
+  const guestEditor = drawer.getByTestId('month-order-guest-editor')
+  await expect(guestEditor).toBeVisible()
+  await guestEditor.getByPlaceholder('请输入客户姓名').fill('1234')
+  await guestEditor.getByPlaceholder('请输入手机号').fill('12345')
+  await guestEditor.getByRole('combobox').selectOption('居民身份证')
+  await guestEditor.getByPlaceholder('请输入证件号码').fill('P123456789')
+  await guestEditor.getByRole('button', { name: '保存' }).click()
+
+  await expect(
+    guestEditor.getByPlaceholder('请输入客户姓名').locator('xpath=ancestor::label[contains(@class, "month-order-guest-field")]'),
+  ).toContainText(
+    '姓名格式不正确，请输入 2-30 个中文或英文字母',
+  )
+  await expect(
+    guestEditor.getByPlaceholder('请输入手机号').locator('xpath=ancestor::label[contains(@class, "month-order-guest-field")]'),
+  ).toContainText('手机号格式不正确')
+  await expect(
+    guestEditor.getByPlaceholder('请输入证件号码').locator('xpath=ancestor::label[contains(@class, "month-order-guest-field")]'),
+  ).toContainText(
+    '居民身份证号格式不正确',
+  )
+  expect(orderRequests.some((request) => request.path === '/orders/target-order/guests/save')).toBe(false)
+})
+
 test('month room status order drawer saves registered guest and updates check-in checkout through order APIs', async ({ page }) => {
   const orderRequests: Array<{ path: string; body: Record<string, unknown> }> = []
   await page.route('**/api/orders/**', async (route) => {
@@ -1039,6 +1125,45 @@ test('month order drawer cancels order through backend and marks statuses as can
   })
   await expect(drawer).toContainText('已取消')
   await expect(drawer).toContainText('订单取消成功')
+})
+
+test('month order drawer marks no-show through backend and updates status', async ({ page }) => {
+  const orderRequests: Array<{ path: string; body: Record<string, unknown> }> = []
+  await page.route('**/api/orders/**', async (route) => {
+    const request = route.request()
+    const pathname = new URL(request.url()).pathname.replace(/^\/api/, '')
+    const body = request.postDataJSON() as Record<string, unknown>
+    orderRequests.push({ path: pathname, body })
+
+    if (pathname === '/orders/target-order/mark-no-show') {
+      await route.fulfill(jsonResponse({ success: true, data: { orderId: 'target-order', status: 'no_show', message: '已标记为未到店' } }))
+      return
+    }
+
+    await route.fulfill(jsonResponse({ success: true, data: {} }))
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months?campId=camp-interface'))
+
+  const presidentGroup = page.locator('.month-room-group', { hasText: '总裁套间（桑拿浴缸露台电竞麻将）' }).first()
+  await presidentGroup.locator('[data-row-kind="room"] .month-cell', { hasText: '陈家辉' }).first().click()
+
+  const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await expect(drawer).toBeVisible()
+  await drawer.getByTestId('month-order-action-noshow').click()
+
+  const confirmDialog = page.getByRole('dialog', { name: '置为noshow失约单' })
+  await expect(confirmDialog).toContainText('选择全部房间')
+  await confirmDialog.getByRole('button', { name: '确定' }).click()
+
+  await expect.poll(() => orderRequests.some((request) => request.path === '/orders/target-order/mark-no-show')).toBe(true)
+  expect(orderRequests.find((request) => request.path === '/orders/target-order/mark-no-show')?.body).toMatchObject({
+    campId: 'camp-interface',
+    reason: '订单详情置为未到店',
+  })
+  await expect(drawer).toContainText('未到店')
+  await expect(drawer).toContainText('已标记为未到店')
 })
 
 test('month order drawer skip stock releases inventory and cancels room arrangement through backend', async ({ page }) => {

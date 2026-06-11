@@ -7,6 +7,8 @@ import {
   type HouseDaysRoomCard,
   type HouseDaysViewModel,
 } from '../services/houseDays'
+import { closeHouseMonthRoom, openHouseMonthRoom } from '../services/houseMonths'
+import { resolveHouseOrderCampId } from '../services/houseOrders'
 import { StoreSelectControl, type StoreSelectOption } from '../components/StoreSelect'
 import { useStoreOptions } from '../hooks/useStoreOptions'
 import {
@@ -24,6 +26,7 @@ import {
   type SelectedBooking,
 } from './HouseMonthsPage'
 import { OrderRefreshPopover } from './HouseStatusSharingPage'
+import { OrderEntryDrawerHost, type OrderEntryInitialRoom } from './OrdersPage'
 import './HouseDaysPage.css'
 
 const ROOM_TYPE_VIEW = '按房型'
@@ -39,6 +42,27 @@ type DayRoomActionAnchor = {
   left: number
   top: number
   room: HouseDaysRoomCard
+}
+
+function formatIsoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function shiftDate(date: Date, days: number) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days)
+}
+
+function createDayRoomDateRange() {
+  const start = new Date()
+  return {
+    startDate: formatIsoDate(start),
+    endDate: formatIsoDate(shiftDate(start, 1)),
+  }
+}
+
+function resolveDayRoomTone(room: HouseDaysRoomCard) {
+  if (room.booking?.tone) return room.booking.tone
+  return room.status === 'closed' ? 'closed' : 'empty'
 }
 
 function getRoomBookings(room: HouseDaysRoomCard) {
@@ -115,7 +139,7 @@ function RoomNumberView({
           <h3>{room.roomType}</h3>
           <article
             className="day-room-card"
-            data-tone={room.booking?.tone ?? 'empty'}
+            data-tone={resolveDayRoomTone(room)}
             aria-label={`${room.roomType} ${room.roomName}`}
             tabIndex={0}
             onMouseEnter={(event) => {
@@ -218,7 +242,7 @@ function RoomTypeView({
               <article
                 key={room.id}
                 className="day-room-card"
-                data-tone={room.booking?.tone ?? 'empty'}
+                data-tone={resolveDayRoomTone(room)}
                 aria-label={`${room.roomType} ${room.roomName}`}
                 tabIndex={0}
                 onMouseEnter={(event) => {
@@ -318,6 +342,7 @@ export function HouseDaysPage() {
   const [roomActionAnchor, setRoomActionAnchor] = useState<DayRoomActionAnchor | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
+  const [orderEntryInitialRoom, setOrderEntryInitialRoom] = useState<OrderEntryInitialRoom | null>(null)
   const [keyword, setKeyword] = useState('')
   const [activeStoreChip, setActiveStoreChip] = useState('all')
   const [feedback, setFeedback] = useState('')
@@ -375,6 +400,7 @@ export function HouseDaysPage() {
         setSelectedBooking(null)
         setBatchDialogMode(null)
         setRoomActionAnchor(null)
+        setOrderEntryInitialRoom(null)
       }
     }
 
@@ -389,10 +415,18 @@ export function HouseDaysPage() {
       if (!target.closest('.day-toolbar__refresh-group')) {
         setRefreshPopoverOpen(false)
       }
-      if (!target.closest('.day-room-actions-popover') && !target.closest('.day-room-card[data-tone=\"empty\"]')) {
+      if (
+        !target.closest('.day-room-actions-popover') &&
+        !target.closest('.day-room-card[data-tone="empty"]') &&
+        !target.closest('.day-room-card[data-tone="closed"]')
+      ) {
         setRoomActionAnchor(null)
       }
-      if (!target.closest('.month-order-drawer') && !target.closest('.day-room-card[data-tone]')) {
+      if (
+        !target.closest('.month-order-drawer') &&
+        !target.closest('.order-entry-drawer') &&
+        !target.closest('.day-room-card[data-tone]')
+      ) {
         setSelectedBooking(null)
       }
     }
@@ -443,6 +477,82 @@ export function HouseDaysPage() {
     if (event.key !== 'Enter') return
     setQueryKeyword(keyword)
     setFeedback(`已按“${keyword || '全部房间'}”更新日房态。`)
+  }
+
+  const resolveDayRoomActionContext = (room: HouseDaysRoomCard) => {
+    const campId = resolveHouseOrderCampId().trim()
+    const roomCategoryId = room.roomCategoryId?.trim()
+    const roomId = room.roomId?.trim()
+    if (!campId) {
+      setFeedback('缺少当前门店，无法操作日房态。')
+      return null
+    }
+    if (!roomCategoryId || !roomId) {
+      setFeedback('缺少房型或房间信息，无法操作日房态。')
+      return null
+    }
+    return { campId, roomCategoryId, roomId }
+  }
+
+  const openDayRoomOrderEntry = (room: HouseDaysRoomCard) => {
+    const context = resolveDayRoomActionContext(room)
+    setRoomActionAnchor(null)
+    setOpenMenu(null)
+    if (!context) return
+
+    const { startDate, endDate } = createDayRoomDateRange()
+    setOrderEntryInitialRoom({
+      poiId: room.storeId,
+      poiName: room.storeName,
+      roomCategoryId: context.roomCategoryId,
+      roomCategoryName: room.roomType,
+      roomId: context.roomId,
+      roomName: room.roomName,
+      startDate,
+      endDate,
+      price: room.price,
+      unitPrice: room.price,
+      monthlyRent: room.monthlyRent,
+    })
+    setFeedback('录入订单面板已打开，可继续补充联系人和费用信息。')
+  }
+
+  const closeDayRoom = async (room: HouseDaysRoomCard) => {
+    const context = resolveDayRoomActionContext(room)
+    setRoomActionAnchor(null)
+    setOpenMenu(null)
+    if (!context) return
+
+    try {
+      const response = await closeHouseMonthRoom({
+        ...context,
+        date: createDayRoomDateRange().startDate,
+        reason: '日房态手动关房',
+      })
+      setRefreshTick((tick) => tick + 1)
+      setFeedback(response.message || '关房成功')
+    } catch (requestError) {
+      setFeedback(`关房失败：${requestError instanceof Error ? requestError.message : String(requestError)}`)
+    }
+  }
+
+  const openDayRoom = async (room: HouseDaysRoomCard) => {
+    const context = resolveDayRoomActionContext(room)
+    setRoomActionAnchor(null)
+    setOpenMenu(null)
+    if (!context) return
+
+    try {
+      const response = await openHouseMonthRoom({
+        ...context,
+        date: createDayRoomDateRange().startDate,
+        reason: '日房态手动开房',
+      })
+      setRefreshTick((tick) => tick + 1)
+      setFeedback(response.message || '开房成功')
+    } catch (requestError) {
+      setFeedback(`开房失败：${requestError instanceof Error ? requestError.message : String(requestError)}`)
+    }
   }
 
   const viewModes = data?.viewModes ?? [ROOM_TYPE_VIEW, ROOM_NUMBER_VIEW, FLOOR_VIEW]
@@ -790,35 +900,61 @@ export function HouseDaysPage() {
       {selectedBooking ? (
         <MonthOrderDrawer selectedBooking={selectedBooking} onClose={() => setSelectedBooking(null)} onAction={blockAction} />
       ) : null}
-      {roomActionAnchor ? (
-        <aside
-          className="day-room-actions-popover"
-          role="menu"
-          aria-label="房间操作"
-          style={{ left: roomActionAnchor.left, top: roomActionAnchor.top }}
-        >
-          {[
-            ['录单', `已打开 ${roomActionAnchor.room.roomName} 的录单流程。`],
-            ['关房', `已打开 ${roomActionAnchor.room.roomName} 的关房流程。`],
-            ['设为脏房', `已将 ${roomActionAnchor.room.roomName} 设为脏房。`],
-            ['查看房态日历', `已打开 ${roomActionAnchor.room.roomName} 的房态日历。`],
-            ['房态日志', `已打开 ${roomActionAnchor.room.roomName} 的房态日志。`],
-            ['保洁', `已打开 ${roomActionAnchor.room.roomName} 的保洁操作。`],
-          ].map(([label, message]) => (
-            <button
-              key={label}
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setRoomActionAnchor(null)
-                blockAction(message)
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </aside>
-      ) : null}
+      {roomActionAnchor
+        ? (() => {
+            const isClosedRoomAction = roomActionAnchor.room.status === 'closed'
+
+            return (
+              <aside
+                className="day-room-actions-popover"
+                role="menu"
+                aria-label="房间操作"
+                style={{ left: roomActionAnchor.left, top: roomActionAnchor.top }}
+              >
+                <button type="button" role="menuitem" onClick={() => openDayRoomOrderEntry(roomActionAnchor.room)}>
+                  录单
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() =>
+                    void (isClosedRoomAction ? openDayRoom(roomActionAnchor.room) : closeDayRoom(roomActionAnchor.room))
+                  }
+                >
+                  {isClosedRoomAction ? '开房' : '关房'}
+                </button>
+                {[
+                  ['设为脏房', `已将 ${roomActionAnchor.room.roomName} 设为脏房。`],
+                  ['查看房态日历', `已打开 ${roomActionAnchor.room.roomName} 的房态日历。`],
+                  ['房态日志', `已打开 ${roomActionAnchor.room.roomName} 的房态日志。`],
+                  ['保洁', `已打开 ${roomActionAnchor.room.roomName} 的保洁操作。`],
+                ].map(([label, message]) => (
+                  <button
+                    key={label}
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setRoomActionAnchor(null)
+                      blockAction(message)
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </aside>
+            )
+          })()
+        : null}
+      <OrderEntryDrawerHost
+        isOpen={Boolean(orderEntryInitialRoom)}
+        initialRoom={orderEntryInitialRoom}
+        onClose={() => setOrderEntryInitialRoom(null)}
+        onCreated={() => {
+          setOrderEntryInitialRoom(null)
+          setRefreshTick((tick) => tick + 1)
+        }}
+        onActionMessage={setFeedback}
+      />
       {statusDrawer === 'display' ? (
         <RoomStatusDisplaySettingsDrawer
           settings={displaySettings}

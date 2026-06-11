@@ -16,6 +16,7 @@ import {
   type CompanyQualificationUploadTarget,
   type CompanyQualificationViewModel,
 } from '../services/companyQualification'
+import { validateOptionalContactPhone } from '../utils/inputValidation'
 import './CompanyQualificationPage.css'
 
 const tabs = ['企业信息', '营业资质', '法人证件'] as const
@@ -140,7 +141,8 @@ export function CompanyQualificationPage() {
     const nextErrors: Partial<Record<'name' | 'phone' | 'city' | 'address', string>> = {}
 
     if (!draft.name.trim()) nextErrors.name = '请输入企业名称'
-    if (draft.phone && !/^\d{11}$/.test(draft.phone.trim())) nextErrors.phone = '联系电话需为 11 位手机号'
+    const phoneError = validateOptionalContactPhone(draft.phone)
+    if (phoneError) nextErrors.phone = phoneError
     if (!draft.city.trim()) nextErrors.city = '请选择所在城市'
     if (!draft.address.trim()) nextErrors.address = '请输入详细地址'
 

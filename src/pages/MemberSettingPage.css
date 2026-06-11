@@ -360,6 +360,18 @@
   color: #333;
 }
 
+.member-action-field-control {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.member-field-error {
+  color: #d14343;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 .member-form-role {
   position: relative;
   width: 240px;

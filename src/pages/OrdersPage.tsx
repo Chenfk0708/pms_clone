@@ -22,6 +22,12 @@ import {
   type OrderRoomSelectorGroup,
 } from '../services/orderRoomSelector'
 import { StoreSelectControl } from '../components/StoreSelect'
+import {
+  validateCredentialNumber,
+  validateOptionalMainlandMobile,
+  validatePersonName,
+  validateRequiredMainlandMobile,
+} from '../utils/inputValidation'
 import './OrdersPage.css'
 
 const quickFilters = [
@@ -157,12 +163,24 @@ type EntryStayRoom = {
   registrationOpen: boolean
 }
 
+type EntryStayGuestErrors = {
+  name?: string
+  mobile?: string
+  credentialNo?: string
+}
+
 type EntryStayGuest = {
   id: string
   name: string
   mobile: string
   credentialType: string
   credentialNo: string
+  errors: EntryStayGuestErrors
+}
+
+type EntryStayErrors = {
+  guestName?: string
+  guestMobile?: string
 }
 
 type EntryStayForm = {
@@ -185,6 +203,7 @@ type EntryStayForm = {
   reminders: EntryInlineItem[]
   tags: EntryInlineItem[]
   remark: string
+  errors: EntryStayErrors
 }
 
 type LongRentalRoom = {
@@ -501,18 +520,66 @@ function calculateLongRentalSummary(form: LongRentalEntryForm) {
 function validateLongRentalEntryStep(form: LongRentalEntryForm) {
   const errors: LongRentalEntryErrors = {}
 
-  if (!form.tenantName.trim()) {
-    errors.tenantName = '请输入租客姓名'
-  }
+  const tenantNameError = validatePersonName(form.tenantName)
+  if (tenantNameError) errors.tenantName = tenantNameError
 
-  const normalizedPhone = form.phone.replace(/\D/g, '')
-  if (!normalizedPhone) {
-    errors.phone = '请输入手机号'
-  } else if (normalizedPhone.length < 11) {
-    errors.phone = '请输入有效手机号'
-  }
+  const phoneError = validateRequiredMainlandMobile(form.phone)
+  if (phoneError) errors.phone = phoneError
 
   return errors
+}
+
+function validateStayForm(form: EntryStayForm): EntryStayForm {
+  let hasErrors = false
+  const errors: EntryStayErrors = {}
+  const guestNameError = validatePersonName(form.guestName)
+  const guestMobileError = validateOptionalMainlandMobile(form.guestMobile)
+
+  if (guestNameError) {
+    errors.guestName = guestNameError
+    hasErrors = true
+  }
+  if (guestMobileError) {
+    errors.guestMobile = guestMobileError
+    hasErrors = true
+  }
+
+  const rooms = form.rooms.map((room) => ({
+    ...room,
+    registeredGuests: room.registeredGuests.map((guest) => {
+      const rowTouched = Boolean(guest.name.trim() || guest.mobile.trim() || guest.credentialNo.trim())
+      if (!rowTouched) return { ...guest, errors: {} }
+
+      const guestErrors: EntryStayGuestErrors = {}
+      const nameError = validatePersonName(guest.name || form.guestName)
+      const mobileError = validateOptionalMainlandMobile(guest.mobile)
+      const credentialError = validateCredentialNumber(guest.credentialType, guest.credentialNo)
+
+      if (nameError) guestErrors.name = nameError
+      if (mobileError) guestErrors.mobile = mobileError
+      if (credentialError) guestErrors.credentialNo = credentialError
+
+      if (Object.keys(guestErrors).length > 0) hasErrors = true
+      return { ...guest, errors: guestErrors }
+    }),
+  }))
+
+  return {
+    ...form,
+    errors,
+    rooms,
+    useGuestAsCheckin: hasErrors ? form.useGuestAsCheckin : form.useGuestAsCheckin,
+  }
+}
+
+function stayFormHasErrors(form: EntryStayForm) {
+  return Boolean(
+    form.errors.guestName ||
+      form.errors.guestMobile ||
+      form.rooms.some((room) =>
+        room.registeredGuests.some((guest) => guest.errors.name || guest.errors.mobile || guest.errors.credentialNo),
+      ),
+  )
 }
 
 function createStayForm(type: EntryStayKind = 'fullDay'): EntryStayForm {
@@ -536,6 +603,7 @@ function createStayForm(type: EntryStayKind = 'fullDay'): EntryStayForm {
     reminders: [],
     tags: [],
     remark: '',
+    errors: {},
   }
 }
 
@@ -609,6 +677,7 @@ function createStayGuest(): EntryStayGuest {
     mobile: '',
     credentialType: '居民身份证',
     credentialNo: '',
+    errors: {},
   }
 }
 
@@ -2321,23 +2390,37 @@ function StayOrderForm({
           }
         >
           <div className="order-entry-basic-grid">
-            <label className="order-entry-inline-field is-required">
+            <label className={`order-entry-inline-field is-required ${form.errors.guestName ? 'has-error' : ''}`}>
               <span>姓名：</span>
               <input
                 type="text"
                 value={form.guestName}
                 placeholder="姓名"
-                onChange={(event) => setForm((current) => ({ ...current, guestName: event.target.value }))}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    guestName: event.target.value,
+                    errors: { ...current.errors, guestName: undefined },
+                  }))
+                }
               />
+              {form.errors.guestName ? <em>{form.errors.guestName}</em> : null}
             </label>
-            <label className="order-entry-inline-field">
+            <label className={`order-entry-inline-field ${form.errors.guestMobile ? 'has-error' : ''}`}>
               <span>手机号：</span>
               <input
                 type="text"
                 value={form.guestMobile}
                 placeholder="手机号"
-                onChange={(event) => setForm((current) => ({ ...current, guestMobile: event.target.value }))}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    guestMobile: event.target.value,
+                    errors: { ...current.errors, guestMobile: undefined },
+                  }))
+                }
               />
+              {form.errors.guestMobile ? <em>{form.errors.guestMobile}</em> : null}
             </label>
             <label className="order-entry-inline-field">
               <span>订单来源：</span>
@@ -2501,62 +2584,89 @@ function StayOrderForm({
                 <div className="order-entry-stay-guest-list">
                   {room.registeredGuests.map((guest) => (
                     <div key={guest.id} className="order-entry-stay-guest-row">
-                      <input
-                        type="text"
-                        value={guest.name}
-                        placeholder="客户姓名"
-                        onChange={(event) =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            registeredGuests: current.registeredGuests.map((item) =>
-                              item.id === guest.id ? { ...item, name: event.target.value } : item,
-                            ),
-                          }))
-                        }
-                      />
-                      <input
-                        type="text"
-                        value={guest.mobile}
-                        placeholder="手机号"
-                        onChange={(event) =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            registeredGuests: current.registeredGuests.map((item) =>
-                              item.id === guest.id ? { ...item, mobile: event.target.value } : item,
-                            ),
-                          }))
-                        }
-                      />
-                      <select
-                        value={guest.credentialType}
-                        onChange={(event) =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            registeredGuests: current.registeredGuests.map((item) =>
-                              item.id === guest.id ? { ...item, credentialType: event.target.value } : item,
-                            ),
-                          }))
-                        }
-                      >
-                        <option value="居民身份证">居民身份证</option>
-                        <option value="港澳通行证">港澳通行证</option>
-                        <option value="港澳回乡证">港澳回乡证</option>
-                        <option value="台胞证">台胞证</option>
-                        <option value="Passport">Passport</option>
-                      </select>
-                      <input
-                        type="text"
-                        value={guest.credentialNo}
-                        placeholder="请输入证件号码"
-                        onChange={(event) =>
-                          updatePrimaryRoom((current) => ({
-                            ...current,
-                            registeredGuests: current.registeredGuests.map((item) =>
-                              item.id === guest.id ? { ...item, credentialNo: event.target.value } : item,
-                            ),
-                          }))
-                        }
-                      />
+                      <label className={`order-entry-stay-guest-field ${guest.errors.name ? 'has-error' : ''}`}>
+                        <input
+                          type="text"
+                          value={guest.name}
+                          placeholder="客户姓名"
+                          onChange={(event) =>
+                            updatePrimaryRoom((current) => ({
+                              ...current,
+                              registeredGuests: current.registeredGuests.map((item) =>
+                                item.id === guest.id
+                                  ? { ...item, name: event.target.value, errors: { ...item.errors, name: undefined } }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        />
+                        {guest.errors.name ? <em>{guest.errors.name}</em> : null}
+                      </label>
+                      <label className={`order-entry-stay-guest-field ${guest.errors.mobile ? 'has-error' : ''}`}>
+                        <input
+                          type="text"
+                          value={guest.mobile}
+                          placeholder="手机号"
+                          onChange={(event) =>
+                            updatePrimaryRoom((current) => ({
+                              ...current,
+                              registeredGuests: current.registeredGuests.map((item) =>
+                                item.id === guest.id
+                                  ? { ...item, mobile: event.target.value, errors: { ...item.errors, mobile: undefined } }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        />
+                        {guest.errors.mobile ? <em>{guest.errors.mobile}</em> : null}
+                      </label>
+                      <label className="order-entry-stay-guest-field">
+                        <select
+                          value={guest.credentialType}
+                          onChange={(event) =>
+                            updatePrimaryRoom((current) => ({
+                              ...current,
+                              registeredGuests: current.registeredGuests.map((item) =>
+                                item.id === guest.id
+                                  ? {
+                                      ...item,
+                                      credentialType: event.target.value,
+                                      errors: { ...item.errors, credentialNo: undefined },
+                                    }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        >
+                          <option value="居民身份证">居民身份证</option>
+                          <option value="港澳通行证">港澳通行证</option>
+                          <option value="港澳回乡证">港澳回乡证</option>
+                          <option value="台胞证">台胞证</option>
+                          <option value="Passport">Passport</option>
+                        </select>
+                      </label>
+                      <label className={`order-entry-stay-guest-field ${guest.errors.credentialNo ? 'has-error' : ''}`}>
+                        <input
+                          type="text"
+                          value={guest.credentialNo}
+                          placeholder="请输入证件号码"
+                          onChange={(event) =>
+                            updatePrimaryRoom((current) => ({
+                              ...current,
+                              registeredGuests: current.registeredGuests.map((item) =>
+                                item.id === guest.id
+                                  ? {
+                                      ...item,
+                                      credentialNo: event.target.value,
+                                      errors: { ...item.errors, credentialNo: undefined },
+                                    }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        />
+                        {guest.errors.credentialNo ? <em>{guest.errors.credentialNo}</em> : null}
+                      </label>
                       <button type="button" className="order-entry-link order-entry-link--tiny">
                         读卡
                       </button>
@@ -3661,14 +3771,20 @@ function OrderEntryDrawer({
 
   const handleStaySubmit = async (type: EntryStayKind) => {
     const form = type === 'hourly' ? hourlyForm : fullDayForm
-    if (!form.guestName.trim()) {
-      setActionMessage('请先填写联系人姓名')
+    const validatedForm = validateStayForm(form)
+    if (stayFormHasErrors(validatedForm)) {
+      if (type === 'hourly') {
+        setHourlyForm(() => validatedForm)
+      } else {
+        setFullDayForm(() => validatedForm)
+      }
+      setActionMessage('请先修正红色提示的输入内容')
       return
     }
 
     setIsSubmitting(true)
     try {
-      await createOrder(buildStayOrderPayload(type, form, campId))
+      await createOrder(buildStayOrderPayload(type, validatedForm, campId))
       if (type === 'hourly') {
         setHourlyForm(() => createStayForm('hourly'))
       } else {

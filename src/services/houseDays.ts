@@ -40,6 +40,10 @@ export type HouseDaysRoomCard = {
   storeName: string
   roomType: string
   roomName: string
+  roomCategoryId?: string
+  roomId?: string
+  price?: string
+  monthlyRent?: string
   status: 'cleanVacant' | 'dirtyVacant' | 'occupiedClean' | 'occupiedDirty' | 'closed'
   hasTag?: boolean
   filterLabels?: string[]
@@ -299,6 +303,10 @@ function adaptSharedCardToHouseDayRoom(card: DayOrderCard): HouseDaysRoomCard {
     storeName: card.storeName,
     roomType: card.roomType,
     roomName: card.roomName,
+    roomCategoryId: card.roomCategoryId,
+    roomId: card.roomId,
+    price: card.price,
+    monthlyRent: card.monthlyRent,
     status: card.status,
     hasTag: card.hasTag,
     filterLabels: card.filterLabels,

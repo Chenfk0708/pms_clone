@@ -130,6 +130,21 @@ test('/InformationMaintenance/campInfo covers expand, import, new store, detail,
   await expect(page.locator('.camp-info-sort-list')).toContainText('巨幕观影套餐')
 })
 
+test('/InformationMaintenance/campInfo validates contact phone before moving past basic info', async ({ page }) => {
+  await openCampInfo(page, { path: '/InformationMaintenance/campInfo/new' })
+
+  await page.getByLabel('门店名称').fill('新建门店测试')
+  await page.getByLabel('门店类型').selectOption('公寓')
+  await page.getByLabel('联系电话').fill('12000000000')
+  await page.locator('.camp-info-address textarea').fill('深圳市南山区新建路 1 号')
+  await page.getByRole('button', { name: '下一步' }).click()
+
+  await expect(page.locator('.camp-info-field-error').filter({ hasText: '联系电话格式不正确' })).toBeVisible()
+  await expect(page.locator('.camp-info-step.is-active')).toContainText('基本信息')
+  await expect(page.locator('.camp-info-edit-basic')).toBeVisible()
+  await expect(page.getByLabel('文字介绍')).toHaveCount(0)
+})
+
 test('/InformationMaintenance/campInfo uploads real store photos and uses the first one as list cover', async ({ page }) => {
   await openCampInfo(page, { path: '/InformationMaintenance/campInfo/edit?storeId=store-qianhai-001' })
 

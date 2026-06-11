@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createDefaultDistributionFilters, distributionListEndpoints, fetchDistributionDashboard, } from '../services/distributionList';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createDefaultDistributionFilters, distributionListEndpoints, fetchDistributionDashboard, localDistributionChannelId, localDistributionStatusStorageKey, } from '../services/distributionList';
 import { StoreSelectControl } from '../components/StoreSelect';
 import { useStoreOptions } from '../hooks/useStoreOptions';
 import './DistributionListPage.css';
@@ -11,13 +11,11 @@ const actionButtons = [
     { label: '房价管理', route: '/houseManage/houseCale' },
     { label: '房型管理', route: '/setting/roomTypeInfo' },
 ];
-const importStoreOptions = [
-    '天洛会宿公寓(前海壹方城宝安中心店)',
-    '天洛会宿公寓(科技园店)',
-];
 export function DistributionListPage() {
     const navigate = useNavigate();
-    const [filters, setFilters] = useState(() => createDefaultDistributionFilters(new URLSearchParams(window.location.search)));
+    const location = useLocation();
+    const [filters, setFilters] = useState(() => createDefaultDistributionFilters(new URLSearchParams(location.search)));
+    const [keywordDraft, setKeywordDraft] = useState(filters.keyword);
     const [dashboard, setDashboard] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -32,6 +30,7 @@ export function DistributionListPage() {
             id: store.id,
             label: store.label,
         })),
+        enabled: dashboard?.provider === 'api',
     });
     const updateFilters = (nextFilters) => {
         setNotice('');
@@ -41,6 +40,20 @@ export function DistributionListPage() {
         setImportMenuOpen(false);
         setFilters(nextFilters);
     };
+    useEffect(() => {
+        const nextFilters = createDefaultDistributionFilters(new URLSearchParams(location.search));
+        setFilters((current) => ({
+            ...current,
+            ...nextFilters,
+        }));
+        setLoading(true);
+        setError('');
+        setOpenMenuId(null);
+        setImportMenuOpen(false);
+    }, [location.search]);
+    useEffect(() => {
+        setKeywordDraft(filters.keyword);
+    }, [filters.keyword]);
     useEffect(() => {
         let active = true;
         fetchDistributionDashboard(filters)
@@ -76,16 +89,19 @@ export function DistributionListPage() {
         const timer = window.setTimeout(() => setNotice(''), 2200);
         return () => window.clearTimeout(timer);
     }, [notice]);
-    const visibleRows = useMemo(() => {
+    const allRows = useMemo(() => {
         if (!dashboard)
             return [];
-        const list = filters.tab === 'distributed' ? dashboard.distributedRooms : dashboard.undistributedRooms;
-        return list.map((room) => ({
+        return [...dashboard.distributedRooms, ...dashboard.undistributedRooms].map((room) => ({
             ...room,
             progress: roomProgressMap[room.id] ?? room.progress,
         }));
-    }, [dashboard, filters.tab, roomProgressMap]);
-    const selectedRoom = useMemo(() => visibleRows.find((room) => room.id === drawerRoomId) ?? null, [drawerRoomId, visibleRows]);
+    }, [dashboard, roomProgressMap]);
+    const visibleRows = useMemo(() => {
+        const targetProgress = filters.tab === 'distributed' ? 'distributing' : 'closed';
+        return allRows.filter((room) => room.progress === targetProgress);
+    }, [allRows, filters.tab]);
+    const selectedRoom = useMemo(() => allRows.find((room) => room.id === drawerRoomId) ?? null, [allRows, drawerRoomId]);
     const requestSnapshot = dashboard ? JSON.stringify(dashboard.request) : JSON.stringify({ filters });
     const reload = (message = '分销列表已刷新') => {
         updateFilters((current) => ({ ...current, scenario: 'success', page: 1 }));
@@ -94,16 +110,46 @@ export function DistributionListPage() {
     const selectTab = (nextTab) => {
         updateFilters((current) => ({ ...current, tab: nextTab, page: 1 }));
     };
-    const toggleDistribution = (room) => {
-        setRoomProgressMap((current) => {
-            const currentProgress = current[room.id] ?? room.progress;
-            const nextProgress = currentProgress === 'closed' ? 'distributing' : 'closed';
-            window.setTimeout(() => setNotice(`${room.name} 已${nextProgress === 'closed' ? '关闭' : '打开'}分销`), 0);
-            return { ...current, [room.id]: nextProgress };
+    const applyKeywordSearch = () => {
+        updateFilters((current) => ({ ...current, keyword: keywordDraft.trim(), page: 1 }));
+    };
+    const applyRoomProgress = (room, nextProgress, channelIds) => {
+        const nextChannelIds = nextProgress === 'distributing' ? channelIds ?? room.channelIds : [];
+        persistLocalDistributionStatus(room.id, nextProgress, channelIds);
+        setRoomProgressMap((current) => ({ ...current, [room.id]: nextProgress }));
+        setDashboard((current) => {
+            if (!current)
+                return current;
+            const roomById = new Map();
+            [...current.distributedRooms, ...current.undistributedRooms].forEach((item) => {
+                roomById.set(item.id, item);
+            });
+            const sourceRoom = roomById.get(room.id) ?? room;
+            roomById.set(room.id, { ...sourceRoom, progress: nextProgress, channelIds: nextChannelIds });
+            const nextRooms = Array.from(roomById.values());
+            const distributedRooms = nextRooms.filter((item) => item.progress === 'distributing');
+            const undistributedRooms = nextRooms.filter((item) => item.progress === 'closed');
+            const activeRows = filters.tab === 'distributed' ? distributedRooms : undistributedRooms;
+            return {
+                ...current,
+                distributedRooms,
+                undistributedRooms,
+                pagination: {
+                    ...current.pagination,
+                    total: activeRows.length,
+                },
+            };
         });
+        const actionText = nextProgress === 'closed' ? '关闭' : '开启';
+        const channelText = channelIds ? `关联 ${nextChannelIds.length} 个渠道` : '宿银平台分销';
+        setNotice(`${room.name} 已${actionText}${channelText}`);
         setOpenMenuId(null);
     };
-    return (_jsxs("div", { className: `distribution-list-page${loading ? ' is-loading' : ''}`, "data-testid": "distribution-list-contract", "data-provider": dashboard?.provider ?? 'mock', "data-endpoint-camp-flow": distributionListEndpoints.campFlow, "data-endpoint-room-categories": distributionListEndpoints.roomCategories, "data-endpoint-undistributed": distributionListEndpoints.undistributedRoomCategories, "data-request": requestSnapshot, onClick: () => {
+    const toggleDistribution = (room) => {
+        const currentProgress = roomProgressMap[room.id] ?? room.progress;
+        applyRoomProgress(room, currentProgress === 'closed' ? 'distributing' : 'closed');
+    };
+    return (_jsxs("div", { className: `distribution-list-page${loading ? ' is-loading' : ''}`, "data-testid": "distribution-list-contract", "data-provider": dashboard?.provider ?? 'api', "data-endpoint-camp-flow": distributionListEndpoints.campFlow, "data-endpoint-room-categories": distributionListEndpoints.roomCategories, "data-endpoint-undistributed": distributionListEndpoints.undistributedRoomCategories, "data-request": requestSnapshot, onClick: () => {
             if (openMenuId)
                 setOpenMenuId(null);
             if (importMenuOpen)
@@ -121,21 +167,28 @@ export function DistributionListPage() {
                                                         }, children: "\u5B8C\u5584\u95E8\u5E97\u4FE1\u606F" }), _jsx("button", { type: "button", role: "menuitem", onClick: () => {
                                                             setImportDialogMode('room');
                                                             setImportMenuOpen(false);
-                                                        }, children: "\u5B8C\u5584\u623F\u578B\u4FE1\u606F" })] })) : null] })] })] })) : null, error ? (_jsxs("section", { className: "distribution-state distribution-state--error", role: "alert", children: [_jsx("strong", { children: "\u5206\u9500\u5217\u8868\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: error }), _jsx("button", { type: "button", onClick: () => reload('分销列表已恢复'), children: "\u91CD\u8BD5" })] })) : null, !error && dashboard ? (_jsx(RoomTable, { label: filters.tab === 'distributed' ? '已分销房型表' : '未分销房型表', rows: visibleRows, emptyText: filters.tab === 'distributed' ? '当前条件暂无房型数据' : '暂无数据', progressHeader: filters.tab === 'distributed' ? '分销进度' : '原因', openMenuId: openMenuId, onToggleMenu: setOpenMenuId, onToggleDistribution: toggleDistribution, onEditChannel: (room) => {
+                                                        }, children: "\u5B8C\u5584\u623F\u578B\u4FE1\u606F" })] })) : null] })] })] })) : null, _jsxs("div", { className: "distribution-filter-bar", role: "search", "aria-label": "\u5206\u9500\u623F\u578B\u7B5B\u9009", children: [_jsxs("label", { children: [_jsx("span", { children: "\u623F\u578B" }), _jsx("input", { type: "search", placeholder: "\u641C\u7D22\u623F\u578B\u6216\u539F\u56E0", value: keywordDraft, onChange: (event) => setKeywordDraft(event.target.value), onKeyDown: (event) => {
+                                            if (event.key === 'Enter')
+                                                applyKeywordSearch();
+                                        } })] }), _jsx("button", { type: "button", className: "is-primary", onClick: applyKeywordSearch, children: "\u67E5\u8BE2" }), _jsx("button", { type: "button", className: "is-light", onClick: () => {
+                                    setKeywordDraft('');
+                                    updateFilters((current) => ({ ...current, keyword: '', page: 1 }));
+                                }, children: "\u91CD\u7F6E" })] }), error ? (_jsxs("section", { className: "distribution-state distribution-state--error", role: "alert", children: [_jsx("strong", { children: "\u5206\u9500\u5217\u8868\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: error }), _jsx("button", { type: "button", onClick: () => reload('分销列表已恢复'), children: "\u91CD\u8BD5" })] })) : null, !error && dashboard ? (_jsx(RoomTable, { label: filters.tab === 'distributed' ? '已分销房型表' : '未分销房型表', rows: visibleRows, channels: dashboard.channels, emptyText: filters.tab === 'distributed' ? '当前条件暂无已分销房型' : '当前条件暂无未分销房型', progressHeader: filters.tab === 'distributed' ? '分销进度' : '原因', openMenuId: openMenuId, onToggleMenu: setOpenMenuId, onToggleDistribution: toggleDistribution, onEditChannel: (room) => {
                             setDrawerRoomId(room.id);
                             setOpenMenuId(null);
-                        } })) : null] }), loading ? _jsx("div", { className: "distribution-loading", children: "\u5206\u9500\u5217\u8868\u52A0\u8F7D\u4E2D..." }) : null, notice ? (_jsx("div", { className: "distribution-toast", role: "status", children: notice })) : null, selectedRoom && dashboard ? (_jsx(DistributionConfigDrawer, { room: selectedRoom, channels: dashboard.channels, onClose: () => setDrawerRoomId(null) })) : null, importDialogMode ? (_jsx(ChannelImportDialog, { mode: importDialogMode, onClose: () => setImportDialogMode(null) })) : null] }));
+                        } })) : null] }), loading ? _jsx("div", { className: "distribution-loading", children: "\u5206\u9500\u5217\u8868\u52A0\u8F7D\u4E2D..." }) : null, notice ? (_jsx("div", { className: "distribution-toast", role: "status", children: notice })) : null, selectedRoom && dashboard ? (_jsx(DistributionConfigDrawer, { room: selectedRoom, channels: dashboard.channels, onClose: () => setDrawerRoomId(null), onProgressChange: applyRoomProgress })) : null, importDialogMode ? (_jsx(ChannelImportDialog, { mode: importDialogMode, channels: dashboard?.channels ?? [], onClose: () => setImportDialogMode(null) })) : null] }));
 }
-function RoomTable({ label, rows, emptyText, progressHeader, openMenuId, onToggleMenu, onToggleDistribution, onEditChannel, }) {
+function RoomTable({ label, rows, channels, emptyText, progressHeader, openMenuId, onToggleMenu, onToggleDistribution, onEditChannel, }) {
     return (_jsx("div", { className: "distribution-table-wrap", children: _jsxs("table", { className: "distribution-table distribution-table--compact", "aria-label": label, children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "\u623F\u578B" }), _jsx("th", { children: progressHeader }), _jsx("th", { children: "\u64CD\u4F5C" })] }) }), _jsx("tbody", { children: rows.length > 0 ? (rows.map((room) => {
                         const currentProgress = room.progress;
-                        return (_jsxs("tr", { children: [_jsx("td", { children: _jsxs("div", { className: "distribution-room-cell", children: [_jsx("img", { src: room.thumbnail, alt: "" }), _jsx("div", { className: "distribution-room-cell__content", children: _jsx("strong", { children: room.name }) })] }) }), _jsx("td", { children: _jsx("span", { className: `distribution-progress distribution-progress--${currentProgress}`, "data-progress": currentProgress, children: currentProgress === 'distributing' ? '分销中' : '关闭' }) }), _jsx("td", { children: _jsxs("div", { className: "distribution-more", children: [_jsx("button", { type: "button", className: "distribution-more__trigger", "aria-expanded": openMenuId === room.id, onClick: (event) => {
+                        const progressText = formatDistributionProgress(currentProgress, room.channelIds, channels);
+                        return (_jsxs("tr", { children: [_jsx("td", { children: _jsxs("div", { className: "distribution-room-cell", children: [_jsx("img", { src: room.thumbnail, alt: "" }), _jsx("div", { className: "distribution-room-cell__content", children: _jsx("strong", { children: room.name }) })] }) }), _jsx("td", { children: _jsx("span", { className: `distribution-progress distribution-progress--${currentProgress}`, "data-progress": currentProgress, children: progressText }) }), _jsx("td", { children: _jsxs("div", { className: "distribution-more", children: [_jsx("button", { type: "button", className: "distribution-more__trigger", "aria-expanded": openMenuId === room.id, onClick: (event) => {
                                                     event.stopPropagation();
                                                     onToggleMenu(openMenuId === room.id ? null : room.id);
-                                                }, children: "\u66F4\u591A" }), openMenuId === room.id ? (_jsxs("div", { className: "distribution-more__menu", role: "menu", onClick: (event) => event.stopPropagation(), children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => onToggleDistribution(room), children: currentProgress === 'closed' ? '打开' : '关闭' }), _jsx("button", { type: "button", role: "menuitem", onClick: () => onEditChannel(room), children: "\u6E20\u9053\u7F16\u8F91" })] })) : null] }) })] }, room.id));
+                                                }, children: "\u66F4\u591A" }), openMenuId === room.id ? (_jsxs("div", { className: "distribution-more__menu", role: "menu", onClick: (event) => event.stopPropagation(), children: [_jsx("button", { type: "button", role: "menuitem", onClick: () => onToggleDistribution(room), children: currentProgress === 'closed' ? '开启分销' : '关闭分销' }), _jsx("button", { type: "button", role: "menuitem", onClick: () => onEditChannel(room), children: "\u6E20\u9053\u7F16\u8F91" })] })) : null] }) })] }, room.id));
                     })) : (_jsx("tr", { className: "distribution-empty-row", children: _jsx("td", { colSpan: 3, children: _jsxs("div", { className: "distribution-empty", children: [_jsx("span", { "aria-hidden": "true" }), _jsx("p", { children: emptyText })] }) }) })) })] }) }));
 }
-function DistributionConfigDrawer({ room, channels, onClose, }) {
+function DistributionConfigDrawer({ room, channels, onClose, onProgressChange, }) {
     const [enabled, setEnabled] = useState(room.progress === 'distributing');
     const [isEditing, setIsEditing] = useState(false);
     const [selectedChannelIds, setSelectedChannelIds] = useState(room.channelIds);
@@ -150,34 +203,65 @@ function DistributionConfigDrawer({ room, channels, onClose, }) {
     const toggleChannel = (channelId) => {
         setDraftChannelIds((current) => current.includes(channelId) ? current.filter((item) => item !== channelId) : [...current, channelId]);
     };
+    const toggleEnabled = () => {
+        const nextEnabled = !enabled;
+        setEnabled(nextEnabled);
+        onProgressChange(room, nextEnabled ? 'distributing' : 'closed', nextEnabled ? selectedChannelIds : []);
+    };
     return (_jsx("div", { ref: layerRef, className: "distribution-config-drawer-layer", role: "presentation", onMouseDown: (event) => {
             if (event.target === layerRef.current)
                 onClose();
-        }, children: _jsxs("aside", { className: "distribution-config-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u5206\u9500\u914D\u7F6E", onMouseDown: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "distribution-config-drawer__header", children: [_jsx("h2", { children: "\u5206\u9500\u914D\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u5206\u9500\u914D\u7F6E", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "distribution-config-drawer__body", children: [_jsxs("section", { className: "distribution-config-switch", children: [_jsxs("div", { children: [_jsx("strong", { children: enabled ? '聚合分销已开启' : '聚合分销已关闭' }), _jsx("span", { children: room.name })] }), _jsx("button", { type: "button", className: `distribution-config-switch__toggle${enabled ? ' is-active' : ''}`, "aria-pressed": enabled, "aria-label": enabled ? '聚合分销已开启' : '聚合分销已关闭', onClick: () => setEnabled((current) => !current), children: _jsx("span", {}) })] }), _jsxs("section", { className: "distribution-config-card", "aria-label": "\u805A\u5408\u5206\u9500\u6E20\u9053", children: [_jsxs("div", { className: "distribution-config-card__top", children: [_jsxs("div", { children: [_jsx("h3", { children: "\u805A\u5408\u5206\u9500\u6E20\u9053" }), _jsxs("p", { children: ["\u5F53\u524D\u5206\u9500\u60C5\u51B5: ", selectedChannelIds.length, "/", channels.length] })] }), isEditing ? (_jsxs("div", { className: "distribution-config-card__actions", children: [_jsx("button", { type: "button", onClick: () => {
+        }, children: _jsxs("aside", { className: "distribution-config-drawer", role: "dialog", "aria-modal": "true", "aria-label": "\u5206\u9500\u914D\u7F6E", onMouseDown: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "distribution-config-drawer__header", children: [_jsx("h2", { children: "\u5206\u9500\u914D\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u5206\u9500\u914D\u7F6E", onClick: onClose, children: "x" })] }), _jsxs("div", { className: "distribution-config-drawer__body", children: [_jsxs("section", { className: "distribution-config-switch", children: [_jsxs("div", { children: [_jsx("strong", { children: enabled ? '宿银平台分销已开启' : '宿银平台分销已关闭' }), _jsx("span", { children: room.name })] }), _jsx("button", { type: "button", className: `distribution-config-switch__toggle${enabled ? ' is-active' : ''}`, "aria-pressed": enabled, "aria-label": enabled ? '宿银平台分销已开启' : '宿银平台分销已关闭', onClick: toggleEnabled, children: _jsx("span", {}) })] }), _jsxs("section", { className: "distribution-config-card", "aria-label": "\u805A\u5408\u5206\u9500\u6E20\u9053", children: [_jsxs("div", { className: "distribution-config-card__top", children: [_jsxs("div", { children: [_jsx("h3", { children: "\u805A\u5408\u5206\u9500\u6E20\u9053" }), _jsxs("p", { children: ["\u5F53\u524D\u5206\u9500\u60C5\u51B5: ", selectedChannelIds.length, "/", channels.length] })] }), isEditing ? (_jsxs("div", { className: "distribution-config-card__actions", children: [_jsx("button", { type: "button", onClick: () => {
                                                         setDraftChannelIds(selectedChannelIds);
                                                         setIsEditing(false);
                                                     }, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-strong", onClick: () => {
+                                                        const nextProgress = draftChannelIds.length > 0 ? 'distributing' : 'closed';
                                                         setSelectedChannelIds(draftChannelIds);
+                                                        setEnabled(nextProgress === 'distributing');
                                                         setIsEditing(false);
+                                                        onProgressChange(room, nextProgress, draftChannelIds);
                                                     }, children: "\u4FDD\u5B58" })] })) : (_jsx("button", { type: "button", onClick: () => setIsEditing(true), children: "\u7F16\u8F91" }))] }), _jsx("div", { className: "distribution-config-card__grid", children: channels.map((channel) => {
                                         const active = (isEditing ? draftChannelIds : selectedChannelIds).includes(channel.id);
                                         return (_jsxs("button", { type: "button", className: `distribution-channel-chip${active ? ' is-active' : ''}${isEditing ? ' is-editable' : ''}`, onClick: () => {
                                                 if (isEditing)
                                                     toggleChannel(channel.id);
                                             }, children: [_jsx("span", { style: { ['--channel-color']: channel.color }, children: channel.shortName }), _jsx("strong", { children: channel.name })] }, channel.id));
-                                    }) })] })] }), _jsxs("footer", { className: "distribution-config-drawer__footer", children: ["\u5F00\u901A\u805A\u5408\u5206\u9500\u65F6\uFF0C\u60A8\u5DF2\u9605\u8BFB\u5E76\u540C\u610F", _jsx("span", { children: "\u300A\u8DEF\u5BA2\u4E91\u5206\u9500\u534F\u8BAE\u300B" }), "\uFF0C\u5982\u6709\u7591\u95EE\uFF0C\u60A8\u53EF", _jsx("a", { href: "/", onClick: (event) => event.preventDefault(), children: "\u8054\u7CFB\u5BA2\u670D" })] })] }) }));
+                                    }) })] })] }), _jsxs("footer", { className: "distribution-config-drawer__footer", children: ["\u672C\u671F\u5148\u8054\u901A\u672C\u5730\u6E20\u9053 ", _jsx("span", { children: "\u5BBF\u94F6\u5E73\u53F0" }), "\uFF1B\u643A\u7A0B\u3001\u7F8E\u56E2\u3001\u9014\u5BB6\u7B49\u7B2C\u4E09\u65B9\u6E20\u9053\u5B8C\u6210\u6388\u6743\u9002\u914D\u540E\uFF0C\u4F1A\u5728\u8FD9\u91CC\u8FFD\u52A0\u6E20\u9053\u5361\u7247\u548C\u540C\u6B65\u72B6\u6001\u3002"] })] }) }));
 }
-function ChannelImportDialog({ mode, onClose, }) {
+function ChannelImportDialog({ mode, channels, onClose, }) {
     const layerRef = useRef(null);
-    const [roomType, setRoomType] = useState('prepay');
-    const [connectEnabled, setConnectEnabled] = useState(true);
-    const [storeDropdownOpen, setStoreDropdownOpen] = useState(false);
-    const [selectedStore, setSelectedStore] = useState(importStoreOptions[0]);
+    const title = mode === 'store' ? '完善门店信息' : '完善房型信息';
+    const visibleChannels = channels.length > 0 ? channels : [{ id: localDistributionChannelId, name: '宿银平台' }];
     return (_jsx("div", { ref: layerRef, className: "distribution-dialog-layer", role: "presentation", onMouseDown: (event) => {
             if (event.target === layerRef.current)
                 onClose();
-        }, children: _jsxs("section", { className: "distribution-import-dialog", role: "dialog", "aria-modal": "true", "aria-label": mode === 'store' ? '完善门店信息' : '完善房型信息', onMouseDown: (event) => event.stopPropagation(), children: [_jsx("button", { type: "button", className: "distribution-import-dialog__close", "aria-label": "\u5173\u95ED\u5F39\u7A97", onClick: onClose, children: "\u00D7" }), _jsx("p", { className: "distribution-import-dialog__intro", children: "\u8BF7\u9009\u62E9\u60A8\u4E0A\u7EBF\u7684\u6E20\u9053(\u5355\u9009)\uFF0C\u9152\u5E97\u6E20\u9053\u80FD\u5BFC\u5165\u7684\u4FE1\u606F\u80FD\u5B8C\u5584\u3002" }), _jsxs("div", { className: "distribution-import-dialog__channels", children: [_jsx("button", { type: "button", className: "is-active", children: "\u643A\u7A0B\u9152\u5E97" }), mode === 'room' ? _jsx("button", { type: "button", children: "\u7F8E\u56E2\u6C11\u5BBF" }) : null] }), _jsx("p", { className: "distribution-import-dialog__desc", children: "\u8BF7\u6388\u6743\u6E20\u9053\uFF0C\u6211\u4EEC\u5C06\u4F1A\u4E3A\u60A8\u81EA\u52A8\u76F4\u8FDE\u5E76\u5B8C\u5584\u95E8\u5E97\u4FE1\u606F\u3002" }), _jsxs("div", { className: "distribution-import-form", children: [_jsxs("label", { className: "distribution-import-form__row", children: [_jsx("span", { children: "\u5F53\u524D\u95E8\u5E97:" }), _jsxs("div", { className: "distribution-import-form__field-wrap", children: [_jsxs("div", { className: "distribution-import-form__select-wrap", children: [_jsxs("button", { type: "button", className: "distribution-import-form__select", "aria-expanded": storeDropdownOpen, onClick: () => setStoreDropdownOpen((current) => !current), children: [_jsx("span", { children: selectedStore }), _jsx("em", { children: "\u2304" })] }), storeDropdownOpen ? (_jsx("div", { className: "distribution-import-form__dropdown", role: "listbox", children: importStoreOptions.map((store) => (_jsx("button", { type: "button", role: "option", className: selectedStore === store ? 'is-selected' : '', onClick: () => {
-                                                            setSelectedStore(store);
-                                                            setStoreDropdownOpen(false);
-                                                        }, children: store }, store))) })) : null] }), _jsx("button", { type: "button", className: "distribution-import-form__link", children: "\u65B0\u589E\u95E8\u5E97" })] })] }), _jsxs("div", { className: "distribution-import-form__row", children: [_jsx("span", { children: "\u5B50\u9152\u5E97\u7C7B\u578B" }), _jsxs("div", { className: "distribution-import-form__radios", children: [_jsxs("label", { children: [_jsx("input", { type: "radio", checked: roomType === 'prepay', onChange: () => setRoomType('prepay') }), _jsx("span", { children: "\u9884\u4ED8" })] }), _jsxs("label", { children: [_jsx("input", { type: "radio", checked: roomType === 'cash', onChange: () => setRoomType('cash') }), _jsx("span", { children: "\u73B0\u4ED8" })] })] })] }), _jsxs("label", { className: "distribution-import-form__row", children: [_jsx("span", { children: "\u5B50\u9152\u5E97ID:" }), _jsxs("div", { className: "distribution-import-form__input-wrap", children: [_jsx("input", { type: "text", placeholder: "\u8BF7\u8F93\u5165\u5B50\u9152\u5E97ID" }), _jsx("button", { type: "button", className: "distribution-import-form__help", "aria-label": "\u67E5\u770B\u5E2E\u52A9", children: "?" })] })] }), _jsxs("label", { className: "distribution-import-form__row", children: [_jsx("span", { children: "\u9152\u5E97\u540D\u79F0:" }), _jsx("input", { type: "text", placeholder: "\u8BF7\u786E\u8BA4\u8F93\u5165\u4E0E\u643A\u7A0B\u4E00\u81F4\u7684\u9152\u5E97\u540D\u79F0" })] }), _jsxs("label", { className: "distribution-import-form__checkbox", children: [_jsx("input", { type: "checkbox", checked: connectEnabled, onChange: () => setConnectEnabled((current) => !current) }), _jsx("span", { children: "\u540C\u65F6\u5B8C\u6210\u643A\u7A0B\u76F4\u8FDE" })] })] }), _jsx("div", { className: "distribution-import-dialog__footer", children: _jsx("button", { type: "button", className: "distribution-import-dialog__confirm", onClick: onClose, children: "\u786E\u8BA4" }) })] }) }));
+        }, children: _jsxs("section", { className: "distribution-import-dialog", role: "dialog", "aria-modal": "true", "aria-label": title, onMouseDown: (event) => event.stopPropagation(), children: [_jsx("button", { type: "button", className: "distribution-import-dialog__close", "aria-label": "\u5173\u95ED\u5F39\u7A97", onClick: onClose, children: "x" }), _jsx("p", { className: "distribution-import-dialog__intro", children: title }), _jsx("div", { className: "distribution-import-dialog__channels", children: visibleChannels.map((channel, index) => (_jsx("button", { type: "button", className: index === 0 ? 'is-active' : '', disabled: index > 0, children: channel.name }, channel.id))) }), _jsx("p", { className: "distribution-import-dialog__desc", children: "\u5F53\u524D\u7CFB\u7EDF\u8FD8\u6CA1\u6709\u5BF9\u63A5\u7B2C\u4E09\u65B9\u5E73\u53F0\uFF0C\u672C\u5730\u623F\u578B\u4F1A\u5148\u4F5C\u4E3A\u5BBF\u94F6\u5E73\u53F0\u5206\u9500\u6570\u636E\u5C55\u793A\u3002\u540E\u7EED\u63A5\u5165\u7B2C\u4E09\u65B9\u540E\uFF0C\u8FD9\u91CC\u518D\u6309\u6E20\u9053\u6388\u6743\u62C9\u53D6\u95E8\u5E97\u548C\u623F\u578B\u8D44\u6599\u3002" }), _jsx("div", { className: "distribution-import-dialog__footer", children: _jsx("button", { type: "button", className: "distribution-import-dialog__confirm", onClick: onClose, children: "\u77E5\u9053\u4E86" }) })] }) }));
+}
+function formatDistributionProgress(progress, channelIds, channels) {
+    if (progress === 'closed')
+        return '已关闭';
+    const activeChannels = resolveActiveChannels(channelIds, channels);
+    if (activeChannels.length === 0)
+        return '未关联渠道';
+    if (activeChannels.length === 1)
+        return `${activeChannels[0].name}分销中`;
+    return `已关联 ${activeChannels.length} 个渠道`;
+}
+function resolveActiveChannels(channelIds, channels) {
+    const channelById = new Map(channels.map((channel) => [channel.id, channel]));
+    return channelIds.map((channelId) => channelById.get(channelId)).filter((channel) => Boolean(channel));
+}
+function persistLocalDistributionStatus(roomId, progress, channelIds) {
+    if (typeof window === 'undefined')
+        return;
+    const nextState = channelIds
+        ? { progress, channelIds: progress === 'distributing' && channelIds.length > 0 ? channelIds : [] }
+        : progress;
+    try {
+        const current = JSON.parse(window.localStorage.getItem(localDistributionStatusStorageKey) || '{}');
+        window.localStorage.setItem(localDistributionStatusStorageKey, JSON.stringify({ ...current, [roomId]: nextState }));
+    }
+    catch {
+        window.localStorage.setItem(localDistributionStatusStorageKey, JSON.stringify({ [roomId]: nextState }));
+    }
 }

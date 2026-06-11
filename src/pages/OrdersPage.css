@@ -1268,11 +1268,20 @@
   font-size: 14px;
 }
 
+.order-entry-inline-field.has-error {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
 .order-entry-inline-field > span,
 .order-entry-inline-money > span,
 .order-entry-inline-addon > span {
   flex: 0 0 auto;
   white-space: nowrap;
+}
+
+.order-entry-inline-field.has-error > span {
+  line-height: 28px;
 }
 
 .order-entry-inline-field.is-required > span::before {
@@ -1559,6 +1568,7 @@
 
 .order-entry-stay-guest-row input,
 .order-entry-stay-guest-row select {
+  width: 100%;
   height: 40px;
   border: 1px solid #e5e9f2;
   border-right: 0;
@@ -1568,9 +1578,21 @@
   color: #2e3445;
 }
 
-.order-entry-stay-guest-row input:first-child {
+.order-entry-stay-guest-field {
+  display: grid;
+  align-content: flex-start;
+  min-width: 0;
+}
+
+.order-entry-stay-guest-field:first-child input {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+}
+
+.order-entry-stay-guest-field:nth-child(4) input {
+  border-right: 1px solid #e5e9f2;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .order-entry-stay-guest-row button:last-child {
@@ -2462,14 +2484,26 @@
   text-align: left;
 }
 
-.has-error input {
+.has-error input,
+.has-error select {
   border-color: #ef5b52;
 }
 
 .has-error em {
+  display: block;
   color: #ef5b52;
   font-size: 12px;
   font-style: normal;
+  line-height: 18px;
+}
+
+.order-entry-inline-field.has-error em {
+  flex: 0 0 100%;
+  padding-left: 58px;
+}
+
+.order-entry-stay-guest-field.has-error em {
+  padding: 3px 8px 0 0;
 }
 
 .order-create-modal {

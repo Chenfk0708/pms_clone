@@ -139,10 +139,10 @@ export function HouseStatusLogsPage() {
       <section className="status-log-panel">
         <form className="status-log-query" aria-label="房态日志筛选" onSubmit={handleSubmit}>
           <div className="status-log-field status-log-store-field">
-            <span>闂ㄥ簵</span>
+            <span>门店</span>
             <StoreSelectControl
               className="house-status-log-store"
-              label="闂ㄥ簵鑼冨洿"
+              label="门店范围"
               options={storeOptions.map((store) => ({ id: store.id, name: store.label }))}
               value={selectedStoreId}
               disabled={storeLoading || isLoading}

@@ -19,12 +19,14 @@ import {
   type CustomerRecord,
   type CustomerStatus,
 } from '../services/customerList'
+import { validatePersonName, validateRequiredMainlandMobile } from '../utils/inputValidation'
 import './CustomerListPage.css'
 
 type FilterKey = 'status' | 'identity' | 'level' | 'wechat' | 'gender' | 'age'
 type SearchType = CustomerListQuery['memberSearchType']
 type OpenFilter = FilterKey | 'searchType' | null
 type MoreAction = 'coupon' | 'level' | 'tag'
+type CustomerDialogErrors = Partial<Record<'mobile' | 'name', string>>
 
 const tableColumns = [
   '客户信息',
@@ -661,12 +663,26 @@ function AddCustomerDialog({ onClose, onSaved }: { onClose: () => void; onSaved:
   const [mobile, setMobile] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<CustomerDialogErrors>({})
   const [saving, setSaving] = useState(false)
 
   async function handleSave() {
     setError('')
+    const nextErrors: CustomerDialogErrors = {
+      mobile: validateRequiredMainlandMobile(mobile),
+      name: validatePersonName(name),
+    }
+    Object.keys(nextErrors).forEach((key) => {
+      if (!nextErrors[key as keyof CustomerDialogErrors]) delete nextErrors[key as keyof CustomerDialogErrors]
+    })
+    setFieldErrors(nextErrors)
+
     if (!mobile.trim()) {
       setError('请输入手机号')
+      return
+    }
+    if (Object.keys(nextErrors).length > 0) {
+      setError('请先修正客户信息格式')
       return
     }
 
@@ -704,8 +720,30 @@ function AddCustomerDialog({ onClose, onSaved }: { onClose: () => void; onSaved:
               {error}
             </div>
           ) : null}
-          <DialogField label="手机号" required placeholder="请输入手机号" value={mobile} onChange={setMobile} />
-          <DialogField label="姓名" placeholder="请输入姓名" value={name} onChange={setName} />
+          <DialogField
+            label="手机号"
+            required
+            placeholder="请输入手机号"
+            value={mobile}
+            error={fieldErrors.mobile}
+            onChange={(value) => {
+              setMobile(value)
+              setFieldErrors((current) => ({ ...current, mobile: undefined }))
+              setError('')
+            }}
+          />
+          <DialogField
+            label="姓名"
+            required
+            placeholder="请输入姓名"
+            value={name}
+            error={fieldErrors.name}
+            onChange={(value) => {
+              setName(value)
+              setFieldErrors((current) => ({ ...current, name: undefined }))
+              setError('')
+            }}
+          />
           <DialogSelect label="性别" placeholder="请选择" />
           <DialogField label="生日" type="date" placeholder="请选择日期" />
           <DialogField label="地区" placeholder="请输入" />
@@ -908,6 +946,7 @@ function DialogField({
   required,
   defaultValue,
   value,
+  error,
   onChange,
 }: {
   label: string
@@ -916,6 +955,7 @@ function DialogField({
   required?: boolean
   defaultValue?: string
   value?: string
+  error?: string
   onChange?: (value: string) => void
 }) {
   return (
@@ -924,7 +964,10 @@ function DialogField({
         {required ? <b aria-hidden="true">*</b> : null}
         {label}:
       </span>
-      <input type={type ?? 'text'} aria-label={label} placeholder={placeholder} defaultValue={defaultValue} value={value} onChange={(event) => onChange?.(event.target.value)} />
+      <div className="customer-list-dialog-control">
+        <input type={type ?? 'text'} aria-label={label} placeholder={placeholder} defaultValue={defaultValue} value={value} onChange={(event) => onChange?.(event.target.value)} />
+        {error ? <small className="customer-list-field-error">{error}</small> : null}
+      </div>
     </label>
   )
 }

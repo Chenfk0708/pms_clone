@@ -94,6 +94,22 @@ test('/InformationMaintenance/qualification supports tabs upload and save feedba
   await expect(page.getByLabel('企业资质图片列表')).toContainText('企业门头-01.png')
 })
 
+test('/InformationMaintenance/qualification validates contact phone before saving', async ({ page }) => {
+  await openCompanyQualification(page)
+
+  await page.getByRole('button', { name: '编 辑' }).click()
+  await page.getByLabel('企业名称').fill('路客云6TS5旗舰店')
+  await page.getByLabel('联系电话').fill('12000000000')
+  await page.getByLabel('所在城市').selectOption('深圳 / 福田')
+  await page.getByLabel('详细地址').fill('福田区会展中心店 18 楼')
+  await page.getByRole('button', { name: '保 存' }).click()
+
+  await expect(page.locator('.company-edit-row em').filter({ hasText: '联系电话格式不正确' })).toBeVisible()
+  await expect(page.getByRole('status', { name: '企业资质操作反馈' })).toContainText('请先补全企业信息后再保存')
+  await expect(page.getByRole('button', { name: '保 存' })).toBeVisible()
+  await expect(page.getByLabel('企业资质企业信息详情')).toHaveCount(0)
+})
+
 test('/InformationMaintenance/qualification cancels edits and keeps coordinated route entries', async ({ page }) => {
   await openCompanyQualification(page)
 

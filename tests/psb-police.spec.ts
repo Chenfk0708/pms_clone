@@ -3,10 +3,26 @@ import { expect, test, type Page } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  const hashPath = routePath.startsWith('/#') ? routePath : `/#${routePath}`
+  return appBaseURL ? `${appBaseURL.replace(/\/$/, '')}${hashPath}` : hashPath
 }
 
 async function gotoPsbPage(page: Page, routePath: string) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'psb-police-playwright-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '1',
+        name: '演示管理员',
+        mobile: '13800000001',
+        roleName: '平台管理员',
+        campName: '1796067693589061634',
+      }),
+    )
+  })
   await page.goto(appUrl(routePath), { waitUntil: 'domcontentloaded' })
   await expect(page.locator('.psb-page')).toBeVisible({ timeout: 20_000 })
 }
@@ -99,6 +115,37 @@ test('/psb/list validates required fields and resets the add dialog on cancel', 
   const reopenedDialog = page.getByRole('dialog', { name: '新增' })
   await expect(reopenedDialog.getByPlaceholder('请输入商户名称')).toHaveValue('')
   await expect(reopenedDialog.getByText('商户名称不能为空')).toHaveCount(0)
+})
+
+test('/psb/list validates registrant name and id number beside fields', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await gotoPsbPage(page, '/psb/list')
+
+  await page.getByRole('button', { name: '新 增' }).click()
+  const dialog = page.getByRole('dialog', { name: '新增' })
+
+  await dialog.getByRole('button', { name: '请选择门店' }).click()
+  await dialog.getByRole('option', { name: '天落会宿公寓(前海壹方城宝安中心店)' }).click()
+
+  await dialog.getByPlaceholder('请输入商户名称').fill('天落会宿公寓前海店')
+  await dialog.getByPlaceholder('请输入旅业经营名称').fill('天落会宿公寓前海店')
+  await dialog.getByPlaceholder('请输入旅业编码').fill('GD-LY-20260519-001')
+  await dialog.getByPlaceholder('请输入社会信用代码').fill('91440300MA5XXXXXXX')
+  await dialog.getByPlaceholder('请输入旅业经营地址').fill('深圳市宝安区新湖路99号')
+  await dialog.getByPlaceholder('请输入行政区划码').fill('440306')
+  await dialog.getByPlaceholder('请输入旅业申请的注册码').fill('PSB-REG-001')
+  await dialog.getByPlaceholder('请输入旅馆编码').fill('HOTEL-001')
+  await dialog.getByPlaceholder('请输入accessKeyId').fill('ak-live-001')
+  await dialog.getByPlaceholder('请输入设备处理业务公钥').fill('PUBLIC-KEY-001')
+  await dialog.getByPlaceholder('请输入设备处理业务私钥').fill('PRIVATE-KEY-001')
+  await dialog.getByPlaceholder('请输入登记人姓名').fill('1')
+  await dialog.getByPlaceholder('请输入登记人证件号码').fill('440301199001011233')
+
+  await dialog.getByRole('button', { name: '确 定' }).click()
+
+  await expect(dialog.locator('.psb-form-error', { hasText: '姓名格式不正确，请输入 2-30 个中文或英文字母' })).toBeVisible()
+  await expect(dialog.locator('.psb-form-error', { hasText: '居民身份证号格式不正确' })).toBeVisible()
+  await expect(page.getByRole('cell', { name: '天落会宿公寓前海店' })).toHaveCount(0)
 })
 
 test('/psb/list supports store selection and successful submit feedback', async ({ page }) => {

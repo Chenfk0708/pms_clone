@@ -885,6 +885,17 @@ img.camp-info-room-image {
   width: 286px;
 }
 
+.camp-info-edit-field {
+  display: grid;
+  gap: 4px;
+}
+
+.camp-info-field-error {
+  color: #d14343;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 .camp-info-edit-tag-row {
   grid-template-columns: 96px 210px 150px minmax(0, 1fr);
 }

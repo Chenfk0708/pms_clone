@@ -1,0 +1,179 @@
+.page-content:has(.account-setting-page) {
+  padding: 6px 10px 0;
+  background: #f5f7fb;
+  overflow: hidden;
+}
+
+.page-content:has(.account-setting-page) > .page-header {
+  display: none;
+}
+
+.account-setting-page {
+  min-height: calc(100vh - 58px);
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.account-setting-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.account-setting-header nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #8a94a6;
+}
+
+.account-setting-header a {
+  color: #8a94a6;
+}
+
+.account-setting-header a:hover {
+  color: #4d65f6;
+}
+
+.account-setting-header strong {
+  color: #111827;
+  font-weight: 500;
+}
+
+.account-save-button {
+  min-width: 72px;
+  height: 26px;
+  border: 1px solid #4d65f6;
+  border-radius: 4px;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.account-save-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.account-setting-section-title {
+  height: 40px;
+  padding: 11px 0 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #17233d;
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.account-setting-section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: #4d65f6;
+  vertical-align: -3px;
+}
+
+.account-setting-loading {
+  width: fit-content;
+  margin: 12px 0 0 92px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.account-setting-feedback {
+  width: fit-content;
+  margin: 12px 0 0 92px;
+  padding: 6px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 4px;
+  background: #f5f8ff;
+  color: #315cf6;
+}
+
+.account-setting-form {
+  display: grid;
+  gap: 18px;
+  padding: 14px 0 0 8px;
+}
+
+.account-setting-password-block {
+  display: grid;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.account-setting-row {
+  display: grid;
+  grid-template-columns: 72px 240px;
+  align-items: center;
+  min-height: 32px;
+}
+
+.account-setting-row > span {
+  color: #111827;
+}
+
+.account-setting-row input {
+  width: 188px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+}
+
+.account-setting-field {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.account-setting-field-error {
+  color: #d14343;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.account-setting-row input:focus {
+  border-color: #4d65f6;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgb(77 101 246 / 12%);
+}
+
+.account-setting-row strong {
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.account-setting-row--avatar {
+  min-height: 82px;
+}
+
+.account-avatar-uploader {
+  width: 74px;
+  height: 74px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.account-avatar-uploader svg,
+.account-avatar-uploader img {
+  display: block;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  object-fit: cover;
+}

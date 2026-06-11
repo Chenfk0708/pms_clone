@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useRef, useState } from 'react';
 import './CompanyInfoPage.css';
 import { CompanyInfoRequestError, createEmptyCompanyInfoDraft, createUploadedCompanyImage, defaultCompanyInfoQuery, fetchCompanyInfo, saveCompanyInfo, } from '../services/companyInfo';
+import { validateOptionalContactPhone } from '../utils/inputValidation';
 export function CompanyInfoPage() {
     const [viewModel, setViewModel] = useState(null);
     const [draft, setDraft] = useState(createEmptyCompanyInfoDraft());
@@ -71,8 +72,9 @@ export function CompanyInfoPage() {
         const errors = {};
         if (!draft.name.trim())
             errors.name = '请输入企业名称';
-        if (draft.phone && !/^\d{11}$/.test(draft.phone.trim()))
-            errors.phone = '联系电话需为 11 位手机号';
+        const phoneError = validateOptionalContactPhone(draft.phone);
+        if (phoneError)
+            errors.phone = phoneError;
         if (!draft.city.trim())
             errors.city = '请选择所在城市';
         if (!draft.address.trim())

@@ -112,6 +112,13 @@ export async function skipStockHouseMonthOrder(request) {
     });
     return adaptHouseMonthOrderActionResponse(data, request.orderId, '订单已释放库存并取消排房');
 }
+export async function markNoShowHouseMonthOrder(request) {
+    const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/mark-no-show`, {
+        campId: request.campId,
+        reason: request.reason,
+    });
+    return adaptHouseMonthOrderActionResponse(data, request.orderId, '已标记为未到店');
+}
 export async function fetchHouseMonthChangeRoomOptions(request) {
     const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/change-room/options`, {
         campId: request.campId,
@@ -314,7 +321,16 @@ function mockSuccessHouseMonthsBundle(payload, columns) {
                 storeName: category.storeName,
                 roomCategoryId: category.roomCategoryId,
                 roomCategoryName: category.roomCategoryName,
-                rooms: [{ roomId: category.roomId, roomName: category.roomName }],
+                price: category.price,
+                monthlyRent: category.monthlyRent,
+                rooms: [
+                    {
+                        roomId: category.roomId,
+                        roomName: category.roomName,
+                        price: category.price,
+                        monthlyRent: category.monthlyRent,
+                    },
+                ],
             })),
             pagination: { page: 1, pageSize: 20, total: roomCategories.length },
         }),
@@ -460,6 +476,9 @@ function buildHudsonHeaders() {
         app_system: 'v4.10.7',
         app_version: '4.10.7',
     };
+    const pmsToken = readRuntimeConfig('pms_token');
+    if (pmsToken)
+        headers.Authorization = `Bearer ${pmsToken}`;
     const token = readHudsonAccessToken();
     if (token)
         headers['hudson-access-token'] = token;
@@ -941,6 +960,12 @@ function normalizeMonthLiveStatus(value) {
         normalized.includes('已退房') ||
         normalized.includes('已完成'))
         return '已退房';
+    if (normalized === 'no_show' ||
+        normalized === 'no-show' ||
+        normalized === 'noshow' ||
+        normalized.includes('未到店') ||
+        normalized.includes('失约'))
+        return '未到店';
     return '待入住';
 }
 function toneForMonthLiveStatus(liveStatus, duplicate) {

@@ -5,6 +5,7 @@ import { fetchLongRentalOrders, resolveLongRentalQueryFromLocation, } from '../s
 import { createOrder } from '../services/orderCreate';
 import { fetchOrderRoomSelectorOptions, } from '../services/orderRoomSelector';
 import { StoreSelectControl } from '../components/StoreSelect';
+import { validateCredentialNumber, validateOptionalMainlandMobile, validatePersonName, validateRequiredMainlandMobile, } from '../utils/inputValidation';
 import './OrdersPage.css';
 const quickFilters = [
     '全部',
@@ -288,17 +289,59 @@ function calculateLongRentalSummary(form) {
 }
 function validateLongRentalEntryStep(form) {
     const errors = {};
-    if (!form.tenantName.trim()) {
-        errors.tenantName = '请输入租客姓名';
-    }
-    const normalizedPhone = form.phone.replace(/\D/g, '');
-    if (!normalizedPhone) {
-        errors.phone = '请输入手机号';
-    }
-    else if (normalizedPhone.length < 11) {
-        errors.phone = '请输入有效手机号';
-    }
+    const tenantNameError = validatePersonName(form.tenantName);
+    if (tenantNameError)
+        errors.tenantName = tenantNameError;
+    const phoneError = validateRequiredMainlandMobile(form.phone);
+    if (phoneError)
+        errors.phone = phoneError;
     return errors;
+}
+function validateStayForm(form) {
+    let hasErrors = false;
+    const errors = {};
+    const guestNameError = validatePersonName(form.guestName);
+    const guestMobileError = validateOptionalMainlandMobile(form.guestMobile);
+    if (guestNameError) {
+        errors.guestName = guestNameError;
+        hasErrors = true;
+    }
+    if (guestMobileError) {
+        errors.guestMobile = guestMobileError;
+        hasErrors = true;
+    }
+    const rooms = form.rooms.map((room) => ({
+        ...room,
+        registeredGuests: room.registeredGuests.map((guest) => {
+            const rowTouched = Boolean(guest.name.trim() || guest.mobile.trim() || guest.credentialNo.trim());
+            if (!rowTouched)
+                return { ...guest, errors: {} };
+            const guestErrors = {};
+            const nameError = validatePersonName(guest.name || form.guestName);
+            const mobileError = validateOptionalMainlandMobile(guest.mobile);
+            const credentialError = validateCredentialNumber(guest.credentialType, guest.credentialNo);
+            if (nameError)
+                guestErrors.name = nameError;
+            if (mobileError)
+                guestErrors.mobile = mobileError;
+            if (credentialError)
+                guestErrors.credentialNo = credentialError;
+            if (Object.keys(guestErrors).length > 0)
+                hasErrors = true;
+            return { ...guest, errors: guestErrors };
+        }),
+    }));
+    return {
+        ...form,
+        errors,
+        rooms,
+        useGuestAsCheckin: hasErrors ? form.useGuestAsCheckin : form.useGuestAsCheckin,
+    };
+}
+function stayFormHasErrors(form) {
+    return Boolean(form.errors.guestName ||
+        form.errors.guestMobile ||
+        form.rooms.some((room) => room.registeredGuests.some((guest) => guest.errors.name || guest.errors.mobile || guest.errors.credentialNo)));
 }
 function createStayForm(type = 'fullDay') {
     return {
@@ -321,6 +364,7 @@ function createStayForm(type = 'fullDay') {
         reminders: [],
         tags: [],
         remark: '',
+        errors: {},
     };
 }
 function createStayRoom() {
@@ -390,6 +434,7 @@ function createStayGuest() {
         mobile: '',
         credentialType: '居民身份证',
         credentialNo: '',
+        errors: {},
     };
 }
 function createLongRentalRoom() {
@@ -1088,7 +1133,15 @@ function StayOrderForm({ type, form, setForm, onOpenRoomSelector, onOpenReminder
             rooms: current.rooms.map((item, index) => (index === 0 ? updater(item) : item)),
         }));
     };
-    return (_jsxs(_Fragment, { children: [_jsxs("div", { className: "order-entry-scroll order-entry-scroll--plain", children: [_jsx(OrderEntrySection, { title: "\u57FA\u672C\u4FE1\u606F", compact: true, extra: _jsxs("label", { className: "order-entry-switch order-entry-switch--right", children: [_jsx("input", { type: "checkbox", checked: form.useGuestAsCheckin, onChange: (event) => setForm((current) => ({ ...current, useGuestAsCheckin: event.target.checked })) }), _jsx("span", { children: "\u9ED8\u8BA4\u4E3A\u5165\u4F4F\u4EBA\u4FE1\u606F" })] }), children: _jsxs("div", { className: "order-entry-basic-grid", children: [_jsxs("label", { className: "order-entry-inline-field is-required", children: [_jsx("span", { children: "\u59D3\u540D\uFF1A" }), _jsx("input", { type: "text", value: form.guestName, placeholder: "\u59D3\u540D", onChange: (event) => setForm((current) => ({ ...current, guestName: event.target.value })) })] }), _jsxs("label", { className: "order-entry-inline-field", children: [_jsx("span", { children: "\u624B\u673A\u53F7\uFF1A" }), _jsx("input", { type: "text", value: form.guestMobile, placeholder: "\u624B\u673A\u53F7", onChange: (event) => setForm((current) => ({ ...current, guestMobile: event.target.value })) })] }), _jsxs("label", { className: "order-entry-inline-field", children: [_jsx("span", { children: "\u8BA2\u5355\u6765\u6E90\uFF1A" }), _jsx("select", { value: form.orderSource, onChange: (event) => setForm((current) => ({ ...current, orderSource: event.target.value })), children: entryOrderSourceOptions.map((option) => (_jsx("option", { value: option, children: option }, option))) })] }), _jsxs("label", { className: "order-entry-inline-field", children: [_jsx("span", { children: "\u6E20\u9053\u5355\u53F7\uFF1A" }), _jsx("input", { type: "text", value: form.channelOrderNo, placeholder: "\u6E20\u9053\u5355\u53F7", onChange: (event) => setForm((current) => ({ ...current, channelOrderNo: event.target.value })) })] })] }) }), _jsxs(OrderEntrySection, { title: _jsxs("span", { children: ["\u623F\u95F4/\u8D39\u7528\u4FE1\u606F", _jsxs("em", { className: "order-entry-section-tip", children: ["\u623F\u8D39\u603B\u8BA1:\u00A5", summary.roomRevenueGross.toFixed(0), " | \u5171", form.rooms.length, "\u95F4\u623F"] })] }), compact: true, extra: _jsx("button", { type: "button", className: "order-entry-link order-entry-link--add", onClick: onOpenRoomSelector, children: "+ \u6DFB\u52A0\u623F\u95F4" }), children: [room.configured ? (_jsxs("div", { className: "order-entry-stay-room-shell", children: [_jsxs("div", { className: "order-entry-stay-room-bar", children: [_jsxs("button", { type: "button", className: "order-entry-stay-room-trigger", onClick: onOpenRoomSelector, children: [_jsx("strong", { children: roomInfo.roomType ? `${roomInfo.roomType}（${roomInfo.roomName || '未排房'}）` : '请选择房型（房间）' }), _jsx("span", { children: type === 'hourly' ? hourlyDateTimeRange : room.dateRange })] }), _jsxs("div", { className: "order-entry-stay-room-bar__tail", children: [_jsxs("label", { className: "order-entry-stay-room-price", children: [_jsx("span", { children: "\uFFE5" }), _jsx("input", { type: "text", value: room.price, onChange: (event) => updatePrimaryRoom((current) => {
+    return (_jsxs(_Fragment, { children: [_jsxs("div", { className: "order-entry-scroll order-entry-scroll--plain", children: [_jsx(OrderEntrySection, { title: "\u57FA\u672C\u4FE1\u606F", compact: true, extra: _jsxs("label", { className: "order-entry-switch order-entry-switch--right", children: [_jsx("input", { type: "checkbox", checked: form.useGuestAsCheckin, onChange: (event) => setForm((current) => ({ ...current, useGuestAsCheckin: event.target.checked })) }), _jsx("span", { children: "\u9ED8\u8BA4\u4E3A\u5165\u4F4F\u4EBA\u4FE1\u606F" })] }), children: _jsxs("div", { className: "order-entry-basic-grid", children: [_jsxs("label", { className: `order-entry-inline-field is-required ${form.errors.guestName ? 'has-error' : ''}`, children: [_jsx("span", { children: "\u59D3\u540D\uFF1A" }), _jsx("input", { type: "text", value: form.guestName, placeholder: "\u59D3\u540D", onChange: (event) => setForm((current) => ({
+                                                ...current,
+                                                guestName: event.target.value,
+                                                errors: { ...current.errors, guestName: undefined },
+                                            })) }), form.errors.guestName ? _jsx("em", { children: form.errors.guestName }) : null] }), _jsxs("label", { className: `order-entry-inline-field ${form.errors.guestMobile ? 'has-error' : ''}`, children: [_jsx("span", { children: "\u624B\u673A\u53F7\uFF1A" }), _jsx("input", { type: "text", value: form.guestMobile, placeholder: "\u624B\u673A\u53F7", onChange: (event) => setForm((current) => ({
+                                                ...current,
+                                                guestMobile: event.target.value,
+                                                errors: { ...current.errors, guestMobile: undefined },
+                                            })) }), form.errors.guestMobile ? _jsx("em", { children: form.errors.guestMobile }) : null] }), _jsxs("label", { className: "order-entry-inline-field", children: [_jsx("span", { children: "\u8BA2\u5355\u6765\u6E90\uFF1A" }), _jsx("select", { value: form.orderSource, onChange: (event) => setForm((current) => ({ ...current, orderSource: event.target.value })), children: entryOrderSourceOptions.map((option) => (_jsx("option", { value: option, children: option }, option))) })] }), _jsxs("label", { className: "order-entry-inline-field", children: [_jsx("span", { children: "\u6E20\u9053\u5355\u53F7\uFF1A" }), _jsx("input", { type: "text", value: form.channelOrderNo, placeholder: "\u6E20\u9053\u5355\u53F7", onChange: (event) => setForm((current) => ({ ...current, channelOrderNo: event.target.value })) })] })] }) }), _jsxs(OrderEntrySection, { title: _jsxs("span", { children: ["\u623F\u95F4/\u8D39\u7528\u4FE1\u606F", _jsxs("em", { className: "order-entry-section-tip", children: ["\u623F\u8D39\u603B\u8BA1:\u00A5", summary.roomRevenueGross.toFixed(0), " | \u5171", form.rooms.length, "\u95F4\u623F"] })] }), compact: true, extra: _jsx("button", { type: "button", className: "order-entry-link order-entry-link--add", onClick: onOpenRoomSelector, children: "+ \u6DFB\u52A0\u623F\u95F4" }), children: [room.configured ? (_jsxs("div", { className: "order-entry-stay-room-shell", children: [_jsxs("div", { className: "order-entry-stay-room-bar", children: [_jsxs("button", { type: "button", className: "order-entry-stay-room-trigger", onClick: onOpenRoomSelector, children: [_jsx("strong", { children: roomInfo.roomType ? `${roomInfo.roomType}（${roomInfo.roomName || '未排房'}）` : '请选择房型（房间）' }), _jsx("span", { children: type === 'hourly' ? hourlyDateTimeRange : room.dateRange })] }), _jsxs("div", { className: "order-entry-stay-room-bar__tail", children: [_jsxs("label", { className: "order-entry-stay-room-price", children: [_jsx("span", { children: "\uFFE5" }), _jsx("input", { type: "text", value: room.price, onChange: (event) => updatePrimaryRoom((current) => {
                                                                     const nextPrice = event.target.value;
                                                                     const quantity = type === 'hourly' ? hourlyDuration : nightCount;
                                                                     return {
@@ -1114,19 +1167,35 @@ function StayOrderForm({ type, form, setForm, onOpenRoomSelector, onOpenReminder
                                                             ...current,
                                                             registrationOpen: !current.registrationOpen,
                                                             registeredGuests: current.registeredGuests.length > 0 ? current.registeredGuests : [createStayGuest()],
-                                                        })), children: "\u767B\u8BB0" })] })] }), room.registrationOpen ? (_jsxs("div", { className: "order-entry-stay-guest-list", children: [room.registeredGuests.map((guest) => (_jsxs("div", { className: "order-entry-stay-guest-row", children: [_jsx("input", { type: "text", value: guest.name, placeholder: "\u5BA2\u6237\u59D3\u540D", onChange: (event) => updatePrimaryRoom((current) => ({
-                                                            ...current,
-                                                            registeredGuests: current.registeredGuests.map((item) => item.id === guest.id ? { ...item, name: event.target.value } : item),
-                                                        })) }), _jsx("input", { type: "text", value: guest.mobile, placeholder: "\u624B\u673A\u53F7", onChange: (event) => updatePrimaryRoom((current) => ({
-                                                            ...current,
-                                                            registeredGuests: current.registeredGuests.map((item) => item.id === guest.id ? { ...item, mobile: event.target.value } : item),
-                                                        })) }), _jsxs("select", { value: guest.credentialType, onChange: (event) => updatePrimaryRoom((current) => ({
-                                                            ...current,
-                                                            registeredGuests: current.registeredGuests.map((item) => item.id === guest.id ? { ...item, credentialType: event.target.value } : item),
-                                                        })), children: [_jsx("option", { value: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1", children: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1" }), _jsx("option", { value: "\u6E2F\u6FB3\u901A\u884C\u8BC1", children: "\u6E2F\u6FB3\u901A\u884C\u8BC1" }), _jsx("option", { value: "\u6E2F\u6FB3\u56DE\u4E61\u8BC1", children: "\u6E2F\u6FB3\u56DE\u4E61\u8BC1" }), _jsx("option", { value: "\u53F0\u80DE\u8BC1", children: "\u53F0\u80DE\u8BC1" }), _jsx("option", { value: "Passport", children: "Passport" })] }), _jsx("input", { type: "text", value: guest.credentialNo, placeholder: "\u8BF7\u8F93\u5165\u8BC1\u4EF6\u53F7\u7801", onChange: (event) => updatePrimaryRoom((current) => ({
-                                                            ...current,
-                                                            registeredGuests: current.registeredGuests.map((item) => item.id === guest.id ? { ...item, credentialNo: event.target.value } : item),
-                                                        })) }), _jsx("button", { type: "button", className: "order-entry-link order-entry-link--tiny", children: "\u8BFB\u5361" }), _jsx("button", { type: "button", className: "order-entry-link order-entry-link--tiny", onClick: () => updatePrimaryRoom((current) => ({
+                                                        })), children: "\u767B\u8BB0" })] })] }), room.registrationOpen ? (_jsxs("div", { className: "order-entry-stay-guest-list", children: [room.registeredGuests.map((guest) => (_jsxs("div", { className: "order-entry-stay-guest-row", children: [_jsxs("label", { className: `order-entry-stay-guest-field ${guest.errors.name ? 'has-error' : ''}`, children: [_jsx("input", { type: "text", value: guest.name, placeholder: "\u5BA2\u6237\u59D3\u540D", onChange: (event) => updatePrimaryRoom((current) => ({
+                                                                    ...current,
+                                                                    registeredGuests: current.registeredGuests.map((item) => item.id === guest.id
+                                                                        ? { ...item, name: event.target.value, errors: { ...item.errors, name: undefined } }
+                                                                        : item),
+                                                                })) }), guest.errors.name ? _jsx("em", { children: guest.errors.name }) : null] }), _jsxs("label", { className: `order-entry-stay-guest-field ${guest.errors.mobile ? 'has-error' : ''}`, children: [_jsx("input", { type: "text", value: guest.mobile, placeholder: "\u624B\u673A\u53F7", onChange: (event) => updatePrimaryRoom((current) => ({
+                                                                    ...current,
+                                                                    registeredGuests: current.registeredGuests.map((item) => item.id === guest.id
+                                                                        ? { ...item, mobile: event.target.value, errors: { ...item.errors, mobile: undefined } }
+                                                                        : item),
+                                                                })) }), guest.errors.mobile ? _jsx("em", { children: guest.errors.mobile }) : null] }), _jsx("label", { className: "order-entry-stay-guest-field", children: _jsxs("select", { value: guest.credentialType, onChange: (event) => updatePrimaryRoom((current) => ({
+                                                                ...current,
+                                                                registeredGuests: current.registeredGuests.map((item) => item.id === guest.id
+                                                                    ? {
+                                                                        ...item,
+                                                                        credentialType: event.target.value,
+                                                                        errors: { ...item.errors, credentialNo: undefined },
+                                                                    }
+                                                                    : item),
+                                                            })), children: [_jsx("option", { value: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1", children: "\u5C45\u6C11\u8EAB\u4EFD\u8BC1" }), _jsx("option", { value: "\u6E2F\u6FB3\u901A\u884C\u8BC1", children: "\u6E2F\u6FB3\u901A\u884C\u8BC1" }), _jsx("option", { value: "\u6E2F\u6FB3\u56DE\u4E61\u8BC1", children: "\u6E2F\u6FB3\u56DE\u4E61\u8BC1" }), _jsx("option", { value: "\u53F0\u80DE\u8BC1", children: "\u53F0\u80DE\u8BC1" }), _jsx("option", { value: "Passport", children: "Passport" })] }) }), _jsxs("label", { className: `order-entry-stay-guest-field ${guest.errors.credentialNo ? 'has-error' : ''}`, children: [_jsx("input", { type: "text", value: guest.credentialNo, placeholder: "\u8BF7\u8F93\u5165\u8BC1\u4EF6\u53F7\u7801", onChange: (event) => updatePrimaryRoom((current) => ({
+                                                                    ...current,
+                                                                    registeredGuests: current.registeredGuests.map((item) => item.id === guest.id
+                                                                        ? {
+                                                                            ...item,
+                                                                            credentialNo: event.target.value,
+                                                                            errors: { ...item.errors, credentialNo: undefined },
+                                                                        }
+                                                                        : item),
+                                                                })) }), guest.errors.credentialNo ? _jsx("em", { children: guest.errors.credentialNo }) : null] }), _jsx("button", { type: "button", className: "order-entry-link order-entry-link--tiny", children: "\u8BFB\u5361" }), _jsx("button", { type: "button", className: "order-entry-link order-entry-link--tiny", onClick: () => updatePrimaryRoom((current) => ({
                                                             ...current,
                                                             registeredGuests: current.registeredGuests.filter((item) => item.id !== guest.id),
                                                         })), children: "\u53D6\u6D88" })] }, guest.id))), _jsx("button", { type: "button", className: "order-entry-link order-entry-link--guest-add", onClick: () => updatePrimaryRoom((current) => ({
@@ -1295,13 +1364,20 @@ function OrderEntryDrawer({ isOpen, orderType, fullDayForm, hourlyForm, longRent
     const campId = resolveHouseOrderCampId();
     const handleStaySubmit = async (type) => {
         const form = type === 'hourly' ? hourlyForm : fullDayForm;
-        if (!form.guestName.trim()) {
-            setActionMessage('请先填写联系人姓名');
+        const validatedForm = validateStayForm(form);
+        if (stayFormHasErrors(validatedForm)) {
+            if (type === 'hourly') {
+                setHourlyForm(() => validatedForm);
+            }
+            else {
+                setFullDayForm(() => validatedForm);
+            }
+            setActionMessage('请先修正红色提示的输入内容');
             return;
         }
         setIsSubmitting(true);
         try {
-            await createOrder(buildStayOrderPayload(type, form, campId));
+            await createOrder(buildStayOrderPayload(type, validatedForm, campId));
             if (type === 'hourly') {
                 setHourlyForm(() => createStayForm('hourly'));
             }

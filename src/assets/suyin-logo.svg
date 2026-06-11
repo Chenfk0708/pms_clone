@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 260" role="img" aria-labelledby="title desc">
+  <title id="title">宿银 logo</title>
+  <desc id="desc">深蓝色宿银字标，银字右上角带金色沙漏图形。</desc>
+  <defs>
+    <linearGradient id="brandBlue" x1="64" y1="30" x2="420" y2="238" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b3c7d" />
+      <stop offset="1" stop-color="#08285d" />
+    </linearGradient>
+    <linearGradient id="hourglassGold" x1="374" y1="70" x2="428" y2="154" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8e8a8" />
+      <stop offset="0.55" stop-color="#d9b85a" />
+      <stop offset="1" stop-color="#fff2bc" />
+    </linearGradient>
+    <filter id="wordShadow" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#061a38" flood-opacity="0.28" />
+    </filter>
+  </defs>
+  <rect width="520" height="260" fill="none" />
+  <g filter="url(#wordShadow)">
+    <text x="34" y="190"
+      fill="url(#brandBlue)"
+      font-family="STSong, SimSun, 'Noto Serif CJK SC', serif"
+      font-size="178"
+      font-weight="900"
+      letter-spacing="-8">宿银</text>
+  </g>
+  <g transform="translate(376 63)">
+    <path d="M6 9c22 7 39 9 62 0v13c-14 21-24 28-31 33 7 5 17 12 31 33v13c-23-9-40-7-62 0V88c14-21 24-28 31-33-7-5-17-12-31-33V9Z" fill="url(#hourglassGold)" />
+    <path d="M6 9c22 7 39 9 62 0M6 101c22-7 39-9 62 0" fill="none" stroke="#b48d2f" stroke-width="3" stroke-linecap="round" />
+  </g>
+</svg>

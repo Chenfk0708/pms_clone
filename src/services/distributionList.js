@@ -1,3 +1,4 @@
+import { fetchEnabledChannelCatalog } from './customChannel';
 const fixedTimestamp = '2026-05-21T10:00:00+08:00';
 export const distributionListEndpoints = {
     campFlow: '/api/campFlow/get',
@@ -6,40 +7,27 @@ export const distributionListEndpoints = {
     importedRoomCategories: '/api/weiRoomCategories/page/get',
     stores: '/api/select/poi/page/get',
 };
-const stores = [
+export const localDistributionStatusStorageKey = 'pms.distribution.localStatus';
+export const localDistributionChannelId = '100';
+const localChannel = {
+    id: localDistributionChannelId,
+    name: '宿银平台',
+    shortName: '宿',
+    color: '#0f766e',
+};
+const fallbackStores = [
     { id: 'ALL', label: '全部门店' },
-    { id: 'store-1', label: '天落会宿公寓(前海壹方城宝安中心店)' },
-    { id: 'store-2', label: '天落会宿公寓(科技园店)' },
+    { id: 'store-1', label: '宿银门店' },
 ];
-const channels = [
-    { id: 'lk', name: '路客云聚合', shortName: '路', color: '#4d65f6' },
-    { id: 'xc', name: '携程民宿', shortName: '携', color: '#ff7a45' },
-    { id: 'tj', name: '途家', shortName: '途', color: '#00b578' },
-    { id: 'xz', name: '小猪', shortName: '猪', color: '#ff4d6d' },
-    { id: 'mz', name: '美团民宿', shortName: '美', color: '#ffb400' },
-    { id: 'db', name: '订单宝', shortName: '订', color: '#722ed1' },
-    { id: 'dy', name: '抖音', shortName: '抖', color: '#111827' },
-    { id: 'fliggy', name: '飞猪', shortName: '飞', color: '#13c2c2' },
-    { id: 'qunar', name: '去哪儿', shortName: '哪', color: '#1677ff' },
-    { id: 'ks', name: '快手', shortName: '快', color: '#f5222d' },
-    { id: 'wx', name: '微信小店', shortName: '微', color: '#52c41a' },
-    { id: 'wb', name: '微博', shortName: '博', color: '#eb2f96' },
-    { id: 'red', name: '小红书', shortName: '红', color: '#fa541c' },
-];
-const distributedRooms = [
-    createRoom('room-1', '顶层套房(浴缸巨幕电竞麻将)', 'store-1', 'distributing', ['lk', 'xc', 'tj', 'xz', 'mz', 'db']),
-    createRoom('room-2', '总统套间(桑拿浴缸露台电竞麻将)', 'store-1', 'distributing', ['lk', 'xc', 'tj', 'xz', 'dy']),
-    createRoom('room-3', '天落大床电竞套间', 'store-2', 'distributing', ['lk', 'fliggy', 'qunar', 'wx']),
-    createRoom('room-4', '观影大床房', 'store-1', 'closed', ['lk', 'xc', 'tj']),
-];
-const undistributedRooms = [
-    createRoom('room-5', '复式观景双床房', 'store-1', 'distributing', ['lk', 'xc']),
-    createRoom('room-6', '城市景观大床房', 'store-2', 'closed', ['lk']),
+const fallbackRooms = [
+    createRoom('room-1', '标准大床房', 'store-1', '宿银门店', 'distributing', [localChannel.id]),
+    createRoom('room-2', '观影大床房', 'store-1', '宿银门店', 'distributing', [localChannel.id]),
 ];
 export function createDefaultDistributionFilters(searchParams = new URLSearchParams()) {
+    const campId = searchParams.get('campId') || readRuntimeCampId() || '';
     return {
-        campId: '1796067693589061634',
-        buyCampId: '1796067693589061634',
+        campId,
+        buyCampId: searchParams.get('buyCampId') || campId,
         poiId: searchParams.get('poiId') || 'ALL',
         keyword: searchParams.get('keyword') || '',
         tab: searchParams.get('tab') === 'undistributed' ? 'undistributed' : 'distributed',
@@ -50,10 +38,11 @@ export function createDefaultDistributionFilters(searchParams = new URLSearchPar
 }
 export async function fetchDistributionDashboard(filters, provider = getDistributionProvider()) {
     validateFilters(filters);
+    const channels = await fetchDistributionChannels(provider);
     if (provider === 'api') {
-        throw new Error('分销列表加载失败，请稍后重试');
+        return fetchApiDistributionDashboard(filters, channels);
     }
-    const envelope = await fetchMockDistributionDashboard(filters);
+    const envelope = await fetchMockDistributionDashboard(filters, channels);
     return adaptDistributionDashboard(envelope, filters, provider);
 }
 export function buildDistributionRequests(filters) {
@@ -66,8 +55,9 @@ export function buildDistributionRequests(filters) {
             pageNum: 1,
             roomCategoryName: filters.keyword,
             keyword: filters.keyword,
+            poiId,
             cityIds: [],
-            channelId: '',
+            channelId: localDistributionChannelId,
         },
         undistributedRoomCategories: {
             campId: filters.campId,
@@ -75,13 +65,13 @@ export function buildDistributionRequests(filters) {
             pageSize: filters.pageSize,
             current: filters.page,
             poiId,
-            filterSyncChannelId: 17,
+            filterSyncChannelId: localDistributionChannelId,
             isAvailability: 1,
-            channelId: 0,
+            channelId: localDistributionChannelId,
             isFilterAlreadyFlow: 1,
         },
         importedRoomCategories: {
-            campId: '64',
+            campId: filters.campId,
             buyCampId: filters.buyCampId,
             roomCategoryTypes: [1],
             goodsTypes: [7],
@@ -90,23 +80,68 @@ export function buildDistributionRequests(filters) {
             campId: filters.campId,
             pageSize: 999,
             pageNum: 1,
-            channelId: 0,
+            channelId: localDistributionChannelId,
             isAvailability: '1',
         },
     };
 }
 function getDistributionProvider() {
     if (typeof window === 'undefined')
-        return 'mock';
-    return normalizeProviderValue(window.localStorage.getItem('pms.distributionListProvider')) === 'api' ? 'api' : 'mock';
+        return 'api';
+    return normalizeProviderValue(window.localStorage.getItem('pms.distributionListProvider')) ?? 'api';
 }
-async function fetchMockDistributionDashboard(filters) {
-    await delay(120);
+async function fetchApiDistributionDashboard(filters, channels) {
+    const requests = buildDistributionRequests(filters);
+    const [roomPayload, storePayload] = await Promise.all([
+        postJson(distributionListEndpoints.roomCategories, requests.roomCategories),
+        postJson(distributionListEndpoints.stores, requests.stores),
+    ]);
+    const stores = adaptStores(storePayload);
+    const rooms = adaptRoomCategories(roomPayload, stores);
+    const filteredRooms = filterRooms(rooms, filters);
+    const distributedRooms = filteredRooms.filter((room) => room.progress === 'distributing');
+    const undistributedRooms = filteredRooms.filter((room) => room.progress === 'closed');
+    const activeRows = filters.tab === 'distributed' ? distributedRooms : undistributedRooms;
+    return {
+        provider: 'api',
+        filters,
+        request: requests,
+        stores,
+        channels,
+        distributedRooms,
+        undistributedRooms,
+        pagination: {
+            page: filters.page,
+            pageSize: filters.pageSize,
+            total: activeRows.length,
+        },
+        updatedAt: new Date().toISOString(),
+        traceId: readTraceId(roomPayload) || 'distribution-list-api',
+    };
+}
+async function postJson(endpoint, body) {
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+    });
+    const payload = await readJson(response);
+    if (!response.ok) {
+        throw new Error(extractErrorMessage(payload) || `分销列表接口请求失败：${endpoint}，HTTP ${response.status}`);
+    }
+    if (isFailureEnvelope(payload)) {
+        throw new Error(extractErrorMessage(payload) || `分销列表接口返回失败：${endpoint}`);
+    }
+    return payload;
+}
+async function fetchMockDistributionDashboard(filters, channels) {
+    await delay(80);
     if (filters.scenario === 'error') {
         return {
             code: 50001,
             message: '分销列表加载失败，请稍后重试',
-            data: createPayload(filters, true),
+            data: createPayload(filters, channels, true),
             traceId: 'mock-distribution-list-error-001',
             timestamp: fixedTimestamp,
         };
@@ -114,26 +149,40 @@ async function fetchMockDistributionDashboard(filters) {
     return {
         code: 0,
         message: 'success',
-        data: createPayload(filters, filters.scenario === 'empty'),
+        data: createPayload(filters, channels, filters.scenario === 'empty'),
         traceId: `mock-distribution-list-${filters.scenario}-001`,
         timestamp: fixedTimestamp,
     };
 }
-function createPayload(filters, empty) {
-    const filteredDistributed = empty ? [] : filterRooms(distributedRooms, filters);
-    const filteredUndistributed = empty ? [] : filterRooms(undistributedRooms, filters);
+function createPayload(filters, channels, empty) {
+    const rooms = empty ? [] : filterRooms(applyLocalStatusMap(fallbackRooms), filters);
+    const distributedRooms = rooms.filter((room) => room.progress === 'distributing');
+    const undistributedRooms = rooms.filter((room) => room.progress === 'closed');
+    const activeRows = filters.tab === 'distributed' ? distributedRooms : undistributedRooms;
     return {
-        stores,
+        stores: fallbackStores,
         channels,
-        distributedRooms: filteredDistributed,
-        undistributedRooms: filteredUndistributed,
+        distributedRooms,
+        undistributedRooms,
         pagination: {
             page: filters.page,
             pageSize: filters.pageSize,
-            total: filters.tab === 'distributed' ? filteredDistributed.length : filteredUndistributed.length,
+            total: activeRows.length,
         },
         updatedAt: fixedTimestamp,
     };
+}
+function applyLocalStatusMap(rooms) {
+    const statusMap = readLocalDistributionStateMap();
+    return rooms.map((room) => {
+        const savedState = statusMap[room.id];
+        const progress = savedState?.progress ?? room.progress;
+        return {
+            ...room,
+            progress,
+            channelIds: progress === 'distributing' ? savedState?.channelIds ?? room.channelIds : [],
+        };
+    });
 }
 function adaptDistributionDashboard(envelope, filters, provider) {
     if (envelope.code !== 0) {
@@ -147,6 +196,43 @@ function adaptDistributionDashboard(envelope, filters, provider) {
         traceId: envelope.traceId,
     };
 }
+function adaptStores(payload) {
+    const list = extractList(payload);
+    const stores = list
+        .map(asRecord)
+        .map((item, index) => ({
+        id: readString(item.poiId ?? item.id ?? item.value ?? item.storeId ?? item.campId) || `store-${index + 1}`,
+        label: readString(item.poiName ?? item.name ?? item.label ?? item.storeName ?? item.campName) || `门店 ${index + 1}`,
+    }))
+        .filter((store) => store.id && store.label);
+    return [{ id: 'ALL', label: '全部门店' }, ...dedupeOptions(stores)];
+}
+function adaptRoomCategories(payload, stores) {
+    const statusMap = readLocalDistributionStateMap();
+    return extractList(payload)
+        .map(asRecord)
+        .map((item, index) => {
+        const id = readString(item.roomCategoryId ?? item.id ?? item.value ?? item.roomTypeId) || `room-${index + 1}`;
+        const name = readString(item.internalName ?? item.innerName ?? item.name ?? item.roomCategoryName ?? item.displayName ?? item.roomTypeName) ||
+            `房型 ${index + 1}`;
+        const storeId = readString(item.poiId ?? item.storeId ?? item.campId) || stores.find((store) => !isAllStore(store.id))?.id || 'store-1';
+        const storeName = readString(item.poiName ?? item.storeName ?? item.campName) ||
+            stores.find((store) => store.id === storeId)?.label ||
+            '当前门店';
+        const savedState = statusMap[id];
+        const progress = savedState?.progress ?? 'distributing';
+        const imageUrl = readString(item.thumbnail ?? item.thumbnailUrl ?? item.coverImageUrl ?? item.imageUrl ?? item.photoUrl ?? item.roomCategoryImageUrl);
+        return {
+            id,
+            name,
+            storeId,
+            storeName,
+            progress,
+            channelIds: progress === 'distributing' ? savedState?.channelIds ?? [localDistributionChannelId] : [],
+            thumbnail: imageUrl || createRoomThumbnail(name),
+        };
+    });
+}
 function filterRooms(rooms, filters) {
     return rooms.filter((room) => {
         const keywordMatched = !filters.keyword || room.name.includes(filters.keyword);
@@ -157,8 +243,7 @@ function filterRooms(rooms, filters) {
 function isAllStore(storeId) {
     return !storeId || storeId === 'ALL' || storeId === 'all';
 }
-function createRoom(id, name, storeId, progress, channelIds) {
-    const storeName = stores.find((store) => store.id === storeId)?.label ?? stores[1].label;
+function createRoom(id, name, storeId, storeName, progress, channelIds) {
     return {
         id,
         name,
@@ -174,22 +259,111 @@ function createRoomThumbnail(name) {
     <svg xmlns="http://www.w3.org/2000/svg" width="144" height="84" viewBox="0 0 144 84">
       <defs>
         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#dbeafe" />
-          <stop offset="100%" stop-color="#bfdbfe" />
+          <stop offset="0%" stop-color="#ccfbf1" />
+          <stop offset="100%" stop-color="#99f6e4" />
         </linearGradient>
       </defs>
       <rect width="144" height="84" rx="12" fill="url(#g)" />
-      <rect x="10" y="12" width="60" height="42" rx="8" fill="#ffffff" opacity="0.72" />
+      <rect x="10" y="12" width="60" height="42" rx="8" fill="#ffffff" opacity="0.74" />
       <rect x="77" y="20" width="54" height="8" rx="4" fill="#ffffff" opacity="0.92" />
       <rect x="77" y="36" width="40" height="8" rx="4" fill="#ffffff" opacity="0.7" />
-      <rect x="10" y="62" width="124" height="10" rx="5" fill="#eff6ff" opacity="0.96" />
-      <text x="12" y="76" fill="#1e3a8a" font-size="10" font-family="Arial, sans-serif">${escapeXml(name.slice(0, 10))}</text>
+      <rect x="10" y="62" width="124" height="10" rx="5" fill="#f0fdfa" opacity="0.96" />
+      <text x="12" y="76" fill="#0f766e" font-size="10" font-family="Arial, sans-serif">${escapeXml(name.slice(0, 10))}</text>
     </svg>
   `;
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
-function escapeXml(value) {
-    return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+function extractList(payload) {
+    const root = asRecord(payload);
+    const data = asRecord(root.data);
+    const candidates = [
+        payload,
+        data,
+        data.list,
+        data.records,
+        data.rows,
+        data.select,
+        data.items,
+        root.list,
+        root.records,
+        root.rows,
+        root.select,
+        root.items,
+    ];
+    for (const candidate of candidates) {
+        if (Array.isArray(candidate))
+            return candidate;
+    }
+    return [];
+}
+export function toDistributionChannels(catalog) {
+    return ensureLocalDistributionChannel(catalog
+        .filter((channel) => channel.source === 'local' || channel.source === 'custom')
+        .map((channel) => ({
+        id: channel.id,
+        name: channel.name,
+        shortName: channel.shortName,
+        color: channel.color,
+    })));
+}
+async function fetchDistributionChannels(provider) {
+    const catalog = await fetchEnabledChannelCatalog({ provider: provider === 'api' ? 'api' : 'mock', mockState: 'success' });
+    return toDistributionChannels(catalog);
+}
+function ensureLocalDistributionChannel(channels) {
+    if (channels.some((channel) => channel.id === localDistributionChannelId || channel.name === localChannel.name)) {
+        return dedupeChannels(channels);
+    }
+    return [localChannel, ...dedupeChannels(channels)];
+}
+function dedupeChannels(channels) {
+    const seen = new Set();
+    return channels.filter((channel) => {
+        const key = channel.id || channel.name;
+        if (!key || seen.has(key))
+            return false;
+        seen.add(key);
+        return true;
+    });
+}
+function readLocalDistributionStateMap() {
+    if (typeof window === 'undefined')
+        return {};
+    try {
+        const parsed = JSON.parse(window.localStorage.getItem(localDistributionStatusStorageKey) || '{}');
+        return Object.fromEntries(Object.entries(parsed)
+            .map(([roomId, value]) => [roomId, readStoredDistributionState(value)])
+            .filter((entry) => Boolean(entry[1])));
+    }
+    catch {
+        return {};
+    }
+}
+function readStoredDistributionState(value) {
+    if (value === 'closed' || value === 'distributing')
+        return { progress: value };
+    const record = asRecord(value);
+    const progress = record.progress;
+    if (progress !== 'closed' && progress !== 'distributing')
+        return null;
+    const channelIds = Array.isArray(record.channelIds)
+        ? record.channelIds.map((item) => readString(item)).filter(Boolean)
+        : undefined;
+    return channelIds?.length ? { progress, channelIds } : { progress };
+}
+function readRuntimeCampId() {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem('pmsCampId') || window.localStorage.getItem('campId') || '';
+}
+function dedupeOptions(options) {
+    const seen = new Set();
+    return options.filter((option) => {
+        if (seen.has(option.id))
+            return false;
+        seen.add(option.id);
+        return true;
+    });
 }
 function validateFilters(filters) {
     if (!Number.isFinite(filters.page) || filters.page < 1)
@@ -202,9 +376,45 @@ function toScenario(value) {
         return value;
     return 'success';
 }
+function normalizeProviderValue(value) {
+    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
+}
+async function readJson(response) {
+    try {
+        return await response.json();
+    }
+    catch {
+        return null;
+    }
+}
+function isFailureEnvelope(payload) {
+    const record = asRecord(payload);
+    if ('success' in record)
+        return record.success !== true;
+    if ('code' in record)
+        return Number(record.code) !== 0;
+    return false;
+}
+function extractErrorMessage(payload) {
+    const record = asRecord(payload);
+    const message = String(record.errorMsg ?? record.message ?? record.errorDetail ?? '').trim();
+    return message === 'null' || message === 'undefined' ? '' : message;
+}
+function readTraceId(payload) {
+    const record = asRecord(payload);
+    return readString(record.traceId ?? asRecord(record.data).traceId);
+}
 function delay(ms) {
     return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
-function normalizeProviderValue(value) {
-    return value === 'api' || value === 'real' ? 'api' : value === 'mock' ? 'mock' : undefined;
+function escapeXml(value) {
+    return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+function readString(value) {
+    if (value === null || value === undefined || value === '')
+        return '';
+    return String(value).trim();
+}
+function asRecord(value) {
+    return value && typeof value === 'object' ? value : {};
 }

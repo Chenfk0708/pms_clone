@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 const forbiddenDevelopmentCopy = /mock|provider|未接入|阻塞|后端|契约/
@@ -11,12 +11,67 @@ function appUrl(routePath: string) {
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem('pms_token', 'playwright-token')
+    window.localStorage.setItem('pms_user', JSON.stringify({
+      id: 'playwright-user',
+      name: 'Playwright',
+      mobile: '13800000000',
+      roleName: '测试账号',
+      campId: '10001',
+      campName: '测试门店',
+    }))
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.currentCampId', '10001')
     window.localStorage.setItem('pms.calendarRoomProvider', 'mock')
   })
 })
 
+async function mockChannelCatalog(page: Page) {
+  const requests: Array<Record<string, unknown>> = []
+
+  await page.route('**/api/channels/custom/list', async (route) => {
+    requests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'calendar-room-channel-catalog',
+        timestamp: '2026-06-08T18:00:00+08:00',
+        data: {
+          systemChannels: [
+            { id: 'system-001', name: '自来客', color: '#20527f', enabled: true },
+            { id: 'system-002', name: '携程', color: '#263f86', enabled: true },
+            { id: 'system-003', name: '美团民宿', color: '#ffc20c', enabled: true },
+            { id: 'system-004', name: '路客云聚合', color: '#6f89d1', enabled: true },
+          ],
+          customChannels: [
+            {
+              id: 'custom-001',
+              name: '企业协议客户',
+              code: 'CUSTOM-001',
+              color: '#2563eb',
+              colorName: '晴空蓝',
+              enabled: true,
+              updatedAt: '2026-06-08 18:00:00',
+              operator: '系统',
+              note: '真实渠道底座响应',
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  return requests
+}
+
+function firstRoomToggle(page: Page) {
+  return page.locator('.calendar-room-table__room-row').first().locator('.calendar-room-row-toggle')
+}
+
 test('/setting/localRoomTypeProductionSetting loads through explicit calendar-room mock provider', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
 
   await expect(page.getByRole('alert', { name: '日历房数据错误' })).toHaveCount(0)
@@ -43,6 +98,7 @@ test('/setting/localRoomTypeProductionSetting switches to real provider and adap
   })
 
   const capturedRequests: Array<{ headers: Record<string, string>; body: Record<string, unknown> }> = []
+  const channelCatalogRequests = await mockChannelCatalog(page)
   await page.route('**/api/select/poi/page/get', async (route) => {
     await route.fulfill({
       json: {
@@ -135,12 +191,16 @@ test('/setting/localRoomTypeProductionSetting switches to real provider and adap
   await expect(page.locator('.calendar-room-page')).toHaveAttribute('data-request-keyword', '')
   await expect(page.locator('.calendar-room-table')).toContainText('Real Calendar Room A')
   await expect(page.locator('.calendar-room-table')).toContainText('Real Calendar Room B')
+  await expect(page.getByRole('button', { name: '打开宿银平台管理渠道页' }).first()).toBeVisible()
+  await page.getByRole('button', { name: '渠道 请选择渠道' }).click()
+  await expect(page.getByRole('option', { name: '宿银平台' })).toBeVisible()
   await page.locator('.calendar-room-row-toggle').first().click()
   const firstProductGroup = page.locator('.calendar-room-products').first()
   await expect(firstProductGroup).toContainText('Real Calendar Room A No Breakfast')
   await expect(firstProductGroup).toContainText('Real Calendar Room A Long Stay')
 
   expect(capturedRequests.length).toBeGreaterThanOrEqual(1)
+  expect(channelCatalogRequests.length).toBeGreaterThanOrEqual(1)
   for (const apiRequest of capturedRequests) {
     expect(apiRequest.headers.authorization).toBe('Bearer calendar-token')
     expect(apiRequest.body).toMatchObject({
@@ -164,6 +224,7 @@ test('/setting/localRoomTypeProductionSetting loads real store options and filte
 
   const poiRequests: Array<Record<string, unknown>> = []
   const calendarRequests: Array<Record<string, unknown>> = []
+  const channelCatalogRequests = await mockChannelCatalog(page)
 
   await page.route('**/api/select/poi/page/get', async (route) => {
     poiRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
@@ -217,20 +278,22 @@ test('/setting/localRoomTypeProductionSetting loads real store options and filte
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomProvider=real'))
 
   await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'API Store A' })).toBeVisible()
   await expect(page.locator('.calendar-room-table')).toContainText('All Store Calendar Room')
 
-  await page.getByRole('button', { name: 'API Store A' }).click()
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await expect(page.getByRole('option', { name: 'API Store A' })).toBeVisible()
   await page.getByRole('option', { name: 'API Store B' }).click()
 
   await expect(page.getByRole('button', { name: 'API Store B' })).toBeVisible()
   await expect(page.locator('.calendar-room-table')).toContainText('Store B Calendar Room')
   expect(poiRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 100 })
   expect(calendarRequests.at(-1)).toMatchObject({ poiId: '22002' })
+  expect(channelCatalogRequests.length).toBeGreaterThanOrEqual(1)
 })
 
 test('/setting/localRoomTypeProductionSetting renders empty and failure response states', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
 
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomMockState=empty'))
   await expect(page.getByText('暂无售卖产品')).toBeVisible()
@@ -246,9 +309,10 @@ test('/setting/localRoomTypeProductionSetting renders empty and failure response
 
 test('/setting/localRoomTypeProductionSetting gives feedback for all visible product actions', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
 
-  await page.getByRole('button', { name: '展开' }).first().click()
+  await firstRoomToggle(page).click()
   const firstProductGroup = page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')
   await page.getByRole('button', { name: '预览' }).first().click()
   await expect(page.getByRole('dialog', { name: '售卖产品详情' })).toContainText('产品名称')
@@ -258,7 +322,7 @@ test('/setting/localRoomTypeProductionSetting gives feedback for all visible pro
   await expect(page).toHaveURL(/\/setting\/localRoomTypeProductionSetting\/channelGoodsSetting\?/)
 
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
-  await page.getByRole('button', { name: '展开' }).first().click()
+  await firstRoomToggle(page).click()
   await page.getByRole('button', { name: '修改价格' }).first().click()
   await expect(page.getByRole('dialog', { name: '调整售卖价格' })).toContainText('当前价格计划')
   await page.getByRole('button', { name: '保存价格' }).click()
@@ -273,6 +337,7 @@ test('/setting/localRoomTypeProductionSetting gives feedback for all visible pro
 
 test('/setting/localRoomTypeProductionSetting matches captured calendar-room list', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
 
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
@@ -289,7 +354,7 @@ test('/setting/localRoomTypeProductionSetting matches captured calendar-room lis
   await expect(page.getByPlaceholder('请输入房型名称')).toBeVisible()
   await expect(page.getByRole('button', { name: '渠道 请选择渠道' })).toBeVisible()
   await expect(page.getByRole('button', { name: '上架状态 全部' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '展开' }).first()).toBeVisible()
+  await expect(firstRoomToggle(page)).toBeVisible()
 
   await expect(page.getByLabel('日历房售卖产品列表').locator('.calendar-room-table__head > div')).toHaveText([
     '展开',
@@ -314,10 +379,11 @@ test('/setting/localRoomTypeProductionSetting matches captured calendar-room lis
 
 test('/setting/localRoomTypeProductionSetting supports captured expansion and navigation', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting'))
 
-  await page.getByRole('button', { name: '展开' }).first().click()
-  await expect(page.getByRole('button', { name: '收起' }).first()).toBeVisible()
+  await firstRoomToggle(page).click()
+  await expect(firstRoomToggle(page)).toHaveText('收起')
   await expect(page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')).toContainText('产品名称：')
   await expect(page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')).toContainText('渠道：')
   await expect(page.getByLabel('顶层套房（浴缸巨幕电竞麻将）产品明细')).toContainText('早餐类型：')
@@ -336,6 +402,7 @@ test('/setting/localRoomTypeProductionSetting supports captured expansion and na
 
 test('/setting/localRoomTypeProductionSetting/channelGoodsSetting matches target channel-specific add form', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await mockChannelCatalog(page)
   await page.goto(appUrl('/setting/localRoomTypeProductionSetting/channelGoodsSetting'))
 
   await expect(page.getByRole('tab', { name: '微信小程序' })).toHaveAttribute('aria-selected', 'true')

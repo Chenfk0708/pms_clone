@@ -173,6 +173,56 @@
   cursor: not-allowed;
 }
 
+.distribution-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 0;
+}
+
+.distribution-filter-bar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5565;
+  font-size: 14px;
+}
+
+.distribution-filter-bar input {
+  width: 220px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid #d9dfe9;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+}
+
+.distribution-filter-bar input:focus {
+  border-color: #4d65f6;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgb(77 101 246 / 12%);
+}
+
+.distribution-filter-bar button {
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.distribution-filter-bar .is-primary {
+  border: 1px solid #4d65f6;
+  background: #4d65f6;
+  color: #fff;
+}
+
+.distribution-filter-bar .is-light {
+  border: 1px solid #d9dfe9;
+  background: #fff;
+  color: #334155;
+}
+
 .distribution-import-menu {
   position: relative;
 }

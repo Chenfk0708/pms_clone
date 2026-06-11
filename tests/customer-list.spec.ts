@@ -230,6 +230,7 @@ test('/customer/list refreshes data from filters and keeps dropdown aligned to i
   await page.getByRole('button', { name: '添加客户' }).click()
   await page.getByRole('button', { name: '保存' }).click()
   await expect(page.getByRole('alert')).toContainText('请输入手机号')
+  await expect(page.locator('.customer-list-field-error').filter({ hasText: '手机号格式不正确' })).toBeVisible()
   await page.getByRole('textbox', { name: '手机号' }).fill('13900001111')
   await page.getByRole('textbox', { name: '姓名' }).fill('新客户')
   await page.getByRole('button', { name: '保存' }).click()
@@ -430,6 +431,13 @@ test('/customer/list real provider sends gateway auth header and adapts CRM cust
   await expect(page.locator('.customer-list-table')).toContainText('13941001001')
 
   await page.locator('.customer-list-add').click()
+  await page.locator('.customer-list-modal input').nth(0).fill('12000000000')
+  await page.locator('.customer-list-modal input').nth(1).fill('1')
+  await page.locator('.customer-list-modal footer .is-primary').click()
+  await expect(page.locator('.customer-list-field-error').filter({ hasText: '手机号格式不正确' })).toBeVisible()
+  await expect(page.locator('.customer-list-field-error').filter({ hasText: '姓名格式不正确，请输入 2-30 个中文或英文字母' })).toBeVisible()
+  expect(saveRequests).toHaveLength(0)
+
   await page.locator('.customer-list-modal input').nth(0).fill('13941099099')
   await page.locator('.customer-list-modal input').nth(1).fill('Real Saved Customer')
   await page.locator('.customer-list-modal footer .is-primary').click()

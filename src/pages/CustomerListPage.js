@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createCustomerListExport, createDefaultCustomerListQuery, customerAgeOptions, customerGenderOptions, customerIdentityOptions, customerStatusOptions, customerWechatOptions, fetchCustomerListDashboard, memberCardOptions, saveCustomer, } from '../services/customerList';
+import { validatePersonName, validateRequiredMainlandMobile } from '../utils/inputValidation';
 import './CustomerListPage.css';
 const tableColumns = [
     '客户信息',
@@ -245,11 +246,25 @@ function AddCustomerDialog({ onClose, onSaved }) {
     const [mobile, setMobile] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
+    const [fieldErrors, setFieldErrors] = useState({});
     const [saving, setSaving] = useState(false);
     async function handleSave() {
         setError('');
+        const nextErrors = {
+            mobile: validateRequiredMainlandMobile(mobile),
+            name: validatePersonName(name),
+        };
+        Object.keys(nextErrors).forEach((key) => {
+            if (!nextErrors[key])
+                delete nextErrors[key];
+        });
+        setFieldErrors(nextErrors);
         if (!mobile.trim()) {
             setError('请输入手机号');
+            return;
+        }
+        if (Object.keys(nextErrors).length > 0) {
+            setError('请先修正客户信息格式');
             return;
         }
         setSaving(true);
@@ -272,7 +287,15 @@ function AddCustomerDialog({ onClose, onSaved }) {
             setSaving(false);
         }
     }
-    return (_jsx("div", { className: "customer-list-modal-backdrop", children: _jsxs("section", { className: "customer-list-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6DFB\u52A0\u5BA2\u6237", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u6DFB\u52A0\u5BA2\u6237" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6DFB\u52A0\u5BA2\u6237", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "customer-list-modal__body", children: [error ? (_jsx("div", { className: "customer-list-dialog-error", role: "alert", children: error })) : null, _jsx(DialogField, { label: "\u624B\u673A\u53F7", required: true, placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", value: mobile, onChange: setMobile }), _jsx(DialogField, { label: "\u59D3\u540D", placeholder: "\u8BF7\u8F93\u5165\u59D3\u540D", value: name, onChange: setName }), _jsx(DialogSelect, { label: "\u6027\u522B", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogField, { label: "\u751F\u65E5", type: "date", placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F" }), _jsx(DialogField, { label: "\u5730\u533A", placeholder: "\u8BF7\u8F93\u5165" }), _jsx(DialogSelect, { label: "\u5BA2\u6237\u6E20\u9053", required: true, placeholder: "\u81EA\u6765\u5BA2" }), _jsx(DialogField, { label: "\u6210\u4E3A\u5BA2\u6237\u65F6\u95F4", type: "date", required: true, defaultValue: "2026-05-18" }), _jsx(DialogField, { label: "\u5FAE\u4FE1", placeholder: "\u8BF7\u8F93\u5165\u5FAE\u4FE1" }), _jsx(DialogField, { label: "\u90AE\u7BB1", placeholder: "\u8BF7\u8F93\u5165\u90AE\u7BB1" }), _jsx(DialogField, { label: "QQ", placeholder: "QQ" }), _jsx(DialogSelect, { label: "\u662F\u5426\u52A0\u5FAE\u4FE1", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogSelect, { label: "\u662F\u5426\u52A0\u7FA4", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogField, { label: "\u5907\u6CE8", placeholder: "\u8BF7\u8F93\u5165\u5907\u6CE8" })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: handleSave, disabled: saving, children: saving ? '保存中' : '保存' })] })] }) }));
+    return (_jsx("div", { className: "customer-list-modal-backdrop", children: _jsxs("section", { className: "customer-list-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6DFB\u52A0\u5BA2\u6237", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u6DFB\u52A0\u5BA2\u6237" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6DFB\u52A0\u5BA2\u6237", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "customer-list-modal__body", children: [error ? (_jsx("div", { className: "customer-list-dialog-error", role: "alert", children: error })) : null, _jsx(DialogField, { label: "\u624B\u673A\u53F7", required: true, placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", value: mobile, error: fieldErrors.mobile, onChange: (value) => {
+                                setMobile(value);
+                                setFieldErrors((current) => ({ ...current, mobile: undefined }));
+                                setError('');
+                            } }), _jsx(DialogField, { label: "\u59D3\u540D", required: true, placeholder: "\u8BF7\u8F93\u5165\u59D3\u540D", value: name, error: fieldErrors.name, onChange: (value) => {
+                                setName(value);
+                                setFieldErrors((current) => ({ ...current, name: undefined }));
+                                setError('');
+                            } }), _jsx(DialogSelect, { label: "\u6027\u522B", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogField, { label: "\u751F\u65E5", type: "date", placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F" }), _jsx(DialogField, { label: "\u5730\u533A", placeholder: "\u8BF7\u8F93\u5165" }), _jsx(DialogSelect, { label: "\u5BA2\u6237\u6E20\u9053", required: true, placeholder: "\u81EA\u6765\u5BA2" }), _jsx(DialogField, { label: "\u6210\u4E3A\u5BA2\u6237\u65F6\u95F4", type: "date", required: true, defaultValue: "2026-05-18" }), _jsx(DialogField, { label: "\u5FAE\u4FE1", placeholder: "\u8BF7\u8F93\u5165\u5FAE\u4FE1" }), _jsx(DialogField, { label: "\u90AE\u7BB1", placeholder: "\u8BF7\u8F93\u5165\u90AE\u7BB1" }), _jsx(DialogField, { label: "QQ", placeholder: "QQ" }), _jsx(DialogSelect, { label: "\u662F\u5426\u52A0\u5FAE\u4FE1", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogSelect, { label: "\u662F\u5426\u52A0\u7FA4", placeholder: "\u8BF7\u9009\u62E9" }), _jsx(DialogField, { label: "\u5907\u6CE8", placeholder: "\u8BF7\u8F93\u5165\u5907\u6CE8" })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: handleSave, disabled: saving, children: saving ? '保存中' : '保存' })] })] }) }));
 }
 function CouponPickerDialog({ customer, onClose }) {
     const navigate = useNavigate();
@@ -300,8 +323,8 @@ function TagDialog({ customer, onClose, onSaved, }) {
                                 onClose();
                             }, children: "\u5B8C\u6210" })] })] }) }));
 }
-function DialogField({ label, type, placeholder, required, defaultValue, value, onChange, }) {
-    return (_jsxs("label", { className: "customer-list-dialog-field", children: [_jsxs("span", { children: [required ? _jsx("b", { "aria-hidden": "true", children: "*" }) : null, label, ":"] }), _jsx("input", { type: type ?? 'text', "aria-label": label, placeholder: placeholder, defaultValue: defaultValue, value: value, onChange: (event) => onChange?.(event.target.value) })] }));
+function DialogField({ label, type, placeholder, required, defaultValue, value, error, onChange, }) {
+    return (_jsxs("label", { className: "customer-list-dialog-field", children: [_jsxs("span", { children: [required ? _jsx("b", { "aria-hidden": "true", children: "*" }) : null, label, ":"] }), _jsxs("div", { className: "customer-list-dialog-control", children: [_jsx("input", { type: type ?? 'text', "aria-label": label, placeholder: placeholder, defaultValue: defaultValue, value: value, onChange: (event) => onChange?.(event.target.value) }), error ? _jsx("small", { className: "customer-list-field-error", children: error }) : null] })] }));
 }
 function DialogSelect({ label, placeholder, required, expanded, onToggle, }) {
     return (_jsxs("label", { className: "customer-list-dialog-field", children: [_jsxs("span", { children: [required ? _jsx("b", { "aria-hidden": "true", children: "*" }) : null, label, ":"] }), _jsx("button", { type: "button", className: "customer-list-dialog-select", "aria-label": `${label} ${placeholder}`, "aria-expanded": expanded, onClick: onToggle, children: placeholder })] }));

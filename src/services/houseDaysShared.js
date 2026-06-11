@@ -54,6 +54,8 @@ export function adaptDayOrderCards(rows, todayIsoDate, queryCode) {
             roomName: row.roomLabel,
             roomCategoryId: row.roomCategoryId,
             roomId: row.roomId,
+            price: row.price,
+            monthlyRent: row.monthlyRent,
             status,
             hasTag: Boolean(roomCell?.badge),
             filterLabels,

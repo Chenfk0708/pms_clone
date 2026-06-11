@@ -1,12 +1,13 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { bindMemberWecom, createDefaultMemberSettingQuery, createEditorDraft, loadMemberSettingViewModel, MemberSettingServiceError, resolveMemberSettingRuntimeConfig, saveMemberSettingMember, } from '../services/memberSetting';
+import { bindMemberWecom, createDefaultMemberSettingQuery, createEditorDraft, loadMemberSettingViewModel, MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT, MEMBER_SETTING_ENDPOINT, MemberSettingServiceError, resolveMemberSettingRuntimeConfig, saveMemberSettingMember, } from '../services/memberSetting';
+import { validatePersonName, validateRequiredMainlandMobile } from '../utils/inputValidation';
 import './MemberSettingPage.css';
 const defaultContract = {
-    provider: 'mock',
+    provider: 'api',
     responseState: 'loading',
-    endpoint: '/setting/member/bootstrap',
+    endpoint: MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
     traceId: '',
     timestamp: '',
     routeMode: 'list',
@@ -31,7 +32,7 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
         kind: 'loading',
         contract: {
             ...defaultContract,
-            provider: query.provider ?? 'mock',
+            provider: query.provider ?? 'api',
             routeMode: query.routeMode,
         },
     });
@@ -43,6 +44,7 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
     const [draft, setDraft] = useState(createEditorDraft(query));
     const [roomSearch, setRoomSearch] = useState('');
     const [formError, setFormError] = useState('');
+    const [formErrors, setFormErrors] = useState({});
     useEffect(() => {
         const abort = new AbortController();
         const requestQuery = {
@@ -59,7 +61,7 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
                 kind: 'loading',
                 contract: {
                     ...current.contract,
-                    provider: requestQuery.provider ?? 'mock',
+                    provider: requestQuery.provider ?? 'api',
                     responseState: 'loading',
                     routeMode: requestQuery.routeMode,
                     request: requestQuery,
@@ -109,6 +111,14 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
     const filteredRoomOptions = roomOptions.filter((item) => item.roomCategoryName.includes(roomSearch.trim()));
     function updateDraft(nextPatch) {
         setDraft((current) => ({ ...current, ...nextPatch }));
+        setFormErrors((current) => {
+            const nextErrors = { ...current };
+            if ('name' in nextPatch)
+                delete nextErrors.name;
+            if ('phone' in nextPatch)
+                delete nextErrors.phone;
+            return nextErrors;
+        });
         setFormError('');
     }
     async function handleBindConfirm() {
@@ -132,11 +142,24 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
         }
     }
     async function handleSubmit() {
-        setIsSubmitting(true);
         setFormError('');
+        const nextErrors = {
+            name: validatePersonName(draft.name),
+            phone: validateRequiredMainlandMobile(draft.phone),
+        };
+        Object.keys(nextErrors).forEach((key) => {
+            if (!nextErrors[key])
+                delete nextErrors[key];
+        });
+        setFormErrors(nextErrors);
+        if (Object.keys(nextErrors).length > 0) {
+            setFeedback('请先修正成员信息格式');
+            return;
+        }
+        setIsSubmitting(true);
         try {
             await saveMemberSettingMember(query, draft);
-            navigate('/setting/member', {
+            navigate(buildMemberSettingPath('/setting/member', query), {
                 state: {
                     memberSettingFlashMessage: '成员保存成功',
                 },
@@ -167,27 +190,30 @@ function MemberSettingSurface({ flashMessage, navigate, query, }) {
                                                                 setSelectedRole(role.roleName);
                                                                 setMockStateOverride(null);
                                                                 setRoleDropdownOpen(false);
-                                                            }, children: role.roleName }, role.roleId))) })) : null] })] }), _jsxs("div", { className: "member-filter-row member-filter-row--summary", children: [_jsxs("strong", { children: ["\u6210\u5458\u8D26\u53F7\u6570\uFF1A", readyData?.summary.usedEmployeeNum ?? 0, "/", readyData?.summary.employeeNum ?? 0] }), _jsx("button", { type: "button", className: "member-primary-button", disabled: state.kind !== 'ready', onClick: () => navigate('/setting/member/actions'), children: "\u6DFB\u52A0\u6210\u5458" })] })] }), state.kind === 'error' ? (_jsxs("section", { className: "member-state-card member-state-card--error", role: "alert", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u9519\u8BEF\u72B6\u6001", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: state.message }), _jsx("button", { type: "button", className: "member-primary-button", onClick: () => {
+                                                            }, children: role.roleName }, role.roleId))) })) : null] })] }), _jsxs("div", { className: "member-filter-row member-filter-row--summary", children: [_jsxs("strong", { children: ["\u6210\u5458\u8D26\u53F7\u6570\uFF1A", readyData?.summary.usedEmployeeNum ?? 0, "/", readyData?.summary.employeeNum ?? 0] }), _jsx("button", { type: "button", className: "member-primary-button", disabled: state.kind !== 'ready', onClick: () => navigate(buildMemberSettingPath('/setting/member/actions', query)), children: "\u6DFB\u52A0\u6210\u5458" })] })] }), state.kind === 'error' ? (_jsxs("section", { className: "member-state-card member-state-card--error", role: "alert", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u9519\u8BEF\u72B6\u6001", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: state.message }), _jsx("button", { type: "button", className: "member-primary-button", onClick: () => {
                                             setMockStateOverride('success');
                                             setReloadKey((current) => current + 1);
-                                        }, children: "\u91CD\u8BD5" })] })) : null, state.kind === 'loading' ? (_jsxs("section", { className: "member-state-card", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u52A0\u8F7D\u4E2D", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u4E2D" }), _jsx("p", { children: "\u6B63\u5728\u540C\u6B65\u6210\u5458\u3001\u89D2\u8272\u548C\u623F\u578B\u6570\u636E\uFF0C\u8BF7\u7A0D\u5019\u3002" })] })) : null, state.kind === 'ready' ? renderMemberList(state.data, navigate, setBindTarget, setFeedback) : null] }), bindTarget ? (_jsx("div", { className: "member-modal-backdrop", role: "presentation", children: _jsxs("section", { className: "member-dialog", role: "dialog", "aria-modal": "true", "aria-label": "\u4F01\u5FAE\u7ED1\u5B9A", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u4F01\u5FAE\u7ED1\u5B9A" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4F01\u5FAE\u7ED1\u5B9A", onClick: () => setBindTarget(null), children: "\u00D7" })] }), _jsx("p", { children: "\u786E\u8BA4\u5C06\u5F53\u524D\u6210\u5458\u6807\u8BB0\u4E3A\u5DF2\u7ED1\u5B9A\u4F01\u5FAE\u5417\uFF1F" }), _jsx("strong", { children: bindTarget.name }), _jsxs("footer", { children: [_jsx("button", { type: "button", className: "member-secondary-button", disabled: isSubmitting, onClick: () => setBindTarget(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "member-primary-button", disabled: isSubmitting, onClick: () => void handleBindConfirm(), children: "\u786E\u8BA4\u7ED1\u5B9A" })] })] }) })) : null] })) : (_jsx("div", { className: "member-action-page", children: _jsxs("section", { className: "member-action-panel", "aria-label": "\u6DFB\u52A0\u6210\u5458", children: [_jsx("div", { className: "member-setting-feedback", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u64CD\u4F5C\u53CD\u9988", children: feedback }), _jsxs("div", { className: "member-breadcrumb", children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/member'), children: "\u6210\u5458\u8BBE\u7F6E" }), _jsx("span", { children: "/" }), _jsx("strong", { children: readyData?.editor.title ?? '添加成员' })] }), state.kind === 'error' ? (_jsxs("section", { className: "member-state-card member-state-card--error", role: "alert", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u9519\u8BEF\u72B6\u6001", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: state.message }), _jsx("button", { type: "button", className: "member-primary-button", onClick: () => {
+                                        }, children: "\u91CD\u8BD5" })] })) : null, state.kind === 'loading' ? (_jsxs("section", { className: "member-state-card", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u52A0\u8F7D\u4E2D", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u4E2D" }), _jsx("p", { children: "\u6B63\u5728\u540C\u6B65\u6210\u5458\u3001\u89D2\u8272\u548C\u623F\u578B\u6570\u636E\uFF0C\u8BF7\u7A0D\u5019\u3002" })] })) : null, state.kind === 'ready' ? renderMemberList(state.data, navigate, setBindTarget, setFeedback) : null] }), bindTarget ? (_jsx("div", { className: "member-modal-backdrop", role: "presentation", children: _jsxs("section", { className: "member-dialog", role: "dialog", "aria-modal": "true", "aria-label": "\u4F01\u5FAE\u7ED1\u5B9A", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u4F01\u5FAE\u7ED1\u5B9A" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4F01\u5FAE\u7ED1\u5B9A", onClick: () => setBindTarget(null), children: "\u00D7" })] }), _jsx("p", { children: "\u786E\u8BA4\u5C06\u5F53\u524D\u6210\u5458\u6807\u8BB0\u4E3A\u5DF2\u7ED1\u5B9A\u4F01\u5FAE\u5417\uFF1F" }), _jsx("strong", { children: bindTarget.name }), _jsxs("footer", { children: [_jsx("button", { type: "button", className: "member-secondary-button", disabled: isSubmitting, onClick: () => setBindTarget(null), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "member-primary-button", disabled: isSubmitting, onClick: () => void handleBindConfirm(), children: "\u786E\u8BA4\u7ED1\u5B9A" })] })] }) })) : null] })) : (_jsx("div", { className: "member-action-page", children: _jsxs("section", { className: "member-action-panel", "aria-label": "\u6DFB\u52A0\u6210\u5458", children: [_jsx("div", { className: "member-setting-feedback", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u64CD\u4F5C\u53CD\u9988", children: feedback }), _jsxs("div", { className: "member-breadcrumb", children: [_jsx("button", { type: "button", onClick: () => navigate(buildMemberSettingPath('/setting/member', query)), children: "\u6210\u5458\u8BBE\u7F6E" }), _jsx("span", { children: "/" }), _jsx("strong", { children: readyData?.editor.title ?? '添加成员' })] }), state.kind === 'error' ? (_jsxs("section", { className: "member-state-card member-state-card--error", role: "alert", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u9519\u8BEF\u72B6\u6001", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("p", { children: state.message }), _jsx("button", { type: "button", className: "member-primary-button", onClick: () => {
                                         setMockStateOverride('success');
                                         setReloadKey((current) => current + 1);
-                                    }, children: "\u91CD\u8BD5" })] })) : null, state.kind === 'loading' ? (_jsxs("section", { className: "member-state-card", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u52A0\u8F7D\u4E2D", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u4E2D" }), _jsx("p", { children: "\u6B63\u5728\u540C\u6B65\u6210\u5458\u3001\u89D2\u8272\u548C\u623F\u578B\u6570\u636E\uFF0C\u8BF7\u7A0D\u5019\u3002" })] })) : null, state.kind === 'ready' ? (_jsx(MemberActionForm, { draft: draft, feedback: feedback, filteredRoomOptions: filteredRoomOptions, formError: formError, formRoleDropdownOpen: formRoleDropdownOpen, isSubmitting: isSubmitting, navigate: navigate, onRoleDropdownToggle: () => setFormRoleDropdownOpen((open) => !open), onRoomSearchChange: setRoomSearch, onSubmit: () => void handleSubmit(), onToggleAllRoomCategories: toggleAllRoomCategories, onToggleRoomCategory: toggleRoomCategory, roomOptions: roomOptions, roomSearch: roomSearch, setFormRoleDropdownOpen: setFormRoleDropdownOpen, updateDraft: updateDraft, viewModel: state.data })) : null] }) }))] }));
+                                    }, children: "\u91CD\u8BD5" })] })) : null, state.kind === 'loading' ? (_jsxs("section", { className: "member-state-card", role: "status", "aria-label": "\u6210\u5458\u8BBE\u7F6E\u52A0\u8F7D\u4E2D", children: [_jsx("h2", { children: "\u6210\u5458\u8BBE\u7F6E\u6570\u636E\u52A0\u8F7D\u4E2D" }), _jsx("p", { children: "\u6B63\u5728\u540C\u6B65\u6210\u5458\u3001\u89D2\u8272\u548C\u623F\u578B\u6570\u636E\uFF0C\u8BF7\u7A0D\u5019\u3002" })] })) : null, state.kind === 'ready' ? (_jsx(MemberActionForm, { draft: draft, feedback: feedback, filteredRoomOptions: filteredRoomOptions, formError: formError, formErrors: formErrors, formRoleDropdownOpen: formRoleDropdownOpen, isSubmitting: isSubmitting, navigate: navigate, onRoleDropdownToggle: () => setFormRoleDropdownOpen((open) => !open), onRoomSearchChange: setRoomSearch, onSubmit: () => void handleSubmit(), onToggleAllRoomCategories: toggleAllRoomCategories, onToggleRoomCategory: toggleRoomCategory, roomOptions: roomOptions, roomSearch: roomSearch, setFormRoleDropdownOpen: setFormRoleDropdownOpen, updateDraft: updateDraft, viewModel: state.data })) : null] }) }))] }));
 }
-function MemberActionForm({ draft, filteredRoomOptions, formError, formRoleDropdownOpen, isSubmitting, navigate, onRoleDropdownToggle, onRoomSearchChange, onSubmit, onToggleAllRoomCategories, onToggleRoomCategory, roomOptions, roomSearch, setFormRoleDropdownOpen, updateDraft, viewModel, }) {
-    return (_jsxs(_Fragment, { children: [_jsx("h1", { children: "\u57FA\u672C\u8D44\u6599" }), _jsxs("div", { className: "member-action-form", children: [_jsxs("label", { className: "member-action-field", children: [_jsx("span", { children: "* \u6210\u5458\u59D3\u540D\uFF1A" }), _jsx("input", { "aria-label": "\u6210\u5458\u59D3\u540D", placeholder: "\u8BF7\u8F93\u5165\u6210\u5458\u59D3\u540D", value: draft.name, onChange: (event) => updateDraft({ name: event.target.value }) })] }), _jsxs("label", { className: "member-action-field", children: [_jsx("span", { children: "* \u624B\u673A\u53F7\uFF1A" }), _jsx("input", { "aria-label": "\u624B\u673A\u53F7", placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", value: draft.phone, onChange: (event) => updateDraft({ phone: event.target.value }) })] }), _jsxs("div", { className: "member-action-field", children: [_jsx("span", { children: "\u89D2\u8272\uFF1A" }), _jsxs("div", { className: "member-form-role", children: [_jsx("button", { type: "button", className: "member-action-select", onClick: onRoleDropdownToggle, children: draft.roleName || viewModel.editor.rolePlaceholder }), formRoleDropdownOpen ? (_jsx("ul", { className: "member-role-options member-role-options--form", role: "listbox", "aria-label": "\u89D2\u8272\u9009\u62E9", children: viewModel.roles
+function MemberActionForm({ draft, filteredRoomOptions, formError, formErrors, formRoleDropdownOpen, isSubmitting, navigate, onRoleDropdownToggle, onRoomSearchChange, onSubmit, onToggleAllRoomCategories, onToggleRoomCategory, roomOptions, roomSearch, setFormRoleDropdownOpen, updateDraft, viewModel, }) {
+    return (_jsxs(_Fragment, { children: [_jsx("h1", { children: "\u57FA\u672C\u8D44\u6599" }), _jsxs("div", { className: "member-action-form", children: [_jsxs("label", { className: "member-action-field", children: [_jsx("span", { children: "* \u6210\u5458\u59D3\u540D\uFF1A" }), _jsxs("div", { className: "member-action-field-control", children: [_jsx("input", { "aria-label": "\u6210\u5458\u59D3\u540D", placeholder: "\u8BF7\u8F93\u5165\u6210\u5458\u59D3\u540D", value: draft.name, onChange: (event) => updateDraft({ name: event.target.value }) }), formErrors.name ? _jsx("small", { className: "member-field-error", children: formErrors.name }) : null] })] }), _jsxs("label", { className: "member-action-field", children: [_jsx("span", { children: "* \u624B\u673A\u53F7\uFF1A" }), _jsxs("div", { className: "member-action-field-control", children: [_jsx("input", { "aria-label": "\u624B\u673A\u53F7", placeholder: "\u8BF7\u8F93\u5165\u624B\u673A\u53F7", value: draft.phone, onChange: (event) => updateDraft({ phone: event.target.value }) }), formErrors.phone ? _jsx("small", { className: "member-field-error", children: formErrors.phone }) : null] })] }), _jsxs("div", { className: "member-action-field", children: [_jsx("span", { children: "\u89D2\u8272\uFF1A" }), _jsxs("div", { className: "member-form-role", children: [_jsx("button", { type: "button", className: "member-action-select", onClick: onRoleDropdownToggle, children: draft.roleName || viewModel.editor.rolePlaceholder }), formRoleDropdownOpen ? (_jsx("ul", { className: "member-role-options member-role-options--form", role: "listbox", "aria-label": "\u89D2\u8272\u9009\u62E9", children: viewModel.roles
                                             .filter((role) => role.roleName !== '全部')
                                             .map((role) => (_jsx("li", { role: "option", "aria-selected": draft.roleId === role.roleId, tabIndex: 0, onClick: () => {
                                                 updateDraft({ roleId: role.roleId, roleName: role.roleName });
                                                 setFormRoleDropdownOpen(false);
-                                            }, children: role.roleName }, role.roleId))) })) : null] })] }), _jsxs("div", { className: "member-room-section", children: [_jsx("div", { className: "member-room-heading", children: "\u5206\u914D\u623F\u578B" }), _jsxs("div", { children: [_jsxs("div", { className: "member-room-toolbar", children: [_jsxs("label", { className: "member-check-all", children: [_jsx("input", { type: "checkbox", "aria-label": "\u5168\u9009", checked: draft.roomCategoryIds.length === roomOptions.length && roomOptions.length > 0, onChange: (event) => onToggleAllRoomCategories(event.target.checked) }), _jsx("span", { children: "\u5168\u9009" })] }), _jsx("input", { className: "member-room-search", placeholder: viewModel.editor.roomSearchPlaceholder, value: roomSearch, onChange: (event) => onRoomSearchChange(event.target.value) })] }), _jsx("div", { className: "member-room-list", children: filteredRoomOptions.map((roomCategory) => (_jsx(RoomCategoryCheckbox, { checked: draft.roomCategoryIds.includes(roomCategory.roomCategoryId), roomCategory: roomCategory, onChange: (checked) => onToggleRoomCategory(roomCategory.roomCategoryId, checked) }, roomCategory.roomCategoryId))) })] })] }), formError ? _jsx("div", { className: "member-form-error", children: formError }) : null, _jsxs("div", { className: "member-form-actions", children: [_jsx("button", { type: "button", className: "member-secondary-button", onClick: () => navigate('/setting/member'), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "member-primary-button", disabled: isSubmitting, onClick: onSubmit, children: viewModel.editor.submitText })] })] })] }));
+                                            }, children: role.roleName }, role.roleId))) })) : null] })] }), _jsxs("div", { className: "member-room-section", children: [_jsx("div", { className: "member-room-heading", children: "\u5206\u914D\u623F\u578B" }), _jsxs("div", { children: [_jsxs("div", { className: "member-room-toolbar", children: [_jsxs("label", { className: "member-check-all", children: [_jsx("input", { type: "checkbox", "aria-label": "\u5168\u9009", checked: draft.roomCategoryIds.length === roomOptions.length && roomOptions.length > 0, onChange: (event) => onToggleAllRoomCategories(event.target.checked) }), _jsx("span", { children: "\u5168\u9009" })] }), _jsx("input", { className: "member-room-search", placeholder: viewModel.editor.roomSearchPlaceholder, value: roomSearch, onChange: (event) => onRoomSearchChange(event.target.value) })] }), _jsx("div", { className: "member-room-list", children: filteredRoomOptions.map((roomCategory) => (_jsx(RoomCategoryCheckbox, { checked: draft.roomCategoryIds.includes(roomCategory.roomCategoryId), roomCategory: roomCategory, onChange: (checked) => onToggleRoomCategory(roomCategory.roomCategoryId, checked) }, roomCategory.roomCategoryId))) })] })] }), formError ? _jsx("div", { className: "member-form-error", children: formError }) : null, _jsxs("div", { className: "member-form-actions", children: [_jsx("button", { type: "button", className: "member-secondary-button", onClick: () => navigate(buildMemberSettingPath('/setting/member', viewModel)), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "member-primary-button", disabled: isSubmitting, onClick: onSubmit, children: viewModel.editor.submitText })] })] })] }));
 }
 function renderMemberList(viewModel, navigate, setBindTarget, setFeedback) {
     return (_jsxs(_Fragment, { children: [_jsxs("div", { className: "member-table-wrap", role: "table", "aria-label": "\u6210\u5458\u8D26\u53F7\u5217\u8868", children: [_jsx("div", { className: "member-table-head", role: "row", children: ['姓名', '手机号', '角色', '企微', '邮箱', '操作'].map((label) => (_jsx("div", { role: "columnheader", children: label }, label))) }), viewModel.members.length > 0 ? (viewModel.members.map((member) => (_jsxs("div", { className: "member-table-row", role: "row", children: [_jsx("div", { role: "cell", children: member.name }), _jsx("div", { role: "cell", children: member.phone }), _jsx("div", { role: "cell", children: member.roleName }), _jsx("div", { role: "cell", children: _jsx("button", { type: "button", className: "member-link-button", onClick: () => {
                                         setBindTarget(member);
                                         setFeedback('请选择是否确认绑定企微');
-                                    }, children: member.wecomLabel }) }), _jsx("div", { role: "cell", children: member.email }), _jsx("div", { role: "cell", children: _jsx("button", { type: "button", className: "member-link-button", onClick: () => navigate(`/setting/member/actions?mode=edit&userId=${member.userId}`), children: "\u7F16\u8F91" }) })] }, member.userId)))) : (_jsx("div", { className: "member-empty-row", role: "row", children: _jsx("div", { role: "cell", children: _jsxs("div", { className: "member-empty-state", "aria-label": "\u6210\u5458\u5217\u8868\u7A7A\u6001", children: [_jsx("span", { "aria-hidden": "true", children: "\u25CB" }), _jsx("strong", { children: "\u6682\u65E0\u6570\u636E" })] }) }) }))] }), _jsxs("footer", { className: "member-pagination", "aria-label": "\u6210\u5458\u5206\u9875", children: [_jsxs("span", { children: ["\u7B2C 1-", viewModel.members.length, " \u6761\uFF0C\u5171 ", viewModel.pagination.total, " \u6761"] }), _jsx("button", { type: "button", "aria-label": "\u4E0A\u4E00\u9875", disabled: true }), _jsx("strong", { children: "1" }), _jsx("button", { type: "button", "aria-label": "\u4E0B\u4E00\u9875", disabled: true }), _jsx("button", { type: "button", className: "member-page-size", children: "20 \u6761/\u9875" })] })] }));
+                                    }, children: member.wecomLabel }) }), _jsx("div", { role: "cell", children: member.email }), _jsx("div", { role: "cell", children: _jsx("button", { type: "button", className: "member-link-button", onClick: () => navigate(buildMemberSettingPath('/setting/member/actions', viewModel, {
+                                        mode: 'edit',
+                                        userId: member.userId,
+                                    })), children: "\u7F16\u8F91" }) })] }, member.userId)))) : (_jsx("div", { className: "member-empty-row", role: "row", children: _jsx("div", { role: "cell", children: _jsxs("div", { className: "member-empty-state", "aria-label": "\u6210\u5458\u5217\u8868\u7A7A\u6001", children: [_jsx("span", { "aria-hidden": "true", children: "\u25CB" }), _jsx("strong", { children: "\u6682\u65E0\u6570\u636E" })] }) }) }))] }), _jsxs("footer", { className: "member-pagination", "aria-label": "\u6210\u5458\u5206\u9875", children: [_jsxs("span", { children: ["\u7B2C 1-", viewModel.members.length, " \u6761\uFF0C\u5171 ", viewModel.pagination.total, " \u6761"] }), _jsx("button", { type: "button", "aria-label": "\u4E0A\u4E00\u9875", disabled: true }), _jsx("strong", { children: "1" }), _jsx("button", { type: "button", "aria-label": "\u4E0B\u4E00\u9875", disabled: true }), _jsx("button", { type: "button", className: "member-page-size", children: "20 \u6761/\u9875" })] })] }));
 }
 function RoomCategoryCheckbox({ checked, roomCategory, onChange, }) {
     return (_jsxs("label", { className: "member-room-item", children: [_jsx("input", { type: "checkbox", "aria-label": `房型 ${roomCategory.roomCategoryName}`, checked: checked, onChange: (event) => onChange(event.target.checked) }), _jsx("span", { children: roomCategory.roomCategoryName })] }));
@@ -208,7 +234,7 @@ function toErrorContract(error, query) {
         return {
             provider: error.provider,
             responseState: 'error',
-            endpoint: '/setting/member/bootstrap',
+            endpoint: error.provider === 'api' ? MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT : MEMBER_SETTING_ENDPOINT,
             traceId: error.response.traceId,
             timestamp: error.response.timestamp,
             routeMode: query.routeMode,
@@ -216,14 +242,27 @@ function toErrorContract(error, query) {
         };
     }
     return {
-        provider: query.provider ?? 'mock',
+        provider: query.provider ?? 'api',
         responseState: 'error',
-        endpoint: '/setting/member/bootstrap',
+        endpoint: query.provider === 'mock' ? MEMBER_SETTING_ENDPOINT : MEMBER_SETTING_API_BOOTSTRAP_ENDPOINT,
         traceId: '',
         timestamp: '',
         routeMode: query.routeMode,
         request: query,
     };
+}
+function buildMemberSettingPath(pathname, source, params = {}) {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+        if (value) {
+            searchParams.set(key, value);
+        }
+    });
+    if (source.provider === 'mock') {
+        searchParams.set('memberSettingProvider', 'mock');
+    }
+    const search = searchParams.toString();
+    return search ? `${pathname}?${search}` : pathname;
 }
 function readLocationFlashMessage(state) {
     if (!state || typeof state !== 'object') {

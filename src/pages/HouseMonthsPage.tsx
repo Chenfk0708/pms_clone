@@ -9,6 +9,7 @@ import {
   fetchHouseMonthChangeRoomOptions,
   fetchHouseMonthsDefaultCampId,
   fetchHouseMonthsSnapshot,
+  markNoShowHouseMonthOrder,
   openHouseMonthRoom,
   saveHouseMonthOrderGuests,
   skipStockHouseMonthOrder,
@@ -22,6 +23,11 @@ import { useStoreOptions } from '../hooks/useStoreOptions'
 import { fetchOrderRoomCategoryPrice } from '../services/orderRoomSelector'
 import { OrderRefreshPopover } from './HouseStatusSharingPage'
 import { OrderEntryDrawerHost, type OrderEntryInitialRoom } from './OrdersPage'
+import {
+  validateCredentialNumber,
+  validateOptionalMainlandMobile,
+  validatePersonName,
+} from '../utils/inputValidation'
 import './HouseMonthsPage.css'
 
 export type BatchMode = 'dirty' | 'clean' | 'close' | 'open'
@@ -89,7 +95,7 @@ interface RenderedRoomCell {
 
 type OrderDrawerTab = 'order' | 'channel' | 'log'
 type MonthOrderDialog = 'noshow' | 'checkout' | 'modify-fee' | 'reminder' | null
-type MonthOrderState = 'pending' | 'checked-in' | 'checked-out' | 'cancelled'
+type MonthOrderState = 'pending' | 'checked-in' | 'checked-out' | 'cancelled' | 'no-show'
 type MonthOrderOverlay = 'edit-order' | null
 type EditOrderRoomMode = 'all-day' | 'hourly' | 'long-stay'
 type MonthOrderActionFlow =
@@ -144,6 +150,8 @@ interface MonthOrderGuestForm {
   guestIdCardType: string
   guestIdCard: string
 }
+
+type MonthOrderGuestFormErrors = Partial<Record<'guestName' | 'guestMobile' | 'guestIdCard', string>>
 
 const ORDER_TAG_GROUP_LABEL = '默认标签'
 const ORDER_TAG_OPTIONS = ['促销', '重单', '保留房', '钟点房'] as const
@@ -364,6 +372,11 @@ function createSelectedMonthCell(
     monthlyRent: row.monthlyRent,
     status,
   }
+}
+
+function resolveRoomCategoryLabel(roomCategoryFilter: string, rows: MonthRoomGroup[]) {
+  const match = rows.find((row) => (row.roomCategoryId || row.label) === roomCategoryFilter)
+  return match?.label || roomCategoryFilter
 }
 
 function sortSelectedMonthCells(cells: SelectedMonthCell[]) {
@@ -934,6 +947,7 @@ export function HouseMonthsPage() {
   const monthPickerCells = useMemo(() => createMonthPickerCells(pickerMonth, selectedDate), [pickerMonth, selectedDate])
   const pickerMonthLabel = `${pickerMonth.getFullYear()}\u5e74 ${pickerMonth.getMonth() + 1}\u6708`
   const activeStoreCampId = useMemo(() => initialCampId || resolvedCampIdRef.current, [initialCampId])
+  const roomTypeLabel = useMemo(() => resolveRoomCategoryLabel(roomType, roomGroups), [roomGroups, roomType])
 
   useEffect(() => {
     if (!toastMessage) return undefined
@@ -1085,7 +1099,7 @@ export function HouseMonthsPage() {
       ].join(' ')
 
       if (keyword && !searchable.includes(keyword)) return false
-      if (roomType && group.label !== roomType) return false
+      if (roomType && (group.roomCategoryId || group.label) !== roomType) return false
       return true
     })
   }, [activeChip, query, roomGroups, roomType])
@@ -1348,7 +1362,7 @@ export function HouseMonthsPage() {
 
   const isSelectableCell = (cell: MonthCell) => cell.tone === 'blank' || cell.tone === 'disabled'
   const updateSelectionAnchor = (rect: DOMRect) => {
-    const panelWidth = 112
+    const panelWidth = 138
     const left = Math.min(
       window.innerWidth - panelWidth - 12,
       Math.max(12, Math.round(rect.left + rect.width / 2 - panelWidth / 2)),
@@ -1436,8 +1450,8 @@ export function HouseMonthsPage() {
               onClick={() => setFilterMenu(filterMenu === 'room' ? null : 'room')}
             >
               {roomType ? (
-                <span className="month-room-filter-trigger__value" data-testid="month-room-filter-value" title={roomType}>
-                  {roomType}
+                <span className="month-room-filter-trigger__value" data-testid="month-room-filter-value" title={roomTypeLabel}>
+                  {roomTypeLabel}
                 </span>
               ) : (
                 <span className="month-room-filter-trigger__placeholder">房型</span>
@@ -1463,11 +1477,12 @@ export function HouseMonthsPage() {
                     key={row.roomCategoryId || row.label}
                     type="button"
                     role="option"
-                    aria-selected={roomType === row.label}
+                    aria-selected={roomType === (row.roomCategoryId || row.label)}
                     onClick={() => {
-                      setRoomType(row.label)
+                      const roomCategoryFilter = row.roomCategoryId || row.label
+                      setRoomType(roomCategoryFilter)
                       setFilterMenu(null)
-                      void loadSnapshot(row.label, query)
+                      void loadSnapshot(roomCategoryFilter, query)
                     }}
                   >
                     {row.label}
@@ -1871,11 +1886,14 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
   const [editOrderRoomMode, setEditOrderRoomMode] = useState<EditOrderRoomMode>('all-day')
   const [checkoutType, setCheckoutType] = useState<'normal' | 'early'>('normal')
   const [localLiveStatus, setLocalLiveStatus] = useState(selectedBooking.cell.liveStatus ?? '')
+  const [guestRegistered, setGuestRegistered] = useState(() => Boolean(selectedBooking.cell.guestRegisteredAt))
+  const [checkInBlockedDialogOpen, setCheckInBlockedDialogOpen] = useState(false)
   const [guestForm, setGuestForm] = useState<MonthOrderGuestForm>(() =>
     createMonthOrderGuestForm(selectedBooking.cell.title, selectedBooking.cell.phone),
   )
+  const [guestFormErrors, setGuestFormErrors] = useState<MonthOrderGuestFormErrors>({})
   const [operationMessage, setOperationMessage] = useState('')
-  const [submittingAction, setSubmittingAction] = useState<null | 'guest' | 'checkin' | 'checkout' | 'change-room' | 'cancel' | 'skip-stock'>(null)
+  const [submittingAction, setSubmittingAction] = useState<null | 'guest' | 'checkin' | 'checkout' | 'change-room' | 'cancel' | 'skip-stock' | 'no-show'>(null)
   const [changeRoomOptions, setChangeRoomOptions] = useState<HouseMonthChangeRoomOption[]>([])
   const [changeRoomOptionsLoading, setChangeRoomOptionsLoading] = useState(false)
   const [changeRoomOptionsError, setChangeRoomOptionsError] = useState('')
@@ -1887,8 +1905,10 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
       ? '入住中'
       : orderState === 'checked-out'
         ? '已退房'
-        : orderState === 'cancelled'
-          ? '已取消'
+      : orderState === 'cancelled'
+        ? '已取消'
+        : orderState === 'no-show'
+          ? '未到店'
           : '待入住'
   const roomFee = formatCurrency(selectedBooking.cell.amount, '¥597.60')
   const totalIncome = formatCurrency(selectedBooking.cell.totalIncome, '¥664.00')
@@ -2032,7 +2052,10 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
     setEditOrderRoomMode('all-day')
     setCheckoutType('normal')
     setLocalLiveStatus(selectedBooking.cell.liveStatus ?? '')
+    setGuestRegistered(Boolean(selectedBooking.cell.guestRegisteredAt))
+    setCheckInBlockedDialogOpen(false)
     setGuestForm(createMonthOrderGuestForm(selectedBooking.cell.title, selectedBooking.cell.phone))
+    setGuestFormErrors({})
     setOperationLogs(createMonthOrderInitialLogs(selectedBooking, `${selectedBooking.roomType}(${selectedBooking.roomLabel})`))
     setOperationMessage('')
     setSubmittingAction(null)
@@ -2119,6 +2142,22 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
   }
 
   const handleSaveGuest = async () => {
+    const normalizedGuestName = guestForm.guestName.trim() || selectedBooking.cell.title
+    const nextErrors: MonthOrderGuestFormErrors = {}
+    const guestNameError = validatePersonName(normalizedGuestName)
+    const guestMobileError = validateOptionalMainlandMobile(guestForm.guestMobile)
+    const guestIdCardError = validateCredentialNumber(guestForm.guestIdCardType, guestForm.guestIdCard)
+
+    if (guestNameError) nextErrors.guestName = guestNameError
+    if (guestMobileError) nextErrors.guestMobile = guestMobileError
+    if (guestIdCardError) nextErrors.guestIdCard = guestIdCardError
+
+    if (Object.keys(nextErrors).length > 0) {
+      setGuestFormErrors(nextErrors)
+      setOperationMessage('请先修正红色提示的输入内容')
+      return
+    }
+
     const context = requireOrderActionContext()
     if (!context) return
 
@@ -2129,7 +2168,7 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
         ...context,
         guests: [
           {
-            guestName: guestForm.guestName.trim() || selectedBooking.cell.title,
+            guestName: normalizedGuestName,
             guestMobile: guestForm.guestMobile.trim(),
             guestIdCardType: guestForm.guestIdCardType,
             guestIdCard: guestForm.guestIdCard.trim(),
@@ -2139,8 +2178,10 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
       })
       const message = response.message || '入住人保存成功'
       setGuestEditorOpen(false)
+      setGuestRegistered(true)
+      setGuestFormErrors({})
       setOperationMessage(message)
-      addOperationLog('登记入住人', `入住人：${guestForm.guestName.trim() || selectedBooking.cell.title}`, response.guestRegisteredAt)
+      addOperationLog('登记入住人', `入住人：${normalizedGuestName}`, response.guestRegisteredAt)
       onAction(message)
       refreshOrderSnapshot()
     } catch (error) {
@@ -2153,6 +2194,13 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
   const handleCheckInOrder = async () => {
     const context = requireOrderActionContext()
     if (!context) return
+
+    if (!guestRegistered) {
+      setActionFlow(null)
+      setCheckInBlockedDialogOpen(true)
+      setOperationMessage('请先登记入住人')
+      return
+    }
 
     setSubmittingAction('checkin')
     setOperationMessage('')
@@ -2277,6 +2325,32 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
     }
   }
 
+  const handleMarkNoShowOrder = async () => {
+    const context = requireOrderActionContext()
+    if (!context) return
+
+    setSubmittingAction('no-show')
+    setOperationMessage('')
+    try {
+      const response = await markNoShowHouseMonthOrder({
+        ...context,
+        reason: '订单详情置为未到店',
+      })
+      const nextLiveStatus = resolveOrderActionLiveStatus(response.status, '未到店')
+      setLocalLiveStatus(nextLiveStatus)
+      const message = response.message || '已标记为未到店'
+      setOpenDialog(null)
+      setOperationMessage(message)
+      addOperationLog('置为未到店', `未到店房间：${roomLogLabel}`)
+      onAction(message)
+      refreshOrderSnapshot()
+    } catch (error) {
+      setOperationMessage(`置为未到店失败：${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      setSubmittingAction(null)
+    }
+  }
+
   const handleDrawerAction = (action: string) => {
     setMoreMenuOpen(false)
     if (action === '置为noshow') {
@@ -2383,7 +2457,8 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
 
   const confirmDialog = () => {
     if (openDialog === 'noshow') {
-      onAction('置为noshow')
+      void handleMarkNoShowOrder()
+      return
     }
     if (openDialog === 'checkout') {
       onAction(checkoutType === 'normal' ? '办理退房' : '提前退房')
@@ -2414,6 +2489,7 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
   const isChangeRoomSubmitting = submittingAction === 'change-room'
   const isCancelSubmitting = submittingAction === 'cancel'
   const isSkipStockSubmitting = submittingAction === 'skip-stock'
+  const isNoShowSubmitting = submittingAction === 'no-show'
   const isActionConfirmDisabled =
     (actionFlow === 'checkin' && submittingAction === 'checkin') ||
     (actionFlow === 'cancel-order' && isCancelSubmitting) ||
@@ -2662,30 +2738,41 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
               {guestEditorOpen ? (
                 <div className="month-room-order-card__guest-editor" data-testid="month-order-guest-editor">
                   <div className="month-order-guest-editor__grid">
-                    <label>
+                    <label className={`month-order-guest-field ${guestFormErrors.guestName ? 'has-error' : ''}`}>
                       <span>客户姓名</span>
                       <input
                         className="month-order-dialog__input"
                         placeholder="请输入客户姓名"
                         value={guestForm.guestName}
-                        onChange={(event) => setGuestForm((current) => ({ ...current, guestName: event.target.value }))}
+                        onChange={(event) => {
+                          setGuestForm((current) => ({ ...current, guestName: event.target.value }))
+                          setGuestFormErrors((current) => ({ ...current, guestName: undefined }))
+                        }}
                       />
+                      {guestFormErrors.guestName ? <em>{guestFormErrors.guestName}</em> : null}
                     </label>
-                    <label>
+                    <label className={`month-order-guest-field ${guestFormErrors.guestMobile ? 'has-error' : ''}`}>
                       <span>手机号</span>
                       <input
                         className="month-order-dialog__input"
                         placeholder="请输入手机号"
                         value={guestForm.guestMobile}
-                        onChange={(event) => setGuestForm((current) => ({ ...current, guestMobile: event.target.value }))}
+                        onChange={(event) => {
+                          setGuestForm((current) => ({ ...current, guestMobile: event.target.value }))
+                          setGuestFormErrors((current) => ({ ...current, guestMobile: undefined }))
+                        }}
                       />
+                      {guestFormErrors.guestMobile ? <em>{guestFormErrors.guestMobile}</em> : null}
                     </label>
-                    <label>
+                    <label className="month-order-guest-field">
                       <span>证件类型</span>
                       <select
                         className="month-order-dialog__select"
                         value={guestForm.guestIdCardType}
-                        onChange={(event) => setGuestForm((current) => ({ ...current, guestIdCardType: event.target.value }))}
+                        onChange={(event) => {
+                          setGuestForm((current) => ({ ...current, guestIdCardType: event.target.value }))
+                          setGuestFormErrors((current) => ({ ...current, guestIdCard: undefined }))
+                        }}
                       >
                         {ORDER_GUEST_DOCUMENT_TYPES.map((type) => (
                           <option key={type} value={type}>
@@ -2694,14 +2781,18 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
                         ))}
                       </select>
                     </label>
-                    <label>
+                    <label className={`month-order-guest-field ${guestFormErrors.guestIdCard ? 'has-error' : ''}`}>
                       <span>证件号</span>
                       <input
                         className="month-order-dialog__input"
                         placeholder="请输入证件号码"
                         value={guestForm.guestIdCard}
-                        onChange={(event) => setGuestForm((current) => ({ ...current, guestIdCard: event.target.value }))}
+                        onChange={(event) => {
+                          setGuestForm((current) => ({ ...current, guestIdCard: event.target.value }))
+                          setGuestFormErrors((current) => ({ ...current, guestIdCard: undefined }))
+                        }}
                       />
+                      {guestFormErrors.guestIdCard ? <em>{guestFormErrors.guestIdCard}</em> : null}
                     </label>
                   </div>
                   <div className="month-order-guest-editor__actions">
@@ -3238,6 +3329,44 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
         </footer>
       )}
 
+      {checkInBlockedDialogOpen ? (
+        <div className="month-order-dialog-scrim" onClick={() => setCheckInBlockedDialogOpen(false)}>
+          <section
+            className="month-order-dialog month-order-dialog--medium"
+            role="dialog"
+            aria-modal="true"
+            aria-label="入住提示"
+            data-testid="month-order-dialog-checkin-blocked"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <header className="month-order-dialog__header">
+              <strong>入住提示</strong>
+              <button type="button" aria-label="关闭入住提示" onClick={() => setCheckInBlockedDialogOpen(false)}>
+                ×
+              </button>
+            </header>
+            <div className="month-order-dialog__body">
+              <p>请先登记入住人</p>
+            </div>
+            <footer className="month-order-dialog__footer">
+              <button type="button" onClick={() => setCheckInBlockedDialogOpen(false)}>
+                知道了
+              </button>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => {
+                  setCheckInBlockedDialogOpen(false)
+                  setGuestEditorOpen(true)
+                }}
+              >
+                去登记
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
+
       {openDialog === 'noshow' ? (
         <div className="month-order-dialog-scrim" onClick={() => setOpenDialog(null)}>
           <section
@@ -3269,7 +3398,7 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
                 <div className="month-order-dialog__room-content">
                   <div className="month-order-dialog__room-title">
                     <strong>{roomDisplayName}</strong>
-                    <span>待入住</span>
+                    <span>{statusLabel}</span>
                   </div>
                   <div className="month-order-dialog__room-meta">
                     <span>{stayRange.replace(/\./g, '.').replace('-', '-')} (2晚)</span>
@@ -3277,13 +3406,18 @@ export function MonthOrderDrawer({ selectedBooking, campId = '', onClose, onActi
                   </div>
                 </div>
               </div>
+              {operationMessage.startsWith('置为未到店失败') ? (
+                <div className="month-order-dialog__error" role="alert">
+                  {operationMessage}
+                </div>
+              ) : null}
             </div>
             <footer className="month-order-dialog__footer">
               <button type="button" onClick={() => setOpenDialog(null)}>
                 取消
               </button>
-              <button type="button" className="is-primary" onClick={confirmDialog}>
-                确定
+              <button type="button" className="is-primary" disabled={isNoShowSubmitting} onClick={confirmDialog}>
+                {isNoShowSubmitting ? '处理中' : '确定'}
               </button>
             </footer>
           </section>
@@ -3941,6 +4075,7 @@ function parseCurrencyNumber(value: string) {
 }
 
 function resolveMonthOrderState(liveStatus: string | undefined): MonthOrderState {
+  if (liveStatus?.includes('未到店') || liveStatus?.includes('失约') || liveStatus === 'no_show' || liveStatus === 'no-show' || liveStatus === 'noshow') return 'no-show'
   if (liveStatus?.includes('已取消') || liveStatus === 'cancelled' || liveStatus === 'canceled') return 'cancelled'
   if (liveStatus?.includes('入住中')) return 'checked-in'
   if (liveStatus?.includes('已退房')) return 'checked-out'
@@ -4035,6 +4170,7 @@ function resolveOrderActionLiveStatus(status: string | undefined, fallback: stri
   if (normalized === 'checked_in' || normalized === 'checked-in' || normalized.includes('入住中')) return '入住中'
   if (normalized === 'completed' || normalized === 'checked_out' || normalized === 'checked-out' || normalized.includes('已退房')) return '已退房'
   if (normalized === 'cancelled' || normalized === 'canceled' || normalized.includes('已取消')) return '已取消'
+  if (normalized === 'no_show' || normalized === 'no-show' || normalized === 'noshow' || normalized.includes('未到店') || normalized.includes('失约')) return '未到店'
   if (normalized === 'booked' || normalized.includes('待入住')) return '待入住'
   return fallback
 }

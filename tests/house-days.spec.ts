@@ -246,6 +246,89 @@ test('/houseManage/days loads through the explicit mock provider', async ({ page
   await expect(page.getByRole('status')).toContainText('美团酒店订单已刷新')
 })
 
+test('/houseManage/days empty room action menu uses a white bubble surface', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  const emptyRoomCard = page.locator('.day-room-card[data-tone="empty"]').first()
+  await expect(emptyRoomCard).toBeVisible()
+  await emptyRoomCard.click()
+
+  const actionMenu = page.locator('.day-room-actions-popover')
+  await expect(actionMenu).toBeVisible()
+  await expect(actionMenu.locator('[role="menuitem"]')).toHaveCount(6)
+
+  const actionMenuStyle = await actionMenu.evaluate((element) => {
+    const style = window.getComputedStyle(element)
+    const arrowStyle = window.getComputedStyle(element, '::before')
+    const afterStyle = window.getComputedStyle(element, '::after')
+
+    return {
+      afterDisplay: afterStyle.display,
+      arrowBackground: arrowStyle.backgroundColor,
+      background: style.backgroundColor,
+      backgroundImage: style.backgroundImage,
+      borderStyle: style.borderStyle,
+      borderRadius: style.borderRadius,
+    }
+  })
+
+  expect(actionMenuStyle.background).toBe('rgb(255, 255, 255)')
+  expect(actionMenuStyle.backgroundImage).toBe('none')
+  expect(actionMenuStyle.arrowBackground).toBe('rgb(255, 255, 255)')
+  expect(actionMenuStyle.afterDisplay).toBe('none')
+  expect(actionMenuStyle.borderStyle).toBe('none')
+  expect(Number.parseFloat(actionMenuStyle.borderRadius)).toBeGreaterThan(18)
+})
+
+test('/houseManage/days empty room action menu opens the shared order entry drawer', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  await page.locator('.day-room-card[data-tone="empty"]').first().click()
+  await page.locator('.day-room-actions-popover [role="menuitem"]').filter({ hasText: '录单' }).click()
+
+  const drawer = page.getByRole('dialog', { name: '录入订单' })
+  await expect(drawer).toBeVisible()
+  await expect(drawer).toContainText('总裁套间（桑拿浴缸露台电竞麻将）（902）')
+  await expect(drawer.locator('.order-entry-stay-room-price input')).toHaveValue('668')
+})
+
+test('/houseManage/days empty room action menu closes room through the room status API', async ({ page }) => {
+  const closeRequests: Array<Record<string, unknown>> = []
+  await page.route('**/api/roomStatuses/close/save', async (route) => {
+    const body = route.request().postDataJSON() as Record<string, unknown>
+    closeRequests.push(body)
+    await route.fulfill(
+      jsonResponse({
+        success: true,
+        data: {
+          roomCategoryId: body.roomCategoryId,
+          roomId: body.roomId,
+          date: body.date,
+          reason: body.reason,
+          message: '关房成功',
+        },
+      }),
+    )
+  })
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/days'))
+
+  await page.locator('.day-room-card[data-tone="empty"]').first().click()
+  await page.locator('.day-room-actions-popover [role="menuitem"]').filter({ hasText: '关房' }).click()
+
+  await expect.poll(() => closeRequests.length).toBe(1)
+  expect(closeRequests[0]).toMatchObject({
+    campId: 'camp-interface',
+    roomCategoryId: 'room-category-president',
+    roomId: 'room-902',
+    reason: '日房态手动关房',
+  })
+  await expect(page.getByRole('status')).toContainText('关房成功')
+})
+
 test('/houseManage/days mirrors the month room status today column', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/houseManage/days'))

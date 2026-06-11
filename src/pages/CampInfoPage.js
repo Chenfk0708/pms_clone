@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { createCampInfoImportTask, fetchCampInfoDetail, fetchCampInfoOverview, fetchCampInfoSortData, saveCampInfoDetail, saveCampInfoSort, } from '../services/campInfo';
+import { validateOptionalContactPhone } from '../utils/inputValidation';
 import './CampInfoPage.css';
 const defaultQuery = { keyword: '', page: 1, pageSize: 20 };
 const CAMP_INFO_PHOTO_STORAGE_KEY = 'pms.campInfoUploadedPhotos';
@@ -286,6 +287,7 @@ function CampInfoEditPage() {
     const [mapZoom, setMapZoom] = useState(12);
     const [step, setStep] = useState('basic');
     const [saving, setSaving] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
     const fileInputRef = useRef(null);
     useEffect(() => {
         setLoading(true);
@@ -298,6 +300,7 @@ function CampInfoEditPage() {
         setMapZoom(12);
         setStep('basic');
         setSaving(false);
+        setFormErrors({});
         if (isNewStore) {
             const nextDetail = createEmptyCampInfoDetail(storeId);
             setDetail(nextDetail);
@@ -338,6 +341,27 @@ function CampInfoEditPage() {
     }, [isNewStore, storeId]);
     function updateForm(field, value) {
         setForm((current) => (current ? { ...current, [field]: value } : current));
+        setFormErrors((current) => {
+            if (field !== 'storeName' && field !== 'phone')
+                return current;
+            return { ...current, [field]: undefined };
+        });
+    }
+    function validateBasicInfo() {
+        if (!form)
+            return false;
+        const nextErrors = {};
+        if (!form.storeName.trim())
+            nextErrors.storeName = '门店名称不能为空';
+        const phoneError = validateOptionalContactPhone(form.phone);
+        if (phoneError)
+            nextErrors.phone = phoneError;
+        setFormErrors(nextErrors);
+        if (Object.keys(nextErrors).length > 0) {
+            setErrorMessage('');
+            return false;
+        }
+        return true;
     }
     function addTag() {
         const nextTag = tagInput.trim();
@@ -384,11 +408,11 @@ function CampInfoEditPage() {
     async function handleSaveAndExit() {
         if (!detail || !form)
             return;
-        const storeName = form.storeName.trim();
-        if (!storeName) {
-            setErrorMessage('门店名称不能为空');
+        if (!validateBasicInfo()) {
+            setStep('basic');
             return;
         }
+        const storeName = form.storeName.trim();
         setSaving(true);
         setErrorMessage('');
         try {
@@ -429,7 +453,7 @@ function CampInfoEditPage() {
                             provider: detail.provider,
                             traceId: detail.traceId,
                             timestamp: detail.timestamp,
-                        }) }), step === 'basic' ? (_jsx("section", { className: "camp-info-form-card camp-info-edit-basic", "aria-label": "\u57FA\u672C\u4FE1\u606F", children: _jsxs("div", { className: "camp-info-edit-form", children: [_jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u95E8\u5E97\u540D\u79F0:" }), _jsx("input", { "aria-label": "\u95E8\u5E97\u540D\u79F0", value: form.storeName, onChange: (event) => updateForm('storeName', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u95E8\u5E97\u7C7B\u578B:" }), _jsxs("select", { "aria-label": "\u95E8\u5E97\u7C7B\u578B", value: form.typeLabel, onChange: (event) => updateForm('typeLabel', event.target.value), children: [_jsx("option", { value: "", children: "\u8BF7\u9009\u62E9" }), campInfoTypeOptions.map((item) => (_jsx("option", { value: item, children: item }, item)))] })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u8054\u7CFB\u7535\u8BDD:" }), _jsx("input", { "aria-label": "\u8054\u7CFB\u7535\u8BDD", value: form.phone, onChange: (event) => updateForm('phone', event.target.value) })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-edit-tag-row", children: [_jsx("span", { children: "\u95E8\u5E97\u6807\u7B7E:" }), _jsx("input", { value: tagInput, onChange: (event) => setTagInput(event.target.value), onKeyDown: (event) => {
+                        }) }), step === 'basic' ? (_jsx("section", { className: "camp-info-form-card camp-info-edit-basic", "aria-label": "\u57FA\u672C\u4FE1\u606F", children: _jsxs("div", { className: "camp-info-edit-form", children: [_jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u95E8\u5E97\u540D\u79F0:" }), _jsxs("div", { className: "camp-info-edit-field", children: [_jsx("input", { "aria-label": "\u95E8\u5E97\u540D\u79F0", value: form.storeName, onChange: (event) => updateForm('storeName', event.target.value) }), formErrors.storeName ? _jsx("small", { className: "camp-info-field-error", children: formErrors.storeName }) : null] })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u95E8\u5E97\u7C7B\u578B:" }), _jsxs("select", { "aria-label": "\u95E8\u5E97\u7C7B\u578B", value: form.typeLabel, onChange: (event) => updateForm('typeLabel', event.target.value), children: [_jsx("option", { value: "", children: "\u8BF7\u9009\u62E9" }), campInfoTypeOptions.map((item) => (_jsx("option", { value: item, children: item }, item)))] })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u8054\u7CFB\u7535\u8BDD:" }), _jsxs("div", { className: "camp-info-edit-field", children: [_jsx("input", { "aria-label": "\u8054\u7CFB\u7535\u8BDD", value: form.phone, onChange: (event) => updateForm('phone', event.target.value) }), formErrors.phone ? _jsx("small", { className: "camp-info-field-error", children: formErrors.phone }) : null] })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-edit-tag-row", children: [_jsx("span", { children: "\u95E8\u5E97\u6807\u7B7E:" }), _jsx("input", { value: tagInput, onChange: (event) => setTagInput(event.target.value), onKeyDown: (event) => {
                                                 if (event.key === 'Enter') {
                                                     event.preventDefault();
                                                     addTag();
@@ -438,7 +462,7 @@ function CampInfoEditPage() {
                                                     .map((item) => item.trim())
                                                     .filter(Boolean)
                                                     .filter((item, index, list) => list.indexOf(item) === index)
-                                                    .map((item) => (_jsx("option", { value: item, children: item }, item)))] })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u8857\u9053\u5730\u5740:" }), _jsx("input", { value: form.streetAddress, onChange: (event) => updateForm('streetAddress', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "\u5C0F\u533A\u540D\u79F0:" }), _jsx("input", { value: form.communityName, onChange: (event) => updateForm('communityName', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u5355\u5143\u3001\u95E8\u724C\u53F7:" }), _jsx("input", { value: form.unitNo, onChange: (event) => updateForm('unitNo', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row camp-info-address", children: [_jsx("span", { children: "* \u8BE6\u7EC6\u5730\u5740:" }), _jsx("textarea", { value: form.fullAddress, onChange: (event) => updateForm('fullAddress', event.target.value) })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-map", children: [_jsx("span", { children: "\u5730\u56FE\u4F4D\u7F6E:" }), _jsxs("div", { className: "camp-info-map__canvas", "aria-label": "\u5730\u56FE\u4F4D\u7F6E\u9884\u89C8", children: [_jsx("button", { type: "button", "aria-label": "\u653E\u5927\u5730\u56FE", onClick: () => setMapZoom((value) => Math.min(value + 1, 18)), children: "+" }), _jsx("button", { type: "button", "aria-label": "\u7F29\u5C0F\u5730\u56FE", onClick: () => setMapZoom((value) => Math.max(value - 1, 3)), children: "\u2212" }), _jsx("div", { className: "camp-info-map__marker" }), _jsxs("small", { children: [detail.mapCopyright, " \u00B7 zoom ", mapZoom] })] }), _jsx("p", { children: "\u82E5\u5730\u56FE\u81EA\u52A8\u83B7\u53D6\u5750\u6807\u6709\u8BEF\uFF0C\u8BF7\u62D6\u52A8\u56FE\u6807\u81F3\u6B63\u786E\u5750\u6807" })] })] }) })) : (_jsx("section", { className: "camp-info-form-card camp-info-edit-detail", "aria-label": "\u8BE6\u7EC6\u4ECB\u7ECD", children: _jsxs("div", { className: "camp-info-edit-form camp-info-edit-form--detail", children: [_jsxs("label", { className: "camp-info-edit-row camp-info-edit-text-row", children: [_jsx("span", { children: "\u6587\u5B57\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u6587\u5B57\u4ECB\u7ECD", value: form.plainIntro, onChange: (event) => updateForm('plainIntro', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6587\u5B57\u4ECB\u7ECD" })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-rich-row", children: [_jsx("span", { children: "\u56FE\u6587\u4ECB\u7ECD:" }), _jsxs("div", { className: "camp-info-rich-editor", children: [_jsxs("div", { className: "camp-info-rich-editor__toolbar", "aria-label": "\u56FE\u6587\u4ECB\u7ECD\u5DE5\u5177\u680F", children: [['H', 'B', 'I', 'U', 'S'].map((item) => (_jsx("button", { type: "button", "aria-label": `格式 ${item}`, children: item }, item))), _jsx("select", { "aria-label": "\u5B57\u53F7", children: _jsx("option", { children: "\u5B57\u53F7" }) }), _jsx("select", { "aria-label": "\u884C\u9AD8", children: _jsx("option", { children: "\u884C\u9AD8" }) }), ['≡', '☰', '↶', '↷', 'Link', 'Img'].map((item, index) => (_jsx("button", { type: "button", "aria-label": `编辑工具 ${index + 1}`, children: item }, `${item}-${index}`))), _jsx("button", { type: "button", className: "camp-info-rich-editor__preview", children: "\u9884\u89C8" })] }), _jsx("textarea", { "aria-label": "\u56FE\u6587\u4ECB\u7ECD", value: form.richIntro, onChange: (event) => updateForm('richIntro', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6B63\u6587" })] })] })] }) }))] })) : null, detail && form ? (_jsx("footer", { className: "camp-info-edit-footer", children: step === 'basic' ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", disabled: saving, onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u53D6 \u6D88" }), _jsx("button", { type: "button", className: "is-primary", disabled: saving, onClick: () => setStep('detail'), children: "\u4E0B\u4E00\u6B65" })] })) : (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", disabled: saving, onClick: () => setStep('basic'), children: "\u4E0A\u4E00\u6B65" }), _jsx("button", { type: "button", className: "is-primary", disabled: saving, onClick: () => void handleSaveAndExit(), children: saving ? '保存中...' : '保存并退出' })] })) })) : null] }));
+                                                    .map((item) => (_jsx("option", { value: item, children: item }, item)))] })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u8857\u9053\u5730\u5740:" }), _jsx("input", { value: form.streetAddress, onChange: (event) => updateForm('streetAddress', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "\u5C0F\u533A\u540D\u79F0:" }), _jsx("input", { value: form.communityName, onChange: (event) => updateForm('communityName', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row", children: [_jsx("span", { children: "* \u5355\u5143\u3001\u95E8\u724C\u53F7:" }), _jsx("input", { value: form.unitNo, onChange: (event) => updateForm('unitNo', event.target.value) })] }), _jsxs("label", { className: "camp-info-edit-row camp-info-address", children: [_jsx("span", { children: "* \u8BE6\u7EC6\u5730\u5740:" }), _jsx("textarea", { value: form.fullAddress, onChange: (event) => updateForm('fullAddress', event.target.value) })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-map", children: [_jsx("span", { children: "\u5730\u56FE\u4F4D\u7F6E:" }), _jsxs("div", { className: "camp-info-map__canvas", "aria-label": "\u5730\u56FE\u4F4D\u7F6E\u9884\u89C8", children: [_jsx("button", { type: "button", "aria-label": "\u653E\u5927\u5730\u56FE", onClick: () => setMapZoom((value) => Math.min(value + 1, 18)), children: "+" }), _jsx("button", { type: "button", "aria-label": "\u7F29\u5C0F\u5730\u56FE", onClick: () => setMapZoom((value) => Math.max(value - 1, 3)), children: "\u2212" }), _jsx("div", { className: "camp-info-map__marker" }), _jsxs("small", { children: [detail.mapCopyright, " \u00B7 zoom ", mapZoom] })] }), _jsx("p", { children: "\u82E5\u5730\u56FE\u81EA\u52A8\u83B7\u53D6\u5750\u6807\u6709\u8BEF\uFF0C\u8BF7\u62D6\u52A8\u56FE\u6807\u81F3\u6B63\u786E\u5750\u6807" })] })] }) })) : (_jsx("section", { className: "camp-info-form-card camp-info-edit-detail", "aria-label": "\u8BE6\u7EC6\u4ECB\u7ECD", children: _jsxs("div", { className: "camp-info-edit-form camp-info-edit-form--detail", children: [_jsxs("label", { className: "camp-info-edit-row camp-info-edit-text-row", children: [_jsx("span", { children: "\u6587\u5B57\u4ECB\u7ECD:" }), _jsx("textarea", { "aria-label": "\u6587\u5B57\u4ECB\u7ECD", value: form.plainIntro, onChange: (event) => updateForm('plainIntro', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6587\u5B57\u4ECB\u7ECD" })] }), _jsxs("div", { className: "camp-info-edit-row camp-info-rich-row", children: [_jsx("span", { children: "\u56FE\u6587\u4ECB\u7ECD:" }), _jsxs("div", { className: "camp-info-rich-editor", children: [_jsxs("div", { className: "camp-info-rich-editor__toolbar", "aria-label": "\u56FE\u6587\u4ECB\u7ECD\u5DE5\u5177\u680F", children: [['H', 'B', 'I', 'U', 'S'].map((item) => (_jsx("button", { type: "button", "aria-label": `格式 ${item}`, children: item }, item))), _jsx("select", { "aria-label": "\u5B57\u53F7", children: _jsx("option", { children: "\u5B57\u53F7" }) }), _jsx("select", { "aria-label": "\u884C\u9AD8", children: _jsx("option", { children: "\u884C\u9AD8" }) }), ['≡', '☰', '↶', '↷', 'Link', 'Img'].map((item, index) => (_jsx("button", { type: "button", "aria-label": `编辑工具 ${index + 1}`, children: item }, `${item}-${index}`))), _jsx("button", { type: "button", className: "camp-info-rich-editor__preview", children: "\u9884\u89C8" })] }), _jsx("textarea", { "aria-label": "\u56FE\u6587\u4ECB\u7ECD", value: form.richIntro, onChange: (event) => updateForm('richIntro', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6B63\u6587" })] })] })] }) }))] })) : null, detail && form ? (_jsx("footer", { className: "camp-info-edit-footer", children: step === 'basic' ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", disabled: saving, onClick: () => navigate('/InformationMaintenance/campInfo'), children: "\u53D6 \u6D88" }), _jsx("button", { type: "button", className: "is-primary", disabled: saving, onClick: () => validateBasicInfo() && setStep('detail'), children: "\u4E0B\u4E00\u6B65" })] })) : (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", disabled: saving, onClick: () => setStep('basic'), children: "\u4E0A\u4E00\u6B65" }), _jsx("button", { type: "button", className: "is-primary", disabled: saving, onClick: () => void handleSaveAndExit(), children: saving ? '保存中...' : '保存并退出' })] })) })) : null] }));
 }
 function CampInfoSortPage() {
     const [activeTab, setActiveTab] = useState('store');

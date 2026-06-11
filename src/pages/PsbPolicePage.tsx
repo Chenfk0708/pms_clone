@@ -9,6 +9,7 @@ import {
   type PsbPoliceRow,
   type PsbPoliceSubmissionInput,
 } from '../services/psbPolice'
+import { validateCredentialNumber, validatePersonName } from '../utils/inputValidation'
 import './PsbPolicePage.css'
 
 const tableColumns = [
@@ -362,6 +363,14 @@ function AddPsbDialog({
     if (!formState.devicePrivateKey.trim()) nextErrors.devicePrivateKey = '设备处理业务私钥不能为空'
     if (!formState.registrantName.trim()) nextErrors.registrantName = '登记人姓名不能为空'
     if (!formState.registrantIdNumber.trim()) nextErrors.registrantIdNumber = '登记人证件号码不能为空'
+    if (formState.registrantName.trim()) {
+      const nameError = validatePersonName(formState.registrantName)
+      if (nameError) nextErrors.registrantName = nameError
+    }
+    if (formState.registrantIdNumber.trim()) {
+      const credentialError = validateCredentialNumber('居民身份证', formState.registrantIdNumber)
+      if (credentialError) nextErrors.registrantIdNumber = credentialError
+    }
     setFieldErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
   }

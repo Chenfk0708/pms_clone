@@ -1247,7 +1247,7 @@ function RoomTypeEditPage() {
                   <span>房间号:</span>
                   <div className="room-type-edit-page__room-list">
                     {draft.form.roomNos.map((roomNo, index) => (
-                      <div key={`${index}-${roomNo}`} className="room-type-edit-page__room-row">
+                      <div key={draft.form.roomIds[index] || `room-${index}`} className="room-type-edit-page__room-row">
                         <input
                           aria-label={`房间号${index + 1}`}
                           value={roomNo}

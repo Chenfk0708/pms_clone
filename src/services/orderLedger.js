@@ -257,7 +257,7 @@ export function resolveOrderLedgerProvider(search = currentSearch()) {
     const envValue = typeof import.meta !== 'undefined' && 'env' in import.meta
         ? (import.meta.env?.VITE_ORDER_LEDGER_PROVIDER ?? '').trim()
         : '';
-    const provider = (urlValue || storageValue || envValue || 'mock').toLowerCase();
+    const provider = (urlValue || envValue || storageValue || 'mock').toLowerCase();
     if (provider === 'mock' || provider === 'api')
         return provider;
     if (provider === 'real')

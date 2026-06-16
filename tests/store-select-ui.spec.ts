@@ -14,6 +14,7 @@ async function preparePage(page: Page) {
   await page.addInitScript(() => {
     window.localStorage.setItem('pms_token', 'store-select-ui-token')
     window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
     window.localStorage.setItem(
       'pms_user',
       JSON.stringify({
@@ -31,6 +32,9 @@ async function preparePage(page: Page) {
     window.localStorage.setItem('pms.profitReport.provider', 'mock')
     window.localStorage.setItem('pms.cleanLog.provider', 'mock')
     window.localStorage.setItem('pms.cleanLogProvider', 'mock')
+    window.localStorage.setItem('pms.cleanTaskProvider', 'mock')
+    window.localStorage.setItem('pms.cleanStaffProvider', 'mock')
+    window.localStorage.setItem('pms.cleanSettingProvider', 'mock')
     window.localStorage.setItem('pms.cleanStatisticsProvider', 'mock')
     window.localStorage.setItem('pms.houseStatusLogsProvider', 'mock')
     window.localStorage.setItem('pms.priceLogProvider', 'mock')

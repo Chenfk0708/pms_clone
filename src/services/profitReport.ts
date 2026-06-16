@@ -224,9 +224,12 @@ export function getCurrentMonthRange(now = new Date()) {
     day: '2-digit',
   })
   const parts = Object.fromEntries(formatter.formatToParts(now).map((part) => [part.type, part.value]))
+  const year = Number(parts.year)
+  const month = Number(parts.month)
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate()
   return {
     start: `${parts.year}-${parts.month}-01`,
-    end: `${parts.year}-${parts.month}-31`,
+    end: `${parts.year}-${parts.month}-${String(lastDay).padStart(2, '0')}`,
   }
 }
 
@@ -241,11 +244,12 @@ export function resolveProfitReportCampId() {
 }
 
 export function resolveProfitReportProvider(): ProviderMode {
-  const params = new URLSearchParams(window.location.search)
+  const params = readProfitReportSearchParams()
   const rawProvider =
+    params.get('provider') ??
     params.get('profitProvider') ??
-    window.localStorage.getItem(PROVIDER_STORAGE_KEY) ??
     (import.meta.env.VITE_PMS_PROFIT_REPORT_PROVIDER as string | undefined) ??
+    window.localStorage.getItem(PROVIDER_STORAGE_KEY) ??
     'mock'
 
   return rawProvider === 'api' || rawProvider === 'real' ? 'api' : 'mock'
@@ -625,4 +629,10 @@ async function readJson(response: Response) {
 
 function extractErrorMessage(payload: HudsonEnvelope<unknown>) {
   return String(payload.errorMsg ?? payload.errorDetail ?? payload.errorCode ?? '').trim()
+}
+
+function readProfitReportSearchParams() {
+  if (typeof window === 'undefined') return new URLSearchParams()
+  const hashQuery = window.location.hash.split('?')[1]
+  return new URLSearchParams(hashQuery ? `?${hashQuery}` : window.location.search)
 }

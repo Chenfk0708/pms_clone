@@ -1,6 +1,9 @@
 export const CLEAN_STAFF_LIST_PATH = '/cleaner/page/get'
 export const CLEAN_STAFF_STORES_PATH = '/select/poi/page/get'
-export const CLEAN_STAFF_PROVIDER = 'mock'
+export const CLEAN_STAFF_SAVE_PATH = '/cleaner/save'
+export const CLEAN_STAFF_EXPORT_PATH = '/cleaner/export'
+export type CleanStaffProvider = 'mock' | 'api'
+export const CLEAN_STAFF_PROVIDER: CleanStaffProvider = 'api'
 
 export type CleanStaffStatus = 'all' | 'onDuty' | 'offDuty' | 'leave'
 export type CleanStaffScenario = 'success' | 'empty' | 'error'
@@ -48,7 +51,7 @@ export type CleanStaffSummary = {
 }
 
 export type CleanStaffDashboard = {
-  provider: 'mock' | 'api'
+  provider: CleanStaffProvider
   endpoint: string
   requestBody: Record<string, string | number | string[]>
   stores: CleanStaffStore[]
@@ -62,28 +65,67 @@ export type CleanStaffDashboard = {
   generatedAt: string
 }
 
+export type CleanStaffSavePayload = {
+  campId: string
+  poiId?: string
+  name: string
+  mobile: string
+  roomScopeText?: string
+  status?: Exclude<CleanStaffStatus, 'all'>
+}
+
+export type CleanStaffSaveResult = {
+  saved: boolean
+  cleanerId: string
+  traceId?: string
+  timestamp?: string
+}
+
+export type CleanStaffExportResult = {
+  taskId?: string
+  fileName?: string
+  contentType?: string
+  total?: number
+  traceId?: string
+  timestamp?: string
+}
+
 type ApiEnvelope<T> = {
   code: number
+  success?: boolean
   message: string
   data: T
   traceId: string
   timestamp: string
+  errorMsg?: string | null
+  errorDetail?: string | null
 }
 
 type RawCleanStaffMember = {
-  cleanerId: string
-  cleanerName: string
-  mobile: string
-  poiId: string
-  poiName: string
-  workStatus: Exclude<CleanStaffStatus, 'all'>
-  roleName: string
-  roomScopes: string[]
-  todayTaskNum: number
-  completedTaskNum: number
-  overdueTaskNum: number
-  serviceScore: number
-  lastTaskTime: string
+  id?: string
+  name?: string
+  cleanerId?: string
+  cleanerName?: string
+  mobile?: string
+  poiId?: string
+  poiName?: string
+  storeName?: string
+  workStatus?: Exclude<CleanStaffStatus, 'all'>
+  status?: Exclude<CleanStaffStatus, 'all'>
+  roleName?: string
+  role?: string
+  roomScopes?: string[]
+  roomScope?: string[]
+  todayTaskNum?: number
+  todayTasks?: number
+  completedTaskNum?: number
+  completedTasks?: number
+  overdueTaskNum?: number
+  overdueTasks?: number
+  serviceScore?: number
+  rating?: string | number
+  lastTaskTime?: string
+  lastTaskAt?: string
 }
 
 type RawCleanStaffListData = {
@@ -204,13 +246,20 @@ export async function fetchCleanStaffDashboard(
   query: CleanStaffQuery,
   signal?: AbortSignal,
 ): Promise<CleanStaffDashboard> {
+  const provider = resolveCleanStaffProvider()
+  const requestBody = createCleanStaffRequestBody(query)
+
+  if (provider === 'api') {
+    const envelope = await postJson<RawCleanStaffListData>(`/api${CLEAN_STAFF_LIST_PATH}`, requestBody, signal)
+    return adaptCleanStaffEnvelope(envelope, requestBody, provider)
+  }
+
   await delay(120, signal)
 
   if (query.scenario === 'error') {
     throw new Error('保洁人员数据加载失败：/cleaner/page/get 返回业务失败')
   }
 
-  const requestBody = createCleanStaffRequestBody(query)
   const sourceList = query.scenario === 'empty' ? [] : filterMembers(query)
   const pageList = paginate(sourceList, query.pageNum, query.pageSize)
   const envelope = createEnvelope<RawCleanStaffListData>({
@@ -225,23 +274,61 @@ export async function fetchCleanStaffDashboard(
     requestBody,
   })
 
-  return adaptCleanStaffEnvelope(envelope)
+  return adaptCleanStaffEnvelope(envelope, requestBody, provider)
 }
 
-export async function createCleanStaffMember(signal?: AbortSignal) {
+export async function createCleanStaffMember(payload: CleanStaffSavePayload, signal?: AbortSignal): Promise<CleanStaffSaveResult> {
+  const provider = resolveCleanStaffProvider()
+  if (provider === 'api') {
+    const envelope = await postJson<CleanStaffSaveResult>(`/api${CLEAN_STAFF_SAVE_PATH}`, payload, signal)
+    const data = asRecord(envelope.data)
+    return {
+      saved: data.saved !== false,
+      cleanerId: String(data.cleanerId ?? ''),
+      traceId: envelope.traceId,
+      timestamp: envelope.timestamp,
+    }
+  }
+
   await delay(120, signal)
-  return createEnvelope({ saved: true, cleanerId: 'cleaner-new-preview' }, 'save')
+  const envelope = createEnvelope({ saved: true, cleanerId: 'cleaner-new-preview' }, 'save')
+  return {
+    saved: true,
+    cleanerId: String(envelope.data.cleanerId),
+    traceId: envelope.traceId,
+    timestamp: envelope.timestamp,
+  }
 }
 
-export async function createCleanStaffExport(query: CleanStaffQuery, signal?: AbortSignal) {
+export async function createCleanStaffExport(query: CleanStaffQuery, signal?: AbortSignal): Promise<CleanStaffExportResult> {
+  const provider = resolveCleanStaffProvider()
+  const requestBody = createCleanStaffRequestBody(query)
+  if (provider === 'api') {
+    const envelope = await postJson<CleanStaffExportResult>(`/api${CLEAN_STAFF_EXPORT_PATH}`, requestBody, signal)
+    const data = asRecord(envelope.data)
+    return {
+      taskId: data.taskId === undefined ? undefined : String(data.taskId),
+      fileName: data.fileName === undefined ? undefined : String(data.fileName),
+      contentType: data.contentType === undefined ? undefined : String(data.contentType),
+      total: data.total === undefined ? undefined : toNumber(data.total),
+      traceId: envelope.traceId,
+      timestamp: envelope.timestamp,
+    }
+  }
+
   await delay(120, signal)
-  return createEnvelope(
+  const envelope = createEnvelope(
     {
       taskId: 'export-clean-staff-20260518-001',
-      requestBody: createCleanStaffRequestBody(query),
+      requestBody,
     },
     'export',
   )
+  return {
+    taskId: String(envelope.data.taskId),
+    traceId: envelope.traceId,
+    timestamp: envelope.timestamp,
+  }
 }
 
 export function createDefaultCleanStaffQuery(): CleanStaffQuery {
@@ -269,42 +356,51 @@ export function createCleanStaffRequestBody(query: CleanStaffQuery): CleanStaffD
   }
 }
 
-function adaptCleanStaffEnvelope(envelope: ApiEnvelope<RawCleanStaffListData>): CleanStaffDashboard {
-  if (envelope.code !== 0) {
-    throw new Error(envelope.message || '保洁人员接口返回失败')
-  }
+function adaptCleanStaffEnvelope(
+  envelope: ApiEnvelope<RawCleanStaffListData>,
+  requestBody: CleanStaffDashboard['requestBody'],
+  provider: CleanStaffProvider,
+): CleanStaffDashboard {
+  const payload = assertEnvelope(envelope)
 
-  if (!envelope.data || !Array.isArray(envelope.data.list)) {
+  if (!payload.data || !Array.isArray(payload.data.list)) {
     throw new Error('保洁人员接口响应缺少 data.list')
   }
+  const list = payload.data.list
 
   return {
-    provider: CLEAN_STAFF_PROVIDER,
+    provider,
     endpoint: CLEAN_STAFF_LIST_PATH,
-    requestBody: envelope.data.requestBody,
-    stores: envelope.data.stores,
-    summary: envelope.data.summary,
-    list: envelope.data.list.map(adaptMember),
-    pagination: envelope.data.pagination,
-    generatedAt: envelope.timestamp,
+    requestBody: payload.data.requestBody ?? requestBody,
+    stores: normalizeStores(payload.data.stores),
+    summary: payload.data.summary ?? summarizeMembers(list),
+    list: list.map(adaptMember),
+    pagination: payload.data.pagination ?? {
+      page: toNumber(requestBody.pageNum),
+      pageSize: toNumber(requestBody.pageSize),
+      total: list.length,
+    },
+    generatedAt: payload.timestamp,
   }
 }
 
 function adaptMember(raw: RawCleanStaffMember): CleanStaffMember {
+  const status = normalizeStaffStatus(raw.workStatus ?? raw.status)
+  const rating = raw.rating === undefined ? `${toNumber(raw.serviceScore)}%` : String(raw.rating)
   return {
-    id: String(raw.cleanerId),
-    name: String(raw.cleanerName),
-    mobile: String(raw.mobile),
-    storeName: String(raw.poiName),
-    status: raw.workStatus,
-    statusText: statusLabel(raw.workStatus),
-    role: String(raw.roleName),
-    roomScope: Array.isArray(raw.roomScopes) ? raw.roomScopes.map(String) : [],
-    todayTasks: toNumber(raw.todayTaskNum),
-    completedTasks: toNumber(raw.completedTaskNum),
-    overdueTasks: toNumber(raw.overdueTaskNum),
-    rating: `${toNumber(raw.serviceScore)}%`,
-    lastTaskAt: String(raw.lastTaskTime),
+    id: String(raw.cleanerId ?? raw.id ?? ''),
+    name: String(raw.cleanerName ?? raw.name ?? ''),
+    mobile: String(raw.mobile ?? ''),
+    storeName: String(raw.poiName ?? raw.storeName ?? ''),
+    status,
+    statusText: statusLabel(status),
+    role: String(raw.roleName ?? raw.role ?? ''),
+    roomScope: normalizeStringArray(raw.roomScopes ?? raw.roomScope),
+    todayTasks: toNumber(raw.todayTaskNum ?? raw.todayTasks),
+    completedTasks: toNumber(raw.completedTaskNum ?? raw.completedTasks),
+    overdueTasks: toNumber(raw.overdueTaskNum ?? raw.overdueTasks),
+    rating,
+    lastTaskAt: String(raw.lastTaskTime ?? raw.lastTaskAt ?? ''),
   }
 }
 
@@ -313,10 +409,12 @@ function filterMembers(query: CleanStaffQuery) {
   return rawMembers.filter((member) => {
     const matchesStore = query.poiId === 'all' || member.poiId === query.poiId
     const matchesStatus = query.status === 'all' || member.workStatus === query.status
+    const memberName = member.cleanerName ?? member.name ?? ''
+    const memberMobile = member.mobile ?? ''
     const matchesKeyword =
       keyword.length === 0 ||
-      member.cleanerName.toLowerCase().includes(keyword) ||
-      member.mobile.toLowerCase().includes(keyword)
+      memberName.toLowerCase().includes(keyword) ||
+      memberMobile.toLowerCase().includes(keyword)
     return matchesStore && matchesStatus && matchesKeyword
   })
 }
@@ -332,9 +430,9 @@ function summarizeMembers(list: RawCleanStaffMember[]): CleanStaffSummary {
     onDuty: list.filter((member) => member.workStatus === 'onDuty').length,
     offDuty: list.filter((member) => member.workStatus === 'offDuty').length,
     leave: list.filter((member) => member.workStatus === 'leave').length,
-    todayTasks: list.reduce((sum, member) => sum + member.todayTaskNum, 0),
-    completedTasks: list.reduce((sum, member) => sum + member.completedTaskNum, 0),
-    overdueTasks: list.reduce((sum, member) => sum + member.overdueTaskNum, 0),
+    todayTasks: list.reduce((sum, member) => sum + toNumber(member.todayTaskNum ?? member.todayTasks), 0),
+    completedTasks: list.reduce((sum, member) => sum + toNumber(member.completedTaskNum ?? member.completedTasks), 0),
+    overdueTasks: list.reduce((sum, member) => sum + toNumber(member.overdueTaskNum ?? member.overdueTasks), 0),
   }
 }
 
@@ -345,6 +443,83 @@ function statusLabel(status: Exclude<CleanStaffStatus, 'all'>) {
     leave: '请假',
   }
   return labels[status]
+}
+
+function normalizeStaffStatus(value: unknown): Exclude<CleanStaffStatus, 'all'> {
+  return value === 'offDuty' || value === 'leave' ? value : 'onDuty'
+}
+
+function normalizeStores(value: unknown): CleanStaffStore[] {
+  if (!Array.isArray(value)) return []
+  return value.map((store, index) => {
+    const record = asRecord(store)
+    return {
+      id: String(record.id ?? `store-${index}`),
+      name: String(record.name ?? record.label ?? `门店 ${index + 1}`),
+    }
+  })
+}
+
+function normalizeStringArray(value: unknown) {
+  return Array.isArray(value) ? value.map(String) : []
+}
+
+function resolveCleanStaffProvider(): CleanStaffProvider {
+  const configured =
+    readRuntimeValue('pms.cleanStaffProvider') ||
+    (import.meta.env.VITE_CLEAN_STAFF_PROVIDER as string | undefined) ||
+    CLEAN_STAFF_PROVIDER
+
+  if (configured === 'api' || configured === 'real') return 'api'
+  if (configured === 'mock') return 'mock'
+  throw new Error(`保洁人员数据源配置无效：${configured}`)
+}
+
+async function postJson<T>(
+  endpoint: string,
+  body: Record<string, unknown>,
+  signal?: AbortSignal,
+): Promise<ApiEnvelope<T>> {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    signal,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+  const envelope = (await readJson(response)) as ApiEnvelope<T> | null
+  if (!response.ok) {
+    throw new Error(`${endpoint} 返回 HTTP ${response.status}`)
+  }
+  return assertEnvelope(envelope)
+}
+
+function assertEnvelope<T>(envelope: ApiEnvelope<T> | null): ApiEnvelope<T> {
+  if (!envelope || typeof envelope !== 'object') {
+    throw new Error('保洁人员接口响应不是 JSON 对象')
+  }
+  if (envelope.success === false || (envelope.code !== undefined && envelope.code !== 0)) {
+    throw new Error(envelope.errorMsg || envelope.errorDetail || envelope.message || '保洁人员接口返回失败')
+  }
+  if (envelope.data === undefined || envelope.data === null) {
+    throw new Error('保洁人员接口响应缺少 data 字段')
+  }
+  return envelope
+}
+
+async function readJson(response: Response) {
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
+function readRuntimeValue(key: string) {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(key)?.trim() ?? ''
 }
 
 function createEnvelope<T>(data: T, trace = 'list'): ApiEnvelope<T> {
@@ -374,4 +549,8 @@ function delay(ms: number, signal?: AbortSignal) {
 function toNumber(value: unknown) {
   const numeric = Number(value)
   return Number.isFinite(numeric) ? numeric : 0
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 }

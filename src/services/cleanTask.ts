@@ -2,9 +2,13 @@ export const cleanTaskListEndpoint = '/api/cleanTask/page/get'
 export const cleanTaskCreateEndpoint = '/api/cleanTask/create'
 export const cleanTaskNotifyEndpoint = '/api/cleanTask/notify'
 export const cleanTaskExportEndpoint = '/api/cleanTask/export'
+export const cleanTaskAssignEndpoint = '/api/cleanTask/assign'
+export const cleanTaskStartEndpoint = '/api/cleanTask/start'
+export const cleanTaskCompleteEndpoint = '/api/cleanTask/complete'
+export const cleanTaskCancelEndpoint = '/api/cleanTask/cancel'
 
 export type CleanTaskProviderMode = 'mock' | 'api'
-export const cleanTaskProviderMode: CleanTaskProviderMode = 'mock'
+export const cleanTaskProviderMode: CleanTaskProviderMode = 'api'
 
 export type CleanTaskScenario = 'success' | 'empty' | 'error'
 export type CleanTaskType = 'CHECKOUT' | 'STAY' | 'PLAN' | 'TEMPORARY' | 'ALL'
@@ -101,6 +105,13 @@ export type CleanTaskActionResult = {
   timestamp?: string
 }
 
+export type CleanTaskActionPayload = {
+  campId: string
+  taskId: string
+  cleanerId?: string
+  remark?: string
+}
+
 export type CleanTaskExportResult = {
   fileName: string
   contentType?: string
@@ -112,10 +123,13 @@ export type CleanTaskExportResult = {
 
 type ApiEnvelope<T> = {
   code: number
+  success?: boolean
   message: string
   data: T
   traceId: string
   timestamp: string
+  errorMsg?: string | null
+  errorDetail?: string | null
 }
 
 type RawCleanTask = {
@@ -328,6 +342,50 @@ export async function createCleanTask(payload: CleanTaskCreatePayload): Promise<
   }
 }
 
+export async function assignCleanTask(payload: CleanTaskActionPayload): Promise<CleanTaskActionResult> {
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskAssignEndpoint, payload)
+    return adaptActionResult(envelope)
+  }
+
+  return createMockActionResult(payload.taskId, 'PENDING_CLEAN', '保洁任务分派成功', 'assign')
+}
+
+export async function startCleanTask(payload: CleanTaskActionPayload): Promise<CleanTaskActionResult> {
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskStartEndpoint, payload)
+    return adaptActionResult(envelope)
+  }
+
+  return createMockActionResult(payload.taskId, 'CLEANING', '保洁任务已开始', 'start')
+}
+
+export async function completeCleanTask(payload: CleanTaskActionPayload): Promise<CleanTaskActionResult> {
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskCompleteEndpoint, payload)
+    return adaptActionResult(envelope)
+  }
+
+  return createMockActionResult(payload.taskId, 'DONE', '保洁任务已完成', 'complete')
+}
+
+export async function cancelCleanTask(payload: CleanTaskActionPayload): Promise<CleanTaskActionResult> {
+  const providerMode = resolveCleanTaskProviderMode()
+
+  if (providerMode === 'api') {
+    const envelope = await postJson<unknown>(cleanTaskCancelEndpoint, payload)
+    return adaptActionResult(envelope)
+  }
+
+  return createMockActionResult(payload.taskId, 'CANCELLED', '保洁任务已取消', 'cancel')
+}
+
 export function resolveCleanTaskProviderMode(search?: string): CleanTaskProviderMode {
   const params = readCleanTaskSearchParams(search)
   const configured =
@@ -427,6 +485,21 @@ function adaptActionResult(envelope: ApiEnvelope<unknown>): CleanTaskActionResul
   }
 }
 
+function createMockActionResult(
+  taskId: string,
+  cleanStatus: CleanTaskStatus,
+  message: string,
+  action: string,
+): CleanTaskActionResult {
+  return {
+    taskId,
+    cleanStatus,
+    message,
+    traceId: `mock-fangtai--baojie-guanli--baojie-renwu-${action}`,
+    timestamp: '2026-05-18T10:00:00+08:00',
+  }
+}
+
 function readCleanTaskSearchParams(search?: string) {
   const params = new URLSearchParams(search ?? (typeof window === 'undefined' ? '' : window.location.search))
   if (typeof window === 'undefined') return params
@@ -491,8 +564,8 @@ function adaptCleanTaskDashboard(
     requestBody,
     stores: normalizeOptions(data.stores),
     rooms: normalizeOptions(data.rooms),
-    cleanTypes,
-    statuses,
+    cleanTypes: normalizeTypedOptions(data.cleanTypes, cleanTypes),
+    statuses: normalizeTypedOptions(data.statuses, statuses),
     cleaners: normalizeOptions(data.cleaners),
     summary: {
       total: toNumber(data.summary?.total, list.length),
@@ -542,8 +615,8 @@ function assertEnvelope<T>(envelope: ApiEnvelope<T> | null): ApiEnvelope<T> {
   if (!envelope || typeof envelope !== 'object') {
     throw new Error('保洁任务响应不是 JSON 对象')
   }
-  if (envelope.code !== 0) {
-    throw new Error(envelope.message || '保洁任务响应返回失败')
+  if (envelope.success === false || (envelope.code !== undefined && envelope.code !== 0)) {
+    throw new Error(envelope.errorMsg || envelope.errorDetail || envelope.message || '保洁任务响应返回失败')
   }
   if (envelope.data === undefined || envelope.data === null) {
     throw new Error('保洁任务响应缺少 data 字段')
@@ -568,6 +641,15 @@ function normalizeOptions(options: unknown): CleanLookupOption[] {
       label: String(record.label ?? record.name ?? `选项 ${index + 1}`),
     }
   })
+}
+
+function normalizeTypedOptions<T extends string>(
+  options: unknown,
+  fallback: Array<CleanLookupOption & { id: T }>,
+): Array<CleanLookupOption & { id: T }> {
+  const normalized = normalizeOptions(options)
+  if (normalized.length === 0) return fallback
+  return normalized.map((option) => ({ ...option, id: option.id as T }))
 }
 
 function asCleanType(value: unknown): CleanTaskType {

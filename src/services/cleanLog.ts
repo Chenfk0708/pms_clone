@@ -1,5 +1,6 @@
 export const CLEAN_LOG_ENDPOINT = '/api/cleanLog/page/get'
 export const CLEAN_LOG_MOCK_ENDPOINT = '/cleanManage/cleanLog/list'
+export const CLEAN_LOG_EXPORT_ENDPOINT = '/api/cleanManage/cleanLog/export'
 
 const TASK_ID = 'fangtai--baojie-guanli--baojie-rizhi'
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00'
@@ -71,6 +72,15 @@ export type CleanLogServiceResult = {
   diagnostics: CleanLogDiagnostics
 }
 
+export type CleanLogExportResult = {
+  taskId?: string
+  fileName?: string
+  contentType?: string
+  total?: number
+  traceId?: string
+  timestamp?: string
+}
+
 type ApiEnvelope<T> = {
   code: number
   message: string
@@ -105,11 +115,17 @@ type CleanLogBackendRow = {
 
 type RawCleanLogResponse = {
   success?: boolean
+  code?: number
+  message?: string | null
+  traceId?: string
+  timestamp?: string
   errorMsg?: string | null
   errorDetail?: string | null
   data?: {
     total?: number
     list?: unknown
+    pagination?: unknown
+    dictionaries?: unknown
   } | null
 }
 
@@ -140,7 +156,7 @@ export async function fetchCleanLogs(query: CleanLogQuery, signal?: AbortSignal)
 }
 
 export function resolveCleanLogRuntimeConfig(location: Location): Pick<CleanLogQuery, 'provider' | 'mockState'> {
-  const params = new URLSearchParams(location.search)
+  const params = readSearchParams(location)
   const provider = params.get('cleanLogProvider')
   const mockState = params.get('cleanLogMockState')
 
@@ -154,11 +170,45 @@ export function getDefaultCleanLogFilterOptions(): CleanLogFilterOptions {
   return filterOptions
 }
 
-export function createCleanLogExportTask(query: CleanLogQuery) {
+export async function createCleanLogExportTask(query: CleanLogQuery): Promise<CleanLogExportResult> {
   const request = buildCleanLogRequest(query)
+  const provider = query.provider ?? resolveCleanLogProvider()
+  if (provider === 'api') {
+    const response = await fetch(CLEAN_LOG_EXPORT_ENDPOINT, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    })
+    const payload = (await response.json()) as RawCleanLogResponse
+    if (!response.ok) {
+      throw new Error(`保洁日志导出失败，请重试：HTTP ${response.status}`)
+    }
+    if (payload.success === false || (payload.code !== undefined && payload.code !== 0)) {
+      throw new Error(payload.errorMsg || payload.errorDetail || payload.message || '保洁日志导出失败，请重试')
+    }
+    writeDiagnostics({
+      endpoint: CLEAN_LOG_EXPORT_ENDPOINT,
+      provider,
+      state: query.mockState ?? readCleanLogMockState(),
+      traceId: payload.traceId ?? `api-${TASK_ID}-export`,
+      request,
+    })
+    const data = asRecord(payload.data)
+    return {
+      fileName: data.fileName === undefined ? undefined : String(data.fileName),
+      contentType: data.contentType === undefined ? undefined : String(data.contentType),
+      total: data.total === undefined ? undefined : toNumber(data.total, 0),
+      traceId: payload.traceId,
+      timestamp: payload.timestamp,
+    }
+  }
+
   const diagnostics = {
     endpoint: '/cleanManage/cleanLog/export',
-    provider: query.provider ?? resolveCleanLogProvider(),
+    provider,
     state: query.mockState ?? readCleanLogMockState(),
     traceId: `mock-${TASK_ID}-export-001`,
     request,
@@ -174,7 +224,11 @@ export function createCleanLogExportTask(query: CleanLogQuery) {
 
 export function resolveCleanLogProvider(): CleanLogProvider {
   const configured = readRuntimeConfig('pms.cleanLogProvider') || import.meta.env.VITE_CLEAN_LOG_PROVIDER
-  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+  if (configured === 'mock') return 'mock'
+  if (configured && configured !== 'api' && configured !== 'real') {
+    throw new Error(`保洁日志数据源配置无效：${configured}`)
+  }
+  return 'api'
 }
 
 function readCleanLogMockState(): CleanLogMockState {
@@ -246,10 +300,10 @@ async function fetchApiCleanLogs(
   }
 
   const payload = (await response.json()) as RawCleanLogResponse
-  if (payload.success !== true) {
+  if (payload.success === false || (payload.code !== undefined && payload.code !== 0)) {
     return {
       code: 500,
-      message: payload.errorMsg || payload.errorDetail || '保洁日志加载失败，请重试',
+      message: payload.errorMsg || payload.errorDetail || payload.message || '保洁日志加载失败，请重试',
       data: createBackendData([], query),
       traceId: `api-${TASK_ID}-business-error`,
       timestamp: new Date().toISOString(),
@@ -266,14 +320,14 @@ async function fetchApiCleanLogs(
     data: {
       list,
       pagination: {
-        page: query.page,
-        pageSize: query.pageSize,
+        page: toNumber(asRecord(payload.data?.pagination).page, query.page),
+        pageSize: toNumber(asRecord(payload.data?.pagination).pageSize, query.pageSize),
         total,
       },
-      dictionaries: filterOptions,
+      dictionaries: normalizeFilterOptions(payload.data?.dictionaries),
     },
-    traceId: `api-${TASK_ID}-list`,
-    timestamp: new Date().toISOString(),
+    traceId: payload.traceId ?? `api-${TASK_ID}-list`,
+    timestamp: payload.timestamp ?? new Date().toISOString(),
   }
 }
 
@@ -355,6 +409,17 @@ function readRuntimeConfig(key: string) {
   return window.localStorage.getItem(key)?.trim() || ''
 }
 
+function readSearchParams(location: Location) {
+  const params = new URLSearchParams(location.search)
+  const hashQuery = location.hash.split('?')[1]
+  if (hashQuery) {
+    new URLSearchParams(hashQuery).forEach((value, key) => {
+      if (!params.has(key)) params.set(key, value)
+    })
+  }
+  return params
+}
+
 function writeDiagnostics(diagnostics: CleanLogDiagnostics | Omit<CleanLogDiagnostics, 'provider' | 'state'> & Partial<CleanLogDiagnostics>) {
   if (typeof window === 'undefined') return
   window.localStorage.setItem('pms.cleanLog.lastRequest', JSON.stringify(diagnostics))
@@ -367,6 +432,44 @@ function readString(value: unknown, fallback: string) {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === 'object')
+}
+
+function normalizeFilterOptions(data: unknown): CleanLogFilterOptions {
+  const record = asRecord(data)
+  const stores = normalizeSimpleOptions(record.stores)
+  const operators = normalizeSimpleOptions(record.operators)
+  const rooms = Array.isArray(record.rooms)
+    ? record.rooms.map(asRecord).map((room, index) => ({
+        label: readString(room.label, `房间 ${index + 1}`),
+        value: readString(room.value ?? room.id, `room-${index}`),
+        roomType: readString(room.roomType, '-'),
+        roomName: readString(room.roomName, '-'),
+        cleanState: room.cleanState === 'dirty' ? 'dirty' as const : 'clean' as const,
+      }))
+    : []
+
+  return {
+    stores: stores.length > 0 ? stores : filterOptions.stores,
+    rooms: rooms.length > 0 ? rooms : filterOptions.rooms,
+    operators: operators.length > 0 ? operators : filterOptions.operators,
+  }
+}
+
+function normalizeSimpleOptions(data: unknown): CleanLogOption[] {
+  if (!Array.isArray(data)) return []
+  return data.map(asRecord).map((item, index) => ({
+    label: readString(item.label ?? item.name, `选项 ${index + 1}`),
+    value: readString(item.value ?? item.id, `option-${index}`),
+  }))
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function toNumber(value: unknown, fallback: number) {
+  const numeric = Number(value)
+  return Number.isFinite(numeric) ? numeric : fallback
 }
 
 function delay(ms: number, signal?: AbortSignal) {

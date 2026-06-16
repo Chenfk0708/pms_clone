@@ -1,4 +1,4 @@
-import type { DonutSlice, RevenueMetric, WorkspaceMetric } from '../types'
+import type { DonutSlice, RevenueMetric, WorkspaceMetric, WorkspaceTrendPoint } from '../types'
 import { resolveCurrentCampId } from '../utils/camp'
 
 const HUDSON_API_BASE = '/api'
@@ -44,6 +44,7 @@ export interface WorkspaceSummary {
 export interface WorkspaceAnalysis {
   revenueMetrics: RevenueMetric[]
   chartDates: string[]
+  chartSeries: WorkspaceTrendPoint[]
   donutSlices: DonutSlice[]
 }
 
@@ -89,11 +90,19 @@ export function resolveWorkspaceCampId() {
 }
 
 export function getWorkspaceDataProviderName(): WorkspaceDataProviderName {
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search)
+    const fromQuery = params.get('workspaceProvider')
+    if (fromQuery === 'real' || fromQuery === 'mock') return fromQuery
+
+    const fromStorage = window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY)
+    if (fromStorage === 'real' || fromStorage === 'mock') return fromStorage
+  }
+
   const fromEnv = import.meta.env.VITE_WORKSPACE_DATA_PROVIDER as WorkspaceDataProviderName | undefined
   if (fromEnv === 'real' || fromEnv === 'mock') return fromEnv
 
-  const fromStorage = typeof window === 'undefined' ? null : window.localStorage.getItem(WORKSPACE_PROVIDER_STORAGE_KEY)
-  return fromStorage === 'real' ? 'real' : 'mock'
+  return 'mock'
 }
 
 function getWorkspaceMockMode() {
@@ -378,6 +387,7 @@ export async function fetchWorkspaceDashboard(campId: string, period: WorkspaceP
     analysis: {
       revenueMetrics: revenueAnalysis.revenueMetrics,
       chartDates: chartAnalysis.chartDates,
+      chartSeries: chartAnalysis.chartSeries,
       donutSlices: chartAnalysis.donutSlices,
     },
     lists,
@@ -470,6 +480,7 @@ export async function fetchWorkspaceAnalysis(campId: string, range: WorkspacePer
       },
     ],
     chartDates: normalizeTrendDates(data.growthTrendAnalysisList),
+    chartSeries: normalizeTrendPoints(data.growthTrendAnalysisList),
     donutSlices: normalizeOriginSlices(data.orderOriginAnalysisList),
   }
 }
@@ -630,16 +641,47 @@ function normalizeTrendDates(list: WorkspaceAnalysis['chartDates'] | Array<{ dat
   })
 }
 
+function normalizeTrendPoints(list: Array<{ date?: string; businessIncome?: number; occ?: number; adr?: number; revPar?: number; openRoomCount?: number }> | undefined): WorkspaceTrendPoint[] {
+  if (!Array.isArray(list) || list.length === 0) return []
+
+  return list.map((item) => ({
+    date: item.date || '',
+    label: normalizeTrendDateLabel(item.date || ''),
+    businessIncome: toFiniteNumber(item.businessIncome),
+    occ: normalizeOccTrendValue(item.occ),
+    adr: toFiniteNumber(item.adr),
+    revPar: toFiniteNumber(item.revPar),
+    openRoomCount: toFiniteNumber(item.openRoomCount),
+  }))
+}
+
+function normalizeTrendDateLabel(date: string) {
+  const [, , month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) ?? []
+  return month && day ? `${month}/${day}` : date
+}
+
+function normalizeOccTrendValue(value: unknown) {
+  const number = toFiniteNumber(value)
+  return number > 0 && number <= 1 ? number * 100 : number
+}
+
 function normalizeOriginSlices(list: Array<{ channelName?: string; orderCount?: number }> | undefined): DonutSlice[] {
   const palette = ['#2269df', '#ff7a2e', '#f0c56b', '#31509e']
   if (!Array.isArray(list) || list.length === 0) return []
 
-  const total = list.reduce((sum, item) => sum + Number(item.orderCount ?? 0), 0) || 1
+  const total = list.reduce((sum, item) => sum + toFiniteNumber(item.orderCount), 0) || 1
   return list.slice(0, 4).map((item, index) => ({
     label: item.channelName || '未知渠道',
-    value: `${((Number(item.orderCount ?? 0) / total) * 100).toFixed(2)}%`,
+    count: toFiniteNumber(item.orderCount),
+    percent: (toFiniteNumber(item.orderCount) / total) * 100,
+    value: `${((toFiniteNumber(item.orderCount) / total) * 100).toFixed(2)}%`,
     color: palette[index % palette.length],
   }))
+}
+
+function toFiniteNumber(value: unknown) {
+  const number = Number(value ?? 0)
+  return Number.isFinite(number) ? number : 0
 }
 
 function getAnalysisRange(range: WorkspacePeriod | WorkspaceChartRange) {

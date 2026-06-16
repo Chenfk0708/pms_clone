@@ -1,3 +1,5 @@
+import { resolveCurrentCampId } from '../utils/camp'
+
 export type StatisticsDistributionOrderProviderName = 'mock' | 'api'
 export type StatisticsDistributionOrderMockState = 'success' | 'empty' | 'error'
 export type StatisticsDistributionOrderFilter = '' | '全部' | '非置换订单' | '置换订单'
@@ -107,7 +109,7 @@ type StatisticsDistributionOrderPayload = {
 
 const realBaseUrl = '/api'
 export const statisticsDistributionOrderEndpoint = '/distribution/orders/page/get'
-export const defaultStatisticsDistributionOrderCampId = '1796067693589061634'
+export const defaultStatisticsDistributionOrderCampId = '10001'
 
 const defaultCampName = '天落会宿公寓(前海壹方城宝安中心店)'
 const mockTimestamp = '2026-05-22T10:00:00+08:00'
@@ -171,7 +173,7 @@ export async function loadStatisticsDistributionOrderData(
     timestamp: mockTimestamp,
     requestBody,
     requestSummary: buildRequestSummary(query, requestBody, 'mock', mockState, `mock-distribution-order-${mockState}-001`),
-    campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+    campId: String(requestBody.campId ?? resolveStatisticsDistributionOrderCampId()),
     campName: defaultCampName,
     summary,
     rows,
@@ -195,10 +197,10 @@ function resolveProvider(): StatisticsDistributionOrderProviderName {
   if (fromUrl) return fromUrl
 
   const configured =
-    readRuntimeConfig('pms.statisticsDistributionOrderProvider') ||
-    import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_PROVIDER
-  if (configured === 'mock') return 'mock'
-  return 'api'
+    import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_PROVIDER ||
+    readRuntimeConfig('pms.statisticsDistributionOrderProvider')
+  if (configured === 'api' || configured === 'real') return 'api'
+  return 'mock'
 }
 
 function readUrlProvider(): StatisticsDistributionOrderProviderName | '' {
@@ -297,7 +299,7 @@ function createRequestBody(query: StatisticsDistributionOrderQuery) {
         ? [query.storeScope]
         : []
   return {
-    campId: query.campId || defaultStatisticsDistributionOrderCampId,
+    campId: query.campId || resolveStatisticsDistributionOrderCampId(),
     ...(poiIds.length > 0 ? { poiIds } : {}),
     pageNum: query.pageNum ?? 1,
     pageSize: query.pageSize ?? 20,
@@ -351,7 +353,7 @@ async function loadRealStatisticsDistributionOrderData(
     timestamp: new Date().toISOString(),
     requestBody,
     requestSummary: buildRequestSummary(query, requestBody, 'api', 'success', 'api-distribution-order-001'),
-    campId: String(camp.campId ?? requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+    campId: String(camp.campId ?? requestBody.campId ?? resolveStatisticsDistributionOrderCampId()),
     campName: String(camp.campName ?? defaultCampName),
     summary,
     rows,
@@ -407,7 +409,7 @@ function buildRequestSummary(
     `mockState=${mockState}`,
     `traceId=${traceId}`,
     `path=${statisticsDistributionOrderEndpoint}`,
-    `campId=${requestBody.campId ?? defaultStatisticsDistributionOrderCampId}`,
+    `campId=${requestBody.campId ?? resolveStatisticsDistributionOrderCampId()}`,
     `storeScope=${query.storeScope ?? 'all'}`,
     `bookingStartDate=${query.bookingStartDate}`,
     `bookingEndDate=${query.bookingEndDate}`,
@@ -417,6 +419,10 @@ function buildRequestSummary(
     `pageSize=${requestBody.pageSize ?? 20}`,
     `breakTemp=${String(requestBody.breakTemp ?? '')}`,
   ]
+}
+
+function resolveStatisticsDistributionOrderCampId() {
+  return resolveCurrentCampId(defaultStatisticsDistributionOrderCampId)
 }
 
 function adaptRow(item: StatisticsDistributionOrderPayloadItem): StatisticsDistributionOrderRow {

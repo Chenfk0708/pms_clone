@@ -1,3 +1,4 @@
+import { resolveCurrentCampId } from '../utils/camp';
 export class ComprehensiveMonthlyReportServiceError extends Error {
     response;
     constructor(response) {
@@ -8,7 +9,7 @@ export class ComprehensiveMonthlyReportServiceError extends Error {
 }
 const TASK_ID = 'baobiao--tongji-baobiao--zonghe-yuebao';
 const ENDPOINT = '/api/report/monthly/page/get';
-const DEFAULT_CAMP_ID = '1796067693589061634';
+const DEFAULT_CAMP_ID = '10001';
 const DEFAULT_QUERY_RANGE = {
     startDate: '2026-01-01',
     endDate: '2026-04-30',
@@ -70,7 +71,7 @@ const mockItems = [
 ];
 export function createDefaultComprehensiveMonthlyReportQuery(overrides = {}) {
     return {
-        campId: overrides.campId || DEFAULT_CAMP_ID,
+        campId: overrides.campId || resolveCurrentCampId(DEFAULT_CAMP_ID),
         startDate: overrides.startDate || DEFAULT_QUERY_RANGE.startDate,
         endDate: overrides.endDate || DEFAULT_QUERY_RANGE.endDate,
         page: overrides.page ?? 1,
@@ -84,7 +85,7 @@ export function resolveComprehensiveMonthlyRuntimeConfig(search) {
     const queryProvider = params.get('provider') || params.get('comprehensiveMonthlyReportProvider');
     const queryMockState = params.get('mockState') || params.get('comprehensiveMonthlyReportMockState');
     return {
-        provider: queryProvider === 'api' ? 'api' : readProviderFromStorage(),
+        provider: queryProvider === 'api' || queryProvider === 'real' ? 'api' : queryProvider === 'mock' ? 'mock' : readProviderFromStorage(),
         mockState: normalizeMockState(queryMockState) ?? readMockStateFromStorage() ?? 'success',
     };
 }
@@ -303,8 +304,8 @@ function paginate(list, page, pageSize) {
 function readProviderFromStorage() {
     if (typeof window === 'undefined')
         return 'mock';
-    const configured = window.localStorage.getItem('pms.comprehensiveMonthlyReportProvider')?.trim() ||
-        import.meta.env.VITE_COMPREHENSIVE_MONTHLY_REPORT_PROVIDER;
+    const configured = import.meta.env.VITE_COMPREHENSIVE_MONTHLY_REPORT_PROVIDER ||
+        window.localStorage.getItem('pms.comprehensiveMonthlyReportProvider')?.trim();
     return configured === 'api' || configured === 'real' ? 'api' : 'mock';
 }
 function readMockStateFromStorage() {

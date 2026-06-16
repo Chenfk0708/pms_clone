@@ -2,7 +2,11 @@ export const cleanTaskListEndpoint = '/api/cleanTask/page/get';
 export const cleanTaskCreateEndpoint = '/api/cleanTask/create';
 export const cleanTaskNotifyEndpoint = '/api/cleanTask/notify';
 export const cleanTaskExportEndpoint = '/api/cleanTask/export';
-export const cleanTaskProviderMode = 'mock';
+export const cleanTaskAssignEndpoint = '/api/cleanTask/assign';
+export const cleanTaskStartEndpoint = '/api/cleanTask/start';
+export const cleanTaskCompleteEndpoint = '/api/cleanTask/complete';
+export const cleanTaskCancelEndpoint = '/api/cleanTask/cancel';
+export const cleanTaskProviderMode = 'api';
 const stores = [
     { id: 'ALL', label: '全部门店' },
     { id: '1796425098638573570', label: '天落会宿公寓(前海壹方城宝安中心店)' },
@@ -158,6 +162,38 @@ export async function createCleanTask(payload) {
         timestamp: '2026-05-18T10:00:00+08:00',
     };
 }
+export async function assignCleanTask(payload) {
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskAssignEndpoint, payload);
+        return adaptActionResult(envelope);
+    }
+    return createMockActionResult(payload.taskId, 'PENDING_CLEAN', '保洁任务分派成功', 'assign');
+}
+export async function startCleanTask(payload) {
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskStartEndpoint, payload);
+        return adaptActionResult(envelope);
+    }
+    return createMockActionResult(payload.taskId, 'CLEANING', '保洁任务已开始', 'start');
+}
+export async function completeCleanTask(payload) {
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskCompleteEndpoint, payload);
+        return adaptActionResult(envelope);
+    }
+    return createMockActionResult(payload.taskId, 'DONE', '保洁任务已完成', 'complete');
+}
+export async function cancelCleanTask(payload) {
+    const providerMode = resolveCleanTaskProviderMode();
+    if (providerMode === 'api') {
+        const envelope = await postJson(cleanTaskCancelEndpoint, payload);
+        return adaptActionResult(envelope);
+    }
+    return createMockActionResult(payload.taskId, 'CANCELLED', '保洁任务已取消', 'cancel');
+}
 export function resolveCleanTaskProviderMode(search) {
     const params = readCleanTaskSearchParams(search);
     const configured = params.get('cleanTaskProvider') ||
@@ -248,6 +284,15 @@ function adaptActionResult(envelope) {
         timestamp: payload.timestamp,
     };
 }
+function createMockActionResult(taskId, cleanStatus, message, action) {
+    return {
+        taskId,
+        cleanStatus,
+        message,
+        traceId: `mock-fangtai--baojie-guanli--baojie-renwu-${action}`,
+        timestamp: '2026-05-18T10:00:00+08:00',
+    };
+}
 function readCleanTaskSearchParams(search) {
     const params = new URLSearchParams(search ?? (typeof window === 'undefined' ? '' : window.location.search));
     if (typeof window === 'undefined')
@@ -310,8 +355,8 @@ function adaptCleanTaskDashboard(envelope, requestBody, providerMode = cleanTask
         requestBody,
         stores: normalizeOptions(data.stores),
         rooms: normalizeOptions(data.rooms),
-        cleanTypes,
-        statuses,
+        cleanTypes: normalizeTypedOptions(data.cleanTypes, cleanTypes),
+        statuses: normalizeTypedOptions(data.statuses, statuses),
         cleaners: normalizeOptions(data.cleaners),
         summary: {
             total: toNumber(data.summary?.total, list.length),
@@ -358,8 +403,8 @@ function assertEnvelope(envelope) {
     if (!envelope || typeof envelope !== 'object') {
         throw new Error('保洁任务响应不是 JSON 对象');
     }
-    if (envelope.code !== 0) {
-        throw new Error(envelope.message || '保洁任务响应返回失败');
+    if (envelope.success === false || (envelope.code !== undefined && envelope.code !== 0)) {
+        throw new Error(envelope.errorMsg || envelope.errorDetail || envelope.message || '保洁任务响应返回失败');
     }
     if (envelope.data === undefined || envelope.data === null) {
         throw new Error('保洁任务响应缺少 data 字段');
@@ -384,6 +429,12 @@ function normalizeOptions(options) {
             label: String(record.label ?? record.name ?? `选项 ${index + 1}`),
         };
     });
+}
+function normalizeTypedOptions(options, fallback) {
+    const normalized = normalizeOptions(options);
+    if (normalized.length === 0)
+        return fallback;
+    return normalized.map((option) => ({ ...option, id: option.id }));
 }
 function asCleanType(value) {
     return cleanTypes.some((item) => item.id === value) ? value : 'PLAN';

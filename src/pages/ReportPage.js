@@ -5,6 +5,15 @@ import { buildStatisticsReportQueryForPreset, createDefaultStatisticsReportQuery
 import { StoreSelectControl } from '../components/StoreSelect';
 import { useStoreOptions } from '../hooks/useStoreOptions';
 import './ReportPage.css';
+const statisticsTrendViewBox = {
+    width: 520,
+    height: 220,
+    left: 18,
+    right: 462,
+    top: 0,
+    bottom: 220,
+};
+const statisticsTrendPlotHeight = 220;
 export function ReportPage() {
     const navigate = useNavigate();
     const [query, setQuery] = useState(createInitialQuery);
@@ -184,10 +193,26 @@ export function ReportPage() {
                         } })) : (_jsx(FutureContent, { dashboard: dashboard }))) : null, descriptionOpen ? (_jsx("div", { className: "statistics-modal-backdrop", role: "presentation", onClick: () => setDescriptionOpen(false), children: _jsxs("section", { className: "statistics-dialog", role: "dialog", "aria-modal": "true", "aria-label": "\u7EDF\u8BA1\u6982\u89C8\u5B57\u6BB5\u8BF4\u660E", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsx("h2", { children: "\u7EDF\u8BA1\u6982\u89C8\u5B57\u6BB5\u8BF4\u660E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u7EDF\u8BA1\u6982\u89C8\u5B57\u6BB5\u8BF4\u660E", onClick: () => setDescriptionOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "statistics-description-list", children: [_jsxs("div", { className: "statistics-description-row", children: [_jsx("strong", { children: "\u603B\u8425\u4E1A\u6536\u5165" }), _jsx("span", { children: "\u5F53\u524D\u7B5B\u9009\u65E5\u671F\u5185\u623F\u8D39\u3001\u5176\u4ED6\u6D88\u8D39\u3001\u8BB0\u4E00\u7B14\u6536\u5165\u7684\u6C47\u603B\u3002" })] }), _jsxs("div", { className: "statistics-description-row", children: [_jsx("strong", { children: "\u5165\u4F4F\u7387 OCC" }), _jsx("span", { children: "\u5DF2\u552E\u623F\u95F4\u6570\u5360\u603B\u623F\u95F4\u6570\u7684\u6BD4\u4F8B\uFF0C\u7528\u4E8E\u89C2\u5BDF\u51FA\u79DF\u6548\u7387\u3002" })] }), _jsxs("div", { className: "statistics-description-row", children: [_jsx("strong", { children: "\u5E73\u5747\u623F\u8D39 ADR" }), _jsx("span", { children: "\u5DF2\u552E\u623F\u95F4\u5BF9\u5E94\u7684\u5E73\u5747\u623F\u8D39\uFF0C\u53CD\u6620\u5BA2\u623F\u552E\u4EF7\u6C34\u5E73\u3002" })] }), _jsxs("div", { className: "statistics-description-row", children: [_jsx("strong", { children: "RevPAR" }), _jsx("span", { children: "\u5E73\u5747\u53EF\u552E\u5BA2\u623F\u6536\u5165\uFF0C\u7EFC\u5408\u53CD\u6620\u623F\u91CF\u548C\u623F\u4EF7\u8868\u73B0\u3002" })] })] })] }) })) : null] })] }));
 }
 function OverviewContent({ dashboard, trendMetric, activeTrendKey, onSwitchTrend, }) {
-    const polylineValues = trendMetric?.series[0]?.values ?? [];
-    const yAxisValues = buildYAxis(polylineValues);
+    const [hoveredTrendIndex, setHoveredTrendIndex] = useState(null);
+    const [hoveredSourceIndex, setHoveredSourceIndex] = useState(null);
+    const trendChart = useMemo(() => buildStatisticsTrendChart(trendMetric), [trendMetric]);
+    const hoveredTrendPoint = hoveredTrendIndex === null ? null : trendChart.primarySeries?.points[hoveredTrendIndex] ?? null;
     const sourceItems = dashboard?.sourceItems ?? [];
-    return (_jsxs(_Fragment, { children: [_jsxs("section", { className: "statistics-section", "aria-label": "\u8425\u6536\u7EDF\u8BA1", children: [_jsx("h2", { children: "\u8425\u6536\u7EDF\u8BA1" }), _jsx("div", { className: "statistics-revenue-grid", children: (dashboard?.revenueCards ?? []).map((card) => (_jsxs("article", { className: "statistics-metric-card", children: [_jsx("span", { children: card.label }), _jsx("strong", { children: card.value })] }, card.label))) })] }), _jsxs("section", { className: "statistics-section", "aria-label": "\u7ECF\u8425\u6307\u6807", children: [_jsx("h2", { children: "\u7ECF\u8425\u6307\u6807" }), _jsx("div", { className: "statistics-operation-grid", children: (dashboard?.metricCards ?? []).map((card) => (_jsxs("article", { className: "statistics-operation-card", children: [_jsxs("header", { children: [_jsx("span", { children: card.label }), _jsx("strong", { children: card.value })] }), _jsx("div", { className: "statistics-operation-details", children: card.details.map((detail) => (_jsxs("div", { children: [_jsx("strong", { children: detail.value }), _jsx("span", { children: detail.label })] }, `${card.label}-${detail.label}`))) })] }, card.label))) })] }), _jsxs("section", { className: "statistics-chart-layout", children: [_jsxs("section", { className: "statistics-chart-card", "aria-label": "\u589E\u957F\u8D8B\u52BF\u5206\u6790", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u589E\u957F\u8D8B\u52BF\u5206\u6790" }), _jsx("div", { className: "statistics-chart-tabs", role: "tablist", "aria-label": "\u589E\u957F\u8D8B\u52BF\u6307\u6807", children: (dashboard?.trendMetrics ?? []).map((tab) => (_jsx("button", { type: "button", className: activeTrendKey === tab.key ? 'is-active' : '', onClick: () => onSwitchTrend(tab.key, tab.label), children: tab.label }, tab.key))) })] }), _jsxs("div", { className: "statistics-line-chart", "aria-label": `${trendMetric?.label ?? '营业收入'}趋势图`, children: [_jsx("div", { className: "statistics-y-axis", children: yAxisValues.map((value) => (_jsx("span", { children: formatAxisValue(value, trendMetric?.valueFormat ?? 'currency') }, value))) }), _jsxs("div", { className: "statistics-plot", children: [_jsx("div", { className: "plot-grid" }), _jsx("svg", { viewBox: "0 0 520 220", role: "img", "aria-label": `${trendMetric?.label ?? '营业收入'} 趋势`, children: (trendMetric?.series ?? []).map((series) => (_jsx("polyline", { points: buildPolylinePoints(series.values), fill: "none", stroke: series.color, strokeWidth: series.key === trendMetric?.series[0]?.key ? '3' : '2', strokeLinecap: "round" }, series.key))) }), _jsx("div", { className: "statistics-x-axis", children: (trendMetric?.xLabels ?? []).map((label) => (_jsx("span", { children: label }, label))) })] }), _jsx("div", { className: "statistics-legend", children: (trendMetric?.series ?? []).map((series) => (_jsxs("span", { children: [_jsx("i", { className: "legend-dot", style: { background: series.color } }), series.label] }, series.key))) })] })] }), _jsxs("section", { className: "statistics-source-card", "aria-label": "\u8BA2\u5355\u6765\u6E90\u5206\u6790", children: [_jsx("h2", { children: "\u8BA2\u5355\u6765\u6E90\u5206\u6790" }), _jsxs("div", { className: "statistics-donut-wrap", children: [_jsx("div", { className: "statistics-donut", "aria-hidden": "true", style: { background: donutBackground(sourceItems) } }), _jsx("ul", { children: sourceItems.length > 0 ? (sourceItems.map((source) => (_jsxs("li", { children: [_jsx("i", { style: { background: source.color } }), _jsx("span", { children: source.label }), _jsx("small", { children: source.countText }), _jsx("strong", { children: source.percentageText })] }, source.id)))) : (_jsx("li", { className: "statistics-source-empty", children: "\u6682\u65E0\u8BA2\u5355\u6765\u6E90\u6570\u636E" })) })] })] })] })] }));
+    const hoveredSourceItem = hoveredSourceIndex === null ? null : sourceItems[hoveredSourceIndex] ?? null;
+    return (_jsxs(_Fragment, { children: [_jsxs("section", { className: "statistics-section", "aria-label": "\u8425\u6536\u7EDF\u8BA1", children: [_jsx("h2", { children: "\u8425\u6536\u7EDF\u8BA1" }), _jsx("div", { className: "statistics-revenue-grid", children: (dashboard?.revenueCards ?? []).map((card) => (_jsxs("article", { className: "statistics-metric-card", children: [_jsx("span", { children: card.label }), _jsx("strong", { children: card.value })] }, card.label))) })] }), _jsxs("section", { className: "statistics-section", "aria-label": "\u7ECF\u8425\u6307\u6807", children: [_jsx("h2", { children: "\u7ECF\u8425\u6307\u6807" }), _jsx("div", { className: "statistics-operation-grid", children: (dashboard?.metricCards ?? []).map((card) => (_jsxs("article", { className: "statistics-operation-card", children: [_jsxs("header", { children: [_jsx("span", { children: card.label }), _jsx("strong", { children: card.value })] }), _jsx("div", { className: "statistics-operation-details", children: card.details.map((detail) => (_jsxs("div", { children: [_jsx("strong", { children: detail.value }), _jsx("span", { children: detail.label })] }, `${card.label}-${detail.label}`))) })] }, card.label))) })] }), _jsxs("section", { className: "statistics-chart-layout", children: [_jsxs("section", { className: "statistics-chart-card", "aria-label": "\u589E\u957F\u8D8B\u52BF\u5206\u6790", children: [_jsxs("header", { children: [_jsx("h2", { children: "\u589E\u957F\u8D8B\u52BF\u5206\u6790" }), _jsx("div", { className: "statistics-chart-tabs", role: "tablist", "aria-label": "\u589E\u957F\u8D8B\u52BF\u6307\u6807", children: (dashboard?.trendMetrics ?? []).map((tab) => (_jsx("button", { type: "button", className: activeTrendKey === tab.key ? 'is-active' : '', onClick: () => {
+                                                setHoveredTrendIndex(null);
+                                                onSwitchTrend(tab.key, tab.label);
+                                            }, children: tab.label }, tab.key))) })] }), _jsxs("div", { className: "statistics-line-chart", "aria-label": `${trendMetric?.label ?? '营业收入'}趋势图`, children: [_jsx("div", { className: "statistics-y-axis", children: trendChart.axisValues.map((value, index) => (_jsx("span", { style: {
+                                                top: `${trendChart.axisValues.length <= 1 ? 0 : (100 / (trendChart.axisValues.length - 1)) * index}%`,
+                                            }, children: formatAxisValue(value, trendMetric?.valueFormat ?? 'currency') }, `${value}-${index}`))) }), _jsxs("div", { className: "statistics-plot", "data-testid": "statistics-trend-chart", onMouseLeave: () => setHoveredTrendIndex(null), children: [_jsx("div", { className: "plot-grid" }), _jsxs("svg", { viewBox: `0 0 ${statisticsTrendViewBox.width} ${statisticsTrendViewBox.height}`, preserveAspectRatio: "none", role: "img", "aria-label": `${trendMetric?.label ?? '营业收入'} 趋势`, children: [trendChart.series.map((series) => (_jsx("path", { className: "statistics-trend-line", d: series.path, stroke: series.color, "data-testid": series.key === trendChart.primarySeries?.key ? 'statistics-trend-line' : undefined, style: { strokeWidth: series.key === trendChart.primarySeries?.key ? 3 : 2 } }, series.key))), trendChart.primarySeries?.points.map((point, index) => (_jsxs("g", { children: [_jsx("circle", { className: "statistics-trend-point-dot", cx: point.x, cy: point.y, r: "5.2" }), _jsx("circle", { className: "statistics-trend-point-hit", "data-testid": "statistics-trend-point", cx: point.x, cy: point.y, r: "13", tabIndex: 0, onMouseEnter: () => setHoveredTrendIndex(index), onFocus: () => setHoveredTrendIndex(index) })] }, `${point.label}-${index}`)))] }), hoveredTrendPoint ? (_jsxs("div", { className: "statistics-chart-tooltip", "data-testid": "statistics-trend-tooltip", style: {
+                                                    left: `${(hoveredTrendPoint.x / statisticsTrendViewBox.width) * 100}%`,
+                                                    top: `${(hoveredTrendPoint.y / statisticsTrendViewBox.height) * statisticsTrendPlotHeight}px`,
+                                                }, children: [_jsx("strong", { children: hoveredTrendPoint.label }), _jsx("span", { children: trendChart.primarySeries?.label ?? trendMetric?.label }), _jsx("em", { children: formatTrendTooltipValue(hoveredTrendPoint.value, trendMetric?.valueFormat ?? 'currency') })] })) : null, _jsx("div", { className: "statistics-x-axis", children: (trendMetric?.xLabels ?? []).map((label, index) => {
+                                                    const point = trendChart.primarySeries?.points[index];
+                                                    return (_jsx("span", { style: {
+                                                            left: point ? `${(point.x / statisticsTrendViewBox.width) * 100}%` : `${(100 / Math.max((trendMetric?.xLabels.length ?? 1) - 1, 1)) * index}%`,
+                                                        }, children: label }, label));
+                                                }) })] }), _jsx("div", { className: "statistics-legend", children: (trendMetric?.series ?? []).map((series) => (_jsxs("span", { children: [_jsx("i", { className: "legend-dot", style: { background: series.color } }), series.label] }, series.key))) })] })] }), _jsxs("section", { className: "statistics-source-card", "aria-label": "\u8BA2\u5355\u6765\u6E90\u5206\u6790", children: [_jsx("h2", { children: "\u8BA2\u5355\u6765\u6E90\u5206\u6790" }), _jsxs("div", { className: "statistics-donut-wrap", children: [_jsx("div", { className: "statistics-donut", "data-testid": "statistics-donut-ring", "aria-hidden": "true", style: { background: donutBackground(sourceItems) }, onMouseMove: (event) => setHoveredSourceIndex(resolveStatisticsSourceIndex(event.currentTarget.getBoundingClientRect(), event.clientX, event.clientY, sourceItems)), onMouseLeave: () => setHoveredSourceIndex(null) }), hoveredSourceItem ? (_jsxs("div", { className: "statistics-donut-tooltip", "data-testid": "statistics-donut-tooltip", children: [_jsx("strong", { children: hoveredSourceItem.label }), _jsx("span", { children: hoveredSourceItem.countText }), _jsx("em", { children: hoveredSourceItem.percentageText })] })) : null, _jsx("ul", { "data-testid": "statistics-donut-legend", onMouseLeave: () => setHoveredSourceIndex(null), children: sourceItems.length > 0 ? (sourceItems.map((source, index) => (_jsxs("li", { className: hoveredSourceIndex === index ? 'is-active' : '', tabIndex: 0, onMouseEnter: () => setHoveredSourceIndex(index), onFocus: () => setHoveredSourceIndex(index), children: [_jsx("i", { style: { background: source.color } }), _jsx("span", { children: source.label }), _jsx("small", { children: source.countText }), _jsx("strong", { children: source.percentageText })] }, source.id)))) : (_jsx("li", { className: "statistics-source-empty", children: "\u6682\u65E0\u8BA2\u5355\u6765\u6E90\u6570\u636E" })) })] })] })] })] }));
 }
 function FutureContent({ dashboard }) {
     if (!dashboard?.hasFutureData) {
@@ -260,13 +285,6 @@ function buildCalendarDays(month) {
         };
     });
 }
-function buildYAxis(values) {
-    const max = Math.max(...values, 0);
-    if (max <= 0)
-        return [0, 0, 0, 0, 0];
-    const step = max / 4;
-    return [step * 4, step * 3, step * 2, step, 0].map((value) => Number(value.toFixed(2)));
-}
 function formatAxisValue(value, format) {
     if (format === 'percent')
         return `${value.toFixed(0)}%`;
@@ -274,20 +292,66 @@ function formatAxisValue(value, format) {
         return `${Math.round(value)}`;
     return `${Math.round(value)}`;
 }
-function buildPolylinePoints(values) {
-    if (values.length === 0)
-        return '18,178';
-    const max = Math.max(...values, 1);
-    const width = 444;
-    const xStart = 18;
-    const xStep = values.length === 1 ? 0 : width / (values.length - 1);
-    return values
-        .map((value, index) => {
-        const x = xStart + xStep * index;
-        const y = 190 - (value / max) * 156;
-        return `${x.toFixed(2)},${y.toFixed(2)}`;
-    })
-        .join(' ');
+function buildStatisticsTrendChart(metric) {
+    const seriesValues = metric?.series.flatMap((series) => series.values.map(toFiniteNumber)) ?? [];
+    const ceiling = getStatisticsAxisCeiling(Math.max(...seriesValues, 0), metric?.valueFormat ?? 'currency');
+    const plotCeiling = ceiling > 0 ? ceiling : 1;
+    const axisValues = [ceiling, ceiling * 0.75, ceiling * 0.5, ceiling * 0.25, 0].map((value) => Number(value.toFixed(2)));
+    const series = (metric?.series ?? []).map((item) => {
+        const points = item.values.map((rawValue, index) => {
+            const value = toFiniteNumber(rawValue);
+            const x = item.values.length <= 1
+                ? (statisticsTrendViewBox.left + statisticsTrendViewBox.right) / 2
+                : statisticsTrendViewBox.left + ((statisticsTrendViewBox.right - statisticsTrendViewBox.left) / (item.values.length - 1)) * index;
+            const y = statisticsTrendViewBox.bottom - (value / plotCeiling) * (statisticsTrendViewBox.bottom - statisticsTrendViewBox.top);
+            return {
+                x,
+                y,
+                value,
+                label: metric?.xLabels[index] ?? '--',
+            };
+        });
+        return {
+            ...item,
+            points,
+            path: buildStatisticsTrendPath(points),
+        };
+    });
+    return {
+        axisValues,
+        series,
+        primarySeries: series[0] ?? null,
+    };
+}
+function buildStatisticsTrendPath(points) {
+    if (points.length === 0)
+        return '';
+    if (points.length === 1)
+        return `M ${points[0].x} ${points[0].y}`;
+    return points.slice(1).reduce((path, point, index) => {
+        const previous = points[index];
+        const midX = (previous.x + point.x) / 2;
+        return `${path} C ${midX} ${previous.y}, ${midX} ${point.y}, ${point.x} ${point.y}`;
+    }, `M ${points[0].x} ${points[0].y}`);
+}
+function getStatisticsAxisCeiling(maxValue, format) {
+    if (maxValue <= 0)
+        return 0;
+    if (format === 'percent')
+        return Math.max(100, Math.ceil(maxValue / 25) * 25);
+    if (format === 'count')
+        return Math.max(4, Math.ceil(maxValue));
+    const magnitude = 10 ** Math.floor(Math.log10(maxValue));
+    const normalized = maxValue / magnitude;
+    const nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 3 ? 3 : normalized <= 5 ? 5 : 10;
+    return nice * magnitude;
+}
+function formatTrendTooltipValue(value, format) {
+    if (format === 'percent')
+        return `${formatPlainNumber(value)}%`;
+    if (format === 'count')
+        return `${formatPlainNumber(value, 0)}间`;
+    return `￥${formatPlainNumber(value)}`;
 }
 function donutBackground(items) {
     if (items.length === 0) {
@@ -295,10 +359,43 @@ function donutBackground(items) {
     }
     let offset = 0;
     const segments = items.map((item) => {
-        const value = Number(item.percentageText.replace('%', ''));
+        const value = parseSourcePercent(item);
         const start = offset;
         offset += value;
         return `${item.color} ${start}% ${offset}%`;
     });
     return `radial-gradient(circle at center, #fff 0 44%, transparent 45%), conic-gradient(${segments.join(', ')})`;
+}
+function resolveStatisticsSourceIndex(rect, clientX, clientY, items) {
+    if (items.length === 0)
+        return null;
+    const x = clientX - rect.left - rect.width / 2;
+    const y = clientY - rect.top - rect.height / 2;
+    const distance = Math.sqrt(x * x + y * y);
+    if (distance < rect.width * 0.22 || distance > rect.width * 0.52)
+        return null;
+    const angle = (Math.atan2(y, x) * 180) / Math.PI;
+    const percentAtPointer = ((angle + 450) % 360) / 3.6;
+    let cursor = 0;
+    for (let index = 0; index < items.length; index += 1) {
+        cursor += parseSourcePercent(items[index]);
+        if (percentAtPointer <= cursor)
+            return index;
+    }
+    return null;
+}
+function parseSourcePercent(item) {
+    const value = Number(item.percentageText.replace('%', ''));
+    if (!Number.isFinite(value))
+        return 0;
+    return Math.min(Math.max(value, 0), 100);
+}
+function formatPlainNumber(value, fractionDigits = 2) {
+    if (Number.isInteger(value) || fractionDigits === 0)
+        return value.toFixed(0);
+    return value.toFixed(fractionDigits).replace(/\.?0+$/, '');
+}
+function toFiniteNumber(value) {
+    const number = Number(value ?? 0);
+    return Number.isFinite(number) ? number : 0;
 }

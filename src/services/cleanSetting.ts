@@ -1,9 +1,9 @@
 const CLEAN_SETTING_PROVIDER_KEY = 'pms.cleanSettingProvider'
 const REAL_BASE_URL = '/api'
 
-export const CLEAN_SETTING_OVERVIEW_PATH = '/cleanManage/cleanSetting/overview'
-export const CLEAN_SETTING_SAVE_PATH = '/cleanManage/cleanSetting/rule/save'
-export const CLEAN_SETTING_EXPORT_PATH = '/cleanManage/cleanSetting/export'
+export const CLEAN_SETTING_OVERVIEW_PATH = '/cleanSettings/bootstrap'
+export const CLEAN_SETTING_SAVE_PATH = '/cleanSettings/rule/save'
+export const CLEAN_SETTING_EXPORT_PATH = '/cleanSettings/export'
 
 export type CleanSettingProviderName = 'mock' | 'api'
 export type CleanSettingMockState = 'success' | 'empty' | 'error'
@@ -226,9 +226,13 @@ async function fetchRealCleanSettingDashboard(filters: CleanSettingFilters): Pro
 }
 
 function getCleanSettingProviderName(): CleanSettingProviderName {
-  if (typeof window === 'undefined') return 'mock'
-  const configured = window.localStorage.getItem(CLEAN_SETTING_PROVIDER_KEY)
-  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+  if (typeof window === 'undefined') return 'api'
+  const configured = window.localStorage.getItem(CLEAN_SETTING_PROVIDER_KEY)?.trim()
+  if (configured === 'mock') return 'mock'
+  if (configured && configured !== 'api' && configured !== 'real') {
+    throw new Error(`保洁设置数据源配置无效：${configured}`)
+  }
+  return 'api'
 }
 
 async function fetchMockCleanSettingDashboard(

@@ -1,5 +1,8 @@
 export const centralPriceEndpoint = '/api/roomCategoryStatuses/central/get'
 export const centralSaleStatusEndpoint = '/api/roomCategoryStatuses/central/saleStatus/save'
+export const channelProductCoefficientSaveEndpoint = '/api/roomCategoryStatuses/roomCategory/channel/coefficient/save'
+export const channelProductCoefficientBatchSaveEndpoint = '/api/roomCategoryStatuses/roomCategory/channel/coefficient/batchSave'
+export const channelCalendarPriceSaveEndpoint = '/api/roomCategoryStatuses/roomCategory/channel/price/save'
 export const centralPriceBusinessSourceLabel = '中央价格服务'
 export const DEFAULT_LOCAL_CHANNEL_ID = '100'
 export const DEFAULT_LOCAL_CHANNEL_NAME = '宿银平台'
@@ -31,12 +34,14 @@ export type CentralPriceDate = {
 }
 
 export type CentralPriceRow = {
+  roomCategoryId: string
+  channelId: string
   channel: string
   coefficient: string
   basePrice: string
   prices: string[]
   comparePrices: string[]
-  product?: string
+  product: string
 }
 
 export type CentralPriceRoom = {
@@ -78,6 +83,54 @@ export type CentralSaleStatusSaveResponse = {
   roomCategoryId: string
   date: string
   saleEnabled: boolean
+}
+
+export type ChannelProductCoefficientOperator = '+' | '-' | '*' | '/'
+
+export type ChannelProductCoefficientSaveInput = {
+  campId?: string | null
+  roomCategoryId: string
+  channelId: string
+  productName: string
+  operator: ChannelProductCoefficientOperator
+  coefficientValue: string
+}
+
+export type ChannelProductCoefficientBatchSaveInput = {
+  campId?: string | null
+  items: Array<Omit<ChannelProductCoefficientSaveInput, 'campId'>>
+}
+
+export type ChannelProductCoefficientSaveResponse = {
+  savedCount: number
+  items: Array<{
+    roomCategoryId: string
+    channelId: string
+    productName: string
+    operator: string
+    coefficientValue: string
+    expressValue: string
+  }>
+}
+
+export type ChannelCalendarPriceSaveItem = {
+  roomCategoryId: string
+  channelId: string
+  productName?: string
+  date: string
+  priceUpdateType: number
+  calendarPrice: string
+  basePrice: string
+}
+
+export type ChannelCalendarPriceSaveInput = {
+  campId?: string | null
+  overwriteStandalone?: boolean
+  items: ChannelCalendarPriceSaveItem[]
+}
+
+export type ChannelCalendarPriceSaveResponse = {
+  savedCount: number
 }
 
 const channelIdByName: Record<string, string> = {
@@ -218,6 +271,124 @@ export async function saveCentralSaleStatus(
     roomCategoryId: String(data.roomCategoryId ?? input.roomCategoryId),
     date: String(data.date ?? input.date),
     saleEnabled: data.saleEnabled === undefined ? input.saleEnabled : data.saleEnabled !== false,
+  }
+}
+
+export async function saveChannelProductCoefficient(
+  input: ChannelProductCoefficientSaveInput,
+  signal?: AbortSignal,
+): Promise<ChannelProductCoefficientSaveResponse> {
+  return postChannelProductCoefficient(
+    channelProductCoefficientSaveEndpoint,
+    {
+      campId: input.campId ?? null,
+      roomCategoryId: input.roomCategoryId,
+      channelId: input.channelId,
+      productName: input.productName,
+      operator: input.operator,
+      coefficientValue: input.coefficientValue,
+    },
+    signal,
+  )
+}
+
+export async function batchSaveChannelProductCoefficients(
+  input: ChannelProductCoefficientBatchSaveInput,
+  signal?: AbortSignal,
+): Promise<ChannelProductCoefficientSaveResponse> {
+  return postChannelProductCoefficient(
+    channelProductCoefficientBatchSaveEndpoint,
+    {
+      campId: input.campId ?? null,
+      items: input.items,
+    },
+    signal,
+  )
+}
+
+export async function saveChannelCalendarPrices(
+  input: ChannelCalendarPriceSaveInput,
+  signal?: AbortSignal,
+): Promise<ChannelCalendarPriceSaveResponse> {
+  const requestBody = {
+    campId: input.campId ?? null,
+    overwriteStandalone: input.overwriteStandalone !== false,
+    items: input.items.map((item) => ({
+      roomCategoryId: item.roomCategoryId,
+      channelId: item.channelId,
+      productName: item.productName ?? null,
+      date: item.date,
+      priceUpdateType: item.priceUpdateType,
+      calendarPrice: item.calendarPrice,
+      basePrice: item.basePrice,
+    })),
+  }
+
+  const response = await fetch(channelCalendarPriceSaveEndpoint, {
+    method: 'POST',
+    credentials: 'include',
+    signal,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+  const payload = await readJson(response)
+
+  if (!response.ok) {
+    throw new Error(extractErrorMessage(payload) || `渠道价格保存失败，HTTP ${response.status}`)
+  }
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('渠道价格保存响应不是 JSON 对象')
+  }
+  if (isFailureEnvelope(payload)) {
+    throw new Error(extractErrorMessage(payload) || '渠道价格保存失败')
+  }
+
+  const data = asRecord(asRecord(payload).data)
+  return {
+    savedCount: toNumber(data.savedCount, input.items.length),
+  }
+}
+
+async function postChannelProductCoefficient(
+  endpoint: string,
+  requestBody: Record<string, unknown>,
+  signal?: AbortSignal,
+): Promise<ChannelProductCoefficientSaveResponse> {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    signal,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+  const payload = await readJson(response)
+
+  if (!response.ok) {
+    throw new Error(extractErrorMessage(payload) || `产品系数保存失败，HTTP ${response.status}`)
+  }
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('产品系数保存响应不是 JSON 对象')
+  }
+  if (isFailureEnvelope(payload)) {
+    throw new Error(extractErrorMessage(payload) || '产品系数保存失败')
+  }
+
+  const data = asRecord(asRecord(payload).data)
+  const items = Array.isArray(data.items) ? data.items.map(asRecord) : []
+  return {
+    savedCount: toNumber(data.savedCount, items.length),
+    items: items.map((item) => ({
+      roomCategoryId: String(item.roomCategoryId ?? ''),
+      channelId: String(item.channelId ?? ''),
+      productName: String(item.productName ?? ''),
+      operator: String(item.operator ?? ''),
+      coefficientValue: String(item.coefficientValue ?? ''),
+      expressValue: String(item.expressValue ?? ''),
+    })),
   }
 }
 
@@ -430,12 +601,13 @@ export function adaptCentralPriceResponse(
 
 function adaptRoom(room: Record<string, unknown>, dates: CentralPriceDate[], index: number): CentralPriceRoom {
   const statusViews = Array.isArray(room.statusViews) ? room.statusViews.map(asRecord) : []
+  const roomCategoryId = String(room.roomCategoryId ?? `central-room-${index}`)
   const channelRows = Array.isArray(room.channelRoomCategoryStatuses)
-    ? room.channelRoomCategoryStatuses.map((item) => adaptChannelRow(asRecord(item), dates))
+    ? room.channelRoomCategoryStatuses.map((item) => adaptChannelRow(asRecord(item), dates, roomCategoryId))
     : []
 
   return {
-    id: String(room.roomCategoryId ?? `central-room-${index}`),
+    id: roomCategoryId,
     name: String(room.roomCategoryName ?? `未命名房型 ${index + 1}`),
     basePrice: formatMoney(room.normalActualSalePrice ?? room.normalPrice),
     stock: formatStock(statusViews[0]?.totalStock),
@@ -451,13 +623,15 @@ function adaptRoom(room: Record<string, unknown>, dates: CentralPriceDate[], ind
   }
 }
 
-function adaptChannelRow(row: Record<string, unknown>, dates: CentralPriceDate[]): CentralPriceRow {
+function adaptChannelRow(row: Record<string, unknown>, dates: CentralPriceDate[], roomCategoryId: string): CentralPriceRow {
   const statusViews = Array.isArray(row.statusViews) ? row.statusViews.map(asRecord) : []
   return {
+    roomCategoryId,
+    channelId: String(row.channelId ?? ''),
     channel: String(row.channelName ?? '未知渠道'),
     coefficient: row.expressValue == null ? '-' : String(row.expressValue),
     basePrice: formatMoney(row.normalActualSalePrice ?? row.normalPrice),
-    product: typeof row.channelRoomCategoryName === 'string' ? row.channelRoomCategoryName : undefined,
+    product: typeof row.channelRoomCategoryName === 'string' ? row.channelRoomCategoryName : '',
     prices: dates.map((date) => {
       const status = statusViews.find((item) => item.date === date.key) ?? {}
       return formatMoney(status.salePrice ?? status.price)

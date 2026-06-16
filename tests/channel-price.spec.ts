@@ -1,250 +1,211 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const channelPriceEndpoint = '**/roomCategoryStatuses/roomCategory/channel/get'
+const centralPriceEndpoint = '**/roomCategoryStatuses/central/get'
+const storeOptionsEndpoint = '**/select/poi/page/get'
 
-function successfulChannelPricePayload(rows = defaultRows()) {
-  return {
-    success: true,
-    errorCode: null,
-    errorMsg: null,
-    data: { rows },
-  }
+const centralPriceResponse = {
+  success: true,
+  errorCode: null,
+  errorMsg: null,
+  data: {
+    roomStatusViews: [
+      {
+        roomCategoryId: 'room-a',
+        roomCategoryName: '测试房型A',
+        normalPrice: 73000,
+        normalActualSalePrice: 73000,
+        statusViews: [
+          { date: '2026-05-16', totalStock: 2, price: 93000, saleEnabled: true },
+          { date: '2026-05-17', totalStock: 1, price: 73000, saleEnabled: true },
+        ],
+        channelRoomCategoryStatuses: [
+          {
+            channelId: '100',
+            channelName: '宿银平台',
+            channelRoomCategoryName: '测试房型A<无早>',
+            expressValue: '-',
+            normalPrice: 76842,
+            normalActualSalePrice: 73000,
+            statusViews: [
+              { date: '2026-05-16', price: 97894, salePrice: 93000 },
+              { date: '2026-05-17', price: 76842, salePrice: 73000 },
+            ],
+          },
+        ],
+      },
+    ],
+    pageX: { total: 1, current: 1, pageNum: 1, pageSize: 15, hasNextPage: false },
+  },
 }
 
-function defaultRows() {
-  return [
-    {
-      channel: '渠道房型A',
-      coefficient: '*0.88',
-      basePrice: '399',
-      product: '渠道产品A<无早>',
-      prices: ['321', '322', '323'],
-      comparePrices: ['399', '399', '399'],
-    },
-  ]
-}
-
-async function mockChannelPrice(page, payload = successfulChannelPricePayload()) {
-  const bodies: unknown[] = []
-
-  await page.route(channelPriceEndpoint, async (route) => {
-    bodies.push(JSON.parse(route.request().postData() ?? '{}'))
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'channel-price-playwright-token')
+    window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.centralPriceProvider', 'real')
+  })
+  await page.route(storeOptionsEndpoint, async (route) => {
     await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(payload),
+      json: {
+        success: true,
+        errorCode: null,
+        errorMsg: null,
+        data: {
+          list: [{ poiId: '10001', poiName: '宿银门店' }],
+        },
+      },
     })
   })
+})
 
-  return bodies
+function gotoAppRoute(page: Page, route: string) {
+  return page.goto(`/#${route}`)
 }
 
-test('/houseManage/channelPrice uses explicit mock provider by default', async ({ page }) => {
+test('/houseManage/channelPrice uses the central-layout channel RP contract', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  let realRequestCount = 0
-  await page.route(channelPriceEndpoint, async (route) => {
-    realRequestCount += 1
-    await route.abort()
+  let requestBody: Record<string, unknown> | null = null
+  await page.route(centralPriceEndpoint, async (route) => {
+    requestBody = route.request().postDataJSON() as Record<string, unknown>
+    await route.fulfill({ json: centralPriceResponse })
   })
 
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
+  await gotoAppRoute(page, '/houseManage/channelPrice')
 
-  await expect(page.getByText('模拟渠道RP价房型A')).toBeVisible()
-  await expect(page.getByText('模拟渠道RP价产品A<无早>')).toBeVisible()
-  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
-  expect(realRequestCount).toBe(0)
-})
-
-test('/houseManage/channelPrice mock provider consumes filter params and refreshes UI', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  let realRequestCount = 0
-  await page.route(channelPriceEndpoint, async (route) => {
-    realRequestCount += 1
-    await route.abort()
-  })
-
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
-  await page.getByRole('button', { name: '渠道', exact: true }).click()
-  await page.getByRole('option', { name: '携程' }).click()
-
-  await expect(page.getByText('携程渠道产品A<无早>')).toBeVisible()
-  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
-  expect(realRequestCount).toBe(0)
-})
-
-test('/houseManage/channelPrice exposes mock empty and failure states as business copy', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/')
-  await page.evaluate(() => window.localStorage.setItem('pms.channelPriceMockMode', 'empty'))
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
-
-  await expect(page.getByRole('status', { name: '渠道RP价空态' })).toContainText('暂无符合当前筛选条件的渠道RP价数据')
-  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
-
-  await page.evaluate(() => window.localStorage.setItem('pms.channelPriceMockMode', 'error'))
-  await page.goto('/houseManage/channelPrice?campId=test-camp')
-
-  await expect(page.getByRole('alert')).toContainText('渠道价格加载失败')
-  await expect(page.getByRole('alert')).toContainText('渠道RP价服务暂不可用，请稍后重试')
-  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
-  await expect(page.locator('body')).not.toContainText(/mock|mock provider|未接入|阻塞|后端未就绪|后端接口未完成/)
-})
-
-test('/houseManage/channelPrice renders channel RP price grid', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  const requestBodies = await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
-
-  await expect(page.locator('.price-tabs button.is-active')).toContainText('渠道RP价')
-  await expect(page.getByText('渠道rp价与房型价格存在差异')).toBeVisible()
-  await expect(page.getByRole('button', { name: '预览与覆盖' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '暂不处理' })).toBeVisible()
-  await expect(page.getByText('当前通过')).toBeVisible()
-  await expect(page.getByText('实际卖价')).toBeVisible()
-  await expect(page.getByText('RP设置')).toBeVisible()
-  await expect(page.getByRole('button', { name: '价格规划' })).toBeVisible()
-  await expect(page.getByText('产品系数')).toBeVisible()
-  await expect(page.getByText('渠道房型A')).toBeVisible()
-  await expect(page.getByText('渠道产品A<无早>')).toBeVisible()
-  await expect(page.getByRole('button', { name: /321 \d{2}\.\d{2}/ }).first()).toBeVisible()
-  expect(requestBodies[0]).toMatchObject({
-    campId: 'test-camp',
+  await expect(page.getByLabel('RP价页签')).toHaveClass(/is-active/)
+  await expect(page.getByTestId('central-price-matrix-header')).toBeVisible()
+  await expect(page.getByText('测试房型A')).toBeVisible()
+  await expect(page.getByTestId('central-channel-row').getByText('宿银平台')).toBeVisible()
+  await expect(page.getByText('渠道rp价与房型价格存在差异')).toHaveCount(0)
+  expect(requestBody).toMatchObject({
+    campId: null,
+    channelIds: ['100'],
+    days: 30,
     pageNum: 1,
     pageSize: 15,
-    isFinalChannelRp: 1,
-  })
-
-  await page.screenshot({
-    path: path.resolve(
-      __dirname,
-      '../artifacts/screenshots/fangtai--fangjia-guanli--jvdao-prjia/default-clone-route.png',
-    ),
-    fullPage: true,
   })
 })
 
-test('/houseManage/channelPrice supports key channel price interactions', async ({ page }) => {
+test('/houseManage/channelPrice opens the target-style base price planning drawer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  const requestBodies = await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
-
-  await page.getByRole('button', { name: '渠道', exact: true }).click()
-  await expect(page.getByRole('listbox', { name: '渠道筛选' })).toBeVisible()
-  await expect(page.getByRole('option', { name: '携程' })).toBeVisible()
-  await page.getByRole('option', { name: '携程' }).click()
-  await expect(page.getByRole('button', { name: '携程' })).toBeVisible()
-  await expect
-    .poll(() => requestBodies.length, { message: '渠道筛选应触发真实价格接口刷新' })
-    .toBeGreaterThanOrEqual(2)
-  expect(requestBodies.at(-1)).toMatchObject({
-    campId: 'test-camp',
-    channelIds: ['携程'],
-    isFinalChannelRp: 1,
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
   })
 
-  await page.getByRole('button', { name: 'RP设置' }).click()
-  await expect(page).toHaveURL(/\/setting\/localRoomTypeProductionSetting$/)
-  await expect(page.getByRole('heading', { name: '日历房', level: 1 })).toBeVisible()
-  await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '新增售卖产品' })).toBeVisible()
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
+  await gotoAppRoute(page, '/houseManage/channelPrice')
 
-  await page.getByRole('button', { name: '价格设置' }).click()
-  await expect(page.getByRole('dialog', { name: '价格设置' })).toBeVisible()
-  await expect(page.getByText('更新价格设置')).toBeVisible()
-  await expect(page.getByText('切换为划线价')).toBeVisible()
-  await expect(page.getByText('途家(EHPq0597)')).toBeVisible()
-  await page.getByLabel('关闭价格设置').click()
+  await page.getByTestId('central-channel-base-price').first().click()
+  await expect(page.getByRole('dialog', { name: '价格规划' })).toBeVisible()
+  await expect(page.getByTestId('base-price-plan-cell-weekend').first()).toBeVisible()
+  await page.getByTestId('base-price-plan-cell-weekend').first().click()
+  await expect(page.locator('.price-base-plan-edit-drawer')).toBeVisible()
+  await expect(page.locator('.price-base-plan-edit-drawer')).toContainText('已选1项')
+  await expect(page.locator('.price-base-plan-edit-drawer [role="radio"]')).toHaveCount(3)
+})
+
+test('/houseManage/channelPrice opens base price planning from room summary base price', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
+  })
+
+  await gotoAppRoute(page, '/houseManage/channelPrice')
+
+  await page.getByTestId('central-room-base-price').first().click()
+
+  const planningDrawer = page.locator('.price-base-planning-drawer')
+  await expect(planningDrawer).toBeVisible()
+  await expect(planningDrawer.getByTestId('base-price-plan-cell-weekend').first()).toBeVisible()
+})
+
+test('/houseManage/channelPrice aligns the channel coefficient header separator with body cells', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
+  })
+
+  await gotoAppRoute(page, '/houseManage/channelPrice')
+  await expect(page.getByTestId('central-channel-row').first()).toBeVisible()
+
+  const metrics = await page.evaluate(() => {
+    const headerCoefficientCell = document.querySelector('.central-price-grid__head-static > div:nth-child(2)')
+    const bodyCoefficientCell = document.querySelector('[data-testid="central-channel-row"] > div:nth-child(2)')
+    if (!headerCoefficientCell || !bodyCoefficientCell) return null
+
+    return {
+      headerRight: headerCoefficientCell.getBoundingClientRect().right,
+      bodyRight: bodyCoefficientCell.getBoundingClientRect().right,
+    }
+  })
+
+  expect(metrics).not.toBeNull()
+  expect(Math.abs(metrics!.headerRight - metrics!.bodyRight)).toBeLessThanOrEqual(1)
+})
+
+test('/houseManage/channelPrice shows product coefficient header help', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
+  })
+
+  await gotoAppRoute(page, '/houseManage/channelPrice')
+
+  const coefficientHeader = page.getByTestId('price-coefficient-header')
+  await expect(coefficientHeader).toContainText('\u4ea7\u54c1\u7cfb\u6570')
+  await expect(coefficientHeader).not.toContainText('\u6e20\u9053\u7cfb\u6570')
+
+  await coefficientHeader.getByTestId('price-coefficient-help-trigger').hover()
+  await expect(coefficientHeader.getByRole('tooltip')).toContainText('\u4ea7\u54c1\u7cfb\u6570\u53ef\u901a\u8fc7\u623f\u578b\u4ef7\u683c\u63a8\u7b97\u5404\u4e2aRP\u7684\u4ef7\u683c')
+
+  const metrics = await coefficientHeader.evaluate((node) => {
+    const trigger = node.querySelector('[data-testid="price-coefficient-help-trigger"]')
+    const tooltip = node.querySelector('[role="tooltip"]')
+    if (!trigger || !tooltip) return null
+    const triggerRect = trigger.getBoundingClientRect()
+    const tooltipRect = tooltip.getBoundingClientRect()
+    const tooltipStyle = window.getComputedStyle(tooltip)
+    return {
+      triggerWidth: triggerRect.width,
+      triggerHeight: triggerRect.height,
+      tooltipWidth: tooltipRect.width,
+      tooltipFontSize: Number.parseFloat(tooltipStyle.fontSize),
+    }
+  })
+
+  expect(metrics).not.toBeNull()
+  expect(metrics!.triggerWidth).toBeLessThanOrEqual(22)
+  expect(metrics!.triggerHeight).toBeLessThanOrEqual(22)
+  expect(metrics!.tooltipWidth).toBeLessThanOrEqual(300)
+  expect(metrics!.tooltipFontSize).toBeLessThanOrEqual(16)
+})
+
+test('/houseManage/channelPrice hides legacy preview and skip handling actions', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
+  })
+
+  await gotoAppRoute(page, '/houseManage/channelPrice')
+
+  await expect(page.getByRole('button', { name: '\u9884\u89c8\u4e0e\u8986\u76d6' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '\u6682\u4e0d\u5904\u7406' })).toHaveCount(0)
+})
+
+test('/houseManage/channelPrice top price planning drawer opens editable plan cells', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route(centralPriceEndpoint, async (route) => {
+    await route.fulfill({ json: centralPriceResponse })
+  })
+
+  await gotoAppRoute(page, '/houseManage/channelPrice')
 
   await page.getByRole('button', { name: '价格规划' }).click()
-  await expect(page.getByRole('dialog', { name: '价格规划' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '+新增规划' })).toBeVisible()
-  await expect(page.getByText('平日价')).toBeVisible()
-  await expect(page.getByText('周末价(五/六)')).toBeVisible()
-  await page.getByLabel('关闭价格规划').click()
+  const planningDrawer = page.getByRole('dialog', { name: '价格规划' })
+  await expect(planningDrawer).toBeVisible()
+  await expect(planningDrawer.getByTestId('base-price-plan-cell-weekend').first()).toBeVisible()
 
-  await page.getByRole('button', { name: '批量改价' }).click()
-  await expect(page.getByRole('dialog', { name: '批量修改' })).toBeVisible()
-  await expect(page.getByText('修改类型')).toBeVisible()
-  await expect(page.getByText('产品系数')).toBeVisible()
-  await expect(page.getByRole('button', { name: '添加产品' })).toBeVisible()
-  await expect(page.getByText('多段模式')).toBeVisible()
-  await expect(page.getByText('绝对值改价')).toBeVisible()
-  await page.getByLabel('关闭批量修改').click()
+  await planningDrawer.getByTestId('base-price-plan-cell-weekend').first().click()
 
-  await page.getByRole('button', { name: /321 \d{2}\.\d{2}/ }).first().click()
-  await expect(page.getByRole('dialog', { name: '改价' })).toBeVisible()
-  await expect(page.getByText('已选1项')).toBeVisible()
-  await expect(page.getByText('百分比改价')).toBeVisible()
-  await page.getByLabel('关闭改价').click()
-
-  await page.getByRole('button', { name: '全部收起' }).click()
-  await expect(page.getByText('渠道产品A<无早>')).toBeHidden()
-  await page.getByRole('button', { name: '全部展开' }).click()
-  await expect(page.getByText('渠道产品A<无早>')).toBeVisible()
-})
-
-test('/houseManage/channelPrice supports target alert and guide flows', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await mockChannelPrice(page)
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
-
-  await page.getByRole('button', { name: '预览与覆盖' }).click()
-  await expect(page.getByRole('dialog', { name: '房价修改预览' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '一键覆盖' })).toBeVisible()
-  await expect(page.getByText('730').first()).toBeVisible()
-  await page.getByLabel('关闭房价修改预览').click()
-
-  await page.getByRole('button', { name: '暂不处理' }).click()
-  await expect(page.getByRole('dialog', { name: '确认不覆盖渠道价格' })).toBeVisible()
-  await expect(page.getByText('是否确认不使用中央价覆盖渠道房型价格？')).toBeVisible()
-  await page.getByRole('button', { name: '取消' }).click()
-
-  await page.getByRole('button', { name: '新手指引' }).click()
-  await expect(page.getByRole('dialog', { name: '新手指引' })).toBeVisible()
-  await expect(page.getByText('1/5')).toBeVisible()
-  await expect(page.getByText('此处可设置渠道实际卖价和划线价的关系')).toBeVisible()
-  await page.getByRole('button', { name: '下一步' }).click()
-  await expect(page.getByText('2/5')).toBeVisible()
-})
-
-test('/houseManage/channelPrice exposes real request errors without static fallback', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.route(channelPriceEndpoint, async (route) => {
-    await route.fulfill({
-      status: 503,
-      contentType: 'application/json',
-      body: JSON.stringify({ success: false, errorMsg: '上游服务不可达' }),
-    })
-  })
-
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
-
-  await expect(page.getByRole('alert')).toContainText('渠道价格加载失败')
-  await expect(page.getByRole('alert')).toContainText('上游服务不可达')
-  await expect(page.getByRole('button', { name: '重新加载' })).toBeVisible()
-  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toHaveCount(0)
-})
-
-test('/houseManage/channelPrice exposes empty data from real request', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await mockChannelPrice(page, successfulChannelPricePayload([]))
-
-  await page.goto('/houseManage/channelPrice?campId=test-camp&channelPriceProvider=real')
-
-  await expect(page.getByRole('status', { name: '渠道RP价空态' })).toContainText('暂无符合当前筛选条件的渠道RP价数据')
-  await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）')).toHaveCount(0)
-})
-
-test('/houseManage/channelPrice supports direct entry without camp context', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/')
-  await page.evaluate(() => window.localStorage.removeItem('pms.channelPriceMockMode'))
-  await page.goto('/houseManage/channelPrice')
-
-  await expect(page.getByText('模拟渠道RP价房型A')).toBeVisible()
-  await expect(page.getByText('缺少门店上下文')).toHaveCount(0)
+  await expect(page.locator('.price-base-plan-edit-drawer')).toBeVisible()
+  await expect(page.locator('.price-base-plan-edit-drawer')).toContainText('已选1项')
 })

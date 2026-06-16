@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
+import { hashAppUrl, seedAuthenticatedUser } from './helpers/auth'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const artifactRoot = path.resolve(
@@ -13,16 +14,96 @@ const pagePath = '/cleanManage/cleanLog?campId=1796067693589061634'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  return hashAppUrl(routePath, appBaseURL)
 }
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
+  await seedAuthenticatedUser(page)
   await page.addInitScript(() => {
     window.localStorage.setItem('pms.cleanLogProvider', 'mock')
     window.localStorage.removeItem('pms.cleanLogMockState')
     window.localStorage.removeItem('pms.cleanLog.lastRequest')
   })
+  await page.route('**/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [
+            { poiId: '1796067693589061634', poiName: '全部门店' },
+            { poiId: '11001', poiName: '真实日志门店' },
+          ],
+        },
+      },
+    })
+  })
+})
+
+test('/cleanManage/cleanLog uses real API provider by default and anchors operator menu', async ({ page }) => {
+  let requestPayload: Record<string, unknown> | null = null
+
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.cleanLogProvider')
+    window.localStorage.setItem('pms_token', 'clean-log-default-api-token')
+  })
+
+  await page.route(cleanLogEndpoint, async (route) => {
+    requestPayload = route.request().postDataJSON() as Record<string, unknown>
+    await route.fulfill({
+      json: {
+        success: true,
+        errorMsg: null,
+        errorDetail: null,
+        data: {
+          total: 1,
+          list: [
+            {
+              id: 'CL-REAL-DEFAULT',
+              operatorTime: '2026-06-14 13:22:00',
+              operatorName: '默认真实操作人',
+              operatorTypeName: '完成保洁',
+              operatorDetails: '默认真实保洁日志记录',
+              roomType: '真实日志房型',
+              roomName: '801',
+            },
+          ],
+          dictionaries: {
+            stores: [{ label: '全部门店', value: '' }, { label: '真实日志门店', value: '11001' }],
+            rooms: [
+              {
+                label: '真实日志房型 801',
+                value: '22001',
+                roomType: '真实日志房型',
+                roomName: '801（净）',
+                cleanState: 'clean',
+              },
+            ],
+            operators: [{ label: '默认真实操作人', value: '33001' }],
+          },
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl(pagePath))
+
+  await expect(page.getByText('默认真实保洁日志记录')).toBeVisible()
+  expect(requestPayload).toMatchObject({ campId: '1796067693589061634', pageNum: 1, pageSize: 10 })
+
+  const trigger = page.getByRole('button', { name: '请选择操作人' })
+  await trigger.click()
+  const menu = page.getByRole('listbox', { name: '操作人筛选' })
+  await expect(menu).toContainText('默认真实操作人')
+
+  const boxes = await Promise.all([trigger.boundingBox(), menu.boundingBox()])
+  expect(boxes[0]).not.toBeNull()
+  expect(boxes[1]).not.toBeNull()
+  const [triggerBox, menuBox] = boxes as NonNullable<(typeof boxes)[number]>[]
+  expect(menuBox.y).toBeGreaterThanOrEqual(triggerBox.y + triggerBox.height - 1)
+  expect(Math.abs(menuBox.x - triggerBox.x)).toBeLessThanOrEqual(2)
 })
 
 test('/cleanManage/cleanLog renders from explicit mock provider without backend requests', async ({ page }) => {
@@ -197,8 +278,94 @@ test('/cleanManage/cleanLog can switch to the captured real request contract', a
   const diagnostics = await readDiagnostics(page)
   expect(diagnostics).toMatchObject({
     provider: 'api',
-    endpoint: 'https://hudson-prod.localhome.cn/cleanLog/page/get',
+    endpoint: '/api/cleanLog/page/get',
   })
+})
+
+test('/cleanManage/cleanLog api provider exports through the real endpoint', async ({ page }) => {
+  let exportPayload: Record<string, unknown> | null = null
+
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.cleanLogProvider')
+    window.localStorage.setItem('pms_token', 'clean-log-api-export-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '1',
+        name: 'Playwright Admin',
+        mobile: '13800000001',
+        roleName: 'Platform Admin',
+        campId: '1796067693589061634',
+        campName: '真实门店',
+      }),
+    )
+  })
+
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-log-store-options',
+        data: { list: [{ poiId: '11001', poiName: '真实门店' }] },
+      },
+    })
+  })
+
+  await page.route(cleanLogEndpoint, async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-log-api-export-list',
+        timestamp: '2026-06-14T14:10:00+08:00',
+        data: {
+          total: 1,
+          list: [
+            {
+              id: 'CL-EXPORT-REAL',
+              operatorTime: '2026-06-14 14:10:00',
+              operatorName: '导出操作人',
+              operatorTypeName: '完成保洁',
+              operatorDetails: '用于导出的真实日志',
+              roomType: '标准房',
+              roomName: '801',
+            },
+          ],
+          pagination: { page: 1, pageSize: 10, total: 1 },
+          dictionaries: {
+            stores: [{ label: '全部门店', value: '' }, { label: '真实门店', value: '11001' }],
+            rooms: [{ label: '标准房 801', value: '22001', roomType: '标准房', roomName: '801', cleanState: 'clean' }],
+            operators: [{ label: '导出操作人', value: '33001' }],
+          },
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/cleanManage/cleanLog/export', async (route) => {
+    exportPayload = route.request().postDataJSON() as Record<string, unknown>
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'clean-log-api-export',
+        timestamp: '2026-06-14T14:11:00+08:00',
+        data: { fileName: 'clean_logs_20260614.csv', total: 1 },
+      },
+    })
+  })
+
+  await page.goto(appUrl(pagePath))
+  await page.getByRole('button', { name: '导出' }).click()
+
+  await expect.poll(() => exportPayload).not.toBeNull()
+  expect(exportPayload).toMatchObject({ campId: '1796067693589061634', pageNum: 1, pageSize: 10 })
 })
 
 async function readDiagnostics(page: import('@playwright/test').Page) {

@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createDefaultOtaDetailFilters, createDefaultOtaLogFilters, fetchOtaChannelDetail, fetchOtaDashboard, fetchOtaOperationLogs, } from '../services/ota';
+import { createDefaultOtaDetailFilters, createDefaultOtaLogFilters, fetchOtaChannelDetail, fetchOtaDashboard, fetchOtaOperationLogs, saveMockOtaChannelSetup, } from '../services/ota';
 import './OtaPage.css';
 export function OtaPage() {
     const location = useLocation();
@@ -51,11 +51,48 @@ function OtaDashboardPage() {
             .catch((caught) => setError(caught.message))
             .finally(() => setLoading(false));
     }
+    async function handleChannelSetupSubmit(form) {
+        setDialog(null);
+        setLoading(true);
+        try {
+            await saveMockOtaChannelSetup(form);
+            const nextData = await fetchOtaDashboard();
+            setData(nextData);
+            setError('');
+            setFeedback({ kind: 'success', message: '渠道配置已保存，完成渠道侧开通后才会进入已直连渠道' });
+        }
+        catch (caught) {
+            setFeedback({ kind: 'error', message: caught instanceof Error ? caught.message : '渠道配置保存失败，请重试' });
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    async function handleAuthorizeConfirm(channel) {
+        setDialog(null);
+        if (channel.status === 'pending') {
+            setFeedback({ kind: 'error', message: '未直连渠道需要先完成 OTA 直连配置' });
+            return;
+            setLoading(true);
+            try {
+                throw new Error('未直连渠道需要先完成 OTA 直连配置');
+                const nextData = await fetchOtaDashboard();
+                setData(nextData);
+                setError('');
+                setFeedback({ kind: 'success', message: `${channel.name} 已关联，已移动到已直连渠道` });
+            }
+            catch (caught) {
+                setFeedback({ kind: 'error', message: caught instanceof Error ? caught.message : '渠道关联失败，请重试' });
+            }
+            finally {
+                setLoading(false);
+            }
+            return;
+        }
+        setFeedback({ kind: 'success', message: `${channel.name} 授权流程已启动，请在渠道后台完成确认` });
+    }
     const hasNoChannels = data && data.connectedChannels.length === 0 && data.pendingChannels.length === 0;
-    return (_jsxs("div", { className: "ota-page", children: [_jsx("h1", { className: "sr-only-heading", children: "OTA" }), _jsxs("div", { className: "ota-page-header", children: [_jsx("div", { className: "ota-page-header__spacer", "aria-hidden": "true" }), _jsx("button", { type: "button", className: "ota-log-entry ota-log-entry--header", onClick: () => navigate('/channels/ota/log'), children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), loading ? _jsx("div", { className: "ota-loading", children: "OTA \u6E20\u9053\u6570\u636E\u52A0\u8F7D\u4E2D..." }) : null, error ? (_jsxs("section", { className: "ota-state ota-state--error", role: "alert", children: [_jsx("strong", { children: "OTA \u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("span", { children: error }), _jsx("button", { type: "button", onClick: refreshDashboard, children: "\u91CD\u8BD5" })] })) : null, data ? (_jsx(_Fragment, { children: hasNoChannels ? (_jsxs("section", { className: "ota-state", children: [_jsx("strong", { children: "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6\u4E0B\u6682\u65E0\u6E20\u9053\u6570\u636E" }), _jsx("span", { children: "\u53EF\u4EE5\u8C03\u6574\u95E8\u5E97\u3001\u65E5\u671F\u6216\u8FD0\u8425\u7EF4\u5EA6\u540E\u91CD\u65B0\u67E5\u8BE2\u3002" })] })) : (_jsxs(_Fragment, { children: [_jsx(ChannelSection, { title: "\u5DF2\u76F4\u8FDE\u6E20\u9053", channels: data.connectedChannels, kind: "connected", onAuthorize: (channel) => setDialog({ type: 'authorization', channel }), onDetail: (channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`) }), _jsx(ChannelSection, { title: "\u672A\u76F4\u8FDE\u6E20\u9053", channels: data.pendingChannels, kind: "pending", onAuthorize: (channel) => setDialog({ type: 'pending-guide', channel }), onDetail: (channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`) })] })) })) : null, _jsx(FeedbackStatus, { feedback: feedback }), dialog?.type === 'authorization' ? (_jsx(AuthorizationDialog, { channel: dialog.channel, onClose: () => setDialog(null), onConfirm: () => {
-                    setDialog(null);
-                    setFeedback({ kind: 'success', message: `${dialog.channel.name} 授权流程已启动，请在渠道后台完成确认` });
-                } })) : null, dialog?.type === 'pending-guide' ? (_jsx(PendingChannelGuideDialog, { channel: dialog.channel, onClose: () => setDialog(null) })) : null] }));
+    return (_jsxs("div", { className: "ota-page", children: [_jsx("h1", { className: "sr-only-heading", children: "OTA" }), _jsxs("div", { className: "ota-page-header", children: [_jsx("div", { className: "ota-page-header__spacer", "aria-hidden": "true" }), _jsx("button", { type: "button", className: "ota-log-entry ota-log-entry--header", onClick: () => navigate('/channels/ota/log'), children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), loading ? _jsx("div", { className: "ota-loading", children: "OTA \u6E20\u9053\u6570\u636E\u52A0\u8F7D\u4E2D..." }) : null, error ? (_jsxs("section", { className: "ota-state ota-state--error", role: "alert", children: [_jsx("strong", { children: "OTA \u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), _jsx("span", { children: error }), _jsx("button", { type: "button", onClick: refreshDashboard, children: "\u91CD\u8BD5" })] })) : null, data ? (_jsx(_Fragment, { children: hasNoChannels ? (_jsxs("section", { className: "ota-state", children: [_jsx("strong", { children: "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6\u4E0B\u6682\u65E0\u6E20\u9053\u6570\u636E" }), _jsx("span", { children: "\u53EF\u4EE5\u8C03\u6574\u95E8\u5E97\u3001\u65E5\u671F\u6216\u8FD0\u8425\u7EF4\u5EA6\u540E\u91CD\u65B0\u67E5\u8BE2\u3002" })] })) : (_jsxs(_Fragment, { children: [_jsx(ChannelSection, { title: "\u672A\u76F4\u8FDE\u6E20\u9053", channels: data.pendingChannels, kind: "pending", onAuthorize: (channel) => setDialog({ type: 'channel-setup', channel }), onDetail: (channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`) }), _jsx(ChannelSection, { title: "\u5DF2\u76F4\u8FDE\u6E20\u9053", channels: data.connectedChannels, kind: "connected", onAuthorize: (channel) => setDialog({ type: 'authorization', channel }), onDetail: (channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`) })] })) })) : null, _jsx(FeedbackStatus, { feedback: feedback }), dialog?.type === 'authorization' ? (_jsx(AuthorizationDialog, { channel: dialog.channel, onClose: () => setDialog(null), onConfirm: () => void handleAuthorizeConfirm(dialog.channel) })) : null, dialog?.type === 'channel-setup' ? (_jsx(OtaChannelSetupDialog, { channel: dialog.channel, onClose: () => setDialog(null), onSubmit: (form) => void handleChannelSetupSubmit(form) })) : null, dialog?.type === 'pending-guide' ? (_jsx(PendingChannelGuideDialog, { channel: dialog.channel, onClose: () => setDialog(null) })) : null] }));
 }
 function OtaDetailPage() {
     const location = useLocation();
@@ -188,13 +225,30 @@ function OtaLogPage() {
 function ChannelSection({ title, channels, kind, onAuthorize, onDetail, }) {
     if (channels.length === 0)
         return null;
-    return (_jsxs("section", { className: "ota-channel-section", children: [_jsx("div", { className: "ota-section-title", children: _jsx("h2", { children: title }) }), _jsx("div", { className: "ota-card-grid", children: channels.map((channel, index) => (_jsxs("article", { className: `ota-channel-card ota-channel-card--${kind}`, children: [_jsxs("div", { className: "ota-channel-card__header", children: [_jsxs("div", { children: [_jsx("strong", { children: channel.name }), _jsx("span", { children: channel.relation })] }), _jsx("div", { className: `ota-channel-logo ota-channel-logo--${(index % 5) + 1}${kind === 'pending' ? ' ota-channel-logo--pending' : ''}`, children: channel.logoText })] }), _jsx("div", { className: "ota-channel-card__actions", children: kind === 'connected' ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => onAuthorize(channel), children: "\u65B0\u589E\u623F\u578B" }), _jsx("button", { type: "button", onClick: () => onDetail(channel), children: "\u6E20\u9053\u8BE6\u60C5" })] })) : (_jsx("button", { type: "button", className: "ota-primary-action", onClick: () => onAuthorize(channel), children: "\u7ACB\u5373\u5173\u8054" })) })] }, channel.id))) })] }));
+    const sectionTitle = kind === 'connected' ? '已直连渠道' : '未直连渠道';
+    return (_jsxs("section", { className: "ota-channel-section", children: [_jsx("div", { className: "ota-section-title", children: _jsx("h2", { children: sectionTitle || title }) }), _jsx("div", { className: "ota-card-grid", children: channels.map((channel, index) => (_jsxs("article", { className: `ota-channel-card ota-channel-card--${kind}`, children: [_jsxs("div", { className: "ota-channel-card__header", children: [_jsxs("div", { children: [_jsx("strong", { children: channel.name }), _jsx("span", { children: channel.relation })] }), _jsx("div", { className: `ota-channel-logo ota-channel-logo--${(index % 5) + 1}${kind === 'pending' ? ' ota-channel-logo--pending' : ''}`, children: channel.logoText })] }), _jsx("div", { className: "ota-channel-card__actions", children: kind === 'connected' ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => onAuthorize(channel), children: "\u65B0\u589E\u623F\u578B" }), _jsx("button", { type: "button", onClick: () => onDetail(channel), children: "\u6E20\u9053\u8BE6\u60C5" })] })) : (_jsx("button", { type: "button", className: "ota-primary-action", onClick: () => onAuthorize(channel), children: "\u7ACB\u5373\u5173\u8054" })) })] }, channel.id))) })] }));
 }
 function toOtaDetailChannelParam(channel) {
     return channel.accountId ? `${channel.id}|account:${channel.accountId}` : channel.id;
 }
 function FeedbackStatus({ feedback }) {
     return _jsx("div", { role: "status", className: `ota-live-status ${feedback.kind === 'error' ? 'is-error' : ''}`, children: feedback.message });
+}
+function OtaChannelSetupDialog({ channel, onClose, onSubmit, }) {
+    const [form, setForm] = useState({
+        channelId: channel.id,
+        accountName: `${channel.name}主账号`,
+        ebookingAccount: '',
+        ebookingPassword: '',
+        storeId: 'default',
+        storeName: '宿银',
+        hotelId: '',
+        remark: '',
+    });
+    function updateField(field, value) {
+        setForm((current) => ({ ...current, [field]: value }));
+    }
+    return (_jsx("div", { className: "ota-dialog-mask", role: "presentation", onMouseDown: onClose, children: _jsxs("section", { className: "ota-channel-setup-dialog", role: "dialog", "aria-modal": "true", "aria-label": `${channel.name}直连配置`, onMouseDown: (event) => event.stopPropagation(), children: [_jsxs("header", { className: "ota-channel-setup-dialog__header", children: [_jsxs("div", { children: [_jsxs("h3", { children: [channel.name, "\u76F4\u8FDE\u914D\u7F6E"] }), _jsx("p", { children: "\u4FDD\u5B58 eBooking \u8D26\u53F7\u548C\u672C\u5730\u95E8\u5E97\u7ED1\u5B9A\u540E\uFF0C\u6E20\u9053\u4ECD\u4FDD\u6301\u672A\u76F4\u8FDE\uFF1B\u5B8C\u6210\u6E20\u9053\u4FA7\u5F00\u901A\u540E\u624D\u4F1A\u8FDB\u5165\u5DF2\u76F4\u8FDE\u6E20\u9053\u3002" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "ota-channel-setup-dialog__body", children: [_jsxs("section", { className: "ota-channel-setup-dialog__notice", children: [_jsx("strong", { children: "\u914D\u7F6E\u6D41\u7A0B" }), _jsx("span", { children: "1. \u586B\u5199\u6E20\u9053 eBooking \u8D26\u53F7\uFF1B2. \u7ED1\u5B9A\u672C\u5730\u95E8\u5E97\uFF1B3. \u8FDB\u5165\u6E20\u9053\u8BE6\u60C5\u505A\u623F\u578B\u6620\u5C04\uFF1B4. \u6E20\u9053\u5F00\u901A\u6210\u529F\u540E\u540C\u6B65\u8BA2\u5355\u3001\u623F\u6001\u3001\u4EF7\u683C\u3002" })] }), _jsxs("label", { children: [_jsx("span", { children: "\u8D26\u53F7\u540D\u79F0" }), _jsx("input", { value: form.accountName, onChange: (event) => updateField('accountName', event.target.value), placeholder: "\u4F8B\u5982\uFF1A\u7F8E\u56E2\u9152\u5E97\u4E3B\u8D26\u53F7" })] }), _jsxs("label", { children: [_jsx("span", { children: "eBooking \u8D26\u53F7" }), _jsx("input", { value: form.ebookingAccount, onChange: (event) => updateField('ebookingAccount', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6E20\u9053\u540E\u53F0\u8D26\u53F7" })] }), _jsxs("label", { children: [_jsx("span", { children: "eBooking \u5BC6\u7801" }), _jsx("input", { type: "password", value: form.ebookingPassword, onChange: (event) => updateField('ebookingPassword', event.target.value), placeholder: "\u8BF7\u8F93\u5165\u6E20\u9053\u540E\u53F0\u5BC6\u7801" })] }), _jsxs("label", { children: [_jsx("span", { children: "\u672C\u5730\u95E8\u5E97" }), _jsx("input", { value: form.storeName, onChange: (event) => updateField('storeName', event.target.value), placeholder: "\u8BF7\u9009\u62E9\u6216\u586B\u5199 PMS \u95E8\u5E97" })] }), _jsxs("label", { children: [_jsx("span", { children: "\u6E20\u9053\u9152\u5E97 ID" }), _jsx("input", { value: form.hotelId, onChange: (event) => updateField('hotelId', event.target.value), placeholder: "\u6CA1\u6709\u53EF\u5148\u7559\u7A7A\uFF0C\u5F00\u901A\u540E\u8865\u5145" })] }), _jsxs("label", { className: "ota-channel-setup-dialog__full", children: [_jsx("span", { children: "\u5907\u6CE8" }), _jsx("textarea", { value: form.remark, onChange: (event) => updateField('remark', event.target.value), placeholder: "\u8BB0\u5F55\u6E20\u9053\u8054\u7CFB\u4EBA\u3001\u5F00\u901A\u8FDB\u5EA6\u6216\u7279\u6B8A\u8BF4\u660E" })] })] }), _jsxs("footer", { className: "ota-channel-setup-dialog__footer", children: [_jsx("button", { type: "button", className: "ota-button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "ota-button ota-button--primary", onClick: () => onSubmit(form), children: "\u4FDD\u5B58\u914D\u7F6E" })] })] }) }));
 }
 function AuthorizationDialog({ channel, onClose, onConfirm }) {
     const notice = channel.authorizationNotice;

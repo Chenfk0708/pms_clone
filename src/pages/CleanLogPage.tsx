@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import {
   createCleanLogExportTask,
   fetchCleanLogs,
@@ -58,7 +58,7 @@ export function CleanLogPage() {
       .catch((caught: unknown) => {
         if (caught instanceof DOMException && caught.name === 'AbortError') return
         setResult(null)
-        setError(caught instanceof Error ? caught.message : '保洁日志加载失败，请重试')
+        setError(caught instanceof Error ? caught.message : '淇濇磥鏃ュ織鍔犺浇澶辫触锛岃閲嶈瘯')
       })
 
     return () => controller.abort()
@@ -86,12 +86,16 @@ export function CleanLogPage() {
     setRoomDialogOpen(false)
     setOperatorOpen(false)
     setSelectedLog(null)
-    refresh('筛选条件已重置')
+    refresh('绛涢€夋潯浠跺凡閲嶇疆')
   }
-
-  function exportLogs() {
-    createCleanLogExportTask(query)
-    setMessage('导出任务已创建')
+  async function exportLogs() {
+    try {
+      await createCleanLogExportTask(query)
+      setError('')
+      setMessage('导出任务已创建')
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : '导出任务创建失败')
+    }
   }
 
   return (
@@ -117,9 +121,29 @@ export function CleanLogPage() {
             <input aria-label="操作日期开始" placeholder="开始日期" value={startDate} onChange={(event) => setStartDate(event.target.value)} />
             <input aria-label="操作日期结束" placeholder="结束日期" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
           </label>
-          <button type="button" onClick={() => setOperatorOpen((open) => !open)}>
-            {selectedOperator?.label ?? '请选择操作人'}
-          </button>
+          <div className="clean-log-popover-field">
+            <button type="button" aria-haspopup="listbox" aria-expanded={operatorOpen} onClick={() => setOperatorOpen((open) => !open)}>
+              {selectedOperator?.label ?? '请选择操作人'}
+            </button>
+            {operatorOpen ? (
+              <div className="clean-log-popover" role="listbox" aria-label="操作人筛选">
+                {options.operators.map((operator) => (
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selectedOperatorId === operator.value}
+                    key={`${operator.value}-${operator.label}`}
+                    onClick={() => {
+                      setSelectedOperatorId(operator.value)
+                      setOperatorOpen(false)
+                    }}
+                  >
+                    {operator.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
           <button type="button" onClick={() => refresh('查询完成')}>
             查询
           </button>
@@ -134,36 +158,17 @@ export function CleanLogPage() {
           </button>
         </div>
 
-        {operatorOpen ? (
-          <div className="clean-log-popover" role="listbox" aria-label="操作人筛选">
-            {options.operators.map((operator) => (
-              <button
-                type="button"
-                role="option"
-                aria-selected={selectedOperatorId === operator.value}
-                key={`${operator.value}-${operator.label}`}
-                onClick={() => {
-                  setSelectedOperatorId(operator.value)
-                  setOperatorOpen(false)
-                }}
-              >
-                {operator.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
         {error ? (
           <div role="alert" className="clean-log-error">
             {error}
             <button type="button" onClick={() => refresh()}>
-              重试
+              閲嶈瘯
             </button>
           </div>
         ) : null}
 
         <div role="status" className="clean-log-status">
-          {error ? '' : rows.length > 0 ? message : '暂无保洁日志'}
+          {error ? '' : rows.length > 0 ? message : '鏆傛棤淇濇磥鏃ュ織'}
         </div>
 
         <section aria-label="保洁日志列表" className="clean-log-table">
@@ -172,7 +177,7 @@ export function CleanLogPage() {
               <div key={column}>{column}</div>
             ))}
           </div>
-          {rows.length === 0 ? <div className="clean-log-empty">暂无保洁日志</div> : null}
+          {rows.length === 0 ? <div className="clean-log-empty">鏆傛棤淇濇磥鏃ュ織</div> : null}
           {rows.map((row) => (
             <div className="clean-log-table__row" key={row.id}>
               <div>{row.operatorTime}</div>
@@ -180,8 +185,8 @@ export function CleanLogPage() {
               <div>{row.operatorType}</div>
               <div>{row.operatorDetails}</div>
               <div>
-                <button type="button" className="clean-log-link-button" onClick={() => setSelectedLog(row)} aria-label={`查看 ${row.id}`}>
-                  查看
+                <button type="button" className="clean-log-link-button" onClick={() => setSelectedLog(row)} aria-label={`鏌ョ湅 ${row.id}`}>
+                  鏌ョ湅
                 </button>
               </div>
             </div>
@@ -217,7 +222,7 @@ export function CleanLogPage() {
                   <i aria-hidden="true" />
                   <span>{room.roomType}</span>
                   <em>{room.roomName}</em>
-                  <b aria-hidden="true">›</b>
+                  <b aria-hidden="true">•</b>
                 </button>
               ))}
             </div>

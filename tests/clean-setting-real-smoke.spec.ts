@@ -7,10 +7,22 @@ test('clean setting page uses real gateway API contract directly', async ({ page
   await page.addInitScript(() => {
     window.localStorage.setItem('pms_token', 'clean-setting-platform-contract-token')
     window.localStorage.setItem('pmsCampId', 'test-camp')
+    window.localStorage.setItem('pms.currentCampId', 'test-camp')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '1',
+        name: 'Playwright Admin',
+        mobile: '13800000001',
+        roleName: 'Platform Admin',
+        campId: 'test-camp',
+        campName: 'Test Camp',
+      }),
+    )
     window.localStorage.setItem('pms.cleanSettingProvider', 'real')
   })
 
-  await page.route('**/api/cleanManage/cleanSetting/overview', async (route) => {
+  await page.route('**/api/cleanSettings/bootstrap', async (route) => {
     apiCalls.push(route.request().url())
     expect(route.request().postDataJSON()).toMatchObject({
       campId: 'test-camp',
@@ -68,7 +80,24 @@ test('clean setting page uses real gateway API contract directly', async ({ page
     })
   })
 
-  await page.route('**/api/cleanManage/cleanSetting/rule/save', async (route) => {
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        success: true,
+        code: 0,
+        traceId: 'clean-setting-store-options',
+        timestamp: '2026-06-01T15:09:00+08:00',
+        data: {
+          list: [
+            { poiId: '11001', poiName: '前海店' },
+            { poiId: '11002', poiName: '科技园店' },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/cleanSettings/rule/save', async (route) => {
     apiCalls.push(route.request().url())
     const body = route.request().postDataJSON() as { campId?: string; rule?: { id?: string; name?: string } }
     expect(body.campId).toBe('test-camp')
@@ -100,7 +129,7 @@ test('clean setting page uses real gateway API contract directly', async ({ page
     })
   })
 
-  await page.route('**/api/cleanManage/cleanSetting/export', async (route) => {
+  await page.route('**/api/cleanSettings/export', async (route) => {
     apiCalls.push(route.request().url())
     expect(route.request().postDataJSON()).toMatchObject({
       campId: 'test-camp',
@@ -154,18 +183,20 @@ test('clean setting page uses real gateway API contract directly', async ({ page
   await page.goto(appUrl('/#/cleanManage/cleanSetting'))
 
   await expect(page.getByRole('alert')).toHaveCount(0, { timeout: 15_000 })
-  const feedback = page.getByRole('status', { name: '保洁设置操作反馈' })
+  await expect(page.getByRole('status', { name: '保洁设置操作反馈' })).toHaveCount(0)
   await expect(page.getByRole('table', { name: '保洁策略列表' })).toContainText('退房保洁自动派单', { timeout: 15_000 })
   await expect(page.getByRole('table', { name: '保洁价格规则' })).toContainText('默认退房保洁费', { timeout: 15_000 })
 
   await page.getByRole('button', { name: '导出' }).click()
-  await expect(feedback).toContainText('clean_setting_2026-05-18.csv', { timeout: 15_000 })
+  await expect.poll(() => apiCalls.some((url) => url.includes('/api/cleanSettings/export'))).toBeTruthy()
 
   await page.getByRole('button', { name: '编辑 退房保洁自动派单' }).click()
   await page.getByRole('button', { name: '保存策略' }).click()
-  await expect(feedback).toContainText('保洁策略保存成功', { timeout: 15_000 })
+  await expect(page.getByRole('dialog', { name: '编辑保洁策略' })).toHaveCount(0)
+  await expect.poll(() => apiCalls.some((url) => url.includes('/api/cleanSettings/rule/save'))).toBeTruthy()
 
-  expect(apiCalls.some((url) => url.includes('/api/cleanManage/cleanSetting/overview'))).toBeTruthy()
-  expect(apiCalls.some((url) => url.includes('/api/cleanManage/cleanSetting/export'))).toBeTruthy()
-  expect(apiCalls.some((url) => url.includes('/api/cleanManage/cleanSetting/rule/save'))).toBeTruthy()
+  expect(apiCalls.some((url) => url.includes('/api/cleanSettings/bootstrap'))).toBeTruthy()
+  expect(apiCalls.some((url) => url.includes('/api/cleanSettings/export'))).toBeTruthy()
+  expect(apiCalls.some((url) => url.includes('/api/cleanSettings/rule/save'))).toBeTruthy()
+  expect(apiCalls.some((url) => url.includes('/api/cleanManage/cleanSetting'))).toBeFalsy()
 })

@@ -38,7 +38,7 @@ async function fulfillHudson(route: Route, data: unknown) {
 
 test('/statistics/profitReport renders provider-backed business data by default', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/profitReport'))
+  await page.goto(appUrl('/statistics/profitReport?provider=real'))
   const reportPage = page.locator('.profit-report-page')
 
   await expect(page.locator('.page-content > .page-header')).toHaveCount(0)

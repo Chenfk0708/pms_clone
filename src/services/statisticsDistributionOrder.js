@@ -1,6 +1,7 @@
+import { resolveCurrentCampId } from '../utils/camp';
 const realBaseUrl = '/api';
 export const statisticsDistributionOrderEndpoint = '/distribution/orders/page/get';
-export const defaultStatisticsDistributionOrderCampId = '1796067693589061634';
+export const defaultStatisticsDistributionOrderCampId = '10001';
 const defaultCampName = '天落会宿公寓(前海壹方城宝安中心店)';
 const mockTimestamp = '2026-05-22T10:00:00+08:00';
 const mockLatencyMs = 120;
@@ -54,7 +55,7 @@ export async function loadStatisticsDistributionOrderData(query, signal) {
         timestamp: mockTimestamp,
         requestBody,
         requestSummary: buildRequestSummary(query, requestBody, 'mock', mockState, `mock-distribution-order-${mockState}-001`),
-        campId: String(requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+        campId: String(requestBody.campId ?? resolveStatisticsDistributionOrderCampId()),
         campName: defaultCampName,
         summary,
         rows,
@@ -75,11 +76,11 @@ function resolveProvider() {
     const fromUrl = readUrlProvider();
     if (fromUrl)
         return fromUrl;
-    const configured = readRuntimeConfig('pms.statisticsDistributionOrderProvider') ||
-        import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_PROVIDER;
-    if (configured === 'mock')
-        return 'mock';
-    return 'api';
+    const configured = import.meta.env.VITE_STATISTICS_DISTRIBUTION_ORDER_PROVIDER ||
+        readRuntimeConfig('pms.statisticsDistributionOrderProvider');
+    if (configured === 'api' || configured === 'real')
+        return 'api';
+    return 'mock';
 }
 function readUrlProvider() {
     if (typeof window === 'undefined')
@@ -162,7 +163,7 @@ function createRequestBody(query) {
             ? [query.storeScope]
             : [];
     return {
-        campId: query.campId || defaultStatisticsDistributionOrderCampId,
+        campId: query.campId || resolveStatisticsDistributionOrderCampId(),
         ...(poiIds.length > 0 ? { poiIds } : {}),
         pageNum: query.pageNum ?? 1,
         pageSize: query.pageSize ?? 20,
@@ -208,7 +209,7 @@ async function loadRealStatisticsDistributionOrderData(query, signal) {
         timestamp: new Date().toISOString(),
         requestBody,
         requestSummary: buildRequestSummary(query, requestBody, 'api', 'success', 'api-distribution-order-001'),
-        campId: String(camp.campId ?? requestBody.campId ?? defaultStatisticsDistributionOrderCampId),
+        campId: String(camp.campId ?? requestBody.campId ?? resolveStatisticsDistributionOrderCampId()),
         campName: String(camp.campName ?? defaultCampName),
         summary,
         rows,
@@ -251,7 +252,7 @@ function buildRequestSummary(query, requestBody, provider, mockState, traceId) {
         `mockState=${mockState}`,
         `traceId=${traceId}`,
         `path=${statisticsDistributionOrderEndpoint}`,
-        `campId=${requestBody.campId ?? defaultStatisticsDistributionOrderCampId}`,
+        `campId=${requestBody.campId ?? resolveStatisticsDistributionOrderCampId()}`,
         `storeScope=${query.storeScope ?? 'all'}`,
         `bookingStartDate=${query.bookingStartDate}`,
         `bookingEndDate=${query.bookingEndDate}`,
@@ -261,6 +262,9 @@ function buildRequestSummary(query, requestBody, provider, mockState, traceId) {
         `pageSize=${requestBody.pageSize ?? 20}`,
         `breakTemp=${String(requestBody.breakTemp ?? '')}`,
     ];
+}
+function resolveStatisticsDistributionOrderCampId() {
+    return resolveCurrentCampId(defaultStatisticsDistributionOrderCampId);
 }
 function adaptRow(item) {
     const customerName = String(item.customerName ?? '');

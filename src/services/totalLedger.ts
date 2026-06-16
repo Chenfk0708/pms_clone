@@ -264,8 +264,21 @@ export async function exportTotalLedger(query: TotalLedgerQuery, signal?: AbortS
 }
 
 function resolveProvider(): TotalLedgerProviderName {
-  const configured = readRuntimeConfig('pms.totalLedgerProvider') || import.meta.env.VITE_TOTAL_LEDGER_PROVIDER
+  const configured = readUrlProvider() || import.meta.env.VITE_TOTAL_LEDGER_PROVIDER || readRuntimeConfig('pms.totalLedgerProvider')
   return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+}
+
+function readUrlProvider(): TotalLedgerProviderName | 'real' | '' {
+  if (typeof window === 'undefined') return ''
+  const configured =
+    readProviderFromSearch(window.location.search) ||
+    readProviderFromSearch(window.location.hash.split('?')[1] ? `?${window.location.hash.split('?')[1]}` : '')
+  return configured === 'mock' || configured === 'api' || configured === 'real' ? configured : ''
+}
+
+function readProviderFromSearch(search: string) {
+  const params = new URLSearchParams(search)
+  return params.get('provider') || params.get('totalLedgerProvider') || ''
 }
 
 function resolveMockMode(): TotalLedgerMockMode {

@@ -14,7 +14,7 @@ async function openIncomeReport(page: Page, state: 'success' | 'empty' | 'error'
     window.localStorage.setItem('pms.incomeReport.state', mockState)
   }, state)
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto(appUrl('/statistics/stay'))
+  await page.goto(appUrl('/statistics/stay?provider=real'))
 }
 
 test('/statistics/stay loads through the income report provider contract', async ({ page }) => {

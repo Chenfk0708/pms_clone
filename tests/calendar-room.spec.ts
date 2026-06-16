@@ -291,6 +291,113 @@ test('/setting/localRoomTypeProductionSetting loads real store options and filte
   expect(channelCatalogRequests.length).toBeGreaterThanOrEqual(1)
 })
 
+test('/setting/localRoomTypeProductionSetting keeps local platform rows when no calendar products exist yet', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'calendar-token')
+    window.localStorage.setItem('pms.currentCampId', '10001')
+  })
+
+  const roomCategoryRequests: Array<Record<string, unknown>> = []
+  const channelCatalogRequests = await mockChannelCatalog(page)
+
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        data: {
+          list: [{ poiId: '11001', poiName: 'API Store A' }],
+          total: 1,
+          pageNum: 1,
+          size: 100,
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/weiRoomCategories/page/get', async (route) => {
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-calendar-room-empty-products',
+        timestamp: '2026-06-16T10:00:00+08:00',
+        data: {
+          total: 0,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          list: [],
+        },
+      },
+    })
+  })
+
+  await page.route('**/api/roomCategories/page/get', async (route) => {
+    roomCategoryRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await route.fulfill({
+      json: {
+        code: 0,
+        success: true,
+        message: 'success',
+        traceId: 'real-room-category-local-calendar-source',
+        timestamp: '2026-06-16T10:00:00+08:00',
+        data: {
+          total: 1,
+          size: 20,
+          current: 1,
+          pageNum: 1,
+          list: [
+            {
+              roomCategoryId: '22001',
+              id: '22001',
+              roomCategoryName: '标准大床房',
+              name: '标准大床房',
+              poiId: '11001',
+              poiName: 'API Store A',
+              roomNum: 2,
+              basePrice: 26800,
+              weekendPrice: 32800,
+              status: 1,
+            },
+          ],
+        },
+      },
+    })
+  })
+
+  await page.goto(appUrl('/setting/localRoomTypeProductionSetting?calendarRoomProvider=real'))
+
+  await expect(page.getByLabel('日历房售卖产品列表')).toContainText('标准大床房')
+  await expect(page.getByRole('button', { name: '打开宿银平台管理渠道页' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: '打开美团酒店直连管理渠道页' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '打开新增渠道管理渠道页' })).toHaveCount(0)
+  const localPlatformBadge = page.locator('.calendar-room-table__room-row').first().locator('.calendar-room-channels__badge')
+  await expect(localPlatformBadge).toHaveCount(1)
+  await expect.poll(async () => {
+    const box = await localPlatformBadge.boundingBox()
+    return box ? box.width / box.height : 0
+  }).toBeGreaterThan(1.8)
+  await expect.poll(async () => {
+    const src = await localPlatformBadge.locator('img').getAttribute('src')
+    if (!src?.startsWith('data:image/svg+xml;base64,')) return ''
+    return Buffer.from(src.split(',')[1] ?? '', 'base64').toString('utf8')
+  }).toContain('宿银 logo')
+  await expect(page.getByText(/第 1-1 条\/总共 1 条/)).toBeVisible()
+
+  expect(roomCategoryRequests[0]).toMatchObject({
+    campId: '10001',
+    poiId: '',
+    roomCategoryName: '',
+    pageNum: 1,
+    pageSize: 20,
+  })
+  expect(channelCatalogRequests.length).toBeGreaterThanOrEqual(1)
+})
+
 test('/setting/localRoomTypeProductionSetting renders empty and failure response states', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await mockChannelCatalog(page)
@@ -347,8 +454,9 @@ test('/setting/localRoomTypeProductionSetting matches captured calendar-room lis
   await expect(page.locator('.sidebar').getByRole('link', { name: '预售券' })).toBeVisible()
   await expect(page.locator('.sidebar').getByRole('link', { name: '酒店套餐' })).toBeVisible()
 
-  await expect(page.getByRole('button', { name: '全部门店' })).toBeVisible()
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toBeVisible()
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await expect(page.getByRole('option', { name: /天落会宿公寓/ })).toBeVisible()
+  await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: '房型管理' })).toBeVisible()
   await expect(page.getByRole('button', { name: '新增售卖产品' })).toBeVisible()
   await expect(page.getByPlaceholder('请输入房型名称')).toBeVisible()

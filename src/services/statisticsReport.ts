@@ -1,3 +1,5 @@
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const STATISTICS_REPORT_ENDPOINT = '/report/accommodation/management/analysis/get'
 export const STATISTICS_REPORT_STORE_ENDPOINT = '/select/poi/page/get'
 export const STATISTICS_REPORT_ROOM_TYPE_ENDPOINT = '/select/roomCategory/page/get'
@@ -159,6 +161,7 @@ type RawStatisticsReport = {
 const TASK_ID = 'baobiao--tongji-baobiao--tongji-gailan'
 const MOCK_TIMESTAMP = '2026-05-19T16:35:00+08:00'
 const DEFAULT_CAMP_ID = '1796067693589061634'
+const HUDSON_API_BASE = '/api'
 const DEFAULT_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'
 
 export const statisticsReportPresetOptions: Array<{
@@ -410,13 +413,13 @@ export class StatisticsReportServiceError extends Error {
 }
 
 export function createDefaultStatisticsReportQuery(): StatisticsReportQuery {
+  const provider = resolveStatisticsReportProvider()
+  const preset = provider === 'api' ? 'thisMonth' : 'yesterday'
+  const range = buildStatisticsPresetRange(preset, provider)
   return {
-    campId: DEFAULT_CAMP_ID,
-    preset: 'yesterday',
-    startDate: '2026-05-18',
-    endDate: '2026-05-18',
-    predictStartDate: '',
-    predictEndDate: '',
+    campId: resolveStatisticsReportCampId(),
+    preset,
+    ...range,
     roomCategoryIds: [],
     channelIds: [],
     roomCategoryGroupIds: [],
@@ -430,38 +433,90 @@ export function buildStatisticsReportQueryForPreset(
   current?: StatisticsReportQuery,
 ): StatisticsReportQuery {
   const base = current ?? createDefaultStatisticsReportQuery()
+  const range = buildStatisticsPresetRange(preset, resolveStatisticsReportProvider())
   if (preset === 'yesterday') {
-    return { ...base, preset, startDate: '2026-05-18', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+    return { ...base, preset, ...range }
   }
   if (preset === 'today') {
-    return { ...base, preset, startDate: '2026-05-19', endDate: '2026-05-19', predictStartDate: '', predictEndDate: '' }
+    return { ...base, preset, ...range }
   }
   if (preset === 'lastWeek') {
-    return { ...base, preset, startDate: '2026-05-12', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+    return { ...base, preset, ...range }
   }
   if (preset === 'thisWeek') {
-    return { ...base, preset, startDate: '2026-05-19', endDate: '2026-05-25', predictStartDate: '', predictEndDate: '' }
+    return { ...base, preset, ...range }
   }
   if (preset === 'lastMonth') {
-    return { ...base, preset, startDate: '2026-04-01', endDate: '2026-04-30', predictStartDate: '', predictEndDate: '' }
+    return { ...base, preset, ...range }
   }
   if (preset === 'thisMonth') {
-    return {
-      ...base,
-      preset,
-      startDate: '2026-05-01',
-      endDate: '2026-05-19',
-      predictStartDate: '2026-05-01',
-      predictEndDate: '2026-05-31',
-    }
+    return { ...base, preset, ...range }
   }
-  return { ...base, preset: 'yesterday', startDate: '2026-05-18', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+  return { ...base, preset: 'yesterday', ...buildStatisticsPresetRange('yesterday', resolveStatisticsReportProvider()) }
+}
+
+function buildStatisticsPresetRange(preset: StatisticsReportPreset, provider: StatisticsReportProvider) {
+  if (provider === 'mock') {
+    if (preset === 'yesterday') return { startDate: '2026-05-18', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+    if (preset === 'today') return { startDate: '2026-05-19', endDate: '2026-05-19', predictStartDate: '', predictEndDate: '' }
+    if (preset === 'lastWeek') return { startDate: '2026-05-12', endDate: '2026-05-18', predictStartDate: '', predictEndDate: '' }
+    if (preset === 'thisWeek') return { startDate: '2026-05-19', endDate: '2026-05-25', predictStartDate: '', predictEndDate: '' }
+    if (preset === 'lastMonth') return { startDate: '2026-04-01', endDate: '2026-04-30', predictStartDate: '', predictEndDate: '' }
+    return { startDate: '2026-05-01', endDate: '2026-05-19', predictStartDate: '2026-05-01', predictEndDate: '2026-05-31' }
+  }
+
+  const today = startOfLocalDay(new Date())
+  const yesterday = addDays(today, -1)
+
+  if (preset === 'yesterday') {
+    return { startDate: formatDate(yesterday), endDate: formatDate(yesterday), predictStartDate: '', predictEndDate: '' }
+  }
+
+  if (preset === 'today') {
+    return { startDate: formatDate(today), endDate: formatDate(today), predictStartDate: '', predictEndDate: '' }
+  }
+
+  if (preset === 'lastWeek') {
+    return { startDate: formatDate(addDays(today, -7)), endDate: formatDate(yesterday), predictStartDate: '', predictEndDate: '' }
+  }
+
+  if (preset === 'thisWeek') {
+    const weekStart = getMonday(today)
+    return { startDate: formatDate(weekStart), endDate: formatDate(today), predictStartDate: '', predictEndDate: '' }
+  }
+
+  if (preset === 'lastMonth') {
+    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
+    const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0)
+    return { startDate: formatDate(lastMonth), endDate: formatDate(lastMonthEnd), predictStartDate: '', predictEndDate: '' }
+  }
+
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1)
+  const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+  return {
+    startDate: formatDate(monthStart),
+    endDate: formatDate(today),
+    predictStartDate: formatDate(monthStart),
+    predictEndDate: formatDate(monthEnd),
+  }
+}
+
+function resolveStatisticsReportCampId() {
+  const envCampId = import.meta.env.VITE_PMS_CAMP_ID as string | undefined
+  return resolveCurrentCampId(envCampId || DEFAULT_CAMP_ID)
 }
 
 export function resolveStatisticsReportProvider(): StatisticsReportProvider {
   const value =
     typeof window !== 'undefined' ? window.localStorage.getItem('pms.statisticsReport.provider') : null
-  return value === 'api' || value === 'real' ? 'api' : 'mock'
+  if (value === 'api' || value === 'real') return 'api'
+  if (value === 'mock') return 'mock'
+
+  const envProvider = import.meta.env.VITE_STATISTICS_REPORT_PROVIDER as string | undefined
+  if (envProvider === 'api' || envProvider === 'real') return 'api'
+  if (envProvider === 'mock') return 'mock'
+
+  return 'api'
 }
 
 export function resolveStatisticsReportState(): StatisticsReportState {
@@ -490,17 +545,13 @@ export async function fetchStatisticsReportDashboard(
 ): Promise<StatisticsReportDashboard> {
   const request = normalizeQuery(input)
   const provider = resolveStatisticsReportProvider()
-  if (provider === 'api') {
-    throw new StatisticsReportServiceError(
-      '统计概览服务暂不可用，请稍后重试',
-      provider,
-      request,
-      createNullEnvelope(503, 'statistics report api unavailable', 'api'),
-    )
-  }
-
-  await delay(160, signal)
   validateQuery(request)
+  const requestBody = createStatisticsReportRequestBody(request)
+  if (provider === 'api') {
+    const envelope = await fetchStatisticsReportApi(request, requestBody, signal)
+    return adaptDashboard(provider, 'success', requestBody, envelope)
+  }
+  await delay(160, signal)
   const state = request.state ?? resolveStatisticsReportState()
   if (state === 'error') {
     throw new StatisticsReportServiceError(
@@ -511,10 +562,64 @@ export async function fetchStatisticsReportDashboard(
     )
   }
 
-  const requestBody = createStatisticsReportRequestBody(request)
   const raw = state === 'empty' ? createEmptyResponse() : resolveMockResponse(request, requestBody)
   const envelope = createEnvelope(raw, state === 'empty' ? 'empty' : mockSuffixForRequest(requestBody))
   return adaptDashboard(provider, state, requestBody, envelope)
+}
+
+async function fetchStatisticsReportApi(
+  request: StatisticsReportQuery,
+  requestBody: Record<string, unknown>,
+  signal?: AbortSignal,
+): Promise<ApiEnvelope<RawStatisticsReport>> {
+  let response: Response
+  try {
+    response = await fetch(`${HUDSON_API_BASE}${STATISTICS_REPORT_ENDPOINT}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      signal,
+      body: JSON.stringify(requestBody),
+    })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') throw error
+    throw new StatisticsReportServiceError(
+      error instanceof Error ? error.message : '统计概览接口请求失败',
+      'api',
+      request,
+      createNullEnvelope(503, 'statistics report api request failed', 'api-request'),
+    )
+  }
+
+  if (!response.ok) {
+    throw new StatisticsReportServiceError(
+      `${STATISTICS_REPORT_ENDPOINT} 返回 HTTP ${response.status}`,
+      'api',
+      request,
+      createNullEnvelope(response.status, `statistics report api http ${response.status}`, 'api-http'),
+    )
+  }
+
+  const payload = (await response.json()) as Record<string, unknown>
+  const code = readNumber(payload.code)
+  const success = payload.success
+  if (success === false || (code !== null && code !== 0)) {
+    const message = readString(payload.errorMsg) ?? readString(payload.message) ?? '统计概览接口返回业务失败'
+    throw new StatisticsReportServiceError(
+      message,
+      'api',
+      request,
+      createNullEnvelope(code ?? 500, message, 'api-business'),
+    )
+  }
+
+  return {
+    code: 0,
+    message: readString(payload.message) ?? 'success',
+    data: normalizeRawStatisticsReport(payload.data ?? payload),
+    traceId: readString(payload.traceId) ?? `api-${TASK_ID}-001`,
+    timestamp: readString(payload.timestamp) ?? new Date().toISOString(),
+  }
 }
 
 function adaptDashboard(
@@ -761,6 +866,149 @@ function validateQuery(query: StatisticsReportQuery) {
   if (start.getTime() > end.getTime()) {
     throw new Error('统计概览查询参数不合法：开始日期不能晚于结束日期')
   }
+}
+
+function normalizeRawStatisticsReport(value: unknown): RawStatisticsReport {
+  const record = asRecord(value)
+  const sourceItems = asArray(record.orderOriginAnalysisList).map(normalizeRawOrderSource).filter(isRawOrderSource)
+  const orderTotalCount = readNumber(record.orderTotalCount) ?? sourceItems.reduce((total, item) => total + item.orderCount, 0)
+
+  return rawResponse({
+    writeDownIncome: readNumber(record.writeDownIncome) ?? 0,
+    businessIncome: readNumber(record.businessIncome) ?? 0,
+    predictForwardBusinessIncome: readNullableNumber(record.predictForwardBusinessIncome),
+    predictTotalBusinessIncome: readNullableNumber(record.predictTotalBusinessIncome),
+    roomFeePriceIncludingCommission: readNumber(record.roomFeePriceIncludingCommission) ?? 0,
+    hourRoomFeePriceIncludingCommission: readNumber(record.hourRoomFeePriceIncludingCommission) ?? 0,
+    otherOrderExpense: readNumber(record.otherOrderExpense) ?? 0,
+    occ: normalizeSummaryOcc(readNumber(record.occ) ?? 0),
+    adr: readNumber(record.adr) ?? 0,
+    revPar: readNumber(record.revPar) ?? 0,
+    openRoomCount: readNumber(record.openRoomCount) ?? 0,
+    roomCount: readNumber(record.roomCount) ?? 0,
+    allDayOpenRoomCount: readNumber(record.allDayOpenRoomCount) ?? readNumber(record.openRoomCount) ?? 0,
+    hourOpenRoomCount: readNumber(record.hourOpenRoomCount) ?? 0,
+    growthTrendAnalysisList: asArray(record.growthTrendAnalysisList).map(normalizeRawTrendPoint).filter(isRawTrendPoint),
+    orderOriginAnalysisList: sourceItems,
+    orderTotalCount,
+    accommodationIncome: readNumber(record.accommodationIncome) ?? readNumber(record.businessIncome) ?? 0,
+    predictForwardAccommodationIncome: readNullableNumber(record.predictForwardAccommodationIncome),
+    predictTotalAccommodationIncome: readNullableNumber(record.predictTotalAccommodationIncome),
+    foodIncome: readNumber(record.foodIncome) ?? 0,
+    predictForwardFoodIncome: readNullableNumber(record.predictForwardFoodIncome),
+    predictTotalFoodIncome: readNullableNumber(record.predictTotalFoodIncome),
+    supermarketIncome: readNumber(record.supermarketIncome) ?? 0,
+    predictForwardSupermarketIncome: readNullableNumber(record.predictForwardSupermarketIncome),
+    predictTotalSupermarketIncome: readNullableNumber(record.predictTotalSupermarketIncome),
+    entertainmentIncome: readNumber(record.entertainmentIncome) ?? 0,
+    predictForwardEntertainmentIncome: readNullableNumber(record.predictForwardEntertainmentIncome),
+    predictTotalEntertainmentIncome: readNullableNumber(record.predictTotalEntertainmentIncome),
+    venueIncome: readNumber(record.venueIncome) ?? 0,
+    predictForwardVenueIncome: readNullableNumber(record.predictForwardVenueIncome),
+    predictTotalVenueIncome: readNullableNumber(record.predictTotalVenueIncome),
+    allDayRoomFeePriceIncludingCommission:
+      readNumber(record.allDayRoomFeePriceIncludingCommission) ?? readNumber(record.roomFeePriceIncludingCommission) ?? 0,
+  })
+}
+
+function normalizeRawTrendPoint(value: unknown): RawTrendPoint | null {
+  const record = asRecord(value)
+  const date = readString(record.date)
+  if (!date) return null
+
+  return {
+    date,
+    businessIncome: readNumber(record.businessIncome) ?? 0,
+    roomFeePriceIncludingCommission: readNumber(record.roomFeePriceIncludingCommission) ?? readNumber(record.businessIncome) ?? 0,
+    otherOrderExpense: readNumber(record.otherOrderExpense) ?? 0,
+    writeDownIncome: readNumber(record.writeDownIncome) ?? 0,
+    occ: normalizeTrendOcc(readNumber(record.occ) ?? 0),
+    adr: readNumber(record.adr) ?? 0,
+    revPar: readNumber(record.revPar) ?? 0,
+    openRoomCount: readNumber(record.openRoomCount) ?? 0,
+  }
+}
+
+function normalizeRawOrderSource(value: unknown): RawOrderSource | null {
+  const record = asRecord(value)
+  const channelName = readString(record.channelName) ?? readString(record.name) ?? readString(record.sourceName)
+  if (!channelName) return null
+
+  return {
+    channelId: readString(record.channelId) ?? readString(record.id) ?? channelName,
+    channelName,
+    orderCount: readNumber(record.orderCount) ?? readNumber(record.count) ?? 0,
+  }
+}
+
+function isRawTrendPoint(value: RawTrendPoint | null): value is RawTrendPoint {
+  return value !== null
+}
+
+function isRawOrderSource(value: RawOrderSource | null): value is RawOrderSource {
+  return value !== null
+}
+
+function normalizeSummaryOcc(value: number) {
+  return value > 0 && value <= 1 ? Number((value * 100).toFixed(2)) : value
+}
+
+function normalizeTrendOcc(value: number) {
+  return value > 1 ? Number((value / 100).toFixed(4)) : value
+}
+
+function readString(value: unknown) {
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    return trimmed || null
+  }
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value)
+  return null
+}
+
+function readNumber(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : null
+  }
+  return null
+}
+
+function readNullableNumber(value: unknown) {
+  if (value === null || value === undefined || value === '') return null
+  return readNumber(value) ?? null
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
+}
+
+function asArray(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : []
+}
+
+function startOfLocalDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function addDays(date: Date, amount: number) {
+  const next = new Date(date)
+  next.setDate(next.getDate() + amount)
+  return next
+}
+
+function getMonday(date: Date) {
+  const day = date.getDay()
+  const offset = day === 0 ? -6 : 1 - day
+  return addDays(date, offset)
+}
+
+function formatDate(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 function createEmptyResponse(): RawStatisticsReport {

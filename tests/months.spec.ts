@@ -237,9 +237,11 @@ async function mockMonthStatusApis(
             guestRegisteredAt: '2026-06-06 14:33:45',
             checkOutAt: '2026-06-07 12:00:00',
             checkedOutAt: '2026-06-06 15:56:30',
-          },
-          ]
+           },
+           ]
   const closedBlocks: Array<{ roomCategoryId: string; roomId: string; date: string; reason: string }> = []
+  const dirtyRoomKeys = new Set<string>()
+  const roomCleanRequests: Array<{ roomCategoryId: string; roomId: string; cleanStatus: string }> = []
 
   const handleMonthRoute = async (route) => {
     const request = route.request()
@@ -262,7 +264,18 @@ async function mockMonthStatusApis(
           success: true,
           data: {
             isSingleInventory: 0,
-            list: categories,
+            list: categories.map((category) => ({
+              ...category,
+              rooms: category.rooms.map((room) => {
+                const roomKey = `${category.roomCategoryId}|${room.roomId}`
+                const isDirty = dirtyRoomKeys.has(roomKey)
+                return {
+                  ...room,
+                  cleanStatus: isDirty ? 'dirty' : 'clean',
+                  isDirty: isDirty ? 1 : 0,
+                }
+              }),
+            })),
           },
         }),
       )
@@ -322,6 +335,32 @@ async function mockMonthStatusApis(
             date: body.date,
             reason: body.reason,
             message: '关房成功',
+          },
+        }),
+      )
+      return
+    }
+
+    if (pathname === '/roomStatuses/clean/save') {
+      const body = request.postDataJSON()
+      const roomCategoryId = String(body.roomCategoryId)
+      const roomId = String(body.roomId)
+      const cleanStatus = String(body.cleanStatus)
+      const roomKey = `${roomCategoryId}|${roomId}`
+      roomCleanRequests.push({ roomCategoryId, roomId, cleanStatus })
+      if (cleanStatus === 'dirty') {
+        dirtyRoomKeys.add(roomKey)
+      } else {
+        dirtyRoomKeys.delete(roomKey)
+      }
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: {
+            roomCategoryId,
+            roomId,
+            cleanStatus,
+            isDirty: cleanStatus === 'dirty' ? 1 : 0,
           },
         }),
       )
@@ -402,6 +441,8 @@ async function mockMonthStatusApis(
   for (const routePattern of MONTH_API_ROUTES) {
     await page.route(routePattern, handleMonthRoute)
   }
+
+  return { roomCleanRequests }
 }
 
 async function unrouteMonthStatusApis(page) {
@@ -605,6 +646,40 @@ test('month room status filters rows by the selected store dropdown option', asy
   await expect(page.getByText('顶层套房（浴缸巨幕电竞麻将）', { exact: true })).toHaveCount(0)
   await expect(page.getByTestId('month-type-row')).toHaveCount(2)
   await expect(page.getByTestId('month-room-row')).toHaveCount(2)
+})
+
+test('month room status room cell popover toggles dirty room marker', async ({ page }) => {
+  await unrouteMonthStatusApis(page)
+  const { roomCleanRequests } = await mockMonthStatusApis(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/houseManage/months'))
+
+  const firstRoomRow = page.getByTestId('month-room-row').first()
+  const roomCell = firstRoomRow.locator('.month-board__room--room')
+
+  await expect(firstRoomRow.getByTestId('month-room-dirty-mark')).toHaveCount(0)
+
+  await roomCell.click({ position: { x: 156, y: 32 } })
+  const cleanPopover = page.getByTestId('month-room-clean-popover')
+  await expect(cleanPopover).toBeVisible()
+  await expect(page.getByTestId('month-room-clean-action')).toHaveText('设为脏房')
+  await page.getByTestId('month-room-clean-action').click()
+  await expect(firstRoomRow.getByTestId('month-room-dirty-mark')).toBeVisible()
+  expect(roomCleanRequests.at(-1)).toEqual({
+    roomCategoryId: 'cat-top',
+    roomId: 'room-top-1',
+    cleanStatus: 'dirty',
+  })
+
+  await roomCell.click({ position: { x: 156, y: 32 } })
+  await expect(page.getByTestId('month-room-clean-action')).toHaveText('设为净房')
+  await page.getByTestId('month-room-clean-action').click()
+  await expect(firstRoomRow.getByTestId('month-room-dirty-mark')).toHaveCount(0)
+  expect(roomCleanRequests.at(-1)).toEqual({
+    roomCategoryId: 'cat-top',
+    roomId: 'room-top-1',
+    cleanStatus: 'clean',
+  })
 })
 
 test('month room status page opens sharing room status page and order refresh popover', async ({ page }) => {
@@ -1220,6 +1295,20 @@ test('month order drawer operation log renders a timeline for current order acti
   await page.route('**/api/orders/**', async (route) => {
     const pathname = new URL(route.request().url()).pathname.replace(/^\/api/, '')
 
+    if (pathname === '/orders/target-order/guests/save') {
+      await route.fulfill(
+        jsonResponse({
+          success: true,
+          data: {
+            orderId: 'target-order',
+            guestCount: 1,
+            guestRegisteredAt: '2026-06-06 12:58:11',
+            message: '入住人保存成功',
+          },
+        }),
+      )
+      return
+    }
     if (pathname === '/orders/target-order/check-in') {
       await route.fulfill(
         jsonResponse({
@@ -1259,6 +1348,12 @@ test('month order drawer operation log renders a timeline for current order acti
   await presidentGroup.locator('[data-row-kind="room"] .month-cell', { hasText: '陈家辉' }).first().click()
 
   const drawer = page.getByRole('dialog', { name: '订单详情' })
+  await drawer.getByTestId('month-order-register-guest').click()
+  const guestEditor = drawer.getByTestId('month-order-guest-editor')
+  await guestEditor.getByRole('combobox').selectOption('Passport')
+  await guestEditor.getByPlaceholder('请输入证件号码').fill('P123456789')
+  await guestEditor.getByRole('button', { name: '保存' }).click()
+  await expect(drawer).toContainText('入住人保存成功')
   await drawer.getByTestId('month-order-footer-checkin').click()
   await expect(drawer).toContainText('入住中')
   await drawer.getByTestId('month-order-footer-checkout').click()
@@ -1267,11 +1362,13 @@ test('month order drawer operation log renders a timeline for current order acti
   await drawer.getByRole('button', { name: '操作日志' }).click()
   const timeline = drawer.getByTestId('month-order-log-timeline')
   await expect(timeline).toBeVisible()
-  await expect(timeline.getByTestId('month-order-log-item')).toHaveCount(3)
+  await expect(timeline.getByTestId('month-order-log-item')).toHaveCount(4)
   await expect(timeline).toContainText('办理退房')
   await expect(timeline).toContainText('退房房间：总裁套间（桑拿浴缸露台电竞麻将）(房间1)')
   await expect(timeline).toContainText('办理入住')
   await expect(timeline).toContainText('入住房间：总裁套间（桑拿浴缸露台电竞麻将）(房间1)')
+  await expect(timeline).toContainText('登记入住人')
+  await expect(timeline).toContainText('入住人：陈家辉')
   await expect(timeline).toContainText('渠道来单')
   await expect(timeline).toContainText('订单状态:进行中')
   await expect(timeline).toContainText('操作人：系统自动')

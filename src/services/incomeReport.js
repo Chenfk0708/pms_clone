@@ -161,12 +161,20 @@ export function createDefaultIncomeReportQuery() {
     };
 }
 export function resolveIncomeReportProvider() {
-    const params = new URLSearchParams(window.location.search);
-    const value = params.get('incomeReportProvider') ??
-        (typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null) ??
-        import.meta.env.VITE_INCOME_REPORT_PROVIDER ??
+    const params = readIncomeReportSearchParams();
+    const fromQuery = params.get('incomeReportProvider') ?? params.get('provider');
+    if (fromQuery === 'api' || fromQuery === 'real')
+        return 'api';
+    if (fromQuery === 'mock')
+        return 'mock';
+    const fromEnv = import.meta.env.VITE_INCOME_REPORT_PROVIDER ??
         import.meta.env.VITE_PMS_INCOME_REPORT_PROVIDER;
-    return value === 'api' || value === 'real' ? 'api' : 'mock';
+    if (fromEnv === 'api' || fromEnv === 'real')
+        return 'api';
+    if (fromEnv === 'mock')
+        return 'mock';
+    const fromStorage = typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null;
+    return fromStorage === 'api' || fromStorage === 'real' ? 'api' : 'mock';
 }
 export function resolveIncomeReportState() {
     const value = typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.state') : null;
@@ -497,6 +505,12 @@ function formatApiAmount(value) {
 function toNumber(value, fallback) {
     const number = Number(value);
     return Number.isFinite(number) ? number : fallback;
+}
+function readIncomeReportSearchParams() {
+    if (typeof window === 'undefined')
+        return new URLSearchParams();
+    const hashQuery = window.location.hash.split('?')[1];
+    return new URLSearchParams(hashQuery ? `?${hashQuery}` : window.location.search);
 }
 function createEnvelope(data, suffix) {
     return {

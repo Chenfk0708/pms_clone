@@ -1,9 +1,10 @@
+import { resolveCurrentCampId } from '../utils/camp';
 const SHIFT_RECORD_PROVIDER_KEY = 'pms.shiftRecordProvider';
 export const SHIFT_RECORD_LIST_PATH = '/shiftWorkReport/page/get';
 export const SHIFT_RECORD_STORE_PATH = '/select/poi/page/get';
 export const SHIFT_RECORD_EMPLOYEE_PATH = '/campRoles/get';
 const realBaseUrl = '/api';
-const defaultCampId = '1796067693589061634';
+const defaultCampId = '10001';
 const currentStorePoiId = '1796425098638573570';
 function createMockWorkReport(detail) {
     return JSON.stringify(detail);
@@ -177,7 +178,7 @@ export function createDefaultShiftRecordFilters(searchParams = new URLSearchPara
         receiverUserId: searchParams.get('receiverUserId') || 'all',
         pageNum: Number(searchParams.get('pageNum') || 1),
         pageSize: Number(searchParams.get('pageSize') || 20),
-        campId: searchParams.get('campId') || defaultCampId,
+        campId: searchParams.get('campId') || resolveCurrentCampId(defaultCampId),
         mockState: toMockState(searchParams.get('mockState')),
     };
 }

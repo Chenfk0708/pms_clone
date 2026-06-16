@@ -1,3 +1,5 @@
+import { resolveCurrentCampId } from '../utils/camp'
+
 export const SALES_REPORT_ENDPOINT = '/report/open/room/get'
 export const SALES_REPORT_ROOM_TYPE_ENDPOINT = '/select/roomCategory/page/get'
 export const SALES_REPORT_CHANNEL_ENDPOINT = '/select/calChannel4Order/get'
@@ -7,7 +9,7 @@ export const SALES_REPORT_EXPORT_MENU_ID = '1898993554540892168'
 
 const TASK_ID = 'baobiao--tongji-baobiao--xiaokuang-baobiao'
 const REAL_BASE_URL = '/api'
-const DEFAULT_CAMP_ID = '1796067693589061634'
+const DEFAULT_CAMP_ID = '10001'
 const DEFAULT_STORE_POI_ID = '1796425098638573570'
 const DEFAULT_STORE_NAME = '天落会宿公寓(前海壹方城宝安中心店)'
 const MOCK_TIMESTAMP = '2026-05-19T08:40:30+08:00'
@@ -371,7 +373,7 @@ const roomRows = makeRows([
 
 export function getDefaultSalesReportQuery(): SalesReportQuery {
   return {
-    campId: DEFAULT_CAMP_ID,
+    campId: resolveCurrentCampId(DEFAULT_CAMP_ID),
     activeTab: 'day',
     storeScope: 'all',
     dayStartDate: '2026-05-01',
@@ -407,10 +409,16 @@ export function createInitialSalesReportQuery(): SalesReportQuery {
 }
 
 export function resolveSalesReportProvider(): SalesReportProvider {
-  const search = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
-  const fromQuery = search?.get('provider')
+  const search = readSalesReportSearchParams()
+  const fromQuery = search.get('provider') || search.get('salesReportProvider')
   if (fromQuery === 'api' || fromQuery === 'real') return 'api'
-  const fromStorage = readRuntimeConfig('pms.salesReport.provider') || import.meta.env.VITE_SALES_REPORT_PROVIDER
+  if (fromQuery === 'mock') return 'mock'
+
+  const fromEnv = import.meta.env.VITE_SALES_REPORT_PROVIDER
+  if (fromEnv === 'api' || fromEnv === 'real') return 'api'
+  if (fromEnv === 'mock') return 'mock'
+
+  const fromStorage = readRuntimeConfig('pms.salesReport.provider')
   return fromStorage === 'api' || fromStorage === 'real' ? 'api' : 'mock'
 }
 
@@ -833,6 +841,12 @@ function makeRows(values: string[][]): SalesReportTableRow[] {
 function readRuntimeConfig(key: string) {
   if (typeof window === 'undefined') return ''
   return window.localStorage.getItem(key)?.trim() || ''
+}
+
+function readSalesReportSearchParams() {
+  if (typeof window === 'undefined') return new URLSearchParams()
+  const hashQuery = window.location.hash.split('?')[1]
+  return new URLSearchParams(hashQuery ? `?${hashQuery}` : window.location.search)
 }
 
 async function waitForMockLatency(signal?: AbortSignal) {

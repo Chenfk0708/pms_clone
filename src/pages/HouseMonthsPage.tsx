@@ -12,6 +12,7 @@ import {
   markNoShowHouseMonthOrder,
   openHouseMonthRoom,
   saveHouseMonthOrderGuests,
+  setHouseMonthRoomCleanStatus,
   skipStockHouseMonthOrder,
   type HouseMonthChangeRoomOption,
   type MonthCell,
@@ -69,6 +70,16 @@ export interface SelectedBooking {
 }
 
 interface FloatingAnchor {
+  left: number
+  top: number
+}
+
+interface RoomCleanPopover {
+  roomKey: string
+  roomLabel: string
+  roomCategoryId: string
+  roomId: string
+  isDirty: boolean
   left: number
   top: number
 }
@@ -377,6 +388,10 @@ function createSelectedMonthCell(
 function resolveRoomCategoryLabel(roomCategoryFilter: string, rows: MonthRoomGroup[]) {
   const match = rows.find((row) => (row.roomCategoryId || row.label) === roomCategoryFilter)
   return match?.label || roomCategoryFilter
+}
+
+function getMonthRoomCleanKey(row: MonthRoomGroup) {
+  return [row.storeId, row.roomCategoryId || row.id, row.roomId].join('|')
 }
 
 function sortSelectedMonthCells(cells: SelectedMonthCell[]) {
@@ -921,6 +936,8 @@ export function HouseMonthsPage() {
   const [selectedCells, setSelectedCells] = useState<SelectedMonthCell[]>([])
   const [selectedCell, setSelectedCell] = useState<SelectedMonthCell | null>(null)
   const [selectionAnchor, setSelectionAnchor] = useState<FloatingAnchor | null>(null)
+  const [dirtyRoomKeys, setDirtyRoomKeys] = useState<string[]>([])
+  const [roomCleanPopover, setRoomCleanPopover] = useState<RoomCleanPopover | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<SelectedBooking | null>(null)
   const [hoveredBooking, setHoveredBooking] = useState<HoveredBooking | null>(null)
   const [orderEntryInitialRoom, setOrderEntryInitialRoom] = useState<OrderEntryInitialRoom | null>(null)
@@ -994,6 +1011,7 @@ export function HouseMonthsPage() {
         requestColumns,
       )
       setRoomGroups(snapshot.rows)
+      setDirtyRoomKeys(snapshot.rows.filter((row) => row.isDirty).map(getMonthRoomCleanKey))
       setDateColumns(snapshot.columns)
       setLoadState('ready')
       setToastMessage('月房态已刷新，营业日历已同步')
@@ -1028,6 +1046,7 @@ export function HouseMonthsPage() {
       setSelectedCells([])
       setSelectedCell(null)
       setSelectionAnchor(null)
+      setRoomCleanPopover(null)
       setStatusDrawer(null)
     }
 
@@ -1039,6 +1058,9 @@ export function HouseMonthsPage() {
       if (!target.closest('.month-batch-action')) setBatchMenu(null)
       if (!target.closest('.month-toolbar__refresh-group')) setRefreshPopoverOpen(false)
       if (!target.closest('.month-calendar-title') && !target.closest('.month-date-picker')) setDatePickerOpen(false)
+      if (!target.closest('.month-room-clean-popover') && !target.closest('.month-room-clean-toggle')) {
+        setRoomCleanPopover(null)
+      }
       if (!target.closest('.month-order-drawer') && !target.closest('.month-cell[class*="tone-booking-"]')) {
         setSelectedBooking(null)
       }
@@ -1315,6 +1337,67 @@ export function HouseMonthsPage() {
     setSelectedCells([])
     setSelectedCell(null)
     setSelectionAnchor(null)
+  }
+
+  const openRoomCleanPopover = (event: ReactMouseEvent<HTMLButtonElement>, row: MonthRoomGroup) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const panelWidth = 104
+    const left = Math.min(
+      window.innerWidth - panelWidth - 12,
+      Math.max(12, Math.round(rect.left + rect.width / 2 - panelWidth / 2)),
+    )
+    const top = Math.min(window.innerHeight - 72, Math.round(rect.bottom + 8))
+
+    setHoveredBooking(null)
+    clearSelectedCells()
+    setRoomCleanPopover({
+      roomKey: getMonthRoomCleanKey(row),
+      roomLabel: row.roomLabel,
+      roomCategoryId: row.roomCategoryId || row.id,
+      roomId: row.roomId,
+      isDirty: Boolean(row.isDirty) || dirtyRoomKeys.includes(getMonthRoomCleanKey(row)),
+      left,
+      top,
+    })
+  }
+
+  const toggleRoomCleanState = async () => {
+    if (!roomCleanPopover) return
+    const campId = activeStoreCampId || resolvedCampIdRef.current
+    if (!campId) {
+      setToastMessage('缺少当前门店，无法修改房间状态')
+      setRoomCleanPopover(null)
+      return
+    }
+
+    const nextCleanStatus = roomCleanPopover.isDirty ? 'clean' : 'dirty'
+    const activePopover = roomCleanPopover
+    try {
+      const result = await setHouseMonthRoomCleanStatus({
+        campId,
+        roomCategoryId: activePopover.roomCategoryId,
+        roomId: activePopover.roomId,
+        cleanStatus: nextCleanStatus,
+      })
+      const nextIsDirty = result.isDirty
+
+      setDirtyRoomKeys((current) => {
+        const withoutCurrent = current.filter((key) => key !== activePopover.roomKey)
+        return nextIsDirty ? [...withoutCurrent, activePopover.roomKey] : withoutCurrent
+      })
+      setRoomGroups((current) =>
+        current.map((row) =>
+          getMonthRoomCleanKey(row) === activePopover.roomKey
+            ? { ...row, cleanStatus: result.cleanStatus, isDirty: nextIsDirty }
+            : row,
+        ),
+      )
+      setToastMessage(`${activePopover.roomLabel}已设为${nextIsDirty ? '脏房' : '净房'}`)
+    } catch (error) {
+      setToastMessage(`房间状态修改失败：${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      setRoomCleanPopover(null)
+    }
   }
 
   const clearFilters = () => {
@@ -1705,74 +1788,104 @@ export function HouseMonthsPage() {
           </div>
         ) : null}
 
-        {filteredRows.map((row, rowIndex) => (
-          <div key={row.id} className="month-room-group">
-            <div className="month-grid-row month-board__row is-type" data-row-kind="type" data-testid="month-type-row">
-              <div className="timeline-room month-board__room">
-                <strong>{row.label}</strong>
-                <span className="month-room-collapse">收起</span>
-              </div>
+        {filteredRows.map((row, rowIndex) => {
+          const roomCleanKey = getMonthRoomCleanKey(row)
+          const isDirtyRoom = Boolean(row.isDirty) || dirtyRoomKeys.includes(roomCleanKey)
 
-              {row.typeCells.map((cell, cellIndex) => (
-                <button key={`${row.label}-type-${cellIndex}`} type="button" className={`month-cell tone-${cell.tone}`}>
-                  <strong>{cell.title}</strong>
-                </button>
-              ))}
-            </div>
-
-            {!collapsed ? (
-              <div className="month-grid-row month-board__row is-room" data-row-kind="room" data-testid="month-room-row">
+          return (
+            <div key={row.id} className="month-room-group">
+              <div className="month-grid-row month-board__row is-type" data-row-kind="type" data-testid="month-type-row">
                 <div className="timeline-room month-board__room">
-                  <strong>{row.roomLabel}</strong>
+                  <strong>{row.label}</strong>
+                  <span className="month-room-collapse">收起</span>
                 </div>
 
-                {createRenderedRoomCells(row.roomCells).map(({ cell, cellIndex, span }) => {
-                  const key = `${rowIndex}-${cellIndex}`
-                  const selected = selectedKeys.includes(key)
-                  const selectable = isSelectableCell(cell)
-                  const cellStatus: SelectedMonthCell['status'] = cell.tone === 'disabled' ? 'closed' : 'blank'
-                  const renderTone =
-                    displaySettings.colorMode === 'channel' && cell.tone !== 'booking-duplicate'
-                      ? cell.channelTone ?? cell.tone
-                      : cell.tone
-                  const isBookingCell = cell.tone.startsWith('booking')
-                  const showRoomStatusLabel = !isBookingCell && displaySettings.showRoomStatus
-
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      data-testid={cell.tone === 'blank' ? 'month-selectable-cell' : undefined}
-                      data-order-span={span > 1 ? String(span) : undefined}
-                      aria-selected={selectable ? selected : undefined}
-                      data-selectable={selectable ? 'true' : undefined}
-                      className={`month-cell tone-${renderTone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`}
-                      style={span > 1 ? { gridColumn: `span ${span}` } : undefined}
-                      onMouseEnter={(event) => {
-                        if (cell.tone.startsWith('booking')) showBookingPopover(event, cell, row)
-                      }}
-                      onMouseLeave={() => setHoveredBooking(null)}
-                      onClick={(event) => {
-                        if (selectable) {
-                          selectMonthCell(key, row, cellIndex, event.currentTarget.getBoundingClientRect(), cellStatus)
-                          return
-                        }
-                        if (cell.tone.startsWith('booking')) openOrderDrawer(cell, row)
-                      }}
-                    >
-                      {isBookingCell || showRoomStatusLabel ? <strong>{cell.title}</strong> : null}
-                      {isBookingCell && cell.subtitle ? <span>{cell.subtitle}</span> : null}
-                      {isBookingCell && cell.amount ? <em>{cell.amount}</em> : null}
-                      {isBookingCell && cell.badge ? <b>{cell.badge}</b> : null}
-                      {selected ? <i className="month-cell__check" aria-hidden="true">✓</i> : null}
-                    </button>
-                  )
-                })}
+                {row.typeCells.map((cell, cellIndex) => (
+                  <button key={`${row.label}-type-${cellIndex}`} type="button" className={`month-cell tone-${cell.tone}`}>
+                    <strong>{cell.title}</strong>
+                  </button>
+                ))}
               </div>
-            ) : null}
-          </div>
-        ))}
+
+              {!collapsed ? (
+                <div className="month-grid-row month-board__row is-room" data-row-kind="room" data-testid="month-room-row">
+                  <button
+                    type="button"
+                    className={`timeline-room month-board__room month-board__room--room month-room-clean-toggle${isDirtyRoom ? ' is-dirty' : ''}`}
+                    data-testid="month-room-clean-toggle"
+                    aria-expanded={roomCleanPopover?.roomKey === roomCleanKey}
+                    onClick={(event) => openRoomCleanPopover(event, row)}
+                  >
+                    <strong>{row.roomLabel}</strong>
+                    {isDirtyRoom ? (
+                      <span className="month-room-dirty-mark" data-testid="month-room-dirty-mark" aria-label={`${row.roomLabel} 脏房`} title="脏房">
+                        脏
+                      </span>
+                    ) : null}
+                  </button>
+
+                  {createRenderedRoomCells(row.roomCells).map(({ cell, cellIndex, span }) => {
+                    const key = `${rowIndex}-${cellIndex}`
+                    const selected = selectedKeys.includes(key)
+                    const selectable = isSelectableCell(cell)
+                    const cellStatus: SelectedMonthCell['status'] = cell.tone === 'disabled' ? 'closed' : 'blank'
+                    const renderTone =
+                      displaySettings.colorMode === 'channel' && cell.tone !== 'booking-duplicate'
+                        ? cell.channelTone ?? cell.tone
+                        : cell.tone
+                    const isBookingCell = cell.tone.startsWith('booking')
+                    const showRoomStatusLabel = !isBookingCell && displaySettings.showRoomStatus
+
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        data-testid={cell.tone === 'blank' ? 'month-selectable-cell' : undefined}
+                        data-order-span={span > 1 ? String(span) : undefined}
+                        aria-selected={selectable ? selected : undefined}
+                        data-selectable={selectable ? 'true' : undefined}
+                        className={`month-cell tone-${renderTone}${selected ? ' is-selected' : ''}${selectable ? ' is-selectable' : ''}`}
+                        style={span > 1 ? { gridColumn: `span ${span}` } : undefined}
+                        onMouseEnter={(event) => {
+                          if (cell.tone.startsWith('booking')) showBookingPopover(event, cell, row)
+                        }}
+                        onMouseLeave={() => setHoveredBooking(null)}
+                        onClick={(event) => {
+                          if (selectable) {
+                            selectMonthCell(key, row, cellIndex, event.currentTarget.getBoundingClientRect(), cellStatus)
+                            return
+                          }
+                          if (cell.tone.startsWith('booking')) openOrderDrawer(cell, row)
+                        }}
+                      >
+                        {isBookingCell || showRoomStatusLabel ? <strong>{cell.title}</strong> : null}
+                        {isBookingCell && cell.subtitle ? <span>{cell.subtitle}</span> : null}
+                        {isBookingCell && cell.amount ? <em>{cell.amount}</em> : null}
+                        {isBookingCell && cell.badge ? <b>{cell.badge}</b> : null}
+                        {selected ? <i className="month-cell__check" aria-hidden="true">✓</i> : null}
+                      </button>
+                    )
+                  })}
+                </div>
+              ) : null}
+            </div>
+          )
+        })}
       </section>
+
+      {roomCleanPopover ? (
+        <div
+          className="month-room-clean-popover"
+          role="menu"
+          aria-label="房间脏净操作"
+          data-testid="month-room-clean-popover"
+          style={{ left: roomCleanPopover.left, top: roomCleanPopover.top }}
+        >
+          <button type="button" role="menuitem" data-testid="month-room-clean-action" onClick={toggleRoomCleanState}>
+            {roomCleanPopover.isDirty || dirtyRoomKeys.includes(roomCleanPopover.roomKey) ? '设为净房' : '设为脏房'}
+          </button>
+        </div>
+      ) : null}
 
       {selectedCells.length > 0 && selectedCell && selectionAnchor ? (
         <div className="month-selection-actions" role="menu" aria-label="房态操作菜单" style={{ left: selectionAnchor.left, top: selectionAnchor.top }}>

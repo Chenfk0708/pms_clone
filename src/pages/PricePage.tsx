@@ -8,16 +8,22 @@ import tujiaIcon from '../assets/channel-icons/tujia.png'
 import muniaoIcon from '../assets/channel-icons/muniao.png'
 import xiaozhuIcon from '../assets/channel-icons/xiaozhu.png'
 import localsIcon from '../assets/channel-icons/locals.png'
+import suyinLogo from '../assets/suyin-logo.svg'
 import { priceDates, priceRows } from '../data/mock'
 import { fetchChannelPriceRows, type ChannelPriceProviderName, type ChannelPriceRow } from '../services/channelPrice'
 import {
   DEFAULT_LOCAL_CHANNEL_NAME,
   type CentralPriceData,
+  type CentralPriceDate,
   type CentralPriceFilters,
   type CentralPriceRoom,
+  type ChannelProductCoefficientOperator,
+  batchSaveChannelProductCoefficients,
   fetchCentralPrices,
   getCentralPriceRequestDate,
   saveCentralSaleStatus,
+  saveChannelCalendarPrices,
+  saveChannelProductCoefficient,
 } from '../services/centralPrice'
 import { loadOtherPriceData, type OtherPriceData } from '../services/otherPrice'
 import { loadPriceBoardData, type PriceBoardData, type PriceBoardDurationOption } from '../services/priceBoard'
@@ -62,6 +68,8 @@ const roomTypes = [
 ]
 
 type PriceMatrixRow = {
+  roomCategoryId?: string
+  channelId?: string
   channel: string
   coefficient: string
   basePrice: string
@@ -76,15 +84,68 @@ type PriceRoomFilterOption = {
   name: string
 }
 
+type ChannelProductTarget = {
+  id: string
+  roomCategoryId: string
+  roomName: string
+  channelId: string
+  channelName: string
+  productName: string
+  coefficient: string
+  basePrice: string
+}
+
 type SelectedPriceCell = {
   key: string
   title: string
   price: string
   date: string
+  dateKey?: string
+  roomCategoryId?: string
+  channelId?: string
+  productName?: string
+  comparePrice?: string
+}
+
+type PriceEditMode = 'fixed' | 'increase' | 'percent'
+type BasePricePlanColumnKey = 'weekday' | 'weekend' | 'holiday'
+
+type BasePricePlanningRow = {
+  id: string
+  title: string
+  subtitle?: string
+  badgeId?: string
+  weekday: string
+  weekend: string
+  holiday: string
+  secondaryWeekday?: string
+  secondaryWeekend?: string
+  secondaryHoliday?: string
+  roomCategoryId?: string
+  channelId?: string
+  productName?: string
+}
+
+type BasePricePlanSelection = {
+  key: string
+  rowId: string
+  rowTitle: string
+  columnKey: BasePricePlanColumnKey
+  columnLabel: string
+  price: string
+  basePrice: string
+  roomCategoryId?: string
+  channelId?: string
+  productName?: string
+  dateKeys: string[]
 }
 
 type BasePriceDrawerContext = {
   variant: 'central' | 'channel-rp'
+  roomCategoryId?: string
+  channelId?: string
+  productName?: string
+  channelBadgeId?: string
   roomName: string
   roomSubtitle: string
   channelName?: string
@@ -92,18 +153,14 @@ type BasePriceDrawerContext = {
   actualPrice: string
   comparePrice: string
   basePrice: string
-  planningRows: Array<{
-    id: string
-    title: string
-    subtitle?: string
-    badgeId?: string
-    weekday: string
-    weekend: string
-    holiday: string
-    secondaryWeekday?: string
-    secondaryWeekend?: string
-    secondaryHoliday?: string
-  }>
+  dateRange?: CentralPriceDate[]
+  planningRows: BasePricePlanningRow[]
+}
+
+type ChannelPlanningRowsContext = Pick<BasePriceDrawerContext, 'roomName' | 'roomSubtitle' | 'channelBadgeId'> & {
+  rows: PriceMatrixRow[]
+  savedChannelRateDrafts?: PriceChannelRateDrafts
+  channelRateSettings?: PriceChannelRateSetting[]
 }
 
 const CHANNEL_BADGE_ICON_MAP: Record<string, string> = {
@@ -168,29 +225,179 @@ const channelRpRows = [
   },
 ]
 
-const channelSettingRows: Array<[string, string]> = [
-  ['美团酒店', '100'],
-  ['携程酒店', '100'],
-  ['飞猪酒店', '100'],
-  ['美团民宿', '100'],
-  ['途家(EHPq0597)', '95'],
-  ['木鸟民宿', '90'],
-]
-
 const channelPlanRows: Array<[string, string, string, string, string]> = [
   ['顶层套房（浴缸巨幕电竞麻将）', '顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>', '848.16', '1,080.66', '设置'],
   ['', '顶层套房-独享麻将电竞浴缸-天落大床-欧式大床-不含早', '869', '1,089', '设置'],
   ['总裁套间（桑拿浴缸露台电竞麻将）', '总裁套间（桑拿浴缸露台电竞麻将）<无早>', '811.89', '995.1', '设置'],
 ]
 
-const centralPriceSettings: Array<{ channel: string; percent: string }> = [
-  { channel: '美团酒店', percent: '100' },
-  { channel: '携程酒店', percent: '100' },
-  { channel: '飞猪酒店', percent: '100' },
-  { channel: '美团民宿', percent: '100' },
-  { channel: '途家民宿', percent: '95' },
-  { channel: '木鸟民宿', percent: '90' },
+type PriceChannelRateSetting = {
+  id: string
+  channel: string
+  accountLabel?: string
+  percent: string
+  icon: string
+}
+
+type PriceChannelRateDrafts = Record<string, string>
+
+const priceSettingsExampleImage = '/assets/price-settings-example-card.png'
+const channelRateDraftsStorageKeyPrefix = 'pms.price.channelLineRateDrafts'
+
+const centralPriceSettings: PriceChannelRateSetting[] = [
+  { id: 'suyin-platform', channel: DEFAULT_LOCAL_CHANNEL_NAME, percent: '100', icon: suyinLogo },
+  { id: 'tujia-ehpq0597', channel: '途家', accountLabel: 'EHPq0597', percent: '95', icon: tujiaIcon },
+  { id: 'meituan-homestay', channel: '美团民宿', percent: '80', icon: meituanHomestayIcon },
+  { id: 'tujia-cdkz9934', channel: '途家', accountLabel: 'CDkZ9934', percent: '', icon: tujiaIcon },
+  { id: 'muniao', channel: '木鸟', percent: '90', icon: muniaoIcon },
+  { id: 'xiaozhu', channel: '小猪', percent: '100', icon: xiaozhuIcon },
+  { id: 'meituan-hotel', channel: '美团酒店', percent: '', icon: meituanHotelIcon },
+  { id: 'ctrip-main', channel: '携程', accountLabel: '天落会宿公寓（前海壹方城宝安中心店）', percent: '', icon: ctripIcon },
+  { id: 'feizhu-hotel', channel: '飞猪淘酒店', percent: '', icon: feizhuIcon },
 ]
+
+function createDefaultChannelRateDrafts(settings = centralPriceSettings): PriceChannelRateDrafts {
+  return Object.fromEntries(settings.map((item) => [item.id, item.percent]))
+}
+
+function mergeChannelRateDrafts(drafts: PriceChannelRateDrafts, settings = centralPriceSettings): PriceChannelRateDrafts {
+  return { ...createDefaultChannelRateDrafts(settings), ...drafts }
+}
+
+function resolveChannelRateDraftsStorageKey(campId: string) {
+  return `${channelRateDraftsStorageKeyPrefix}.${campId || 'default-camp'}`
+}
+
+function resolveChannelRateDraftsStorageCampId(search: string) {
+  const campIdFromUrl = new URLSearchParams(search).get('campId')?.trim()
+  return campIdFromUrl || resolveCurrentCampId() || 'default-camp'
+}
+
+function readStoredChannelRateDrafts(campId: string): PriceChannelRateDrafts {
+  if (typeof window === 'undefined') return {}
+  const text = window.localStorage.getItem(resolveChannelRateDraftsStorageKey(campId))
+  if (!text) return {}
+
+  try {
+    const parsed = JSON.parse(text) as unknown
+    const source = isRecord(parsed) && isRecord(parsed.drafts) ? parsed.drafts : parsed
+    if (!isRecord(source)) return {}
+
+    return Object.fromEntries(
+      Object.entries(source)
+        .filter(([id]) => id.trim())
+        .map(([id, value]) => [id, sanitizeChannelRateDraft(String(value ?? ''))]),
+    )
+  } catch {
+    return {}
+  }
+}
+
+function writeStoredChannelRateDrafts(campId: string, drafts: PriceChannelRateDrafts) {
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(
+    resolveChannelRateDraftsStorageKey(campId),
+    JSON.stringify({
+      version: 1,
+      drafts,
+    }),
+  )
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value))
+}
+
+function resolveChannelSettingIcon(channelName: string) {
+  if (channelName.includes(DEFAULT_LOCAL_CHANNEL_NAME) || channelName.includes('宿银')) return suyinLogo
+  if (channelName.includes('途家')) return tujiaIcon
+  if (channelName.includes('美团酒店')) return meituanHotelIcon
+  if (channelName.includes('美团')) return meituanHomestayIcon
+  if (channelName.includes('携程')) return ctripIcon
+  if (channelName.includes('飞猪')) return feizhuIcon
+  if (channelName.includes('木鸟')) return muniaoIcon
+  if (channelName.includes('小猪')) return xiaozhuIcon
+  return localsIcon
+}
+
+function createDynamicChannelRateSetting(channelName: string): PriceChannelRateSetting {
+  return {
+    id: `dynamic-${encodeURIComponent(channelName)}`,
+    channel: channelName,
+    percent: '',
+    icon: resolveChannelSettingIcon(channelName),
+  }
+}
+
+function createChannelRateSettingsFromCentralData(data?: CentralPriceData) {
+  const settings = [...centralPriceSettings]
+  const knownNames = new Set<string>()
+  settings.forEach((item) => {
+    knownNames.add(formatChannelSettingName(item))
+    knownNames.add(item.channel)
+  })
+
+  data?.rooms.forEach((room) => {
+    room.channelRows.forEach((row) => {
+      const channelName = row.channel.trim()
+      if (!channelName || knownNames.has(channelName)) return
+      settings.push(createDynamicChannelRateSetting(channelName))
+      knownNames.add(channelName)
+    })
+  })
+
+  return settings
+}
+
+function sanitizeChannelRateDraft(value: string) {
+  const cleaned = value.replace(/[^\d.]/g, '')
+  const [integer = '', ...decimalParts] = cleaned.split('.')
+  const decimal = decimalParts.join('')
+  return (decimalParts.length > 0 ? `${integer}.${decimal}` : integer).slice(0, 6)
+}
+
+function parseDisplayPrice(value: string) {
+  const numeric = Number(String(value).replace(/,/g, '').trim())
+  return Number.isFinite(numeric) ? numeric : null
+}
+
+function formatCalculatedPrice(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(value)
+}
+
+function hasDraftValue(drafts: PriceChannelRateDrafts | undefined, id: string) {
+  return Boolean(drafts && Object.prototype.hasOwnProperty.call(drafts, id))
+}
+
+function resolveSavedChannelRateDraft(channelName: string, drafts?: PriceChannelRateDrafts, settings = centralPriceSettings) {
+  if (!drafts) return undefined
+  const normalizedChannelName = channelName.trim()
+  const exactSetting = settings.find((item) => formatChannelSettingName(item) === normalizedChannelName && hasDraftValue(drafts, item.id))
+  const channelSetting = settings.find((item) => item.channel === normalizedChannelName && hasDraftValue(drafts, item.id))
+  const setting = exactSetting ?? channelSetting
+  return setting ? drafts[setting.id] : undefined
+}
+
+function calculateLinePriceFromRate(actualPrice: string, ratePercent: string | undefined) {
+  if (!ratePercent) return null
+  const actualAmount = parseDisplayPrice(actualPrice)
+  const percent = Number(ratePercent)
+  if (actualAmount === null || !Number.isFinite(percent) || percent <= 0) return null
+  return formatCalculatedPrice(actualAmount / (percent / 100))
+}
+
+function applyChannelLinePriceRate(
+  channelName: string,
+  actualPrice: string,
+  fallbackLinePrice: string,
+  savedRateDrafts?: PriceChannelRateDrafts,
+  settings = centralPriceSettings,
+) {
+  return calculateLinePriceFromRate(actualPrice, resolveSavedChannelRateDraft(channelName, savedRateDrafts, settings)) ?? fallbackLinePrice
+}
 
 
 const basePricePlannerColumns = [
@@ -201,6 +408,33 @@ const basePricePlannerColumns = [
 ]
 
 void basePricePlannerColumns
+
+const coefficientHeaderHelp = {
+  central: {
+    label: '\u6e20\u9053\u7cfb\u6570',
+    text: '\u6e20\u9053\u7cfb\u6570\u53ef\u901a\u8fc7\u4e2d\u592e\u623f\u578b\u4ef7\u683c\u63a8\u7b97\u5404\u4e2a\u6e20\u9053\u4ef7\u683c\u3002\u60a8\u53ef\u6839\u636e\u5b9e\u9645\u5404\u4e2a\u6e20\u9053\u7684\u5dee\u5f02\u8bbe\u7f6e\u7cfb\u6570\uff0c\u5982\u5176\u4ed6\u6e20\u9053\u4fdd\u5b58\u4e00\u81f4\u4ef7\u683c\uff0c\u7f8e\u56e2\u9152\u5e97\u9700\u8981\u8bbe\u7f6e9\u6298\u7684\u4f18\u60e0\u4ef7\u683c\uff0c\u5219\u53ef\u8bbe\u7f6e\u5176\u4ed6\u6e20\u9053\u7cfb\u6570\u4e3a\u00d71\uff0c\u7f8e\u56e2\u9152\u5e97\u7684\u6e20\u9053\u7cfb\u6570\u4e3a\u00d70.9\uff1b',
+  },
+  channelRp: {
+    label: '\u4ea7\u54c1\u7cfb\u6570',
+    text: '\u4ea7\u54c1\u7cfb\u6570\u53ef\u901a\u8fc7\u623f\u578b\u4ef7\u683c\u63a8\u7b97\u5404\u4e2aRP\u7684\u4ef7\u683c\u3002\u60a8\u53ef\u6839\u636e\u5b9e\u9645\u5404\u4e2aRP\u7684\u5dee\u5f02\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\uff0c\u5982\u6709\u65e9\u4e0d\u53ef\u53d6\u6d88\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\u201c+50\u201d\uff0c\u6709\u65e9\u53ef\u53d6\u6d88\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\u201c+80\u201d',
+  },
+}
+
+function PriceCoefficientHeader({ label, text }: { label: string; text: string }) {
+  return (
+    <div className="central-price-grid__coefficient-head" data-testid="price-coefficient-header">
+      <span>{label}</span>
+      <span className="central-price-grid__coefficient-help">
+        <button type="button" data-testid="price-coefficient-help-trigger" aria-label={`${label}\u8bf4\u660e`}>
+          i
+        </button>
+        <span className="central-price-grid__coefficient-tooltip" role="tooltip">
+          {text}
+        </span>
+      </span>
+    </div>
+  )
+}
 
 function buildCentralPlanningRows(context: Pick<BasePriceDrawerContext, 'roomName' | 'actualPrice' | 'comparePrice'>) {
   return [
@@ -214,67 +448,54 @@ function buildCentralPlanningRows(context: Pick<BasePriceDrawerContext, 'roomNam
   ]
 }
 
-function buildChannelPlanningRows(context: Pick<BasePriceDrawerContext, 'roomName' | 'roomSubtitle' | 'actualPrice' | 'comparePrice'>) {
-  return [
-    {
-      id: `${context.roomName}-ctrip`,
-      title: context.roomName,
-      subtitle: context.roomSubtitle,
-      badgeId: 'ctrip',
-      weekday: context.actualPrice,
-      weekend: context.comparePrice,
-      holiday: '859.14',
-      secondaryWeekday: context.actualPrice,
-      secondaryWeekend: context.comparePrice,
-      secondaryHoliday: '859.14',
-    },
-    {
-      id: `${context.roomName}-meituanHotel`,
-      title: '总裁套间 台球电竞豪华房',
-      subtitle: '电竞 艺企刚 钢铁侠之家',
-      badgeId: 'meituanHotel',
-      weekday: '673.89',
-      weekend: '826.11',
-      holiday: '849.15',
-      secondaryWeekday: '673.89',
-      secondaryWeekend: '826.11',
-      secondaryHoliday: '849.15',
-    },
-    {
-      id: `${context.roomName}-tujia`,
-      title: '总裁套间 独享浴缸豪华房',
-      subtitle: '台合球麻将 <无早>',
-      badgeId: 'tujia',
-      weekday: '811.89',
-      weekend: '995.1',
-      holiday: '1,391.28',
-      secondaryWeekday: '811.89',
-      secondaryWeekend: '995.1',
-      secondaryHoliday: '1,391.28',
-    },
-    {
-      id: `${context.roomName}-meituanHomestay`,
-      title: '总裁套间 独享台球电竞套',
-      subtitle: '浴缸氛围房台麻将 不含早',
-      badgeId: 'meituanHomestay',
-      weekday: '920',
-      weekend: '920',
-      holiday: '设置',
-      secondaryWeekday: '920',
-      secondaryWeekend: '920',
-    },
-    {
-      id: `${context.roomName}-feizhu`,
-      title: '总裁套间（桑拿浴缸露台电竞麻将）',
-      badgeId: 'feizhu',
-      weekday: '850',
-      weekend: '850',
-      holiday: '850',
-      secondaryWeekday: '850',
-      secondaryWeekend: '850',
-      secondaryHoliday: '850',
-    },
-  ]
+function buildChannelPlanningRows(context: ChannelPlanningRowsContext): BasePricePlanningRow[] {
+  return context.rows.map((row, index) => {
+    const compareBasePrice = applyChannelLinePriceRate(
+      row.channel,
+      row.basePrice,
+      getChannelBaseComparePrice(row),
+      context.savedChannelRateDrafts,
+      context.channelRateSettings,
+    )
+    const title = row.product?.trim() || row.channel || context.roomName
+
+    return {
+      id: `${row.roomCategoryId ?? context.roomName}-${(row.channelId ?? row.channel) || index}-${title}`,
+      title,
+      subtitle: index === 0 ? context.roomName : undefined,
+      badgeId: row.channelBadgeId ?? context.channelBadgeId,
+      weekday: row.basePrice,
+      weekend: compareBasePrice,
+      holiday: compareBasePrice,
+      secondaryWeekday: row.basePrice,
+      secondaryWeekend: compareBasePrice,
+      secondaryHoliday: compareBasePrice,
+      roomCategoryId: row.roomCategoryId,
+      channelId: row.channelId,
+      productName: row.product,
+    }
+  })
+}
+
+function getChannelBaseComparePrice(row: PriceMatrixRow) {
+  return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice
+}
+
+function toPriceUpdateType(mode: PriceEditMode) {
+  if (mode === 'increase') return 2
+  if (mode === 'percent') return 3
+  return 1
+}
+
+function resolvePlanDateKeys(columnKey: BasePricePlanColumnKey, dates: CentralPriceDate[] = []) {
+  return dates
+    .filter((date) => {
+      const day = new Date(`${date.key}T00:00:00+08:00`).getDay()
+      if (columnKey === 'weekend') return day === 5 || day === 6
+      if (columnKey === 'holiday') return day === 0 || day === 6
+      return day !== 5 && day !== 6
+    })
+    .map((date) => date.key)
 }
 
 function makePriceDates(offset: number, startDay = 12) {
@@ -411,38 +632,42 @@ function BasePricePlanningDrawer({
   context,
   onClose,
   onSave,
+  onSavePlanCells,
 }: {
   context: BasePriceDrawerContext
   onClose: () => void
   onSave: (message: string) => void
+  onSavePlanCells?: (
+    cells: BasePricePlanSelection[],
+    edit: { mode: PriceEditMode; value: string; overwriteStandalone: boolean },
+  ) => Promise<void>
 }) {
   const [settingOpen, setSettingOpen] = useState(false)
   const [planningDraftRows, setPlanningDraftRows] = useState([{ id: 1 }, { id: 2 }])
+  const [selectedPlanCells, setSelectedPlanCells] = useState<BasePricePlanSelection[]>([])
+  const [planEditMode, setPlanEditMode] = useState<PriceEditMode>('fixed')
+  const [planEditValue, setPlanEditValue] = useState('')
+  const [overwriteStandalone, setOverwriteStandalone] = useState(true)
+  const [savingPlan, setSavingPlan] = useState(false)
+  const [planError, setPlanError] = useState('')
   const isChannelRp = context.variant === 'channel-rp'
-  const columns = [
+  const columns: Array<{ key: 'title' | BasePricePlanColumnKey; label: string }> = [
     { key: 'title', label: '房型' },
     { key: 'weekday', label: '平日价' },
     { key: 'weekend', label: '周末价(五/六)' },
     { key: 'holiday', label: '节假日价' },
   ]
-  const planningRows = context.planningRows.map((row) => {
-    const cleanedCopy =
-      row.badgeId === 'meituanHotel'
-        ? { title: '桑拿浴缸露台球桌天落床俯瞰天轮深圳湾', subtitle: '电竞主题 双床房型' }
-        : row.badgeId === 'tujia'
-          ? { title: '独享浴缸桑拿露台台球麻将房', subtitle: '无早' }
-          : row.badgeId === 'meituanHomestay'
-            ? { title: '独享台球电竞露台浴缸套房', subtitle: '不含早' }
-            : row.badgeId === 'feizhu'
-              ? { title: '桑拿浴缸露台电竞麻将房', subtitle: '标准售卖房型' }
-              : { title: row.title, subtitle: row.subtitle }
+  const planningRows = context.planningRows.map((row) => ({
+    ...row,
+    holiday: row.holiday === '璁剧疆' ? '设置' : row.holiday,
+  }))
 
-    return {
-      ...row,
-      ...cleanedCopy,
-      holiday: row.holiday === '璁剧疆' ? '设置' : row.holiday,
-    }
-  })
+  useEffect(() => {
+    if (selectedPlanCells.length === 0) return
+    setPlanEditMode('fixed')
+    setPlanEditValue(selectedPlanCells[selectedPlanCells.length - 1]?.price ?? '')
+    setPlanError('')
+  }, [selectedPlanCells])
 
   function appendPlanningDraftRow() {
     setPlanningDraftRows((current) => [...current, { id: Date.now() + current.length }])
@@ -450,6 +675,64 @@ function BasePricePlanningDrawer({
 
   function removePlanningDraftRow(id: number) {
     setPlanningDraftRows((current) => (current.length > 1 ? current.filter((item) => item.id !== id) : current))
+  }
+
+  function isPlanCellSelected(key: string) {
+    return selectedPlanCells.some((cell) => cell.key === key)
+  }
+
+  function togglePlanCell(row: BasePricePlanningRow, column: { key: BasePricePlanColumnKey; label: string }) {
+    const key = `${row.id}-${column.key}`
+    const price = String(row[column.key] ?? '').trim()
+    if (!price || price === '设置') {
+      setPlanError('当前价格格子还没有可保存的价格')
+      return
+    }
+    setSelectedPlanCells((current) => {
+      const exists = current.some((cell) => cell.key === key)
+      if (exists) return current.filter((cell) => cell.key !== key)
+      return [
+        ...current,
+        {
+          key,
+          rowId: row.id,
+          rowTitle: row.title,
+          columnKey: column.key,
+          columnLabel: column.label,
+          price,
+          basePrice: price,
+          roomCategoryId: row.roomCategoryId ?? context.roomCategoryId,
+          channelId: row.channelId ?? context.channelId,
+          productName: row.productName ?? context.productName,
+          dateKeys: resolvePlanDateKeys(column.key, context.dateRange),
+        },
+      ]
+    })
+  }
+
+  async function saveSelectedPlanCells() {
+    if (selectedPlanCells.length === 0) return
+    if (!planEditValue.trim()) {
+      setPlanError('请输入改价值')
+      return
+    }
+    setSavingPlan(true)
+    setPlanError('')
+    try {
+      if (onSavePlanCells) {
+        await onSavePlanCells(selectedPlanCells, {
+          mode: planEditMode,
+          value: planEditValue.trim(),
+          overwriteStandalone,
+        })
+      }
+      setSelectedPlanCells([])
+      onSave(isChannelRp ? '渠道RP价价格规划已保存' : '中央价价格规划已保存')
+    } catch (error) {
+      setPlanError(error instanceof Error ? error.message : '价格规划保存失败')
+    } finally {
+      setSavingPlan(false)
+    }
   }
 
   return (
@@ -492,18 +775,30 @@ function BasePricePlanningDrawer({
                     </div>
                     {row.subtitle ? <span>{row.subtitle}</span> : null}
                   </div>
-                  <div role="cell">
-                    <strong>{row.weekday}</strong>
-                    {row.secondaryWeekday ? <span>{row.secondaryWeekday}</span> : null}
-                  </div>
-                  <div role="cell">
-                    <strong>{row.weekend}</strong>
-                    {row.secondaryWeekend ? <span>{row.secondaryWeekend}</span> : null}
-                  </div>
-                  <div role="cell" className={row.holiday === '设置' ? 'is-link' : ''}>
-                    <strong>{row.holiday}</strong>
-                    {row.secondaryHoliday ? <span>{row.secondaryHoliday}</span> : null}
-                  </div>
+                  {columns.slice(1).map((column) => {
+                    const value = row[column.key]
+                    const secondary =
+                      column.key === 'weekday'
+                        ? row.secondaryWeekday
+                        : column.key === 'weekend'
+                          ? row.secondaryWeekend
+                          : row.secondaryHoliday
+                    const cellKey = `${row.id}-${column.key}`
+
+                    return (
+                      <div key={column.key} role="cell" className={value === '设置' ? 'is-link' : ''}>
+                        <button
+                          type="button"
+                          className={`price-base-planning-cell${isPlanCellSelected(cellKey) ? ' is-selected' : ''}`}
+                          data-testid={`base-price-plan-cell-${column.key}`}
+                          onClick={() => togglePlanCell(row, column as { key: BasePricePlanColumnKey; label: string })}
+                        >
+                          <strong>{value}</strong>
+                          {secondary ? <span>{secondary}</span> : null}
+                        </button>
+                      </div>
+                    )
+                  })}
                 </div>
               ))}
             </div>
@@ -566,11 +861,160 @@ function BasePricePlanningDrawer({
           </footer>
         </section>
       ) : null}
+      {selectedPlanCells.length > 0 ? (
+        <div className="price-edit-drawer-backdrop price-base-plan-edit-drawer-backdrop">
+          <section className="price-edit-drawer price-base-plan-edit-drawer" role="dialog" aria-modal="false" aria-label="改价">
+            <header>
+              <strong>改价</strong>
+              <button type="button" aria-label="关闭改价" onClick={() => setSelectedPlanCells([])}>
+                ×
+              </button>
+            </header>
+            <div className="price-edit-drawer__body">
+              <p className="price-edit-drawer__selection">{`已选${selectedPlanCells.length}项`}</p>
+              {planError ? (
+                <p className="price-edit-error" role="alert">
+                  {planError}
+                </p>
+              ) : null}
+              <section className="price-edit-card">
+                <div className="price-edit-card__title">价格</div>
+                <div className="price-edit-options" role="radiogroup" aria-label="改价方式">
+                  {[
+                    { value: 'fixed', label: '绝对值改价' },
+                    { value: 'increase', label: '差值改价' },
+                    { value: 'percent', label: '百分比改价' },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={planEditMode === option.value}
+                      className={`price-edit-option${planEditMode === option.value ? ' is-active' : ''}`}
+                      onClick={() => setPlanEditMode(option.value as PriceEditMode)}
+                    >
+                      <i aria-hidden="true" />
+                      <span>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+                <label className="price-edit-input">
+                  <span className="sr-only-heading">改价值</span>
+                  <input
+                    type="text"
+                    aria-label="改价值"
+                    placeholder="请输入"
+                    value={planEditValue}
+                    onChange={(event) => setPlanEditValue(event.target.value)}
+                    autoFocus
+                  />
+                </label>
+                <label className="price-edit-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={overwriteStandalone}
+                    onChange={(event) => setOverwriteStandalone(event.target.checked)}
+                  />
+                  <span>覆盖日历上单独维护过的价格</span>
+                </label>
+              </section>
+            </div>
+            <footer>
+              <button type="button" className="is-primary" onClick={saveSelectedPlanCells} disabled={savingPlan}>
+                {savingPlan ? '保存中' : '保存'}
+              </button>
+              <button type="button" onClick={() => setSelectedPlanCells([])} disabled={savingPlan}>
+                取消
+              </button>
+            </footer>
+          </section>
+        </div>
+      ) : null}
     </>
   )
 }
 
-export function ChannelPriceSettings({ onClose }: { onClose: () => void }) {
+function formatChannelSettingName(setting: PriceChannelRateSetting) {
+  return setting.accountLabel ? `${setting.channel}(${setting.accountLabel})` : setting.channel
+}
+
+function PriceSettingsExampleCard({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={`price-settings-example-card${compact ? ' price-settings-example-card--compact' : ''}`}>
+      <img src={priceSettingsExampleImage} alt="商务双床房划线价与实际卖价示例" />
+    </div>
+  )
+}
+
+function ChannelRateSettingsGrid({
+  settings = centralPriceSettings,
+  drafts: controlledDrafts,
+  onDraftChange,
+}: {
+  settings?: PriceChannelRateSetting[]
+  drafts?: PriceChannelRateDrafts
+  onDraftChange?: (id: string, value: string) => void
+}) {
+  const [localDrafts, setLocalDrafts] = useState<PriceChannelRateDrafts>(() => createDefaultChannelRateDrafts(settings))
+  const drafts = controlledDrafts ?? localDrafts
+
+  function updateDraft(id: string, value: string) {
+    const nextValue = sanitizeChannelRateDraft(value)
+    if (onDraftChange) {
+      onDraftChange(id, nextValue)
+      return
+    }
+
+    setLocalDrafts((current) => ({ ...current, [id]: nextValue }))
+  }
+
+  return (
+    <div className="price-settings-channel-grid" aria-label="渠道价格比例设置">
+      {settings.map((item) => {
+        const channelName = formatChannelSettingName(item)
+        const value = drafts[item.id] ?? ''
+
+        return (
+          <label key={item.id} className="price-settings-channel">
+            <span className="price-settings-channel__head">
+              <img src={item.icon} alt="" aria-hidden="true" />
+              <strong>{channelName}</strong>
+            </span>
+            <span className="price-settings-channel__formula">
+              <span>划线价 = 实际卖价 /</span>
+              <span className="price-settings-channel__input-wrap">
+                <input
+                  aria-label={`${channelName} 优惠比例`}
+                  inputMode="decimal"
+                  value={value}
+                  placeholder=""
+                  onChange={(event) => updateDraft(item.id, event.target.value)}
+                />
+                <b>%</b>
+              </span>
+            </span>
+          </label>
+        )
+      })}
+    </div>
+  )
+}
+
+export function ChannelPriceSettings({
+  onClose,
+  settings = centralPriceSettings,
+  drafts,
+  onDraftChange,
+  onSave,
+  onSaved,
+}: {
+  onClose: () => void
+  settings?: PriceChannelRateSetting[]
+  drafts?: PriceChannelRateDrafts
+  onDraftChange?: (id: string, value: string) => void
+  onSave?: () => boolean
+  onSaved?: (message: string) => void
+}) {
   const [tab, setTab] = useState<'setting' | 'update'>('setting')
 
   return (
@@ -586,78 +1030,58 @@ export function ChannelPriceSettings({ onClose }: { onClose: () => void }) {
 
       {tab === 'setting' ? (
         <>
-          <section className="channel-price-settings-section">
-            <h3>页面价格设置</h3>
-            <div className="channel-price-settings-current">
-              <span>当前正使用：</span>
-              <strong>“实际卖价”</strong>
-              <span>调价</span>
-              <button type="button">切换为划线价</button>
-            </div>
-          </section>
-
-          <section className="channel-price-settings-section">
-            <h3>划线价与实际卖价关系设置</h3>
-            <div className="channel-price-settings-hero">
-              <article className="channel-price-settings-room-card">
-                <div className="channel-price-settings-room-card__media" />
-                <div className="channel-price-settings-room-card__copy">
-                  <strong>商务双床房</strong>
-                  <span>2张1.2米单人床 2人入住 28-32㎡</span>
-                  <span>无早餐 人住当天18:00前可免费取消</span>
-                </div>
-              </article>
-              <div className="channel-price-settings-price-box">
-                <span>划线价</span>
-                <em>¥522</em>
-                <strong>实际卖价</strong>
-                <b>¥308</b>
+          <div className="channel-price-settings-scroll">
+            <section className="channel-price-settings-section">
+              <h3>页面价格设置</h3>
+              <div className="channel-price-settings-current">
+                <span>当前正使用：</span>
+                <strong>“实际卖价”</strong>
+                <span>调价</span>
+                <button type="button">切换为划线价</button>
               </div>
-              <div className="channel-price-settings-ratio-box">
-                <span>优惠比例</span>
-                <strong>实际卖价/划线价</strong>
-                <b>308/522</b>
-              </div>
-            </div>
+            </section>
 
-            <div className="channel-price-settings-grid">
-              {channelSettingRows.map(([name, value]) => (
-                <article key={name} className="channel-price-settings-card">
-                  <strong>{name}</strong>
-                  <label>
-                    <span>划线价 = 实际卖价 /</span>
-                    <div>
-                      <input aria-label={`${name} 优惠比例`} defaultValue={value} />
-                      <em>%</em>
-                    </div>
-                  </label>
-                </article>
-              ))}
-            </div>
-          </section>
+            <section className="channel-price-settings-section">
+              <h3>划线价与实际卖价关系设置</h3>
+              <PriceSettingsExampleCard compact />
+              <ChannelRateSettingsGrid settings={settings} drafts={drafts} onDraftChange={onDraftChange} />
+            </section>
+          </div>
 
           <footer className="channel-price-settings-footer">
             <p>保存优惠比例后请检查价格准确，再操作推送至渠道</p>
             <div>
-              <button type="button" className="is-primary" onClick={onClose}>保存</button>
+              <button
+                type="button"
+                className="is-primary"
+                onClick={() => {
+                  if (onSave?.() === false) return
+                  onSaved?.('价格设置已保存，后续推送将按当前比例执行')
+                  onClose()
+                }}
+              >
+                保存
+              </button>
               <button type="button" onClick={onClose}>取消</button>
             </div>
           </footer>
         </>
       ) : (
         <>
-          <section className="channel-price-settings-section channel-price-settings-section--update">
-            <div className="channel-price-settings-update-head">
-              <div>
-                <strong>自动更新价格</strong>
-                <span>注意：暂支持美团民宿和途家</span>
+          <div className="channel-price-settings-scroll">
+            <section className="channel-price-settings-section channel-price-settings-section--update">
+              <div className="channel-price-settings-update-head">
+                <div>
+                  <strong>自动更新价格</strong>
+                  <span>注意：暂支持美团民宿和途家</span>
+                </div>
+                <button type="button" className="channel-price-settings-switch" aria-pressed="false">
+                  <i />
+                </button>
               </div>
-              <button type="button" className="channel-price-settings-switch" aria-pressed="false">
-                <i />
-              </button>
-            </div>
-            <p>开启后，若渠道平台价格有变化，则自动更新至路客云的渠道中价</p>
-          </section>
+              <p>开启后，若渠道平台价格有变化，则自动更新至路客云的渠道中价</p>
+            </section>
+          </div>
 
           <footer className="channel-price-settings-footer channel-price-settings-footer--single">
             <div>
@@ -717,141 +1141,436 @@ export function ChannelPricePlan({ onClose }: { onClose: () => void }) {
   )
 }
 
-export function ChannelBatchDrawer({ onClose }: { onClose: () => void }) {
+function makeChannelProductTargetId(roomCategoryId: string, channelId: string, productName: string) {
+  return `${roomCategoryId}::${channelId}::${productName}`
+}
+
+function toChannelProductTarget(room: CentralPriceRoom, row: PriceMatrixRow): ChannelProductTarget | null {
+  const roomCategoryId = row.roomCategoryId || room.id
+  const channelId = row.channelId || ''
+  const productName = row.product || ''
+  if (!roomCategoryId || !channelId || !productName) return null
+  return {
+    id: makeChannelProductTargetId(roomCategoryId, channelId, productName),
+    roomCategoryId,
+    roomName: room.name,
+    channelId,
+    channelName: row.channel,
+    productName,
+    coefficient: row.coefficient || '-',
+    basePrice: row.basePrice,
+  }
+}
+
+function ProductCoefficientFormula({
+  operator,
+  value,
+  onOperatorChange,
+  onValueChange,
+  autoFocus = false,
+}: {
+  operator: ChannelProductCoefficientOperator
+  value: string
+  onOperatorChange: (operator: ChannelProductCoefficientOperator) => void
+  onValueChange: (value: string) => void
+  autoFocus?: boolean
+}) {
+  return (
+    <div className="channel-coefficient-formula">
+      <span>售卖产品价 = 房型价</span>
+      <select
+        aria-label="产品系数运算符"
+        value={operator}
+        onChange={(event) => onOperatorChange(event.target.value as ChannelProductCoefficientOperator)}
+      >
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <input
+        aria-label="产品系数数值"
+        type="text"
+        inputMode="decimal"
+        value={value}
+        onChange={(event) => onValueChange(event.target.value)}
+        placeholder={operator === '*' || operator === '/' ? '请输入比例' : '请输入金额'}
+        autoFocus={autoFocus}
+      />
+    </div>
+  )
+}
+
+function ChannelProductPicker({
+  products,
+  selectedIds,
+  onSelectedIdsChange,
+  onClose,
+}: {
+  products: ChannelProductTarget[]
+  selectedIds: string[]
+  onSelectedIdsChange: (selectedIds: string[]) => void
+  onClose: () => void
+}) {
+  const [draftSelectedIds, setDraftSelectedIds] = useState(selectedIds)
+  const selectedSet = new Set(draftSelectedIds)
+  const groupedProducts = useMemo(() => {
+    const groups = new Map<string, { roomName: string; items: ChannelProductTarget[] }>()
+    products.forEach((product) => {
+      const group = groups.get(product.roomCategoryId)
+      if (group) {
+        group.items.push(product)
+      } else {
+        groups.set(product.roomCategoryId, { roomName: product.roomName, items: [product] })
+      }
+    })
+    return Array.from(groups.values())
+  }, [products])
+
+  function toggleProduct(productId: string) {
+    setDraftSelectedIds((current) => (
+      current.includes(productId) ? current.filter((id) => id !== productId) : [...current, productId]
+    ))
+  }
+
+  function toggleRoom(items: ChannelProductTarget[]) {
+    const roomIds = items.map((item) => item.id)
+    const allSelected = roomIds.every((id) => selectedSet.has(id))
+    setDraftSelectedIds((current) => {
+      const currentSet = new Set(current)
+      roomIds.forEach((id) => {
+        if (allSelected) {
+          currentSet.delete(id)
+        } else {
+          currentSet.add(id)
+        }
+      })
+      return Array.from(currentSet)
+    })
+  }
+
+  return (
+    <div className="channel-product-picker-backdrop" role="presentation" onClick={onClose}>
+      <section className="channel-product-picker" role="dialog" aria-modal="true" aria-label="添加产品" onClick={(event) => event.stopPropagation()}>
+        <header>
+          <strong>添加产品</strong>
+          <button type="button" aria-label="关闭添加产品" onClick={onClose}>
+            ×
+          </button>
+        </header>
+        <div className="channel-product-picker__body">
+          {groupedProducts.length === 0 ? (
+            <div className="channel-product-picker__empty">暂无可选渠道售卖产品</div>
+          ) : (
+            groupedProducts.map((group) => {
+              const roomIds = group.items.map((item) => item.id)
+              const allSelected = roomIds.every((id) => selectedSet.has(id))
+              return (
+                <section key={group.roomName} className="channel-product-picker__group">
+                  <label className="channel-product-picker__room">
+                    <input type="checkbox" checked={allSelected} onChange={() => toggleRoom(group.items)} />
+                    <span>{group.roomName}</span>
+                  </label>
+                  <div>
+                    {group.items.map((product) => (
+                      <label key={product.id} className="channel-product-picker__item">
+                        <input type="checkbox" checked={selectedSet.has(product.id)} onChange={() => toggleProduct(product.id)} />
+                        <span>
+                          <strong>{product.productName}</strong>
+                          <em>{product.channelName}</em>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </section>
+              )
+            })
+          )}
+        </div>
+        <footer>
+          <span>{`已选${draftSelectedIds.length}个产品`}</span>
+          <button type="button" onClick={onClose}>
+            取消
+          </button>
+          <button
+            type="button"
+            className="is-primary"
+            onClick={() => {
+              onSelectedIdsChange(draftSelectedIds)
+              onClose()
+            }}
+          >
+            确定
+          </button>
+        </footer>
+      </section>
+    </div>
+  )
+}
+
+export function ChannelBatchDrawer({
+  campId,
+  products,
+  onClose,
+  onSaved,
+  onActionBlocked,
+}: {
+  campId?: string | null
+  products: ChannelProductTarget[]
+  onClose: () => void
+  onSaved: () => void
+  onActionBlocked?: (message: string) => void
+}) {
+  const [editType, setEditType] = useState<'coefficient' | 'price'>('coefficient')
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const [operator, setOperator] = useState<ChannelProductCoefficientOperator>('*')
+  const [coefficientValue, setCoefficientValue] = useState('')
+  const [saving, setSaving] = useState(false)
+  const selectedProducts = products.filter((product) => selectedIds.includes(product.id))
+
+  async function handleSave() {
+    if (editType === 'price') {
+      onActionBlocked?.('批量价格修改接口未接入，本次先联调产品系数')
+      return
+    }
+    if (selectedProducts.length === 0) {
+      onActionBlocked?.('请先添加需要调整的产品')
+      return
+    }
+    if (!coefficientValue.trim()) {
+      onActionBlocked?.('请输入产品系数数值')
+      return
+    }
+    setSaving(true)
+    try {
+      await batchSaveChannelProductCoefficients({
+        campId,
+        items: selectedProducts.map((product) => ({
+          roomCategoryId: product.roomCategoryId,
+          channelId: product.channelId,
+          productName: product.productName,
+          operator,
+          coefficientValue: coefficientValue.trim(),
+        })),
+      })
+      onActionBlocked?.('产品系数已批量保存')
+      onSaved()
+      onClose()
+    } catch (error) {
+      onActionBlocked?.(error instanceof Error ? error.message : '产品系数保存失败')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <ChannelDrawer title="批量修改" onClose={onClose}>
       <div className="channel-batch-body">
         <section className="channel-drawer-section">
           <h3>修改类型</h3>
           <label>
-            <input type="radio" name="channel-batch-type" defaultChecked /> 价格
+            <input
+              type="radio"
+              name="channel-batch-type"
+              checked={editType === 'coefficient'}
+              onChange={() => setEditType('coefficient')}
+            /> 产品系数
           </label>
           <label>
-            <input type="radio" name="channel-batch-type" /> 调整产品比例
+            <input
+              type="radio"
+              name="channel-batch-type"
+              checked={editType === 'price'}
+              onChange={() => setEditType('price')}
+            /> 价格
           </label>
         </section>
         <section className="channel-drawer-section channel-pick-row">
           <h3>选择产品</h3>
-          <button type="button">添加产品</button>
-          <span>已选0个产品</span>
+          <button type="button" onClick={() => setPickerOpen(true)}>添加产品</button>
+          <span>{`已选${selectedProducts.length}个产品`}</span>
+        </section>
+        {selectedProducts.length > 0 ? (
+          <section className="channel-drawer-section channel-selected-products">
+            {selectedProducts.map((product) => (
+              <div key={product.id}>
+                <strong>{product.productName}</strong>
+                <span>{`${product.roomName} / ${product.channelName}`}</span>
+              </div>
+            ))}
+          </section>
+        ) : null}
+        {editType === 'price' ? (
+          <>
+            <section className="channel-drawer-section">
+              <h3>选择日期</h3>
+              <div className="channel-mode-switch">
+                <button type="button" className="is-active">
+                  多段模式
+                </button>
+                <button type="button">日历模式</button>
+              </div>
+              <div className="channel-date-range">
+                2026-05-13 <span>→</span> 2026-05-13
+              </div>
+              <button type="button" className="channel-link-button">
+                添加时间段
+              </button>
+              <button type="button" className="channel-link-button">
+                修改节假日价格
+              </button>
+            </section>
+            <section className="channel-drawer-section channel-weekdays">
+              <h3>选择星期</h3>
+              {['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((day) => (
+                <label key={day}>
+                  <input type="checkbox" defaultChecked /> {day}
+                </label>
+              ))}
+              <label>
+                <input type="checkbox" /> 全选
+              </label>
+            </section>
+            <section className="channel-drawer-section">
+              <h3>价格</h3>
+              <label>
+                <input type="radio" name="channel-price-mode" defaultChecked /> 绝对值改价
+              </label>
+              <label>
+                <input type="radio" name="channel-price-mode" /> 差值改价
+              </label>
+              <label>
+                <input type="radio" name="channel-price-mode" /> 百分比改价
+              </label>
+              <input type="text" placeholder="请输入" />
+            </section>
+          </>
+        ) : (
+          <section className="channel-drawer-section">
+            <h3>产品系数</h3>
+            <ProductCoefficientFormula
+              operator={operator}
+              value={coefficientValue}
+              onOperatorChange={setOperator}
+              onValueChange={setCoefficientValue}
+            />
+          </section>
+        )}
+      </div>
+      <footer className="channel-drawer-footer">
+        <button type="button" onClick={handleSave} disabled={saving}>
+          {saving ? '保存中' : '保存'}
+        </button>
+        <button type="button" onClick={onClose}>
+          取消
+        </button>
+      </footer>
+      {pickerOpen ? (
+        <ChannelProductPicker
+          products={products}
+          selectedIds={selectedIds}
+          onSelectedIdsChange={setSelectedIds}
+          onClose={() => setPickerOpen(false)}
+        />
+      ) : null}
+    </ChannelDrawer>
+  )
+}
+
+function parseCoefficientExpression(expression: string | undefined): {
+  operator: ChannelProductCoefficientOperator
+  value: string
+} {
+  const normalized = expression?.trim() ?? ''
+  if (!normalized || normalized === '-') {
+    return { operator: '*', value: '' }
+  }
+  const first = normalized.slice(0, 1)
+  if (first === '+' || first === '-' || first === '*' || first === '/') {
+    return {
+      operator: first as ChannelProductCoefficientOperator,
+      value: normalized.slice(1),
+    }
+  }
+  return { operator: '*', value: '' }
+}
+
+function ChannelProductCoefficientDrawer({
+  campId,
+  target,
+  onClose,
+  onSaved,
+  onActionBlocked,
+}: {
+  campId?: string | null
+  target: ChannelProductTarget
+  onClose: () => void
+  onSaved: () => void
+  onActionBlocked?: (message: string) => void
+}) {
+  const initial = parseCoefficientExpression(target.coefficient)
+  const [operator, setOperator] = useState<ChannelProductCoefficientOperator>(initial.operator)
+  const [coefficientValue, setCoefficientValue] = useState(initial.value)
+  const [saving, setSaving] = useState(false)
+
+  async function handleSave() {
+    if (!coefficientValue.trim()) {
+      onActionBlocked?.('请输入产品系数数值')
+      return
+    }
+    setSaving(true)
+    try {
+      await saveChannelProductCoefficient({
+        campId,
+        roomCategoryId: target.roomCategoryId,
+        channelId: target.channelId,
+        productName: target.productName,
+        operator,
+        coefficientValue: coefficientValue.trim(),
+      })
+      onActionBlocked?.('产品系数已保存')
+      onSaved()
+      onClose()
+    } catch (error) {
+      onActionBlocked?.(error instanceof Error ? error.message : '产品系数保存失败')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <ChannelDrawer title="设置产品系数" onClose={onClose}>
+      <div className="channel-batch-body">
+        <section className="channel-drawer-section channel-coefficient-summary">
+          <h3>选择产品</h3>
+          <p>已选1个产品</p>
+          <div>
+            <strong>{target.productName}</strong>
+            <span>{`${target.roomName} / ${target.channelName}`}</span>
+            <em>{`当前系数：${target.coefficient || '-'}`}</em>
+          </div>
         </section>
         <section className="channel-drawer-section">
-          <h3>选择日期</h3>
-          <div className="channel-mode-switch">
-            <button type="button" className="is-active">
-              多段模式
-            </button>
-            <button type="button">日历模式</button>
-          </div>
-          <div className="channel-date-range">
-            2026-05-13 <span>→</span> 2026-05-13
-          </div>
-          <button type="button" className="channel-link-button">
-            添加时间段
-          </button>
-          <button type="button" className="channel-link-button">
-            修改节假日价格
-          </button>
-        </section>
-        <section className="channel-drawer-section channel-weekdays">
-          <h3>选择星期</h3>
-          {['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((day) => (
-            <label key={day}>
-              <input type="checkbox" defaultChecked /> {day}
-            </label>
-          ))}
-          <label>
-            <input type="checkbox" /> 全选
-          </label>
-        </section>
-        <section className="channel-drawer-section">
-          <h3>价格</h3>
-          <label>
-            <input type="radio" name="channel-price-mode" defaultChecked /> 绝对值改价
-          </label>
-          <label>
-            <input type="radio" name="channel-price-mode" /> 差值改价
-          </label>
-          <label>
-            <input type="radio" name="channel-price-mode" /> 百分比改价
-          </label>
-          <input type="text" placeholder="请输入" />
+          <h3>产品系数</h3>
+          <ProductCoefficientFormula
+            operator={operator}
+            value={coefficientValue}
+            onOperatorChange={setOperator}
+            onValueChange={setCoefficientValue}
+            autoFocus
+          />
         </section>
       </div>
       <footer className="channel-drawer-footer">
-        <button type="button" onClick={onClose}>
-          保存
+        <button type="button" onClick={handleSave} disabled={saving}>
+          {saving ? '保存中' : '保存'}
         </button>
         <button type="button" onClick={onClose}>
           取消
         </button>
       </footer>
     </ChannelDrawer>
-  )
-}
-
-export function ChannelPreviewModal({ onClose }: { onClose: () => void }) {
-  const previewRows = [
-    ['顶层套房（浴缸巨幕电竞麻将）', '*0.93', '848.16', '848.16', '1,080.66', '1,080.66'],
-    ['顶层套房（浴缸巨幕电竞麻将）', '-', '730', '—', '930', '930'],
-    ['桑拿浴缸百平露台台球桌天落床', '*0.9', '657', '657', '837', '837'],
-  ]
-
-  return (
-    <div className="channel-preview-backdrop" role="presentation" onClick={onClose}>
-      <section className="channel-preview-modal" role="dialog" aria-modal="true" aria-label="房价修改预览" onClick={(event) => event.stopPropagation()}>
-        <header>
-          <h2>房价修改预览</h2>
-          <div>
-            <button type="button">一键覆盖</button>
-            <button type="button" onClick={onClose}>
-              取消
-            </button>
-            <button type="button" aria-label="关闭房价修改预览" onClick={onClose}>
-              ×
-            </button>
-          </div>
-        </header>
-        <div className="channel-preview-grid">
-          <div className="channel-preview-grid__head">
-            <div>2026.05.13</div>
-            <div>产品系数</div>
-            <div>05.13</div>
-            <div>05.14</div>
-            <div>05.15</div>
-            <div>05.16</div>
-          </div>
-          {previewRows.map((row) => (
-            <div key={row.join('-')}>
-              {row.map((cell) => (
-                <div key={cell} className={cell === '730' || cell === '930' ? 'is-diff' : ''}>
-                  {cell}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  )
-}
-
-export function ChannelConfirmModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) {
-  return (
-    <div className="channel-confirm-backdrop" role="presentation" onClick={onClose}>
-      <section className="channel-confirm-modal" role="dialog" aria-modal="true" aria-label="确认不覆盖渠道价格" onClick={(event) => event.stopPropagation()}>
-        <strong>是否确认不使用中央价覆盖渠道房型价格？</strong>
-        <p>确认不覆盖后中央价和渠道价格之间会存在部分差异。</p>
-        <footer>
-          <button type="button" onClick={onClose}>
-            取消
-          </button>
-          <button type="button" onClick={onConfirm}>
-            确定
-          </button>
-        </footer>
-      </section>
-    </div>
   )
 }
 
@@ -1045,6 +1764,16 @@ function SharedToolbar({
   onRoomChange = () => {},
   onTagChange = () => {},
   onActionBlocked = () => {},
+  campId,
+  channelProducts = [],
+  onCoefficientSaved = () => {},
+  channelPlanningRows = [],
+  channelPlanDates = [],
+  onChannelPlanSave,
+  channelRateSettings = centralPriceSettings,
+  channelRateDrafts,
+  onChannelRateDraftChange,
+  onChannelRateSave,
 }: {
   active: string
   mode?: string
@@ -1062,6 +1791,19 @@ function SharedToolbar({
   onRoomChange?: (room: PriceRoomFilterOption | null) => void
   onTagChange?: (tag: string) => void
   onActionBlocked?: (message: string) => void
+  campId?: string | null
+  channelProducts?: ChannelProductTarget[]
+  onCoefficientSaved?: () => void
+  channelPlanningRows?: BasePricePlanningRow[]
+  channelPlanDates?: CentralPriceDate[]
+  onChannelPlanSave?: (
+    cells: BasePricePlanSelection[],
+    edit: { mode: PriceEditMode; value: string; overwriteStandalone: boolean },
+  ) => Promise<void>
+  channelRateSettings?: PriceChannelRateSetting[]
+  channelRateDrafts?: PriceChannelRateDrafts
+  onChannelRateDraftChange?: (id: string, value: string) => void
+  onChannelRateSave?: () => boolean
 }) {
   const navigate = useNavigate()
   const [localSelectedChannel, setLocalSelectedChannel] = useState(DEFAULT_LOCAL_CHANNEL_NAME)
@@ -1071,13 +1813,25 @@ function SharedToolbar({
   const [planningOpen, setPlanningOpen] = useState(false)
   const [planningFormOpen, setPlanningFormOpen] = useState(false)
   const [smartOpen, setSmartOpen] = useState(false)
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [confirmOpen, setConfirmOpen] = useState(false)
   const [guideStep, setGuideStep] = useState(0)
   const [openFilter, setOpenFilter] = useState('')
-  const isCentral = renderAsCentral || active === '\u4e2d\u592e\u4ef7'
-  const isChannelRp = !renderAsCentral && active === '\u6e20\u9053RP\u4ef7'
+  const isChannelRp = active === '\u6e20\u9053RP\u4ef7'
+  const isCentral = !isChannelRp && (renderAsCentral || active === '\u4e2d\u592e\u4ef7')
+  const usesPageFeedback = renderAsCentral || isCentral
   const selectedChannel = controlledSelectedChannel ?? localSelectedChannel
+  const channelPlanContext: BasePriceDrawerContext | null =
+    isChannelRp && channelPlanningRows.length > 0
+      ? {
+          variant: 'channel-rp',
+          roomName: selectedRoom === '全部房型' ? '全部房型' : selectedRoom,
+          roomSubtitle: '当前渠道房型',
+          actualPrice: channelPlanningRows[0]?.weekday ?? '',
+          comparePrice: channelPlanningRows[0]?.weekend ?? '',
+          basePrice: channelPlanningRows[0]?.weekday ?? '',
+          dateRange: channelPlanDates,
+          planningRows: channelPlanningRows,
+        }
+      : null
 
   useEffect(() => {
     if (guideStep === 1) {
@@ -1099,7 +1853,7 @@ function SharedToolbar({
   }
 
   function showActionFeedback(message: string) {
-    if (isCentral) {
+    if (usesPageFeedback) {
       onActionBlocked(message)
       return
     }
@@ -1119,16 +1873,6 @@ function SharedToolbar({
           </div>
         ) : null}
         <div className="toolbar-actions">
-          {isChannelRp ? (
-            <>
-              <button type="button" onClick={() => setPreviewOpen(true)}>
-                预览与覆盖
-              </button>
-              <button type="button" onClick={() => setConfirmOpen(true)}>
-                暂不处理
-              </button>
-            </>
-          ) : null}
           <button type="button" onClick={() => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道')}>
             {isCentral || isChannelRp ? '同步至渠道' : '同步价格'}
           </button>
@@ -1167,7 +1911,6 @@ function SharedToolbar({
           )}
         </div>
       </div>
-      {isChannelRp ? <p className="channel-price-alert">渠道rp价与房型价格存在差异</p> : null}
       <div className="toolbar-row toolbar-filters">
         <StoreSelectControl
           className="price-toolbar-store-select"
@@ -1315,7 +2058,16 @@ function SharedToolbar({
         </div>
       ) : null}
       {toast ? <div className="price-toast" role="status">{toast}</div> : null}
-      {settingsOpen && isChannelRp ? <ChannelPriceSettings onClose={() => setSettingsOpen(false)} /> : null}
+      {settingsOpen && isChannelRp ? (
+        <ChannelPriceSettings
+          onClose={() => setSettingsOpen(false)}
+          settings={channelRateSettings}
+          drafts={channelRateDrafts}
+          onDraftChange={onChannelRateDraftChange}
+          onSave={onChannelRateSave}
+          onSaved={showActionFeedback}
+        />
+      ) : null}
       {settingsOpen && !isChannelRp ? (
         <div className={`price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`} role="presentation" onClick={() => setSettingsOpen(false)}>
           <section
@@ -1346,34 +2098,15 @@ function SharedToolbar({
                     </p>
                   </section>
                   <h3 className="price-drawer-subtitle">划线价与实际卖价关系设置</h3>
-                  <div className="price-settings-example">
-                    <div>
-                      <strong>商务双床房</strong>
-                      <span>2张1.2米单人床 2人入住 28-32㎡</span>
-                      <em>¥308</em>
-                    </div>
-                    <div>划线价 ¥522</div>
-                    <div>实际卖价 ¥308</div>
-                    <div>308/522</div>
-                  </div>
-                  <div className="price-settings-channel-grid">
-                    {centralPriceSettings.map((item) => (
-                      <label key={item.channel} className="price-settings-channel">
-                        <span>{item.channel}</span>
-                        <div>
-                          划线价 = 实际卖价 /
-                          <input aria-label={`${item.channel} 优惠比例`} defaultValue={item.percent} />
-                          <b>%</b>
-                        </div>
-                      </label>
-                    ))}
-                  </div>
+                  <PriceSettingsExampleCard />
+                  <ChannelRateSettingsGrid settings={channelRateSettings} drafts={channelRateDrafts} onDraftChange={onChannelRateDraftChange} />
                 </div>
                 <footer>
                   <p>保存优惠比例后请检查价格准确，再操作推送至渠道</p>
                   <button
                     type="button"
                     onClick={() => {
+                      if (onChannelRateSave?.() === false) return
                       setSettingsOpen(false)
                       showActionFeedback('价格设置已保存，后续推送将按当前比例执行')
                     }}
@@ -1419,7 +2152,22 @@ function SharedToolbar({
           </section>
         </div>
       ) : null}
-      {planningOpen && isChannelRp ? <ChannelPricePlan onClose={() => setPlanningOpen(false)} /> : null}
+      {planningOpen && isChannelRp && channelPlanContext ? (
+        <BasePricePlanningDrawer
+          context={channelPlanContext}
+          onClose={() => setPlanningOpen(false)}
+          onSavePlanCells={onChannelPlanSave}
+          onSave={(message) => {
+            setPlanningOpen(false)
+            showActionFeedback(message)
+          }}
+        />
+      ) : null}
+      {planningOpen && isChannelRp && !channelPlanContext ? (
+        <ChannelDrawer title="价格规划" onClose={() => setPlanningOpen(false)}>
+          <div className="price-plan-empty">当前筛选下暂无可规划的渠道产品</div>
+        </ChannelDrawer>
+      ) : null}
       {planningOpen && !isChannelRp ? (
         <div className={`price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`} role="presentation" onClick={() => setPlanningOpen(false)}>
           <section
@@ -1518,7 +2266,15 @@ function SharedToolbar({
           </section>
         </div>
       ) : null}
-      {batchOpen && isChannelRp ? <ChannelBatchDrawer onClose={() => setBatchOpen(false)} /> : null}
+      {batchOpen && isChannelRp ? (
+        <ChannelBatchDrawer
+          campId={campId}
+          products={channelProducts}
+          onClose={() => setBatchOpen(false)}
+          onSaved={onCoefficientSaved}
+          onActionBlocked={showActionFeedback}
+        />
+      ) : null}
       {batchOpen && !isChannelRp ? (
         <div className="price-modal-backdrop" role="presentation" onClick={() => setBatchOpen(false)}>
           <section className="price-modal" role="dialog" aria-modal="true" aria-label="批量改价" onClick={(event) => event.stopPropagation()}>
@@ -1572,16 +2328,6 @@ function SharedToolbar({
           </section>
         </div>
       ) : null}
-      {isChannelRp && previewOpen ? <ChannelPreviewModal onClose={() => setPreviewOpen(false)} /> : null}
-      {isChannelRp && confirmOpen ? (
-        <ChannelConfirmModal
-          onClose={() => setConfirmOpen(false)}
-          onConfirm={() => {
-            setConfirmOpen(false)
-            showToast('已保留渠道价格')
-          }}
-        />
-      ) : null}
       {(isCentral || isChannelRp) && guideStep > 0 ? (
         <PriceGuideOverlay
           step={guideStep}
@@ -1609,6 +2355,8 @@ function PriceMatrix({
   onRetryCentralRequest,
   onCentralSaleStatusChange,
   onActionBlocked,
+  channelRateSettings = centralPriceSettings,
+  savedChannelRateDrafts,
 }: {
   mode: string
   renderAsCentral?: boolean
@@ -1623,6 +2371,8 @@ function PriceMatrix({
   onRetryCentralRequest?: () => void
   onCentralSaleStatusChange?: (input: { roomCategoryId: string; date: string; saleEnabled: boolean }) => Promise<void>
   onActionBlocked?: (message: string) => void
+  channelRateSettings?: PriceChannelRateSetting[]
+  savedChannelRateDrafts?: PriceChannelRateDrafts
 }) {
   const centralHeaderScrollRef = useRef<HTMLDivElement | null>(null)
   const [selectedCells, setSelectedCells] = useState<SelectedPriceCell[]>([])
@@ -1661,10 +2411,10 @@ function PriceMatrix({
       : priceDates.map((item) => ({ ...item, label: item.date, key: item.date }))
   const gridTemplateColumns = `${mode === '中央价' || isChannelRp ? '170px' : '150px'} 76px 76px repeat(${visibleDates.length}, 88px)`
   const minWidth = 322 + visibleDates.length * 88
-  const centralFrozenPaneTemplate = '154px 48px 79px'
+  const centralFrozenPaneTemplate = '154px 78px 96px'
   const centralDateColumnWidth = 88
   const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`
-  const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth
+  const centralMinWidth = 328 + visibleDates.length * centralDateColumnWidth
   const formatDateLabel = (key: string) => key.slice(5).replace('-', '.')
   const centralRoomGroups = centralData?.rooms ?? []
   const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
@@ -1996,7 +2746,13 @@ function PriceMatrix({
     const rowClassName = isCentral ? 'price-grid__row price-grid__row--central' : 'price-grid__row'
 
     if (isCentral) {
-      const compareBasePrice = getCentralBaseComparePrice(row)
+      const compareBasePrice = applyChannelLinePriceRate(
+        row.channel,
+        row.basePrice,
+        getCentralBaseComparePrice(row),
+        savedChannelRateDrafts,
+        channelRateSettings,
+      )
 
       return (
         <div
@@ -2036,7 +2792,13 @@ function PriceMatrix({
           </div>
           {visibleDates.map((dateItem, index) => {
             const price = row.prices[index % row.prices.length]
-            const comparePrice = row.comparePrices[index % row.comparePrices.length]
+            const comparePrice = applyChannelLinePriceRate(
+              row.channel,
+              price,
+              row.comparePrices[index % row.comparePrices.length],
+              savedChannelRateDrafts,
+              channelRateSettings,
+            )
             const key = `${keyPrefix}${row.channel}-${dateItem.key}`
             const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key)
             return renderCentralChannelDateCell({ key, row, dateLabel, price, comparePrice })
@@ -2142,7 +2904,7 @@ function PriceMatrix({
             </div>
           ) : null}
         </div>
-        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <PriceCoefficientHeader {...coefficientHeaderHelp.central} />
         <div>{'\u57fa\u7840\u4ef7'}</div>
       </div>
     )
@@ -2301,114 +3063,6 @@ function PriceMatrix({
           }}
         />
       ) : null}
-      {false ? (
-        <div className="price-base-settings-drawer-backdrop">
-          <section
-            className="price-base-settings-drawer"
-            role="dialog"
-            aria-modal="false"
-            aria-label={'本房型设置'}
-            data-testid="central-base-price-drawer"
-          >
-            <header>
-              <strong>{'本房型设置'}</strong>
-              <button type="button" aria-label={'关闭本房型设置'} onClick={closeBasePriceDrawer}>
-                {'×'}
-              </button>
-            </header>
-            <div className="price-base-settings-drawer__body">
-              <section className="price-settings-current price-base-settings-current">
-                <h3>{'当前价格设置'}</h3>
-                <p>
-                  {'当前正在使用：'}<strong>{'“实际售价”'}</strong>{' 调价'}
-                  <span>{'售卖价模式'}</span>
-                  <button type="button">{'切换为划线价'}</button>
-                </p>
-                {basePriceDrawerContext?.channelName ? (
-                  <div className="price-base-settings-current__meta">
-                    <span>{basePriceDrawerContext?.channelName}</span>
-                    {basePriceDrawerContext?.coefficient ? <em>{`渠道系数 ${basePriceDrawerContext?.coefficient}`}</em> : null}
-                  </div>
-                ) : null}
-              </section>
-
-              <h3 className="price-drawer-subtitle">{'渠道价格设置'}</h3>
-              <div className="price-settings-example price-settings-example--contextual">
-                <div>
-                  <strong>{basePriceDrawerContext?.roomName}</strong>
-                  <span>{basePriceDrawerContext?.roomSubtitle}</span>
-                  {basePriceDrawerContext?.channelName ? <em>{basePriceDrawerContext?.channelName}</em> : null}
-                </div>
-                <div>{`划线价 ￥${basePriceDrawerContext?.comparePrice ?? ''}`}</div>
-                <div>{`实际售价 ￥${basePriceDrawerContext?.actualPrice ?? ''}`}</div>
-                <div>{`${basePriceDrawerContext?.actualPrice ?? ''}/${basePriceDrawerContext?.comparePrice ?? ''}`}</div>
-              </div>
-
-              <div className="price-settings-channel-grid price-settings-channel-grid--contextual">
-                {centralPriceSettings.map((item) => (
-                  <label
-                    key={item.channel}
-                    className={`price-settings-channel${basePriceDrawerContext?.channelName === item.channel ? ' is-current' : ''}`}
-                  >
-                    <span>{item.channel}</span>
-                    <div>
-                      {'划线价 = 实际售价 /'}
-                      <input aria-label={`${item.channel} 优惠比例`} defaultValue={item.percent} />
-                      <b>%</b>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <footer>
-              <p>{'保存优惠比例后请检查价格准确，再操作推送至渠道'}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  closeBasePriceDrawer()
-                  onActionBlocked?.('本房型设置已保存，后续推送将按当前比例执行')
-                }}
-              >
-                {'保存'}
-              </button>
-              <button type="button" onClick={closeBasePriceDrawer}>
-                {'取消'}
-              </button>
-            </footer>
-          </section>
-        </div>
-      ) : null}
-
-      {false && basePriceDrawerContext ? (
-        <BasePricePlanningDrawer
-          context={basePriceDrawerContext!}
-          onClose={closeBasePriceDrawer}
-          onSave={(message) => {
-            closeBasePriceDrawer()
-            onActionBlocked?.(message)
-          }}
-        />
-      ) : null}
-      {false && basePriceDrawerContext ? (
-        <BasePricePlanningDrawer
-          context={basePriceDrawerContext!}
-          onClose={closeBasePriceDrawer}
-          onSave={(message) => {
-            closeBasePriceDrawer()
-            onActionBlocked?.(message)
-          }}
-        />
-      ) : null}
-      {basePriceDrawerContext ? (
-        <BasePricePlanningDrawer
-          context={basePriceDrawerContext}
-          onClose={closeBasePriceDrawer}
-          onSave={(message) => {
-            closeBasePriceDrawer()
-            onActionBlocked?.(message)
-          }}
-        />
-      ) : null}
       {drawerOpen && selectedCells.length > 0 && (
         <div className="price-edit-drawer-backdrop">
           <section className="price-edit-drawer" role="dialog" aria-modal="false" aria-label={'\u6539\u4ef7'}>
@@ -2434,7 +3088,7 @@ function PriceMatrix({
                       role="radio"
                       aria-checked={editMode === option.value}
                       className={`price-edit-option${editMode === option.value ? ' is-active' : ''}`}
-                      onClick={() => setEditMode(option.value as 'fixed' | 'increase' | 'percent')}
+                      onClick={() => setEditMode(option.value as PriceEditMode)}
                     >
                       <i aria-hidden="true" />
                       <span>{option.label}</span>
@@ -2470,35 +3124,122 @@ function PriceMatrix({
 }
 
 function ChannelRpPriceMatrix({
+  campId,
   centralRequestDate,
   onCentralDateChange,
   centralData,
   centralState,
   onRetryCentralRequest,
   onActionBlocked,
+  onCoefficientSaved,
+  onChannelPricesSaved,
+  channelRateSettings = centralPriceSettings,
+  savedChannelRateDrafts,
 }: {
+  campId?: string | null
   centralRequestDate?: string
   onCentralDateChange?: (date: string) => void
   centralData?: CentralPriceData
   centralState?: CentralPriceRequestState
   onRetryCentralRequest?: () => void
   onActionBlocked?: (message: string) => void
+  onCoefficientSaved?: () => void
+  onChannelPricesSaved?: () => void
+  channelRateSettings?: PriceChannelRateSetting[]
+  savedChannelRateDrafts?: PriceChannelRateDrafts
 }) {
   const centralHeaderScrollRef = useRef<HTMLDivElement | null>(null)
   const [selectedCells, setSelectedCells] = useState<SelectedPriceCell[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [basePriceDrawerContext, setBasePriceDrawerContext] = useState<BasePriceDrawerContext | null>(null)
-  const [editMode, setEditMode] = useState<'fixed' | 'increase' | 'percent'>('fixed')
+  const [editMode, setEditMode] = useState<PriceEditMode>('fixed')
   const [editValue, setEditValue] = useState('')
+  const [overwriteStandalone, setOverwriteStandalone] = useState(true)
+  const [savingPrices, setSavingPrices] = useState(false)
+
+  async function saveSelectedChannelCells() {
+    const resolvedCampId = campId ?? resolveCurrentCampId()
+    if (!resolvedCampId) {
+      onActionBlocked?.('缺少门店账套信息，无法保存渠道价格')
+      return
+    }
+    if (!editValue.trim()) {
+      onActionBlocked?.('请输入改价值')
+      return
+    }
+    const invalidCell = selectedCells.find((cell) => !cell.roomCategoryId || !cell.channelId || !cell.dateKey)
+    if (invalidCell) {
+      onActionBlocked?.('当前价格格子缺少房型、渠道或日期信息，无法保存')
+      return
+    }
+
+    setSavingPrices(true)
+    try {
+      const response = await saveChannelCalendarPrices({
+        campId: resolvedCampId,
+        overwriteStandalone,
+        items: selectedCells.map((cell) => ({
+          roomCategoryId: cell.roomCategoryId!,
+          channelId: cell.channelId!,
+          productName: cell.productName,
+          date: cell.dateKey!,
+          priceUpdateType: toPriceUpdateType(editMode),
+          calendarPrice: editValue.trim(),
+          basePrice: cell.price,
+        })),
+      })
+      closePriceEditor()
+      onActionBlocked?.(`价格调整已保存，已更新${response.savedCount}项`)
+      onChannelPricesSaved?.()
+    } catch (error) {
+      onActionBlocked?.(error instanceof Error ? error.message : '价格调整保存失败')
+    } finally {
+      setSavingPrices(false)
+    }
+  }
+
+  async function savePlanChannelCells(
+    cells: BasePricePlanSelection[],
+    edit: { mode: PriceEditMode; value: string; overwriteStandalone: boolean },
+  ) {
+    const resolvedCampId = campId ?? resolveCurrentCampId()
+    if (!resolvedCampId) {
+      throw new Error('缺少门店账套信息，无法保存渠道价格')
+    }
+    const items = cells.flatMap((cell) => {
+      if (!cell.roomCategoryId || !cell.channelId) return []
+      return cell.dateKeys.map((date) => ({
+        roomCategoryId: cell.roomCategoryId!,
+        channelId: cell.channelId!,
+        productName: cell.productName,
+        date,
+        priceUpdateType: toPriceUpdateType(edit.mode),
+        calendarPrice: edit.value,
+        basePrice: cell.basePrice,
+      }))
+    })
+    if (items.length === 0) {
+      throw new Error('当前价格规划没有可保存的日期')
+    }
+
+    const response = await saveChannelCalendarPrices({
+      campId: resolvedCampId,
+      overwriteStandalone: edit.overwriteStandalone,
+      items,
+    })
+    onActionBlocked?.(`价格调整已保存，已更新${response.savedCount}项`)
+    onChannelPricesSaved?.()
+  }
   const [collapsed, setCollapsed] = useState(false)
   const [collapsedRooms, setCollapsedRooms] = useState<Record<string, boolean>>({})
   const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false)
+  const [coefficientDrawerTarget, setCoefficientDrawerTarget] = useState<ChannelProductTarget | null>(null)
   const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
   const visibleDates = centralData?.dates ?? makePriceDates(0, 13)
-  const centralFrozenPaneTemplate = '154px 48px 79px'
+  const centralFrozenPaneTemplate = '154px 78px 96px'
   const centralDateColumnWidth = 88
   const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`
-  const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth
+  const centralMinWidth = 328 + visibleDates.length * centralDateColumnWidth
   const centralRoomGroups = centralData?.rooms ?? []
   const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()))
   const centralCalendarCells = buildCalendarCells(centralCalendarMonth)
@@ -2565,10 +3306,6 @@ function ChannelRpPriceMatrix({
     setIsCentralCalendarOpen(false)
   }
 
-  function getCentralBaseComparePrice(row: PriceMatrixRow) {
-    return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice
-  }
-
   function renderCentralStockOnlyMetric(key: string, stock: string) {
     return (
       <div key={key} data-testid="channel-rp-summary-stock-cell" className="price-cell central-price-grid__stock-only-cell">
@@ -2617,7 +3354,24 @@ function ChannelRpPriceMatrix({
     )
   }
 
-  function renderCentralSummaryBasePriceCell({ price, testId }: { price: string; testId?: string }) {
+  function renderCentralSummaryBasePriceCell({ price, testId, onClick }: { price: string; testId?: string; onClick?: () => void }) {
+    if (onClick) {
+      return (
+        <button
+          type="button"
+          className="central-price-grid__summary-base-price"
+          data-testid={testId}
+          aria-label={`channel-summary-base-price ${price}`}
+          onClick={onClick}
+        >
+          <span className="central-price-grid__tag-price central-price-grid__tag-price--summary">
+            <i className="central-price-grid__tag central-price-grid__tag--central">{'\u4e2d'}</i>
+            <strong>{price}</strong>
+          </span>
+        </button>
+      )
+    }
+
     return (
       <div className="central-price-grid__summary-base-price" data-testid={testId}>
         <span className="central-price-grid__tag-price central-price-grid__tag-price--summary">
@@ -2631,12 +3385,14 @@ function ChannelRpPriceMatrix({
   function renderChannelDateCell({
     key,
     row,
+    dateKey,
     dateLabel,
     price,
     comparePrice,
   }: {
     key: string
     row: PriceMatrixRow
+    dateKey: string
     dateLabel: string
     price: string
     comparePrice: string
@@ -2647,7 +3403,19 @@ function ChannelRpPriceMatrix({
         type="button"
         className={`price-cell price-cell-button ${isCellSelected(key) ? 'is-selected' : ''}`}
         aria-label={`${price} ${dateLabel}`}
-        onClick={() => toggleSelectedCell({ key, title: `${row.channel} / ${dateLabel}`, price, date: dateLabel })}
+        onClick={() =>
+          toggleSelectedCell({
+            key,
+            title: `${row.channel} / ${dateLabel}`,
+            price,
+            date: dateLabel,
+            dateKey,
+            roomCategoryId: row.roomCategoryId,
+            channelId: row.channelId,
+            productName: row.product,
+            comparePrice,
+          })
+        }
       >
         <strong>{price}</strong>
         <span>{comparePrice}</span>
@@ -2655,8 +3423,21 @@ function ChannelRpPriceMatrix({
     )
   }
 
-  function renderPriceRow(row: PriceMatrixRow, keyPrefix = '') {
-    const compareBasePrice = getCentralBaseComparePrice(row)
+  function openCoefficientDrawer(room: CentralPriceRoom, row: PriceMatrixRow) {
+    const target = toChannelProductTarget(room, row)
+    if (!target) {
+      onActionBlocked?.('当前产品缺少房型、渠道或产品信息，无法设置产品系数')
+      return
+    }
+    setCoefficientDrawerTarget(target)
+  }
+
+  function closeCoefficientDrawer() {
+    setCoefficientDrawerTarget(null)
+  }
+
+  function renderPriceRow(room: CentralPriceRoom, row: PriceMatrixRow, keyPrefix = '') {
+    const compareBasePrice = applyChannelLinePriceRate(row.channel, row.basePrice, getChannelBaseComparePrice(row), savedChannelRateDrafts, channelRateSettings)
     const channelDisplayName = row.channel || '未知渠道'
 
     return (
@@ -2671,41 +3452,74 @@ function ChannelRpPriceMatrix({
           <strong>{channelDisplayName}</strong>
         </div>
         <div>
-          <span className="central-price-grid__pill">{row.coefficient || '-'}</span>
+          <button
+            type="button"
+            className="central-price-grid__pill central-price-grid__pill--button"
+            aria-label={`设置产品系数 ${channelDisplayName}`}
+            onClick={() => openCoefficientDrawer(room, row)}
+          >
+            {row.coefficient || '-'}
+          </button>
         </div>
         <div>
           {renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () =>
             setBasePriceDrawerContext({
               variant: 'channel-rp',
-              roomName: channelDisplayName,
-              roomSubtitle: '当前渠道房型',
+              roomCategoryId: row.roomCategoryId,
+              channelId: row.channelId,
+              productName: row.product,
+              channelBadgeId: row.channelBadgeId,
+              roomName: room.name,
+              roomSubtitle: row.product ?? '当前渠道房型',
               channelName: channelDisplayName,
               coefficient: row.coefficient,
               actualPrice: row.basePrice,
               comparePrice: compareBasePrice,
               basePrice: row.basePrice,
+              dateRange: visibleDates,
               planningRows: buildChannelPlanningRows({
-                roomName: channelDisplayName,
-                roomSubtitle: '当前渠道房型',
-                actualPrice: row.basePrice,
-                comparePrice: compareBasePrice,
+                rows: room.channelRows.map((channelRow) => ({
+                  ...channelRow,
+                  channelBadgeId: row.channelBadgeId,
+                })),
+                channelBadgeId: row.channelBadgeId,
+                roomName: room.name,
+                roomSubtitle: row.product ?? '当前渠道房型',
+                savedChannelRateDrafts,
+                channelRateSettings,
               }),
             }),
           )}
         </div>
         {visibleDates.map((dateItem, index) => {
           const price = row.prices[index % row.prices.length]
-          const comparePrice = row.comparePrices[index % row.comparePrices.length]
+          const comparePrice = applyChannelLinePriceRate(
+            row.channel,
+            price,
+            row.comparePrices[index % row.comparePrices.length],
+            savedChannelRateDrafts,
+            channelRateSettings,
+          )
           const dateKey = (dateItem as { key: string }).key
           const key = `${keyPrefix}${row.channel}-${dateKey}`
           const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateKey)
-          return renderChannelDateCell({ key, row, dateLabel, price, comparePrice })
+          return renderChannelDateCell({ key, row, dateKey, dateLabel, price, comparePrice })
         })}
       </div>
     )
   }
   function renderCentralGroupRow(room: CentralPriceRoom) {
     const roomCollapsed = collapsed || isRoomCollapsed(room.id)
+    const summarySourceRow = room.channelRows[0]
+    const summaryComparePrice = summarySourceRow
+      ? applyChannelLinePriceRate(
+          summarySourceRow.channel,
+          summarySourceRow.basePrice,
+          getChannelBaseComparePrice(summarySourceRow),
+          savedChannelRateDrafts,
+          channelRateSettings,
+        )
+      : room.basePrice
 
     return (
       <div
@@ -2724,7 +3538,30 @@ function ChannelRpPriceMatrix({
           </div>
         </div>
         <div className="central-price-grid__summary-gap" aria-hidden="true" />
-        <div>{renderCentralSummaryBasePriceCell({ price: room.basePrice, testId: 'central-room-base-price' })}</div>
+        <div>
+          {renderCentralSummaryBasePriceCell({
+            price: room.basePrice,
+            testId: 'central-room-base-price',
+            onClick: () =>
+              setBasePriceDrawerContext({
+                variant: 'channel-rp',
+                roomCategoryId: room.id,
+                roomName: room.name,
+                roomSubtitle: room.stock,
+                actualPrice: room.basePrice,
+                comparePrice: summaryComparePrice,
+                basePrice: room.basePrice,
+                dateRange: visibleDates,
+                planningRows: buildChannelPlanningRows({
+                  rows: room.channelRows,
+                  roomName: room.name,
+                  roomSubtitle: room.stock,
+                  savedChannelRateDrafts,
+                  channelRateSettings,
+                }),
+              }),
+          })}
+        </div>
         {visibleDates.map((dateItem, index) => {
           const status = room.prices[index] ?? { price: '-', stock: '-' }
           const key = `${room.id}-summary-${dateItem.key}`
@@ -2799,7 +3636,7 @@ function ChannelRpPriceMatrix({
             </div>
           ) : null}
         </div>
-        <div>{'\u6e20\u9053\u7cfb\u6570'}</div>
+        <PriceCoefficientHeader {...coefficientHeaderHelp.channelRp} />
         <div>{'\u57fa\u7840\u4ef7'}</div>
       </div>
     )
@@ -2852,7 +3689,7 @@ function ChannelRpPriceMatrix({
             ? centralRoomGroups.map((room) => (
                 <div key={room.id} className="price-grid__section">
                   {renderCentralGroupRow(room)}
-                  {!collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`)) : null}
+                  {!collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(room, row, `${room.id}-`)) : null}
                 </div>
               ))
             : null}
@@ -2887,10 +3724,22 @@ function ChannelRpPriceMatrix({
         <BasePricePlanningDrawer
           context={basePriceDrawerContext}
           onClose={closeBasePriceDrawer}
+          onSavePlanCells={savePlanChannelCells}
           onSave={(message) => {
             closeBasePriceDrawer()
             onActionBlocked?.(message)
           }}
+        />
+      ) : null}
+      {coefficientDrawerTarget ? (
+        <ChannelProductCoefficientDrawer
+          campId={campId}
+          target={coefficientDrawerTarget}
+          onClose={closeCoefficientDrawer}
+          onSaved={() => {
+            onCoefficientSaved?.()
+          }}
+          onActionBlocked={onActionBlocked}
         />
       ) : null}
 
@@ -2930,20 +3779,26 @@ function ChannelRpPriceMatrix({
                   <span className="sr-only-heading">{'\u6539\u4ef7\u503c'}</span>
                   <input type="text" aria-label={'\u6539\u4ef7\u503c'} placeholder={'\u8bf7\u8f93\u5165'} value={editValue} onChange={(event) => setEditValue(event.target.value)} autoFocus />
                 </label>
+                <label className="price-edit-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={overwriteStandalone}
+                    onChange={(event) => setOverwriteStandalone(event.target.checked)}
+                  />
+                  <span>覆盖日历上单独维护过的价格</span>
+                </label>
               </section>
             </div>
             <footer>
               <button
                 type="button"
                 className="is-primary"
-                onClick={() => {
-                  closePriceEditor()
-                  onActionBlocked?.('\u4ef7\u683c\u8c03\u6574\u5df2\u4fdd\u5b58\uff0c\u5f53\u524d\u4ef7\u683c\u77e9\u9635\u5df2\u66f4\u65b0')
-                }}
+                onClick={saveSelectedChannelCells}
+                disabled={savingPrices}
               >
-                {'\u4fdd\u5b58'}
+                {savingPrices ? '保存中' : '\u4fdd\u5b58'}
               </button>
-              <button type="button" onClick={closePriceEditor}>
+              <button type="button" onClick={closePriceEditor} disabled={savingPrices}>
                 {'\u53d6\u6d88'}
               </button>
             </footer>
@@ -2972,6 +3827,13 @@ function RegularPricePage({ active }: { active: string }) {
   const [centralReloadKey, setCentralReloadKey] = useState(0)
   const [actionFeedback, setActionFeedback] = useState('')
   const [centralData, setCentralData] = useState<CentralPriceData | undefined>()
+  const channelRateStorageCampId = useMemo(() => resolveChannelRateDraftsStorageCampId(location.search), [location.search])
+  const [channelRateDrafts, setChannelRateDrafts] = useState<PriceChannelRateDrafts>(() =>
+    mergeChannelRateDrafts(readStoredChannelRateDrafts(resolveChannelRateDraftsStorageCampId(location.search))),
+  )
+  const [savedChannelRateDrafts, setSavedChannelRateDrafts] = useState<PriceChannelRateDrafts>(() =>
+    readStoredChannelRateDrafts(resolveChannelRateDraftsStorageCampId(location.search)),
+  )
   const [centralRequestState, setCentralRequestState] = useState<CentralPriceRequestState>({
     kind: 'idle',
     message: '等待请求中央价数据',
@@ -2981,7 +3843,10 @@ function RegularPricePage({ active }: { active: string }) {
     message: '等待加载渠道RP价数据',
     rows: [],
   })
-  const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || 'default-camp', [location.search])
+  const campId = useMemo(
+    () => new URLSearchParams(location.search).get('campId') || resolveCurrentCampId() || 'default-camp',
+    [location.search],
+  )
   const channelPriceProvider = useMemo<ChannelPriceProviderName>(() => {
     const configured = new URLSearchParams(location.search).get('channelPriceProvider')
     return configured === 'mock' ? 'mock' : 'real'
@@ -3009,6 +3874,31 @@ function RegularPricePage({ active }: { active: string }) {
     })
     return ['全部渠道', ...channels]
   }, [centralData])
+  const channelProductTargets = useMemo(
+    () => (
+      centralData?.rooms.flatMap((room) => (
+        room.channelRows
+          .map((row) => toChannelProductTarget(room, row))
+          .filter((product): product is ChannelProductTarget => Boolean(product))
+      )) ?? []
+    ),
+    [centralData],
+  )
+  const channelRateSettings = useMemo(() => createChannelRateSettingsFromCentralData(centralData), [centralData])
+  const channelPlanningRows = useMemo(
+    () => (
+      centralData?.rooms.flatMap((room) =>
+        buildChannelPlanningRows({
+          rows: room.channelRows,
+          roomName: room.name,
+          roomSubtitle: room.name,
+          savedChannelRateDrafts,
+          channelRateSettings,
+        }),
+      ) ?? []
+    ),
+    [centralData, channelRateSettings, savedChannelRateDrafts],
+  )
 
   const centralSaveCampId = useMemo(() => (/^\d+$/.test(campId) ? campId : null), [campId])
 
@@ -3029,6 +3919,17 @@ function RegularPricePage({ active }: { active: string }) {
     const timer = window.setTimeout(() => setActionFeedback(''), actionFeedbackHideDelayMs)
     return () => window.clearTimeout(timer)
   }, [actionFeedback])
+
+  useEffect(() => {
+    setChannelRateDrafts((current) => mergeChannelRateDrafts(current, channelRateSettings))
+    setSavedChannelRateDrafts((current) => (Object.keys(current).length > 0 ? mergeChannelRateDrafts(current, channelRateSettings) : current))
+  }, [channelRateSettings])
+
+  useEffect(() => {
+    const storedDrafts = readStoredChannelRateDrafts(channelRateStorageCampId)
+    setChannelRateDrafts(mergeChannelRateDrafts(storedDrafts, channelRateSettings))
+    setSavedChannelRateDrafts(Object.keys(storedDrafts).length > 0 ? mergeChannelRateDrafts(storedDrafts, channelRateSettings) : {})
+  }, [channelRateStorageCampId])
 
   function normalizeChannelPriceErrorMessage(error: unknown) {
     const rawMessage = error instanceof Error ? error.message : String(error)
@@ -3143,6 +4044,57 @@ function RegularPricePage({ active }: { active: string }) {
     setSelectedRoomCategoryIds(room?.id ? [room.id] : [])
   }
 
+  function handleChannelRateDraftChange(id: string, value: string) {
+    setChannelRateDrafts((current) => ({ ...current, [id]: sanitizeChannelRateDraft(value) }))
+  }
+
+  function handleChannelRateSave() {
+    const nextDrafts = mergeChannelRateDrafts(channelRateDrafts, channelRateSettings)
+
+    try {
+      writeStoredChannelRateDrafts(channelRateStorageCampId, nextDrafts)
+      setChannelRateDrafts(nextDrafts)
+      setSavedChannelRateDrafts(nextDrafts)
+      return true
+    } catch {
+      setActionFeedback('价格设置保存失败，请检查浏览器存储权限后重试')
+      return false
+    }
+  }
+
+  async function handleChannelPlanSave(
+    cells: BasePricePlanSelection[],
+    edit: { mode: PriceEditMode; value: string; overwriteStandalone: boolean },
+  ) {
+    const resolvedCampId = centralSaveCampId ?? resolveCurrentCampId()
+    if (!resolvedCampId) {
+      throw new Error('缺少门店账套信息，无法保存渠道价格')
+    }
+
+    const items = cells.flatMap((cell) => {
+      if (!cell.roomCategoryId || !cell.channelId) return []
+      return cell.dateKeys.map((date) => ({
+        roomCategoryId: cell.roomCategoryId!,
+        channelId: cell.channelId!,
+        productName: cell.productName,
+        date,
+        priceUpdateType: toPriceUpdateType(edit.mode),
+        calendarPrice: edit.value,
+        basePrice: cell.basePrice,
+      }))
+    })
+    if (items.length === 0) {
+      throw new Error('当前价格规划没有可保存的日期')
+    }
+
+    await saveChannelCalendarPrices({
+      campId: resolvedCampId,
+      overwriteStandalone: edit.overwriteStandalone,
+      items,
+    })
+    setCentralReloadKey((value) => value + 1)
+  }
+
   useEffect(() => {
     if (!isCentral) return
 
@@ -3197,6 +4149,16 @@ function RegularPricePage({ active }: { active: string }) {
         onRoomChange={handleRoomFilterChange}
         onTagChange={setSelectedTag}
         onActionBlocked={setActionFeedback}
+        campId={centralSaveCampId}
+        channelProducts={channelProductTargets}
+        onCoefficientSaved={() => setCentralReloadKey((value) => value + 1)}
+        channelPlanningRows={channelPlanningRows}
+        channelPlanDates={centralData?.dates ?? []}
+        onChannelPlanSave={handleChannelPlanSave}
+        channelRateSettings={channelRateSettings}
+        channelRateDrafts={channelRateDrafts}
+        onChannelRateDraftChange={handleChannelRateDraftChange}
+        onChannelRateSave={handleChannelRateSave}
       />
       {isCentral && actionFeedback ? (
         <div className="price-action-feedback" role="status" aria-label="中央价操作反馈">
@@ -3205,12 +4167,17 @@ function RegularPricePage({ active }: { active: string }) {
       ) : null}
       {reuseCentralLayout ? (
         <ChannelRpPriceMatrix
+          campId={centralSaveCampId ?? resolveCurrentCampId()}
           centralRequestDate={centralRequestDate}
           onCentralDateChange={setCentralRequestDate}
           centralData={centralData}
           centralState={isCentral ? centralRequestState : undefined}
           onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
           onActionBlocked={setActionFeedback}
+          onCoefficientSaved={() => setCentralReloadKey((value) => value + 1)}
+          onChannelPricesSaved={() => setCentralReloadKey((value) => value + 1)}
+          channelRateSettings={channelRateSettings}
+          savedChannelRateDrafts={savedChannelRateDrafts}
         />
       ) : (
         <PriceMatrix
@@ -3226,6 +4193,8 @@ function RegularPricePage({ active }: { active: string }) {
           onRetryCentralRequest={() => setCentralReloadKey((value) => value + 1)}
           onCentralSaleStatusChange={active === '中央价' ? handleCentralSaleStatusChange : undefined}
           onActionBlocked={setActionFeedback}
+          channelRateSettings={channelRateSettings}
+          savedChannelRateDrafts={savedChannelRateDrafts}
         />
       )}
     </div>

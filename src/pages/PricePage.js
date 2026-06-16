@@ -9,9 +9,10 @@ import tujiaIcon from '../assets/channel-icons/tujia.png';
 import muniaoIcon from '../assets/channel-icons/muniao.png';
 import xiaozhuIcon from '../assets/channel-icons/xiaozhu.png';
 import localsIcon from '../assets/channel-icons/locals.png';
+import suyinLogo from '../assets/suyin-logo.svg';
 import { priceDates, priceRows } from '../data/mock';
 import { fetchChannelPriceRows } from '../services/channelPrice';
-import { DEFAULT_LOCAL_CHANNEL_NAME, fetchCentralPrices, getCentralPriceRequestDate, saveCentralSaleStatus, } from '../services/centralPrice';
+import { DEFAULT_LOCAL_CHANNEL_NAME, batchSaveChannelProductCoefficients, fetchCentralPrices, getCentralPriceRequestDate, saveCentralSaleStatus, saveChannelCalendarPrices, saveChannelProductCoefficient, } from '../services/centralPrice';
 import { loadOtherPriceData } from '../services/otherPrice';
 import { loadPriceBoardData } from '../services/priceBoard';
 import { loadPriceComparisonDashboard, normalizePriceComparisonMockState, } from '../services/priceComparison';
@@ -84,27 +85,152 @@ const channelRpRows = [
         product: '观影大床房<无早>',
     },
 ];
-const channelSettingRows = [
-    ['美团酒店', '100'],
-    ['携程酒店', '100'],
-    ['飞猪酒店', '100'],
-    ['美团民宿', '100'],
-    ['途家(EHPq0597)', '95'],
-    ['木鸟民宿', '90'],
-];
 const channelPlanRows = [
     ['顶层套房（浴缸巨幕电竞麻将）', '顶层套间（独享浴缸麻将巨屏观影电动吊床+欧式大床）<无早>', '848.16', '1,080.66', '设置'],
     ['', '顶层套房-独享麻将电竞浴缸-天落大床-欧式大床-不含早', '869', '1,089', '设置'],
     ['总裁套间（桑拿浴缸露台电竞麻将）', '总裁套间（桑拿浴缸露台电竞麻将）<无早>', '811.89', '995.1', '设置'],
 ];
+const priceSettingsExampleImage = '/assets/price-settings-example-card.png';
+const channelRateDraftsStorageKeyPrefix = 'pms.price.channelLineRateDrafts';
 const centralPriceSettings = [
-    { channel: '美团酒店', percent: '100' },
-    { channel: '携程酒店', percent: '100' },
-    { channel: '飞猪酒店', percent: '100' },
-    { channel: '美团民宿', percent: '100' },
-    { channel: '途家民宿', percent: '95' },
-    { channel: '木鸟民宿', percent: '90' },
+    { id: 'suyin-platform', channel: DEFAULT_LOCAL_CHANNEL_NAME, percent: '100', icon: suyinLogo },
+    { id: 'tujia-ehpq0597', channel: '途家', accountLabel: 'EHPq0597', percent: '95', icon: tujiaIcon },
+    { id: 'meituan-homestay', channel: '美团民宿', percent: '80', icon: meituanHomestayIcon },
+    { id: 'tujia-cdkz9934', channel: '途家', accountLabel: 'CDkZ9934', percent: '', icon: tujiaIcon },
+    { id: 'muniao', channel: '木鸟', percent: '90', icon: muniaoIcon },
+    { id: 'xiaozhu', channel: '小猪', percent: '100', icon: xiaozhuIcon },
+    { id: 'meituan-hotel', channel: '美团酒店', percent: '', icon: meituanHotelIcon },
+    { id: 'ctrip-main', channel: '携程', accountLabel: '天落会宿公寓（前海壹方城宝安中心店）', percent: '', icon: ctripIcon },
+    { id: 'feizhu-hotel', channel: '飞猪淘酒店', percent: '', icon: feizhuIcon },
 ];
+function createDefaultChannelRateDrafts(settings = centralPriceSettings) {
+    return Object.fromEntries(settings.map((item) => [item.id, item.percent]));
+}
+function mergeChannelRateDrafts(drafts, settings = centralPriceSettings) {
+    return { ...createDefaultChannelRateDrafts(settings), ...drafts };
+}
+function resolveChannelRateDraftsStorageKey(campId) {
+    return `${channelRateDraftsStorageKeyPrefix}.${campId || 'default-camp'}`;
+}
+function resolveChannelRateDraftsStorageCampId(search) {
+    const campIdFromUrl = new URLSearchParams(search).get('campId')?.trim();
+    return campIdFromUrl || resolveCurrentCampId() || 'default-camp';
+}
+function readStoredChannelRateDrafts(campId) {
+    if (typeof window === 'undefined')
+        return {};
+    const text = window.localStorage.getItem(resolveChannelRateDraftsStorageKey(campId));
+    if (!text)
+        return {};
+    try {
+        const parsed = JSON.parse(text);
+        const source = isRecord(parsed) && isRecord(parsed.drafts) ? parsed.drafts : parsed;
+        if (!isRecord(source))
+            return {};
+        return Object.fromEntries(Object.entries(source)
+            .filter(([id]) => id.trim())
+            .map(([id, value]) => [id, sanitizeChannelRateDraft(String(value ?? ''))]));
+    }
+    catch {
+        return {};
+    }
+}
+function writeStoredChannelRateDrafts(campId, drafts) {
+    if (typeof window === 'undefined')
+        return;
+    window.localStorage.setItem(resolveChannelRateDraftsStorageKey(campId), JSON.stringify({
+        version: 1,
+        drafts,
+    }));
+}
+function isRecord(value) {
+    return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+function resolveChannelSettingIcon(channelName) {
+    if (channelName.includes(DEFAULT_LOCAL_CHANNEL_NAME) || channelName.includes('宿银'))
+        return suyinLogo;
+    if (channelName.includes('途家'))
+        return tujiaIcon;
+    if (channelName.includes('美团酒店'))
+        return meituanHotelIcon;
+    if (channelName.includes('美团'))
+        return meituanHomestayIcon;
+    if (channelName.includes('携程'))
+        return ctripIcon;
+    if (channelName.includes('飞猪'))
+        return feizhuIcon;
+    if (channelName.includes('木鸟'))
+        return muniaoIcon;
+    if (channelName.includes('小猪'))
+        return xiaozhuIcon;
+    return localsIcon;
+}
+function createDynamicChannelRateSetting(channelName) {
+    return {
+        id: `dynamic-${encodeURIComponent(channelName)}`,
+        channel: channelName,
+        percent: '',
+        icon: resolveChannelSettingIcon(channelName),
+    };
+}
+function createChannelRateSettingsFromCentralData(data) {
+    const settings = [...centralPriceSettings];
+    const knownNames = new Set();
+    settings.forEach((item) => {
+        knownNames.add(formatChannelSettingName(item));
+        knownNames.add(item.channel);
+    });
+    data?.rooms.forEach((room) => {
+        room.channelRows.forEach((row) => {
+            const channelName = row.channel.trim();
+            if (!channelName || knownNames.has(channelName))
+                return;
+            settings.push(createDynamicChannelRateSetting(channelName));
+            knownNames.add(channelName);
+        });
+    });
+    return settings;
+}
+function sanitizeChannelRateDraft(value) {
+    const cleaned = value.replace(/[^\d.]/g, '');
+    const [integer = '', ...decimalParts] = cleaned.split('.');
+    const decimal = decimalParts.join('');
+    return (decimalParts.length > 0 ? `${integer}.${decimal}` : integer).slice(0, 6);
+}
+function parseDisplayPrice(value) {
+    const numeric = Number(String(value).replace(/,/g, '').trim());
+    return Number.isFinite(numeric) ? numeric : null;
+}
+function formatCalculatedPrice(value) {
+    return new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    }).format(value);
+}
+function hasDraftValue(drafts, id) {
+    return Boolean(drafts && Object.prototype.hasOwnProperty.call(drafts, id));
+}
+function resolveSavedChannelRateDraft(channelName, drafts, settings = centralPriceSettings) {
+    if (!drafts)
+        return undefined;
+    const normalizedChannelName = channelName.trim();
+    const exactSetting = settings.find((item) => formatChannelSettingName(item) === normalizedChannelName && hasDraftValue(drafts, item.id));
+    const channelSetting = settings.find((item) => item.channel === normalizedChannelName && hasDraftValue(drafts, item.id));
+    const setting = exactSetting ?? channelSetting;
+    return setting ? drafts[setting.id] : undefined;
+}
+function calculateLinePriceFromRate(actualPrice, ratePercent) {
+    if (!ratePercent)
+        return null;
+    const actualAmount = parseDisplayPrice(actualPrice);
+    const percent = Number(ratePercent);
+    if (actualAmount === null || !Number.isFinite(percent) || percent <= 0)
+        return null;
+    return formatCalculatedPrice(actualAmount / (percent / 100));
+}
+function applyChannelLinePriceRate(channelName, actualPrice, fallbackLinePrice, savedRateDrafts, settings = centralPriceSettings) {
+    return calculateLinePriceFromRate(actualPrice, resolveSavedChannelRateDraft(channelName, savedRateDrafts, settings)) ?? fallbackLinePrice;
+}
 const basePricePlannerColumns = [
     { key: 'title', label: '房型' },
     { key: 'weekday', label: '平日价' },
@@ -112,6 +238,19 @@ const basePricePlannerColumns = [
     { key: 'holiday', label: '节假日价' },
 ];
 void basePricePlannerColumns;
+const coefficientHeaderHelp = {
+    central: {
+        label: '\u6e20\u9053\u7cfb\u6570',
+        text: '\u6e20\u9053\u7cfb\u6570\u53ef\u901a\u8fc7\u4e2d\u592e\u623f\u578b\u4ef7\u683c\u63a8\u7b97\u5404\u4e2a\u6e20\u9053\u4ef7\u683c\u3002\u60a8\u53ef\u6839\u636e\u5b9e\u9645\u5404\u4e2a\u6e20\u9053\u7684\u5dee\u5f02\u8bbe\u7f6e\u7cfb\u6570\uff0c\u5982\u5176\u4ed6\u6e20\u9053\u4fdd\u5b58\u4e00\u81f4\u4ef7\u683c\uff0c\u7f8e\u56e2\u9152\u5e97\u9700\u8981\u8bbe\u7f6e9\u6298\u7684\u4f18\u60e0\u4ef7\u683c\uff0c\u5219\u53ef\u8bbe\u7f6e\u5176\u4ed6\u6e20\u9053\u7cfb\u6570\u4e3a\u00d71\uff0c\u7f8e\u56e2\u9152\u5e97\u7684\u6e20\u9053\u7cfb\u6570\u4e3a\u00d70.9\uff1b',
+    },
+    channelRp: {
+        label: '\u4ea7\u54c1\u7cfb\u6570',
+        text: '\u4ea7\u54c1\u7cfb\u6570\u53ef\u901a\u8fc7\u623f\u578b\u4ef7\u683c\u63a8\u7b97\u5404\u4e2aRP\u7684\u4ef7\u683c\u3002\u60a8\u53ef\u6839\u636e\u5b9e\u9645\u5404\u4e2aRP\u7684\u5dee\u5f02\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\uff0c\u5982\u6709\u65e9\u4e0d\u53ef\u53d6\u6d88\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\u201c+50\u201d\uff0c\u6709\u65e9\u53ef\u53d6\u6d88\u8bbe\u7f6e\u4ea7\u54c1\u7cfb\u6570\u201c+80\u201d',
+    },
+};
+function PriceCoefficientHeader({ label, text }) {
+    return (_jsxs("div", { className: "central-price-grid__coefficient-head", "data-testid": "price-coefficient-header", children: [_jsx("span", { children: label }), _jsxs("span", { className: "central-price-grid__coefficient-help", children: [_jsx("button", { type: "button", "data-testid": "price-coefficient-help-trigger", "aria-label": `${label}\u8bf4\u660e`, children: "i" }), _jsx("span", { className: "central-price-grid__coefficient-tooltip", role: "tooltip", children: text })] })] }));
+}
 function buildCentralPlanningRows(context) {
     return [
         {
@@ -124,66 +263,47 @@ function buildCentralPlanningRows(context) {
     ];
 }
 function buildChannelPlanningRows(context) {
-    return [
-        {
-            id: `${context.roomName}-ctrip`,
-            title: context.roomName,
-            subtitle: context.roomSubtitle,
-            badgeId: 'ctrip',
-            weekday: context.actualPrice,
-            weekend: context.comparePrice,
-            holiday: '859.14',
-            secondaryWeekday: context.actualPrice,
-            secondaryWeekend: context.comparePrice,
-            secondaryHoliday: '859.14',
-        },
-        {
-            id: `${context.roomName}-meituanHotel`,
-            title: '总裁套间 台球电竞豪华房',
-            subtitle: '电竞 艺企刚 钢铁侠之家',
-            badgeId: 'meituanHotel',
-            weekday: '673.89',
-            weekend: '826.11',
-            holiday: '849.15',
-            secondaryWeekday: '673.89',
-            secondaryWeekend: '826.11',
-            secondaryHoliday: '849.15',
-        },
-        {
-            id: `${context.roomName}-tujia`,
-            title: '总裁套间 独享浴缸豪华房',
-            subtitle: '台合球麻将 <无早>',
-            badgeId: 'tujia',
-            weekday: '811.89',
-            weekend: '995.1',
-            holiday: '1,391.28',
-            secondaryWeekday: '811.89',
-            secondaryWeekend: '995.1',
-            secondaryHoliday: '1,391.28',
-        },
-        {
-            id: `${context.roomName}-meituanHomestay`,
-            title: '总裁套间 独享台球电竞套',
-            subtitle: '浴缸氛围房台麻将 不含早',
-            badgeId: 'meituanHomestay',
-            weekday: '920',
-            weekend: '920',
-            holiday: '设置',
-            secondaryWeekday: '920',
-            secondaryWeekend: '920',
-        },
-        {
-            id: `${context.roomName}-feizhu`,
-            title: '总裁套间（桑拿浴缸露台电竞麻将）',
-            badgeId: 'feizhu',
-            weekday: '850',
-            weekend: '850',
-            holiday: '850',
-            secondaryWeekday: '850',
-            secondaryWeekend: '850',
-            secondaryHoliday: '850',
-        },
-    ];
+    return context.rows.map((row, index) => {
+        const compareBasePrice = applyChannelLinePriceRate(row.channel, row.basePrice, getChannelBaseComparePrice(row), context.savedChannelRateDrafts, context.channelRateSettings);
+        const title = row.product?.trim() || row.channel || context.roomName;
+        return {
+            id: `${row.roomCategoryId ?? context.roomName}-${(row.channelId ?? row.channel) || index}-${title}`,
+            title,
+            subtitle: index === 0 ? context.roomName : undefined,
+            badgeId: row.channelBadgeId ?? context.channelBadgeId,
+            weekday: row.basePrice,
+            weekend: compareBasePrice,
+            holiday: compareBasePrice,
+            secondaryWeekday: row.basePrice,
+            secondaryWeekend: compareBasePrice,
+            secondaryHoliday: compareBasePrice,
+            roomCategoryId: row.roomCategoryId,
+            channelId: row.channelId,
+            productName: row.product,
+        };
+    });
+}
+function getChannelBaseComparePrice(row) {
+    return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice;
+}
+function toPriceUpdateType(mode) {
+    if (mode === 'increase')
+        return 2;
+    if (mode === 'percent')
+        return 3;
+    return 1;
+}
+function resolvePlanDateKeys(columnKey, dates = []) {
+    return dates
+        .filter((date) => {
+        const day = new Date(`${date.key}T00:00:00+08:00`).getDay();
+        if (columnKey === 'weekend')
+            return day === 5 || day === 6;
+        if (columnKey === 'holiday')
+            return day === 0 || day === 6;
+        return day !== 5 && day !== 6;
+    })
+        .map((date) => date.key);
 }
 function makePriceDates(offset, startDay = 12) {
     return Array.from({ length: 30 }, (_, index) => {
@@ -255,9 +375,15 @@ function ChannelDrawer({ title, label, onClose, children, }) {
     const dialogLabel = label ?? title;
     return (_jsx("div", { className: "channel-drawer-shell", role: "presentation", children: _jsxs("section", { className: "channel-drawer", role: "dialog", "aria-modal": "true", "aria-label": dialogLabel, children: [_jsxs("header", { children: [_jsx("h2", { children: title }), _jsx("button", { type: "button", "aria-label": `关闭${dialogLabel}`, onClick: onClose, children: "\u00D7" })] }), children] }) }));
 }
-function BasePricePlanningDrawer({ context, onClose, onSave, }) {
+function BasePricePlanningDrawer({ context, onClose, onSave, onSavePlanCells, }) {
     const [settingOpen, setSettingOpen] = useState(false);
     const [planningDraftRows, setPlanningDraftRows] = useState([{ id: 1 }, { id: 2 }]);
+    const [selectedPlanCells, setSelectedPlanCells] = useState([]);
+    const [planEditMode, setPlanEditMode] = useState('fixed');
+    const [planEditValue, setPlanEditValue] = useState('');
+    const [overwriteStandalone, setOverwriteStandalone] = useState(true);
+    const [savingPlan, setSavingPlan] = useState(false);
+    const [planError, setPlanError] = useState('');
     const isChannelRp = context.variant === 'channel-rp';
     const columns = [
         { key: 'title', label: '房型' },
@@ -265,53 +391,294 @@ function BasePricePlanningDrawer({ context, onClose, onSave, }) {
         { key: 'weekend', label: '周末价(五/六)' },
         { key: 'holiday', label: '节假日价' },
     ];
-    const planningRows = context.planningRows.map((row) => {
-        const cleanedCopy = row.badgeId === 'meituanHotel'
-            ? { title: '桑拿浴缸露台球桌天落床俯瞰天轮深圳湾', subtitle: '电竞主题 双床房型' }
-            : row.badgeId === 'tujia'
-                ? { title: '独享浴缸桑拿露台台球麻将房', subtitle: '无早' }
-                : row.badgeId === 'meituanHomestay'
-                    ? { title: '独享台球电竞露台浴缸套房', subtitle: '不含早' }
-                    : row.badgeId === 'feizhu'
-                        ? { title: '桑拿浴缸露台电竞麻将房', subtitle: '标准售卖房型' }
-                        : { title: row.title, subtitle: row.subtitle };
-        return {
-            ...row,
-            ...cleanedCopy,
-            holiday: row.holiday === '璁剧疆' ? '设置' : row.holiday,
-        };
-    });
+    const planningRows = context.planningRows.map((row) => ({
+        ...row,
+        holiday: row.holiday === '璁剧疆' ? '设置' : row.holiday,
+    }));
+    useEffect(() => {
+        if (selectedPlanCells.length === 0)
+            return;
+        setPlanEditMode('fixed');
+        setPlanEditValue(selectedPlanCells[selectedPlanCells.length - 1]?.price ?? '');
+        setPlanError('');
+    }, [selectedPlanCells]);
     function appendPlanningDraftRow() {
         setPlanningDraftRows((current) => [...current, { id: Date.now() + current.length }]);
     }
     function removePlanningDraftRow(id) {
         setPlanningDraftRows((current) => (current.length > 1 ? current.filter((item) => item.id !== id) : current));
     }
-    return (_jsxs(_Fragment, { children: [_jsx("div", { className: "price-base-planning-backdrop" }), _jsxs("section", { className: "price-base-planning-drawer", role: "dialog", "aria-modal": "false", "aria-label": "\u4EF7\u683C\u89C4\u5212", children: [_jsxs("header", { className: "price-base-planning-drawer__header", children: [_jsx("strong", { children: "\u4EF7\u683C\u89C4\u5212" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4EF7\u683C\u89C4\u5212", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "price-base-planning-drawer__body", children: [_jsxs("div", { className: "price-base-planning-filters", children: [_jsx("button", { type: "button", className: "price-base-planning-filter is-active", children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u5929\u843D\u6D74\u7F38\u7535\u7ADE\u516C\u5BD3" }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u6E20\u9053" }), _jsx("button", { type: "button", className: "price-base-planning-filter price-base-planning-filter--selected", children: context.roomName }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u623F\u578B\u6807\u7B7E" }), _jsx("label", { className: "price-base-planning-search", children: _jsx("input", { type: "text", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898" }) }), _jsx("button", { type: "button", className: "price-base-planning-toolbar__add", onClick: () => setSettingOpen(true), children: "+\u65B0\u589E\u89C4\u5212" })] }), _jsxs("div", { className: "price-base-planning-layout", children: [_jsxs("div", { className: "price-base-planning-table", role: "table", "aria-label": "\u4EF7\u683C\u89C4\u5212\u5217\u8868", children: [_jsx("div", { className: "price-base-planning-table__head", role: "row", children: columns.map((column) => (_jsx("div", { role: "columnheader", children: column.label }, column.key))) }), planningRows.map((row, index) => (_jsxs("div", { className: `price-base-planning-table__row${index === 0 ? ' is-group' : ''}`, role: "row", children: [_jsxs("div", { className: "price-base-planning-table__title", role: "cell", children: [_jsxs("div", { className: "price-base-planning-table__name", children: [row.badgeId ? _jsx(ChannelBadgeIcon, { badgeId: row.badgeId, label: row.title }) : null, _jsx("strong", { children: row.title })] }), row.subtitle ? _jsx("span", { children: row.subtitle }) : null] }), _jsxs("div", { role: "cell", children: [_jsx("strong", { children: row.weekday }), row.secondaryWeekday ? _jsx("span", { children: row.secondaryWeekday }) : null] }), _jsxs("div", { role: "cell", children: [_jsx("strong", { children: row.weekend }), row.secondaryWeekend ? _jsx("span", { children: row.secondaryWeekend }) : null] }), _jsxs("div", { role: "cell", className: row.holiday === '设置' ? 'is-link' : '', children: [_jsx("strong", { children: row.holiday }), row.secondaryHoliday ? _jsx("span", { children: row.secondaryHoliday }) : null] })] }, row.id)))] }), _jsx("div", { className: "price-base-planning-preview" })] })] })] }), settingOpen ? (_jsxs("section", { className: "price-base-planning-setting-drawer", role: "dialog", "aria-modal": "false", "aria-label": "\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E", children: [_jsxs("header", { className: "price-base-planning-drawer__header", children: [_jsx("strong", { children: "\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E", onClick: () => setSettingOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-base-planning-setting-drawer__body", children: [_jsxs("div", { className: "price-base-planning-setting-grid price-base-planning-setting-grid--head", children: [_jsx("span", { children: "\u540D\u79F0" }), _jsx("span", { children: "\u5F00\u59CB\u65F6\u95F4" }), _jsx("span", { children: "\u7ED3\u675F\u65F6\u95F4" })] }), _jsxs("div", { className: "price-base-planning-setting-grid", children: [_jsx("input", { defaultValue: `${context.roomName} 周末计划` }), _jsx("input", { defaultValue: "2026-05-23" }), _jsx("input", { defaultValue: "2026-06-23" })] }), _jsx("div", { className: "price-base-planning-setting-list", children: planningDraftRows.map((item, index) => (_jsxs("div", { className: "price-base-planning-setting-row", children: [_jsxs("div", { className: "price-base-planning-setting-grid", children: [_jsx("input", { defaultValue: index === 0 ? '' : `${context.roomName} 周末计划`, placeholder: "\u8BF7\u8F93\u5165" }), _jsx("input", { defaultValue: "26.05.23" }), _jsx("input", { defaultValue: "26.05.23" })] }), _jsx("button", { type: "button", className: "price-base-planning-setting-remove", "aria-label": "\u5220\u9664\u4E00\u884C", onClick: () => removePlanningDraftRow(item.id), children: "\u00D7" })] }, item.id))) }), _jsx("button", { type: "button", className: "price-base-planning-setting-add", onClick: appendPlanningDraftRow, children: "\u6DFB\u52A0" })] }), _jsxs("footer", { className: "price-base-planning-drawer__footer", children: [_jsx("button", { type: "button", onClick: () => setSettingOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => {
+    function isPlanCellSelected(key) {
+        return selectedPlanCells.some((cell) => cell.key === key);
+    }
+    function togglePlanCell(row, column) {
+        const key = `${row.id}-${column.key}`;
+        const price = String(row[column.key] ?? '').trim();
+        if (!price || price === '设置') {
+            setPlanError('当前价格格子还没有可保存的价格');
+            return;
+        }
+        setSelectedPlanCells((current) => {
+            const exists = current.some((cell) => cell.key === key);
+            if (exists)
+                return current.filter((cell) => cell.key !== key);
+            return [
+                ...current,
+                {
+                    key,
+                    rowId: row.id,
+                    rowTitle: row.title,
+                    columnKey: column.key,
+                    columnLabel: column.label,
+                    price,
+                    basePrice: price,
+                    roomCategoryId: row.roomCategoryId ?? context.roomCategoryId,
+                    channelId: row.channelId ?? context.channelId,
+                    productName: row.productName ?? context.productName,
+                    dateKeys: resolvePlanDateKeys(column.key, context.dateRange),
+                },
+            ];
+        });
+    }
+    async function saveSelectedPlanCells() {
+        if (selectedPlanCells.length === 0)
+            return;
+        if (!planEditValue.trim()) {
+            setPlanError('请输入改价值');
+            return;
+        }
+        setSavingPlan(true);
+        setPlanError('');
+        try {
+            if (onSavePlanCells) {
+                await onSavePlanCells(selectedPlanCells, {
+                    mode: planEditMode,
+                    value: planEditValue.trim(),
+                    overwriteStandalone,
+                });
+            }
+            setSelectedPlanCells([]);
+            onSave(isChannelRp ? '渠道RP价价格规划已保存' : '中央价价格规划已保存');
+        }
+        catch (error) {
+            setPlanError(error instanceof Error ? error.message : '价格规划保存失败');
+        }
+        finally {
+            setSavingPlan(false);
+        }
+    }
+    return (_jsxs(_Fragment, { children: [_jsx("div", { className: "price-base-planning-backdrop" }), _jsxs("section", { className: "price-base-planning-drawer", role: "dialog", "aria-modal": "false", "aria-label": "\u4EF7\u683C\u89C4\u5212", children: [_jsxs("header", { className: "price-base-planning-drawer__header", children: [_jsx("strong", { children: "\u4EF7\u683C\u89C4\u5212" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4EF7\u683C\u89C4\u5212", onClick: onClose, children: "\u00D7" })] }), _jsxs("div", { className: "price-base-planning-drawer__body", children: [_jsxs("div", { className: "price-base-planning-filters", children: [_jsx("button", { type: "button", className: "price-base-planning-filter is-active", children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u5929\u843D\u6D74\u7F38\u7535\u7ADE\u516C\u5BD3" }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u6E20\u9053" }), _jsx("button", { type: "button", className: "price-base-planning-filter price-base-planning-filter--selected", children: context.roomName }), _jsx("button", { type: "button", className: "price-base-planning-filter", children: "\u623F\u578B\u6807\u7B7E" }), _jsx("label", { className: "price-base-planning-search", children: _jsx("input", { type: "text", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898" }) }), _jsx("button", { type: "button", className: "price-base-planning-toolbar__add", onClick: () => setSettingOpen(true), children: "+\u65B0\u589E\u89C4\u5212" })] }), _jsxs("div", { className: "price-base-planning-layout", children: [_jsxs("div", { className: "price-base-planning-table", role: "table", "aria-label": "\u4EF7\u683C\u89C4\u5212\u5217\u8868", children: [_jsx("div", { className: "price-base-planning-table__head", role: "row", children: columns.map((column) => (_jsx("div", { role: "columnheader", children: column.label }, column.key))) }), planningRows.map((row, index) => (_jsxs("div", { className: `price-base-planning-table__row${index === 0 ? ' is-group' : ''}`, role: "row", children: [_jsxs("div", { className: "price-base-planning-table__title", role: "cell", children: [_jsxs("div", { className: "price-base-planning-table__name", children: [row.badgeId ? _jsx(ChannelBadgeIcon, { badgeId: row.badgeId, label: row.title }) : null, _jsx("strong", { children: row.title })] }), row.subtitle ? _jsx("span", { children: row.subtitle }) : null] }), columns.slice(1).map((column) => {
+                                                        const value = row[column.key];
+                                                        const secondary = column.key === 'weekday'
+                                                            ? row.secondaryWeekday
+                                                            : column.key === 'weekend'
+                                                                ? row.secondaryWeekend
+                                                                : row.secondaryHoliday;
+                                                        const cellKey = `${row.id}-${column.key}`;
+                                                        return (_jsx("div", { role: "cell", className: value === '设置' ? 'is-link' : '', children: _jsxs("button", { type: "button", className: `price-base-planning-cell${isPlanCellSelected(cellKey) ? ' is-selected' : ''}`, "data-testid": `base-price-plan-cell-${column.key}`, onClick: () => togglePlanCell(row, column), children: [_jsx("strong", { children: value }), secondary ? _jsx("span", { children: secondary }) : null] }) }, column.key));
+                                                    })] }, row.id)))] }), _jsx("div", { className: "price-base-planning-preview" })] })] })] }), settingOpen ? (_jsxs("section", { className: "price-base-planning-setting-drawer", role: "dialog", "aria-modal": "false", "aria-label": "\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E", children: [_jsxs("header", { className: "price-base-planning-drawer__header", children: [_jsx("strong", { children: "\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u4EF7\u683C\u89C4\u5212\u8BBE\u7F6E", onClick: () => setSettingOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-base-planning-setting-drawer__body", children: [_jsxs("div", { className: "price-base-planning-setting-grid price-base-planning-setting-grid--head", children: [_jsx("span", { children: "\u540D\u79F0" }), _jsx("span", { children: "\u5F00\u59CB\u65F6\u95F4" }), _jsx("span", { children: "\u7ED3\u675F\u65F6\u95F4" })] }), _jsxs("div", { className: "price-base-planning-setting-grid", children: [_jsx("input", { defaultValue: `${context.roomName} 周末计划` }), _jsx("input", { defaultValue: "2026-05-23" }), _jsx("input", { defaultValue: "2026-06-23" })] }), _jsx("div", { className: "price-base-planning-setting-list", children: planningDraftRows.map((item, index) => (_jsxs("div", { className: "price-base-planning-setting-row", children: [_jsxs("div", { className: "price-base-planning-setting-grid", children: [_jsx("input", { defaultValue: index === 0 ? '' : `${context.roomName} 周末计划`, placeholder: "\u8BF7\u8F93\u5165" }), _jsx("input", { defaultValue: "26.05.23" }), _jsx("input", { defaultValue: "26.05.23" })] }), _jsx("button", { type: "button", className: "price-base-planning-setting-remove", "aria-label": "\u5220\u9664\u4E00\u884C", onClick: () => removePlanningDraftRow(item.id), children: "\u00D7" })] }, item.id))) }), _jsx("button", { type: "button", className: "price-base-planning-setting-add", onClick: appendPlanningDraftRow, children: "\u6DFB\u52A0" })] }), _jsxs("footer", { className: "price-base-planning-drawer__footer", children: [_jsx("button", { type: "button", onClick: () => setSettingOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => {
                                     setSettingOpen(false);
                                     onSave(isChannelRp ? '渠道PR价价格规划已保存' : '中央价价格规划已保存');
-                                }, children: "\u4FDD\u5B58" })] })] })) : null] }));
+                                }, children: "\u4FDD\u5B58" })] })] })) : null, selectedPlanCells.length > 0 ? (_jsx("div", { className: "price-edit-drawer-backdrop price-base-plan-edit-drawer-backdrop", children: _jsxs("section", { className: "price-edit-drawer price-base-plan-edit-drawer", role: "dialog", "aria-modal": "false", "aria-label": "\u6539\u4EF7", children: [_jsxs("header", { children: [_jsx("strong", { children: "\u6539\u4EF7" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6539\u4EF7", onClick: () => setSelectedPlanCells([]), children: "\u00D7" })] }), _jsxs("div", { className: "price-edit-drawer__body", children: [_jsx("p", { className: "price-edit-drawer__selection", children: `已选${selectedPlanCells.length}项` }), planError ? (_jsx("p", { className: "price-edit-error", role: "alert", children: planError })) : null, _jsxs("section", { className: "price-edit-card", children: [_jsx("div", { className: "price-edit-card__title", children: "\u4EF7\u683C" }), _jsx("div", { className: "price-edit-options", role: "radiogroup", "aria-label": "\u6539\u4EF7\u65B9\u5F0F", children: [
+                                                { value: 'fixed', label: '绝对值改价' },
+                                                { value: 'increase', label: '差值改价' },
+                                                { value: 'percent', label: '百分比改价' },
+                                            ].map((option) => (_jsxs("button", { type: "button", role: "radio", "aria-checked": planEditMode === option.value, className: `price-edit-option${planEditMode === option.value ? ' is-active' : ''}`, onClick: () => setPlanEditMode(option.value), children: [_jsx("i", { "aria-hidden": "true" }), _jsx("span", { children: option.label })] }, option.value))) }), _jsxs("label", { className: "price-edit-input", children: [_jsx("span", { className: "sr-only-heading", children: "\u6539\u4EF7\u503C" }), _jsx("input", { type: "text", "aria-label": "\u6539\u4EF7\u503C", placeholder: "\u8BF7\u8F93\u5165", value: planEditValue, onChange: (event) => setPlanEditValue(event.target.value), autoFocus: true })] }), _jsxs("label", { className: "price-edit-checkbox", children: [_jsx("input", { type: "checkbox", checked: overwriteStandalone, onChange: (event) => setOverwriteStandalone(event.target.checked) }), _jsx("span", { children: "\u8986\u76D6\u65E5\u5386\u4E0A\u5355\u72EC\u7EF4\u62A4\u8FC7\u7684\u4EF7\u683C" })] })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", className: "is-primary", onClick: saveSelectedPlanCells, disabled: savingPlan, children: savingPlan ? '保存中' : '保存' }), _jsx("button", { type: "button", onClick: () => setSelectedPlanCells([]), disabled: savingPlan, children: "\u53D6\u6D88" })] })] }) })) : null] }));
 }
-export function ChannelPriceSettings({ onClose }) {
+function formatChannelSettingName(setting) {
+    return setting.accountLabel ? `${setting.channel}(${setting.accountLabel})` : setting.channel;
+}
+function PriceSettingsExampleCard({ compact = false }) {
+    return (_jsx("div", { className: `price-settings-example-card${compact ? ' price-settings-example-card--compact' : ''}`, children: _jsx("img", { src: priceSettingsExampleImage, alt: "\u5546\u52A1\u53CC\u5E8A\u623F\u5212\u7EBF\u4EF7\u4E0E\u5B9E\u9645\u5356\u4EF7\u793A\u4F8B" }) }));
+}
+function ChannelRateSettingsGrid({ settings = centralPriceSettings, drafts: controlledDrafts, onDraftChange, }) {
+    const [localDrafts, setLocalDrafts] = useState(() => createDefaultChannelRateDrafts(settings));
+    const drafts = controlledDrafts ?? localDrafts;
+    function updateDraft(id, value) {
+        const nextValue = sanitizeChannelRateDraft(value);
+        if (onDraftChange) {
+            onDraftChange(id, nextValue);
+            return;
+        }
+        setLocalDrafts((current) => ({ ...current, [id]: nextValue }));
+    }
+    return (_jsx("div", { className: "price-settings-channel-grid", "aria-label": "\u6E20\u9053\u4EF7\u683C\u6BD4\u4F8B\u8BBE\u7F6E", children: settings.map((item) => {
+            const channelName = formatChannelSettingName(item);
+            const value = drafts[item.id] ?? '';
+            return (_jsxs("label", { className: "price-settings-channel", children: [_jsxs("span", { className: "price-settings-channel__head", children: [_jsx("img", { src: item.icon, alt: "", "aria-hidden": "true" }), _jsx("strong", { children: channelName })] }), _jsxs("span", { className: "price-settings-channel__formula", children: [_jsx("span", { children: "\u5212\u7EBF\u4EF7 = \u5B9E\u9645\u5356\u4EF7 /" }), _jsxs("span", { className: "price-settings-channel__input-wrap", children: [_jsx("input", { "aria-label": `${channelName} 优惠比例`, inputMode: "decimal", value: value, placeholder: "", onChange: (event) => updateDraft(item.id, event.target.value) }), _jsx("b", { children: "%" })] })] })] }, item.id));
+        }) }));
+}
+export function ChannelPriceSettings({ onClose, settings = centralPriceSettings, drafts, onDraftChange, onSave, onSaved, }) {
     const [tab, setTab] = useState('setting');
-    return (_jsxs(ChannelDrawer, { title: tab === 'setting' ? '价格设置' : '更新价格设置', onClose: onClose, children: [_jsxs("div", { className: "channel-drawer-tabs", children: [_jsx("button", { type: "button", className: tab === 'setting' ? 'is-active' : '', onClick: () => setTab('setting'), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", className: tab === 'update' ? 'is-active' : '', onClick: () => setTab('update'), children: "\u66F4\u65B0\u4EF7\u683C\u8BBE\u7F6E" })] }), tab === 'setting' ? (_jsxs(_Fragment, { children: [_jsxs("section", { className: "channel-price-settings-section", children: [_jsx("h3", { children: "\u9875\u9762\u4EF7\u683C\u8BBE\u7F6E" }), _jsxs("div", { className: "channel-price-settings-current", children: [_jsx("span", { children: "\u5F53\u524D\u6B63\u4F7F\u7528\uFF1A" }), _jsx("strong", { children: "\u201C\u5B9E\u9645\u5356\u4EF7\u201D" }), _jsx("span", { children: "\u8C03\u4EF7" }), _jsx("button", { type: "button", children: "\u5207\u6362\u4E3A\u5212\u7EBF\u4EF7" })] })] }), _jsxs("section", { className: "channel-price-settings-section", children: [_jsx("h3", { children: "\u5212\u7EBF\u4EF7\u4E0E\u5B9E\u9645\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsxs("div", { className: "channel-price-settings-hero", children: [_jsxs("article", { className: "channel-price-settings-room-card", children: [_jsx("div", { className: "channel-price-settings-room-card__media" }), _jsxs("div", { className: "channel-price-settings-room-card__copy", children: [_jsx("strong", { children: "\u5546\u52A1\u53CC\u5E8A\u623F" }), _jsx("span", { children: "2\u5F201.2\u7C73\u5355\u4EBA\u5E8A 2\u4EBA\u5165\u4F4F 28-32\u33A1" }), _jsx("span", { children: "\u65E0\u65E9\u9910 \u4EBA\u4F4F\u5F53\u592918:00\u524D\u53EF\u514D\u8D39\u53D6\u6D88" })] })] }), _jsxs("div", { className: "channel-price-settings-price-box", children: [_jsx("span", { children: "\u5212\u7EBF\u4EF7" }), _jsx("em", { children: "\u00A5522" }), _jsx("strong", { children: "\u5B9E\u9645\u5356\u4EF7" }), _jsx("b", { children: "\u00A5308" })] }), _jsxs("div", { className: "channel-price-settings-ratio-box", children: [_jsx("span", { children: "\u4F18\u60E0\u6BD4\u4F8B" }), _jsx("strong", { children: "\u5B9E\u9645\u5356\u4EF7/\u5212\u7EBF\u4EF7" }), _jsx("b", { children: "308/522" })] })] }), _jsx("div", { className: "channel-price-settings-grid", children: channelSettingRows.map(([name, value]) => (_jsxs("article", { className: "channel-price-settings-card", children: [_jsx("strong", { children: name }), _jsxs("label", { children: [_jsx("span", { children: "\u5212\u7EBF\u4EF7 = \u5B9E\u9645\u5356\u4EF7 /" }), _jsxs("div", { children: [_jsx("input", { "aria-label": `${name} 优惠比例`, defaultValue: value }), _jsx("em", { children: "%" })] })] })] }, name))) })] }), _jsxs("footer", { className: "channel-price-settings-footer", children: [_jsx("p", { children: "\u4FDD\u5B58\u4F18\u60E0\u6BD4\u4F8B\u540E\u8BF7\u68C0\u67E5\u4EF7\u683C\u51C6\u786E\uFF0C\u518D\u64CD\u4F5C\u63A8\u9001\u81F3\u6E20\u9053" }), _jsxs("div", { children: [_jsx("button", { type: "button", className: "is-primary", onClick: onClose, children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" })] })] })] })) : (_jsxs(_Fragment, { children: [_jsxs("section", { className: "channel-price-settings-section channel-price-settings-section--update", children: [_jsxs("div", { className: "channel-price-settings-update-head", children: [_jsxs("div", { children: [_jsx("strong", { children: "\u81EA\u52A8\u66F4\u65B0\u4EF7\u683C" }), _jsx("span", { children: "\u6CE8\u610F\uFF1A\u6682\u652F\u6301\u7F8E\u56E2\u6C11\u5BBF\u548C\u9014\u5BB6" })] }), _jsx("button", { type: "button", className: "channel-price-settings-switch", "aria-pressed": "false", children: _jsx("i", {}) })] }), _jsx("p", { children: "\u5F00\u542F\u540E\uFF0C\u82E5\u6E20\u9053\u5E73\u53F0\u4EF7\u683C\u6709\u53D8\u5316\uFF0C\u5219\u81EA\u52A8\u66F4\u65B0\u81F3\u8DEF\u5BA2\u4E91\u7684\u6E20\u9053\u4E2D\u4EF7" })] }), _jsx("footer", { className: "channel-price-settings-footer channel-price-settings-footer--single", children: _jsx("div", { children: _jsx("button", { type: "button", className: "is-primary", onClick: onClose, children: "\u4FDD\u5B58" }) }) })] }))] }));
+    return (_jsxs(ChannelDrawer, { title: tab === 'setting' ? '价格设置' : '更新价格设置', onClose: onClose, children: [_jsxs("div", { className: "channel-drawer-tabs", children: [_jsx("button", { type: "button", className: tab === 'setting' ? 'is-active' : '', onClick: () => setTab('setting'), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", className: tab === 'update' ? 'is-active' : '', onClick: () => setTab('update'), children: "\u66F4\u65B0\u4EF7\u683C\u8BBE\u7F6E" })] }), tab === 'setting' ? (_jsxs(_Fragment, { children: [_jsxs("div", { className: "channel-price-settings-scroll", children: [_jsxs("section", { className: "channel-price-settings-section", children: [_jsx("h3", { children: "\u9875\u9762\u4EF7\u683C\u8BBE\u7F6E" }), _jsxs("div", { className: "channel-price-settings-current", children: [_jsx("span", { children: "\u5F53\u524D\u6B63\u4F7F\u7528\uFF1A" }), _jsx("strong", { children: "\u201C\u5B9E\u9645\u5356\u4EF7\u201D" }), _jsx("span", { children: "\u8C03\u4EF7" }), _jsx("button", { type: "button", children: "\u5207\u6362\u4E3A\u5212\u7EBF\u4EF7" })] })] }), _jsxs("section", { className: "channel-price-settings-section", children: [_jsx("h3", { children: "\u5212\u7EBF\u4EF7\u4E0E\u5B9E\u9645\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsx(PriceSettingsExampleCard, { compact: true }), _jsx(ChannelRateSettingsGrid, { settings: settings, drafts: drafts, onDraftChange: onDraftChange })] })] }), _jsxs("footer", { className: "channel-price-settings-footer", children: [_jsx("p", { children: "\u4FDD\u5B58\u4F18\u60E0\u6BD4\u4F8B\u540E\u8BF7\u68C0\u67E5\u4EF7\u683C\u51C6\u786E\uFF0C\u518D\u64CD\u4F5C\u63A8\u9001\u81F3\u6E20\u9053" }), _jsxs("div", { children: [_jsx("button", { type: "button", className: "is-primary", onClick: () => {
+                                            if (onSave?.() === false)
+                                                return;
+                                            onSaved?.('价格设置已保存，后续推送将按当前比例执行');
+                                            onClose();
+                                        }, children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" })] })] })] })) : (_jsxs(_Fragment, { children: [_jsx("div", { className: "channel-price-settings-scroll", children: _jsxs("section", { className: "channel-price-settings-section channel-price-settings-section--update", children: [_jsxs("div", { className: "channel-price-settings-update-head", children: [_jsxs("div", { children: [_jsx("strong", { children: "\u81EA\u52A8\u66F4\u65B0\u4EF7\u683C" }), _jsx("span", { children: "\u6CE8\u610F\uFF1A\u6682\u652F\u6301\u7F8E\u56E2\u6C11\u5BBF\u548C\u9014\u5BB6" })] }), _jsx("button", { type: "button", className: "channel-price-settings-switch", "aria-pressed": "false", children: _jsx("i", {}) })] }), _jsx("p", { children: "\u5F00\u542F\u540E\uFF0C\u82E5\u6E20\u9053\u5E73\u53F0\u4EF7\u683C\u6709\u53D8\u5316\uFF0C\u5219\u81EA\u52A8\u66F4\u65B0\u81F3\u8DEF\u5BA2\u4E91\u7684\u6E20\u9053\u4E2D\u4EF7" })] }) }), _jsx("footer", { className: "channel-price-settings-footer channel-price-settings-footer--single", children: _jsx("div", { children: _jsx("button", { type: "button", className: "is-primary", onClick: onClose, children: "\u4FDD\u5B58" }) }) })] }))] }));
 }
 export function ChannelPricePlan({ onClose }) {
     return (_jsxs(ChannelDrawer, { title: "\u4EF7\u683C\u89C4\u5212", onClose: onClose, children: [_jsxs("div", { className: "channel-drawer-filterbar", children: [_jsx("button", { type: "button", className: "chip is-active", children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: "chip", children: "\u5929\u843D\u4F1A\u5BBF\u516C\u5BD3(\u524D\u6D77\u58F9\u65B9\u57CE\u5B9D\u5B89\u4E2D\u5FC3\u5E97)" }), _jsx("button", { type: "button", className: "chip", children: "\u6E20\u9053" }), _jsx("button", { type: "button", className: "chip", children: "\u623F\u578B" }), _jsx("button", { type: "button", className: "chip", children: "\u623F\u578B\u6807\u7B7E" }), _jsx("input", { type: "text", placeholder: "\u623F\u6E90\u7F16\u7801/\u7B80\u79F0/\u6807\u9898" }), _jsx("button", { type: "button", className: "price-plan-add", children: "+\u65B0\u589E\u89C4\u5212" })] }), _jsxs("div", { className: "channel-plan-table", "aria-label": "\u4EF7\u683C\u89C4\u5212\u8868\u683C", children: [_jsxs("div", { className: "channel-plan-table__head", children: [_jsx("div", { children: "\u623F\u578B" }), _jsx("div", { children: "\u5E73\u65E5\u4EF7" }), _jsx("div", { children: "\u5468\u672B\u4EF7(\u4E94/\u516D)" }), _jsx("div", { children: "\u8282\u5047\u65E5\u4EF7" })] }), channelPlanRows.map(([room, product, weekday, weekend, holiday], index) => (_jsxs("div", { className: room ? 'is-room-start' : '', children: [_jsxs("div", { children: [room ? _jsx("strong", { children: room }) : null, _jsx("span", { children: product })] }), _jsx("div", { children: weekday }), _jsx("div", { children: weekend }), _jsx("div", { className: holiday === '设置' ? 'is-link' : '', children: holiday })] }, `${product}-${index}`)))] })] }));
 }
-export function ChannelBatchDrawer({ onClose }) {
-    return (_jsxs(ChannelDrawer, { title: "\u6279\u91CF\u4FEE\u6539", onClose: onClose, children: [_jsxs("div", { className: "channel-batch-body", children: [_jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4FEE\u6539\u7C7B\u578B" }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-batch-type", defaultChecked: true }), " \u4EF7\u683C"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-batch-type" }), " \u8C03\u6574\u4EA7\u54C1\u6BD4\u4F8B"] })] }), _jsxs("section", { className: "channel-drawer-section channel-pick-row", children: [_jsx("h3", { children: "\u9009\u62E9\u4EA7\u54C1" }), _jsx("button", { type: "button", children: "\u6DFB\u52A0\u4EA7\u54C1" }), _jsx("span", { children: "\u5DF2\u90090\u4E2A\u4EA7\u54C1" })] }), _jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u9009\u62E9\u65E5\u671F" }), _jsxs("div", { className: "channel-mode-switch", children: [_jsx("button", { type: "button", className: "is-active", children: "\u591A\u6BB5\u6A21\u5F0F" }), _jsx("button", { type: "button", children: "\u65E5\u5386\u6A21\u5F0F" })] }), _jsxs("div", { className: "channel-date-range", children: ["2026-05-13 ", _jsx("span", { children: "\u2192" }), " 2026-05-13"] }), _jsx("button", { type: "button", className: "channel-link-button", children: "\u6DFB\u52A0\u65F6\u95F4\u6BB5" }), _jsx("button", { type: "button", className: "channel-link-button", children: "\u4FEE\u6539\u8282\u5047\u65E5\u4EF7\u683C" })] }), _jsxs("section", { className: "channel-drawer-section channel-weekdays", children: [_jsx("h3", { children: "\u9009\u62E9\u661F\u671F" }), ['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((day) => (_jsxs("label", { children: [_jsx("input", { type: "checkbox", defaultChecked: true }), " ", day] }, day))), _jsxs("label", { children: [_jsx("input", { type: "checkbox" }), " \u5168\u9009"] })] }), _jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4EF7\u683C" }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode", defaultChecked: true }), " \u7EDD\u5BF9\u503C\u6539\u4EF7"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode" }), " \u5DEE\u503C\u6539\u4EF7"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode" }), " \u767E\u5206\u6BD4\u6539\u4EF7"] }), _jsx("input", { type: "text", placeholder: "\u8BF7\u8F93\u5165" })] })] }), _jsxs("footer", { className: "channel-drawer-footer", children: [_jsx("button", { type: "button", onClick: onClose, children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" })] })] }));
+function makeChannelProductTargetId(roomCategoryId, channelId, productName) {
+    return `${roomCategoryId}::${channelId}::${productName}`;
 }
-export function ChannelPreviewModal({ onClose }) {
-    const previewRows = [
-        ['顶层套房（浴缸巨幕电竞麻将）', '*0.93', '848.16', '848.16', '1,080.66', '1,080.66'],
-        ['顶层套房（浴缸巨幕电竞麻将）', '-', '730', '—', '930', '930'],
-        ['桑拿浴缸百平露台台球桌天落床', '*0.9', '657', '657', '837', '837'],
-    ];
-    return (_jsx("div", { className: "channel-preview-backdrop", role: "presentation", onClick: onClose, children: _jsxs("section", { className: "channel-preview-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u623F\u4EF7\u4FEE\u6539\u9884\u89C8", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsx("h2", { children: "\u623F\u4EF7\u4FEE\u6539\u9884\u89C8" }), _jsxs("div", { children: [_jsx("button", { type: "button", children: "\u4E00\u952E\u8986\u76D6" }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u623F\u4EF7\u4FEE\u6539\u9884\u89C8", onClick: onClose, children: "\u00D7" })] })] }), _jsxs("div", { className: "channel-preview-grid", children: [_jsxs("div", { className: "channel-preview-grid__head", children: [_jsx("div", { children: "2026.05.13" }), _jsx("div", { children: "\u4EA7\u54C1\u7CFB\u6570" }), _jsx("div", { children: "05.13" }), _jsx("div", { children: "05.14" }), _jsx("div", { children: "05.15" }), _jsx("div", { children: "05.16" })] }), previewRows.map((row) => (_jsx("div", { children: row.map((cell) => (_jsx("div", { className: cell === '730' || cell === '930' ? 'is-diff' : '', children: cell }, cell))) }, row.join('-'))))] })] }) }));
+function toChannelProductTarget(room, row) {
+    const roomCategoryId = row.roomCategoryId || room.id;
+    const channelId = row.channelId || '';
+    const productName = row.product || '';
+    if (!roomCategoryId || !channelId || !productName)
+        return null;
+    return {
+        id: makeChannelProductTargetId(roomCategoryId, channelId, productName),
+        roomCategoryId,
+        roomName: room.name,
+        channelId,
+        channelName: row.channel,
+        productName,
+        coefficient: row.coefficient || '-',
+        basePrice: row.basePrice,
+    };
 }
-export function ChannelConfirmModal({ onClose, onConfirm }) {
-    return (_jsx("div", { className: "channel-confirm-backdrop", role: "presentation", onClick: onClose, children: _jsxs("section", { className: "channel-confirm-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u786E\u8BA4\u4E0D\u8986\u76D6\u6E20\u9053\u4EF7\u683C", onClick: (event) => event.stopPropagation(), children: [_jsx("strong", { children: "\u662F\u5426\u786E\u8BA4\u4E0D\u4F7F\u7528\u4E2D\u592E\u4EF7\u8986\u76D6\u6E20\u9053\u623F\u578B\u4EF7\u683C\uFF1F" }), _jsx("p", { children: "\u786E\u8BA4\u4E0D\u8986\u76D6\u540E\u4E2D\u592E\u4EF7\u548C\u6E20\u9053\u4EF7\u683C\u4E4B\u95F4\u4F1A\u5B58\u5728\u90E8\u5206\u5DEE\u5F02\u3002" }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", onClick: onConfirm, children: "\u786E\u5B9A" })] })] }) }));
+function ProductCoefficientFormula({ operator, value, onOperatorChange, onValueChange, autoFocus = false, }) {
+    return (_jsxs("div", { className: "channel-coefficient-formula", children: [_jsx("span", { children: "\u552E\u5356\u4EA7\u54C1\u4EF7 = \u623F\u578B\u4EF7" }), _jsxs("select", { "aria-label": "\u4EA7\u54C1\u7CFB\u6570\u8FD0\u7B97\u7B26", value: operator, onChange: (event) => onOperatorChange(event.target.value), children: [_jsx("option", { value: "+", children: "+" }), _jsx("option", { value: "-", children: "-" }), _jsx("option", { value: "*", children: "*" }), _jsx("option", { value: "/", children: "/" })] }), _jsx("input", { "aria-label": "\u4EA7\u54C1\u7CFB\u6570\u6570\u503C", type: "text", inputMode: "decimal", value: value, onChange: (event) => onValueChange(event.target.value), placeholder: operator === '*' || operator === '/' ? '请输入比例' : '请输入金额', autoFocus: autoFocus })] }));
+}
+function ChannelProductPicker({ products, selectedIds, onSelectedIdsChange, onClose, }) {
+    const [draftSelectedIds, setDraftSelectedIds] = useState(selectedIds);
+    const selectedSet = new Set(draftSelectedIds);
+    const groupedProducts = useMemo(() => {
+        const groups = new Map();
+        products.forEach((product) => {
+            const group = groups.get(product.roomCategoryId);
+            if (group) {
+                group.items.push(product);
+            }
+            else {
+                groups.set(product.roomCategoryId, { roomName: product.roomName, items: [product] });
+            }
+        });
+        return Array.from(groups.values());
+    }, [products]);
+    function toggleProduct(productId) {
+        setDraftSelectedIds((current) => (current.includes(productId) ? current.filter((id) => id !== productId) : [...current, productId]));
+    }
+    function toggleRoom(items) {
+        const roomIds = items.map((item) => item.id);
+        const allSelected = roomIds.every((id) => selectedSet.has(id));
+        setDraftSelectedIds((current) => {
+            const currentSet = new Set(current);
+            roomIds.forEach((id) => {
+                if (allSelected) {
+                    currentSet.delete(id);
+                }
+                else {
+                    currentSet.add(id);
+                }
+            });
+            return Array.from(currentSet);
+        });
+    }
+    return (_jsx("div", { className: "channel-product-picker-backdrop", role: "presentation", onClick: onClose, children: _jsxs("section", { className: "channel-product-picker", role: "dialog", "aria-modal": "true", "aria-label": "\u6DFB\u52A0\u4EA7\u54C1", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsx("strong", { children: "\u6DFB\u52A0\u4EA7\u54C1" }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED\u6DFB\u52A0\u4EA7\u54C1", onClick: onClose, children: "\u00D7" })] }), _jsx("div", { className: "channel-product-picker__body", children: groupedProducts.length === 0 ? (_jsx("div", { className: "channel-product-picker__empty", children: "\u6682\u65E0\u53EF\u9009\u6E20\u9053\u552E\u5356\u4EA7\u54C1" })) : (groupedProducts.map((group) => {
+                        const roomIds = group.items.map((item) => item.id);
+                        const allSelected = roomIds.every((id) => selectedSet.has(id));
+                        return (_jsxs("section", { className: "channel-product-picker__group", children: [_jsxs("label", { className: "channel-product-picker__room", children: [_jsx("input", { type: "checkbox", checked: allSelected, onChange: () => toggleRoom(group.items) }), _jsx("span", { children: group.roomName })] }), _jsx("div", { children: group.items.map((product) => (_jsxs("label", { className: "channel-product-picker__item", children: [_jsx("input", { type: "checkbox", checked: selectedSet.has(product.id), onChange: () => toggleProduct(product.id) }), _jsxs("span", { children: [_jsx("strong", { children: product.productName }), _jsx("em", { children: product.channelName })] })] }, product.id))) })] }, group.roomName));
+                    })) }), _jsxs("footer", { children: [_jsx("span", { children: `已选${draftSelectedIds.length}个产品` }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" }), _jsx("button", { type: "button", className: "is-primary", onClick: () => {
+                                onSelectedIdsChange(draftSelectedIds);
+                                onClose();
+                            }, children: "\u786E\u5B9A" })] })] }) }));
+}
+export function ChannelBatchDrawer({ campId, products, onClose, onSaved, onActionBlocked, }) {
+    const [editType, setEditType] = useState('coefficient');
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [operator, setOperator] = useState('*');
+    const [coefficientValue, setCoefficientValue] = useState('');
+    const [saving, setSaving] = useState(false);
+    const selectedProducts = products.filter((product) => selectedIds.includes(product.id));
+    async function handleSave() {
+        if (editType === 'price') {
+            onActionBlocked?.('批量价格修改接口未接入，本次先联调产品系数');
+            return;
+        }
+        if (selectedProducts.length === 0) {
+            onActionBlocked?.('请先添加需要调整的产品');
+            return;
+        }
+        if (!coefficientValue.trim()) {
+            onActionBlocked?.('请输入产品系数数值');
+            return;
+        }
+        setSaving(true);
+        try {
+            await batchSaveChannelProductCoefficients({
+                campId,
+                items: selectedProducts.map((product) => ({
+                    roomCategoryId: product.roomCategoryId,
+                    channelId: product.channelId,
+                    productName: product.productName,
+                    operator,
+                    coefficientValue: coefficientValue.trim(),
+                })),
+            });
+            onActionBlocked?.('产品系数已批量保存');
+            onSaved();
+            onClose();
+        }
+        catch (error) {
+            onActionBlocked?.(error instanceof Error ? error.message : '产品系数保存失败');
+        }
+        finally {
+            setSaving(false);
+        }
+    }
+    return (_jsxs(ChannelDrawer, { title: "\u6279\u91CF\u4FEE\u6539", onClose: onClose, children: [_jsxs("div", { className: "channel-batch-body", children: [_jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4FEE\u6539\u7C7B\u578B" }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-batch-type", checked: editType === 'coefficient', onChange: () => setEditType('coefficient') }), " \u4EA7\u54C1\u7CFB\u6570"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-batch-type", checked: editType === 'price', onChange: () => setEditType('price') }), " \u4EF7\u683C"] })] }), _jsxs("section", { className: "channel-drawer-section channel-pick-row", children: [_jsx("h3", { children: "\u9009\u62E9\u4EA7\u54C1" }), _jsx("button", { type: "button", onClick: () => setPickerOpen(true), children: "\u6DFB\u52A0\u4EA7\u54C1" }), _jsx("span", { children: `已选${selectedProducts.length}个产品` })] }), selectedProducts.length > 0 ? (_jsx("section", { className: "channel-drawer-section channel-selected-products", children: selectedProducts.map((product) => (_jsxs("div", { children: [_jsx("strong", { children: product.productName }), _jsx("span", { children: `${product.roomName} / ${product.channelName}` })] }, product.id))) })) : null, editType === 'price' ? (_jsxs(_Fragment, { children: [_jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u9009\u62E9\u65E5\u671F" }), _jsxs("div", { className: "channel-mode-switch", children: [_jsx("button", { type: "button", className: "is-active", children: "\u591A\u6BB5\u6A21\u5F0F" }), _jsx("button", { type: "button", children: "\u65E5\u5386\u6A21\u5F0F" })] }), _jsxs("div", { className: "channel-date-range", children: ["2026-05-13 ", _jsx("span", { children: "\u2192" }), " 2026-05-13"] }), _jsx("button", { type: "button", className: "channel-link-button", children: "\u6DFB\u52A0\u65F6\u95F4\u6BB5" }), _jsx("button", { type: "button", className: "channel-link-button", children: "\u4FEE\u6539\u8282\u5047\u65E5\u4EF7\u683C" })] }), _jsxs("section", { className: "channel-drawer-section channel-weekdays", children: [_jsx("h3", { children: "\u9009\u62E9\u661F\u671F" }), ['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((day) => (_jsxs("label", { children: [_jsx("input", { type: "checkbox", defaultChecked: true }), " ", day] }, day))), _jsxs("label", { children: [_jsx("input", { type: "checkbox" }), " \u5168\u9009"] })] }), _jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4EF7\u683C" }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode", defaultChecked: true }), " \u7EDD\u5BF9\u503C\u6539\u4EF7"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode" }), " \u5DEE\u503C\u6539\u4EF7"] }), _jsxs("label", { children: [_jsx("input", { type: "radio", name: "channel-price-mode" }), " \u767E\u5206\u6BD4\u6539\u4EF7"] }), _jsx("input", { type: "text", placeholder: "\u8BF7\u8F93\u5165" })] })] })) : (_jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4EA7\u54C1\u7CFB\u6570" }), _jsx(ProductCoefficientFormula, { operator: operator, value: coefficientValue, onOperatorChange: setOperator, onValueChange: setCoefficientValue })] }))] }), _jsxs("footer", { className: "channel-drawer-footer", children: [_jsx("button", { type: "button", onClick: handleSave, disabled: saving, children: saving ? '保存中' : '保存' }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" })] }), pickerOpen ? (_jsx(ChannelProductPicker, { products: products, selectedIds: selectedIds, onSelectedIdsChange: setSelectedIds, onClose: () => setPickerOpen(false) })) : null] }));
+}
+function parseCoefficientExpression(expression) {
+    const normalized = expression?.trim() ?? '';
+    if (!normalized || normalized === '-') {
+        return { operator: '*', value: '' };
+    }
+    const first = normalized.slice(0, 1);
+    if (first === '+' || first === '-' || first === '*' || first === '/') {
+        return {
+            operator: first,
+            value: normalized.slice(1),
+        };
+    }
+    return { operator: '*', value: '' };
+}
+function ChannelProductCoefficientDrawer({ campId, target, onClose, onSaved, onActionBlocked, }) {
+    const initial = parseCoefficientExpression(target.coefficient);
+    const [operator, setOperator] = useState(initial.operator);
+    const [coefficientValue, setCoefficientValue] = useState(initial.value);
+    const [saving, setSaving] = useState(false);
+    async function handleSave() {
+        if (!coefficientValue.trim()) {
+            onActionBlocked?.('请输入产品系数数值');
+            return;
+        }
+        setSaving(true);
+        try {
+            await saveChannelProductCoefficient({
+                campId,
+                roomCategoryId: target.roomCategoryId,
+                channelId: target.channelId,
+                productName: target.productName,
+                operator,
+                coefficientValue: coefficientValue.trim(),
+            });
+            onActionBlocked?.('产品系数已保存');
+            onSaved();
+            onClose();
+        }
+        catch (error) {
+            onActionBlocked?.(error instanceof Error ? error.message : '产品系数保存失败');
+        }
+        finally {
+            setSaving(false);
+        }
+    }
+    return (_jsxs(ChannelDrawer, { title: "\u8BBE\u7F6E\u4EA7\u54C1\u7CFB\u6570", onClose: onClose, children: [_jsxs("div", { className: "channel-batch-body", children: [_jsxs("section", { className: "channel-drawer-section channel-coefficient-summary", children: [_jsx("h3", { children: "\u9009\u62E9\u4EA7\u54C1" }), _jsx("p", { children: "\u5DF2\u90091\u4E2A\u4EA7\u54C1" }), _jsxs("div", { children: [_jsx("strong", { children: target.productName }), _jsx("span", { children: `${target.roomName} / ${target.channelName}` }), _jsx("em", { children: `当前系数：${target.coefficient || '-'}` })] })] }), _jsxs("section", { className: "channel-drawer-section", children: [_jsx("h3", { children: "\u4EA7\u54C1\u7CFB\u6570" }), _jsx(ProductCoefficientFormula, { operator: operator, value: coefficientValue, onOperatorChange: setOperator, onValueChange: setCoefficientValue, autoFocus: true })] })] }), _jsxs("footer", { className: "channel-drawer-footer", children: [_jsx("button", { type: "button", onClick: handleSave, disabled: saving, children: saving ? '保存中' : '保存' }), _jsx("button", { type: "button", onClick: onClose, children: "\u53D6\u6D88" })] })] }));
 }
 export function ChannelGuideOverlay({ step, onNext, onClose }) {
     return (_jsxs("div", { className: "channel-guide-layer", role: "presentation", onClick: onClose, children: [_jsxs("section", { className: "channel-guide-card", role: "dialog", "aria-modal": "true", "aria-label": "\u65B0\u624B\u6307\u5F15", onClick: (event) => event.stopPropagation(), children: [_jsx("p", { children: step === 1
@@ -356,7 +723,7 @@ function PriceGuideOverlay({ step, variant, onPrev, onNext, onClose, }) {
     const timelineValues = ['100', '100', '100', '100', '120', '120', '100', '100', '100', '100', '100', '120', '120', '100', '120', '100', '120', '100', '120', '120'];
     return (_jsxs("div", { className: "channel-guide-layer", role: "presentation", onClick: onClose, children: [_jsx("div", { className: "channel-guide-fog", "aria-hidden": "true" }), _jsx("div", { className: `channel-guide-highlight ${currentStep.highlightClassName}`, "aria-hidden": "true" }), step === 1 ? (_jsxs("aside", { className: "channel-guide-settings-demo", "aria-hidden": "true", children: [_jsxs("header", { children: [_jsx("strong", { children: "\u5212\u7EBF\u4EF7\u4E0E\u552E\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsx("span", { children: "\u5982\u4F55\u77E5\u9053\u6E20\u9053\u4F18\u60E0\u6BD4\u4F8B" })] }), _jsx("div", { className: "channel-guide-settings-demo__list", children: relationRows.map((name) => (_jsxs("label", { className: "channel-guide-settings-demo__row", children: [_jsxs("span", { children: [name, "\u5B9E\u9645\u552E\u5356\u4EF7/\u5212\u7EBF\u4EF7*"] }), _jsxs("b", { children: [_jsx("em", { children: "100" }), _jsx("i", { children: "%" })] })] }, name))) }), _jsxs("footer", { children: [_jsx("button", { type: "button", children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", className: "is-ghost", children: "\u53D6\u6D88" })] })] })) : null, step === 2 ? (_jsx("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--coefficient", "aria-hidden": "true", children: coefficientRows.map(([name, value]) => (_jsxs("div", { className: "channel-guide-inline-demo__item channel-guide-inline-demo__item--coefficient", children: [_jsx("strong", { children: name }), _jsx("span", { children: value })] }, name))) })) : null, step === 3 ? (_jsx("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--product", "aria-hidden": "true", children: productRows.map(([name, value, note]) => (_jsxs("div", { className: "channel-guide-inline-demo__item channel-guide-inline-demo__item--product", children: [_jsxs("div", { children: [_jsx("strong", { children: name }), _jsx("p", { children: note })] }), _jsx("span", { children: value })] }, `${name}-${value}-${note}`))) })) : null, step === 4 ? (_jsxs("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--timeline", "aria-hidden": "true", children: [_jsx("strong", { children: "\u4E2D\u592E\u4EF7" }), timelineValues.map((value, index) => (_jsx("span", { children: value }, `${value}-${index}`)))] })) : null, step === 5 ? (_jsxs("aside", { className: "channel-guide-inline-demo channel-guide-inline-demo--room", "aria-hidden": "true", children: [_jsx("strong", { children: "\u9AD8\u7EA7\u5927\u5E8A\u623F" }), _jsx("span", { children: "\u4E2D\u592E\u4EF7" }), _jsxs("p", { children: ["\u8BF7\u8FDB\u884C\u623F\u578B\u7684 ", _jsx("em", { children: "\u4EF7\u683C\u89C4\u5212" })] })] })) : null, _jsxs("section", { className: `channel-guide-card ${currentStep.cardClassName}`, role: "dialog", "aria-modal": "true", "aria-label": "\u65B0\u624B\u6307\u5F15", onClick: (event) => event.stopPropagation(), children: [_jsx("span", { className: "channel-guide-card__eyebrow", children: "\u65B0\u624B\u6307\u5F15" }), _jsx("h3", { children: currentStep.title }), _jsx("p", { children: currentStep.description }), _jsxs("footer", { children: [_jsxs("span", { children: [step, "/5"] }), _jsxs("div", { className: "channel-guide-card__actions", children: [step > 1 ? (_jsx("button", { type: "button", className: "is-ghost", onClick: onPrev, children: "\u4E0A\u4E00\u6B65" })) : null, _jsx("button", { type: "button", onClick: step === steps.length ? onClose : onNext, children: step === steps.length ? '知道了' : '下一步' })] })] })] })] }));
 }
-function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all', storeOptions = [{ id: 'all', label: '全部门店' }], storeLoading = false, channelFilterOptions = channelOptions, roomFilterOptions = roomTypes.map((room) => ({ id: room.name, name: room.name })), selectedChannel: controlledSelectedChannel, selectedRoom = '全部房型', selectedTag = '房型标签', onStoreChange = () => { }, onChannelChange, onRoomChange = () => { }, onTagChange = () => { }, onActionBlocked = () => { }, }) {
+function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all', storeOptions = [{ id: 'all', label: '全部门店' }], storeLoading = false, channelFilterOptions = channelOptions, roomFilterOptions = roomTypes.map((room) => ({ id: room.name, name: room.name })), selectedChannel: controlledSelectedChannel, selectedRoom = '全部房型', selectedTag = '房型标签', onStoreChange = () => { }, onChannelChange, onRoomChange = () => { }, onTagChange = () => { }, onActionBlocked = () => { }, campId, channelProducts = [], onCoefficientSaved = () => { }, channelPlanningRows = [], channelPlanDates = [], onChannelPlanSave, channelRateSettings = centralPriceSettings, channelRateDrafts, onChannelRateDraftChange, onChannelRateSave, }) {
     const navigate = useNavigate();
     const [localSelectedChannel, setLocalSelectedChannel] = useState(DEFAULT_LOCAL_CHANNEL_NAME);
     const [toast, setToast] = useState('');
@@ -365,13 +732,24 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all
     const [planningOpen, setPlanningOpen] = useState(false);
     const [planningFormOpen, setPlanningFormOpen] = useState(false);
     const [smartOpen, setSmartOpen] = useState(false);
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [confirmOpen, setConfirmOpen] = useState(false);
     const [guideStep, setGuideStep] = useState(0);
     const [openFilter, setOpenFilter] = useState('');
-    const isCentral = renderAsCentral || active === '\u4e2d\u592e\u4ef7';
-    const isChannelRp = !renderAsCentral && active === '\u6e20\u9053RP\u4ef7';
+    const isChannelRp = active === '\u6e20\u9053RP\u4ef7';
+    const isCentral = !isChannelRp && (renderAsCentral || active === '\u4e2d\u592e\u4ef7');
+    const usesPageFeedback = renderAsCentral || isCentral;
     const selectedChannel = controlledSelectedChannel ?? localSelectedChannel;
+    const channelPlanContext = isChannelRp && channelPlanningRows.length > 0
+        ? {
+            variant: 'channel-rp',
+            roomName: selectedRoom === '全部房型' ? '全部房型' : selectedRoom,
+            roomSubtitle: '当前渠道房型',
+            actualPrice: channelPlanningRows[0]?.weekday ?? '',
+            comparePrice: channelPlanningRows[0]?.weekend ?? '',
+            basePrice: channelPlanningRows[0]?.weekday ?? '',
+            dateRange: channelPlanDates,
+            planningRows: channelPlanningRows,
+        }
+        : null;
     useEffect(() => {
         if (guideStep === 1) {
             setSettingsOpen(true);
@@ -388,13 +766,13 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all
         onChannelChange?.(channel);
     }
     function showActionFeedback(message) {
-        if (isCentral) {
+        if (usesPageFeedback) {
             onActionBlocked(message);
             return;
         }
         showToast(message);
     }
-    return (_jsxs("section", { className: "toolbar-card", children: [_jsxs("div", { className: "toolbar-row", children: [_jsx(PriceTabs, { active: active }), isCentral || isChannelRp ? (_jsxs("div", { className: "channel-price-mode", children: [_jsx("span", { children: "\u5F53\u524D\u901A\u8FC7" }), _jsx("strong", { children: "\"\u5B9E\u9645\u5356\u4EF7\"" }), _jsx("span", { children: "\u8FDB\u884C\u4EF7\u683C\u8C03\u63A7" })] })) : null, _jsxs("div", { className: "toolbar-actions", children: [isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setPreviewOpen(true), children: "\u9884\u89C8\u4E0E\u8986\u76D6" }), _jsx("button", { type: "button", onClick: () => setConfirmOpen(true), children: "\u6682\u4E0D\u5904\u7406" })] })) : null, _jsx("button", { type: "button", onClick: () => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道'), children: isCentral || isChannelRp ? '同步至渠道' : '同步价格' }), isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/localRoomTypeProductionSetting'), children: "RP\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, isCentral ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, _jsx("button", { type: "button", onClick: () => setBatchOpen(true), children: "\u6279\u91CF\u6539\u4EF7" }), isCentral ? (_jsx("button", { type: "button", onClick: () => setSmartOpen(true), children: "\u667A\u80FD\u8C03\u4EF7" })) : (_jsx("button", { type: "button", onClick: () => (isChannelRp ? setGuideStep(1) : undefined), children: isChannelRp ? '新手指引' : '操作日志' }))] })] }), isChannelRp ? _jsx("p", { className: "channel-price-alert", children: "\u6E20\u9053rp\u4EF7\u4E0E\u623F\u578B\u4EF7\u683C\u5B58\u5728\u5DEE\u5F02" }) : null, _jsxs("div", { className: "toolbar-row toolbar-filters", children: [_jsx(StoreSelectControl, { className: "price-toolbar-store-select", label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading, onChange: (storeId) => onStoreChange(storeId) }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'channel' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'channel' ? '' : 'channel'), children: [_jsx("span", { children: selectedChannel }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'channel' ? (_jsx("div", { className: "price-filter-popover", role: "listbox", "aria-label": "\u6E20\u9053\u7B5B\u9009", children: channelFilterOptions.map((item) => (_jsx("button", { type: "button", role: "option", "aria-selected": selectedChannel === item, onClick: () => {
+    return (_jsxs("section", { className: "toolbar-card", children: [_jsxs("div", { className: "toolbar-row", children: [_jsx(PriceTabs, { active: active }), isCentral || isChannelRp ? (_jsxs("div", { className: "channel-price-mode", children: [_jsx("span", { children: "\u5F53\u524D\u901A\u8FC7" }), _jsx("strong", { children: "\"\u5B9E\u9645\u5356\u4EF7\"" }), _jsx("span", { children: "\u8FDB\u884C\u4EF7\u683C\u8C03\u63A7" })] })) : null, _jsxs("div", { className: "toolbar-actions", children: [_jsx("button", { type: "button", onClick: () => showActionFeedback(isCentral ? '同步任务已创建，渠道价格将按当前中央价更新' : '已发起同步至渠道'), children: isCentral || isChannelRp ? '同步至渠道' : '同步价格' }), isChannelRp ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => navigate('/setting/localRoomTypeProductionSetting'), children: "RP\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, isCentral ? (_jsxs(_Fragment, { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(true), children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("button", { type: "button", onClick: () => setPlanningOpen(true), children: "\u4EF7\u683C\u89C4\u5212" })] })) : null, _jsx("button", { type: "button", onClick: () => setBatchOpen(true), children: "\u6279\u91CF\u6539\u4EF7" }), isCentral ? (_jsx("button", { type: "button", onClick: () => setSmartOpen(true), children: "\u667A\u80FD\u8C03\u4EF7" })) : (_jsx("button", { type: "button", onClick: () => (isChannelRp ? setGuideStep(1) : undefined), children: isChannelRp ? '新手指引' : '操作日志' }))] })] }), _jsxs("div", { className: "toolbar-row toolbar-filters", children: [_jsx(StoreSelectControl, { className: "price-toolbar-store-select", label: "\u95E8\u5E97\u8303\u56F4", options: storeOptions.map((store) => ({ id: store.id, name: store.label })), value: selectedStoreId, disabled: storeLoading, onChange: (storeId) => onStoreChange(storeId) }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'channel' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'channel' ? '' : 'channel'), children: [_jsx("span", { children: selectedChannel }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'channel' ? (_jsx("div", { className: "price-filter-popover", role: "listbox", "aria-label": "\u6E20\u9053\u7B5B\u9009", children: channelFilterOptions.map((item) => (_jsx("button", { type: "button", role: "option", "aria-selected": selectedChannel === item, onClick: () => {
                                         updateSelectedChannel(item === '全部渠道' ? DEFAULT_LOCAL_CHANNEL_NAME : item);
                                         setOpenFilter('');
                                     }, children: item }, item))) })) : null] }), _jsxs("div", { className: "price-filter-field", children: [_jsxs("button", { type: "button", className: `price-filter-select${openFilter === 'room' ? ' is-active' : ''}`, onClick: () => setOpenFilter(openFilter === 'room' ? '' : 'room'), children: [_jsx("span", { children: selectedRoom }), _jsx("i", { "aria-hidden": "true" })] }), openFilter === 'room' ? (_jsx("div", { className: "price-filter-popover", "aria-label": "\u623F\u578B\u7B5B\u9009", children: [{ id: '', name: '全部房型' }, ...roomFilterOptions].map((item) => (_jsx("button", { type: "button", onClick: () => {
@@ -418,25 +796,27 @@ function SharedToolbar({ active, renderAsCentral = false, selectedStoreId = 'all
                                 onTagChange(item === '全部标签' ? '房型标签' : item);
                                 setOpenFilter('');
                             }, children: item }, item)))
-                        : null] })) : null, toast ? _jsx("div", { className: "price-toast", role: "status", children: toast }) : null, settingsOpen && isChannelRp ? _jsx(ChannelPriceSettings, { onClose: () => setSettingsOpen(false) }) : null, settingsOpen && !isChannelRp ? (_jsx("div", { className: `price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`, role: "presentation", onClick: () => setSettingsOpen(false), children: _jsx("section", { className: `price-modal ${isCentral ? 'price-drawer price-settings-drawer' : 'price-mode-modal'}`, role: "dialog", "aria-modal": "true", "aria-label": isCentral ? '中央价价格设置' : '价格设置', onClick: (event) => event.stopPropagation(), children: isCentral ? (_jsxs(_Fragment, { children: [_jsxs("header", { children: [_jsxs("div", { className: "price-drawer-tabs", children: [_jsx("strong", { children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("span", { children: "\u66F4\u65B0\u4EF7\u683C\u8BBE\u7F6E" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setSettingsOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-settings-drawer__body", children: [_jsxs("section", { className: "price-settings-current", children: [_jsx("h3", { children: "\u9875\u9762\u4EF7\u683C\u8BBE\u7F6E" }), _jsxs("p", { children: ["\u5F53\u524D\u6B63\u4F7F\u7528\uFF1A", _jsx("strong", { children: "\u201C\u5B9E\u9645\u5356\u4EF7\u201D" }), " \u8C03\u4EF7", _jsx("span", { children: "\u552E\u5356\u4EF7\u6A21\u5F0F" }), _jsx("button", { type: "button", children: "\u5207\u6362\u4E3A\u5212\u7EBF\u4EF7" })] })] }), _jsx("h3", { className: "price-drawer-subtitle", children: "\u5212\u7EBF\u4EF7\u4E0E\u5B9E\u9645\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsxs("div", { className: "price-settings-example", children: [_jsxs("div", { children: [_jsx("strong", { children: "\u5546\u52A1\u53CC\u5E8A\u623F" }), _jsx("span", { children: "2\u5F201.2\u7C73\u5355\u4EBA\u5E8A 2\u4EBA\u5165\u4F4F 28-32\u33A1" }), _jsx("em", { children: "\u00A5308" })] }), _jsx("div", { children: "\u5212\u7EBF\u4EF7 \u00A5522" }), _jsx("div", { children: "\u5B9E\u9645\u5356\u4EF7 \u00A5308" }), _jsx("div", { children: "308/522" })] }), _jsx("div", { className: "price-settings-channel-grid", children: centralPriceSettings.map((item) => (_jsxs("label", { className: "price-settings-channel", children: [_jsx("span", { children: item.channel }), _jsxs("div", { children: ["\u5212\u7EBF\u4EF7 = \u5B9E\u9645\u5356\u4EF7 /", _jsx("input", { "aria-label": `${item.channel} 优惠比例`, defaultValue: item.percent }), _jsx("b", { children: "%" })] })] }, item.channel))) })] }), _jsxs("footer", { children: [_jsx("p", { children: "\u4FDD\u5B58\u4F18\u60E0\u6BD4\u4F8B\u540E\u8BF7\u68C0\u67E5\u4EF7\u683C\u51C6\u786E\uFF0C\u518D\u64CD\u4F5C\u63A8\u9001\u81F3\u6E20\u9053" }), _jsx("button", { type: "button", onClick: () => {
+                        : null] })) : null, toast ? _jsx("div", { className: "price-toast", role: "status", children: toast }) : null, settingsOpen && isChannelRp ? (_jsx(ChannelPriceSettings, { onClose: () => setSettingsOpen(false), settings: channelRateSettings, drafts: channelRateDrafts, onDraftChange: onChannelRateDraftChange, onSave: onChannelRateSave, onSaved: showActionFeedback })) : null, settingsOpen && !isChannelRp ? (_jsx("div", { className: `price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`, role: "presentation", onClick: () => setSettingsOpen(false), children: _jsx("section", { className: `price-modal ${isCentral ? 'price-drawer price-settings-drawer' : 'price-mode-modal'}`, role: "dialog", "aria-modal": "true", "aria-label": isCentral ? '中央价价格设置' : '价格设置', onClick: (event) => event.stopPropagation(), children: isCentral ? (_jsxs(_Fragment, { children: [_jsxs("header", { children: [_jsxs("div", { className: "price-drawer-tabs", children: [_jsx("strong", { children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("span", { children: "\u66F4\u65B0\u4EF7\u683C\u8BBE\u7F6E" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setSettingsOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-settings-drawer__body", children: [_jsxs("section", { className: "price-settings-current", children: [_jsx("h3", { children: "\u9875\u9762\u4EF7\u683C\u8BBE\u7F6E" }), _jsxs("p", { children: ["\u5F53\u524D\u6B63\u4F7F\u7528\uFF1A", _jsx("strong", { children: "\u201C\u5B9E\u9645\u5356\u4EF7\u201D" }), " \u8C03\u4EF7", _jsx("span", { children: "\u552E\u5356\u4EF7\u6A21\u5F0F" }), _jsx("button", { type: "button", children: "\u5207\u6362\u4E3A\u5212\u7EBF\u4EF7" })] })] }), _jsx("h3", { className: "price-drawer-subtitle", children: "\u5212\u7EBF\u4EF7\u4E0E\u5B9E\u9645\u5356\u4EF7\u5173\u7CFB\u8BBE\u7F6E" }), _jsx(PriceSettingsExampleCard, {}), _jsx(ChannelRateSettingsGrid, { settings: channelRateSettings, drafts: channelRateDrafts, onDraftChange: onChannelRateDraftChange })] }), _jsxs("footer", { children: [_jsx("p", { children: "\u4FDD\u5B58\u4F18\u60E0\u6BD4\u4F8B\u540E\u8BF7\u68C0\u67E5\u4EF7\u683C\u51C6\u786E\uFF0C\u518D\u64CD\u4F5C\u63A8\u9001\u81F3\u6E20\u9053" }), _jsx("button", { type: "button", onClick: () => {
+                                            if (onChannelRateSave?.() === false)
+                                                return;
                                             setSettingsOpen(false);
                                             showActionFeedback('价格设置已保存，后续推送将按当前比例执行');
-                                        }, children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u53D6\u6D88" })] })] })) : (_jsxs(_Fragment, { children: [_jsxs("header", { children: [_jsxs("div", { children: [_jsx("p", { children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("h2", { children: isChannelRp ? '选择渠道价控价模式' : '选择中央价控价模式' })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setSettingsOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-mode-options", children: [_jsxs("button", { type: "button", className: "is-active", children: [_jsx("strong", { children: "\u552E\u5356\u4EF7\u6A21\u5F0F" }), _jsx("span", { children: "\u901A\u8FC7\u5B9E\u9645\u552E\u5356\u4EF7/\u7528\u6237\u652F\u4ED8\u4EF7\u6765\u8FDB\u884C\u4EF7\u683C\u7BA1\u63A7\uFF0C\u76EE\u6807\u9875\u63A8\u8350\u6B64\u6A21\u5F0F\u3002" })] }), _jsxs("button", { type: "button", children: [_jsx("strong", { children: "\u5212\u7EBF\u4EF7\u6A21\u5F0F" }), _jsx("span", { children: "\u901A\u8FC7\u5212\u7EBF\u4EF7\u6765\u8FDB\u884C\u4EF7\u683C\u7BA1\u63A7\uFF0C\u9002\u5408\u7EDF\u4E00\u5C55\u793A\u6298\u6263\u524D\u4EF7\u683C\u3002" })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u786E\u5B9A" })] })] })) }) })) : null, planningOpen && isChannelRp ? _jsx(ChannelPricePlan, { onClose: () => setPlanningOpen(false) }) : null, planningOpen && !isChannelRp ? (_jsx("div", { className: `price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`, role: "presentation", onClick: () => setPlanningOpen(false), children: _jsxs("section", { className: `price-modal ${isCentral ? 'price-drawer price-plan-drawer' : 'price-plan-modal'}`, role: "dialog", "aria-modal": "true", "aria-label": "\u4EF7\u683C\u89C4\u5212", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsxs("div", { children: [isCentral ? null : _jsx("p", { children: "\u4EF7\u683C\u89C4\u5212" }), _jsx("h2", { children: "\u4EF7\u683C\u89C4\u5212" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setPlanningOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-plan-filters", children: [_jsx("button", { type: "button", className: "chip is-active", children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: "chip", children: "\u5929\u843D\u4F1A\u5BBF\u516C\u5BD3(\u524D\u6D77\u58F9\u65B9\u57CE\u5B9D\u5B89\u4E2D\u5FC3\u5E97)" }), _jsx("button", { type: "button", className: "chip", children: "\u9876\u5C42\u5957\u623F\uFF08\u6D74\u7F38\u5DE8\u5E55\u7535\u7ADE\u9EBB\u5C06\uFF09" }), _jsx("button", { type: "button", className: "chip", children: "\u623F\u578B\u6807\u7B7E" }), _jsx("button", { type: "button", className: "price-plan-add", onClick: () => setPlanningFormOpen(true), children: "+\u65B0\u589E\u89C4\u5212" })] }), planningFormOpen ? (_jsxs("div", { className: "price-plan-create", children: [_jsxs("label", { children: ["\u89C4\u5212\u540D\u79F0", _jsx("input", { type: "text", defaultValue: "\u5468\u672B\u9AD8\u5CF0\u4EF7" })] }), _jsxs("label", { children: ["\u9002\u7528\u65E5\u671F", _jsx("input", { type: "text", defaultValue: "2026.05.16 - 2026.06.11" })] }), _jsxs("label", { children: ["\u8C03\u4EF7\u65B9\u5F0F", _jsxs("select", { defaultValue: "weekend", children: [_jsx("option", { value: "weekend", children: "\u5468\u672B\u4E0A\u6D6E" }), _jsx("option", { value: "daily", children: "\u6BCF\u65E5\u56FA\u5B9A\u4EF7" })] })] }), _jsxs("label", { children: ["\u4E0A\u6D6E\u91D1\u989D", _jsx("input", { type: "number", defaultValue: "200" })] }), _jsxs("div", { className: "price-plan-create__actions", children: [_jsx("button", { type: "button", onClick: () => setPlanningFormOpen(false), children: "\u53D6\u6D88\u65B0\u589E" }), _jsx("button", { type: "button", onClick: () => {
+                                        }, children: "\u4FDD\u5B58" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u53D6\u6D88" })] })] })) : (_jsxs(_Fragment, { children: [_jsxs("header", { children: [_jsxs("div", { children: [_jsx("p", { children: "\u4EF7\u683C\u8BBE\u7F6E" }), _jsx("h2", { children: isChannelRp ? '选择渠道价控价模式' : '选择中央价控价模式' })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setSettingsOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-mode-options", children: [_jsxs("button", { type: "button", className: "is-active", children: [_jsx("strong", { children: "\u552E\u5356\u4EF7\u6A21\u5F0F" }), _jsx("span", { children: "\u901A\u8FC7\u5B9E\u9645\u552E\u5356\u4EF7/\u7528\u6237\u652F\u4ED8\u4EF7\u6765\u8FDB\u884C\u4EF7\u683C\u7BA1\u63A7\uFF0C\u76EE\u6807\u9875\u63A8\u8350\u6B64\u6A21\u5F0F\u3002" })] }), _jsxs("button", { type: "button", children: [_jsx("strong", { children: "\u5212\u7EBF\u4EF7\u6A21\u5F0F" }), _jsx("span", { children: "\u901A\u8FC7\u5212\u7EBF\u4EF7\u6765\u8FDB\u884C\u4EF7\u683C\u7BA1\u63A7\uFF0C\u9002\u5408\u7EDF\u4E00\u5C55\u793A\u6298\u6263\u524D\u4EF7\u683C\u3002" })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", onClick: () => setSettingsOpen(false), children: "\u786E\u5B9A" })] })] })) }) })) : null, planningOpen && isChannelRp && channelPlanContext ? (_jsx(BasePricePlanningDrawer, { context: channelPlanContext, onClose: () => setPlanningOpen(false), onSavePlanCells: onChannelPlanSave, onSave: (message) => {
+                    setPlanningOpen(false);
+                    showActionFeedback(message);
+                } })) : null, planningOpen && isChannelRp && !channelPlanContext ? (_jsx(ChannelDrawer, { title: "\u4EF7\u683C\u89C4\u5212", onClose: () => setPlanningOpen(false), children: _jsx("div", { className: "price-plan-empty", children: "\u5F53\u524D\u7B5B\u9009\u4E0B\u6682\u65E0\u53EF\u89C4\u5212\u7684\u6E20\u9053\u4EA7\u54C1" }) })) : null, planningOpen && !isChannelRp ? (_jsx("div", { className: `price-modal-backdrop${isCentral ? ' price-modal-backdrop--drawer' : ''}`, role: "presentation", onClick: () => setPlanningOpen(false), children: _jsxs("section", { className: `price-modal ${isCentral ? 'price-drawer price-plan-drawer' : 'price-plan-modal'}`, role: "dialog", "aria-modal": "true", "aria-label": "\u4EF7\u683C\u89C4\u5212", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsxs("div", { children: [isCentral ? null : _jsx("p", { children: "\u4EF7\u683C\u89C4\u5212" }), _jsx("h2", { children: "\u4EF7\u683C\u89C4\u5212" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setPlanningOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-plan-filters", children: [_jsx("button", { type: "button", className: "chip is-active", children: "\u5168\u90E8\u95E8\u5E97" }), _jsx("button", { type: "button", className: "chip", children: "\u5929\u843D\u4F1A\u5BBF\u516C\u5BD3(\u524D\u6D77\u58F9\u65B9\u57CE\u5B9D\u5B89\u4E2D\u5FC3\u5E97)" }), _jsx("button", { type: "button", className: "chip", children: "\u9876\u5C42\u5957\u623F\uFF08\u6D74\u7F38\u5DE8\u5E55\u7535\u7ADE\u9EBB\u5C06\uFF09" }), _jsx("button", { type: "button", className: "chip", children: "\u623F\u578B\u6807\u7B7E" }), _jsx("button", { type: "button", className: "price-plan-add", onClick: () => setPlanningFormOpen(true), children: "+\u65B0\u589E\u89C4\u5212" })] }), planningFormOpen ? (_jsxs("div", { className: "price-plan-create", children: [_jsxs("label", { children: ["\u89C4\u5212\u540D\u79F0", _jsx("input", { type: "text", defaultValue: "\u5468\u672B\u9AD8\u5CF0\u4EF7" })] }), _jsxs("label", { children: ["\u9002\u7528\u65E5\u671F", _jsx("input", { type: "text", defaultValue: "2026.05.16 - 2026.06.11" })] }), _jsxs("label", { children: ["\u8C03\u4EF7\u65B9\u5F0F", _jsxs("select", { defaultValue: "weekend", children: [_jsx("option", { value: "weekend", children: "\u5468\u672B\u4E0A\u6D6E" }), _jsx("option", { value: "daily", children: "\u6BCF\u65E5\u56FA\u5B9A\u4EF7" })] })] }), _jsxs("label", { children: ["\u4E0A\u6D6E\u91D1\u989D", _jsx("input", { type: "number", defaultValue: "200" })] }), _jsxs("div", { className: "price-plan-create__actions", children: [_jsx("button", { type: "button", onClick: () => setPlanningFormOpen(false), children: "\u53D6\u6D88\u65B0\u589E" }), _jsx("button", { type: "button", onClick: () => {
                                                 setPlanningFormOpen(false);
                                                 setPlanningOpen(false);
                                                 showActionFeedback(isCentral ? '价格规划已保存，已应用到当前筛选范围' : '价格规划已新增');
                                             }, children: "\u4FDD\u5B58\u89C4\u5212" })] })] })) : (_jsx("div", { className: "price-plan-empty", children: "\u6CA1\u6709\u76F8\u5173\u6570\u636E\u54E6\uFF01" }))] }) })) : null, smartOpen ? (_jsx("div", { className: "price-modal-backdrop", role: "presentation", onClick: () => setSmartOpen(false), children: _jsxs("section", { className: "price-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u667A\u80FD\u8C03\u4EF7", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsxs("div", { children: [_jsx("p", { children: "\u667A\u80FD\u8C03\u4EF7" }), _jsx("h2", { children: "\u5165\u4F4F\u7387\u4F4E\u4E8E 60%" })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setSmartOpen(false), children: "\u00D7" })] }), _jsx("div", { className: "price-plan-empty", children: "\u5EFA\u8BAE\u4FDD\u7559\u5DE5\u4F5C\u65E5 730\uFF0C\u5468\u672B 930\uFF0C\u5E76\u540C\u6B65\u81F3\u5DF2\u5173\u8054\u6E20\u9053\u3002" }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: () => setSmartOpen(false), children: "\u5FFD\u7565" }), _jsx("button", { type: "button", onClick: () => {
                                         setSmartOpen(false);
                                         setBatchOpen(true);
-                                    }, children: "\u7ACB\u5373\u8C03\u4EF7" })] })] }) })) : null, batchOpen && isChannelRp ? _jsx(ChannelBatchDrawer, { onClose: () => setBatchOpen(false) }) : null, batchOpen && !isChannelRp ? (_jsx("div", { className: "price-modal-backdrop", role: "presentation", onClick: () => setBatchOpen(false), children: _jsxs("section", { className: "price-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6279\u91CF\u6539\u4EF7", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsxs("div", { children: [_jsx("p", { children: "\u6279\u91CF\u6539\u4EF7" }), _jsx("h2", { children: active })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setBatchOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-modal__form", children: [_jsxs("label", { children: ["\u751F\u6548\u8303\u56F4", _jsxs("select", { defaultValue: "current", children: [_jsx("option", { value: "current", children: "\u5F53\u524D\u7B5B\u9009\u623F\u578B\u4E0E\u6E20\u9053" }), _jsx("option", { value: "all", children: "\u5168\u90E8\u95E8\u5E97" })] })] }), _jsxs("label", { children: ["\u8C03\u4EF7\u65B9\u5F0F", _jsxs("select", { defaultValue: "fixed", children: [_jsx("option", { value: "fixed", children: "\u56FA\u5B9A\u4EF7\u683C" }), _jsx("option", { value: "increase", children: "\u4E0A\u8C03\u91D1\u989D" })] })] }), _jsxs("label", { children: [isChannelRp ? '调整后卖价' : '新价格', _jsx("input", { "aria-label": isChannelRp ? '调整后卖价' : undefined, type: "text", defaultValue: isChannelRp ? '848.16' : '730' })] }), _jsxs("label", { children: ["\u751F\u6548\u65E5\u671F", _jsx("input", { type: "text", defaultValue: "2026.05.13 - 2026.06.11" })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: () => setBatchOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", onClick: () => {
+                                    }, children: "\u7ACB\u5373\u8C03\u4EF7" })] })] }) })) : null, batchOpen && isChannelRp ? (_jsx(ChannelBatchDrawer, { campId: campId, products: channelProducts, onClose: () => setBatchOpen(false), onSaved: onCoefficientSaved, onActionBlocked: showActionFeedback })) : null, batchOpen && !isChannelRp ? (_jsx("div", { className: "price-modal-backdrop", role: "presentation", onClick: () => setBatchOpen(false), children: _jsxs("section", { className: "price-modal", role: "dialog", "aria-modal": "true", "aria-label": "\u6279\u91CF\u6539\u4EF7", onClick: (event) => event.stopPropagation(), children: [_jsxs("header", { children: [_jsxs("div", { children: [_jsx("p", { children: "\u6279\u91CF\u6539\u4EF7" }), _jsx("h2", { children: active })] }), _jsx("button", { type: "button", "aria-label": "\u5173\u95ED", onClick: () => setBatchOpen(false), children: "\u00D7" })] }), _jsxs("div", { className: "price-modal__form", children: [_jsxs("label", { children: ["\u751F\u6548\u8303\u56F4", _jsxs("select", { defaultValue: "current", children: [_jsx("option", { value: "current", children: "\u5F53\u524D\u7B5B\u9009\u623F\u578B\u4E0E\u6E20\u9053" }), _jsx("option", { value: "all", children: "\u5168\u90E8\u95E8\u5E97" })] })] }), _jsxs("label", { children: ["\u8C03\u4EF7\u65B9\u5F0F", _jsxs("select", { defaultValue: "fixed", children: [_jsx("option", { value: "fixed", children: "\u56FA\u5B9A\u4EF7\u683C" }), _jsx("option", { value: "increase", children: "\u4E0A\u8C03\u91D1\u989D" })] })] }), _jsxs("label", { children: [isChannelRp ? '调整后卖价' : '新价格', _jsx("input", { "aria-label": isChannelRp ? '调整后卖价' : undefined, type: "text", defaultValue: isChannelRp ? '848.16' : '730' })] }), _jsxs("label", { children: ["\u751F\u6548\u65E5\u671F", _jsx("input", { type: "text", defaultValue: "2026.05.13 - 2026.06.11" })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", onClick: () => setBatchOpen(false), children: "\u53D6\u6D88" }), _jsx("button", { type: "button", onClick: () => {
                                         setBatchOpen(false);
                                         showActionFeedback(isCentral ? '批量改价任务已提交，当前日期范围已更新' : '批量改价已保存');
-                                    }, children: "\u786E\u5B9A" })] })] }) })) : null, isChannelRp && previewOpen ? _jsx(ChannelPreviewModal, { onClose: () => setPreviewOpen(false) }) : null, isChannelRp && confirmOpen ? (_jsx(ChannelConfirmModal, { onClose: () => setConfirmOpen(false), onConfirm: () => {
-                    setConfirmOpen(false);
-                    showToast('已保留渠道价格');
-                } })) : null, (isCentral || isChannelRp) && guideStep > 0 ? (_jsx(PriceGuideOverlay, { step: guideStep, variant: isChannelRp ? 'channel-rp' : 'central', onPrev: () => setGuideStep((current) => Math.max(1, current - 1)), onNext: () => setGuideStep((current) => Math.min(5, current + 1)), onClose: () => setGuideStep(0) })) : null] }));
+                                    }, children: "\u786E\u5B9A" })] })] }) })) : null, (isCentral || isChannelRp) && guideStep > 0 ? (_jsx(PriceGuideOverlay, { step: guideStep, variant: isChannelRp ? 'channel-rp' : 'central', onPrev: () => setGuideStep((current) => Math.max(1, current - 1)), onNext: () => setGuideStep((current) => Math.min(5, current + 1)), onClose: () => setGuideStep(0) })) : null] }));
 }
-function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState, channelDate, centralRequestDate, onCentralDateChange, onRetryChannelRequest, centralData, centralState, onRetryCentralRequest, onCentralSaleStatusChange, onActionBlocked, }) {
+function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState, channelDate, centralRequestDate, onCentralDateChange, onRetryChannelRequest, centralData, centralState, onRetryCentralRequest, onCentralSaleStatusChange, onActionBlocked, channelRateSettings = centralPriceSettings, savedChannelRateDrafts, }) {
     const centralHeaderScrollRef = useRef(null);
     const [selectedCells, setSelectedCells] = useState([]);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -471,10 +851,10 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
             : priceDates.map((item) => ({ ...item, label: item.date, key: item.date }));
     const gridTemplateColumns = `${mode === '中央价' || isChannelRp ? '170px' : '150px'} 76px 76px repeat(${visibleDates.length}, 88px)`;
     const minWidth = 322 + visibleDates.length * 88;
-    const centralFrozenPaneTemplate = '154px 48px 79px';
+    const centralFrozenPaneTemplate = '154px 78px 96px';
     const centralDateColumnWidth = 88;
     const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`;
-    const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth;
+    const centralMinWidth = 328 + visibleDates.length * centralDateColumnWidth;
     const formatDateLabel = (key) => key.slice(5).replace('-', '.');
     const centralRoomGroups = centralData?.rooms ?? [];
     const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()));
@@ -631,7 +1011,7 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
     function renderPriceRow(row, keyPrefix = '', roomContext) {
         const rowClassName = isCentral ? 'price-grid__row price-grid__row--central' : 'price-grid__row';
         if (isCentral) {
-            const compareBasePrice = getCentralBaseComparePrice(row);
+            const compareBasePrice = applyChannelLinePriceRate(row.channel, row.basePrice, getCentralBaseComparePrice(row), savedChannelRateDrafts, channelRateSettings);
             return (_jsxs("div", { "data-testid": "central-channel-row", className: rowClassName, style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsx("div", { className: "price-room-header price-room-header--central", "data-testid": "central-price-matrix-row-header", children: _jsx("strong", { children: row.channel }) }), _jsx("div", { children: _jsx("span", { className: "central-price-grid__pill", children: row.coefficient || '-' }) }), _jsx("div", { children: renderCentralBasePriceCell({
                             actualPrice: row.basePrice,
                             comparePrice: compareBasePrice,
@@ -653,7 +1033,7 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
                             }),
                         }) }), visibleDates.map((dateItem, index) => {
                         const price = row.prices[index % row.prices.length];
-                        const comparePrice = row.comparePrices[index % row.comparePrices.length];
+                        const comparePrice = applyChannelLinePriceRate(row.channel, price, row.comparePrices[index % row.comparePrices.length], savedChannelRateDrafts, channelRateSettings);
                         const key = `${keyPrefix}${row.channel}-${dateItem.key}`;
                         const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateItem.key);
                         return renderCentralChannelDateCell({ key, row, dateLabel, price, comparePrice });
@@ -679,7 +1059,7 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
                                             const nextToday = getCentralPriceRequestDate();
                                             setCentralCalendarMonth(parseDateValue(nextToday));
                                             handleCentralDatePicked(nextToday);
-                                        }, children: "\u4ECA\u5929" }) })] })) : null] }), _jsx("div", { children: '\u6e20\u9053\u7cfb\u6570' }), _jsx("div", { children: '\u57fa\u7840\u4ef7' })] }));
+                                        }, children: "\u4ECA\u5929" }) })] })) : null] }), _jsx(PriceCoefficientHeader, { ...coefficientHeaderHelp.central }), _jsx("div", { children: '\u57fa\u7840\u4ef7' })] }));
     }
     function renderCentralHeaderDates() {
         return (_jsx("div", { className: "central-price-grid__head-scroll-track", children: visibleDates.map((item) => {
@@ -706,18 +1086,6 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
                                 : null] }))] }), basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSave: (message) => {
                     closeBasePriceDrawer();
                     onActionBlocked?.(message);
-                } })) : null, false ? (_jsx("div", { className: "price-base-settings-drawer-backdrop", children: _jsxs("section", { className: "price-base-settings-drawer", role: "dialog", "aria-modal": "false", "aria-label": '本房型设置', "data-testid": "central-base-price-drawer", children: [_jsxs("header", { children: [_jsx("strong", { children: '本房型设置' }), _jsx("button", { type: "button", "aria-label": '关闭本房型设置', onClick: closeBasePriceDrawer, children: '×' })] }), _jsxs("div", { className: "price-base-settings-drawer__body", children: [_jsxs("section", { className: "price-settings-current price-base-settings-current", children: [_jsx("h3", { children: '当前价格设置' }), _jsxs("p", { children: ['当前正在使用：', _jsx("strong", { children: '“实际售价”' }), ' 调价', _jsx("span", { children: '售卖价模式' }), _jsx("button", { type: "button", children: '切换为划线价' })] }), basePriceDrawerContext?.channelName ? (_jsxs("div", { className: "price-base-settings-current__meta", children: [_jsx("span", { children: basePriceDrawerContext?.channelName }), basePriceDrawerContext?.coefficient ? _jsx("em", { children: `渠道系数 ${basePriceDrawerContext?.coefficient}` }) : null] })) : null] }), _jsx("h3", { className: "price-drawer-subtitle", children: '渠道价格设置' }), _jsxs("div", { className: "price-settings-example price-settings-example--contextual", children: [_jsxs("div", { children: [_jsx("strong", { children: basePriceDrawerContext?.roomName }), _jsx("span", { children: basePriceDrawerContext?.roomSubtitle }), basePriceDrawerContext?.channelName ? _jsx("em", { children: basePriceDrawerContext?.channelName }) : null] }), _jsx("div", { children: `划线价 ￥${basePriceDrawerContext?.comparePrice ?? ''}` }), _jsx("div", { children: `实际售价 ￥${basePriceDrawerContext?.actualPrice ?? ''}` }), _jsx("div", { children: `${basePriceDrawerContext?.actualPrice ?? ''}/${basePriceDrawerContext?.comparePrice ?? ''}` })] }), _jsx("div", { className: "price-settings-channel-grid price-settings-channel-grid--contextual", children: centralPriceSettings.map((item) => (_jsxs("label", { className: `price-settings-channel${basePriceDrawerContext?.channelName === item.channel ? ' is-current' : ''}`, children: [_jsx("span", { children: item.channel }), _jsxs("div", { children: ['划线价 = 实际售价 /', _jsx("input", { "aria-label": `${item.channel} 优惠比例`, defaultValue: item.percent }), _jsx("b", { children: "%" })] })] }, item.channel))) })] }), _jsxs("footer", { children: [_jsx("p", { children: '保存优惠比例后请检查价格准确，再操作推送至渠道' }), _jsx("button", { type: "button", onClick: () => {
-                                        closeBasePriceDrawer();
-                                        onActionBlocked?.('本房型设置已保存，后续推送将按当前比例执行');
-                                    }, children: '保存' }), _jsx("button", { type: "button", onClick: closeBasePriceDrawer, children: '取消' })] })] }) })) : null, false && basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSave: (message) => {
-                    closeBasePriceDrawer();
-                    onActionBlocked?.(message);
-                } })) : null, false && basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSave: (message) => {
-                    closeBasePriceDrawer();
-                    onActionBlocked?.(message);
-                } })) : null, basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSave: (message) => {
-                    closeBasePriceDrawer();
-                    onActionBlocked?.(message);
                 } })) : null, drawerOpen && selectedCells.length > 0 && (_jsx("div", { className: "price-edit-drawer-backdrop", children: _jsxs("section", { className: "price-edit-drawer", role: "dialog", "aria-modal": "false", "aria-label": '\u6539\u4ef7', children: [_jsxs("header", { children: [_jsx("strong", { children: '\u6539\u4ef7' }), _jsx("button", { type: "button", "aria-label": '\u5173\u95ed\u6539\u4ef7', onClick: closePriceEditor, children: '\u00d7' })] }), _jsxs("div", { className: "price-edit-drawer__body", children: [_jsx("p", { className: "price-edit-drawer__selection", children: `\u5df2\u9009${selectedCells.length}\u9879` }), _jsxs("section", { className: "price-edit-card", children: [_jsx("div", { className: "price-edit-card__title", children: '\u4ef7\u683c' }), _jsx("div", { className: "price-edit-options", role: "radiogroup", "aria-label": '\u6539\u4ef7\u65b9\u5f0f', children: [
                                                 { value: 'fixed', label: '\u7edd\u5bf9\u503c\u6539\u4ef7' },
                                                 { value: 'increase', label: '\u5dee\u503c\u6539\u4ef7' },
@@ -728,22 +1096,95 @@ function PriceMatrix({ mode, renderAsCentral = false, channelRows, channelState,
                                             onActionBlocked?.('\u4ef7\u683c\u8c03\u6574\u5df2\u4fdd\u5b58\uff0c\u5f53\u524d\u4ef7\u683c\u77e9\u9635\u5df2\u66f4\u65b0');
                                     }, children: '\u4fdd\u5b58' }), _jsx("button", { type: "button", onClick: closePriceEditor, children: '\u53d6\u6d88' })] })] }) }))] }));
 }
-function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, centralData, centralState, onRetryCentralRequest, onActionBlocked, }) {
+function ChannelRpPriceMatrix({ campId, centralRequestDate, onCentralDateChange, centralData, centralState, onRetryCentralRequest, onActionBlocked, onCoefficientSaved, onChannelPricesSaved, channelRateSettings = centralPriceSettings, savedChannelRateDrafts, }) {
     const centralHeaderScrollRef = useRef(null);
     const [selectedCells, setSelectedCells] = useState([]);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [basePriceDrawerContext, setBasePriceDrawerContext] = useState(null);
     const [editMode, setEditMode] = useState('fixed');
     const [editValue, setEditValue] = useState('');
+    const [overwriteStandalone, setOverwriteStandalone] = useState(true);
+    const [savingPrices, setSavingPrices] = useState(false);
+    async function saveSelectedChannelCells() {
+        const resolvedCampId = campId ?? resolveCurrentCampId();
+        if (!resolvedCampId) {
+            onActionBlocked?.('缺少门店账套信息，无法保存渠道价格');
+            return;
+        }
+        if (!editValue.trim()) {
+            onActionBlocked?.('请输入改价值');
+            return;
+        }
+        const invalidCell = selectedCells.find((cell) => !cell.roomCategoryId || !cell.channelId || !cell.dateKey);
+        if (invalidCell) {
+            onActionBlocked?.('当前价格格子缺少房型、渠道或日期信息，无法保存');
+            return;
+        }
+        setSavingPrices(true);
+        try {
+            const response = await saveChannelCalendarPrices({
+                campId: resolvedCampId,
+                overwriteStandalone,
+                items: selectedCells.map((cell) => ({
+                    roomCategoryId: cell.roomCategoryId,
+                    channelId: cell.channelId,
+                    productName: cell.productName,
+                    date: cell.dateKey,
+                    priceUpdateType: toPriceUpdateType(editMode),
+                    calendarPrice: editValue.trim(),
+                    basePrice: cell.price,
+                })),
+            });
+            closePriceEditor();
+            onActionBlocked?.(`价格调整已保存，已更新${response.savedCount}项`);
+            onChannelPricesSaved?.();
+        }
+        catch (error) {
+            onActionBlocked?.(error instanceof Error ? error.message : '价格调整保存失败');
+        }
+        finally {
+            setSavingPrices(false);
+        }
+    }
+    async function savePlanChannelCells(cells, edit) {
+        const resolvedCampId = campId ?? resolveCurrentCampId();
+        if (!resolvedCampId) {
+            throw new Error('缺少门店账套信息，无法保存渠道价格');
+        }
+        const items = cells.flatMap((cell) => {
+            if (!cell.roomCategoryId || !cell.channelId)
+                return [];
+            return cell.dateKeys.map((date) => ({
+                roomCategoryId: cell.roomCategoryId,
+                channelId: cell.channelId,
+                productName: cell.productName,
+                date,
+                priceUpdateType: toPriceUpdateType(edit.mode),
+                calendarPrice: edit.value,
+                basePrice: cell.basePrice,
+            }));
+        });
+        if (items.length === 0) {
+            throw new Error('当前价格规划没有可保存的日期');
+        }
+        const response = await saveChannelCalendarPrices({
+            campId: resolvedCampId,
+            overwriteStandalone: edit.overwriteStandalone,
+            items,
+        });
+        onActionBlocked?.(`价格调整已保存，已更新${response.savedCount}项`);
+        onChannelPricesSaved?.();
+    }
     const [collapsed, setCollapsed] = useState(false);
     const [collapsedRooms, setCollapsedRooms] = useState({});
     const [isCentralCalendarOpen, setIsCentralCalendarOpen] = useState(false);
+    const [coefficientDrawerTarget, setCoefficientDrawerTarget] = useState(null);
     const [centralCalendarMonth, setCentralCalendarMonth] = useState(() => parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()));
     const visibleDates = centralData?.dates ?? makePriceDates(0, 13);
-    const centralFrozenPaneTemplate = '154px 48px 79px';
+    const centralFrozenPaneTemplate = '154px 78px 96px';
     const centralDateColumnWidth = 88;
     const centralGridTemplateColumns = `${centralFrozenPaneTemplate} repeat(${visibleDates.length}, ${centralDateColumnWidth}px)`;
-    const centralMinWidth = 281 + visibleDates.length * centralDateColumnWidth;
+    const centralMinWidth = 328 + visibleDates.length * centralDateColumnWidth;
     const centralRoomGroups = centralData?.rooms ?? [];
     const centralHeaderDateLabel = formatHeaderDateValue(parseDateValue(centralRequestDate ?? getCentralPriceRequestDate()));
     const centralCalendarCells = buildCalendarCells(centralCalendarMonth);
@@ -800,9 +1241,6 @@ function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, central
         onCentralDateChange?.(dateValue);
         setIsCentralCalendarOpen(false);
     }
-    function getCentralBaseComparePrice(row) {
-        return row.comparePrices.find((value) => value && value !== '-') ?? row.basePrice;
-    }
     function renderCentralStockOnlyMetric(key, stock) {
         return (_jsx("div", { "data-testid": "channel-rp-summary-stock-cell", className: "price-cell central-price-grid__stock-only-cell", children: _jsx("em", { children: stock }) }, key));
     }
@@ -813,42 +1251,100 @@ function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, central
         }
         return (_jsx("div", { className: "central-price-grid__base-price", "data-testid": testId, children: content }));
     }
-    function renderCentralSummaryBasePriceCell({ price, testId }) {
+    function renderCentralSummaryBasePriceCell({ price, testId, onClick }) {
+        if (onClick) {
+            return (_jsx("button", { type: "button", className: "central-price-grid__summary-base-price", "data-testid": testId, "aria-label": `channel-summary-base-price ${price}`, onClick: onClick, children: _jsxs("span", { className: "central-price-grid__tag-price central-price-grid__tag-price--summary", children: [_jsx("i", { className: "central-price-grid__tag central-price-grid__tag--central", children: '\u4e2d' }), _jsx("strong", { children: price })] }) }));
+        }
         return (_jsx("div", { className: "central-price-grid__summary-base-price", "data-testid": testId, children: _jsxs("span", { className: "central-price-grid__tag-price central-price-grid__tag-price--summary", children: [_jsx("i", { className: "central-price-grid__tag central-price-grid__tag--central", children: '中' }), _jsx("strong", { children: price })] }) }));
     }
-    function renderChannelDateCell({ key, row, dateLabel, price, comparePrice, }) {
-        return (_jsxs("button", { type: "button", className: `price-cell price-cell-button ${isCellSelected(key) ? 'is-selected' : ''}`, "aria-label": `${price} ${dateLabel}`, onClick: () => toggleSelectedCell({ key, title: `${row.channel} / ${dateLabel}`, price, date: dateLabel }), children: [_jsx("strong", { children: price }), _jsx("span", { children: comparePrice })] }, key));
+    function renderChannelDateCell({ key, row, dateKey, dateLabel, price, comparePrice, }) {
+        return (_jsxs("button", { type: "button", className: `price-cell price-cell-button ${isCellSelected(key) ? 'is-selected' : ''}`, "aria-label": `${price} ${dateLabel}`, onClick: () => toggleSelectedCell({
+                key,
+                title: `${row.channel} / ${dateLabel}`,
+                price,
+                date: dateLabel,
+                dateKey,
+                roomCategoryId: row.roomCategoryId,
+                channelId: row.channelId,
+                productName: row.product,
+                comparePrice,
+            }), children: [_jsx("strong", { children: price }), _jsx("span", { children: comparePrice })] }, key));
     }
-    function renderPriceRow(row, keyPrefix = '') {
-        const compareBasePrice = getCentralBaseComparePrice(row);
+    function openCoefficientDrawer(room, row) {
+        const target = toChannelProductTarget(room, row);
+        if (!target) {
+            onActionBlocked?.('当前产品缺少房型、渠道或产品信息，无法设置产品系数');
+            return;
+        }
+        setCoefficientDrawerTarget(target);
+    }
+    function closeCoefficientDrawer() {
+        setCoefficientDrawerTarget(null);
+    }
+    function renderPriceRow(room, row, keyPrefix = '') {
+        const compareBasePrice = applyChannelLinePriceRate(row.channel, row.basePrice, getChannelBaseComparePrice(row), savedChannelRateDrafts, channelRateSettings);
         const channelDisplayName = row.channel || '未知渠道';
-        return (_jsxs("div", { "data-testid": "central-channel-row", className: "price-grid__row price-grid__row--central", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsxs("div", { className: "price-room-header price-room-header--central price-room-header--channel-rp", "data-testid": "central-price-matrix-row-header", children: [_jsx(ChannelBadgeIcon, { badgeId: row.channelBadgeId, label: channelDisplayName }), _jsx("strong", { children: channelDisplayName })] }), _jsx("div", { children: _jsx("span", { className: "central-price-grid__pill", children: row.coefficient || '-' }) }), _jsx("div", { children: renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () => setBasePriceDrawerContext({
+        return (_jsxs("div", { "data-testid": "central-channel-row", className: "price-grid__row price-grid__row--central", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsxs("div", { className: "price-room-header price-room-header--central price-room-header--channel-rp", "data-testid": "central-price-matrix-row-header", children: [_jsx(ChannelBadgeIcon, { badgeId: row.channelBadgeId, label: channelDisplayName }), _jsx("strong", { children: channelDisplayName })] }), _jsx("div", { children: _jsx("button", { type: "button", className: "central-price-grid__pill central-price-grid__pill--button", "aria-label": `设置产品系数 ${channelDisplayName}`, onClick: () => openCoefficientDrawer(room, row), children: row.coefficient || '-' }) }), _jsx("div", { children: renderCentralBasePriceCell(row.basePrice, compareBasePrice, 'central-channel-base-price', () => setBasePriceDrawerContext({
                         variant: 'channel-rp',
-                        roomName: channelDisplayName,
-                        roomSubtitle: '当前渠道房型',
+                        roomCategoryId: row.roomCategoryId,
+                        channelId: row.channelId,
+                        productName: row.product,
+                        channelBadgeId: row.channelBadgeId,
+                        roomName: room.name,
+                        roomSubtitle: row.product ?? '当前渠道房型',
                         channelName: channelDisplayName,
                         coefficient: row.coefficient,
                         actualPrice: row.basePrice,
                         comparePrice: compareBasePrice,
                         basePrice: row.basePrice,
+                        dateRange: visibleDates,
                         planningRows: buildChannelPlanningRows({
-                            roomName: channelDisplayName,
-                            roomSubtitle: '当前渠道房型',
-                            actualPrice: row.basePrice,
-                            comparePrice: compareBasePrice,
+                            rows: room.channelRows.map((channelRow) => ({
+                                ...channelRow,
+                                channelBadgeId: row.channelBadgeId,
+                            })),
+                            channelBadgeId: row.channelBadgeId,
+                            roomName: room.name,
+                            roomSubtitle: row.product ?? '当前渠道房型',
+                            savedChannelRateDrafts,
+                            channelRateSettings,
                         }),
                     })) }), visibleDates.map((dateItem, index) => {
                     const price = row.prices[index % row.prices.length];
-                    const comparePrice = row.comparePrices[index % row.comparePrices.length];
+                    const comparePrice = applyChannelLinePriceRate(row.channel, price, row.comparePrices[index % row.comparePrices.length], savedChannelRateDrafts, channelRateSettings);
                     const dateKey = dateItem.key;
                     const key = `${keyPrefix}${row.channel}-${dateKey}`;
                     const dateLabel = 'dateLabel' in dateItem ? dateItem.dateLabel : formatDateLabel(dateKey);
-                    return renderChannelDateCell({ key, row, dateLabel, price, comparePrice });
+                    return renderChannelDateCell({ key, row, dateKey, dateLabel, price, comparePrice });
                 })] }, `${keyPrefix}${row.channel}`));
     }
     function renderCentralGroupRow(room) {
         const roomCollapsed = collapsed || isRoomCollapsed(room.id);
-        return (_jsxs("div", { className: "price-grid__row price-grid__row--central price-grid__group-row", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsx("div", { className: "central-price-grid__frozen-cell central-price-grid__frozen-cell--group", "data-testid": "central-price-matrix-row-header", children: _jsx("div", { className: "central-price-grid__frozen-inner", style: { gridTemplateColumns: centralFrozenPaneTemplate }, children: _jsxs("button", { type: "button", className: "central-price-grid__group-toggle", "aria-expanded": !roomCollapsed, onClick: () => toggleRoomCollapsed(room.id), children: [_jsx("span", { className: "central-price-grid__group-copy", children: _jsx("strong", { children: room.name }) }), _jsx("i", { className: roomCollapsed ? 'is-collapsed' : '', "aria-hidden": "true" })] }) }) }), _jsx("div", { className: "central-price-grid__summary-gap", "aria-hidden": "true" }), _jsx("div", { children: renderCentralSummaryBasePriceCell({ price: room.basePrice, testId: 'central-room-base-price' }) }), visibleDates.map((dateItem, index) => {
+        const summarySourceRow = room.channelRows[0];
+        const summaryComparePrice = summarySourceRow
+            ? applyChannelLinePriceRate(summarySourceRow.channel, summarySourceRow.basePrice, getChannelBaseComparePrice(summarySourceRow), savedChannelRateDrafts, channelRateSettings)
+            : room.basePrice;
+        return (_jsxs("div", { className: "price-grid__row price-grid__row--central price-grid__group-row", style: { gridTemplateColumns: centralGridTemplateColumns, minWidth: centralMinWidth }, children: [_jsx("div", { className: "central-price-grid__frozen-cell central-price-grid__frozen-cell--group", "data-testid": "central-price-matrix-row-header", children: _jsx("div", { className: "central-price-grid__frozen-inner", style: { gridTemplateColumns: centralFrozenPaneTemplate }, children: _jsxs("button", { type: "button", className: "central-price-grid__group-toggle", "aria-expanded": !roomCollapsed, onClick: () => toggleRoomCollapsed(room.id), children: [_jsx("span", { className: "central-price-grid__group-copy", children: _jsx("strong", { children: room.name }) }), _jsx("i", { className: roomCollapsed ? 'is-collapsed' : '', "aria-hidden": "true" })] }) }) }), _jsx("div", { className: "central-price-grid__summary-gap", "aria-hidden": "true" }), _jsx("div", { children: renderCentralSummaryBasePriceCell({
+                        price: room.basePrice,
+                        testId: 'central-room-base-price',
+                        onClick: () => setBasePriceDrawerContext({
+                            variant: 'channel-rp',
+                            roomCategoryId: room.id,
+                            roomName: room.name,
+                            roomSubtitle: room.stock,
+                            actualPrice: room.basePrice,
+                            comparePrice: summaryComparePrice,
+                            basePrice: room.basePrice,
+                            dateRange: visibleDates,
+                            planningRows: buildChannelPlanningRows({
+                                rows: room.channelRows,
+                                roomName: room.name,
+                                roomSubtitle: room.stock,
+                                savedChannelRateDrafts,
+                                channelRateSettings,
+                            }),
+                        }),
+                    }) }), visibleDates.map((dateItem, index) => {
                     const status = room.prices[index] ?? { price: '-', stock: '-' };
                     const key = `${room.id}-summary-${dateItem.key}`;
                     return renderCentralStockOnlyMetric(key, status.stock);
@@ -864,7 +1360,7 @@ function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, central
                                             const nextToday = getCentralPriceRequestDate();
                                             setCentralCalendarMonth(parseDateValue(nextToday));
                                             handleCentralDatePicked(nextToday);
-                                        }, children: '\u4eca\u5929' }) })] })) : null] }), _jsx("div", { children: '\u6e20\u9053\u7cfb\u6570' }), _jsx("div", { children: '\u57fa\u7840\u4ef7' })] }));
+                                        }, children: '\u4eca\u5929' }) })] })) : null] }), _jsx(PriceCoefficientHeader, { ...coefficientHeaderHelp.channelRp }), _jsx("div", { children: '\u57fa\u7840\u4ef7' })] }));
     }
     function renderCentralHeaderDates() {
         return (_jsx("div", { className: "central-price-grid__head-scroll-track", children: visibleDates.map((item) => {
@@ -881,20 +1377,19 @@ function ChannelRpPriceMatrix({ centralRequestDate, onCentralDateChange, central
                             centralHeaderScrollRef.current.scrollLeft = event.currentTarget.scrollLeft;
                         }
                     }, children: centralState?.kind === 'success'
-                        ? centralRoomGroups.map((room) => (_jsxs("div", { className: "price-grid__section", children: [renderCentralGroupRow(room), !collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(row, `${room.id}-`)) : null] }, room.id)))
+                        ? centralRoomGroups.map((room) => (_jsxs("div", { className: "price-grid__section", children: [renderCentralGroupRow(room), !collapsed && !isRoomCollapsed(room.id) ? room.channelRows.map((row) => renderPriceRow(room, row, `${room.id}-`)) : null] }, room.id)))
                         : null })] }));
     }
-    return (_jsxs(_Fragment, { children: [centralState?.kind === 'loading' ? (_jsx("section", { className: "price-loading-state", role: "status", "aria-label": "\u6D93\uE15E\u304E\u6D60\u5CF0\u59DE\u675E\u754C\u59F8\u93AC?>", children: "\u59DD\uFF45\u6E6A\u9354\u72BA\u6D47\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9?.." })) : null, centralState?.kind === 'error' ? (_jsxs("section", { className: "price-error-state", role: "alert", "aria-label": "\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9\uE1BC\u59DE\u675E\u85C9\u3051\u7490?>", children: [_jsx("strong", { children: "\u6D93\uE15E\u304E\u6D60\u950B\u7278\u93C1\u7248\u5D41\u9354\u72BA\u6D47\u6FB6\u8FAB\u89E6" }), _jsx("span", { children: centralState.message }), _jsx("button", { type: "button", onClick: onRetryCentralRequest, children: "\u95B2\u5D86\u67CA\u9354\u72BA\u6D47" })] })) : null, centralState?.kind === 'empty' ? (_jsx("section", { className: "price-empty-state", role: "status", "aria-label": "\u6D93\uE15E\u304E\u6D60\u98CE\u2516\u9418\u8235\u20AC?>", children: "\u93C6\u509B\u68E4\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9?" })) : null, _jsx("section", { className: "table-card", children: renderMatrix() }), basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSave: (message) => {
+    return (_jsxs(_Fragment, { children: [centralState?.kind === 'loading' ? (_jsx("section", { className: "price-loading-state", role: "status", "aria-label": "\u6D93\uE15E\u304E\u6D60\u5CF0\u59DE\u675E\u754C\u59F8\u93AC?>", children: "\u59DD\uFF45\u6E6A\u9354\u72BA\u6D47\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9?.." })) : null, centralState?.kind === 'error' ? (_jsxs("section", { className: "price-error-state", role: "alert", "aria-label": "\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9\uE1BC\u59DE\u675E\u85C9\u3051\u7490?>", children: [_jsx("strong", { children: "\u6D93\uE15E\u304E\u6D60\u950B\u7278\u93C1\u7248\u5D41\u9354\u72BA\u6D47\u6FB6\u8FAB\u89E6" }), _jsx("span", { children: centralState.message }), _jsx("button", { type: "button", onClick: onRetryCentralRequest, children: "\u95B2\u5D86\u67CA\u9354\u72BA\u6D47" })] })) : null, centralState?.kind === 'empty' ? (_jsx("section", { className: "price-empty-state", role: "status", "aria-label": "\u6D93\uE15E\u304E\u6D60\u98CE\u2516\u9418\u8235\u20AC?>", children: "\u93C6\u509B\u68E4\u6D93\uE15E\u304E\u6D60\u950B\u669F\u93B9?" })) : null, _jsx("section", { className: "table-card", children: renderMatrix() }), basePriceDrawerContext ? (_jsx(BasePricePlanningDrawer, { context: basePriceDrawerContext, onClose: closeBasePriceDrawer, onSavePlanCells: savePlanChannelCells, onSave: (message) => {
                     closeBasePriceDrawer();
                     onActionBlocked?.(message);
-                } })) : null, drawerOpen && selectedCells.length > 0 && (_jsx("div", { className: "price-edit-drawer-backdrop", children: _jsxs("section", { className: "price-edit-drawer", role: "dialog", "aria-modal": "false", "aria-label": '\u6539\u4ef7', children: [_jsxs("header", { children: [_jsx("strong", { children: '\u6539\u4ef7' }), _jsx("button", { type: "button", "aria-label": '\u5173\u95ed\u6539\u4ef7', onClick: closePriceEditor, children: '\u00d7' })] }), _jsxs("div", { className: "price-edit-drawer__body", children: [_jsx("p", { className: "price-edit-drawer__selection", children: `\u5df2\u9009${selectedCells.length}\u9879` }), _jsxs("section", { className: "price-edit-card", children: [_jsx("div", { className: "price-edit-card__title", children: '\u4ef7\u683c' }), _jsx("div", { className: "price-edit-options", role: "radiogroup", "aria-label": '\u6539\u4ef7\u65b9\u5f0f', children: [
+                } })) : null, coefficientDrawerTarget ? (_jsx(ChannelProductCoefficientDrawer, { campId: campId, target: coefficientDrawerTarget, onClose: closeCoefficientDrawer, onSaved: () => {
+                    onCoefficientSaved?.();
+                }, onActionBlocked: onActionBlocked })) : null, drawerOpen && selectedCells.length > 0 && (_jsx("div", { className: "price-edit-drawer-backdrop", children: _jsxs("section", { className: "price-edit-drawer", role: "dialog", "aria-modal": "false", "aria-label": '\u6539\u4ef7', children: [_jsxs("header", { children: [_jsx("strong", { children: '\u6539\u4ef7' }), _jsx("button", { type: "button", "aria-label": '\u5173\u95ed\u6539\u4ef7', onClick: closePriceEditor, children: '\u00d7' })] }), _jsxs("div", { className: "price-edit-drawer__body", children: [_jsx("p", { className: "price-edit-drawer__selection", children: `\u5df2\u9009${selectedCells.length}\u9879` }), _jsxs("section", { className: "price-edit-card", children: [_jsx("div", { className: "price-edit-card__title", children: '\u4ef7\u683c' }), _jsx("div", { className: "price-edit-options", role: "radiogroup", "aria-label": '\u6539\u4ef7\u65b9\u5f0f', children: [
                                                 { value: 'fixed', label: '\u7edd\u5bf9\u503c\u6539\u4ef7' },
                                                 { value: 'increase', label: '\u5dee\u503c\u6539\u4ef7' },
                                                 { value: 'percent', label: '\u767e\u5206\u6bd4\u6539\u4ef7' },
-                                            ].map((option) => (_jsxs("button", { type: "button", role: "radio", "aria-checked": editMode === option.value, className: `price-edit-option${editMode === option.value ? ' is-active' : ''}`, onClick: () => setEditMode(option.value), children: [_jsx("i", { "aria-hidden": "true" }), _jsx("span", { children: option.label })] }, option.value))) }), _jsxs("label", { className: "price-edit-input", children: [_jsx("span", { className: "sr-only-heading", children: '\u6539\u4ef7\u503c' }), _jsx("input", { type: "text", "aria-label": '\u6539\u4ef7\u503c', placeholder: '\u8bf7\u8f93\u5165', value: editValue, onChange: (event) => setEditValue(event.target.value), autoFocus: true })] })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", className: "is-primary", onClick: () => {
-                                        closePriceEditor();
-                                        onActionBlocked?.('\u4ef7\u683c\u8c03\u6574\u5df2\u4fdd\u5b58\uff0c\u5f53\u524d\u4ef7\u683c\u77e9\u9635\u5df2\u66f4\u65b0');
-                                    }, children: '\u4fdd\u5b58' }), _jsx("button", { type: "button", onClick: closePriceEditor, children: '\u53d6\u6d88' })] })] }) }))] }));
+                                            ].map((option) => (_jsxs("button", { type: "button", role: "radio", "aria-checked": editMode === option.value, className: `price-edit-option${editMode === option.value ? ' is-active' : ''}`, onClick: () => setEditMode(option.value), children: [_jsx("i", { "aria-hidden": "true" }), _jsx("span", { children: option.label })] }, option.value))) }), _jsxs("label", { className: "price-edit-input", children: [_jsx("span", { className: "sr-only-heading", children: '\u6539\u4ef7\u503c' }), _jsx("input", { type: "text", "aria-label": '\u6539\u4ef7\u503c', placeholder: '\u8bf7\u8f93\u5165', value: editValue, onChange: (event) => setEditValue(event.target.value), autoFocus: true })] }), _jsxs("label", { className: "price-edit-checkbox", children: [_jsx("input", { type: "checkbox", checked: overwriteStandalone, onChange: (event) => setOverwriteStandalone(event.target.checked) }), _jsx("span", { children: "\u8986\u76D6\u65E5\u5386\u4E0A\u5355\u72EC\u7EF4\u62A4\u8FC7\u7684\u4EF7\u683C" })] })] })] }), _jsxs("footer", { children: [_jsx("button", { type: "button", className: "is-primary", onClick: saveSelectedChannelCells, disabled: savingPrices, children: savingPrices ? '保存中' : '\u4fdd\u5b58' }), _jsx("button", { type: "button", onClick: closePriceEditor, disabled: savingPrices, children: '\u53d6\u6d88' })] })] }) }))] }));
 }
 function RegularPricePage({ active }) {
     const location = useLocation();
@@ -914,6 +1409,9 @@ function RegularPricePage({ active }) {
     const [centralReloadKey, setCentralReloadKey] = useState(0);
     const [actionFeedback, setActionFeedback] = useState('');
     const [centralData, setCentralData] = useState();
+    const channelRateStorageCampId = useMemo(() => resolveChannelRateDraftsStorageCampId(location.search), [location.search]);
+    const [channelRateDrafts, setChannelRateDrafts] = useState(() => mergeChannelRateDrafts(readStoredChannelRateDrafts(resolveChannelRateDraftsStorageCampId(location.search))));
+    const [savedChannelRateDrafts, setSavedChannelRateDrafts] = useState(() => readStoredChannelRateDrafts(resolveChannelRateDraftsStorageCampId(location.search)));
     const [centralRequestState, setCentralRequestState] = useState({
         kind: 'idle',
         message: '等待请求中央价数据',
@@ -923,7 +1421,7 @@ function RegularPricePage({ active }) {
         message: '等待加载渠道RP价数据',
         rows: [],
     });
-    const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || 'default-camp', [location.search]);
+    const campId = useMemo(() => new URLSearchParams(location.search).get('campId') || resolveCurrentCampId() || 'default-camp', [location.search]);
     const channelPriceProvider = useMemo(() => {
         const configured = new URLSearchParams(location.search).get('channelPriceProvider');
         return configured === 'mock' ? 'mock' : 'real';
@@ -949,6 +1447,17 @@ function RegularPricePage({ active }) {
         });
         return ['全部渠道', ...channels];
     }, [centralData]);
+    const channelProductTargets = useMemo(() => (centralData?.rooms.flatMap((room) => (room.channelRows
+        .map((row) => toChannelProductTarget(room, row))
+        .filter((product) => Boolean(product)))) ?? []), [centralData]);
+    const channelRateSettings = useMemo(() => createChannelRateSettingsFromCentralData(centralData), [centralData]);
+    const channelPlanningRows = useMemo(() => (centralData?.rooms.flatMap((room) => buildChannelPlanningRows({
+        rows: room.channelRows,
+        roomName: room.name,
+        roomSubtitle: room.name,
+        savedChannelRateDrafts,
+        channelRateSettings,
+    })) ?? []), [centralData, channelRateSettings, savedChannelRateDrafts]);
     const centralSaveCampId = useMemo(() => (/^\d+$/.test(campId) ? campId : null), [campId]);
     useEffect(() => {
         const nextOptions = centralData?.rooms.map((room) => ({ id: room.id, name: room.name })) ?? [];
@@ -969,6 +1478,15 @@ function RegularPricePage({ active }) {
         const timer = window.setTimeout(() => setActionFeedback(''), actionFeedbackHideDelayMs);
         return () => window.clearTimeout(timer);
     }, [actionFeedback]);
+    useEffect(() => {
+        setChannelRateDrafts((current) => mergeChannelRateDrafts(current, channelRateSettings));
+        setSavedChannelRateDrafts((current) => (Object.keys(current).length > 0 ? mergeChannelRateDrafts(current, channelRateSettings) : current));
+    }, [channelRateSettings]);
+    useEffect(() => {
+        const storedDrafts = readStoredChannelRateDrafts(channelRateStorageCampId);
+        setChannelRateDrafts(mergeChannelRateDrafts(storedDrafts, channelRateSettings));
+        setSavedChannelRateDrafts(Object.keys(storedDrafts).length > 0 ? mergeChannelRateDrafts(storedDrafts, channelRateSettings) : {});
+    }, [channelRateStorageCampId]);
     function normalizeChannelPriceErrorMessage(error) {
         const rawMessage = error instanceof Error ? error.message : String(error);
         if (/mock|traceId|provider/i.test(rawMessage)) {
@@ -1075,6 +1593,50 @@ function RegularPricePage({ active }) {
         setSelectedRoom(room?.name ?? '全部房型');
         setSelectedRoomCategoryIds(room?.id ? [room.id] : []);
     }
+    function handleChannelRateDraftChange(id, value) {
+        setChannelRateDrafts((current) => ({ ...current, [id]: sanitizeChannelRateDraft(value) }));
+    }
+    function handleChannelRateSave() {
+        const nextDrafts = mergeChannelRateDrafts(channelRateDrafts, channelRateSettings);
+        try {
+            writeStoredChannelRateDrafts(channelRateStorageCampId, nextDrafts);
+            setChannelRateDrafts(nextDrafts);
+            setSavedChannelRateDrafts(nextDrafts);
+            return true;
+        }
+        catch {
+            setActionFeedback('价格设置保存失败，请检查浏览器存储权限后重试');
+            return false;
+        }
+    }
+    async function handleChannelPlanSave(cells, edit) {
+        const resolvedCampId = centralSaveCampId ?? resolveCurrentCampId();
+        if (!resolvedCampId) {
+            throw new Error('缺少门店账套信息，无法保存渠道价格');
+        }
+        const items = cells.flatMap((cell) => {
+            if (!cell.roomCategoryId || !cell.channelId)
+                return [];
+            return cell.dateKeys.map((date) => ({
+                roomCategoryId: cell.roomCategoryId,
+                channelId: cell.channelId,
+                productName: cell.productName,
+                date,
+                priceUpdateType: toPriceUpdateType(edit.mode),
+                calendarPrice: edit.value,
+                basePrice: cell.basePrice,
+            }));
+        });
+        if (items.length === 0) {
+            throw new Error('当前价格规划没有可保存的日期');
+        }
+        await saveChannelCalendarPrices({
+            campId: resolvedCampId,
+            overwriteStandalone: edit.overwriteStandalone,
+            items,
+        });
+        setCentralReloadKey((value) => value + 1);
+    }
     useEffect(() => {
         if (!isCentral)
             return;
@@ -1108,7 +1670,7 @@ function RegularPricePage({ active }) {
         });
         return () => controller.abort();
     }, [centralFilters, centralReloadKey, isCentral]);
-    return (_jsxs("div", { className: `page-stack price-page${isCentral ? ' price-page--central' : ''}`, children: [_jsx(SharedToolbar, { active: active, renderAsCentral: reuseCentralLayout, selectedStoreId: selectedStoreId, storeOptions: storeOptions, storeLoading: storeLoading, channelFilterOptions: isCentral ? centralChannelOptions : channelOptions, roomFilterOptions: roomFilterOptions, selectedChannel: selectedChannel, selectedRoom: selectedRoom, selectedTag: selectedTag, onStoreChange: setSelectedStoreId, onChannelChange: setSelectedChannel, onRoomChange: handleRoomFilterChange, onTagChange: setSelectedTag, onActionBlocked: setActionFeedback }), isCentral && actionFeedback ? (_jsx("div", { className: "price-action-feedback", role: "status", "aria-label": "\u4E2D\u592E\u4EF7\u64CD\u4F5C\u53CD\u9988", children: actionFeedback })) : null, reuseCentralLayout ? (_jsx(ChannelRpPriceMatrix, { centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onActionBlocked: setActionFeedback })) : (_jsx(PriceMatrix, { mode: active, channelRows: channelRequestState.rows, channelState: isChannelRp ? channelRequestState : undefined, channelDate: channelDate, centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, onRetryChannelRequest: () => setReloadKey((value) => value + 1), centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onCentralSaleStatusChange: active === '中央价' ? handleCentralSaleStatusChange : undefined, onActionBlocked: setActionFeedback }))] }));
+    return (_jsxs("div", { className: `page-stack price-page${isCentral ? ' price-page--central' : ''}`, children: [_jsx(SharedToolbar, { active: active, renderAsCentral: reuseCentralLayout, selectedStoreId: selectedStoreId, storeOptions: storeOptions, storeLoading: storeLoading, channelFilterOptions: isCentral ? centralChannelOptions : channelOptions, roomFilterOptions: roomFilterOptions, selectedChannel: selectedChannel, selectedRoom: selectedRoom, selectedTag: selectedTag, onStoreChange: setSelectedStoreId, onChannelChange: setSelectedChannel, onRoomChange: handleRoomFilterChange, onTagChange: setSelectedTag, onActionBlocked: setActionFeedback, campId: centralSaveCampId, channelProducts: channelProductTargets, onCoefficientSaved: () => setCentralReloadKey((value) => value + 1), channelPlanningRows: channelPlanningRows, channelPlanDates: centralData?.dates ?? [], onChannelPlanSave: handleChannelPlanSave, channelRateSettings: channelRateSettings, channelRateDrafts: channelRateDrafts, onChannelRateDraftChange: handleChannelRateDraftChange, onChannelRateSave: handleChannelRateSave }), isCentral && actionFeedback ? (_jsx("div", { className: "price-action-feedback", role: "status", "aria-label": "\u4E2D\u592E\u4EF7\u64CD\u4F5C\u53CD\u9988", children: actionFeedback })) : null, reuseCentralLayout ? (_jsx(ChannelRpPriceMatrix, { campId: centralSaveCampId ?? resolveCurrentCampId(), centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onActionBlocked: setActionFeedback, onCoefficientSaved: () => setCentralReloadKey((value) => value + 1), onChannelPricesSaved: () => setCentralReloadKey((value) => value + 1), channelRateSettings: channelRateSettings, savedChannelRateDrafts: savedChannelRateDrafts })) : (_jsx(PriceMatrix, { mode: active, channelRows: channelRequestState.rows, channelState: isChannelRp ? channelRequestState : undefined, channelDate: channelDate, centralRequestDate: centralRequestDate, onCentralDateChange: setCentralRequestDate, onRetryChannelRequest: () => setReloadKey((value) => value + 1), centralData: centralData, centralState: isCentral ? centralRequestState : undefined, onRetryCentralRequest: () => setCentralReloadKey((value) => value + 1), onCentralSaleStatusChange: active === '中央价' ? handleCentralSaleStatusChange : undefined, onActionBlocked: setActionFeedback, channelRateSettings: channelRateSettings, savedChannelRateDrafts: savedChannelRateDrafts }))] }));
 }
 function toCentralBusinessErrorMessage(message) {
     const normalized = message

@@ -42,7 +42,7 @@ function CleanSettingBusinessPage({ search }: { search: string }) {
   const [filters, setFilters] = useState<CleanSettingFilters>(initialFilters)
   const [dashboard, setDashboard] = useState<CleanSettingDashboard | null>(null)
   const [activeTab, setActiveTab] = useState<'basic' | 'price'>('basic')
-  const [feedback, setFeedback] = useState('数据加载中')
+  const [, setFeedback] = useState('数据加载中')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [detailRule, setDetailRule] = useState<CleanSettingPolicyRule | null>(null)
@@ -144,16 +144,6 @@ function CleanSettingBusinessPage({ search }: { search: string }) {
 
   return (
     <div className="clean-setting-page">
-      <header className="clean-setting-head">
-        <div>
-          <h1>保洁设置</h1>
-          <p>按门店、项目和策略状态维护自动派单、提醒和价格规则。</p>
-        </div>
-        <div role="status" aria-label="保洁设置操作反馈" className="clean-setting-feedback">
-          {feedback}
-        </div>
-      </header>
-
       <form className="clean-setting-filters" aria-label="保洁设置筛选" onSubmit={handleSubmit}>
         <label>
           <span>保洁日期</span>

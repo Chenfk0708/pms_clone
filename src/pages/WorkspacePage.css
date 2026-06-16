@@ -892,10 +892,181 @@
 
 .workspace-grid.workspace-home .chart-stage {
   grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.workspace-grid.workspace-home .chart-grid {
+  position: relative;
+  align-self: start;
+  height: 198px;
+  min-height: 198px;
+  padding-top: 2px;
+}
+
+.workspace-grid.workspace-home .chart-grid__row {
+  position: relative;
+  z-index: 1;
+}
+
+.workspace-grid.workspace-home .chart-grid__row span {
+  color: #7a879d;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.workspace-grid.workspace-home .chart-grid__dates {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 108px;
+  z-index: 3;
+  height: 18px;
+  color: #6b778c;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.workspace-grid.workspace-home .chart-grid__dates span {
+  position: absolute;
+  top: 0;
+  min-width: 42px;
+  text-align: center;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.workspace-trend-svg {
+  position: absolute;
+  left: 44px;
+  right: 0;
+  top: 6px;
+  z-index: 2;
+  width: calc(100% - 44px);
+  height: 168px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.workspace-trend-line {
+  fill: none;
+  stroke: #2269df;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 4px 6px rgb(34 105 223 / 16%));
+  vector-effect: non-scaling-stroke;
+}
+
+.workspace-trend-point-dot {
+  fill: #fff;
+  stroke: #2269df;
+  stroke-width: 1.9;
+  vector-effect: non-scaling-stroke;
+}
+
+.workspace-trend-point-hit {
+  fill: rgb(34 105 223 / 0.01);
+  outline: none;
+  pointer-events: all;
+  cursor: crosshair;
+}
+
+.workspace-trend-point-hit:hover + .workspace-trend-point-dot,
+.workspace-trend-point-hit:focus + .workspace-trend-point-dot {
+  stroke-width: 2.8;
+}
+
+.workspace-chart-tooltip {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  gap: 3px;
+  min-width: 112px;
+  padding: 8px 10px;
+  border: 1px solid #dce4f0;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgb(21 34 58 / 14%);
+  color: #25324a;
+  font-size: 12px;
+  line-height: 1.25;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 8px));
+}
+
+.workspace-chart-tooltip strong,
+.workspace-donut-tooltip strong {
+  color: #17223a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.workspace-chart-tooltip span,
+.workspace-donut-tooltip span {
+  color: #677791;
+}
+
+.workspace-chart-tooltip em,
+.workspace-donut-tooltip em {
+  color: #2269df;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .workspace-grid.workspace-home .donut-ring {
   width: 158px;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+
+.workspace-grid.workspace-home .donut-ring:hover {
+  filter: drop-shadow(0 8px 14px rgb(34 105 223 / 14%));
+  transform: translateY(-1px);
+}
+
+.workspace-grid.workspace-home .donut {
+  position: relative;
+  align-content: start;
+}
+
+.workspace-grid.workspace-home .donut ul {
+  width: 100%;
+}
+
+.workspace-grid.workspace-home .donut li {
+  min-height: 26px;
+  padding: 4px 6px;
+  border-radius: 5px;
+  outline: none;
+  cursor: default;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.workspace-grid.workspace-home .donut li.is-active,
+.workspace-grid.workspace-home .donut li:focus {
+  background: #f1f6ff;
+  color: #213b78;
+}
+
+.workspace-donut-tooltip {
+  position: absolute;
+  top: 46px;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  gap: 3px;
+  min-width: 110px;
+  padding: 8px 10px;
+  border: 1px solid #dce4f0;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgb(21 34 58 / 14%);
+  color: #25324a;
+  font-size: 12px;
+  line-height: 1.25;
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .workspace-orders-toolbar {

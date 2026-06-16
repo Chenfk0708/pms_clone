@@ -1,5 +1,7 @@
 const OTA_PROVIDER_KEY = 'pms.otaProvider';
 const fixedTimestamp = '2026-05-18T10:00:00+08:00';
+const OTA_DIRECT_CONNECTED_CHANNELS_KEY = 'pms.ota.directConnectedChannelIds';
+const OTA_CHANNEL_SETUPS_KEY = 'pms.ota.channelSetups';
 const realBaseUrl = '/api';
 const otaDashboardEndpoint = '/ota/dashboard/get';
 const otaChannelDetailEndpoint = '/ota/channel/detail/get';
@@ -50,25 +52,23 @@ const ctripSyncStoreNotice = {
         '3. 直连后部分促销活动将会自动取消，请检查活动或重新报名',
     ],
 };
-const connectedChannels = [
-    createChannel('ctrip', '携程直连', 'connected'),
-    createChannel('meituan-hotel', '美团酒店直连', 'connected'),
-    createChannel('fliggy', '飞猪酒店', 'connected'),
-    createChannel('meituan-homestay', '美团民宿', 'connected'),
-    createChannel('tujia', '途家', 'connected'),
-    createChannel('muniao', '木鸟', 'connected'),
-    createChannel('xiaozhu', '小猪', 'connected'),
-    createChannel('locals', '路客云聚合', 'connected'),
-];
-const pendingChannels = [
-    createChannel('ctrip-play', '携程玩乐', 'pending'),
-    createChannel('booking', 'Booking', 'pending'),
-    createChannel('ctrip-global', '携程国际', 'pending'),
-    createChannel('airbnb', 'Airbnb', 'pending'),
-    createChannel('ly-homestay', '同程民宿', 'pending'),
-    createChannel('58', '58同城', 'pending'),
-    createChannel('beike', '贝壳', 'pending'),
-    createChannel('tencent-map', '腾讯地图', 'pending'),
+const mockChannelCatalog = [
+    { id: 'ctrip', name: '携程直连' },
+    { id: 'meituan-hotel', name: '美团酒店直连' },
+    { id: 'fliggy', name: '飞猪酒店' },
+    { id: 'meituan-homestay', name: '美团民宿' },
+    { id: 'tujia', name: '途家' },
+    { id: 'muniao', name: '木鸟' },
+    { id: 'xiaozhu', name: '小猪' },
+    { id: 'locals', name: '路客云聚合' },
+    { id: 'ctrip-play', name: '携程玩乐' },
+    { id: 'booking', name: 'Booking' },
+    { id: 'ctrip-global', name: '携程国际' },
+    { id: 'airbnb', name: 'Airbnb' },
+    { id: 'ly-homestay', name: '同程民宿' },
+    { id: '58', name: '58同城' },
+    { id: 'beike', name: '贝壳' },
+    { id: 'tencent-map', name: '腾讯地图' },
 ];
 const ctripRoomRows = [
     {
@@ -395,6 +395,30 @@ export async function fetchOtaChannelDetail(channelId, providerName = getOtaProv
     await delay(100);
     return structuredClone(channelDetailMap[channelId] ?? channelDetailMap.ctrip);
 }
+export async function saveMockOtaChannelSetup(form) {
+    await delay(100);
+    const normalizedChannelId = normalizeChannelKey(form.channelId);
+    const channelExists = mockChannelCatalog.some((channel) => channel.id === normalizedChannelId);
+    if (!channelExists)
+        throw new Error(`未找到可配置的 OTA 渠道：${form.channelId}`);
+    if (!form.ebookingAccount.trim())
+        throw new Error('请填写 eBooking 账号');
+    if (!form.storeName.trim() && !form.storeId.trim())
+        throw new Error('请填写或选择本地门店');
+    const setups = readMockChannelSetups();
+    setups[normalizedChannelId] = {
+        ...form,
+        channelId: normalizedChannelId,
+        accountName: form.accountName.trim(),
+        ebookingAccount: form.ebookingAccount.trim(),
+        ebookingPassword: form.ebookingPassword.trim(),
+        storeId: form.storeId.trim(),
+        storeName: form.storeName.trim(),
+        hotelId: form.hotelId.trim(),
+        remark: form.remark.trim(),
+    };
+    writeMockChannelSetups(setups);
+}
 function getOtaProviderName() {
     if (typeof window === 'undefined')
         return 'mock';
@@ -598,6 +622,24 @@ function adaptRealDashboardPayload(data, filters) {
         };
     }
     const accounts = data.accounts ?? [];
+    if (accounts.length === 0) {
+        const pending = filters.dimension === 'connected' ? [] : createPendingCatalogChannels();
+        return {
+            stores,
+            dimensions,
+            metrics: [
+                { key: 'connected', label: '已直连', value: '0', detail: '暂无已直连渠道' },
+                { key: 'pending', label: '未直连', value: String(pending.length), detail: '可发起授权或渠道申请' },
+                { key: 'roomTypes', label: '关联房型', value: '0/0', detail: '暂无房型映射' },
+                { key: 'sync', label: '最近同步', value: '-', detail: '暂无已直连渠道' },
+            ],
+            connectedChannels: [],
+            pendingChannels: pending,
+            reminders: [],
+            quickLinks: [{ id: 'operation-log', label: '操作日志', route: '/channels/ota/log' }],
+            updatedAt: new Date().toISOString(),
+        };
+    }
     const allChannels = accounts.map(adaptRealAccountToChannel);
     const connected = filters.dimension === 'pending' ? [] : allChannels.filter((channel) => channel.status === 'connected');
     const pending = filters.dimension === 'connected' ? [] : allChannels.filter((channel) => channel.status === 'pending');
@@ -762,16 +804,23 @@ function adaptRealStoreRow(row, account, roomTypeCount) {
     };
 }
 function createDashboardPayload(filters) {
-    const connected = filters.dimension === 'pending' ? [] : connectedChannels.map((channel) => applyStoreRelation(channel, filters.storeId));
-    const pending = filters.dimension === 'connected' ? [] : pendingChannels;
+    const connectedIds = readMockDirectConnectedChannelIds();
+    const connected = filters.dimension === 'pending'
+        ? []
+        : mockChannelCatalog
+            .filter((channel) => connectedIds.includes(channel.id))
+            .map((channel) => applyStoreRelation(createChannel(channel.id, channel.name, 'connected'), filters.storeId));
+    const pending = filters.dimension === 'connected'
+        ? []
+        : createPendingCatalogChannels(connectedIds);
     return {
         stores,
         dimensions,
         metrics: [
             { key: 'connected', label: '已直连', value: String(connected.length), detail: '可同步房型、价格、库存' },
             { key: 'pending', label: '未直连', value: String(pending.length), detail: '可发起授权或渠道申请' },
-            { key: 'roomTypes', label: '关联房型', value: '32/32', detail: '目标站当前渠道房型均已映射' },
-            { key: 'sync', label: '最近同步', value: '09:40', detail: '库存、房价、订单状态已完成同步' },
+            { key: 'roomTypes', label: '关联房型', value: `${connected.reduce((sum, channel) => sum + channel.mappedRoomTypeCount, 0)}/${connected.reduce((sum, channel) => sum + channel.roomTypeCount, 0)}`, detail: '已直连渠道房型映射数' },
+            { key: 'sync', label: '最近同步', value: connected.length > 0 ? '09:40' : '-', detail: connected.length > 0 ? '库存、房价、订单状态已完成同步' : '暂无已直连渠道' },
         ],
         connectedChannels: connected,
         pendingChannels: pending,
@@ -836,19 +885,55 @@ function createEmptyLogPayload(filters) {
 }
 function createChannel(id, name, status) {
     const isConnected = status === 'connected';
+    const setup = !isConnected ? readMockChannelSetups()[id] : undefined;
     const mapped = isConnected ? 4 : 0;
     return {
         id,
         name,
-        relation: isConnected ? `关联房型 ${mapped}/4` : '等待授权',
+        relation: isConnected ? `关联房型 ${mapped}/4` : setup ? '已配置，待渠道开通' : '等待配置',
         status,
         roomTypeCount: 4,
         mappedRoomTypeCount: mapped,
         lastSyncAt: isConnected ? '2026-05-18 09:40' : '-',
         logoText: name.length > 4 ? name.slice(0, 2) : name,
-        detail: isConnected ? `${name} 已完成房型、价格、库存同步` : `${name} 可发起渠道授权申请`,
+        detail: isConnected ? `${name} 已完成房型、价格、库存同步` : setup ? `${name} 已保存 eBooking 与门店绑定配置，等待渠道开通` : `${name} 可配置 eBooking 账号、门店绑定和房型映射入口`,
         authorizationNotice: createAuthorizationNotice(id, name, status),
     };
+}
+function createPendingCatalogChannels(connectedIds = []) {
+    return mockChannelCatalog
+        .filter((channel) => !connectedIds.includes(channel.id))
+        .map((channel) => createChannel(channel.id, channel.name, 'pending'));
+}
+function readMockDirectConnectedChannelIds() {
+    if (typeof window === 'undefined')
+        return [];
+    try {
+        const parsed = JSON.parse(window.localStorage.getItem(OTA_DIRECT_CONNECTED_CHANNELS_KEY) || '[]');
+        if (!Array.isArray(parsed))
+            return [];
+        const catalogIds = new Set(mockChannelCatalog.map((channel) => channel.id));
+        return Array.from(new Set(parsed.map(String).map(normalizeChannelKey).filter((id) => catalogIds.has(id))));
+    }
+    catch {
+        return [];
+    }
+}
+function readMockChannelSetups() {
+    if (typeof window === 'undefined')
+        return {};
+    try {
+        const parsed = JSON.parse(window.localStorage.getItem(OTA_CHANNEL_SETUPS_KEY) || '{}');
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    }
+    catch {
+        return {};
+    }
+}
+function writeMockChannelSetups(setups) {
+    if (typeof window === 'undefined')
+        return;
+    window.localStorage.setItem(OTA_CHANNEL_SETUPS_KEY, JSON.stringify(setups));
 }
 function createAuthorizationNotice(id, name, status) {
     if (id === 'ctrip') {

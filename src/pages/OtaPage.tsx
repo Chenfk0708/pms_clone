@@ -6,6 +6,7 @@ import {
   type OtaDashboard,
   type OtaDetailFilters,
   type OtaDetailTab,
+  type OtaChannelSetupForm,
   type OtaLogFilters,
   type OtaLogResult,
   type OtaSyncStoreForm,
@@ -14,12 +15,14 @@ import {
   fetchOtaChannelDetail,
   fetchOtaDashboard,
   fetchOtaOperationLogs,
+  saveMockOtaChannelSetup,
 } from '../services/ota'
 import './OtaPage.css'
 
 type FeedbackKind = 'idle' | 'success' | 'error'
 type DialogState =
   | { type: 'authorization'; channel: OtaChannel }
+  | { type: 'channel-setup'; channel: OtaChannel }
   | { type: 'pending-guide'; channel: OtaChannel }
   | { type: 'sync-store'; detail: OtaChannelDetailView }
   | { type: 'confirm-danger'; confirmText: string; successMessage: string }
@@ -73,6 +76,45 @@ function OtaDashboardPage() {
       .finally(() => setLoading(false))
   }
 
+  async function handleChannelSetupSubmit(form: OtaChannelSetupForm) {
+    setDialog(null)
+    setLoading(true)
+    try {
+      await saveMockOtaChannelSetup(form)
+      const nextData = await fetchOtaDashboard()
+      setData(nextData)
+      setError('')
+      setFeedback({ kind: 'success', message: '渠道配置已保存，完成渠道侧开通后才会进入已直连渠道' })
+    } catch (caught) {
+      setFeedback({ kind: 'error', message: caught instanceof Error ? caught.message : '渠道配置保存失败，请重试' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleAuthorizeConfirm(channel: OtaChannel) {
+    setDialog(null)
+    if (channel.status === 'pending') {
+      setFeedback({ kind: 'error', message: '未直连渠道需要先完成 OTA 直连配置' })
+      return
+      setLoading(true)
+      try {
+        throw new Error('未直连渠道需要先完成 OTA 直连配置')
+        const nextData = await fetchOtaDashboard()
+        setData(nextData)
+        setError('')
+        setFeedback({ kind: 'success', message: `${channel.name} 已关联，已移动到已直连渠道` })
+      } catch (caught: any) {
+        setFeedback({ kind: 'error', message: caught instanceof Error ? caught.message : '渠道关联失败，请重试' })
+      } finally {
+        setLoading(false)
+      }
+      return
+    }
+
+    setFeedback({ kind: 'success', message: `${channel.name} 授权流程已启动，请在渠道后台完成确认` })
+  }
+
   const hasNoChannels = data && data.connectedChannels.length === 0 && data.pendingChannels.length === 0
 
   return (
@@ -105,17 +147,17 @@ function OtaDashboardPage() {
           ) : (
             <>
               <ChannelSection
+                title="未直连渠道"
+                channels={data.pendingChannels}
+                kind="pending"
+                onAuthorize={(channel) => setDialog({ type: 'channel-setup', channel })}
+                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`)}
+              />
+              <ChannelSection
                 title="已直连渠道"
                 channels={data.connectedChannels}
                 kind="connected"
                 onAuthorize={(channel) => setDialog({ type: 'authorization', channel })}
-                onDetail={(channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`)}
-              />
-              <ChannelSection
-                title="未直连渠道"
-                channels={data.pendingChannels}
-                kind="pending"
-                onAuthorize={(channel) => setDialog({ type: 'pending-guide', channel })}
                 onDetail={(channel) => navigate(`/channels/ota/detail?channel=${encodeURIComponent(toOtaDetailChannelParam(channel))}`)}
               />
             </>
@@ -128,10 +170,14 @@ function OtaDashboardPage() {
         <AuthorizationDialog
           channel={dialog.channel}
           onClose={() => setDialog(null)}
-          onConfirm={() => {
-            setDialog(null)
-            setFeedback({ kind: 'success', message: `${dialog.channel.name} 授权流程已启动，请在渠道后台完成确认` })
-          }}
+          onConfirm={() => void handleAuthorizeConfirm(dialog.channel)}
+        />
+      ) : null}
+      {dialog?.type === 'channel-setup' ? (
+        <OtaChannelSetupDialog
+          channel={dialog.channel}
+          onClose={() => setDialog(null)}
+          onSubmit={(form) => void handleChannelSetupSubmit(form)}
         />
       ) : null}
       {dialog?.type === 'pending-guide' ? (
@@ -576,9 +622,10 @@ function ChannelSection({
   onDetail: (channel: OtaChannel) => void
 }) {
   if (channels.length === 0) return null
+  const sectionTitle = kind === 'connected' ? '已直连渠道' : '未直连渠道'
   return (
     <section className="ota-channel-section">
-      <div className="ota-section-title"><h2>{title}</h2></div>
+      <div className="ota-section-title"><h2>{sectionTitle || title}</h2></div>
       <div className="ota-card-grid">
         {channels.map((channel, index) => (
           <article key={channel.id} className={`ota-channel-card ota-channel-card--${kind}`}>
@@ -612,6 +659,82 @@ function toOtaDetailChannelParam(channel: OtaChannel) {
 
 function FeedbackStatus({ feedback }: { feedback: { kind: FeedbackKind; message: string } }) {
   return <div role="status" className={`ota-live-status ${feedback.kind === 'error' ? 'is-error' : ''}`}>{feedback.message}</div>
+}
+
+function OtaChannelSetupDialog({
+  channel,
+  onClose,
+  onSubmit,
+}: {
+  channel: OtaChannel
+  onClose: () => void
+  onSubmit: (form: OtaChannelSetupForm) => void
+}) {
+  const [form, setForm] = useState<OtaChannelSetupForm>({
+    channelId: channel.id,
+    accountName: `${channel.name}主账号`,
+    ebookingAccount: '',
+    ebookingPassword: '',
+    storeId: 'default',
+    storeName: '宿银',
+    hotelId: '',
+    remark: '',
+  })
+
+  function updateField(field: keyof OtaChannelSetupForm, value: string) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
+  return (
+    <div className="ota-dialog-mask" role="presentation" onMouseDown={onClose}>
+      <section className="ota-channel-setup-dialog" role="dialog" aria-modal="true" aria-label={`${channel.name}直连配置`} onMouseDown={(event) => event.stopPropagation()}>
+        <header className="ota-channel-setup-dialog__header">
+          <div>
+            <h3>{channel.name}直连配置</h3>
+            <p>保存 eBooking 账号和本地门店绑定后，渠道仍保持未直连；完成渠道侧开通后才会进入已直连渠道。</p>
+          </div>
+          <button type="button" aria-label="关闭" onClick={onClose}>×</button>
+        </header>
+
+        <div className="ota-channel-setup-dialog__body">
+          <section className="ota-channel-setup-dialog__notice">
+            <strong>配置流程</strong>
+            <span>1. 填写渠道 eBooking 账号；2. 绑定本地门店；3. 进入渠道详情做房型映射；4. 渠道开通成功后同步订单、房态、价格。</span>
+          </section>
+
+          <label>
+            <span>账号名称</span>
+            <input value={form.accountName} onChange={(event) => updateField('accountName', event.target.value)} placeholder="例如：美团酒店主账号" />
+          </label>
+          <label>
+            <span>eBooking 账号</span>
+            <input value={form.ebookingAccount} onChange={(event) => updateField('ebookingAccount', event.target.value)} placeholder="请输入渠道后台账号" />
+          </label>
+          <label>
+            <span>eBooking 密码</span>
+            <input type="password" value={form.ebookingPassword} onChange={(event) => updateField('ebookingPassword', event.target.value)} placeholder="请输入渠道后台密码" />
+          </label>
+          <label>
+            <span>本地门店</span>
+            <input value={form.storeName} onChange={(event) => updateField('storeName', event.target.value)} placeholder="请选择或填写 PMS 门店" />
+          </label>
+          <label>
+            <span>渠道酒店 ID</span>
+            <input value={form.hotelId} onChange={(event) => updateField('hotelId', event.target.value)} placeholder="没有可先留空，开通后补充" />
+          </label>
+          <label className="ota-channel-setup-dialog__full">
+            <span>备注</span>
+            <textarea value={form.remark} onChange={(event) => updateField('remark', event.target.value)} placeholder="记录渠道联系人、开通进度或特殊说明" />
+          </label>
+        </div>
+
+        <footer className="ota-channel-setup-dialog__footer">
+          <button type="button" className="ota-button" onClick={onClose}>取消</button>
+          <button type="button" className="ota-button ota-button--primary" onClick={() => onSubmit(form)}>保存配置</button>
+        </footer>
+      </section>
+    </div>
+  )
 }
 
 function AuthorizationDialog({ channel, onClose, onConfirm }: { channel: OtaChannel; onClose: () => void; onConfirm: () => void }) {

@@ -3,30 +3,123 @@ import { expect, test, type Page } from '@playwright/test'
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  return appBaseURL ? `${appBaseURL}${routePath}` : routePath
+  return appBaseURL ? `${appBaseURL}/#${routePath}` : `/#${routePath}`
 }
 
 async function openStatisticsReport(page: Page, scenario: 'success' | 'empty' | 'error' = 'success') {
   await page.addInitScript((mode: 'success' | 'empty' | 'error') => {
+    window.localStorage.setItem('pms_token', 'statistics-report-playwright-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
     window.localStorage.setItem('pms.statisticsReport.provider', 'mock')
     window.localStorage.setItem('pms.statisticsReport.scenario', mode)
   }, scenario)
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        data: {
+          list: [
+            {
+              poiId: '1796067693589061634',
+              poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+            },
+          ],
+        },
+      }),
+    })
+  })
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/statistics/report'))
   await expect(page.locator('.statistics-report-page')).toBeVisible()
   await page.waitForTimeout(1000)
 }
 
+async function openStatisticsReportWithApi(page: Page) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('pms_token', 'statistics-report-playwright-token')
+    window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.currentCampId', '1796067693589061634')
+    window.localStorage.setItem('pms.statisticsReport.provider', 'api')
+    window.localStorage.removeItem('pms.statisticsReport.scenario')
+  })
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        data: {
+          list: [
+            {
+              poiId: '1796067693589061634',
+              poiName: '天落会宿公寓(前海壹方城宝安中心店)',
+            },
+          ],
+        },
+      }),
+    })
+  })
+  await page.route('**/api/report/accommodation/management/analysis/get', async (route) => {
+    const trend = Array.from({ length: 7 }, (_, index) => {
+      const day = String(index + 10).padStart(2, '0')
+      return {
+        date: `2026-06-${day}`,
+        businessIncome: 320 + index * 42,
+        roomFeePriceIncludingCommission: 320 + index * 42,
+        otherOrderExpense: 0,
+        writeDownIncome: 0,
+        occ: 0.5,
+        adr: 160 + index * 4,
+        revPar: 80 + index * 2,
+        openRoomCount: 2 + (index % 3),
+      }
+    })
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        success: true,
+        data: {
+          businessIncome: 3122,
+          roomFeePriceIncludingCommission: 3122,
+          otherOrderExpense: 0,
+          writeDownIncome: 0,
+          occ: 50,
+          adr: 182,
+          revPar: 91,
+          openRoomCount: 18,
+          roomCount: 36,
+          allDayOpenRoomCount: 18,
+          hourOpenRoomCount: 0,
+          allDayRoomFeePriceIncludingCommission: 3122,
+          hourRoomFeePriceIncludingCommission: 0,
+          growthTrendAnalysisList: trend,
+          orderOriginAnalysisList: [{ channelId: '17', channelName: '路客云聚合', orderCount: 6 }],
+          orderTotalCount: 6,
+        },
+      }),
+    })
+  })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/statistics/report'))
+  await expect(page.locator('.statistics-report-page')).toBeVisible()
+}
+
 test('/statistics/report loads through the statistics report provider contract', async ({ page }) => {
   await openStatisticsReport(page)
 
-  await expect(page.locator('.topnav-link[href="/statistics/report"]')).toHaveClass(/is-active/)
+  await expect(page.locator('.topnav-link[href="#/statistics/report"]')).toHaveClass(/is-active/)
   await expect(page.getByRole('link', { name: '统计概览' })).toHaveClass(/is-active/)
   await expect(page.locator('.page-content > .page-header')).toBeHidden()
 
   await expect(page.getByRole('button', { name: '统计总览' })).toHaveClass(/is-active/)
-  await expect(page.getByRole('button', { name: '全部门店' })).not.toHaveClass(/is-active/)
-  await expect(page.getByRole('button', { name: /天落会宿公寓/ })).toHaveClass(/is-active/)
+  await expect(page.getByRole('button', { name: '全部门店' })).toHaveAttribute('aria-haspopup', 'listbox')
   await expect(page.getByRole('button', { name: '昨天' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('开始日期')).toHaveValue('2026-05-18')
   await expect(page.getByLabel('结束日期')).toHaveValue('2026-05-18')
@@ -49,6 +142,79 @@ test('/statistics/report loads through the statistics report provider contract',
   await expect(contract).toContainText('"startDate":"2026-05-18"')
   await expect(contract).toContainText('"endDate":"2026-05-18"')
   await expect(contract).toContainText('"businessIncome":554.97')
+})
+
+test('/statistics/report renders chart and source data from the real provider contract', async ({ page }) => {
+  await openStatisticsReportWithApi(page)
+
+  await expect(page.getByTestId('statistics-trend-chart')).toBeVisible()
+  await expect(page.getByTestId('statistics-trend-point')).toHaveCount(7)
+  await expect(page.locator('.statistics-source-card')).toContainText('路客云聚合')
+  await expect(page.locator('.statistics-source-card')).not.toContainText('飞猪淘酒店')
+
+  const contract = page.getByTestId('statistics-report-contract')
+  await expect(contract).toHaveAttribute('data-provider', 'api')
+  await expect(contract).toContainText('"businessIncome":3122')
+})
+
+test('/statistics/report renders interactive trend and order-source charts', async ({ page }) => {
+  await openStatisticsReport(page)
+
+  await page.getByRole('button', { name: '本月' }).click()
+  await expect(page.getByTestId('statistics-trend-chart')).toBeVisible()
+  await expect(page.getByTestId('statistics-trend-line')).toBeVisible()
+  await expect(page.getByTestId('statistics-trend-point')).toHaveCount(19)
+
+  await page.getByTestId('statistics-trend-point').nth(5).hover()
+  await expect(page.getByTestId('statistics-trend-tooltip')).toBeVisible()
+  await expect(page.getByTestId('statistics-trend-tooltip')).toContainText('05-06')
+  await expect(page.getByTestId('statistics-trend-tooltip')).toContainText(/￥/)
+
+  const trendAlignment = await page.evaluate(() => {
+    const pointCenters = [...document.querySelectorAll('.statistics-trend-point-dot')].map((element) => {
+      const rect = element.getBoundingClientRect()
+      return rect.left + rect.width / 2
+    })
+    const dateCenters = [...document.querySelectorAll('.statistics-x-axis span')].map((element) => {
+      const rect = element.getBoundingClientRect()
+      return rect.left + rect.width / 2
+    })
+    return Math.max(...pointCenters.map((point, index) => Math.abs(point - (dateCenters[index] ?? point))))
+  })
+  expect(trendAlignment).toBeLessThanOrEqual(3)
+  const pointDotSize = await page.evaluate(() => {
+    const rect = document.querySelector('.statistics-trend-point-dot')?.getBoundingClientRect()
+    return rect ? Math.min(rect.width, rect.height) : 0
+  })
+  expect(pointDotSize).toBeGreaterThanOrEqual(9)
+  const yAxisAlignment = await page.evaluate(() => {
+    const gridRect = document.querySelector('.plot-grid')?.getBoundingClientRect()
+    const labelCenters = [...document.querySelectorAll('.statistics-y-axis span')].map((element) => {
+      const rect = element.getBoundingClientRect()
+      return rect.top + rect.height / 2
+    })
+    if (!gridRect || labelCenters.length <= 1) return 0
+    const gridLines = labelCenters.map((_, index) => gridRect.top + (gridRect.height / (labelCenters.length - 1)) * index)
+    return Math.max(...labelCenters.map((center, index) => Math.abs(center - gridLines[index])))
+  })
+  expect(yAxisAlignment).toBeLessThanOrEqual(3)
+  const dateGap = await page.evaluate(() => {
+    const gridRect = document.querySelector('.plot-grid')?.getBoundingClientRect()
+    const dateAxisRect = document.querySelector('.statistics-x-axis')?.getBoundingClientRect()
+    if (!gridRect || !dateAxisRect) return 0
+    return dateAxisRect.top - gridRect.bottom
+  })
+  expect(dateGap).toBeGreaterThanOrEqual(0)
+  expect(dateGap).toBeLessThanOrEqual(12)
+
+  await expect(page.getByTestId('statistics-donut-ring')).toBeVisible()
+  await expect(page.getByTestId('statistics-donut-ring')).toHaveCSS('background-image', /conic-gradient/)
+  await expect.poll(async () => page.getByTestId('statistics-donut-legend').locator('li').count()).toBeGreaterThanOrEqual(3)
+
+  await page.getByTestId('statistics-donut-legend').locator('li').nth(1).hover()
+  await expect(page.getByTestId('statistics-donut-tooltip')).toBeVisible()
+  await expect(page.getByTestId('statistics-donut-tooltip')).toContainText('%')
+  await expect(page.getByTestId('statistics-donut-tooltip')).toContainText('单')
 })
 
 test('/statistics/report refreshes metrics and contract when switching presets and modes', async ({ page }) => {
@@ -90,7 +256,8 @@ test('/statistics/report refreshes metrics and contract when switching presets a
   await expect(page.getByLabel('远期趋势分析')).toContainText('13810.00')
 
   await page.getByRole('button', { name: '全部门店' }).click()
-  await expect(page.getByRole('button', { name: '全部门店' })).toHaveClass(/is-active/)
+  await page.getByRole('option', { name: '全部门店' }).click()
+  await expect(page.getByRole('button', { name: '全部门店' })).toHaveAttribute('aria-haspopup', 'listbox')
   await expect(page.getByLabel('统计概览反馈')).toContainText('已切换到全部门店视角')
 })
 

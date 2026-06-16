@@ -515,6 +515,109 @@
   padding: 14px 24px 18px;
 }
 
+.ota-channel-setup-dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: min(720px, calc(100vw - 32px));
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+  transform: translate(-50%, -50%);
+}
+
+.ota-channel-setup-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e8edf5;
+}
+
+.ota-channel-setup-dialog__header h3 {
+  margin: 0 0 8px;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ota-channel-setup-dialog__header p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+  line-height: 21px;
+}
+
+.ota-channel-setup-dialog__header button {
+  border: 0;
+  background: transparent;
+  color: #98a2b3;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.ota-channel-setup-dialog__body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 20px 24px 8px;
+}
+
+.ota-channel-setup-dialog__notice,
+.ota-channel-setup-dialog__full {
+  grid-column: 1 / -1;
+}
+
+.ota-channel-setup-dialog__notice {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid #d8e2f2;
+  border-radius: 8px;
+  background: #f7faff;
+  color: #344054;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.ota-channel-setup-dialog__body label {
+  display: grid;
+  gap: 8px;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ota-channel-setup-dialog__body input,
+.ota-channel-setup-dialog__body textarea {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 7px;
+  background: #fff;
+  color: #1f2937;
+  font: inherit;
+}
+
+.ota-channel-setup-dialog__body input {
+  height: 38px;
+  padding: 0 11px;
+}
+
+.ota-channel-setup-dialog__body textarea {
+  min-height: 76px;
+  resize: vertical;
+  padding: 10px 11px;
+}
+
+.ota-channel-setup-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 20px;
+}
+
 .ota-sync-dialog {
   position: fixed;
   left: 50%;

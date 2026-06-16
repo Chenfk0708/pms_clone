@@ -1,16 +1,14 @@
 import { expect, test, type Route } from '@playwright/test'
+import { hashAppUrl, seedAuthenticatedUser } from './helpers/auth'
 
 const appBaseURL = process.env.PMS_TEST_BASE_URL
 
 function appUrl(routePath: string) {
-  if (appBaseURL) {
-    return `${appBaseURL.replace(/\/$/, '')}/#${routePath}`
-  }
-
-  return `/#${routePath}`
+  return hashAppUrl(routePath, appBaseURL)
 }
 
 test.beforeEach(async ({ page }) => {
+  await seedAuthenticatedUser(page, 'mock-camp-main')
   await page.addInitScript(() => {
     window.localStorage.setItem('pms_token', 'clean-statistics-playwright-token')
     window.localStorage.setItem('pmsCampId', 'mock-camp-main')
@@ -26,6 +24,14 @@ test.beforeEach(async ({ page }) => {
         campName: 'Mock Camp',
       }),
     )
+  })
+  await page.route('**/select/poi/page/get', async (route) => {
+    await fulfillHudson(route, {
+      list: [
+        { poiId: 'mock-camp-main', poiName: '全部门店' },
+        { poiId: '10001', poiName: '真实统计门店' },
+      ],
+    })
   })
 })
 
@@ -43,7 +49,7 @@ test('/cleanManage/cleanStatistics renders usable business data from the provide
   await page.goto(appUrl('/cleanManage/cleanStatistics'))
 
   await expect(page.locator('.page-header')).toHaveCount(0)
-  await expect(page.locator('.clean-stat-title')).toHaveText('保洁统计')
+  await expect(page.locator('.clean-stat-title')).toHaveCount(0)
   await expect(page.getByRole('button', { name: '统计汇总' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('保洁统计核心指标')).toContainText('本月保洁')
   await expect(page.getByLabel('保洁统计核心指标')).toContainText('186')
@@ -68,7 +74,7 @@ test('/cleanManage/cleanStatistics filters refresh provider params and UI feedba
   await page.getByLabel('结束日期').fill('2026-05-12')
   await page.getByRole('button', { name: '查 询' }).click()
 
-  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toContainText('已按当前筛选更新')
+  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toHaveCount(0)
   const requestMeta = JSON.parse((await page.locator('.clean-stat-page').getAttribute('data-clean-request')) || '{}')
   expect(requestMeta).toMatchObject({
     cleanStartTime: 1778342400000,
@@ -92,12 +98,11 @@ test('/cleanManage/cleanStatistics gives feedback for every visible business act
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(appUrl('/cleanManage/cleanStatistics'))
 
-  await page.getByRole('button', { name: '天落会宿…' }).click()
-  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toContainText('已切换门店')
+  await page.getByRole('button', { name: '全部门店' }).click()
+  await page.getByRole('option', { name: '真实统计门店' }).click()
+  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toHaveCount(0)
 
-  await page.getByRole('button', { name: '门店设置' }).click()
-  await expect(page).toHaveURL(/\/cleanManage\/cleanSetting$/)
-  await page.goto(appUrl('/cleanManage/cleanStatistics'))
+  await expect(page.getByRole('button', { name: '门店设置' })).toBeVisible()
 
   await page.getByRole('button', { name: '保洁统计说明' }).click()
   await expect(page.getByRole('dialog', { name: '保洁统计说明' })).toContainText('统计口径')
@@ -108,7 +113,7 @@ test('/cleanManage/cleanStatistics gives feedback for every visible business act
   await page.getByRole('button', { name: '关闭详情' }).click()
 
   await page.getByRole('button', { name: '导 出' }).click()
-  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toContainText('导出任务已创建')
+  await expect(page.locator('.clean-stat-page')).toHaveAttribute('data-clean-export', /CLEAN-EXPORT-/)
 
   await page.getByRole('button', { name: '统计明细' }).click()
   await expect(page.getByLabel('保洁统计明细表')).toContainText('CL20260516001')
@@ -116,9 +121,8 @@ test('/cleanManage/cleanStatistics gives feedback for every visible business act
   await expect(page.getByRole('dialog', { name: '保洁明细' })).toContainText('李清清')
   await page.getByRole('button', { name: '关闭明细' }).click()
 
-  await page.getByRole('button', { name: '订阅开通' }).click()
-  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail$/)
-  await expect(page.getByRole('heading', { name: '智能保洁', level: 1 })).toBeVisible()
+  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '订阅开通' })).toHaveCount(0)
 })
 
 test('/cleanManage/cleanStatistics renders empty and error envelopes without collapsing', async ({ page }) => {
@@ -139,14 +143,27 @@ test('/cleanManage/cleanStatistics real provider export calls the backend export
   const statisticsRequests: Array<Record<string, unknown>> = []
   const exportRequests: Array<Record<string, unknown>> = []
 
+  await seedAuthenticatedUser(page, '10001')
   await page.addInitScript(() => {
     window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.currentCampId', '10001')
     window.localStorage.setItem('pms.cleanStatisticsProvider', 'real')
   })
 
-  await page.route('**/api/cleanTask/statistics', async (route) => {
+  await page.route('**/api/clean/statistics/dashboard', async (route) => {
     statisticsRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
-    await fulfillHudson(route, { list: [], total: 0, pageNum: 1, current: 1, size: 20 })
+    await fulfillHudson(route, {
+      statistics: {
+        list: [],
+        detailList: [],
+        metrics: [],
+        todos: [],
+        pagination: { page: 1, pageSize: 20, total: 0 },
+      },
+      stores: [],
+      rooms: [],
+      cleaners: [],
+    })
   })
   await page.route('**/api/cleaner/list/get', async (route) => fulfillHudson(route, []))
   await page.route('**/api/roomCategories/page/get', async (route) => fulfillHudson(route, { list: [], total: 0 }))
@@ -170,7 +187,6 @@ test('/cleanManage/cleanStatistics real provider export calls the backend export
 
   await expect.poll(() => exportRequests.length).toBe(1)
   expect(exportRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 20 })
-  await expect(page.locator('[role="status"]')).toContainText('CLEAN-STAT-EXPORT-REAL-001')
 
   const exportMeta = JSON.parse((await cleanPage.getAttribute('data-clean-export')) || '{}')
   expect(exportMeta).toMatchObject({
@@ -180,5 +196,65 @@ test('/cleanManage/cleanStatistics real provider export calls the backend export
     total: 0,
     requestBody: { campId: '10001', pageNum: 1, pageSize: 20 },
   })
+})
+
+test('/cleanManage/cleanStatistics uses real API provider by default', async ({ page }) => {
+  const statisticsRequests: Array<Record<string, unknown>> = []
+
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('pms.cleanStatisticsProvider')
+    window.localStorage.setItem('pmsCampId', '10001')
+  })
+
+  await page.route('**/api/clean/statistics/dashboard', async (route) => {
+    statisticsRequests.push((route.request().postDataJSON() as Record<string, unknown>) ?? {})
+    await fulfillHudson(route, {
+      statistics: {
+        list: [
+          {
+            cleanTime: '2026-06-14',
+            countNum: 1,
+            countCost: 3500,
+            cleanTypeOneNum: 1,
+            cleanTypeOneCost: 3500,
+            cleanTypeTwoNum: 0,
+            cleanTypeTwoCost: 0,
+            cleanTypeThreeNum: 0,
+            cleanTypeThreeCost: 0,
+            cleanTypeFourNum: 0,
+            cleanTypeFourCost: 0,
+          },
+        ],
+        detailList: [
+          {
+            id: 'CT-STAT-DEFAULT',
+            cleanDate: '2026-06-14',
+            roomName: '真实统计房间',
+            cleanerName: '真实统计保洁员',
+            cleanType: '退房保洁',
+            fee: 3500,
+            status: '已完成',
+          },
+        ],
+        metrics: [{ id: 'real-count', label: '真实保洁', value: '1', unit: '次', trend: '今日', description: '真实接口返回' }],
+        todos: [{ id: 'real-todo', title: '真实待办', count: 1, action: '查看' }],
+        pagination: { page: 1, pageSize: 20, total: 1 },
+      },
+      stores: [{ id: '11001', label: '真实统计门店' }],
+      rooms: [{ id: '22002', label: '真实统计房型 801' }],
+      cleaners: [{ id: '33001', label: '真实统计保洁员' }],
+    })
+  })
+  await page.route('**/api/cleaner/list/get', async (route) => fulfillHudson(route, [{ cleanerId: '33001', cleanerName: '真实统计保洁员' }]))
+  await page.route('**/api/roomCategories/page/get', async (route) => fulfillHudson(route, { list: [{ roomCategoryId: '22001', roomCategoryName: '真实统计房型' }] }))
+  await page.route('**/api/rooms/get', async (route) => fulfillHudson(route, { roomCategoryRooms: [{ roomCategoryId: '22001', roomCategoryName: '真实统计房型', rooms: [{ roomId: '22002', roomName: '801' }] }] }))
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(appUrl('/cleanManage/cleanStatistics'))
+
+  await expect(page.getByLabel('保洁统计核心指标')).toContainText('真实保洁')
+  await expect(page.getByLabel('保洁统计汇总表')).toContainText('2026-06-14')
+  await expect.poll(() => statisticsRequests.length).toBe(1)
+  expect(statisticsRequests[0]).toMatchObject({ campId: '10001', pageNum: 1, pageSize: 20 })
 })
 

@@ -1,52 +1,27 @@
+.page-content:has(.clean-setting-page) {
+  padding: 10px 16px 16px;
+  background: #f6f8fc;
+}
+
+.page-content:has(.clean-setting-page) > .page-header {
+  display: none;
+}
+
 .clean-setting-page {
   position: relative;
   display: grid;
   gap: 12px;
+  width: 100%;
+  max-width: none;
 }
 
-.clean-setting-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px 20px;
-  border: 1px solid #e2e8f1;
-  border-radius: 6px;
-  background: #ffffff;
-}
-
-.clean-setting-head h1,
-.clean-setting-head p,
 .clean-setting-card h2 {
   margin: 0;
 }
 
-.clean-setting-head h1 {
-  color: #17233d;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 30px;
-}
-
-.clean-setting-head p {
-  margin-top: 6px;
-  color: #637087;
-  font-size: 14px;
-}
-
-.clean-setting-feedback {
-  min-width: 190px;
-  border-radius: 4px;
-  background: #eef5ff;
-  color: #2454c7;
-  padding: 8px 12px;
-  font-size: 13px;
-  text-align: right;
-}
-
 .clean-setting-filters {
   display: grid;
-  grid-template-columns: 150px 160px 160px 150px minmax(300px, 1fr);
+  grid-template-columns: 150px 160px 160px 150px minmax(280px, 1fr);
   gap: 10px;
   align-items: end;
   padding: 14px 16px;
@@ -192,7 +167,7 @@
 
 .clean-setting-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.7fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.7fr);
   gap: 12px;
 }
 
@@ -201,6 +176,7 @@
   align-content: start;
   gap: 12px;
   padding: 16px;
+  min-width: 0;
 }
 
 .clean-setting-card--wide {
@@ -225,6 +201,7 @@
   border-collapse: collapse;
   color: #25324a;
   font-size: 13px;
+  table-layout: auto;
 }
 
 .clean-setting-table th,
@@ -319,6 +296,38 @@
   border: 1px solid #e2e8f1;
   border-radius: 6px;
   background: #ffffff;
+}
+
+@media (max-width: 1180px) {
+  .clean-setting-filters,
+  .clean-setting-metrics,
+  .clean-setting-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clean-setting-filter-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-content:has(.clean-setting-page) {
+    padding: 10px;
+  }
+
+  .clean-setting-filters,
+  .clean-setting-metrics,
+  .clean-setting-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clean-setting-card {
+    overflow-x: auto;
+  }
+
+  .clean-setting-table {
+    min-width: 760px;
+  }
 }
 
 .clean-setting-modal-backdrop {

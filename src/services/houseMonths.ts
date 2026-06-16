@@ -49,6 +49,8 @@ export interface MonthRoomGroup {
   roomLabel: string
   roomCategoryId?: string
   roomId: string
+  cleanStatus?: string
+  isDirty?: boolean
   price?: string
   monthlyRent?: string
   typeCells: MonthCell[]
@@ -91,6 +93,21 @@ export interface HouseMonthsCloseRoomResponse {
 
 export type HouseMonthsOpenRoomRequest = HouseMonthsCloseRoomRequest
 export type HouseMonthsOpenRoomResponse = HouseMonthsCloseRoomResponse
+
+export interface HouseMonthsRoomCleanStatusRequest {
+  campId: string
+  roomCategoryId: string
+  roomId: string
+  cleanStatus: 'dirty' | 'clean'
+}
+
+export interface HouseMonthsRoomCleanStatusResponse {
+  roomCategoryId: string
+  roomId: string
+  cleanStatus: 'dirty' | 'clean'
+  isDirty: boolean
+  message?: string
+}
 
 export interface HouseMonthOrderGuestSaveItem {
   guestName: string
@@ -219,6 +236,28 @@ export async function openHouseMonthRoom(request: HouseMonthsOpenRoomRequest): P
     date: pickString(data, ['date']) || request.date,
     reason: pickString(data, ['reason']) || request.reason,
     message: pickString(data, ['message']) || '开房成功',
+  }
+}
+
+export async function setHouseMonthRoomCleanStatus(
+  request: HouseMonthsRoomCleanStatusRequest,
+): Promise<HouseMonthsRoomCleanStatusResponse> {
+  const data = await postHudsonJson('/roomStatuses/clean/save', {
+    campId: request.campId,
+    roomCategoryId: request.roomCategoryId,
+    roomId: request.roomId,
+    cleanStatus: request.cleanStatus,
+  })
+  if (!isRecord(data)) {
+    throw new Error('/roomStatuses/clean/save response missing data')
+  }
+  const cleanStatus = normalizeRoomCleanStatus(pickString(data, ['cleanStatus']) || request.cleanStatus)
+  return {
+    roomCategoryId: pickString(data, ['roomCategoryId']) || request.roomCategoryId,
+    roomId: pickString(data, ['roomId']) || request.roomId,
+    cleanStatus,
+    isDirty: cleanStatus === 'dirty' || pickNumber(data, ['isDirty']) === 1,
+    message: pickString(data, ['message']),
   }
 }
 
@@ -701,6 +740,10 @@ function readHudsonAccessToken() {
   return ''
 }
 
+function normalizeRoomCleanStatus(value: string | undefined): 'dirty' | 'clean' {
+  return value?.trim().toLowerCase() === 'dirty' ? 'dirty' : 'clean'
+}
+
 interface HudsonResponse {
   success?: boolean
   errorMsg?: unknown
@@ -744,6 +787,8 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
     return normalizedRooms.map((room, roomIndex) => {
       const roomId = pickString(room, ['roomId', 'id', 'roomInfoId', 'i']) || `${categoryId}-room-${roomIndex}`
       const roomLabel = pickString(room, ['roomName', 'name', 'label', 'title', 'n']) || `房间${roomIndex + 1}`
+      const cleanStatus = normalizeRoomCleanStatus(pickString(room, ['cleanStatus', 'roomCleanStatus', 'cleanState']))
+      const isDirty = cleanStatus === 'dirty' || pickNumber(room, ['isDirty', 'dirty']) === 1
       const price = pickMoney(room, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], []) ??
         pickMoney(category, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], [])
       const monthlyRent = pickMoney(room, ['monthlyRent', 'monthRent', 'rent'], []) ??
@@ -757,6 +802,8 @@ export function adaptHouseMonthsRows(bundle: RawBundle, columns: MonthDateColumn
           roomCategoryId: categoryId,
           roomLabel,
           roomId,
+          cleanStatus,
+          isDirty,
           price: typeof price === 'number' ? formatPlainMoney(price) : undefined,
           monthlyRent: typeof monthlyRent === 'number' ? formatPlainMoney(monthlyRent) : undefined,
           typeCells: [],

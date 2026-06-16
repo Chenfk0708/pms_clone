@@ -485,7 +485,7 @@ export function resolveOrderLedgerProvider(search = currentSearch()): OrderLedge
     typeof import.meta !== 'undefined' && 'env' in import.meta
       ? ((import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_ORDER_LEDGER_PROVIDER ?? '').trim()
       : ''
-  const provider = (urlValue || storageValue || envValue || 'mock').toLowerCase()
+  const provider = (urlValue || envValue || storageValue || 'mock').toLowerCase()
 
   if (provider === 'mock' || provider === 'api') return provider
   if (provider === 'real') return 'api'

@@ -4,17 +4,36 @@ const HUDSON_API = '**/api'
 
 const workspaceApiCalls: Array<{ url: string; body: Record<string, unknown> }> = []
 
-async function mockWorkspaceApis(page: Page) {
+type WorkspaceFixtureOptions = {
+  provider?: 'real' | 'mock'
+  mockMode?: 'success' | 'empty' | 'error'
+  includeCampId?: boolean
+}
+
+async function mockWorkspaceApis(page: Page, options: WorkspaceFixtureOptions = {}) {
   workspaceApiCalls.length = 0
   const memoItems: Array<{ memoId: string; content: string; isHandle: number }> = [
     { memoId: 'memo-001', content: '核对今日预抵客人押金', isHandle: 0 },
     { memoId: 'memo-002', content: '已同步夜审交接事项', isHandle: 1 },
   ]
-  await page.addInitScript(() => {
+  await page.addInitScript(({ provider, mockMode, includeCampId }) => {
     window.localStorage.setItem('pms_token', 'workspace-playwright-token')
-    window.localStorage.setItem('pmsCampId', '1796067693589061634')
-    window.localStorage.setItem('pmsWorkspaceProvider', 'real')
-    window.localStorage.removeItem('pmsWorkspaceMockMode')
+    if (includeCampId) {
+      window.localStorage.setItem('pmsCampId', '1796067693589061634')
+    } else {
+      window.localStorage.removeItem('pmsCampId')
+    }
+    window.localStorage.setItem('pmsWorkspaceProvider', provider)
+    window.localStorage.setItem('pms.scrmSidebarProvider', 'mock')
+    if (mockMode && mockMode !== 'success') {
+      window.localStorage.setItem('pmsWorkspaceMockMode', mockMode)
+    } else {
+      window.localStorage.removeItem('pmsWorkspaceMockMode')
+    }
+  }, {
+    provider: options.provider ?? 'real',
+    mockMode: options.mockMode ?? 'success',
+    includeCampId: options.includeCampId ?? (options.provider ?? 'real') === 'real',
   })
 
   await page.route(`${HUDSON_API}/**`, async (route) => {
@@ -196,19 +215,32 @@ async function mockWorkspaceApis(page: Page) {
   })
 }
 
+function resolveWorkspaceFixtureOptions(title: string): WorkspaceFixtureOptions {
+  if (title.includes('uses explicit mock provider response packages without calling Hudson by default')) {
+    return { provider: 'mock', mockMode: 'success', includeCampId: false }
+  }
+
+  if (title.includes('renders empty state from the explicit mock provider mode')) {
+    return { provider: 'mock', mockMode: 'empty', includeCampId: false }
+  }
+
+  if (title.includes('exposes mock provider failures with retry instead of silent fallback')) {
+    return { provider: 'mock', mockMode: 'error', includeCampId: false }
+  }
+
+  return { provider: 'real', mockMode: 'success', includeCampId: true }
+}
+
 test.describe('workspace page clone', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await mockWorkspaceApis(page)
+    await page.clock.setFixedTime(new Date('2026-05-18T10:00:00+08:00'))
+    await mockWorkspaceApis(page, resolveWorkspaceFixtureOptions(testInfo.title))
     await page.goto('/workspace')
   })
 
   test('uses explicit mock provider response packages without calling Hudson by default', async ({ page }) => {
     await page.unroute(`${HUDSON_API}/**`)
-    await page.addInitScript(() => {
-      window.localStorage.removeItem('pmsCampId')
-      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
-    })
 
     let hudsonRequests = 0
     await page.route(`${HUDSON_API}/**`, async (route) => {
@@ -216,7 +248,7 @@ test.describe('workspace page clone', () => {
       await route.abort('blockedbyclient')
     })
 
-    await page.goto('/workspace')
+    await page.goto('/#/workspace')
 
     await expect(page.getByRole('alert')).toHaveCount(0)
     await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('3')
@@ -228,14 +260,6 @@ test.describe('workspace page clone', () => {
   })
 
   test('renders empty state from the explicit mock provider mode', async ({ page }) => {
-    await page.unroute(`${HUDSON_API}/**`)
-    await page.addInitScript(() => {
-      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
-      window.localStorage.setItem('pmsWorkspaceMockMode', 'empty')
-    })
-
-    await page.goto('/workspace')
-
     await expect(page.getByRole('alert')).toHaveCount(0)
     await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('0')
     await expect(page.getByTestId('workspace-order-row')).toHaveCount(0)
@@ -243,14 +267,6 @@ test.describe('workspace page clone', () => {
   })
 
   test('exposes mock provider failures with retry instead of silent fallback', async ({ page }) => {
-    await page.unroute(`${HUDSON_API}/**`)
-    await page.addInitScript(() => {
-      window.localStorage.setItem('pmsWorkspaceProvider', 'mock')
-      window.localStorage.setItem('pmsWorkspaceMockMode', 'error')
-    })
-
-    await page.goto('/workspace')
-
     await expect(page.getByRole('alert')).toContainText('首页数据加载失败，请稍后重试')
     await expect(page.getByRole('button', { name: '重试' })).toBeVisible()
     await expect(page.getByTestId('workspace-metric-arrivals')).toContainText('--')
@@ -305,6 +321,62 @@ test.describe('workspace page clone', () => {
 
     await page.getByTestId('workspace-metric-staying').click()
     await expect(page).toHaveURL(/\/statistics\/roomSituation$/)
+  })
+
+  test('renders interactive trend and order-origin charts', async ({ page }) => {
+    await expect(page.getByTestId('workspace-trend-chart')).toBeVisible()
+    await expect(page.getByTestId('workspace-trend-line')).toBeVisible()
+    await expect(page.getByTestId('workspace-trend-point')).toHaveCount(7)
+
+    await page.getByTestId('workspace-trend-point').nth(2).hover()
+    await expect(page.getByTestId('workspace-chart-tooltip')).toBeVisible()
+    await expect(page.getByTestId('workspace-chart-tooltip')).toContainText('05/13')
+    await expect(page.getByTestId('workspace-chart-tooltip')).toContainText(/150/)
+    const trendBounds = await page.evaluate(() => {
+      const rows = [...document.querySelectorAll('.chart-grid__row')]
+      const topLine = rows[0]?.querySelector('div')?.getBoundingClientRect()
+      const bottomLine = rows[rows.length - 1]?.querySelector('div')?.getBoundingClientRect()
+      const pointCenters = [...document.querySelectorAll('.workspace-trend-point-dot')].map((element) => {
+        const rect = element.getBoundingClientRect()
+        return {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        }
+      })
+      const dateCenters = [...document.querySelectorAll('[data-testid="workspace-chart-dates"] span')].map((element) => {
+        const rect = element.getBoundingClientRect()
+        return rect.left + rect.width / 2
+      })
+      const dateBox = document.querySelector('[data-testid="workspace-chart-dates"]')?.getBoundingClientRect()
+      const maxDateOffset = Math.max(...pointCenters.map((point, index) => Math.abs(point.x - (dateCenters[index] ?? point.x))))
+
+      return {
+        top: topLine?.top ?? 0,
+        bottom: bottomLine?.top ?? 0,
+        minPoint: Math.min(...pointCenters.map((point) => point.y)),
+        maxPoint: Math.max(...pointCenters.map((point) => point.y)),
+        dateTop: dateBox?.top ?? 0,
+        maxDateOffset,
+      }
+    })
+    expect(trendBounds.minPoint).toBeGreaterThanOrEqual(trendBounds.top - 2)
+    expect(trendBounds.maxPoint).toBeLessThanOrEqual(trendBounds.bottom + 2)
+    expect(trendBounds.maxDateOffset).toBeLessThanOrEqual(3)
+    expect(trendBounds.dateTop - trendBounds.bottom).toBeLessThanOrEqual(24)
+
+    await page.locator('.chart-tabs button').nth(2).click()
+    await page.getByTestId('workspace-trend-point').first().hover()
+    await expect(page.getByTestId('workspace-chart-tooltip')).toContainText('ADR')
+    await expect(page.getByTestId('workspace-chart-tooltip')).toContainText('165.36')
+
+    await expect(page.getByTestId('workspace-donut-ring')).toBeVisible()
+    await expect(page.getByTestId('workspace-donut-ring')).toHaveCSS('background-image', /conic-gradient/)
+    await expect(page.getByTestId('workspace-donut-legend').locator('li')).toHaveCount(3)
+
+    await page.getByTestId('workspace-donut-legend').locator('li').nth(1).hover()
+    await expect(page.getByTestId('workspace-donut-tooltip')).toBeVisible()
+    await expect(page.getByTestId('workspace-donut-tooltip')).toContainText('33.33%')
+    await expect(page.getByTestId('workspace-donut-tooltip')).toContainText('1\u5355')
   })
 
   test('exposes API failures with retry instead of silent fallback', async ({ page }) => {

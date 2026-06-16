@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   CLEAN_STAFF_LIST_PATH,
-  CLEAN_STAFF_PROVIDER,
   CLEAN_STAFF_STORES_PATH,
   createCleanStaffExport,
   createCleanStaffMember,
@@ -14,6 +13,7 @@ import type {
   CleanStaffMember,
   CleanStaffQuery,
   CleanStaffScenario,
+  CleanStaffSavePayload,
   CleanStaffStatus,
 } from '../services/cleanStaff'
 import { StoreSelectControl } from '../components/StoreSelect'
@@ -52,7 +52,7 @@ export function CleanStaffPage() {
         const nextDashboard = await fetchCleanStaffDashboard(query, signal)
         setDashboard(nextDashboard)
         setFeedback((current) =>
-          current.startsWith('已刷新') ? current : `已同步 ${nextDashboard.pagination.total} 名保洁人员`,
+          isActionFeedback(current) ? current : `已同步 ${nextDashboard.pagination.total} 名保洁人员`,
         )
       } catch (loadError) {
         if (loadError instanceof DOMException && loadError.name === 'AbortError') return
@@ -76,6 +76,14 @@ export function CleanStaffPage() {
     }
   }, [loadDashboard, refreshKey])
 
+  useEffect(() => {
+    const nextScenario = readScenario(searchParams.get('scenario'))
+    if (query.scenario === nextScenario) return
+    setQuery((current) => ({ ...current, scenario: nextScenario, pageNum: 1 }))
+    // Route query changes should refresh scenario-specific states.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
+
   const requestText = useMemo(() => {
     const requestBody = dashboard?.requestBody ?? {
       campId: query.campId,
@@ -87,7 +95,7 @@ export function CleanStaffPage() {
       pageSize: query.pageSize,
     }
     return [
-      `provider=${CLEAN_STAFF_PROVIDER}`,
+      `provider=${dashboard?.provider ?? 'mock'}`,
       `path=${CLEAN_STAFF_LIST_PATH}`,
       `storesPath=${CLEAN_STAFF_STORES_PATH}`,
       `campId=${requestBody.campId}`,
@@ -142,17 +150,17 @@ export function CleanStaffPage() {
     setFeedback('已刷新当前保洁人员数据')
   }
 
-  const retry = () => {
-    setQuery((current) => ({ ...current, scenario: 'success' }))
-    setRefreshKey((current) => current + 1)
-  }
-
-  const saveMember = async () => {
+  const saveMember = async (payload: Omit<CleanStaffSavePayload, 'campId' | 'poiId'>) => {
     setIsLoading(true)
     try {
-      await createCleanStaffMember()
+      await createCleanStaffMember({
+        campId: query.campId,
+        poiId: query.poiId === 'all' ? undefined : query.poiId,
+        ...payload,
+      })
       setIsAddOpen(false)
       setFeedback('已保存成员并同步保洁人员列表')
+      setRefreshKey((current) => current + 1)
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : '保存成员失败')
     } finally {
@@ -174,21 +182,6 @@ export function CleanStaffPage() {
 
   return (
     <div className="clean-staff-page">
-      <header className="clean-staff-hero">
-        <div>
-          <h1>保洁人员</h1>
-          <p>按门店、日期和状态管理保洁人员排班、任务承接与服务质量。</p>
-        </div>
-        <div className="clean-staff-hero__actions">
-          <button type="button" onClick={() => navigate('/cleanManage/cleanTask')} disabled={isLoading}>
-            查看保洁任务
-          </button>
-          <button type="button" onClick={() => navigate('/cleanManage/cleanStatistics')} disabled={isLoading}>
-            查看保洁统计
-          </button>
-        </div>
-      </header>
-
       <section className="clean-staff-panel" aria-label="保洁人员筛选">
         <StoreSelectControl
           className="clean-store-tabs"
@@ -300,78 +293,66 @@ export function CleanStaffPage() {
         />
       </section>
 
-      {error ? (
-        <section className="clean-staff-error" role="alert">
+      <section className="clean-staff-table-card" aria-label="保洁人员数据">
+        <div className="clean-staff-table-card__head">
           <div>
-            <strong>保洁人员数据加载失败</strong>
-            <span>{error}</span>
+            <h2>保洁人员列表</h2>
+            <span>{isLoading ? '正在同步数据' : `共 ${dashboard?.pagination.total ?? 0} 名`}</span>
           </div>
-          <button type="button" onClick={retry}>
-            重试
-          </button>
-        </section>
-      ) : (
-        <section className="clean-staff-table-card" aria-label="保洁人员数据">
-          <div className="clean-staff-table-card__head">
-            <div>
-              <h2>保洁人员列表</h2>
-              <span>{isLoading ? '正在同步数据' : `共 ${dashboard?.pagination.total ?? 0} 名`}</span>
-            </div>
-            <span className="clean-staff-sync">最近同步：{dashboard?.generatedAt ?? '-'}</span>
-          </div>
+          <span className="clean-staff-sync">最近同步：{dashboard?.generatedAt ?? '-'}</span>
+        </div>
 
-          <table aria-label="保洁人员列表" className="clean-staff-table">
-            <thead>
-              <tr>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>门店</th>
-                <th>状态</th>
-                <th>房源范围</th>
-                <th>今日任务</th>
-                <th>完成/逾期</th>
-                <th>服务评分</th>
-                <th>最后任务</th>
-                <th>操作</th>
+        <table aria-label="保洁人员列表" className="clean-staff-table">
+          <thead>
+            <tr>
+              <th>姓名</th>
+              <th>手机号</th>
+              <th>门店</th>
+              <th>状态</th>
+              <th>房源范围</th>
+              <th>今日任务</th>
+              <th>完成/逾期</th>
+              <th>服务评分</th>
+              <th>最后任务</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map((member) => (
+              <tr key={member.id} data-testid="clean-staff-row">
+                <td>
+                  <strong>{member.name}</strong>
+                  <span>{member.role}</span>
+                </td>
+                <td>{member.mobile}</td>
+                <td>{member.storeName}</td>
+                <td>
+                  <span className={`clean-staff-status clean-staff-status--${member.status}`}>{member.statusText}</span>
+                </td>
+                <td>{member.roomScope.join('、')}</td>
+                <td>{member.todayTasks}</td>
+                <td>
+                  {member.completedTasks}/{member.overdueTasks}
+                </td>
+                <td>{member.rating}</td>
+                <td>{member.lastTaskAt}</td>
+                <td>
+                  <button type="button" onClick={() => setSelectedMember(member)}>
+                    查看详情
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {list.map((member) => (
-                <tr key={member.id} data-testid="clean-staff-row">
-                  <td>
-                    <strong>{member.name}</strong>
-                    <span>{member.role}</span>
-                  </td>
-                  <td>{member.mobile}</td>
-                  <td>{member.storeName}</td>
-                  <td>
-                    <span className={`clean-staff-status clean-staff-status--${member.status}`}>{member.statusText}</span>
-                  </td>
-                  <td>{member.roomScope.join('、')}</td>
-                  <td>{member.todayTasks}</td>
-                  <td>
-                    {member.completedTasks}/{member.overdueTasks}
-                  </td>
-                  <td>{member.rating}</td>
-                  <td>{member.lastTaskAt}</td>
-                  <td>
-                    <button type="button" onClick={() => setSelectedMember(member)}>
-                      查看详情
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
 
-          {!isLoading && list.length === 0 ? (
-            <div className="clean-staff-empty">
-              <strong>暂无符合条件的保洁人员</strong>
-              <span>调整门店、状态或关键词后重新查询。</span>
-            </div>
-          ) : null}
-        </section>
-      )}
+        {!isLoading && list.length === 0 ? (
+          <div className="clean-staff-empty">
+            <strong>暂无符合条件的保洁人员</strong>
+            <span>调整门店、状态或关键词后重新查询。</span>
+          </div>
+        ) : null}
+      </section>
 
       <div className="clean-staff-footer">
         <div className="clean-staff-pagination" aria-label="保洁人员分页">
@@ -392,7 +373,7 @@ export function CleanStaffPage() {
           </button>
         </div>
         <div role="status" aria-label="保洁人员操作反馈" className="clean-staff-feedback">
-          {isLoading ? '正在处理保洁人员数据' : feedback}
+          {isLoading ? '正在处理保洁人员数据' : error || feedback}
         </div>
       </div>
 
@@ -466,8 +447,12 @@ function AddDialog({
 }: {
   isSaving: boolean
   onCancel: () => void
-  onSave: () => void
+  onSave: (payload: Omit<CleanStaffSavePayload, 'campId' | 'poiId'>) => void
 }) {
+  const [name, setName] = useState('周敏')
+  const [mobile, setMobile] = useState('18612345678')
+  const [roomScopeText, setRoomScopeText] = useState('观影大床房、总裁套间')
+
   return (
     <div className="clean-staff-dialog-backdrop">
       <section className="clean-staff-dialog clean-staff-dialog--form" role="dialog" aria-modal="true" aria-label="新增保洁员">
@@ -482,21 +467,26 @@ function AddDialog({
         </header>
         <label>
           <span>姓名</span>
-          <input defaultValue="周敏" />
+          <input value={name} onChange={(event) => setName(event.target.value)} />
         </label>
         <label>
           <span>手机号</span>
-          <input defaultValue="18612345678" />
+          <input value={mobile} onChange={(event) => setMobile(event.target.value)} />
         </label>
         <label>
           <span>负责房源</span>
-          <input defaultValue="观影大床房、总裁套间" />
+          <input value={roomScopeText} onChange={(event) => setRoomScopeText(event.target.value)} />
         </label>
         <footer>
           <button type="button" onClick={onCancel} disabled={isSaving}>
             取消
           </button>
-          <button type="button" className="is-primary" onClick={onSave} disabled={isSaving}>
+          <button
+            type="button"
+            className="is-primary"
+            onClick={() => onSave({ name, mobile, roomScopeText, status: 'onDuty' })}
+            disabled={isSaving}
+          >
             保存成员
           </button>
         </footer>
@@ -508,4 +498,8 @@ function AddDialog({
 function readScenario(value: string | null): CleanStaffScenario {
   if (value === 'empty' || value === 'error') return value
   return 'success'
+}
+
+function isActionFeedback(feedback: string) {
+  return ['已刷新', '已保存', '导出任务', '筛选条件'].some((prefix) => feedback.startsWith(prefix))
 }

@@ -1,40 +1,28 @@
-.clean-staff-page {
-  min-height: 100%;
-  padding: 14px 312px 24px 16px;
+.page-content:has(.clean-staff-page) {
+  padding: 0;
   background: #f5f7fb;
-  color: #172033;
 }
 
-.clean-staff-hero,
+.page-content:has(.clean-staff-page) > .page-header {
+  display: none;
+}
+
+.clean-staff-page {
+  min-height: 100%;
+  padding: 14px 16px 24px;
+  background: #f5f7fb;
+  color: #172033;
+  width: 100%;
+  max-width: none;
+}
+
 .clean-staff-panel,
-.clean-staff-table-card,
-.clean-staff-error {
+.clean-staff-table-card {
   border: 1px solid #e5e8f0;
   border-radius: 8px;
   background: #fbfcff;
 }
 
-.clean-staff-hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 18px 20px;
-}
-
-.clean-staff-hero h1 {
-  margin: 0;
-  font-size: 22px;
-  line-height: 30px;
-}
-
-.clean-staff-hero p {
-  margin: 6px 0 0;
-  color: #647085;
-  font-size: 13px;
-}
-
-.clean-staff-hero__actions,
 .clean-staff-actions,
 .clean-staff-pagination {
   display: flex;
@@ -82,7 +70,6 @@
 }
 
 .clean-staff-panel {
-  margin-top: 12px;
   padding: 12px;
 }
 
@@ -119,7 +106,7 @@
 
 .clean-staff-filters {
   display: grid;
-  grid-template-columns: 160px 140px 210px minmax(360px, 1fr);
+  grid-template-columns: 160px 140px minmax(210px, 260px) minmax(360px, 1fr);
   gap: 12px;
   margin-top: 12px;
   align-items: end;
@@ -183,7 +170,7 @@
 
 .clean-staff-table-card {
   margin-top: 12px;
-  overflow: hidden;
+  overflow-x: auto;
 }
 
 .clean-staff-table-card__head {
@@ -209,6 +196,7 @@
 
 .clean-staff-table {
   width: 100%;
+  min-width: 980px;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -259,31 +247,6 @@
 .clean-staff-status--leave {
   background: #fff3df;
   color: #b76100 !important;
-}
-
-.clean-staff-error {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 12px;
-  padding: 18px;
-  border-color: #ffd2d2;
-  background: #fff8f8;
-}
-
-.clean-staff-error div {
-  display: grid;
-  gap: 4px;
-}
-
-.clean-staff-error strong {
-  color: #bb2f2f;
-}
-
-.clean-staff-error span {
-  color: #7a3333;
-  font-size: 13px;
 }
 
 .clean-staff-empty {
@@ -403,10 +366,6 @@
 }
 
 @media (max-width: 1100px) {
-  .clean-staff-page {
-    padding-right: 16px;
-  }
-
   .clean-staff-filters,
   .clean-staff-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -422,7 +381,6 @@
     padding: 10px;
   }
 
-  .clean-staff-hero,
   .clean-staff-footer,
   .clean-staff-table-card__head {
     align-items: stretch;

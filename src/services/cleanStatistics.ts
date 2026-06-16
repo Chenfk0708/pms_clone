@@ -102,6 +102,10 @@ type UnifiedEnvelope<T> = {
 
 type HudsonPayload = {
   success?: boolean
+  code?: number
+  message?: string | null
+  traceId?: string
+  timestamp?: string
   errorMsg?: string | null
   errorDetail?: string | null
   data?: unknown
@@ -312,7 +316,11 @@ function resolveProviderMode(): ProviderMode {
     readRuntimeConfig('pms.cleanStatisticsProvider') ||
     (import.meta.env.VITE_CLEAN_STATISTICS_PROVIDER as string | undefined) ||
     (import.meta.env.VITE_PMS_CLEAN_STATISTICS_PROVIDER as string | undefined)
-  return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+  if (configured === 'mock') return 'mock'
+  if (configured && configured !== 'api' && configured !== 'real') {
+    throw new Error(`保洁统计数据源配置无效：${configured}`)
+  }
+  return 'api'
 }
 
 function readRuntimeConfig(key: string) {
@@ -414,36 +422,25 @@ function adaptDashboard(
 
 async function fetchApiDashboard(filters: CleanStatisticsFilters, signal?: AbortSignal): Promise<CleanStatisticsDashboard> {
   const requestBody = createCleanStatisticsRequestBody(filters)
-  const [statisticsPayload, cleanersPayload, roomCategoriesPayload] = await Promise.all([
-    postHudson(cleanStatisticsEndpoint, requestBody, signal),
-    postHudson(cleanCleanerEndpoint, { campId: requestBody.campId }, signal),
-    postHudson(
-      cleanRoomCategoriesEndpoint,
-      { campId: requestBody.campId, pageSize: 999, pageNum: 1, roomCategoryName: '', keyword: '', cityIds: [], channelId: '' },
-      signal,
-    ),
-  ])
-
-  const statisticsRecord = asRecord(statisticsPayload)
-  const roomCategories = adaptRoomCategories(roomCategoriesPayload)
-  const roomsPayload = roomCategories.length
-    ? await postHudson(cleanRoomsEndpoint, { campId: requestBody.campId, roomCategoryIds: roomCategories.map((item) => item.id), saleType: 1 }, signal)
-    : { roomCategoryRooms: [] }
+  const dashboardPayload = asRecord(await postHudson(cleanStatisticsContractPath, requestBody, signal))
+  const statisticsRecord = asRecord(dashboardPayload.statistics)
   const rows = Array.isArray(statisticsRecord.list) ? statisticsRecord.list.map(asRecord) : []
+  const detailRows = Array.isArray(statisticsRecord.detailList) ? statisticsRecord.detailList.map(asRecord) : []
+  const pagination = asRecord(statisticsRecord.pagination)
 
   return {
-    stores: storeOptions,
-    cleaners: adaptCleaners(cleanersPayload),
-    rooms: adaptRooms(roomsPayload),
+    stores: withAllOption(normalizeLookupOptions(dashboardPayload.stores, '门店')),
+    cleaners: normalizeLookupOptions(dashboardPayload.cleaners, '保洁员'),
+    rooms: normalizeLookupOptions(dashboardPayload.rooms, '房间'),
     statistics: {
       requestBody,
       rows: rows.map(adaptSummaryRow),
-      detailRows: [],
-      metrics,
-      todos,
-      total: toNumber(statisticsRecord.total, rows.length),
-      pageNum: toNumber(statisticsRecord.pageNum ?? statisticsRecord.current, filters.pageNum),
-      pageSize: toNumber(statisticsRecord.size, filters.pageSize),
+      detailRows: detailRows.map(adaptDetailRow),
+      metrics: normalizeMetrics(statisticsRecord.metrics),
+      todos: normalizeTodos(statisticsRecord.todos),
+      total: toNumber(pagination.total ?? statisticsRecord.total, rows.length),
+      pageNum: toNumber(pagination.page ?? statisticsRecord.pageNum ?? statisticsRecord.current, filters.pageNum),
+      pageSize: toNumber(pagination.pageSize ?? statisticsRecord.size, filters.pageSize),
     },
   }
 }
@@ -460,7 +457,9 @@ async function postHudson(endpoint: string, body: Record<string, unknown>, signa
   const payload = (await readJson(response)) as HudsonPayload | null
   if (!response.ok) throw new Error(extractErrorMessage(payload) || `数据请求失败，HTTP ${response.status}`)
   if (!payload || typeof payload !== 'object') throw new Error('数据响应格式异常')
-  if (payload.success !== true) throw new Error(extractErrorMessage(payload) || '数据加载失败，请稍后重试')
+  if (payload.success === false || (payload.code !== undefined && payload.code !== 0)) {
+    throw new Error(extractErrorMessage(payload) || payload.message || '数据加载失败，请稍后重试')
+  }
   if (payload.data === undefined || payload.data === null) throw new Error('数据响应缺少业务内容')
   return payload.data
 }
@@ -493,6 +492,41 @@ function adaptRooms(data: unknown): CleanLookupOption[] {
       label: `${roomCategoryName} ${String(room.roomName ?? `房间 ${roomIndex + 1}`)}`,
     }))
   })
+}
+
+function normalizeLookupOptions(data: unknown, fallbackPrefix: string): CleanLookupOption[] {
+  if (!Array.isArray(data)) return []
+  return data.map(asRecord).map((item, index) => ({
+    id: String(item.id ?? item.value ?? `option-${index}`),
+    label: String(item.label ?? item.name ?? `${fallbackPrefix} ${index + 1}`),
+  }))
+}
+
+function withAllOption(options: CleanLookupOption[]) {
+  if (options.some((item) => item.id === 'all' || item.id === 'ALL')) return options
+  return [{ id: 'all', label: '全部门店' }, ...options]
+}
+
+function normalizeMetrics(data: unknown): CleanMetric[] {
+  if (!Array.isArray(data)) return metrics
+  return data.map(asRecord).map((item, index) => ({
+    id: String(item.id ?? `metric-${index}`),
+    label: String(item.label ?? ''),
+    value: String(item.value ?? '0'),
+    unit: String(item.unit ?? ''),
+    trend: String(item.trend ?? ''),
+    description: String(item.description ?? ''),
+  }))
+}
+
+function normalizeTodos(data: unknown): CleanTodo[] {
+  if (!Array.isArray(data)) return todos
+  return data.map(asRecord).map((item, index) => ({
+    id: String(item.id ?? `todo-${index}`),
+    title: String(item.title ?? ''),
+    count: toNumber(item.count, 0),
+    action: String(item.action ?? '查看'),
+  }))
 }
 
 function adaptSummaryRow(row: Record<string, unknown>): CleanSummaryRow {

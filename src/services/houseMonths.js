@@ -79,6 +79,25 @@ export async function openHouseMonthRoom(request) {
         message: pickString(data, ['message']) || '开房成功',
     };
 }
+export async function setHouseMonthRoomCleanStatus(request) {
+    const data = await postHudsonJson('/roomStatuses/clean/save', {
+        campId: request.campId,
+        roomCategoryId: request.roomCategoryId,
+        roomId: request.roomId,
+        cleanStatus: request.cleanStatus,
+    });
+    if (!isRecord(data)) {
+        throw new Error('/roomStatuses/clean/save response missing data');
+    }
+    const cleanStatus = normalizeRoomCleanStatus(pickString(data, ['cleanStatus']) || request.cleanStatus);
+    return {
+        roomCategoryId: pickString(data, ['roomCategoryId']) || request.roomCategoryId,
+        roomId: pickString(data, ['roomId']) || request.roomId,
+        cleanStatus,
+        isDirty: cleanStatus === 'dirty' || pickNumber(data, ['isDirty']) === 1,
+        message: pickString(data, ['message']),
+    };
+}
 export async function saveHouseMonthOrderGuests(request) {
     const data = await postHudsonJson(`/orders/${encodeURIComponent(request.orderId)}/guests/save`, {
         campId: request.campId,
@@ -495,6 +514,9 @@ function readHudsonAccessToken() {
     }
     return '';
 }
+function normalizeRoomCleanStatus(value) {
+    return value?.trim().toLowerCase() === 'dirty' ? 'dirty' : 'clean';
+}
 export function adaptHouseMonthsRows(bundle, columns) {
     const roomCategories = toArray(readPath(bundle.rooms, ['list']));
     const orderRecords = toArray(readPath(bundle.orderDetails, ['list']));
@@ -517,6 +539,8 @@ export function adaptHouseMonthsRows(bundle, columns) {
         return normalizedRooms.map((room, roomIndex) => {
             const roomId = pickString(room, ['roomId', 'id', 'roomInfoId', 'i']) || `${categoryId}-room-${roomIndex}`;
             const roomLabel = pickString(room, ['roomName', 'name', 'label', 'title', 'n']) || `房间${roomIndex + 1}`;
+            const cleanStatus = normalizeRoomCleanStatus(pickString(room, ['cleanStatus', 'roomCleanStatus', 'cleanState']));
+            const isDirty = cleanStatus === 'dirty' || pickNumber(room, ['isDirty', 'dirty']) === 1;
             const price = pickMoney(room, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], []) ??
                 pickMoney(category, ['price', 'salePrice', 'roomPrice', 'basePrice', 'marketPrice'], []);
             const monthlyRent = pickMoney(room, ['monthlyRent', 'monthRent', 'rent'], []) ??
@@ -529,6 +553,8 @@ export function adaptHouseMonthsRows(bundle, columns) {
                 roomCategoryId: categoryId,
                 roomLabel,
                 roomId,
+                cleanStatus,
+                isDirty,
                 price: typeof price === 'number' ? formatPlainMoney(price) : undefined,
                 monthlyRent: typeof monthlyRent === 'number' ? formatPlainMoney(monthlyRent) : undefined,
                 typeCells: [],

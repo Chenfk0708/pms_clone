@@ -30,6 +30,18 @@ export interface DonutSlice {
   label: string
   value: string
   color: string
+  count?: number
+  percent?: number
+}
+
+export interface WorkspaceTrendPoint {
+  date: string
+  label: string
+  businessIncome: number
+  occ: number
+  adr: number
+  revPar: number
+  openRoomCount: number
 }
 
 export interface HouseDateColumn {

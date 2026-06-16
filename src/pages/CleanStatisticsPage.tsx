@@ -81,7 +81,6 @@ export function CleanStatisticsPage() {
   const [rooms, setRooms] = useState<string[]>([])
   const [cleaners, setCleaners] = useState<string[]>([])
   const [openSelect, setOpenSelect] = useState<SelectKind | null>(null)
-  const [status, setStatus] = useState('')
   const [dashboard, setDashboard] = useState<CleanStatisticsDashboard | null>(null)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -117,14 +116,13 @@ export function CleanStatisticsPage() {
   )
 
   const loadStatistics = useCallback(
-    async (nextRange = range, nextStatus = '保洁统计已刷新') => {
+    async (nextRange = range) => {
       setIsLoading(true)
       setError('')
       try {
         const nextDashboard = await fetchCleanStatisticsDashboard(buildFilters(nextRange))
         setDashboard(nextDashboard)
         setLastRequestBody(nextDashboard.statistics.requestBody)
-        setStatus(nextStatus)
       } catch (nextError) {
         setDashboard(null)
         setLastRequestBody(buildFilters(nextRange))
@@ -139,7 +137,7 @@ export function CleanStatisticsPage() {
   useEffect(() => {
     let cancelled = false
     queueMicrotask(() => {
-      if (!cancelled) void loadStatistics(range, '保洁统计已加载')
+      if (!cancelled) void loadStatistics(range)
     })
     return () => {
       cancelled = true
@@ -160,13 +158,12 @@ export function CleanStatisticsPage() {
     setRooms([])
     setCleaners([])
     setOpenSelect(null)
-    void loadStatistics(nextRange, '已重置筛选并刷新统计')
+    void loadStatistics(nextRange)
   }
 
   async function exportStatistics() {
     const task = await createCleanStatisticsExportTask(buildFilters())
     setExportTask(task)
-    setStatus(`导出任务已创建：${task.taskId}`)
   }
 
   return (
@@ -175,7 +172,6 @@ export function CleanStatisticsPage() {
       data-clean-request={JSON.stringify(lastRequestBody)}
       data-clean-export={exportTask ? JSON.stringify(exportTask) : ''}
     >
-      <div className="clean-stat-title">保洁统计</div>
       <section className="clean-stat-shell">
         <div className="clean-stat-tabs" aria-label="保洁统计视图">
           <button type="button" className={tab === 'summary' ? 'is-active' : ''} onClick={() => setTab('summary')}>
@@ -197,9 +193,8 @@ export function CleanStatisticsPage() {
               options={storeOptions.map((item) => ({ id: item.id, name: item.label }))}
               value={storeId}
               disabled={storeLoading}
-              onChange={(nextStoreId, option) => {
+              onChange={(nextStoreId) => {
                 setStoreId(nextStoreId)
-                setStatus(`已切换门店：${option.name}`)
               }}
               settingsLabel="门店设置"
               onSettingsClick={() => navigate('/cleanManage/cleanSetting')}
@@ -212,7 +207,6 @@ export function CleanStatisticsPage() {
                 onClick={() => {
                   const nextRange = getCurrentMonthRange()
                   setRange(nextRange)
-                  setStatus('已切换为本月')
                 }}
               >
                 本 月
@@ -223,7 +217,6 @@ export function CleanStatisticsPage() {
                 onClick={() => {
                   const nextRange = getPreviousMonthRange(range.start)
                   setRange(nextRange)
-                  setStatus('已切换为上月')
                 }}
               >
                 上 月
@@ -272,7 +265,7 @@ export function CleanStatisticsPage() {
                 type="button"
                 className="is-primary"
                 disabled={isLoading}
-                onClick={() => void loadStatistics(range, '已按当前筛选更新')}
+                onClick={() => void loadStatistics(range)}
               >
                 查 询
               </button>
@@ -283,7 +276,7 @@ export function CleanStatisticsPage() {
         {error ? (
           <div className="clean-stat-alert clean-stat-alert--error" role="alert" aria-label="保洁统计数据错误">
             <span>{error}</span>
-            <button type="button" onClick={() => void loadStatistics(range, '保洁统计已重新加载')}>
+            <button type="button" onClick={() => void loadStatistics(range)}>
               重试
             </button>
           </div>
@@ -382,22 +375,7 @@ export function CleanStatisticsPage() {
           ))}
         </section>
 
-        <section className="clean-stat-promo">
-          <div>
-            <h2>限时钜惠！智能保洁6折开通</h2>
-            <p>自动派单 ｜ 实时提醒 ｜ 报表清晰</p>
-          </div>
-          <button type="button" onClick={() => navigate('/version/applicationPayment/detail')}>
-            订阅开通
-          </button>
-        </section>
       </section>
-
-      {status ? (
-        <div role="status" aria-label="保洁统计操作反馈" className="clean-stat-status">
-          {status}
-        </div>
-      ) : null}
 
       {dialog ? <CleanStatisticsDialog dialog={dialog} onClose={() => setDialog(null)} /> : null}
     </div>

@@ -14,6 +14,7 @@ import {
   type WorkspaceOrderTab,
   type WorkspacePeriod,
 } from '../services/workspace'
+import type { DonutSlice, WorkspaceTrendPoint } from '../types'
 import './WorkspacePage.css'
 
 const emptyDashboard: WorkspaceDashboard = {
@@ -37,6 +38,7 @@ const emptyDashboard: WorkspaceDashboard = {
       { label: '平均房费ADR', value: '--', detailLeft: '入住率OCC --', detailRight: '平均房费ADR --', accent: 'sky' },
     ],
     chartDates: [],
+    chartSeries: [],
     donutSlices: [],
   },
   lists: {
@@ -61,7 +63,40 @@ const metricGroups = {
   revenue: [7],
 }
 
-const chartMetricLabels = ['营业收入', '入住率OCC', '平均房费ADR', '平均客房收益RevPAR', '已售房间数']
+type TrendMetricKey = 'businessIncome' | 'occ' | 'adr' | 'revPar' | 'openRoomCount'
+
+type TrendMetricConfig = {
+  label: string
+  key: TrendMetricKey
+  valueType: 'currency' | 'percent' | 'roomCount'
+}
+
+const chartMetricConfigs: TrendMetricConfig[] = [
+  { label: '营业收入', key: 'businessIncome', valueType: 'currency' },
+  { label: '入住率OCC', key: 'occ', valueType: 'percent' },
+  { label: '平均房费ADR', key: 'adr', valueType: 'currency' },
+  { label: '平均客房收益RevPAR', key: 'revPar', valueType: 'currency' },
+  { label: '已售房间数', key: 'openRoomCount', valueType: 'roomCount' },
+]
+
+type RenderedTrendPoint = WorkspaceTrendPoint & {
+  x: number
+  y: number
+  value: number
+}
+
+const trendChartBounds = {
+  left: 2,
+  right: 98,
+  top: 1.19,
+  bottom: 58.33,
+}
+
+const trendChartLayout = {
+  axisWidth: 44,
+  svgTop: 6,
+  svgHeight: 168,
+}
 
 export function WorkspacePage() {
   const navigate = useNavigate()
@@ -75,6 +110,8 @@ export function WorkspacePage() {
   const [memoTab, setMemoTab] = useState<'todo' | 'done'>('todo')
   const [memoText, setMemoText] = useState('')
   const [selectedOrder, setSelectedOrder] = useState<WorkspaceOrder | null>(null)
+  const [hoveredTrendIndex, setHoveredTrendIndex] = useState<number | null>(null)
+  const [hoveredDonutIndex, setHoveredDonutIndex] = useState<number | null>(null)
   const [statusMessage, setStatusMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -138,7 +175,12 @@ export function WorkspacePage() {
     setErrorMessage('')
     try {
       const analysis = await fetchWorkspaceAnalysis(campId, nextRange)
-      setDashboard((current) => ({ ...current, analysis: { ...current.analysis, chartDates: analysis.chartDates, donutSlices: analysis.donutSlices } }))
+      setDashboard((current) => ({
+        ...current,
+        analysis: { ...current.analysis, chartDates: analysis.chartDates, chartSeries: analysis.chartSeries, donutSlices: analysis.donutSlices },
+      }))
+      setHoveredTrendIndex(null)
+      setHoveredDonutIndex(null)
       setStatusMessage(`${nextRange === 'lastWeek' ? '上周' : '本周'}趋势已刷新`)
     } catch (error) {
       setErrorMessage(formatBusinessError('趋势数据加载失败', error))
@@ -225,8 +267,17 @@ export function WorkspacePage() {
 
   const metrics = dashboard.summary.metrics
   const revenueMetrics = dashboard.analysis.revenueMetrics
-  const chartDates = dashboard.analysis.chartDates.length > 0 ? dashboard.analysis.chartDates : ['--', '--', '--', '--', '--', '--', '--']
+  const activeChartConfig = chartMetricConfigs.find((item) => item.label === activeChartMetric) ?? chartMetricConfigs[0]
+  const trendChart = useMemo(() => buildTrendChart(dashboard.analysis.chartSeries, activeChartConfig), [dashboard.analysis.chartSeries, activeChartConfig])
+  const chartDates = trendChart.points.length > 0
+    ? trendChart.points.map((point) => point.label)
+    : dashboard.analysis.chartDates.length > 0
+      ? dashboard.analysis.chartDates
+      : ['--', '--', '--', '--', '--', '--', '--']
   const donutSlices = dashboard.analysis.donutSlices
+  const donutBackground = useMemo(() => buildDonutBackground(donutSlices), [donutSlices])
+  const hoveredTrendPoint = hoveredTrendIndex === null ? null : trendChart.points[hoveredTrendIndex] ?? null
+  const hoveredDonutSlice = hoveredDonutIndex === null ? null : donutSlices[hoveredDonutIndex] ?? null
   const visibleTodoItems = todoTab === 'todo' ? dashboard.lists.todoItems : dashboard.lists.productItems
 
   return (
@@ -315,32 +366,103 @@ export function WorkspacePage() {
           <Link to="/statistics/report">查看详情</Link>
         </div>
         <div className="chart-tabs">
-          {chartMetricLabels.map((label) => (
-            <button key={label} type="button" className={activeChartMetric === label ? 'is-active' : ''} onClick={() => setActiveChartMetric(label)}>
-              {label}
+          {chartMetricConfigs.map((metric) => (
+            <button
+              key={metric.label}
+              type="button"
+              className={activeChartMetric === metric.label ? 'is-active' : ''}
+              onClick={() => {
+                setActiveChartMetric(metric.label)
+                setHoveredTrendIndex(null)
+              }}
+            >
+              {metric.label}
             </button>
           ))}
         </div>
         <div className="chart-stage">
-          <div className="chart-grid">
-            {[1200, 900, 600, 300, 0].map((value) => (
+          <div className="chart-grid" onMouseLeave={() => setHoveredTrendIndex(null)}>
+            {trendChart.axisLabels.map((value) => (
               <div key={value} className="chart-grid__row">
                 <span>{value}</span>
                 <div />
               </div>
             ))}
+            {trendChart.points.length > 0 ? (
+              <svg className="workspace-trend-svg" data-testid="workspace-trend-chart" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label={`${activeChartConfig.label}趋势`}>
+                <path className="workspace-trend-line" data-testid="workspace-trend-line" d={trendChart.path} />
+                {trendChart.points.map((point, index) => (
+                  <g key={`${point.date}-${index}`}>
+                    <circle className="workspace-trend-point-dot" cx={point.x} cy={point.y} r="2.25" />
+                    <circle
+                      className="workspace-trend-point-hit"
+                      data-testid="workspace-trend-point"
+                      cx={point.x}
+                      cy={point.y}
+                      r="7.5"
+                      onMouseEnter={() => setHoveredTrendIndex(index)}
+                      onFocus={() => setHoveredTrendIndex(index)}
+                      tabIndex={0}
+                    />
+                  </g>
+                ))}
+              </svg>
+            ) : null}
+            {hoveredTrendPoint ? (
+              <div
+                className="workspace-chart-tooltip"
+                data-testid="workspace-chart-tooltip"
+                style={{
+                  left: `calc(${trendChartLayout.axisWidth}px + ${hoveredTrendPoint.x}% - ${(hoveredTrendPoint.x * trendChartLayout.axisWidth) / 100}px)`,
+                  top: `${trendChartLayout.svgTop + (hoveredTrendPoint.y / 100) * trendChartLayout.svgHeight}px`,
+                }}
+              >
+                <strong>{hoveredTrendPoint.label}</strong>
+                <span>{activeChartConfig.label}</span>
+                <em>{formatTrendValue(hoveredTrendPoint.value, activeChartConfig.valueType)}</em>
+              </div>
+            ) : null}
             <div className="chart-grid__dates" data-testid="workspace-chart-dates">
-              {chartDates.map((date, index) => (
-                <span key={`${date}-${index}`}>{date}</span>
-              ))}
+              {chartDates.map((date, index) => {
+                const x = trendChart.points[index]?.x ?? (chartDates.length <= 1 ? 50 : (100 / (chartDates.length - 1)) * index)
+                return (
+                  <span
+                    key={`${date}-${index}`}
+                    style={{
+                      left: `calc(${trendChartLayout.axisWidth}px + ${x}% - ${(x * trendChartLayout.axisWidth) / 100}px)`,
+                    }}
+                  >
+                    {date}
+                  </span>
+                )
+              })}
             </div>
           </div>
           <div className="donut">
-            <div className="donut-ring" />
-            <ul>
+            <div
+              className="donut-ring"
+              data-testid="workspace-donut-ring"
+              style={{ background: donutBackground }}
+              onMouseMove={(event) => setHoveredDonutIndex(resolveDonutSliceIndex(event.currentTarget.getBoundingClientRect(), event.clientX, event.clientY, donutSlices))}
+              onMouseLeave={() => setHoveredDonutIndex(null)}
+            />
+            {hoveredDonutSlice ? (
+              <div className="workspace-donut-tooltip" data-testid="workspace-donut-tooltip">
+                <strong>{hoveredDonutSlice.label}</strong>
+                <span>{formatDonutCount(hoveredDonutSlice)}</span>
+                <em>{formatDonutPercent(hoveredDonutSlice)}</em>
+              </div>
+            ) : null}
+            <ul data-testid="workspace-donut-legend" onMouseLeave={() => setHoveredDonutIndex(null)}>
               {donutSlices.length > 0 ? (
-                donutSlices.map((slice) => (
-                  <li key={slice.label}>
+                donutSlices.map((slice, index) => (
+                  <li
+                    key={slice.label}
+                    className={hoveredDonutIndex === index ? 'is-active' : ''}
+                    onMouseEnter={() => setHoveredDonutIndex(index)}
+                    onFocus={() => setHoveredDonutIndex(index)}
+                    tabIndex={0}
+                  >
                     <i style={{ background: slice.color }} />
                     <span>{slice.label}</span>
                     <strong>{slice.value}</strong>
@@ -523,6 +645,129 @@ export function WorkspacePage() {
       ) : null}
     </div>
   )
+}
+
+function buildTrendChart(series: WorkspaceTrendPoint[], metric: TrendMetricConfig) {
+  const values = series.map((point) => toFiniteNumber(point[metric.key]))
+  const ceiling = getTrendAxisCeiling(Math.max(...values, 0), metric.valueType)
+  const points: RenderedTrendPoint[] = series.map((point, index) => {
+    const value = toFiniteNumber(point[metric.key])
+    const x = series.length <= 1
+      ? 50
+      : trendChartBounds.left + ((trendChartBounds.right - trendChartBounds.left) / (series.length - 1)) * index
+    const y = trendChartBounds.bottom - (value / ceiling) * (trendChartBounds.bottom - trendChartBounds.top)
+
+    return { ...point, x, y, value }
+  })
+
+  return {
+    axisLabels: buildTrendAxisLabels(ceiling, metric.valueType),
+    path: buildSmoothTrendPath(points),
+    points,
+  }
+}
+
+function buildSmoothTrendPath(points: RenderedTrendPoint[]) {
+  if (points.length === 0) return ''
+  if (points.length === 1) return `M ${points[0].x} ${points[0].y}`
+
+  return points.slice(1).reduce((path, point, index) => {
+    const previous = points[index]
+    const midX = (previous.x + point.x) / 2
+    return `${path} C ${midX} ${previous.y}, ${midX} ${point.y}, ${point.x} ${point.y}`
+  }, `M ${points[0].x} ${points[0].y}`)
+}
+
+function buildTrendAxisLabels(ceiling: number, valueType: TrendMetricConfig['valueType']) {
+  return [ceiling, ceiling * 0.75, ceiling * 0.5, ceiling * 0.25, 0].map((value) => formatTrendAxisValue(value, valueType))
+}
+
+function getTrendAxisCeiling(maxValue: number, valueType: TrendMetricConfig['valueType']) {
+  if (valueType === 'percent') return Math.max(100, Math.ceil(maxValue / 25) * 25)
+  if (valueType === 'roomCount') return Math.max(4, Math.ceil(maxValue))
+  if (maxValue <= 0) return 100
+
+  const magnitude = 10 ** Math.floor(Math.log10(maxValue))
+  const normalized = maxValue / magnitude
+  const nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 3 ? 3 : normalized <= 5 ? 5 : 10
+  return nice * magnitude
+}
+
+function formatTrendAxisValue(value: number, valueType: TrendMetricConfig['valueType']) {
+  if (valueType === 'percent') return `${formatPlainNumber(value, 0)}%`
+  if (valueType === 'roomCount') return formatPlainNumber(value, 0)
+  if (value >= 10000) return `${formatPlainNumber(value / 10000, 1)}万`
+  return formatPlainNumber(value, 0)
+}
+
+function formatTrendValue(value: number, valueType: TrendMetricConfig['valueType']) {
+  if (valueType === 'currency') return `￥${formatPlainNumber(value)}`
+  if (valueType === 'percent') return `${formatPlainNumber(value)}%`
+  return `${formatPlainNumber(value, 0)}间`
+}
+
+function buildDonutBackground(slices: DonutSlice[]) {
+  const innerMask = 'radial-gradient(circle at center, #fff 43%, transparent 44%)'
+  if (slices.length === 0) return `${innerMask}, conic-gradient(#e6ebf3 0% 100%)`
+
+  let cursor = 0
+  const segments = slices.flatMap((slice) => {
+    const percent = clampPercent(slice.percent ?? Number.parseFloat(slice.value))
+    if (percent <= 0) return []
+
+    const start = cursor
+    const end = Math.min(100, cursor + percent)
+    cursor = end
+    return `${slice.color} ${start}% ${end}%`
+  })
+
+  if (cursor < 100) segments.push(`#e6ebf3 ${cursor}% 100%`)
+  return `${innerMask}, conic-gradient(${segments.join(', ')})`
+}
+
+function resolveDonutSliceIndex(rect: DOMRect, clientX: number, clientY: number, slices: DonutSlice[]) {
+  if (slices.length === 0) return null
+
+  const x = clientX - rect.left - rect.width / 2
+  const y = clientY - rect.top - rect.height / 2
+  const distance = Math.sqrt(x * x + y * y)
+  if (distance < rect.width * 0.22 || distance > rect.width * 0.52) return null
+
+  const angle = (Math.atan2(y, x) * 180) / Math.PI
+  const percentAtPointer = ((angle + 450) % 360) / 3.6
+  let cursor = 0
+
+  for (let index = 0; index < slices.length; index += 1) {
+    cursor += clampPercent(slices[index].percent ?? Number.parseFloat(slices[index].value))
+    if (percentAtPointer <= cursor) return index
+  }
+
+  return null
+}
+
+function formatDonutCount(slice: DonutSlice) {
+  return `${formatPlainNumber(toFiniteNumber(slice.count), 0)}单`
+}
+
+function formatDonutPercent(slice: DonutSlice) {
+  return `${formatPlainNumber(clampPercent(slice.percent ?? Number.parseFloat(slice.value)), 2)}%`
+}
+
+function formatPlainNumber(value: number, fractionDigits = 2) {
+  const normalized = Number.isInteger(value) || fractionDigits === 0
+    ? value.toFixed(0)
+    : value.toFixed(fractionDigits).replace(/\.?0+$/, '')
+  return normalized
+}
+
+function clampPercent(value: number) {
+  if (!Number.isFinite(value)) return 0
+  return Math.min(Math.max(value, 0), 100)
+}
+
+function toFiniteNumber(value: unknown) {
+  const number = Number(value ?? 0)
+  return Number.isFinite(number) ? number : 0
 }
 
 function MetricGroup({

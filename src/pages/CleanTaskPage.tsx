@@ -1,11 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
+  assignCleanTask,
+  cancelCleanTask,
+  completeCleanTask,
   cleanTaskCreateEndpoint,
   cleanTaskExportEndpoint,
-  cleanTaskListEndpoint,
   cleanTaskNotifyEndpoint,
+  createCleanTask,
+  exportCleanTasks,
   fetchCleanTaskDashboard,
+  notifyCleanTasks,
+  startCleanTask,
   type CleanLookupOption,
   type CleanTaskDashboard,
   type CleanTaskFilters,
@@ -16,12 +22,15 @@ import {
 } from '../services/cleanTask'
 import { StoreSelectControl } from '../components/StoreSelect'
 import { useStoreOptions } from '../hooks/useStoreOptions'
+import { resolveCurrentCampId } from '../services/storeOptions'
 import './CleanTaskPage.css'
 
 type CleanFilter = 'room' | 'type' | 'status' | 'cleaner' | null
+type CleanTaskRowAction = 'assign' | 'start' | 'complete' | 'cancel'
+type CleanTaskActionRunner = typeof assignCleanTask
 
 const defaultFilters: CleanTaskFilters = {
-  campId: '1796067693589061634',
+  campId: '10001',
   poiId: 'ALL',
   cleanDate: '2026-05-18',
   roomId: 'ALL',
@@ -32,13 +41,21 @@ const defaultFilters: CleanTaskFilters = {
   pageSize: 20,
 }
 
+function createDefaultFilters(): CleanTaskFilters {
+  return {
+    ...defaultFilters,
+    campId: resolveCurrentCampId(),
+  }
+}
+
 export function CleanTaskPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const initialScenario = normalizeScenario(searchParams.get('scenario'))
+  const initialDefaultsRef = useRef(createDefaultFilters())
   const [filters, setFilters] = useState<CleanTaskFilters>({
-    ...defaultFilters,
-    campId: searchParams.get('campId') || defaultFilters.campId,
+    ...initialDefaultsRef.current,
+    campId: searchParams.get('campId') || initialDefaultsRef.current.campId,
     scenario: initialScenario,
   })
   const [dashboard, setDashboard] = useState<CleanTaskDashboard | null>(null)
@@ -51,6 +68,7 @@ export function CleanTaskPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [feedback, setFeedback] = useState('')
+  const initialLoadStartedRef = useRef(false)
   const { storeOptions, storeLoading } = useStoreOptions({
     fallbackOptions: (dashboard?.stores ?? [{ id: 'ALL', label: '全部门店' }]).map((store) => ({
       id: store.id === 'ALL' ? 'all' : store.id,
@@ -59,23 +77,20 @@ export function CleanTaskPage() {
   })
 
   useEffect(() => {
+    if (initialLoadStartedRef.current) return
+    initialLoadStartedRef.current = true
     void loadData(filters)
     // Initial route state should drive the first provider call only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const optionList = useMemo(() => {
-    if (!dashboard) return []
-    if (openFilter === 'room') return dashboard.rooms
-    if (openFilter === 'type') return dashboard.cleanTypes.filter((item) => item.id !== 'ALL')
-    if (openFilter === 'status') return dashboard.statuses.filter((item) => item.id !== 'ALL')
-    if (openFilter === 'cleaner') return dashboard.cleaners
-    return []
-  }, [dashboard, openFilter])
-
-  const requestStatus = dashboard
-    ? `${cleanTaskListEndpoint.replace('/api', '')} ${formatRequestParams(dashboard.requestBody)}`
-    : `${cleanTaskListEndpoint.replace('/api', '')} 等待加载`
+  useEffect(() => {
+    const nextScenario = normalizeScenario(searchParams.get('scenario'))
+    if (filters.scenario === nextScenario) return
+    void loadData({ ...filters, scenario: nextScenario, page: 1 })
+    // Route query changes should refresh the scenario without resetting other filters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
 
   async function loadData(nextFilters: CleanTaskFilters, options: { successMessage?: string } = {}) {
     setLoading(true)
@@ -107,7 +122,8 @@ export function CleanTaskPage() {
   }
 
   function resetFilters() {
-    const nextFilters = { ...defaultFilters, scenario: 'success' as const }
+    const nextDefaults = createDefaultFilters()
+    const nextFilters = { ...nextDefaults, campId: searchParams.get('campId') || nextDefaults.campId, scenario: 'success' as const }
     void loadData(nextFilters, { successMessage: '筛选条件已重置' })
   }
 
@@ -121,18 +137,85 @@ export function CleanTaskPage() {
     setSelectedIds((current) => (checked ? [...current, taskId] : current.filter((id) => id !== taskId)))
   }
 
-  function handleBatchNotify() {
-    setFeedback(`已通知 ${selectedIds.length} 个任务，通知接口 ${cleanTaskNotifyEndpoint.replace('/api', '')}`)
+  async function handleBatchNotify() {
+    if (selectedIds.length === 0) return
+    try {
+      const result = await notifyCleanTasks(filters.campId, selectedIds)
+      await loadData({ ...filters, scenario: 'success' }, {
+        successMessage: `已通知 ${result.notifiedCount ?? selectedIds.length} 个任务`,
+      })
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : `通知接口 ${cleanTaskNotifyEndpoint.replace('/api', '')} 调用失败`)
+    }
   }
 
-  function handleExport() {
-    setFeedback(`已创建导出任务，导出接口 ${cleanTaskExportEndpoint.replace('/api', '')}`)
+  async function handleExport() {
+    try {
+      const result = await exportCleanTasks(filters)
+      setFeedback(`已创建导出任务：${result.fileName}`)
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : `导出接口 ${cleanTaskExportEndpoint.replace('/api', '')} 调用失败`)
+    }
   }
 
-  function handleCreateConfirm() {
-    setCreateOpen(false)
-    setRemark('')
-    setFeedback(`保洁任务已创建，创建接口 ${cleanTaskCreateEndpoint.replace('/api', '')}`)
+  async function handleCreateConfirm() {
+    const roomId = filters.roomId !== 'ALL' ? filters.roomId : dashboard?.rooms[0]?.id
+    const cleanerId = filters.cleanerId !== 'ALL' ? filters.cleanerId : dashboard?.cleaners[0]?.id
+
+    if (!roomId) {
+      setFeedback('请先选择房间后再创建保洁任务')
+      return
+    }
+
+    try {
+      const result = await createCleanTask({
+        campId: filters.campId,
+        poiId: filters.poiId === 'ALL' ? undefined : filters.poiId,
+        roomId,
+        cleanerId,
+        cleanType: filters.cleanType !== 'ALL' ? filters.cleanType : 'CHECKOUT',
+        cleanStatus: 'PENDING_CLEAN',
+        cleanTime: filters.cleanDate,
+        remark: remark.trim(),
+      })
+      setCreateOpen(false)
+      setRemark('')
+      await loadData({ ...filters, scenario: 'success' }, {
+        successMessage: result.taskNo ? `保洁任务已创建：${result.taskNo}` : result.message || '保洁任务已创建',
+      })
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : `创建接口 ${cleanTaskCreateEndpoint.replace('/api', '')} 调用失败`)
+    }
+  }
+
+  async function handleTaskAction(task: CleanTaskRecord, action: CleanTaskRowAction) {
+    const cleanerId = task.cleanerId || (filters.cleanerId !== 'ALL' ? filters.cleanerId : '') || dashboard?.cleaners[0]?.id
+    if (action === 'assign' && !cleanerId) {
+      setFeedback('请先配置保洁员后再分派任务')
+      return
+    }
+
+    const payload = {
+      campId: filters.campId,
+      taskId: task.id,
+      cleanerId: action === 'assign' ? cleanerId : undefined,
+    }
+    const actionMap = {
+      assign: { label: '分派', run: assignCleanTask },
+      start: { label: '开始', run: startCleanTask },
+      complete: { label: '完成', run: completeCleanTask },
+      cancel: { label: '取消', run: cancelCleanTask },
+    } satisfies Record<CleanTaskRowAction, { label: string; run: CleanTaskActionRunner }>
+
+    try {
+      const result = await actionMap[action].run(payload)
+      const actionResult = result as { message?: string }
+      await loadData({ ...filters, scenario: 'success' }, {
+        successMessage: actionResult.message || `任务 ${task.taskNo} 已${actionMap[action].label}`,
+      })
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : `任务 ${task.taskNo} ${actionMap[action].label}失败`)
+    }
   }
 
   function handleMoreRoute(path: string) {
@@ -142,8 +225,6 @@ export function CleanTaskPage() {
 
   return (
     <div className="clean-task-page">
-      <h1>保洁任务</h1>
-
       <section className="clean-task-toolbar" aria-label="保洁任务筛选">
         <div className="clean-task-toolbar__top">
           <StoreSelectControl
@@ -209,48 +290,45 @@ export function CleanTaskPage() {
               value={labelById(dashboard?.rooms, filters.roomId)}
               placeholder="请选择房型房间"
               name="room"
+              options={dashboard?.rooms ?? []}
               openFilter={openFilter}
               setOpenFilter={setOpenFilter}
+              filters={filters}
+              onSelect={chooseFilter}
             />
             <FilterButton
               label="保洁类型"
               value={labelById(dashboard?.cleanTypes, filters.cleanType, 'ALL')}
               placeholder="请选择保洁类型"
               name="type"
+              options={(dashboard?.cleanTypes ?? []).filter((item) => item.id !== 'ALL')}
               openFilter={openFilter}
               setOpenFilter={setOpenFilter}
+              filters={filters}
+              onSelect={chooseFilter}
             />
             <FilterButton
               label="保洁状态"
               value={labelById(dashboard?.statuses, filters.status, 'ALL')}
               placeholder="请选择保洁状态"
               name="status"
+              options={(dashboard?.statuses ?? []).filter((item) => item.id !== 'ALL')}
               openFilter={openFilter}
               setOpenFilter={setOpenFilter}
+              filters={filters}
+              onSelect={chooseFilter}
             />
             <FilterButton
               label="保洁员"
               value={labelById(dashboard?.cleaners, filters.cleanerId)}
               placeholder="请选择保洁员"
               name="cleaner"
+              options={dashboard?.cleaners ?? []}
               openFilter={openFilter}
               setOpenFilter={setOpenFilter}
+              filters={filters}
+              onSelect={chooseFilter}
             />
-            {openFilter ? (
-              <div className="clean-options" role="listbox" aria-label={`${filterTitle(openFilter)}筛选`}>
-                {optionList.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    role="option"
-                    aria-selected={isSelectedFilter(option.id, openFilter, filters)}
-                    onClick={() => chooseFilter(option)}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            ) : null}
           </div>
 
           <div className="clean-actions">
@@ -269,14 +347,9 @@ export function CleanTaskPage() {
           </div>
         </div>
 
-        <div className="clean-task-statusline">
-          <span role="status" aria-label="保洁任务请求状态">
-            {requestStatus}
-          </span>
-          <span role="status" aria-label="保洁任务操作反馈">
-            {feedback}
-          </span>
-        </div>
+        <span role="status" aria-label="保洁任务操作反馈" className="clean-task-feedback">
+          {feedback}
+        </span>
       </section>
 
       {error ? (
@@ -366,9 +439,31 @@ export function CleanTaskPage() {
               />
             </label>
             <strong>{task.taskNo}</strong>
-            <button type="button" aria-label={`查看详情 ${task.taskNo}`} onClick={() => setSelectedTask(task)}>
-              查看详情
-            </button>
+            <div className="clean-row-actions">
+              <button type="button" aria-label={`查看详情 ${task.taskNo}`} onClick={() => setSelectedTask(task)}>
+                详情
+              </button>
+              {task.status === 'PENDING_ASSIGN' ? (
+                <button type="button" aria-label={`分派 ${task.taskNo}`} onClick={() => handleTaskAction(task, 'assign')}>
+                  分派
+                </button>
+              ) : null}
+              {task.status === 'PENDING_CLEAN' ? (
+                <>
+                  <button type="button" aria-label={`开始 ${task.taskNo}`} onClick={() => handleTaskAction(task, 'start')}>
+                    开始
+                  </button>
+                  <button type="button" aria-label={`取消 ${task.taskNo}`} onClick={() => handleTaskAction(task, 'cancel')}>
+                    取消
+                  </button>
+                </>
+              ) : null}
+              {task.status === 'CLEANING' ? (
+                <button type="button" aria-label={`完成 ${task.taskNo}`} onClick={() => handleTaskAction(task, 'complete')}>
+                  完成
+                </button>
+              ) : null}
+            </div>
             <span>{task.roomName}</span>
             <span>{task.cleanTypeLabel}</span>
             <span className={`clean-status clean-status--${task.status.toLowerCase()}`}>{task.statusLabel}</span>
@@ -441,29 +536,54 @@ function FilterButton({
   value,
   placeholder,
   name,
+  options,
   openFilter,
   setOpenFilter,
+  filters,
+  onSelect,
 }: {
   label: string
   value: string
   placeholder: string
   name: Exclude<CleanFilter, null>
+  options: CleanLookupOption[]
   openFilter: CleanFilter
   setOpenFilter: (filter: CleanFilter) => void
+  filters: CleanTaskFilters
+  onSelect: (option: CleanLookupOption) => void
 }) {
   return (
-    <label className="clean-filter">
-      <span>{label}：</span>
-      <button
-        type="button"
-        aria-label={value || placeholder}
-        aria-haspopup="listbox"
-        aria-expanded={openFilter === name}
-        onClick={() => setOpenFilter(openFilter === name ? null : name)}
-      >
-        {value || placeholder}
-      </button>
-    </label>
+    <div className="clean-filter-field">
+      <span className="clean-filter-label">
+        <span>{label}：</span>
+      </span>
+      <div className="clean-filter-control">
+        <button
+          type="button"
+          aria-label={value || placeholder}
+          aria-haspopup="listbox"
+          aria-expanded={openFilter === name}
+          onClick={() => setOpenFilter(openFilter === name ? null : name)}
+        >
+          {value || placeholder}
+        </button>
+        {openFilter === name ? (
+          <div className="clean-options" role="listbox" aria-label={`${label}筛选`}>
+            {options.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                role="option"
+                aria-selected={isSelectedFilter(option.id, name, filters)}
+                onClick={() => onSelect(option)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </div>
   )
 }
 
@@ -498,26 +618,6 @@ function isSelectedFilter(id: string, openFilter: Exclude<CleanFilter, null>, fi
   if (openFilter === 'type') return filters.cleanType === id
   if (openFilter === 'status') return filters.status === id
   return filters.cleanerId === id
-}
-
-function filterTitle(openFilter: Exclude<CleanFilter, null>) {
-  if (openFilter === 'room') return '房型房间'
-  if (openFilter === 'type') return '保洁类型'
-  if (openFilter === 'status') return '保洁状态'
-  return '保洁员'
-}
-
-function formatRequestParams(requestBody: Record<string, unknown>) {
-  const compact = {
-    cleanTime: requestBody.cleanTime,
-    cleanType: requestBody.cleanType || 'ALL',
-    status: requestBody.cleanStatus || 'ALL',
-    cleanerIds: Array.isArray(requestBody.cleanerIds) && requestBody.cleanerIds.length > 0 ? requestBody.cleanerIds.join(',') : 'ALL',
-    pageSize: requestBody.pageSize,
-  }
-  return Object.entries(compact)
-    .map(([key, value]) => `${key}=${value}`)
-    .join(' ')
 }
 
 function shiftDate(date: string, offset: number) {

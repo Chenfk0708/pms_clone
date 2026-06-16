@@ -219,8 +219,21 @@ export function createStatementOrderQuery(scope: StatementOrderStoreScope): Stat
 }
 
 function resolveProvider(): StatementOrderProviderName {
-  const configured = readRuntimeConfig('pms.statementOrderProvider') || import.meta.env.VITE_STATEMENT_ORDER_PROVIDER
+  const configured = readUrlProvider() || import.meta.env.VITE_STATEMENT_ORDER_PROVIDER || readRuntimeConfig('pms.statementOrderProvider')
   return configured === 'api' || configured === 'real' ? 'api' : 'mock'
+}
+
+function readUrlProvider(): StatementOrderProviderName | 'real' | '' {
+  if (typeof window === 'undefined') return ''
+  const configured =
+    readProviderFromSearch(window.location.search) ||
+    readProviderFromSearch(window.location.hash.split('?')[1] ? `?${window.location.hash.split('?')[1]}` : '')
+  return configured === 'mock' || configured === 'api' || configured === 'real' ? configured : ''
+}
+
+function readProviderFromSearch(search: string) {
+  const params = new URLSearchParams(search)
+  return params.get('provider') || params.get('statementOrderProvider') || ''
 }
 
 function resolveMockMode(): StatementOrderMockMode {

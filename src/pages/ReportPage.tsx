@@ -9,7 +9,10 @@ import {
   type StatisticsReportOption,
   type StatisticsReportPreset,
   type StatisticsReportQuery,
+  type StatisticsReportSourceItem,
+  type StatisticsReportTrendMetric,
   type StatisticsReportTrendKey,
+  type StatisticsReportTrendSeries,
 } from '../services/statisticsReport'
 import { StoreSelectControl } from '../components/StoreSelect'
 import { useStoreOptions } from '../hooks/useStoreOptions'
@@ -19,6 +22,29 @@ type ReportMode = 'overview' | 'future'
 type FilterKey = 'roomType' | 'channel' | 'tag' | null
 type DatePickTarget = 'start' | 'end'
 type DatePanelPosition = { top: number; left: number }
+type StatisticsRenderedTrendPoint = {
+  x: number
+  y: number
+  value: number
+  label: string
+}
+
+type StatisticsRenderedTrendSeries = StatisticsReportTrendSeries & {
+  path: string
+  points: StatisticsRenderedTrendPoint[]
+}
+
+const statisticsTrendViewBox = {
+  width: 520,
+  height: 220,
+  left: 18,
+  right: 462,
+  top: 0,
+  bottom: 220,
+}
+
+const statisticsTrendPlotHeight = 220
+
 export function ReportPage() {
   const navigate = useNavigate()
   const [query, setQuery] = useState(createInitialQuery)
@@ -470,9 +496,12 @@ function OverviewContent({
   activeTrendKey: StatisticsReportTrendKey
   onSwitchTrend: (key: StatisticsReportTrendKey, label: string) => void
 }) {
-  const polylineValues = trendMetric?.series[0]?.values ?? []
-  const yAxisValues = buildYAxis(polylineValues)
+  const [hoveredTrendIndex, setHoveredTrendIndex] = useState<number | null>(null)
+  const [hoveredSourceIndex, setHoveredSourceIndex] = useState<number | null>(null)
+  const trendChart = useMemo(() => buildStatisticsTrendChart(trendMetric), [trendMetric])
+  const hoveredTrendPoint = hoveredTrendIndex === null ? null : trendChart.primarySeries?.points[hoveredTrendIndex] ?? null
   const sourceItems = dashboard?.sourceItems ?? []
+  const hoveredSourceItem = hoveredSourceIndex === null ? null : sourceItems[hoveredSourceIndex] ?? null
 
   return (
     <>
@@ -520,7 +549,10 @@ function OverviewContent({
                   key={tab.key}
                   type="button"
                   className={activeTrendKey === tab.key ? 'is-active' : ''}
-                  onClick={() => onSwitchTrend(tab.key, tab.label)}
+                  onClick={() => {
+                    setHoveredTrendIndex(null)
+                    onSwitchTrend(tab.key, tab.label)
+                  }}
                 >
                   {tab.label}
                 </button>
@@ -529,28 +561,74 @@ function OverviewContent({
           </header>
           <div className="statistics-line-chart" aria-label={`${trendMetric?.label ?? '营业收入'}趋势图`}>
             <div className="statistics-y-axis">
-              {yAxisValues.map((value) => (
-                <span key={value}>{formatAxisValue(value, trendMetric?.valueFormat ?? 'currency')}</span>
+              {trendChart.axisValues.map((value, index) => (
+                <span
+                  key={`${value}-${index}`}
+                  style={{
+                    top: `${trendChart.axisValues.length <= 1 ? 0 : (100 / (trendChart.axisValues.length - 1)) * index}%`,
+                  }}
+                >
+                  {formatAxisValue(value, trendMetric?.valueFormat ?? 'currency')}
+                </span>
               ))}
             </div>
-            <div className="statistics-plot">
+            <div className="statistics-plot" data-testid="statistics-trend-chart" onMouseLeave={() => setHoveredTrendIndex(null)}>
               <div className="plot-grid" />
-              <svg viewBox="0 0 520 220" role="img" aria-label={`${trendMetric?.label ?? '营业收入'} 趋势`}>
-                {(trendMetric?.series ?? []).map((series) => (
-                  <polyline
+              <svg viewBox={`0 0 ${statisticsTrendViewBox.width} ${statisticsTrendViewBox.height}`} preserveAspectRatio="none" role="img" aria-label={`${trendMetric?.label ?? '营业收入'} 趋势`}>
+                {trendChart.series.map((series) => (
+                  <path
                     key={series.key}
-                    points={buildPolylinePoints(series.values)}
-                    fill="none"
+                    className="statistics-trend-line"
+                    d={series.path}
                     stroke={series.color}
-                    strokeWidth={series.key === trendMetric?.series[0]?.key ? '3' : '2'}
-                    strokeLinecap="round"
+                    data-testid={series.key === trendChart.primarySeries?.key ? 'statistics-trend-line' : undefined}
+                    style={{ strokeWidth: series.key === trendChart.primarySeries?.key ? 3 : 2 }}
                   />
                 ))}
-              </svg>
-              <div className="statistics-x-axis">
-                {(trendMetric?.xLabels ?? []).map((label) => (
-                  <span key={label}>{label}</span>
+                {trendChart.primarySeries?.points.map((point, index) => (
+                  <g key={`${point.label}-${index}`}>
+                    <circle className="statistics-trend-point-dot" cx={point.x} cy={point.y} r="5.2" />
+                    <circle
+                      className="statistics-trend-point-hit"
+                      data-testid="statistics-trend-point"
+                      cx={point.x}
+                      cy={point.y}
+                      r="13"
+                      tabIndex={0}
+                      onMouseEnter={() => setHoveredTrendIndex(index)}
+                      onFocus={() => setHoveredTrendIndex(index)}
+                    />
+                  </g>
                 ))}
+              </svg>
+              {hoveredTrendPoint ? (
+                <div
+                  className="statistics-chart-tooltip"
+                  data-testid="statistics-trend-tooltip"
+                  style={{
+                    left: `${(hoveredTrendPoint.x / statisticsTrendViewBox.width) * 100}%`,
+                    top: `${(hoveredTrendPoint.y / statisticsTrendViewBox.height) * statisticsTrendPlotHeight}px`,
+                  }}
+                >
+                  <strong>{hoveredTrendPoint.label}</strong>
+                  <span>{trendChart.primarySeries?.label ?? trendMetric?.label}</span>
+                  <em>{formatTrendTooltipValue(hoveredTrendPoint.value, trendMetric?.valueFormat ?? 'currency')}</em>
+                </div>
+              ) : null}
+              <div className="statistics-x-axis">
+                {(trendMetric?.xLabels ?? []).map((label, index) => {
+                  const point = trendChart.primarySeries?.points[index]
+                  return (
+                    <span
+                      key={label}
+                      style={{
+                        left: point ? `${(point.x / statisticsTrendViewBox.width) * 100}%` : `${(100 / Math.max((trendMetric?.xLabels.length ?? 1) - 1, 1)) * index}%`,
+                      }}
+                    >
+                      {label}
+                    </span>
+                  )
+                })}
               </div>
             </div>
             <div className="statistics-legend">
@@ -567,11 +645,31 @@ function OverviewContent({
         <section className="statistics-source-card" aria-label="订单来源分析">
           <h2>订单来源分析</h2>
           <div className="statistics-donut-wrap">
-            <div className="statistics-donut" aria-hidden="true" style={{ background: donutBackground(sourceItems) }} />
-            <ul>
+            <div
+              className="statistics-donut"
+              data-testid="statistics-donut-ring"
+              aria-hidden="true"
+              style={{ background: donutBackground(sourceItems) }}
+              onMouseMove={(event) => setHoveredSourceIndex(resolveStatisticsSourceIndex(event.currentTarget.getBoundingClientRect(), event.clientX, event.clientY, sourceItems))}
+              onMouseLeave={() => setHoveredSourceIndex(null)}
+            />
+            {hoveredSourceItem ? (
+              <div className="statistics-donut-tooltip" data-testid="statistics-donut-tooltip">
+                <strong>{hoveredSourceItem.label}</strong>
+                <span>{hoveredSourceItem.countText}</span>
+                <em>{hoveredSourceItem.percentageText}</em>
+              </div>
+            ) : null}
+            <ul data-testid="statistics-donut-legend" onMouseLeave={() => setHoveredSourceIndex(null)}>
               {sourceItems.length > 0 ? (
-                sourceItems.map((source) => (
-                  <li key={source.id}>
+                sourceItems.map((source, index) => (
+                  <li
+                    key={source.id}
+                    className={hoveredSourceIndex === index ? 'is-active' : ''}
+                    tabIndex={0}
+                    onMouseEnter={() => setHoveredSourceIndex(index)}
+                    onFocus={() => setHoveredSourceIndex(index)}
+                  >
                     <i style={{ background: source.color }} />
                     <span>{source.label}</span>
                     <small>{source.countText}</small>
@@ -839,32 +937,72 @@ function buildCalendarDays(month: string) {
   })
 }
 
-function buildYAxis(values: number[]) {
-  const max = Math.max(...values, 0)
-  if (max <= 0) return [0, 0, 0, 0, 0]
-  const step = max / 4
-  return [step * 4, step * 3, step * 2, step, 0].map((value) => Number(value.toFixed(2)))
-}
-
 function formatAxisValue(value: number, format: 'currency' | 'percent' | 'count') {
   if (format === 'percent') return `${value.toFixed(0)}%`
   if (format === 'count') return `${Math.round(value)}`
   return `${Math.round(value)}`
 }
 
-function buildPolylinePoints(values: number[]) {
-  if (values.length === 0) return '18,178'
-  const max = Math.max(...values, 1)
-  const width = 444
-  const xStart = 18
-  const xStep = values.length === 1 ? 0 : width / (values.length - 1)
-  return values
-    .map((value, index) => {
-      const x = xStart + xStep * index
-      const y = 190 - (value / max) * 156
-      return `${x.toFixed(2)},${y.toFixed(2)}`
+function buildStatisticsTrendChart(metric: StatisticsReportTrendMetric | null) {
+  const seriesValues = metric?.series.flatMap((series) => series.values.map(toFiniteNumber)) ?? []
+  const ceiling = getStatisticsAxisCeiling(Math.max(...seriesValues, 0), metric?.valueFormat ?? 'currency')
+  const plotCeiling = ceiling > 0 ? ceiling : 1
+  const axisValues = [ceiling, ceiling * 0.75, ceiling * 0.5, ceiling * 0.25, 0].map((value) => Number(value.toFixed(2)))
+  const series: StatisticsRenderedTrendSeries[] = (metric?.series ?? []).map((item) => {
+    const points = item.values.map((rawValue, index) => {
+      const value = toFiniteNumber(rawValue)
+      const x = item.values.length <= 1
+        ? (statisticsTrendViewBox.left + statisticsTrendViewBox.right) / 2
+        : statisticsTrendViewBox.left + ((statisticsTrendViewBox.right - statisticsTrendViewBox.left) / (item.values.length - 1)) * index
+      const y = statisticsTrendViewBox.bottom - (value / plotCeiling) * (statisticsTrendViewBox.bottom - statisticsTrendViewBox.top)
+      return {
+        x,
+        y,
+        value,
+        label: metric?.xLabels[index] ?? '--',
+      }
     })
-    .join(' ')
+
+    return {
+      ...item,
+      points,
+      path: buildStatisticsTrendPath(points),
+    }
+  })
+
+  return {
+    axisValues,
+    series,
+    primarySeries: series[0] ?? null,
+  }
+}
+
+function buildStatisticsTrendPath(points: StatisticsRenderedTrendPoint[]) {
+  if (points.length === 0) return ''
+  if (points.length === 1) return `M ${points[0].x} ${points[0].y}`
+
+  return points.slice(1).reduce((path, point, index) => {
+    const previous = points[index]
+    const midX = (previous.x + point.x) / 2
+    return `${path} C ${midX} ${previous.y}, ${midX} ${point.y}, ${point.x} ${point.y}`
+  }, `M ${points[0].x} ${points[0].y}`)
+}
+
+function getStatisticsAxisCeiling(maxValue: number, format: 'currency' | 'percent' | 'count') {
+  if (maxValue <= 0) return 0
+  if (format === 'percent') return Math.max(100, Math.ceil(maxValue / 25) * 25)
+  if (format === 'count') return Math.max(4, Math.ceil(maxValue))
+
+  const magnitude = 10 ** Math.floor(Math.log10(maxValue))
+  const normalized = maxValue / magnitude
+  const nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 3 ? 3 : normalized <= 5 ? 5 : 10
+  return nice * magnitude
+}
+
+function formatTrendTooltipValue(value: number, format: 'currency' | 'percent' | 'count') {
+  if (format === 'percent') return `${formatPlainNumber(value)}%`
+  if (format === 'count') return `${formatPlainNumber(value, 0)}间`
+  return `￥${formatPlainNumber(value)}`
 }
 
 function donutBackground(items: StatisticsReportDashboard['sourceItems']) {
@@ -873,10 +1011,46 @@ function donutBackground(items: StatisticsReportDashboard['sourceItems']) {
   }
   let offset = 0
   const segments = items.map((item) => {
-    const value = Number(item.percentageText.replace('%', ''))
+    const value = parseSourcePercent(item)
     const start = offset
     offset += value
     return `${item.color} ${start}% ${offset}%`
   })
   return `radial-gradient(circle at center, #fff 0 44%, transparent 45%), conic-gradient(${segments.join(', ')})`
+}
+
+function resolveStatisticsSourceIndex(rect: DOMRect, clientX: number, clientY: number, items: StatisticsReportSourceItem[]) {
+  if (items.length === 0) return null
+
+  const x = clientX - rect.left - rect.width / 2
+  const y = clientY - rect.top - rect.height / 2
+  const distance = Math.sqrt(x * x + y * y)
+  if (distance < rect.width * 0.22 || distance > rect.width * 0.52) return null
+
+  const angle = (Math.atan2(y, x) * 180) / Math.PI
+  const percentAtPointer = ((angle + 450) % 360) / 3.6
+  let cursor = 0
+
+  for (let index = 0; index < items.length; index += 1) {
+    cursor += parseSourcePercent(items[index])
+    if (percentAtPointer <= cursor) return index
+  }
+
+  return null
+}
+
+function parseSourcePercent(item: StatisticsReportSourceItem) {
+  const value = Number(item.percentageText.replace('%', ''))
+  if (!Number.isFinite(value)) return 0
+  return Math.min(Math.max(value, 0), 100)
+}
+
+function formatPlainNumber(value: number, fractionDigits = 2) {
+  if (Number.isInteger(value) || fractionDigits === 0) return value.toFixed(0)
+  return value.toFixed(fractionDigits).replace(/\.?0+$/, '')
+}
+
+function toFiniteNumber(value: unknown) {
+  const number = Number(value ?? 0)
+  return Number.isFinite(number) ? number : 0
 }

@@ -1,5 +1,5 @@
 .page-content:has(.clean-task-page) {
-  padding: 10px 96px 16px 16px;
+  padding: 10px 16px 16px;
   background: #f6f8fc;
 }
 
@@ -10,14 +10,9 @@
 .clean-task-page {
   display: grid;
   gap: 12px;
+  width: 100%;
+  max-width: none;
   color: #1f2a3d;
-}
-
-.clean-task-page h1 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 650;
-  letter-spacing: 0;
 }
 
 .clean-task-toolbar,
@@ -35,7 +30,7 @@
   position: relative;
   display: grid;
   gap: 10px;
-  padding: 10px;
+  padding: 12px;
 }
 
 .clean-task-toolbar__top,
@@ -55,10 +50,39 @@
   justify-content: space-between;
 }
 
+.clean-task-toolbar__top {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  justify-content: start;
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.clean-task-toolbar__top > .clean-toolbar-actions {
+  justify-self: end;
+}
+
+.clean-store-tabs .month-store-select__trigger {
+  width: 172px;
+  height: 30px;
+  min-height: 30px;
+  border-radius: 4px;
+  border-color: #cbd5e6;
+  padding: 0 28px 0 12px;
+  font-size: 13px;
+  line-height: 30px;
+}
+
+.clean-store-tabs .month-store-select__options {
+  top: calc(100% + 4px);
+  width: 172px;
+  min-width: 172px;
+}
+
 .clean-store-tabs button,
 .clean-date button,
 .clean-date input,
-.clean-filter button,
+.clean-filter-control > button,
 .clean-actions button,
 .clean-toolbar-actions button,
 .clean-more-menu button,
@@ -86,7 +110,7 @@
 }
 
 .clean-date,
-.clean-filter {
+.clean-filter-field {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -103,7 +127,15 @@
   padding: 0;
 }
 
-.clean-filter button {
+.clean-filter-control {
+  position: relative;
+}
+
+.clean-filter-label {
+  color: #34445f;
+}
+
+.clean-filter-control > button {
   min-width: 142px;
   max-width: 260px;
   overflow: hidden;
@@ -113,7 +145,7 @@
   white-space: nowrap;
 }
 
-.clean-filter button::after {
+.clean-filter-control > button::after {
   content: '⌄';
   float: right;
   color: #8f9cb0;
@@ -155,8 +187,8 @@
 
 .clean-options {
   position: absolute;
-  left: 10px;
-  top: 88px;
+  left: 0;
+  top: calc(100% + 4px);
   z-index: 25;
   display: grid;
   min-width: 250px;
@@ -186,18 +218,10 @@
   color: #4d65f6;
 }
 
-.clean-task-statusline {
-  display: flex;
-  min-height: 24px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: #65748c;
-  font-size: 12px;
-}
-
-.clean-task-statusline [role='status']:last-child {
+.clean-task-feedback {
+  min-height: 18px;
   color: #1f8b55;
+  font-size: 12px;
 }
 
 .clean-task-alert {
@@ -265,7 +289,7 @@
 
 .clean-task-content {
   display: grid;
-  grid-template-columns: 1fr 260px;
+  grid-template-columns: minmax(0, 1fr) 260px;
   gap: 12px;
 }
 
@@ -340,8 +364,8 @@
 .clean-table-head,
 .clean-table-row {
   display: grid;
-  grid-template-columns: 54px 138px 92px minmax(230px, 1fr) 92px 92px 92px 120px;
-  min-width: 960px;
+  grid-template-columns: 54px minmax(120px, 0.8fr) minmax(150px, 0.9fr) minmax(220px, 1.6fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(90px, 0.7fr) minmax(112px, 0.8fr);
+  min-width: 920px;
   align-items: center;
   gap: 8px;
   border-bottom: 1px solid #edf1f7;
@@ -367,6 +391,19 @@
 .clean-row-check {
   display: flex;
   justify-content: center;
+}
+
+.clean-row-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.clean-row-actions button {
+  min-height: 26px;
+  padding: 0 8px;
+  font-size: 12px;
 }
 
 .clean-status {
@@ -485,5 +522,9 @@
   .clean-task-overview,
   .clean-task-content {
     grid-template-columns: 1fr;
+  }
+
+  .page-content:has(.clean-task-page) {
+    padding: 10px;
   }
 }

@@ -2,6 +2,7 @@ const TASK_ID = 'shoumai-chanpin--rilifang--rilifang';
 const MOCK_TIMESTAMP = '2026-05-18T10:00:00+08:00';
 const MOCK_ENDPOINT = '/setting/localRoomTypeProductionSetting/products/page';
 const REAL_ENDPOINT = '/api/weiRoomCategories/page/get';
+const ROOM_CATEGORY_FALLBACK_ENDPOINT = '/api/roomCategories/page/get';
 const DEFAULT_BUY_CAMP_ID = '10001';
 const DEFAULT_LOCAL_CHANNEL_NAME = '宿银平台';
 import { fetchStoreOptions, resolveCurrentCampId } from './storeOptions';
@@ -13,7 +14,7 @@ import meituanHotelIcon from '../assets/channel-icons/meituan-hotel.png';
 import tujiaIcon from '../assets/channel-icons/tujia.png';
 import muniaoIcon from '../assets/channel-icons/muniao.png';
 import xiaozhuIcon from '../assets/channel-icons/xiaozhu.png';
-import localsIcon from '../assets/channel-icons/locals.png';
+import suyinLogo from '../assets/suyin-logo.svg';
 import addIcon from '../assets/channel-icons/add.png';
 export function resolveCalendarRoomQueryFromLocation(location) {
     const params = new URLSearchParams(location.search);
@@ -61,12 +62,13 @@ async function fetchMockCalendarRoom(query, signal) {
             timestamp: MOCK_TIMESTAMP,
         };
     }
-    const allRows = getMockRows(channelCatalog);
+    const associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME];
+    const allRows = getMockRows(channelCatalog, associatedChannelNames);
     const rows = state === 'empty' ? [] : filterRows(allRows, query);
     return {
         code: 0,
         message: 'success',
-        data: createBackendData(query, rows, channelCatalog, allRows),
+        data: createBackendData(query, rows, channelCatalog, allRows, associatedChannelNames),
         traceId: `mock-${TASK_ID}-${state}-001`,
         timestamp: MOCK_TIMESTAMP,
     };
@@ -79,38 +81,52 @@ async function fetchRealCalendarRoom(query, signal) {
         fetchCalendarRoomChannelCatalog('api'),
     ]);
     const payload = envelope.data ?? {};
-    const allRows = adaptRealCalendarRoomRows(payload.list, channelCatalog);
+    const associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME];
+    const productTotal = readNumber(payload.total, 0);
+    let endpoint = REAL_ENDPOINT;
+    let page = readNumber(payload.pageNum ?? payload.current, query.page);
+    let pageSize = readNumber(payload.size, query.pageSize);
+    let total = readNumber(payload.total, 0);
+    let allRows = adaptRealCalendarRoomRows(payload.list, channelCatalog, associatedChannelNames);
+    if (productTotal === 0) {
+        const fallbackRequestParams = buildRoomCategoryFallbackRequestParams(query, String(requestParams.buyCampId));
+        const fallbackEnvelope = await postRealCalendarRoom(ROOM_CATEGORY_FALLBACK_ENDPOINT, fallbackRequestParams, signal);
+        const fallbackPayload = fallbackEnvelope.data ?? {};
+        endpoint = ROOM_CATEGORY_FALLBACK_ENDPOINT;
+        page = readNumber(fallbackPayload.pageNum ?? fallbackPayload.current, query.page);
+        pageSize = readNumber(fallbackPayload.size, query.pageSize);
+        total = readNumber(fallbackPayload.total, 0);
+        allRows = adaptRoomCategoryFallbackRows(fallbackPayload.list, channelCatalog, associatedChannelNames);
+    }
     const rows = filterRows(allRows, query);
-    const page = readNumber(payload.pageNum ?? payload.current, query.page);
-    const pageSize = readNumber(payload.size, query.pageSize);
     return {
         providerMode: 'real',
         responseState: rows.length > 0 ? 'success' : 'empty',
-        endpoint: REAL_ENDPOINT,
+        endpoint,
         traceId: readString(envelope.traceId, `real-${TASK_ID}`),
         timestamp: readString(envelope.timestamp, new Date().toISOString()),
         requestParams,
         storeOptions: storeOptions.map((store) => ({ id: store.id, name: store.label })),
-        channelOptions: collectChannelOptions(allRows, channelCatalog),
+        channelOptions: collectChannelOptions(allRows, channelCatalog, associatedChannelNames),
         channelCatalog,
         statusOptions: ['全部', '上架', '下架'],
         rows,
         pagination: {
             page,
             pageSize,
-            total: readNumber(payload.total, rows.length),
+            total: total || rows.length,
         },
         routeTargets: createRouteTargets(),
     };
 }
-function createBackendData(query, rows, channelCatalog, optionSourceRows = rows) {
+function createBackendData(query, rows, channelCatalog, optionSourceRows = rows, associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME]) {
     return {
         requestParams: buildRequestParams(query),
         storeOptions: [
             { id: 'all', name: '全部门店' },
             { id: 'poi-1796067693589061634', name: '天落会宿公寓(前海壹方城宝安中心店)' },
         ],
-        channelOptions: collectChannelOptions(optionSourceRows, channelCatalog),
+        channelOptions: collectChannelOptions(optionSourceRows, channelCatalog, associatedChannelNames),
         channelCatalog,
         statusOptions: ['全部', '上架', '下架'],
         rows,
@@ -146,6 +162,18 @@ function buildRealRequestParams(query) {
         keyword: query.keyword.trim(),
     };
 }
+function buildRoomCategoryFallbackRequestParams(query, campId) {
+    const storeId = query.storeId?.trim();
+    return {
+        campId,
+        poiId: storeId && storeId !== 'all' ? storeId : '',
+        roomCategoryGroupId: '',
+        roomCategoryName: query.keyword.trim(),
+        pageNum: query.page,
+        pageSize: query.pageSize,
+        current: query.page,
+    };
+}
 async function postRealCalendarRoom(endpoint, body, signal) {
     const headers = new Headers({ 'content-type': 'application/json' });
     const token = readRuntimeConfig('pms_token');
@@ -179,7 +207,7 @@ async function postRealCalendarRoom(endpoint, body, signal) {
     }
     return payload;
 }
-function adaptRealCalendarRoomRows(input, channelCatalog) {
+function adaptRealCalendarRoomRows(input, channelCatalog, associatedChannelNames) {
     return asArray(input).map((item, index) => {
         const record = asRecord(item);
         const roomName = readString(record.channelRoomCategoryName ?? record.roomCategoryName ?? record.name, `未命名日历房${index + 1}`);
@@ -187,8 +215,32 @@ function adaptRealCalendarRoomRows(input, channelCatalog) {
         return {
             id: readString(record.channelRoomCategoryId ?? record.roomCategoryId ?? record.goodsId ?? record.id, `real-calendar-room-${index}`),
             name: roomName,
-            channelBadges: buildProductChannelBadges(products, channelCatalog),
+            channelBadges: buildProductChannelBadges(products, channelCatalog, associatedChannelNames),
             products,
+        };
+    });
+}
+function adaptRoomCategoryFallbackRows(input, channelCatalog, associatedChannelNames) {
+    return asArray(input).map((item, index) => {
+        const record = asRecord(item);
+        const roomId = readString(record.roomCategoryId ?? record.id, `local-room-category-${index}`);
+        const roomName = readString(record.roomCategoryName ?? record.roomTypeName ?? record.internalName ?? record.name, `未命名房型${index + 1}`);
+        const status = readBookingStatus(record.isAvailability ?? record.status, true) ? 'online' : 'offline';
+        const product = {
+            id: `local-${roomId}`,
+            name: roomName,
+            channel: DEFAULT_LOCAL_CHANNEL_NAME,
+            breakfast: '无早餐',
+            refund: '-',
+            pricePlan: readRoomCategoryPricePlan(record, roomName),
+            status,
+            actions: createProductActions(status),
+        };
+        return {
+            id: roomId,
+            name: roomName,
+            channelBadges: buildProductChannelBadges([product], channelCatalog, associatedChannelNames),
+            products: [product],
         };
     });
 }
@@ -231,9 +283,10 @@ function filterRows(rows, query) {
     const status = query.status.trim();
     return rows
         .map((row) => {
+        const rowChannels = row.channelBadges.map((badge) => badge.name);
         const products = row.products.filter((product) => {
             const matchesKeyword = !keyword || row.name.includes(keyword);
-            const matchesChannel = !channel || product.channel === channel;
+            const matchesChannel = !channel || product.channel === channel || rowChannels.includes(channel);
             const matchesStatus = !status ||
                 status === '全部' ||
                 (status === '上架' && product.status === 'online') ||
@@ -267,27 +320,42 @@ function createRouteTargets() {
         createProduct: '/setting/localRoomTypeProductionSetting/channelGoodsSetting',
     };
 }
-function collectChannelOptions(rows, channelCatalog) {
+function collectChannelOptions(rows, channelCatalog, associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME]) {
     const channels = rows.flatMap((row) => row.products.map((product) => product.channel).filter(Boolean));
-    const productChannelSet = new Set(channels.map(normalizeChannelName));
+    const productChannelSet = new Set([...associatedChannelNames, ...channels].map(normalizeChannelName));
     const catalogOrdered = channelCatalog
         .filter((channel) => productChannelSet.has(normalizeChannelName(channel.name)))
         .map((channel) => channel.name);
-    return Array.from(new Set([...catalogOrdered, ...channels]));
+    return Array.from(new Set([...associatedChannelNames, ...catalogOrdered, ...channels]));
 }
 async function fetchCalendarRoomChannelCatalog(provider) {
     return fetchEnabledChannelCatalog({ provider, mockState: 'success' });
 }
-function buildProductChannelBadges(products, channelCatalog) {
-    const productChannels = Array.from(new Set(products.map((product) => product.channel).filter(Boolean)));
-    const badges = productChannels.map((channel) => buildChannelBadge(channel, channelCatalog));
-    return [...badges, { ...CHANNEL_BADGE_LIBRARY.add }];
+function dedupeStrings(values) {
+    const seen = new Set();
+    return values.filter((value) => {
+        const key = normalizeChannelName(value);
+        if (!key || seen.has(key))
+            return false;
+        seen.add(key);
+        return true;
+    });
+}
+function buildProductChannelBadges(products, channelCatalog, associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME]) {
+    const productChannels = dedupeStrings(products.map((product) => product.channel).filter(Boolean));
+    const displayChannels = productChannels.length > 0 ? productChannels : associatedChannelNames;
+    return displayChannels.map((channel) => buildChannelBadge(channel, channelCatalog));
 }
 function buildChannelBadge(channelName, channelCatalog) {
     const catalogItem = findChannelCatalogItem(channelName, channelCatalog);
     const name = catalogItem?.name ?? channelName;
     if (catalogItem?.source === 'local') {
-        return createGeneratedChannelBadge(catalogItem);
+        return {
+            ...CHANNEL_BADGE_LIBRARY.locals,
+            id: catalogItem.id,
+            name,
+            shortLabel: catalogItem.shortName,
+        };
     }
     const key = toChannelBadgeKey(name);
     if (key) {
@@ -421,6 +489,15 @@ function readPricePlan(record, fallback) {
     const sellingPrice = readNumber(record.sellingPrice ?? record.salePrice ?? record.price, NaN);
     return Number.isFinite(sellingPrice) ? `¥${(sellingPrice / 100).toFixed(2)}` : fallback;
 }
+function readRoomCategoryPricePlan(record, fallback) {
+    const price = readNumber(record.basePrice ??
+        record.weekdayPrice ??
+        record.weekdayPriceCent ??
+        record.sellingPrice ??
+        record.salePrice ??
+        record.price, NaN);
+    return Number.isFinite(price) ? `¥${(price / 100).toFixed(2)}` : fallback;
+}
 function readBookingStatus(value, fallback) {
     if (value === undefined || value === null || value === '')
         return fallback;
@@ -461,7 +538,7 @@ function delay(ms, signal) {
         }, { once: true });
     });
 }
-function getMockRows(channelCatalog) {
+function getMockRows(channelCatalog, associatedChannelNames = [DEFAULT_LOCAL_CHANNEL_NAME]) {
     const rows = [
         {
             id: 'room-top-suite',
@@ -540,7 +617,7 @@ function getMockRows(channelCatalog) {
     ];
     return rows.map((row) => ({
         ...row,
-        channelBadges: buildProductChannelBadges(row.products, channelCatalog),
+        channelBadges: buildProductChannelBadges(row.products, channelCatalog, associatedChannelNames),
     }));
 }
 function product(id, name, channel, pricePlan, status = 'online', actions) {
@@ -609,7 +686,7 @@ const CHANNEL_BADGE_LIBRARY = {
         id: 'locals',
         name: '宿银平台',
         shortLabel: '宿',
-        iconUrl: localsIcon,
+        iconUrl: suyinLogo,
         route: '/channels/ota/detail?channel=locals',
     },
     add: {

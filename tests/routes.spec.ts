@@ -1426,7 +1426,7 @@ test('/cleanManage/cleanTask supports captured clean-task interactions', async (
   await expect(page.getByText('全部门店')).toBeVisible()
   await expect(page.getByLabel('保洁日期')).toHaveValue('2026-05-18')
   await expect(page.getByRole('button', { name: '批量通知' })).toBeDisabled()
-  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toContainText('/cleanTask/page/get')
+  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toHaveCount(0)
   await expect(page.getByLabel('保洁任务列表')).toContainText('CT20260518001')
   await expect(page.getByText('限时钜惠！智能保洁6折开通')).toHaveCount(0)
 
@@ -1436,7 +1436,7 @@ test('/cleanManage/cleanTask supports captured clean-task interactions', async (
   await expect(page.getByRole('button', { name: '退房保洁' })).toBeVisible()
 
   await page.getByRole('button', { name: '查 询' }).click()
-  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toContainText('cleanType=CHECKOUT')
+  await expect(page.getByRole('status', { name: '保洁任务请求状态' })).toHaveCount(0)
   await expect(page.getByText('CT20260518001')).toBeVisible()
   await expect(page.getByRole('button', { name: '批量通知' })).toBeDisabled()
 
@@ -1454,16 +1454,15 @@ test('/cleanManage/cleanStatistics supports captured statistics interactions', a
   await page.goto(appUrl('/cleanManage/cleanStatistics'))
 
   await expect(page.locator('.page-header')).toHaveCount(0)
-  await expect(page.locator('.clean-stat-title')).toHaveText('保洁统计')
+  await expect(page.locator('.clean-stat-title')).toHaveCount(0)
   await expect(page.getByRole('button', { name: '统计汇总' })).toHaveClass(/is-active/)
   await expect(page.getByLabel('保洁统计核心指标')).toContainText('本月保洁')
   await expect(page.getByLabel('保洁统计汇总表')).toContainText('扫尘保洁')
   await expect(page.getByLabel('保洁统计汇总表')).toContainText('2026-05-16')
   await expect(page.getByLabel('保洁统计待办')).toContainText('今日退房保洁')
   await expect(page.locator('.clean-stat-page')).not.toContainText(/mock|未接入|阻塞|后端未就绪|后端接口未完成|未完成取证|未取证|真实接口/)
-  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toBeVisible()
-  const subscribeBox = await page.getByRole('button', { name: '订阅开通' }).boundingBox()
-  expect(subscribeBox?.x).toBeLessThan(360)
+  await expect(page.getByText('限时钜惠！智能保洁6折开通')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '订阅开通' })).toHaveCount(0)
 
   await page.getByRole('button', { name: '统计明细' }).click()
   await expect(page.getByLabel('保洁统计明细表')).toContainText('CL20260516001')
@@ -1475,18 +1474,9 @@ test('/cleanManage/cleanStatistics supports captured statistics interactions', a
   await expect(page.getByRole('listbox', { name: '房型房间筛选' })).toContainText('观影大床房')
 
   await page.getByRole('button', { name: '导 出' }).click()
-  await expect(page.getByRole('status', { name: '保洁统计操作反馈' })).toContainText('导出任务已创建')
+  await expect(page.locator('.clean-stat-page')).toHaveAttribute('data-clean-export', /clean-stat-export-/)
   await page.getByRole('button', { name: '重 置' }).click()
   await expect(page.getByRole('button', { name: '房型房间 请选择房间' })).toBeVisible()
-
-  await page.getByRole('button', { name: '订阅开通' }).click()
-  await expect(page).toHaveURL(/\/version\/applicationPayment\/detail$/)
-  await expect(page.getByRole('heading', { name: '智能保洁', level: 2 })).toBeVisible()
-  await expect(page.getByText('商品详情')).toBeVisible()
-  await expect(page.getByText('购买信息')).toBeVisible()
-  await expect(page.getByText('¥1,232.46')).toHaveCount(2)
-  await expect(page.getByText('¥2,194.38 / 年')).toBeVisible()
-  await expect(page.getByRole('button', { name: '立即购买' })).toBeDisabled()
 })
 
 test('/cleanManage/cleanSetting supports usable setting interactions', async ({ page }) => {
@@ -1495,7 +1485,7 @@ test('/cleanManage/cleanSetting supports usable setting interactions', async ({ 
 
   await expect(page.locator('.clean-setting-page')).toBeVisible()
   await expect(page.getByRole('tab', { name: '基础设置' })).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByRole('heading', { name: '保洁设置', level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '保洁设置', level: 1 })).toHaveCount(0)
   await expect(page.getByRole('region', { name: '保洁设置核心指标' })).toContainText('今日任务')
   await expect(page.getByRole('table', { name: '保洁策略列表' })).toContainText('退房保洁自动派单')
 

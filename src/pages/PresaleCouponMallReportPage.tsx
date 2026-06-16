@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   createPreSaleCouponMallExportTask,
   defaultPreSaleCouponMallQuery,
@@ -28,6 +28,7 @@ const datePresetOptions: Array<{ key: DatePreset; label: string }> = [
 
 export function PresaleCouponMallReportPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [draft, setDraft] = useState<PreSaleCouponMallQuery>(() => makeInitialQuery())
   const [query, setQuery] = useState<PreSaleCouponMallQuery>(() => makeInitialQuery())
   const [dashboard, setDashboard] = useState<PreSaleCouponMallDashboard | null>(null)
@@ -65,6 +66,19 @@ export function PresaleCouponMallReportPage() {
     void run()
     return () => controller.abort()
   }, [query])
+
+  useEffect(() => {
+    const nextQuery = makeInitialQuery()
+    setDraft((current) => (isSamePreSaleCouponMallQuery(current, nextQuery) ? current : nextQuery))
+    setQuery((current) => (isSamePreSaleCouponMallQuery(current, nextQuery) ? current : nextQuery))
+    setCalendarMonth((current) => {
+      const nextMonth = nextQuery.startDate.slice(0, 7)
+      return current === nextMonth ? current : nextMonth
+    })
+    setDatePickTarget('start')
+    setOpenSelect(null)
+    setDatePanelOpen(false)
+  }, [location.key, location.pathname, location.search, location.hash])
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -235,7 +249,7 @@ export function PresaleCouponMallReportPage() {
             isOpen={openSelect === 'channel'}
             options={channels}
             currentValue={draft.channelId}
-            ariaLabel="娓犻亾閫夐」"
+            ariaLabel="渠道选项"
             onToggle={() => {
               setDatePanelOpen(false)
               setOpenSelect(openSelect === 'channel' ? null : 'channel')
@@ -249,7 +263,7 @@ export function PresaleCouponMallReportPage() {
             isOpen={openSelect === 'category'}
             options={categories}
             currentValue={draft.categoryId}
-            ariaLabel="棰勫敭鍒哥被鍨嬮€夐」"
+            ariaLabel="预售券类型选项"
             onToggle={() => {
               setDatePanelOpen(false)
               setOpenSelect(openSelect === 'category' ? null : 'category')
@@ -395,10 +409,18 @@ export function PresaleCouponMallReportPage() {
 
 function makeInitialQuery(): PreSaleCouponMallQuery {
   const query = createAllStoreQuery()
-  const params = new URLSearchParams(window.location.search)
+  const params = readRouteSearchParams()
   const mockState = params.get('mockState')
   if (mockState === 'empty' || mockState === 'error') query.state = mockState
   return query
+}
+
+function readRouteSearchParams() {
+  const hashQueryIndex = window.location.hash.indexOf('?')
+  if (hashQueryIndex >= 0) {
+    return new URLSearchParams(window.location.hash.slice(hashQueryIndex + 1))
+  }
+  return new URLSearchParams(window.location.search)
 }
 
 function createAllStoreQuery(): PreSaleCouponMallQuery {
@@ -408,6 +430,22 @@ function createAllStoreQuery(): PreSaleCouponMallQuery {
     poiId: 'all',
     poiName: '全部门店',
   }
+}
+
+function isSamePreSaleCouponMallQuery(left: PreSaleCouponMallQuery, right: PreSaleCouponMallQuery) {
+  return (
+    left.campId === right.campId &&
+    left.poiId === right.poiId &&
+    left.poiName === right.poiName &&
+    left.startDate === right.startDate &&
+    left.endDate === right.endDate &&
+    left.channelId === right.channelId &&
+    left.categoryId === right.categoryId &&
+    left.keyword === right.keyword &&
+    left.page === right.page &&
+    left.pageSize === right.pageSize &&
+    left.state === right.state
+  )
 }
 
 function labelForOption(

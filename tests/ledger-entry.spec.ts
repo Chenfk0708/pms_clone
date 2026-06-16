@@ -11,6 +11,39 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem('pms_token', 'ledger-entry-test-token')
     window.localStorage.setItem('pmsCampId', '10001')
+    window.localStorage.setItem('pms.currentCampId', '10001')
+    window.localStorage.setItem(
+      'pms_user',
+      JSON.stringify({
+        id: '1',
+        username: 'root',
+        name: 'root',
+        mobile: '13800000001',
+        roleName: 'admin',
+        campId: '10001',
+        campName: '10001',
+      }),
+    )
+  })
+  await page.route('**/api/select/poi/page/get', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        code: 0,
+        message: 'success',
+        success: true,
+        data: {
+          total: 1,
+          size: 100,
+          current: 1,
+          extraInfo: null,
+          pageNum: 1,
+          hasNextPage: false,
+          pages: 1,
+          list: [{ poiId: '1796067693589061634', poiName: '天落会宿公寓(前海壹方城宝安中心店)' }],
+        },
+      }),
+    })
   })
 })
 
@@ -119,7 +152,11 @@ test('/statistics/ledger renders ledger data from the page service', async ({ pa
 
   const filters = page.getByLabel('记一笔明细筛选')
   await expect(filters).toContainText('全部门店')
-  await expect(filters).toContainText('天落会宿公寓(前海壹方城宝安中心店)')
+  await page.locator('.order-ledger-store-row .month-store-select__trigger').click()
+  await expect(page.locator('.order-ledger-store-row .month-store-select__options')).toContainText(
+    '天落会宿公寓(前海壹方城宝安中心店)',
+  )
+  await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: '本月' })).toHaveClass(/is-active/)
   await expect(page.getByRole('button', { name: '开始日期' })).toContainText('2026-05-01')
   await expect(page.getByRole('button', { name: '结束日期' })).toContainText('2026-05-31')
@@ -132,6 +169,13 @@ test('/statistics/ledger renders ledger data from the page service', async ({ pa
   await expect(summary).toContainText('收入(元)')
   await expect(summary).toContainText('支出 (元)')
   await expect(summary).toContainText('净收入：¥ 2072.00')
+  const summaryTitleBoxes = await summary.locator('.order-ledger-summary-grid article span').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const rect = node.getBoundingClientRect()
+      return { width: rect.width, height: rect.height }
+    }),
+  )
+  expect(summaryTitleBoxes.every((box) => box.width >= 64 && box.height <= 36)).toBe(true)
   await expect(page.getByRole('button', { name: '查看收入(元)详情' })).toBeVisible()
   await expect(page.getByRole('button', { name: '查看支出 (元)详情' })).toBeVisible()
 

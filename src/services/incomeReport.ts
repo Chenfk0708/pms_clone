@@ -301,13 +301,19 @@ export function createDefaultIncomeReportQuery(): IncomeReportQuery {
 }
 
 export function resolveIncomeReportProvider(): IncomeReportProvider {
-  const params = new URLSearchParams(window.location.search)
-  const value =
-    params.get('incomeReportProvider') ??
-    (typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null) ??
+  const params = readIncomeReportSearchParams()
+  const fromQuery = params.get('incomeReportProvider') ?? params.get('provider')
+  if (fromQuery === 'api' || fromQuery === 'real') return 'api'
+  if (fromQuery === 'mock') return 'mock'
+
+  const fromEnv =
     (import.meta.env.VITE_INCOME_REPORT_PROVIDER as string | undefined) ??
     (import.meta.env.VITE_PMS_INCOME_REPORT_PROVIDER as string | undefined)
-  return value === 'api' || value === 'real' ? 'api' : 'mock'
+  if (fromEnv === 'api' || fromEnv === 'real') return 'api'
+  if (fromEnv === 'mock') return 'mock'
+
+  const fromStorage = typeof window !== 'undefined' ? window.localStorage.getItem('pms.incomeReport.provider') : null
+  return fromStorage === 'api' || fromStorage === 'real' ? 'api' : 'mock'
 }
 
 export function resolveIncomeReportState(): IncomeReportState {
@@ -717,6 +723,12 @@ function formatApiAmount(value: unknown) {
 function toNumber(value: unknown, fallback: number) {
   const number = Number(value)
   return Number.isFinite(number) ? number : fallback
+}
+
+function readIncomeReportSearchParams() {
+  if (typeof window === 'undefined') return new URLSearchParams()
+  const hashQuery = window.location.hash.split('?')[1]
+  return new URLSearchParams(hashQuery ? `?${hashQuery}` : window.location.search)
 }
 
 function createEnvelope<T>(data: T, suffix: string): ApiEnvelope<T> {

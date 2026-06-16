@@ -282,7 +282,7 @@ export function resolveLedgerEntryProvider(searchParams = readLedgerEntrySearchP
   const urlValue = searchParams.get('provider')?.trim() || searchParams.get('ledgerEntryProvider')?.trim()
   const localValue = typeof window !== 'undefined' ? window.localStorage.getItem(LEDGER_ENTRY_PROVIDER_KEY)?.trim() : null
   const envValue = (import.meta.env.VITE_LEDGER_ENTRY_PROVIDER as string | undefined)?.trim()
-  const provider = (urlValue || localValue || envValue || 'api').toLowerCase()
+  const provider = (urlValue || envValue || localValue || 'mock').toLowerCase()
   if (provider === 'mock' || provider === 'api') return provider
   if (provider === 'real') return 'api'
   throw new Error(`Unsupported ledger entry provider: ${provider}`)

@@ -1,6 +1,8 @@
 export const CLEAN_STAFF_LIST_PATH = '/cleaner/page/get';
 export const CLEAN_STAFF_STORES_PATH = '/select/poi/page/get';
-export const CLEAN_STAFF_PROVIDER = 'mock';
+export const CLEAN_STAFF_SAVE_PATH = '/cleaner/save';
+export const CLEAN_STAFF_EXPORT_PATH = '/cleaner/export';
+export const CLEAN_STAFF_PROVIDER = 'api';
 const tracePrefix = 'mock-fangtai--baojie-guanli--baojie-renyuan';
 const generatedAt = '2026-05-18T10:00:00+08:00';
 const stores = [
@@ -101,11 +103,16 @@ const rawMembers = [
     },
 ];
 export async function fetchCleanStaffDashboard(query, signal) {
+    const provider = resolveCleanStaffProvider();
+    const requestBody = createCleanStaffRequestBody(query);
+    if (provider === 'api') {
+        const envelope = await postJson(`/api${CLEAN_STAFF_LIST_PATH}`, requestBody, signal);
+        return adaptCleanStaffEnvelope(envelope, requestBody, provider);
+    }
     await delay(120, signal);
     if (query.scenario === 'error') {
         throw new Error('保洁人员数据加载失败：/cleaner/page/get 返回业务失败');
     }
-    const requestBody = createCleanStaffRequestBody(query);
     const sourceList = query.scenario === 'empty' ? [] : filterMembers(query);
     const pageList = paginate(sourceList, query.pageNum, query.pageSize);
     const envelope = createEnvelope({
@@ -119,18 +126,54 @@ export async function fetchCleanStaffDashboard(query, signal) {
         stores,
         requestBody,
     });
-    return adaptCleanStaffEnvelope(envelope);
+    return adaptCleanStaffEnvelope(envelope, requestBody, provider);
 }
-export async function createCleanStaffMember(signal) {
+export async function createCleanStaffMember(payload, signal) {
+    const provider = resolveCleanStaffProvider();
+    if (provider === 'api') {
+        const envelope = await postJson(`/api${CLEAN_STAFF_SAVE_PATH}`, payload, signal);
+        const data = asRecord(envelope.data);
+        return {
+            saved: data.saved !== false,
+            cleanerId: String(data.cleanerId ?? ''),
+            traceId: envelope.traceId,
+            timestamp: envelope.timestamp,
+        };
+    }
     await delay(120, signal);
-    return createEnvelope({ saved: true, cleanerId: 'cleaner-new-preview' }, 'save');
+    const envelope = createEnvelope({ saved: true, cleanerId: 'cleaner-new-preview' }, 'save');
+    return {
+        saved: true,
+        cleanerId: String(envelope.data.cleanerId),
+        traceId: envelope.traceId,
+        timestamp: envelope.timestamp,
+    };
 }
 export async function createCleanStaffExport(query, signal) {
+    const provider = resolveCleanStaffProvider();
+    const requestBody = createCleanStaffRequestBody(query);
+    if (provider === 'api') {
+        const envelope = await postJson(`/api${CLEAN_STAFF_EXPORT_PATH}`, requestBody, signal);
+        const data = asRecord(envelope.data);
+        return {
+            taskId: data.taskId === undefined ? undefined : String(data.taskId),
+            fileName: data.fileName === undefined ? undefined : String(data.fileName),
+            contentType: data.contentType === undefined ? undefined : String(data.contentType),
+            total: data.total === undefined ? undefined : toNumber(data.total),
+            traceId: envelope.traceId,
+            timestamp: envelope.timestamp,
+        };
+    }
     await delay(120, signal);
-    return createEnvelope({
+    const envelope = createEnvelope({
         taskId: 'export-clean-staff-20260518-001',
-        requestBody: createCleanStaffRequestBody(query),
+        requestBody,
     }, 'export');
+    return {
+        taskId: String(envelope.data.taskId),
+        traceId: envelope.traceId,
+        timestamp: envelope.timestamp,
+    };
 }
 export function createDefaultCleanStaffQuery() {
     return {
@@ -155,39 +198,44 @@ export function createCleanStaffRequestBody(query) {
         pageSize: query.pageSize,
     };
 }
-function adaptCleanStaffEnvelope(envelope) {
-    if (envelope.code !== 0) {
-        throw new Error(envelope.message || '保洁人员接口返回失败');
-    }
-    if (!envelope.data || !Array.isArray(envelope.data.list)) {
+function adaptCleanStaffEnvelope(envelope, requestBody, provider) {
+    const payload = assertEnvelope(envelope);
+    if (!payload.data || !Array.isArray(payload.data.list)) {
         throw new Error('保洁人员接口响应缺少 data.list');
     }
+    const list = payload.data.list;
     return {
-        provider: CLEAN_STAFF_PROVIDER,
+        provider,
         endpoint: CLEAN_STAFF_LIST_PATH,
-        requestBody: envelope.data.requestBody,
-        stores: envelope.data.stores,
-        summary: envelope.data.summary,
-        list: envelope.data.list.map(adaptMember),
-        pagination: envelope.data.pagination,
-        generatedAt: envelope.timestamp,
+        requestBody: payload.data.requestBody ?? requestBody,
+        stores: normalizeStores(payload.data.stores),
+        summary: payload.data.summary ?? summarizeMembers(list),
+        list: list.map(adaptMember),
+        pagination: payload.data.pagination ?? {
+            page: toNumber(requestBody.pageNum),
+            pageSize: toNumber(requestBody.pageSize),
+            total: list.length,
+        },
+        generatedAt: payload.timestamp,
     };
 }
 function adaptMember(raw) {
+    const status = normalizeStaffStatus(raw.workStatus ?? raw.status);
+    const rating = raw.rating === undefined ? `${toNumber(raw.serviceScore)}%` : String(raw.rating);
     return {
-        id: String(raw.cleanerId),
-        name: String(raw.cleanerName),
-        mobile: String(raw.mobile),
-        storeName: String(raw.poiName),
-        status: raw.workStatus,
-        statusText: statusLabel(raw.workStatus),
-        role: String(raw.roleName),
-        roomScope: Array.isArray(raw.roomScopes) ? raw.roomScopes.map(String) : [],
-        todayTasks: toNumber(raw.todayTaskNum),
-        completedTasks: toNumber(raw.completedTaskNum),
-        overdueTasks: toNumber(raw.overdueTaskNum),
-        rating: `${toNumber(raw.serviceScore)}%`,
-        lastTaskAt: String(raw.lastTaskTime),
+        id: String(raw.cleanerId ?? raw.id ?? ''),
+        name: String(raw.cleanerName ?? raw.name ?? ''),
+        mobile: String(raw.mobile ?? ''),
+        storeName: String(raw.poiName ?? raw.storeName ?? ''),
+        status,
+        statusText: statusLabel(status),
+        role: String(raw.roleName ?? raw.role ?? ''),
+        roomScope: normalizeStringArray(raw.roomScopes ?? raw.roomScope),
+        todayTasks: toNumber(raw.todayTaskNum ?? raw.todayTasks),
+        completedTasks: toNumber(raw.completedTaskNum ?? raw.completedTasks),
+        overdueTasks: toNumber(raw.overdueTaskNum ?? raw.overdueTasks),
+        rating,
+        lastTaskAt: String(raw.lastTaskTime ?? raw.lastTaskAt ?? ''),
     };
 }
 function filterMembers(query) {
@@ -195,9 +243,11 @@ function filterMembers(query) {
     return rawMembers.filter((member) => {
         const matchesStore = query.poiId === 'all' || member.poiId === query.poiId;
         const matchesStatus = query.status === 'all' || member.workStatus === query.status;
+        const memberName = member.cleanerName ?? member.name ?? '';
+        const memberMobile = member.mobile ?? '';
         const matchesKeyword = keyword.length === 0 ||
-            member.cleanerName.toLowerCase().includes(keyword) ||
-            member.mobile.toLowerCase().includes(keyword);
+            memberName.toLowerCase().includes(keyword) ||
+            memberMobile.toLowerCase().includes(keyword);
         return matchesStore && matchesStatus && matchesKeyword;
     });
 }
@@ -211,9 +261,9 @@ function summarizeMembers(list) {
         onDuty: list.filter((member) => member.workStatus === 'onDuty').length,
         offDuty: list.filter((member) => member.workStatus === 'offDuty').length,
         leave: list.filter((member) => member.workStatus === 'leave').length,
-        todayTasks: list.reduce((sum, member) => sum + member.todayTaskNum, 0),
-        completedTasks: list.reduce((sum, member) => sum + member.completedTaskNum, 0),
-        overdueTasks: list.reduce((sum, member) => sum + member.overdueTaskNum, 0),
+        todayTasks: list.reduce((sum, member) => sum + toNumber(member.todayTaskNum ?? member.todayTasks), 0),
+        completedTasks: list.reduce((sum, member) => sum + toNumber(member.completedTaskNum ?? member.completedTasks), 0),
+        overdueTasks: list.reduce((sum, member) => sum + toNumber(member.overdueTaskNum ?? member.overdueTasks), 0),
     };
 }
 function statusLabel(status) {
@@ -223,6 +273,74 @@ function statusLabel(status) {
         leave: '请假',
     };
     return labels[status];
+}
+function normalizeStaffStatus(value) {
+    return value === 'offDuty' || value === 'leave' ? value : 'onDuty';
+}
+function normalizeStores(value) {
+    if (!Array.isArray(value))
+        return [];
+    return value.map((store, index) => {
+        const record = asRecord(store);
+        return {
+            id: String(record.id ?? `store-${index}`),
+            name: String(record.name ?? record.label ?? `门店 ${index + 1}`),
+        };
+    });
+}
+function normalizeStringArray(value) {
+    return Array.isArray(value) ? value.map(String) : [];
+}
+function resolveCleanStaffProvider() {
+    const configured = readRuntimeValue('pms.cleanStaffProvider') ||
+        import.meta.env.VITE_CLEAN_STAFF_PROVIDER ||
+        CLEAN_STAFF_PROVIDER;
+    if (configured === 'api' || configured === 'real')
+        return 'api';
+    if (configured === 'mock')
+        return 'mock';
+    throw new Error(`保洁人员数据源配置无效：${configured}`);
+}
+async function postJson(endpoint, body, signal) {
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        signal,
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    });
+    const envelope = (await readJson(response));
+    if (!response.ok) {
+        throw new Error(`${endpoint} 返回 HTTP ${response.status}`);
+    }
+    return assertEnvelope(envelope);
+}
+function assertEnvelope(envelope) {
+    if (!envelope || typeof envelope !== 'object') {
+        throw new Error('保洁人员接口响应不是 JSON 对象');
+    }
+    if (envelope.success === false || (envelope.code !== undefined && envelope.code !== 0)) {
+        throw new Error(envelope.errorMsg || envelope.errorDetail || envelope.message || '保洁人员接口返回失败');
+    }
+    if (envelope.data === undefined || envelope.data === null) {
+        throw new Error('保洁人员接口响应缺少 data 字段');
+    }
+    return envelope;
+}
+async function readJson(response) {
+    try {
+        return await response.json();
+    }
+    catch {
+        return null;
+    }
+}
+function readRuntimeValue(key) {
+    if (typeof window === 'undefined')
+        return '';
+    return window.localStorage.getItem(key)?.trim() ?? '';
 }
 function createEnvelope(data, trace = 'list') {
     return {
@@ -245,4 +363,7 @@ function delay(ms, signal) {
 function toNumber(value) {
     const numeric = Number(value);
     return Number.isFinite(numeric) ? numeric : 0;
+}
+function asRecord(value) {
+    return value && typeof value === 'object' ? value : {};
 }
